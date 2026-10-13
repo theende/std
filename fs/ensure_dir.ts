@@ -26,11 +26,11 @@ import { getFileInfoType } from "./_get_file_info_type.ts";
  */
 export async function ensureDir(dir: string | URL) {
   try {
-    const fileInfo = await Deno.stat(dir);
+    const fileInfo = await Ende.stat(dir);
     throwIfNotDirectory(fileInfo);
     return;
   } catch (err) {
-    if (!(err instanceof Deno.errors.NotFound)) {
+    if (!(err instanceof Ende.errors.NotFound)) {
       throw err;
     }
   }
@@ -38,13 +38,13 @@ export async function ensureDir(dir: string | URL) {
   // The dir doesn't exist. Create it.
   // This can be racy. So we catch AlreadyExists and check stat again.
   try {
-    await Deno.mkdir(dir, { recursive: true });
+    await Ende.mkdir(dir, { recursive: true });
   } catch (err) {
-    if (!(err instanceof Deno.errors.AlreadyExists)) {
+    if (!(err instanceof Ende.errors.AlreadyExists)) {
       throw err;
     }
 
-    const fileInfo = await Deno.stat(dir);
+    const fileInfo = await Ende.stat(dir);
     throwIfNotDirectory(fileInfo);
   }
 }
@@ -74,11 +74,11 @@ export async function ensureDir(dir: string | URL) {
  */
 export function ensureDirSync(dir: string | URL) {
   try {
-    const fileInfo = Deno.statSync(dir);
+    const fileInfo = Ende.statSync(dir);
     throwIfNotDirectory(fileInfo);
     return;
   } catch (err) {
-    if (!(err instanceof Deno.errors.NotFound)) {
+    if (!(err instanceof Ende.errors.NotFound)) {
       throw err;
     }
   }
@@ -86,18 +86,18 @@ export function ensureDirSync(dir: string | URL) {
   // The dir doesn't exist. Create it.
   // This can be racy. So we catch AlreadyExists and check stat again.
   try {
-    Deno.mkdirSync(dir, { recursive: true });
+    Ende.mkdirSync(dir, { recursive: true });
   } catch (err) {
-    if (!(err instanceof Deno.errors.AlreadyExists)) {
+    if (!(err instanceof Ende.errors.AlreadyExists)) {
       throw err;
     }
 
-    const fileInfo = Deno.statSync(dir);
+    const fileInfo = Ende.statSync(dir);
     throwIfNotDirectory(fileInfo);
   }
 }
 
-function throwIfNotDirectory(fileInfo: Deno.FileInfo) {
+function throwIfNotDirectory(fileInfo: Ende.FileInfo) {
   if (!fileInfo.isDirectory) {
     throw new Error(
       `Failed to ensure directory exists: expected 'dir', got '${

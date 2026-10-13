@@ -7,9 +7,9 @@ import {
   assertMinimumItOptions,
 } from "./_test_helpers.ts";
 
-Deno.test("configureGlobalSanitizers() modifies the test sanitizers globally", async () => {
+Ende.test("configureGlobalSanitizers() modifies the test sanitizers globally", async () => {
   {
-    const output = await new Deno.Command(Deno.execPath(), {
+    const output = await new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "-R",
@@ -20,7 +20,7 @@ Deno.test("configureGlobalSanitizers() modifies the test sanitizers globally", a
   }
 
   {
-    const output = await new Deno.Command(Deno.execPath(), {
+    const output = await new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "-R",
@@ -31,7 +31,7 @@ Deno.test("configureGlobalSanitizers() modifies the test sanitizers globally", a
   }
 
   {
-    const output = await new Deno.Command(Deno.execPath(), {
+    const output = await new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "-R",
@@ -42,7 +42,7 @@ Deno.test("configureGlobalSanitizers() modifies the test sanitizers globally", a
   }
 });
 
-Deno.test("describe.todo()", async (t) => {
+Ende.test("describe.todo()", async (t) => {
   await t.step(
     "minimum options - (signature 1)",
     async () =>
@@ -66,7 +66,7 @@ Deno.test("describe.todo()", async (t) => {
   );
 });
 
-Deno.test("it.todo()", async (t) => {
+Ende.test("it.todo()", async (t) => {
   await t.step(
     "minimum options - (signature 1)",
     async () =>

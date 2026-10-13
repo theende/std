@@ -15,7 +15,7 @@ import { SEPARATOR } from "./constants.ts";
  * import { common } from "@std/path/common";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   const path = common([
  *     "C:\\deno\\std\\path\\mod.ts",
  *     "C:\\deno\\std\\fs\\mod.ts"

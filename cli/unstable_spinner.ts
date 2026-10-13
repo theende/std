@@ -78,9 +78,9 @@ export interface SpinnerOptions {
   /**
    * The stream to write the spinner to.
    *
-   * @default {Deno.stdout}
+   * @default {Ende.stdout}
    */
-  output?: typeof Deno.stderr | typeof Deno.stdout;
+  output?: typeof Ende.stderr | typeof Ende.stdout;
 }
 
 /**
@@ -100,8 +100,8 @@ export interface SpinnerOptions {
  *  console.log("Finished loading!");
  * }, 3_000);
  *
- * // You can also use the spinner with `Deno.stderr`
- * const spinner2 = new Spinner({ message: "Loading...", color: "yellow", output: Deno.stderr });
+ * // You can also use the spinner with `Ende.stderr`
+ * const spinner2 = new Spinner({ message: "Loading...", color: "yellow", output: Ende.stderr });
  * spinner2.start();
  *
  * setTimeout(() => {
@@ -140,7 +140,7 @@ export class Spinner {
   #interval: number;
   #color: Color | undefined;
   #intervalId: ReturnType<typeof setInterval> | null = null;
-  #output: typeof Deno.stdout | typeof Deno.stderr;
+  #output: typeof Ende.stdout | typeof Ende.stderr;
 
   /**
    * Creates a new spinner.
@@ -157,7 +157,7 @@ export class Spinner {
     this.#spinner = spinner;
     this.message = message;
     this.#interval = interval;
-    this.#output = options?.output ?? Deno.stdout;
+    this.#output = options?.output ?? Ende.stdout;
     this.color = color;
   }
 
@@ -220,7 +220,7 @@ export class Spinner {
     }
 
     let i = 0;
-    const noColor = Deno.noColor;
+    const noColor = Ende.noColor;
 
     // Updates the spinner after the given interval.
     const updateFrame = () => {

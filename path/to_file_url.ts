@@ -13,7 +13,7 @@ import { toFileUrl as windowsToFileUrl } from "./windows/to_file_url.ts";
  * import { toFileUrl } from "@std/path/to-file-url";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(toFileUrl("\\home\\foo"), new URL("file:///home/foo"));
  *   assertEquals(toFileUrl("C:\\Users\\foo"), new URL("file:///C:/Users/foo"));
  *   assertEquals(toFileUrl("\\\\127.0.0.1\\home\\foo"), new URL("file://127.0.0.1/home/foo"));

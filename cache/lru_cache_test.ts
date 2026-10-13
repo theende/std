@@ -2,7 +2,7 @@
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { LruCache, type LruCacheEjectionReason } from "./lru_cache.ts";
 
-Deno.test("LruCache deletes least-recently-used", () => {
+Ende.test("LruCache deletes least-recently-used", () => {
   const cache = new LruCache<number, string>(3);
 
   cache.set(1, "!");
@@ -23,12 +23,12 @@ Deno.test("LruCache deletes least-recently-used", () => {
   assertEquals(cache.get(3), undefined);
 });
 
-Deno.test("LruCache.maxSize is readonly", () => {
+Ende.test("LruCache.maxSize is readonly", () => {
   const cache = new LruCache<string, number>(100);
   assertEquals(cache.maxSize, 100);
 });
 
-Deno.test("LruCache validates maxSize", async (t) => {
+Ende.test("LruCache validates maxSize", async (t) => {
   await t.step("rejects 0", () => {
     assertThrows(
       () => new LruCache(0),
@@ -78,7 +78,7 @@ Deno.test("LruCache validates maxSize", async (t) => {
   });
 });
 
-Deno.test("LruCache onEject()", async (t) => {
+Ende.test("LruCache onEject()", async (t) => {
   await t.step("calls onEject on delete and eviction", () => {
     const reasons: LruCacheEjectionReason[] = [];
     const cache = new LruCache<number, string>(3, {
@@ -174,12 +174,12 @@ Deno.test("LruCache onEject()", async (t) => {
   });
 });
 
-Deno.test("LruCache delete() returns false for non-existent key", () => {
+Ende.test("LruCache delete() returns false for non-existent key", () => {
   const cache = new LruCache<string, number>(10);
   assertEquals(cache.delete("nonexistent"), false);
 });
 
-Deno.test("LruCache clear() calls all onEject callbacks even if one throws", () => {
+Ende.test("LruCache clear() calls all onEject callbacks even if one throws", () => {
   const ejected: string[] = [];
   const cache = new LruCache<string, number>(10, {
     onEject: (k) => {
@@ -196,7 +196,7 @@ Deno.test("LruCache clear() calls all onEject callbacks even if one throws", () 
   assertEquals(cache.size, 0);
 });
 
-Deno.test("LruCache clear() works without onEject", () => {
+Ende.test("LruCache clear() works without onEject", () => {
   const cache = new LruCache<string, number>(10);
   cache.set("a", 1);
   cache.set("b", 2);
@@ -204,7 +204,7 @@ Deno.test("LruCache clear() works without onEject", () => {
   assertEquals(cache.size, 0);
 });
 
-Deno.test("LruCache has() does not promote entry", () => {
+Ende.test("LruCache has() does not promote entry", () => {
   const cache = new LruCache<string, number>(2);
   cache.set("a", 1);
   cache.set("b", 2);
@@ -214,7 +214,7 @@ Deno.test("LruCache has() does not promote entry", () => {
   assertEquals(cache.has("b"), true);
 });
 
-Deno.test("LruCache peek() returns value without promoting entry", () => {
+Ende.test("LruCache peek() returns value without promoting entry", () => {
   const cache = new LruCache<string, number>(3);
   cache.set("a", 1);
   cache.set("b", 2);
@@ -227,12 +227,12 @@ Deno.test("LruCache peek() returns value without promoting entry", () => {
   assertEquals(cache.get("b"), 2);
 });
 
-Deno.test("LruCache peek() returns undefined for missing key", () => {
+Ende.test("LruCache peek() returns undefined for missing key", () => {
   const cache = new LruCache<string, number>(10);
   assertEquals(cache.peek("nonexistent"), undefined);
 });
 
-Deno.test("LruCache set() throws if onEject throws during eviction", () => {
+Ende.test("LruCache set() throws if onEject throws during eviction", () => {
   const cache = new LruCache<string, number>(2, {
     onEject: () => {
       throw new Error("boom");
@@ -248,7 +248,7 @@ Deno.test("LruCache set() throws if onEject throws during eviction", () => {
   assertEquals(cache.get("c"), 3);
 });
 
-Deno.test("LruCache onEject is not re-entrant", async (t) => {
+Ende.test("LruCache onEject is not re-entrant", async (t) => {
   await t.step("set() inside onEject throws", () => {
     const cache = new LruCache<string, number>(2, {
       onEject: () => {
@@ -297,14 +297,14 @@ Deno.test("LruCache onEject is not re-entrant", async (t) => {
   });
 });
 
-Deno.test("LruCache set() returns this for chaining", () => {
+Ende.test("LruCache set() returns this for chaining", () => {
   const cache = new LruCache<string, number>(10);
   const result = cache.set("a", 1).set("b", 2).set("c", 3);
   assert(result === cache);
   assertEquals(cache.size, 3);
 });
 
-Deno.test("LruCache clear() rethrows the first error when multiple onEject callbacks throw", () => {
+Ende.test("LruCache clear() rethrows the first error when multiple onEject callbacks throw", () => {
   const ejected: string[] = [];
   const cache = new LruCache<string, number>(10, {
     onEject: (k) => {
@@ -321,7 +321,7 @@ Deno.test("LruCache clear() rethrows the first error when multiple onEject callb
   assertEquals(cache.size, 0);
 });
 
-Deno.test("LruCache iteration order reflects LRU recency", () => {
+Ende.test("LruCache iteration order reflects LRU recency", () => {
   const cache = new LruCache<string, number>(3);
   cache.set("a", 1);
   cache.set("b", 2);

@@ -105,7 +105,7 @@ const entries = Object.entries(data)
   .map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)},\n`)
   .join("");
 
-await Deno.writeTextFile(
+await Ende.writeTextFile(
   new URL(import.meta.resolve("../_title_case_mapping.ts")),
   HEADER + entries + FOOTER,
 );

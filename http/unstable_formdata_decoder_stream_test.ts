@@ -16,7 +16,7 @@ function toRequest(input: [string, string | Blob][]): Request {
   });
 }
 
-Deno.test("FormDataDecoderStream", async () => {
+Ende.test("FormDataDecoderStream", async () => {
   const request = toRequest([
     ["a", "b"],
     ["c", new Blob(["Hello"])],
@@ -37,7 +37,7 @@ Deno.test("FormDataDecoderStream", async () => {
   }
 });
 
-Deno.test("FormDataDecoderStream handles preamble", async () => {
+Ende.test("FormDataDecoderStream handles preamble", async () => {
   const request = toRequest([["a", "b"]]);
   const contentType = request.headers.get("Content-Type");
   assert(typeof contentType === "string");
@@ -58,7 +58,7 @@ Deno.test("FormDataDecoderStream handles preamble", async () => {
   }
 });
 
-Deno.test("FormDataDecoderStream handles epilogue", async () => {
+Ende.test("FormDataDecoderStream handles epilogue", async () => {
   const request = toRequest([["a", "b"]]);
   const contentType = request.headers.get("Content-Type");
   assert(typeof contentType === "string");
@@ -79,7 +79,7 @@ Deno.test("FormDataDecoderStream handles epilogue", async () => {
   }
 });
 
-Deno.test("FormDataDecoderStream throws on missing Content-Type header", () => {
+Ende.test("FormDataDecoderStream throws on missing Content-Type header", () => {
   const request = toRequest([["a", "b"]]);
   request.headers.delete("Content-Type");
 
@@ -90,7 +90,7 @@ Deno.test("FormDataDecoderStream throws on missing Content-Type header", () => {
   );
 });
 
-Deno.test("FormDataDecoderStream throws on missing body", () => {
+Ende.test("FormDataDecoderStream throws on missing body", () => {
   const request = new Request("https://example.com", {
     method: "POST",
     headers: { "Content-Type": "text/plain" },
@@ -102,7 +102,7 @@ Deno.test("FormDataDecoderStream throws on missing body", () => {
   );
 });
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on missing boundary in Content-Type",
   () => {
     const request = toRequest([["a", "b"]]);
@@ -116,7 +116,7 @@ Deno.test(
   },
 );
 
-Deno.test("FormDataDecoderStream throws on invalid boundary", () => {
+Ende.test("FormDataDecoderStream throws on invalid boundary", () => {
   const request = toRequest([["a", "b"]]);
   let contentType = request.headers.get("Content-Type");
   assert(typeof contentType === "string");
@@ -133,7 +133,7 @@ Deno.test("FormDataDecoderStream throws on invalid boundary", () => {
   );
 });
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on Unexpected EOF while decoding headers",
   async () => {
     const request = toRequest([["a", "b"]]);
@@ -166,7 +166,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on Content-Disposition due to no headers",
   async () => {
     const request = toRequest([["a", "b"]]);
@@ -194,7 +194,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on invalid Content-Disposition type",
   async () => {
     const request = toRequest([["a", "b"]]);
@@ -220,7 +220,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on missing Content-Disposition name field",
   async () => {
     const request = toRequest([["a", "b"]]);
@@ -246,7 +246,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on Unexpected EOF after decoding headers",
   async () => {
     const request = toRequest([["a", "b"]]);
@@ -270,7 +270,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on missing Content-Disposition header",
   async () => {
     const request = toRequest([["a", "b"]]);
@@ -298,7 +298,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream throws on Unexpected EOF while decoding body",
   async () => {
     const request = toRequest([["a", "I am a tee pot"]]);
@@ -328,7 +328,7 @@ Deno.test(
   },
 );
 
-Deno.test("FormDataDecoderStream handles CRLF in body", async () => {
+Ende.test("FormDataDecoderStream handles CRLF in body", async () => {
   const buffer = Uint8Array.from([
     13,
     10,
@@ -359,7 +359,7 @@ Deno.test("FormDataDecoderStream handles CRLF in body", async () => {
   }
 });
 
-Deno.test("FormDataDecoderStream handles large bodies", async () => {
+Ende.test("FormDataDecoderStream handles large bodies", async () => {
   const decoder = new TextDecoder();
   const request = toRequest([["a", "I am a LARGE Body"]]);
 
@@ -375,7 +375,7 @@ Deno.test("FormDataDecoderStream handles large bodies", async () => {
   assertEquals(body, "I am a LARGE Body");
 });
 
-Deno.test("FormDataDecoderStream handles tight bodies", async () => {
+Ende.test("FormDataDecoderStream handles tight bodies", async () => {
   const decoder = new TextDecoder();
   const request = toRequest([["a", "I am\r\n a TIGHT Body"]]);
 
@@ -391,7 +391,7 @@ Deno.test("FormDataDecoderStream handles tight bodies", async () => {
   assertEquals(body, "I am\r\n a TIGHT Body");
 });
 
-Deno.test("FormDataDecoderStream handles being cancelled", async () => {
+Ende.test("FormDataDecoderStream handles being cancelled", async () => {
   const request = toRequest([
     ["a", new Blob([new Uint8Array(1024 * 1024)])],
     ["b", "c"],
@@ -411,7 +411,7 @@ Deno.test("FormDataDecoderStream handles being cancelled", async () => {
   }
 });
 
-Deno.test(
+Ende.test(
   "FormDataDecoderStream handles being cancelled on an invalid stream",
   async () => {
     const request = toRequest([
@@ -438,7 +438,7 @@ Deno.test(
   },
 );
 
-Deno.test("FormDataDecoderStream handles field name _charset_", async () => {
+Ende.test("FormDataDecoderStream handles field name _charset_", async () => {
   const request = toRequest([["_charset_", "text/html"], ["a", "b"]]);
 
   for await (const entry of FormDataDecoderStream.from(request)) {

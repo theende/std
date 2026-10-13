@@ -2,7 +2,7 @@
 import { includesValue } from "./includes_value.ts";
 import { assert, assertEquals } from "@std/assert";
 
-Deno.test("includesValue() handles example", () => {
+Ende.test("includesValue() handles example", () => {
   const input = {
     first: 33,
     second: 34,
@@ -11,7 +11,7 @@ Deno.test("includesValue() handles example", () => {
   assert(actual);
 });
 
-Deno.test("includesValue() handles no mutation", () => {
+Ende.test("includesValue() handles no mutation", () => {
   const input = {
     first: 33,
     second: 34,
@@ -25,7 +25,7 @@ Deno.test("includesValue() handles no mutation", () => {
   });
 });
 
-Deno.test("includesValue() handles empty input returns false", () => {
+Ende.test("includesValue() handles empty input returns false", () => {
   const input = {};
 
   const actual = includesValue(input, 44);
@@ -33,7 +33,7 @@ Deno.test("includesValue() handles empty input returns false", () => {
   assert(!actual);
 });
 
-Deno.test("includesValue() returns false when it doesn't include the value", () => {
+Ende.test("includesValue() returns false when it doesn't include the value", () => {
   const input = {
     first: 33,
     second: 34,
@@ -44,7 +44,7 @@ Deno.test("includesValue() returns false when it doesn't include the value", () 
   assert(!actual);
 });
 
-Deno.test("includesValue() handles non-enumerable properties", () => {
+Ende.test("includesValue() handles non-enumerable properties", () => {
   // FAIL is expected, TODO: Figure out how to make it work on
   const input = {};
 
@@ -72,7 +72,7 @@ Deno.test("includesValue() handles non-enumerable properties", () => {
   assert(!actual3);
 });
 
-Deno.test("includesValue() handles non-primitive values", () => {
+Ende.test("includesValue() handles non-primitive values", () => {
   const input = {
     first: {},
   };
@@ -82,7 +82,7 @@ Deno.test("includesValue() handles non-primitive values", () => {
   assert(!actual);
 });
 
-Deno.test("includesValue() handles same behaviour as naive impl", () => {
+Ende.test("includesValue() handles same behaviour as naive impl", () => {
   const input = {
     first: 42,
   };
@@ -93,7 +93,7 @@ Deno.test("includesValue() handles same behaviour as naive impl", () => {
   assertEquals(includesValueResult, naiveImplResult);
 });
 
-Deno.test("includesValue() handles NaN value", () => {
+Ende.test("includesValue() handles NaN value", () => {
   const input = {
     first: NaN,
   };
@@ -103,7 +103,7 @@ Deno.test("includesValue() handles NaN value", () => {
   assert(actual);
 });
 
-Deno.test("includesValue() prevents enumerable prototype check", () => {
+Ende.test("includesValue() prevents enumerable prototype check", () => {
   class Foo {}
   // @ts-expect-error: for test
   Foo.prototype.a = "hello";

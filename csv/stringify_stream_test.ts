@@ -2,7 +2,7 @@
 import { CsvStringifyStream } from "./stringify_stream.ts";
 import { assertEquals, assertRejects } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "CsvStringifyStream handles various inputs",
   permissions: "none",
   fn: async (t) => {

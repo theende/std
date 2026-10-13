@@ -14,7 +14,7 @@ import { UntarStream } from "./untar_stream.ts";
 import { assertThrows } from "@std/assert/throws";
 import { assertRejects } from "@std/assert/rejects";
 
-Deno.test("TarStream() outputs corrects length", async () => {
+Ende.test("TarStream() outputs corrects length", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
@@ -29,8 +29,8 @@ Deno.test("TarStream() outputs corrects length", async () => {
         {
           type: "file",
           path: "./potato/ende.json",
-          size: (await Deno.stat("ende.json")).size,
-          readable: (await Deno.open("ende.json")).readable,
+          size: (await Ende.stat("ende.json")).size,
+          readable: (await Ende.open("ende.json")).readable,
         }, // 512 + ceil(size / 512) * 512
       ]) // 1024
       .pipeThrough(new TarStream()),
@@ -41,12 +41,12 @@ Deno.test("TarStream() outputs corrects length", async () => {
     buffer.length,
     512 +
       1024 +
-      (512 + Math.ceil((await Deno.stat("ende.json")).size / 512) * 512) +
+      (512 + Math.ceil((await Ende.stat("ende.json")).size / 512) * 512) +
       1024,
   );
 });
 
-Deno.test("TarStream() ends correctly", async () => {
+Ende.test("TarStream() ends correctly", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
@@ -61,8 +61,8 @@ Deno.test("TarStream() ends correctly", async () => {
         {
           type: "file",
           path: "./potato/ende.json",
-          size: (await Deno.stat("ende.json")).size,
-          readable: (await Deno.open("ende.json")).readable,
+          size: (await Ende.stat("ende.json")).size,
+          readable: (await Ende.open("ende.json")).readable,
         }, // 512 + ceil(size / 512) * 512
       ]) // 1024
       .pipeThrough(new TarStream()),
@@ -72,7 +72,7 @@ Deno.test("TarStream() ends correctly", async () => {
   assertEquals(buffer.subarray(-1024), new Uint8Array(1024));
 });
 
-Deno.test("TarStream() supports byte streams", async () => {
+Ende.test("TarStream() supports byte streams", async () => {
   const mtime = Date.now() / 1000 | 0;
   async function createReadable(): Promise<ReadableStream<Uint8Array_>> {
     return ReadableStream
@@ -89,8 +89,8 @@ Deno.test("TarStream() supports byte streams", async () => {
         {
           type: "file",
           path: "./potato/ende.json",
-          size: (await Deno.stat("ende.json")).size,
-          readable: (await Deno.open("ende.json")).readable,
+          size: (await Ende.stat("ende.json")).size,
+          readable: (await Ende.open("ende.json")).readable,
           options: { mtime },
         }, // 512 + ceil(size / 512) * 512
       ]) // 1024
@@ -112,7 +112,7 @@ Deno.test("TarStream() supports byte streams", async () => {
   }
 });
 
-Deno.test("assertValidTarStreamOptions()", () => {
+Ende.test("assertValidTarStreamOptions()", () => {
   assertValidTarStreamOptions({});
 
   assertValidTarStreamOptions({ mode: 0o664 });
@@ -156,7 +156,7 @@ Deno.test("assertValidTarStreamOptions()", () => {
   assertThrows(() => assertValidTarStreamOptions({ devminor: "a".repeat(9) }));
 });
 
-Deno.test("assertValidPath()", () => {
+Ende.test("assertValidPath()", () => {
   assertValidPath("./potato");
   assertThrows(
     () => assertValidPath("a".repeat(300)),
@@ -176,7 +176,7 @@ Deno.test("assertValidPath()", () => {
   );
 });
 
-Deno.test("TarStream() with negative size", async () => {
+Ende.test("TarStream() with negative size", async () => {
   await assertRejects(
     async () =>
       await new Response(
@@ -199,7 +199,7 @@ Deno.test("TarStream() with negative size", async () => {
   );
 });
 
-Deno.test("TarStream() with to big size", async () => {
+Ende.test("TarStream() with to big size", async () => {
   await assertRejects(
     async () =>
       await new Response(
@@ -222,7 +222,7 @@ Deno.test("TarStream() with to big size", async () => {
   );
 });
 
-Deno.test("TarStream() with NaN size", async () => {
+Ende.test("TarStream() with NaN size", async () => {
   await assertRejects(
     async () =>
       await new Response(
@@ -245,7 +245,7 @@ Deno.test("TarStream() with NaN size", async () => {
   );
 });
 
-Deno.test("TarStream() with mismatching sizes", async () => {
+Ende.test("TarStream() with mismatching sizes", async () => {
   await assertRejects(
     async () =>
       await new Response(
@@ -268,7 +268,7 @@ Deno.test("TarStream() with mismatching sizes", async () => {
   );
 });
 
-Deno.test("TarStream() decoding header", async () => {
+Ende.test("TarStream() decoding header", async () => {
   const mtime = Math.floor(Date.now() / 1000);
   const buffer = await new Response(
     ReadableStream
@@ -377,7 +377,7 @@ Deno.test("TarStream() decoding header", async () => {
   );
 });
 
-Deno.test("TarStream() with symlink", async () => {
+Ende.test("TarStream() with symlink", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
@@ -394,7 +394,7 @@ Deno.test("TarStream() with symlink", async () => {
   assertEquals(buffer.length, 512 + 1024);
 });
 
-Deno.test("TarStream() symlink has correct typeflag", async () => {
+Ende.test("TarStream() symlink has correct typeflag", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
@@ -407,7 +407,7 @@ Deno.test("TarStream() symlink has correct typeflag", async () => {
   assertEquals(buffer[156], 50);
 });
 
-Deno.test("TarStream() symlink writes linkname to header", async () => {
+Ende.test("TarStream() symlink writes linkname to header", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
@@ -421,7 +421,7 @@ Deno.test("TarStream() symlink writes linkname to header", async () => {
   assertEquals(linkname, "./target");
 });
 
-Deno.test("TarStream() symlink round-trip", async () => {
+Ende.test("TarStream() symlink round-trip", async () => {
   const readable = ReadableStream.from<TarStreamInput>([
     {
       type: "symlink",
@@ -441,7 +441,7 @@ Deno.test("TarStream() symlink round-trip", async () => {
   }
 });
 
-Deno.test("TarStream() rejects empty linkname", async () => {
+Ende.test("TarStream() rejects empty linkname", async () => {
   await assertRejects(
     async () =>
       await new Response(
@@ -456,7 +456,7 @@ Deno.test("TarStream() rejects empty linkname", async () => {
   );
 });
 
-Deno.test("TarStream() rejects linkname exceeding 100 bytes", async () => {
+Ende.test("TarStream() rejects linkname exceeding 100 bytes", async () => {
   await assertRejects(
     async () =>
       await new Response(
@@ -471,7 +471,7 @@ Deno.test("TarStream() rejects linkname exceeding 100 bytes", async () => {
   );
 });
 
-Deno.test("TarStream() symlink with non-ASCII linkname round-trip", async () => {
+Ende.test("TarStream() symlink with non-ASCII linkname round-trip", async () => {
   const linkname = "target/\u3042";
 
   const readable = ReadableStream.from<TarStreamInput>([
@@ -485,7 +485,7 @@ Deno.test("TarStream() symlink with non-ASCII linkname round-trip", async () => 
   }
 });
 
-Deno.test("TarStream() accepts exactly 100 byte linkname", async () => {
+Ende.test("TarStream() accepts exactly 100 byte linkname", async () => {
   const linkname = "a".repeat(100);
 
   const readable = ReadableStream.from<TarStreamInput>([
@@ -499,7 +499,7 @@ Deno.test("TarStream() accepts exactly 100 byte linkname", async () => {
   }
 });
 
-Deno.test("TarStream() mixed archive with files, dirs, and symlinks", async () => {
+Ende.test("TarStream() mixed archive with files, dirs, and symlinks", async () => {
   const text = new TextEncoder().encode("Hello World!");
 
   const readable = ReadableStream.from<TarStreamInput>([
@@ -528,7 +528,7 @@ Deno.test("TarStream() mixed archive with files, dirs, and symlinks", async () =
   ]);
 });
 
-Deno.test("assertValidLinkname()", () => {
+Ende.test("assertValidLinkname()", () => {
   assertValidLinkname("./target");
   assertValidLinkname("a".repeat(100));
   assertValidLinkname("target/\u3042");

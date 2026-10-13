@@ -13,7 +13,7 @@ import { dirname as windowsDirname } from "./windows/dirname.ts";
  * import { dirname } from "@std/path/dirname";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(dirname("C:\\home\\user\\Documents\\image.png"), "C:\\home\\user\\Documents");
  *   assertEquals(dirname(new URL("file:///C:/home/user/Documents/image.png")), "C:\\home\\user\\Documents");
  * } else {

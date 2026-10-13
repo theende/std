@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toHaveProperty()", () => {
+Ende.test("expect().toHaveProperty()", () => {
   expect({ a: 1 }).toHaveProperty("a");
   expect({ a: 1 }).toHaveProperty("a", 1);
   expect({ a: { b: 1 } }).toHaveProperty("a.b", 1);
@@ -22,12 +22,12 @@ Deno.test("expect().toHaveProperty()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toHaveProperty() handles null and undefined", () => {
+Ende.test("expect().toHaveProperty() handles null and undefined", () => {
   expect(null).not.toHaveProperty("foo");
   expect(undefined).not.toHaveProperty("foo");
 });
 
-Deno.test("expect().toHaveProperty() with custom error message", () => {
+Ende.test("expect().toHaveProperty() with custom error message", () => {
   const msg = "toHaveProperty Custom Error";
 
   expect(() =>

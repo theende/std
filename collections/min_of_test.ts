@@ -2,47 +2,47 @@
 import { minOf } from "./min_of.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test("minOf() handles regular min", () => {
+Ende.test("minOf() handles regular min", () => {
   const array = [5, 18, 35, 120];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, 5);
 });
 
-Deno.test("minOf() handles single element", () => {
+Ende.test("minOf() handles single element", () => {
   const actual = minOf([42], (i) => i);
   assertEquals(actual, 42);
 });
 
-Deno.test("minOf() handles mixed negatives and positives numbers", () => {
+Ende.test("minOf() handles mixed negatives and positives numbers", () => {
   const array = [-32, -18, 140, 36];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, -32);
 });
 
-Deno.test("minOf() handles negatives numbers", () => {
+Ende.test("minOf() handles negatives numbers", () => {
   const array = [-32, -18, -140, -36];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, -140);
 });
 
-Deno.test("minOf() handles BigInt regular min", () => {
+Ende.test("minOf() handles BigInt regular min", () => {
   const array = [BigInt(5), BigInt(18), BigInt(35), BigInt(120)];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, BigInt(5));
 });
 
-Deno.test("minOf() handles BigInt negatives numbers", () => {
+Ende.test("minOf() handles BigInt negatives numbers", () => {
   const array = [BigInt(-32), BigInt(-18), BigInt(-140), BigInt(-36)];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, BigInt(-140));
 });
 
-Deno.test("minOf() handles object properties", () => {
+Ende.test("minOf() handles object properties", () => {
   const object = [
     { name: "mustard", count: 2 },
     { name: "soy", count: 4 },
@@ -53,7 +53,7 @@ Deno.test("minOf() handles object properties", () => {
   assertEquals(actual, 2);
 });
 
-Deno.test("minOf() handles mixed object properties", () => {
+Ende.test("minOf() handles mixed object properties", () => {
   const object = [
     { name: "mustard", count: -2 },
     { name: "soy", count: 4 },
@@ -64,7 +64,7 @@ Deno.test("minOf() handles mixed object properties", () => {
   assertEquals(actual, -32);
 });
 
-Deno.test("minOf() handles no mutation", () => {
+Ende.test("minOf() handles no mutation", () => {
   const array = [1, 2, 3, 4];
 
   minOf(array, (i) => i + 2);
@@ -72,7 +72,7 @@ Deno.test("minOf() handles no mutation", () => {
   assertEquals(array, [1, 2, 3, 4]);
 });
 
-Deno.test("minOf() handles iterable input", () => {
+Ende.test("minOf() handles iterable input", () => {
   function* generate() {
     yield 5;
     yield 2;
@@ -84,14 +84,14 @@ Deno.test("minOf() handles iterable input", () => {
   assertEquals(actual, 1);
 });
 
-Deno.test("minOf() handles empty iterable", () => {
+Ende.test("minOf() handles empty iterable", () => {
   function* generate(): Generator<number> {}
 
   const actual = minOf(generate(), (i) => i);
   assertEquals(actual, undefined);
 });
 
-Deno.test("minOf() handles NaN in iterable", () => {
+Ende.test("minOf() handles NaN in iterable", () => {
   function* generate() {
     yield 1;
     yield NaN;
@@ -102,14 +102,14 @@ Deno.test("minOf() handles NaN in iterable", () => {
   assertEquals(actual, NaN);
 });
 
-Deno.test("minOf() handles empty array results in undefined", () => {
+Ende.test("minOf() handles empty array results in undefined", () => {
   const array: number[] = [];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, undefined);
 });
 
-Deno.test("minOf() handles NaN and Infinity", () => {
+Ende.test("minOf() handles NaN and Infinity", () => {
   const array = [
     1,
     2,
@@ -128,14 +128,14 @@ Deno.test("minOf() handles NaN and Infinity", () => {
   assertEquals(actual, NaN);
 });
 
-Deno.test("minOf() handles NaN as first element", () => {
+Ende.test("minOf() handles NaN as first element", () => {
   const array = [NaN, 1, 2, 3];
 
   const actual = minOf(array, (i) => i);
   assertEquals(actual, NaN);
 });
 
-Deno.test("minOf() handles minus infinity", () => {
+Ende.test("minOf() handles minus infinity", () => {
   const array = [1, 2, -Infinity, 3, 4, 5, 6, 7, 8];
 
   const actual = minOf(array, (i) => i);
@@ -143,7 +143,7 @@ Deno.test("minOf() handles minus infinity", () => {
   assertEquals(actual, -Infinity);
 });
 
-Deno.test({
+Ende.test({
   name: "minOf() passes index to selector",
   fn() {
     const input = [4, 3, 2, 1];

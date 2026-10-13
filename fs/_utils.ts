@@ -2,10 +2,10 @@
 // deno-lint-ignore-file no-explicit-any
 
 /**
- * True if the runtime is Deno, false otherwise.
+ * True if the runtime is Ende, false otherwise.
  */
-export const isDeno = (globalThis as any).navigator
-  ?.userAgent?.includes("Deno");
+export const isEnde = (globalThis as any).navigator
+  ?.userAgent?.includes("Ende");
 
 /**
  * @returns The Node.js `fs` module.

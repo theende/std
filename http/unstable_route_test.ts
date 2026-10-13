@@ -33,7 +33,7 @@ function testRouter(name: string, route: typeof routeRadix) {
     return new Response(new URL(request.url).pathname, { status: 404 });
   }
 
-  Deno.test(name, async (t) => {
+  Ende.test(name, async (t) => {
     const handler = route(routes, defaultHandler);
 
     await t.step("handles static routes", async () => {

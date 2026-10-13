@@ -2,7 +2,7 @@
 import { assert } from "@std/assert";
 import { isLeap, isUtcLeap } from "./is_leap.ts";
 
-Deno.test({
+Ende.test({
   name: "isLeap()",
   fn() {
     assert(isLeap(1992));
@@ -16,7 +16,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isUtcLeap()",
   fn() {
     assert(isUtcLeap(1992));

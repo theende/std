@@ -3,12 +3,12 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { assertPath } from "./assert_path.ts";
 
-Deno.test("assertPath()", () => {
+Ende.test("assertPath()", () => {
   assertEquals(assertPath(""), undefined);
   assertEquals(assertPath("foo"), undefined);
 });
 
-Deno.test("assertPath() throws", () => {
+Ende.test("assertPath() throws", () => {
   assertThrows(
     () => assertPath(undefined),
     TypeError,

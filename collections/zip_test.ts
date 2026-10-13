@@ -12,14 +12,14 @@ function zip1Test<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "zip() handles a single empty array",
   fn() {
     assertEquals(zip([]), []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles one array",
   fn() {
     zip1Test([
@@ -46,7 +46,7 @@ function zip3Test<T, U, V>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "zip() handles three arrays",
   fn() {
     zip3Test([
@@ -57,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles three arrays when the first is the shortest",
   fn() {
     zip3Test([
@@ -68,7 +68,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles no mutation",
   fn() {
     const arrayA = [1, 4, 5];
@@ -80,7 +80,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles empty input",
   fn() {
     zipTest(
@@ -99,7 +99,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles same length",
   fn() {
     zipTest(
@@ -126,7 +126,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles first shorter",
   fn() {
     zipTest(
@@ -149,7 +149,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles second shorter",
   fn() {
     zipTest(
@@ -172,7 +172,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles sparse arrays",
   fn() {
     // deno-lint-ignore no-sparse-arrays
@@ -186,7 +186,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles non-array iterables",
   fn() {
     function* numbers() {
@@ -201,7 +201,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles Set iterables",
   fn() {
     assertEquals(
@@ -211,7 +211,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles a single non-array iterable",
   fn() {
     assertEquals(
@@ -229,7 +229,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "zip() handles iterables of different lengths",
   fn() {
     function* numbers() {

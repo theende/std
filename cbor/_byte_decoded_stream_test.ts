@@ -9,7 +9,7 @@ import { encodeCbor } from "./encode_cbor.ts";
 import { CborSequenceDecoderStream } from "./sequence_decoder_stream.ts";
 import { CborSequenceEncoderStream } from "./sequence_encoder_stream.ts";
 
-Deno.test("CborByteDecodedStream() consuming indefinite length byte string", async () => {
+Ende.test("CborByteDecodedStream() consuming indefinite length byte string", async () => {
   const size = random(0, 24);
 
   const reader = CborByteEncoderStream.from([
@@ -31,7 +31,7 @@ Deno.test("CborByteDecodedStream() consuming indefinite length byte string", asy
   reader.releaseLock();
 });
 
-Deno.test("CborByteDecodedStream() consuming large definite length byte string", async () => {
+Ende.test("CborByteDecodedStream() consuming large definite length byte string", async () => {
   // Uint8Array needs to be 2 ** 32 bytes+ to be decoded via a CborByteDecodedStream.
   const size = random(2 ** 32, 2 ** 33);
 
@@ -47,7 +47,7 @@ Deno.test("CborByteDecodedStream() consuming large definite length byte string",
   reader.releaseLock();
 });
 
-Deno.test("CborByteDecodedStream() being cancelled", async () => {
+Ende.test("CborByteDecodedStream() being cancelled", async () => {
   const size = random(0, 24);
 
   const reader = ReadableStream.from([

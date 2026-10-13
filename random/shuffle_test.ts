@@ -7,7 +7,7 @@ import {
   assertNotStrictEquals,
 } from "@std/assert";
 
-Deno.test("shuffle() handles empty arrays", () => {
+Ende.test("shuffle() handles empty arrays", () => {
   const array: number[] = [];
   const shuffled = shuffle(array);
 
@@ -15,7 +15,7 @@ Deno.test("shuffle() handles empty arrays", () => {
   assertNotStrictEquals(shuffled, array);
 });
 
-Deno.test("shuffle() handles arrays with only one item", () => {
+Ende.test("shuffle() handles arrays with only one item", () => {
   const array = [1];
   const shuffled = shuffle(array);
 
@@ -23,7 +23,7 @@ Deno.test("shuffle() handles arrays with only one item", () => {
   assertNotStrictEquals(shuffled, array);
 });
 
-Deno.test("shuffle() handles arrays with two items", () => {
+Ende.test("shuffle() handles arrays with two items", () => {
   const prng = randomSeeded(0n);
   const items = [1, 2];
 
@@ -34,7 +34,7 @@ Deno.test("shuffle() handles arrays with two items", () => {
   assertEquals(results.size, 2);
 });
 
-Deno.test("shuffle() shuffles the provided array", () => {
+Ende.test("shuffle() shuffles the provided array", () => {
   const prng = randomSeeded(0n);
   const items = [1, 2, 3, 4, 5];
 
@@ -46,7 +46,7 @@ Deno.test("shuffle() shuffles the provided array", () => {
   assertNotStrictEquals(shuffled, items);
 });
 
-Deno.test("shuffle() with PRNG always returning 0 produces predictable result", () => {
+Ende.test("shuffle() with PRNG always returning 0 produces predictable result", () => {
   const items = [1, 2, 3, 4, 5];
   assertEquals(
     shuffle(items, { prng: () => 0 }),
@@ -54,7 +54,7 @@ Deno.test("shuffle() with PRNG always returning 0 produces predictable result", 
   );
 });
 
-Deno.test("shuffle() with PRNG returning max value produces predictable result", () => {
+Ende.test("shuffle() with PRNG returning max value produces predictable result", () => {
   const items = [1, 2, 3, 4, 5];
   assertEquals(
     shuffle(items, { prng: () => 0.9999999999 }),
@@ -62,7 +62,7 @@ Deno.test("shuffle() with PRNG returning max value produces predictable result",
   );
 });
 
-Deno.test("shuffle() handles arrays with null and undefined values", () => {
+Ende.test("shuffle() handles arrays with null and undefined values", () => {
   const prng = randomSeeded(0n);
   const items = [1, null, undefined, 2, null];
   const shuffled = shuffle(items, { prng });
@@ -72,7 +72,7 @@ Deno.test("shuffle() handles arrays with null and undefined values", () => {
   assertEquals(shuffled.filter((x) => x === undefined).length, 1);
 });
 
-Deno.test("shuffle() returns a copy and without modifying the original array", () => {
+Ende.test("shuffle() returns a copy and without modifying the original array", () => {
   const items = [1, 2, 3, 4, 5];
   const originalItems = [...items];
 
@@ -82,7 +82,7 @@ Deno.test("shuffle() returns a copy and without modifying the original array", (
   }
 });
 
-Deno.test("shuffle() gives relatively uniform distribution of results", () => {
+Ende.test("shuffle() gives relatively uniform distribution of results", () => {
   const prng = randomSeeded(0n);
 
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

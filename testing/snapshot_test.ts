@@ -36,33 +36,33 @@ function formatTestError(string: string) {
 }
 
 function testFnWithTempDir(
-  fn: (t: Deno.TestContext, tempDir: string) => Promise<void>,
+  fn: (t: Ende.TestContext, tempDir: string) => Promise<void>,
 ) {
-  return async (t: Deno.TestContext) => {
-    const tempDir = await Deno.makeTempDir();
+  return async (t: Ende.TestContext) => {
+    const tempDir = await Ende.makeTempDir();
     try {
       await fn(t, tempDir);
     } finally {
-      await Deno.remove(tempDir, { recursive: true });
+      await Ende.remove(tempDir, { recursive: true });
     }
   };
 }
 
 function testFnWithDifferentTempDir(
   fn: (
-    t: Deno.TestContext,
+    t: Ende.TestContext,
     tempDir1: string,
     tempDir2: string,
   ) => Promise<void>,
 ) {
-  return async (t: Deno.TestContext) => {
-    const tempDir1 = await Deno.makeTempDir();
-    const tempDir2 = await Deno.makeTempDir();
+  return async (t: Ende.TestContext) => {
+    const tempDir1 = await Ende.makeTempDir();
+    const tempDir2 = await Ende.makeTempDir();
     try {
       await fn(t, tempDir1, tempDir2);
     } finally {
-      await Deno.remove(tempDir1, { recursive: true });
-      await Deno.remove(tempDir2, { recursive: true });
+      await Ende.remove(tempDir1, { recursive: true });
+      await Ende.remove(tempDir2, { recursive: true });
     }
   };
 }
@@ -84,7 +84,7 @@ map.set("Hello", "World!");
 map.set(() => "Hello", "World!");
 map.set(1, 2);
 
-Deno.test("assertSnapshot()", async (t) => {
+Ende.test("assertSnapshot()", async (t) => {
   await assertSnapshot(t, { a: 1, b: 2 });
   await assertSnapshot(t, new TestClass());
   await assertSnapshot(t, map);
@@ -95,7 +95,7 @@ Deno.test("assertSnapshot()", async (t) => {
   await assertSnapshot(t, "hello world");
 });
 
-Deno.test("assertSnapshot() - step", async (t) => {
+Ende.test("assertSnapshot() - step", async (t) => {
   await assertSnapshot(t, { a: 1, b: 2 });
   await t.step("nested", async (t) => {
     await assertSnapshot(t, new TestClass());
@@ -110,15 +110,15 @@ Deno.test("assertSnapshot() - step", async (t) => {
   await assertSnapshot(t, "hello world");
 });
 
-Deno.test("assertSnapshot() - adverse string \\ ` ${}", async (t) => {
+Ende.test("assertSnapshot() - adverse string \\ ` ${}", async (t) => {
   await assertSnapshot(t, "\\ ` ${}");
 });
 
-Deno.test("assertSnapshot() - default serializer", async (t) => {
+Ende.test("assertSnapshot() - default serializer", async (t) => {
   await assertSnapshot(t, "a\nb\tc");
 });
 
-Deno.test("assertSnapshot() - multi-line strings", async (t) => {
+Ende.test("assertSnapshot() - multi-line strings", async (t) => {
   await t.step("string", async (t) => {
     await assertSnapshot(
       t,
@@ -162,7 +162,7 @@ Deno.test("assertSnapshot() - multi-line strings", async (t) => {
   });
 });
 
-Deno.test(
+Ende.test(
   "assertSnapshot() - failed assertion",
   testFnWithTempDir(async (t, tempDir) => {
     let count = 0;
@@ -171,7 +171,7 @@ Deno.test(
       actual: T,
     ): Promise<AssertionError> {
       const snapshotFilePath = join(tempDir, `snapshot_file_${++count}.snap`);
-      await Deno.writeTextFile(
+      await Ende.writeTextFile(
         snapshotFilePath,
         `export const snapshot = {};
 
@@ -206,7 +206,7 @@ ${serialize(snapshot)}
   }),
 );
 
-Deno.test("assertSnapshot() - options", async (t) => {
+Ende.test("assertSnapshot() - options", async (t) => {
   const VALUE = [1, 2, 3];
 
   await t.step("dir", async (t) => {
@@ -218,7 +218,7 @@ Deno.test("assertSnapshot() - options", async (t) => {
 
     await t.step("absolute", async (t) => {
       await assertSnapshot(t, VALUE, {
-        dir: join(Deno.cwd(), "testing/__snapshots__/options_tests/"),
+        dir: join(Ende.cwd(), "testing/__snapshots__/options_tests/"),
       });
     });
   });
@@ -233,7 +233,7 @@ Deno.test("assertSnapshot() - options", async (t) => {
     await t.step("absolute", async (t) => {
       await assertSnapshot(t, VALUE, {
         path: join(
-          Deno.cwd(),
+          Ende.cwd(),
           "testing/__snapshots__/options_tests/custom_path.snap",
         ),
       });
@@ -297,9 +297,9 @@ Deno.test("assertSnapshot() - options", async (t) => {
       async function runTest(test: string) {
         const tempTestFileName = "test.ts";
         const tempTestFilePath = join(tempDir, tempTestFileName);
-        await Deno.writeTextFile(tempTestFilePath, test);
+        await Ende.writeTextFile(tempTestFilePath, test);
 
-        const process = new Deno.Command(Deno.execPath(), {
+        const process = new Ende.Command(Ende.execPath(), {
           args: [
             "test",
             "--no-lock",
@@ -322,7 +322,7 @@ Deno.test("assertSnapshot() - options", async (t) => {
       const result = await runTest(`
         import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-        Deno.test("${snapshotName}", async (t) => {
+        Ende.test("${snapshotName}", async (t) => {
           await assertSnapshot(t, [1, 2, 3], {
             path: "${snapshotFilePath.replace(/\\/g, "\\\\")}",
             mode: "update",
@@ -339,7 +339,7 @@ Deno.test("assertSnapshot() - options", async (t) => {
   );
 });
 
-Deno.test(
+Ende.test(
   "assertSnapshot() - update",
   testFnWithTempDir(async (t, tempDir) => {
     const tempTestFileName = "test.ts";
@@ -351,9 +351,9 @@ Deno.test(
     );
 
     async function runTestWithUpdateFlag(test: string) {
-      await Deno.writeTextFile(tempTestFilePath, test);
+      await Ende.writeTextFile(tempTestFilePath, test);
 
-      const command = new Deno.Command(Deno.execPath(), {
+      const command = new Ende.Command(Ende.execPath(), {
         args: [
           "test",
           "--no-lock",
@@ -368,7 +368,7 @@ Deno.test(
       return {
         output: new TextDecoder().decode(stdout),
         error: new TextDecoder().decode(stderr),
-        snapshots: await Deno.readTextFile(tempSnapshotFilePath),
+        snapshots: await Ende.readTextFile(tempSnapshotFilePath),
       };
     }
 
@@ -385,7 +385,7 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("assertSnapshot() - update", async (t) => {
+      Ende.test("assertSnapshot() - update", async (t) => {
         await assertSnapshot(t, [
           1,
           2,
@@ -408,7 +408,7 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("assertSnapshot() - update", async (t) => {
+      Ende.test("assertSnapshot() - update", async (t) => {
         await assertSnapshot(t, [
           1,
           2,
@@ -430,7 +430,7 @@ Deno.test(
     const result3 = await runTestWithUpdateFlag(`
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("assertSnapshot() - update", async (t) => {
+      Ende.test("assertSnapshot() - update", async (t) => {
         await assertSnapshot(t, [
           1,
           2,
@@ -454,11 +454,11 @@ Deno.test(
     const result4 = await runTestWithUpdateFlag(`
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test - First", async (t) => {
+      Ende.test("Snapshot Test - First", async (t) => {
         await assertSnapshot(t, "FIRST");
       });
 
-      Deno.test("Snapshot Test - Second", async (t) => {
+      Ende.test("Snapshot Test - Second", async (t) => {
         await assertSnapshot(t, "SECOND");
       });
    `);
@@ -477,11 +477,11 @@ Deno.test(
     const result5 = await runTestWithUpdateFlag(`
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test - Second", async (t) => {
+      Ende.test("Snapshot Test - Second", async (t) => {
         await assertSnapshot(t, "SECOND");
       });
 
-      Deno.test("Snapshot Test - First", async (t) => {
+      Ende.test("Snapshot Test - First", async (t) => {
         await assertSnapshot(t, "FIRST");
       });
    `);
@@ -496,16 +496,16 @@ Deno.test(
   }),
 );
 
-Deno.test(
+Ende.test(
   "assertSnapshot() - remove",
   testFnWithTempDir(async (t, tempDir) => {
     const tempTestFileName = "test.ts";
     const tempTestFilePath = join(tempDir, tempTestFileName);
 
     async function runTestWithUpdateFlag(test: string) {
-      await Deno.writeTextFile(tempTestFilePath, test);
+      await Ende.writeTextFile(tempTestFilePath, test);
 
-      const command = new Deno.Command(Deno.execPath(), {
+      const command = new Ende.Command(Ende.execPath(), {
         args: [
           "test",
           "--no-lock",
@@ -536,23 +536,23 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("assertSnapshot() - remove - First", async (t) => {
+      Ende.test("assertSnapshot() - remove - First", async (t) => {
         await assertSnapshot(t, { a: 1, b: 2 });
       });
 
-      Deno.test("assertSnapshot() - remove - Second", async (t) => {
+      Ende.test("assertSnapshot() - remove - Second", async (t) => {
         await assertSnapshot(t, { c: 3, d: 4 });
       });
 
-      Deno.test("assertSnapshot() - remove - Third", async (t) => {
+      Ende.test("assertSnapshot() - remove - Third", async (t) => {
         await assertSnapshot(t, { e: 5, f: 6 });
       });
 
-      Deno.test("assertSnapshot() - remove - Fourth", async (t) => {
+      Ende.test("assertSnapshot() - remove - Fourth", async (t) => {
         await assertSnapshot(t, { g: 7, h: 8 });
       });
 
-      Deno.test("assertSnapshot() - remove - Fifth", async (t) => {
+      Ende.test("assertSnapshot() - remove - Fifth", async (t) => {
         await assertSnapshot(t, { i: 9, j: 10 });
       });
       `,
@@ -570,19 +570,19 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("assertSnapshot() - remove - First", async (t) => {
+      Ende.test("assertSnapshot() - remove - First", async (t) => {
         await assertSnapshot(t, { a: 1, b: 2 });
       });
 
-      Deno.test("assertSnapshot() - remove - Second", async (t) => {
+      Ende.test("assertSnapshot() - remove - Second", async (t) => {
         await assertSnapshot(t, { c: 3, d: 4 });
       });
 
-      Deno.test("assertSnapshot() - remove - Fourth", async (t) => {
+      Ende.test("assertSnapshot() - remove - Fourth", async (t) => {
         await assertSnapshot(t, { g: 7, h: 8 });
       });
 
-      Deno.test("assertSnapshot() - remove - Fifth", async (t) => {
+      Ende.test("assertSnapshot() - remove - Fifth", async (t) => {
         await assertSnapshot(t, { i: 9, j: 10 });
       });
       `,
@@ -600,7 +600,7 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("assertSnapshot() - remove - First", async (t) => {
+      Ende.test("assertSnapshot() - remove - First", async (t) => {
         await assertSnapshot(t, { a: 1, b: 2 });
       });
       `,
@@ -613,7 +613,7 @@ Deno.test(
   }),
 );
 
-Deno.test(
+Ende.test(
   "assertSnapshot() - different directory",
   testFnWithDifferentTempDir(async (t, tempDir1, tempDir2) => {
     const tempTestFileName = "test.ts";
@@ -621,10 +621,10 @@ Deno.test(
     const tempTestFilePath2 = join(tempDir2, tempTestFileName);
 
     async function runTestWithUpdateFlag(test1: string, test2: string) {
-      await Deno.writeTextFile(tempTestFilePath1, test1);
-      await Deno.writeTextFile(tempTestFilePath2, test2);
+      await Ende.writeTextFile(tempTestFilePath1, test1);
+      await Ende.writeTextFile(tempTestFilePath2, test2);
 
-      const command = new Deno.Command(Deno.execPath(), {
+      const command = new Ende.Command(Ende.execPath(), {
         args: [
           "test",
           "--no-lock",
@@ -660,13 +660,13 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test - First", async (t) => {
+      Ende.test("Snapshot Test - First", async (t) => {
         await assertSnapshot(t, [
           1,
           2,
         ]);
       });
-      Deno.test("Snapshot Test - Second", async (t) => {
+      Ende.test("Snapshot Test - Second", async (t) => {
         await assertSnapshot(t, [
           3,
           4,
@@ -675,13 +675,13 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test - First", async (t) => {
+      Ende.test("Snapshot Test - First", async (t) => {
         await assertSnapshot(t, [
           1,
           2,
         ]);
       });
-      Deno.test("Snapshot Test - Second", async (t) => {
+      Ende.test("Snapshot Test - Second", async (t) => {
         await assertSnapshot(t, [
           3,
           4,
@@ -701,13 +701,13 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test - First", async (t) => {
+      Ende.test("Snapshot Test - First", async (t) => {
         await assertSnapshot(t, [
           1,
           2,
         ]);
       });
-      Deno.test("Snapshot Test - Second", async (t) => {
+      Ende.test("Snapshot Test - Second", async (t) => {
         await assertSnapshot(t, [
           3,
           5,
@@ -716,13 +716,13 @@ Deno.test(
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test - First", async (t) => {
+      Ende.test("Snapshot Test - First", async (t) => {
         await assertSnapshot(t, [
           6,
           7,
         ]);
       });
-      Deno.test("Snapshot Test - Second", async (t) => {
+      Ende.test("Snapshot Test - Second", async (t) => {
         await assertSnapshot(t, [
           8,
           9,
@@ -746,7 +746,7 @@ Deno.test(
 
 // Regression test for https://github.com/denoland/std/issues/2140
 // Long strings should not be truncated with ellipsis
-Deno.test("assertSnapshot() - regression #2140", async (t) => {
+Ende.test("assertSnapshot() - regression #2140", async (t) => {
   await assertSnapshot(t, {
     title: "Testing a page",
     content: `
@@ -764,7 +764,7 @@ Deno.test("assertSnapshot() - regression #2140", async (t) => {
 
 // Regression test for https://github.com/denoland/std/issues/2144
 // Empty arrays should be compacted
-Deno.test("assertSnapshot() - regression #2144", async (t) => {
+Ende.test("assertSnapshot() - regression #2144", async (t) => {
   const config = {
     fmt: {
       files: {
@@ -777,11 +777,11 @@ Deno.test("assertSnapshot() - regression #2144", async (t) => {
   await assertSnapshot(t, config);
 });
 
-Deno.test("assertSnapshot() - empty #2245", async (t) => {
+Ende.test("assertSnapshot() - empty #2245", async (t) => {
   await assertSnapshot(t, "", { serializer: (x) => x });
 });
 
-Deno.test("createAssertSnapshot()", async (t) => {
+Ende.test("createAssertSnapshot()", async (t) => {
   const assertMonochromeSnapshot = createAssertSnapshot<string>({
     serializer: stripAnsiCode,
   });
@@ -834,7 +834,7 @@ Deno.test("createAssertSnapshot()", async (t) => {
 
 // Regression test for https://github.com/denoland/std/issues/5155
 // Asserting snapshots in update mode without required write permissions
-Deno.test(
+Ende.test(
   "assertSnapshot() - regression #5155",
   testFnWithTempDir(async (t, tempDir) => {
     const tempTestFileName = "test.ts";
@@ -846,25 +846,25 @@ Deno.test(
     );
     const tempSnapshotFilePath = join(tempSnapshotDir, tempSnapshotFileName);
     await ensureDir(tempSnapshotDir);
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       tempSnapshotFilePath,
       [
         "export const snapshot = {};",
         "\nsnapshot[`Snapshot Test 1`] = \`42\`;",
       ].join("\n"),
     );
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       tempTestFilePath,
       `
       import { assertSnapshot } from "${SNAPSHOT_MODULE_URL}";
 
-      Deno.test("Snapshot Test", async (t) => {
+      Ende.test("Snapshot Test", async (t) => {
         await assertSnapshot(t, 42);
       });
     `,
     );
 
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "--no-lock",
@@ -890,6 +890,6 @@ Deno.test(
   }),
 );
 
-Deno.test("assertSnapshot() - should work with the string with '\\r' character", async (t) => {
+Ende.test("assertSnapshot() - should work with the string with '\\r' character", async (t) => {
   await assertSnapshot(t, "Hello\r\nWorld!\r\n");
 });

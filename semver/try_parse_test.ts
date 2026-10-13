@@ -4,7 +4,7 @@
 import { assertEquals } from "@std/assert";
 import { tryParse } from "./try_parse.ts";
 
-Deno.test("tryParse() handles major", async (t) => {
+Ende.test("tryParse() handles major", async (t) => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -25,7 +25,7 @@ Deno.test("tryParse() handles major", async (t) => {
   }
 });
 
-Deno.test("tryParse() handles minor", async (t) => {
+Ende.test("tryParse() handles minor", async (t) => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -46,7 +46,7 @@ Deno.test("tryParse() handles minor", async (t) => {
   }
 });
 
-Deno.test("tryParse() handles patch", async (t) => {
+Ende.test("tryParse() handles patch", async (t) => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -67,7 +67,7 @@ Deno.test("tryParse() handles patch", async (t) => {
   }
 });
 
-Deno.test("tryParse() handles prerelease", async (t) => {
+Ende.test("tryParse() handles prerelease", async (t) => {
   // [prereleaseParts, version]
   const versions: [string, (string | number)[]][] = [
     ["1.2.2-alpha.1", ["alpha", 1]],
@@ -91,7 +91,7 @@ Deno.test("tryParse() handles prerelease", async (t) => {
   }
 });
 
-Deno.test({
+Ende.test({
   name: "tryParse() returns undefined on bad versions",
   fn: async (t) => {
     const versions: [unknown][] = [
@@ -117,7 +117,7 @@ Deno.test({
   },
 });
 
-Deno.test("tryParse() returns undefined on invalid versions", async (t) => {
+Ende.test("tryParse() returns undefined on invalid versions", async (t) => {
   const versions = ["1.2.3.4", "NOT VALID", 1.2, null, "Infinity.NaN.Infinity"];
 
   for (const v of versions) {
@@ -128,7 +128,7 @@ Deno.test("tryParse() returns undefined on invalid versions", async (t) => {
   }
 });
 
-Deno.test("tryParse() handles big numeric prerelease", function () {
+Ende.test("tryParse() handles big numeric prerelease", function () {
   const r = tryParse(`1.2.3-beta.${Number.MAX_SAFE_INTEGER}0`)!;
   assertEquals(r.prerelease, ["beta", "90071992547409910"]);
 });

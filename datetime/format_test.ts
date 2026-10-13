@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { format } from "./format.ts";
 
-Deno.test({
+Ende.test({
   name: "format()",
   fn: () => {
     // 00 hours

@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toMatch()", () => {
+Ende.test("expect().toMatch()", () => {
   expect("hello deno").toMatch(/deno/);
 
   expect("hello deno").not.toMatch(/DENO/);

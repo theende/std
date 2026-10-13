@@ -8,7 +8,7 @@
  * Run using: ende run -A _tools/check_export_names.ts
  */
 
-import denoJson from "../ende.json" with { type: "json" };
+import endeJson from "../ende.json" with { type: "json" };
 import { join, parse } from "@std/path";
 import { toKebabCase } from "@std/text";
 
@@ -91,16 +91,16 @@ function suggestKebabName(name: string): string {
   return toKebabCase(name);
 }
 
-const denoJsonList = Promise.all(
-  denoJson.workspace.map((w) =>
-    Deno.readTextFile(join(w, "ende.json")).then(JSON.parse)
+const endeJsonList = Promise.all(
+  endeJson.workspace.map((w) =>
+    Ende.readTextFile(join(w, "ende.json")).then(JSON.parse)
   ),
 );
 
 let failed = false;
 
-for (const denoJson of await denoJsonList) {
-  const namedExports = Array.from(Object.keys(denoJson.exports))
+for (const endeJson of await endeJsonList) {
+  const namedExports = Array.from(Object.keys(endeJson.exports))
     .filter((name) => name !== ".");
 
   for (const pathName of namedExports) {
@@ -109,7 +109,7 @@ for (const denoJson of await denoJsonList) {
     if (!isExportInKebabCase(name)) {
       console.warn(
         `.${
-          denoJson.name.slice(4)
+          endeJson.name.slice(4)
         }/ende.json: export name is not in kebab case or contains an invalid "ignore" word:\n\tFound export name: "${name}"\n\tSuggested export name: "${
           suggestKebabName(name)
         }"`,
@@ -123,7 +123,7 @@ if (failed) {
   console.warn(
     `NOTE: If part of a name needs to be preserved (not "kebab'd") because it's related to a new encoding (e.g. "base64") or uuid version (e.g. "v1"), that word can be added to the IGNORE_KEBAB_CASE_WORDS array in "_tools/check_export_names.ts".`,
   );
-  Deno.exit(1);
+  Ende.exit(1);
 }
 
 console.log("ok");

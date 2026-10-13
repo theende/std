@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertRejects, assertThrows } from "@std/assert";
 
-Deno.test("expect().resolves.toEqual()", async () => {
+Ende.test("expect().resolves.toEqual()", async () => {
   await expect(Promise.resolve(42)).resolves.toEqual(42);
   await expect(Promise.resolve(42)).resolves.not.toEqual(0);
 
@@ -19,7 +19,7 @@ Deno.test("expect().resolves.toEqual()", async () => {
   );
 });
 
-Deno.test("expect().rejects.toEqual()", async () => {
+Ende.test("expect().rejects.toEqual()", async () => {
   await expect(Promise.reject(42)).rejects.toEqual(42);
   await expect(Promise.reject(42)).rejects.not.toEqual(0);
 
@@ -35,7 +35,7 @@ Deno.test("expect().rejects.toEqual()", async () => {
   );
 });
 
-Deno.test("expect()[nonExistentMatcher]()", () => {
+Ende.test("expect()[nonExistentMatcher]()", () => {
   assertThrows(
     // deno-lint-ignore no-explicit-any
     () => (expect(() => {}) as any)["nonExistentMatcher"](),

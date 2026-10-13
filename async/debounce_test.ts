@@ -2,7 +2,7 @@
 import { assertEquals, assertStrictEquals, assertThrows } from "@std/assert";
 import { debounce, type DebouncedFunction } from "./debounce.ts";
 
-Deno.test("debounce() handles called", () => {
+Ende.test("debounce() handles called", () => {
   let called = 0;
   const d = debounce(() => called++, 100);
   d();
@@ -15,7 +15,7 @@ Deno.test("debounce() handles called", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() handles cancelled", () => {
+Ende.test("debounce() handles cancelled", () => {
   let called = 0;
   const d = debounce(() => called++, 100);
   d();
@@ -28,7 +28,7 @@ Deno.test("debounce() handles cancelled", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() handles flush", () => {
+Ende.test("debounce() handles flush", () => {
   let called = 0;
   const d = debounce(() => called++, 100);
   d();
@@ -41,7 +41,7 @@ Deno.test("debounce() handles flush", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() handles params and context", () => {
+Ende.test("debounce() handles params and context", () => {
   const params: Array<string | number> = [];
   const d: DebouncedFunction<[string, number]> = debounce(
     function (param1: string, param2: number) {
@@ -64,7 +64,7 @@ Deno.test("debounce() handles params and context", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() handles number and string types", () => {
+Ende.test("debounce() handles number and string types", () => {
   const params: Array<string> = [];
   const fn = (param: string) => params.push(param);
   const d: DebouncedFunction<[string]> = debounce(fn, 100);
@@ -78,7 +78,7 @@ Deno.test("debounce() handles number and string types", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() flush is a no-op when nothing is pending", () => {
+Ende.test("debounce() flush is a no-op when nothing is pending", () => {
   let called = 0;
   const d = debounce(() => called++, 100);
   d.flush();
@@ -86,7 +86,7 @@ Deno.test("debounce() flush is a no-op when nothing is pending", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() clear is a no-op when nothing is pending", () => {
+Ende.test("debounce() clear is a no-op when nothing is pending", () => {
   let called = 0;
   const d = debounce(() => called++, 100);
   d.clear();
@@ -94,7 +94,7 @@ Deno.test("debounce() clear is a no-op when nothing is pending", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() double flush only calls fn once", () => {
+Ende.test("debounce() double flush only calls fn once", () => {
   let called = 0;
   const d = debounce(() => called++, 100);
   d();
@@ -104,7 +104,7 @@ Deno.test("debounce() double flush only calls fn once", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() throws on invalid wait values", () => {
+Ende.test("debounce() throws on invalid wait values", () => {
   const fn = () => {};
   for (const wait of [0.5, -1, NaN, Infinity]) {
     assertThrows(
@@ -115,7 +115,7 @@ Deno.test("debounce() throws on invalid wait values", () => {
   }
 });
 
-Deno.test("debounce() re-invocation after flush re-schedules", () => {
+Ende.test("debounce() re-invocation after flush re-schedules", () => {
   let called = 0;
   const d = debounce(() => called++, 50);
   d();
@@ -129,7 +129,7 @@ Deno.test("debounce() re-invocation after flush re-schedules", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() abort signal clears pending call", () => {
+Ende.test("debounce() abort signal clears pending call", () => {
   let called = 0;
   const controller = new AbortController();
   const d = debounce(() => called++, 100, { signal: controller.signal });
@@ -140,7 +140,7 @@ Deno.test("debounce() abort signal clears pending call", () => {
   assertEquals(d.pending, false);
 });
 
-Deno.test("debounce() abort signal after flush does not interfere", () => {
+Ende.test("debounce() abort signal after flush does not interfere", () => {
   let called = 0;
   const controller = new AbortController();
   const d = debounce(() => called++, 100, { signal: controller.signal });
@@ -151,7 +151,7 @@ Deno.test("debounce() abort signal after flush does not interfere", () => {
   assertEquals(called, 1);
 });
 
-Deno.test("debounce() throws if signal is already aborted", () => {
+Ende.test("debounce() throws if signal is already aborted", () => {
   assertThrows(
     () => debounce(() => {}, 100, { signal: AbortSignal.abort() }),
     DOMException,

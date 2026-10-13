@@ -10,24 +10,24 @@ import {
   Base64EncoderStream,
 } from "./unstable_base64_stream.ts";
 
-Deno.test("Base64EncoderStream() with normal format", async () => {
+Ende.test("Base64EncoderStream() with normal format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Deno.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.lock"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "string" }));
 
     assertEquals(
       await toText(readable),
-      encodeBase64(await Deno.readFile("./ende.lock"), { alphabet }),
+      encodeBase64(await Ende.readFile("./ende.lock"), { alphabet }),
       alphabet,
     );
   }
 });
 
-Deno.test("Base64EncoderStream() with raw format", async () => {
+Ende.test("Base64EncoderStream() with raw format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Deno.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.lock"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "bytes" }));
@@ -36,7 +36,7 @@ Deno.test("Base64EncoderStream() with raw format", async () => {
       await toBytes(readable),
       new TextEncoder().encode(
         encodeBase64(
-          await Deno.readFile("./ende.lock"),
+          await Ende.readFile("./ende.lock"),
           { alphabet },
         ),
       ),
@@ -45,9 +45,9 @@ Deno.test("Base64EncoderStream() with raw format", async () => {
   }
 });
 
-Deno.test("Base64DecoderStream() with normal format", async () => {
+Ende.test("Base64DecoderStream() with normal format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Deno.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.lock"))
       .readable
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "string" }))
       .pipeThrough(new TextEncoderStream())
@@ -57,14 +57,14 @@ Deno.test("Base64DecoderStream() with normal format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Deno.readFile("./ende.lock"),
+      await Ende.readFile("./ende.lock"),
     );
   }
 });
 
-Deno.test("Base64DecoderStream() with raw format", async () => {
+Ende.test("Base64DecoderStream() with raw format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Deno.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.lock"))
       .readable
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "bytes" }))
       .pipeThrough(new FixedChunkStream(1021))
@@ -72,7 +72,7 @@ Deno.test("Base64DecoderStream() with raw format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Deno.readFile("./ende.lock"),
+      await Ende.readFile("./ende.lock"),
     );
   }
 });

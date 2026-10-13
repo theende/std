@@ -36,7 +36,7 @@ const posixTests =
     [["/foo/tmp.3/", "../tmp.3/cycles/root.js"], "/foo/tmp.3/cycles/root.js"],
   ];
 
-Deno.test("posix.resolve()", function () {
+Ende.test("posix.resolve()", function () {
   posixTests.forEach(function (p) {
     const _p = p[0] as string[];
     const actual = posix.resolve.apply(null, _p);
@@ -44,7 +44,7 @@ Deno.test("posix.resolve()", function () {
   });
 });
 
-Deno.test("windows.resolve()", function () {
+Ende.test("windows.resolve()", function () {
   windowsTests.forEach(function (p) {
     const _p = p[0] as string[];
     const actual = windows.resolve.apply(null, _p);
@@ -52,7 +52,7 @@ Deno.test("windows.resolve()", function () {
   });
 });
 
-Deno.test("resolve() returns current working directory if input is empty", function () {
+Ende.test("resolve() returns current working directory if input is empty", function () {
   const pwd = process.cwd();
   assertEquals(resolve(""), pwd);
   assertEquals(resolve("", ""), pwd);

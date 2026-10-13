@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-// @ts-nocheck Deno.lint namespace does not pass type checking in Deno 1.x
+// @ts-nocheck Ende.lint namespace does not pass type checking in Deno 1.x
 
 import type { SnapshotOptions } from "./snapshot.ts";
 import { AssertionError } from "@std/assert/assertion-error";
@@ -48,7 +48,7 @@ interface CallSite {
 
 function makeSnapshotUpdater(
   updateRequests: SnapshotUpdateRequest[],
-): Deno.lint.Plugin {
+): Ende.lint.Plugin {
   return {
     name: "snapshot-updater-plugin",
     rules: {
@@ -70,7 +70,7 @@ function makeSnapshotUpdater(
 
           return {
             // Fetching all functions lets us support createAssertInlineSnapshot
-            "CallExpression"(node: Deno.lint.CallExpression) {
+            "CallExpression"(node: Ende.lint.CallExpression) {
               const snapshot = locationToSnapshot[node.range[0]];
               const argument = node.arguments[1];
               if (snapshot === undefined || argument === undefined) return;
@@ -97,7 +97,7 @@ function updateSnapshots() {
 
   if (!LINT_SUPPORTED) {
     throw new Error(
-      "Deno versions before 2.2.0 do not support Deno.lint, which is required to update inline snapshots",
+      "Deno versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
     );
   }
 
@@ -106,8 +106,8 @@ function updateSnapshots() {
   for (const [path, updateRequests] of pathsToUpdate) {
     const snapshotsUpdated = updateRequests.length;
 
-    const file = Deno.readTextFileSync(path);
-    const pluginRunResults = Deno.lint.runPlugin(
+    const file = Ende.readTextFileSync(path);
+    const pluginRunResults = Ende.lint.runPlugin(
       makeSnapshotUpdater(updateRequests),
       "dummy.ts",
       file,
@@ -133,12 +133,12 @@ function updateSnapshots() {
     }
     output += file.slice(lastIndex);
 
-    Deno.writeTextFileSync(path, output);
+    Ende.writeTextFileSync(path, output);
   }
 
-  const shouldFormat = !Deno.args.some((arg) => arg === "--no-format");
+  const shouldFormat = !Ende.args.some((arg) => arg === "--no-format");
   if (shouldFormat) {
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: ["fmt", ...pathsToUpdate.keys()],
     });
     const { stderr, success } = command.outputSync();
@@ -175,7 +175,7 @@ globalThis.addEventListener("unload", () => {
  * ```ts no-assert
  * import { assertInlineSnapshot } from "@std/testing/unstable-snapshot";
  *
- * Deno.test("snapshot", () => {
+ * Ende.test("snapshot", () => {
  *   assertInlineSnapshot<number>(2, `2`);
  * });
  * ```
@@ -201,7 +201,7 @@ export function assertInlineSnapshot<T>(
  * ```ts no-assert
  * import { assertInlineSnapshot } from "@std/testing/unstable-snapshot";
  *
- * Deno.test("snapshot", () => {
+ * Ende.test("snapshot", () => {
  *   assertInlineSnapshot<number>(2, `2`);
  * });
  * ```
@@ -286,7 +286,7 @@ export function assertInlineSnapshot(
  *   serializer: JSON.stringify,
  * });
  *
- * Deno.test("a snapshot test case", () => {
+ * Ende.test("a snapshot test case", () => {
  *   assertInlineSnapshot(
  *     { foo: "Hello", bar: undefined },
  *     `{"foo":"Hello"}`

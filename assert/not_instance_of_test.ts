@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { AssertionError, assertNotInstanceOf, assertThrows } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "assertNotInstanceOf()",
   fn() {
     assertNotInstanceOf("not a number", Number);
@@ -10,7 +10,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertNotInstanceOf() accepts abstract class",
   fn() {
     abstract class AbstractClass {}
@@ -19,7 +19,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertNotInstanceOf() throws",
   fn() {
     assertThrows(
@@ -30,7 +30,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertNotInstanceOf() throws with custom message",
   fn() {
     assertThrows(

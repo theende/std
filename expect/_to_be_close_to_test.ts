@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeCloseTo()", () => {
+Ende.test("expect().toBeCloseTo()", () => {
   expect(0.2 + 0.1).toBeCloseTo(0.3);
   expect(0.2 + 0.1).toBeCloseTo(0.3, 5);
   expect(0.2 + 0.1).toBeCloseTo(0.3, 15);
@@ -20,7 +20,7 @@ Deno.test("expect().toBeCloseTo()", () => {
   });
 });
 
-Deno.test("expect().toBeCloseTo() throws error when the numDigits is smaller than 0", () => {
+Ende.test("expect().toBeCloseTo() throws error when the numDigits is smaller than 0", () => {
   assertThrows(
     () => expect(0.2 + 0.1).toBeCloseTo(0.3, -1),
     Error,
@@ -28,7 +28,7 @@ Deno.test("expect().toBeCloseTo() throws error when the numDigits is smaller tha
   );
 });
 
-Deno.test("expect().toBeCloseTo() throws custom message", () => {
+Ende.test("expect().toBeCloseTo() throws custom message", () => {
   const msg = "toBeCloseTo Custom Error";
 
   expect(() => expect(0.2 + 0.11, msg).toBeCloseTo(0.3)).toThrow(
@@ -40,7 +40,7 @@ Deno.test("expect().toBeCloseTo() throws custom message", () => {
   );
 });
 
-Deno.test("expect().toBeCloseTo() throws error messages which include expected and actual values", () => {
+Ende.test("expect().toBeCloseTo() throws error messages which include expected and actual values", () => {
   assertThrows(
     () => {
       expect(0.2 + 0.11).toBeCloseTo(0.3);

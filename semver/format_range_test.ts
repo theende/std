@@ -4,7 +4,7 @@ import { assertEquals } from "@std/assert";
 import { formatRange } from "./format_range.ts";
 import { parseRange } from "./parse_range.ts";
 
-Deno.test({
+Ende.test({
   name: "formatRange()",
   fn: async (t) => {
     const versions: [string, string][] = [

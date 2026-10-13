@@ -8,7 +8,7 @@ import {
   assertThrows,
 } from "@std/assert";
 
-Deno.test("randomIntegerBetween() generates a random integer between the provided minimum and maximum values", () => {
+Ende.test("randomIntegerBetween() generates a random integer between the provided minimum and maximum values", () => {
   const prng = randomSeeded(0n);
 
   const results = Array.from(
@@ -27,7 +27,7 @@ Deno.test("randomIntegerBetween() generates a random integer between the provide
   assertAlmostEquals(avg, 5.5, 0.1);
 });
 
-Deno.test("randomIntegerBetween() throws if min or max are NaN", () => {
+Ende.test("randomIntegerBetween() throws if min or max are NaN", () => {
   assertThrows(
     () => randomIntegerBetween(NaN, 1),
     RangeError,
@@ -40,7 +40,7 @@ Deno.test("randomIntegerBetween() throws if min or max are NaN", () => {
   );
 });
 
-Deno.test("randomIntegerBetween() throws if min or max are +/-Infinity", () => {
+Ende.test("randomIntegerBetween() throws if min or max are +/-Infinity", () => {
   assertThrows(
     () => randomIntegerBetween(-Infinity, 1),
     RangeError,
@@ -53,7 +53,7 @@ Deno.test("randomIntegerBetween() throws if min or max are +/-Infinity", () => {
   );
 });
 
-Deno.test("randomIntegerBetween() throws if max is less than min", () => {
+Ende.test("randomIntegerBetween() throws if max is less than min", () => {
   assertThrows(
     () => randomIntegerBetween(10, 1),
     RangeError,
@@ -61,7 +61,7 @@ Deno.test("randomIntegerBetween() throws if max is less than min", () => {
   );
 });
 
-Deno.test("randomIntegerBetween() allows negative min and max", () => {
+Ende.test("randomIntegerBetween() allows negative min and max", () => {
   const prng = randomSeeded(1n);
   const results = Array.from(
     { length: 3 },
@@ -71,7 +71,7 @@ Deno.test("randomIntegerBetween() allows negative min and max", () => {
   assertEquals(results, [-8, -6, -3]);
 });
 
-Deno.test(
+Ende.test(
   "randomIntegerBetween() returns evenly-distributed values in [ceil(min), floor(max)] for non-integer min and max",
   () => {
     const prng = randomSeeded(1n);
@@ -88,7 +88,7 @@ Deno.test(
   },
 );
 
-Deno.test("randomIntegerBetween() allows min and max to be the same, in which case it returns constant values", () => {
+Ende.test("randomIntegerBetween() allows min and max to be the same, in which case it returns constant values", () => {
   const results = Array.from({ length: 3 }, () => randomIntegerBetween(99, 99));
   assertEquals(results, [99, 99, 99]);
 });

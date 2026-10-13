@@ -8,7 +8,7 @@ import {
   assertThrows,
   unreachable,
 } from "@std/assert";
-import { isDeno } from "./_utils.ts";
+import { isEnde } from "./_utils.ts";
 import {
   writeTextFile,
   writeTextFileSync,
@@ -38,7 +38,7 @@ function pathExists(path: string | URL): boolean {
   }
 }
 
-Deno.test("writeTextFile() succeeds in writing to a file", async () => {
+Ende.test("writeTextFile() succeeds in writing to a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -49,7 +49,7 @@ Deno.test("writeTextFile() succeeds in writing to a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFile() writes with a ReadableStream object", async () => {
+Ende.test("writeTextFile() writes with a ReadableStream object", async () => {
   const readStream = new ReadableStream({
     pull(controller) {
       controller.enqueue("Hello");
@@ -69,7 +69,7 @@ Deno.test("writeTextFile() writes with a ReadableStream object", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFile() handles 'append' to a file", async () => {
+Ende.test("writeTextFile() handles 'append' to a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -89,7 +89,7 @@ Deno.test("writeTextFile() handles 'append' to a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFile() handles 'create' for a file", async () => {
+Ende.test("writeTextFile() handles 'create' for a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -104,7 +104,7 @@ Deno.test("writeTextFile() handles 'create' for a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFile() handles 'createNew' for a file", async () => {
+Ende.test("writeTextFile() handles 'createNew' for a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -119,7 +119,7 @@ Deno.test("writeTextFile() handles 'createNew' for a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test({
+Ende.test({
   name: "writeTextFile() can change the mode of a file",
   ignore: platform() === "win32",
   fn: async () => {
@@ -140,7 +140,7 @@ Deno.test({
   },
 });
 
-Deno.test("writeTextFile() handles an AbortSignal", async () => {
+Ende.test("writeTextFile() handles an AbortSignal", async () => {
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const ac = new AbortController();
@@ -154,7 +154,7 @@ Deno.test("writeTextFile() handles an AbortSignal", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test(
+Ende.test(
   "writeTextFile() handles an AbortSignal with a reason",
   { ignore: isBun },
   async () => {
@@ -169,7 +169,7 @@ Deno.test(
       await writeTextFile(testFile, "Hello", { signal: ac.signal });
     }, Error);
 
-    if (isDeno) {
+    if (isEnde) {
       assertEquals(error, ac.signal.reason);
     } else {
       assertEquals(error.cause, ac.signal.reason);
@@ -179,7 +179,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "writeTextFile() handles an AbortSignal with a primitive reason",
   { ignore: isBun },
   async () => {
@@ -193,7 +193,7 @@ Deno.test(
     try {
       await writeTextFile(testFile, "Hello", { signal: ac.signal });
     } catch (error) {
-      if (isDeno) {
+      if (isEnde) {
         assertEquals(error, ac.signal.reason);
       } else {
         const errorValue = error as Error;
@@ -205,7 +205,7 @@ Deno.test(
   },
 );
 
-Deno.test("writeTextFile() writes to a file successfully with an attached AbortSignal", async () => {
+Ende.test("writeTextFile() writes to a file successfully with an attached AbortSignal", async () => {
   const ac = new AbortController();
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testFile = join(tempDirPath, "testFile.txt");
@@ -215,7 +215,7 @@ Deno.test("writeTextFile() writes to a file successfully with an attached AbortS
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFile() handles an AbortSignal invoked prior to writing the file", async () => {
+Ende.test("writeTextFile() handles an AbortSignal invoked prior to writing the file", async () => {
   const ac = new AbortController();
   ac.abort();
 
@@ -233,7 +233,7 @@ Deno.test("writeTextFile() handles an AbortSignal invoked prior to writing the f
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFile() rejects with a NotFound when writing to a nonexistent path", async () => {
+Ende.test("writeTextFile() rejects with a NotFound when writing to a nonexistent path", async () => {
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
   const testPath = join(tempDirPath, "dir/testFile.txt");
 
@@ -244,7 +244,7 @@ Deno.test("writeTextFile() rejects with a NotFound when writing to a nonexistent
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFileSync() succeeds in writing to a file", () => {
+Ende.test("writeTextFileSync() succeeds in writing to a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "writeTextFileSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -255,7 +255,7 @@ Deno.test("writeTextFileSync() succeeds in writing to a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test({
+Ende.test({
   name: "writeTextFileSync() can change the mode of a file",
   ignore: platform() === "win32",
   fn: () => {
@@ -276,7 +276,7 @@ Deno.test({
   },
 });
 
-Deno.test("writeTextFileSync() handles 'append' to a file", () => {
+Ende.test("writeTextFileSync() handles 'append' to a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "writeTextFileSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -296,7 +296,7 @@ Deno.test("writeTextFileSync() handles 'append' to a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFileSync() handles 'create' for a file", () => {
+Ende.test("writeTextFileSync() handles 'create' for a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "writeTextFileSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -311,7 +311,7 @@ Deno.test("writeTextFileSync() handles 'create' for a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFileSync() handles 'createNew' for a file", () => {
+Ende.test("writeTextFileSync() handles 'createNew' for a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "writeTextFileSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -326,7 +326,7 @@ Deno.test("writeTextFileSync() handles 'createNew' for a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("writeTextFileSync() throws with a NotFound when writing to a nonexistent path", () => {
+Ende.test("writeTextFileSync() throws with a NotFound when writing to a nonexistent path", () => {
   const tempDirPath = makeTempDirSync({ prefix: "writeTextFileSync_" });
   const testPath = join(tempDirPath, "dir/testFile.txt");
 

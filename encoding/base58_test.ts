@@ -39,32 +39,32 @@ const testSetBinary = testSetString.map(([data, b58]) => {
   return [data, b58];
 }) as Array<[Uint8Array, string]>;
 
-Deno.test("encodeBase58() encodes string", () => {
+Ende.test("encodeBase58() encodes string", () => {
   for (const [input, output] of testSetString) {
     assertEquals(encodeBase58(input), output);
   }
 });
 
-Deno.test("encodeBase58() encodes binary", () => {
+Ende.test("encodeBase58() encodes binary", () => {
   for (const [input, output] of testSetBinary) {
     assertEquals(encodeBase58(input), output);
   }
 });
 
-Deno.test("encodeBase58() encodes binary buffer", () => {
+Ende.test("encodeBase58() encodes binary buffer", () => {
   for (const [input, output] of testSetBinary) {
     assertEquals(encodeBase58(input.buffer as ArrayBuffer), output);
   }
 });
 
-Deno.test("decodeBase58() decodes binary", () => {
+Ende.test("decodeBase58() decodes binary", () => {
   for (const [input, output] of testSetBinary) {
     const outputBinary = decodeBase58(output);
     assertEquals(outputBinary, input);
   }
 });
 
-Deno.test("decodeBase58() throws on invalid input", () => {
+Ende.test("decodeBase58() throws on invalid input", () => {
   assertThrows(
     () => decodeBase58("+2NEpo7TZRRrLZSi2U"),
     TypeError,

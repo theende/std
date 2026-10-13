@@ -13,7 +13,7 @@ interface LooseSemVer {
   build?: string[] | undefined;
 }
 
-Deno.test("increment()", async (t) => {
+Ende.test("increment()", async (t) => {
   const versions: [
     version: LooseSemVer,
     op: ReleaseType,
@@ -1037,7 +1037,7 @@ Deno.test("increment()", async (t) => {
   }
 });
 
-Deno.test("increment() throws on invalid input", () => {
+Ende.test("increment() throws on invalid input", () => {
   assertThrows(() =>
     increment({ major: 1, minor: 2, patch: 3 }, "invalid" as ReleaseType)
   );

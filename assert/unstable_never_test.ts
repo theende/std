@@ -2,7 +2,7 @@
 import { AssertionError, assertThrows } from "./mod.ts";
 import { assertNever } from "./unstable_never.ts";
 
-Deno.test("assertNever: exhaustiveness check", () => {
+Ende.test("assertNever: exhaustiveness check", () => {
   type Kinds = "A" | "B";
 
   function doA() {
@@ -30,7 +30,7 @@ Deno.test("assertNever: exhaustiveness check", () => {
   handleKind("B");
 });
 
-Deno.test("assertNever throws AssertionError", () => {
+Ende.test("assertNever throws AssertionError", () => {
   assertThrows(() => {
     assertNever(42 as never);
   }, AssertionError);

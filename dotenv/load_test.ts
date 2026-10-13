@@ -5,10 +5,10 @@ import * as path from "@std/path";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Deno.test({
+Ende.test({
   name: "load()",
   async fn() {
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: [
         "run",
         "--allow-read",
@@ -29,10 +29,10 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "load() works as expected when the multiple files are imported",
   async fn() {
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: [
         "run",
         "--no-lock",

@@ -4,7 +4,7 @@ import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toHaveBeenNthCalledWith()", () => {
+Ende.test("expect().toHaveBeenNthCalledWith()", () => {
   const mockFn = fn();
 
   mockFn(1, 2, 3);
@@ -28,7 +28,7 @@ Deno.test("expect().toHaveBeenNthCalledWith()", () => {
   });
 });
 
-Deno.test("expect().toHaveBeenNthCalledWith() should throw when mock call does not exist", () => {
+Ende.test("expect().toHaveBeenNthCalledWith() should throw when mock call does not exist", () => {
   const mockFn = fn();
 
   mockFn("hello");
@@ -43,7 +43,7 @@ Deno.test("expect().toHaveBeenNthCalledWith() should throw when mock call does n
   );
 });
 
-Deno.test("expect().toHaveBeenNthCalledWith() throw when n is not a positive integer", () => {
+Ende.test("expect().toHaveBeenNthCalledWith() throw when n is not a positive integer", () => {
   const mockFn = fn();
 
   assertThrows(
@@ -55,7 +55,7 @@ Deno.test("expect().toHaveBeenNthCalledWith() throw when n is not a positive int
   );
 });
 
-Deno.test("expect().toHaveBeenNthCalledWith() with custom error message", () => {
+Ende.test("expect().toHaveBeenNthCalledWith() with custom error message", () => {
   const msg = "toHaveBeenNthCalledWith custom error message";
   const mockFn = fn();
 

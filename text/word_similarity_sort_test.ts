@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { wordSimilaritySort } from "./word_similarity_sort.ts";
 
-Deno.test("wordSimilaritySort() handles basic example", () => {
+Ende.test("wordSimilaritySort() handles basic example", () => {
   const possibleWords = ["length", "size", "blah", "help"];
   const givenWord = "hep";
   assertEquals(
@@ -11,7 +11,7 @@ Deno.test("wordSimilaritySort() handles basic example", () => {
   );
 });
 
-Deno.test("wordSimilaritySort() with case-sensitive sorting", () => {
+Ende.test("wordSimilaritySort() with case-sensitive sorting", () => {
   const possibleWords = ["length", "Size", "blah", "HELP"];
   const givenWord = "hep";
   assertEquals(
@@ -20,7 +20,7 @@ Deno.test("wordSimilaritySort() with case-sensitive sorting", () => {
   );
 });
 
-Deno.test("wordSimilaritySort() handles empty string", () => {
+Ende.test("wordSimilaritySort() handles empty string", () => {
   const possibleWords = ["length", "size", "blah", "help", ""];
   const givenWord = "";
 
@@ -30,7 +30,7 @@ Deno.test("wordSimilaritySort() handles empty string", () => {
   );
 });
 
-Deno.test("wordSimilaritySort() handles empty array", function () {
+Ende.test("wordSimilaritySort() handles empty array", function () {
   const possibleWords: string[] = [];
   const givenWord = "";
 

@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { encodeWhitespace } from "./to_file_url.ts";
 
-Deno.test("encodeWhitespace()", () => {
+Ende.test("encodeWhitespace()", () => {
   assertEquals(encodeWhitespace("foo"), "foo");
   assertEquals(encodeWhitespace("foo\tbar"), "foo%09bar");
   assertEquals(encodeWhitespace("foo\nbar"), "foo%0Abar");

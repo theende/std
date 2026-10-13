@@ -5,7 +5,7 @@
 import { assert, assertFalse, assertThrows } from "@std/assert";
 import { equal } from "./_equal.ts";
 
-Deno.test("equal() matches with different zero", () => {
+Ende.test("equal() matches with different zero", () => {
   assert(equal(0, -0));
   assert(equal(0, +0));
   assert(equal(+0, -0));
@@ -17,7 +17,7 @@ Deno.test("equal() matches with different zero", () => {
   assert(equal({ msg: "hello", array: [0] }, { msg: "hello", array: [-0] }));
 });
 
-Deno.test("equal() matches when values are equal", function () {
+Ende.test("equal() matches when values are equal", function () {
   assert(equal("world", "world"));
   assert(!equal("hello", "world"));
   assertFalse(equal("hello", "world"));
@@ -235,7 +235,7 @@ Deno.test("equal() matches when values are equal", function () {
   );
 });
 
-Deno.test("equal() does not match with different instances", () => {
+Ende.test("equal() does not match with different instances", () => {
   assert(!equal({}, []));
   assert(!equal(/foo/, new Set()));
   assert(!equal(new Set(), new Map()));
@@ -243,13 +243,13 @@ Deno.test("equal() does not match with different instances", () => {
   assert(!equal(2, null));
 });
 
-Deno.test("equal() does not match with different collection contents", () => {
+Ende.test("equal() does not match with different collection contents", () => {
   assert(!equal(new Set([1]), new Set([2])));
   assert(!equal(new Map([[1, 2]]), new Map([[2, 1]])));
   assert(equal(new Map([[1, 2]]), new Map([[1, 2]])));
 });
 
-Deno.test("equal() matches when values have circular references", () => {
+Ende.test("equal() matches when values have circular references", () => {
   const objA: { prop?: unknown } = {};
   objA.prop = objA;
   const objB: { prop?: unknown } = {};
@@ -263,7 +263,7 @@ Deno.test("equal() matches when values have circular references", () => {
   assert(equal(mapA, mapB));
 });
 
-Deno.test("equal() fast path for primitive keyed collections", () => {
+Ende.test("equal() fast path for primitive keyed collections", () => {
   const arr = Array.from({ length: 10_000 }, (_, i) => i);
 
   const set1 = new Set(arr);
@@ -291,7 +291,7 @@ Deno.test("equal() fast path for primitive keyed collections", () => {
   assertFalse(equal(map5, map6));
 });
 
-Deno.test("equal() keyed collection edge cases", () => {
+Ende.test("equal() keyed collection edge cases", () => {
   assert(equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 2 }])));
   assertFalse(
     equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 3 }])),

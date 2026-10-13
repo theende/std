@@ -15,7 +15,7 @@ const testdataDir = resolve(moduleDir, "testdata");
 const readTestFile = join(testdataDir, "copy_file.txt");
 const isBun = navigator.userAgent.includes("Bun/");
 
-Deno.test("FsFile object writes to a newly created file", async () => {
+Ende.test("FsFile object writes to a newly created file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "FsFile_write_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const fh = await open(testFile, { create: true, write: true });
@@ -29,7 +29,7 @@ Deno.test("FsFile object writes to a newly created file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object reads from an existing file", async () => {
+Ende.test("FsFile object reads from an existing file", async () => {
   const fh = await open(readTestFile);
 
   const buf = new Uint8Array(3);
@@ -43,7 +43,7 @@ Deno.test("FsFile object reads from an existing file", async () => {
   fh.close();
 });
 
-Deno.test("FsFile object rejects with Error when reading from a directory", async () => {
+Ende.test("FsFile object rejects with Error when reading from a directory", async () => {
   const fh = await open(".");
 
   let readBytes;
@@ -56,7 +56,7 @@ Deno.test("FsFile object rejects with Error when reading from a directory", asyn
   fh.close();
 });
 
-Deno.test("FsFile object truncates a file to zero", async () => {
+Ende.test("FsFile object truncates a file to zero", async () => {
   const tempDirPath = await makeTempDir({ prefix: "FsFile_truncate_" });
   const testFile = join(tempDirPath, "testFile.txt");
   let fh = await open(testFile, { read: true, create: true, write: true });
@@ -79,7 +79,7 @@ Deno.test("FsFile object truncates a file to zero", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object truncates the file to multiple sizes", async () => {
+Ende.test("FsFile object truncates the file to multiple sizes", async () => {
   const tempDirPath = await makeTempDir({ prefix: "FsFile_truncate_" });
   const testFile = join(tempDirPath, "testFile.txt");
   let fh = await open(testFile, { read: true, create: true, write: true });
@@ -118,7 +118,7 @@ Deno.test("FsFile object truncates the file to multiple sizes", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object returns the 'stat' of the file handle", async () => {
+Ende.test("FsFile object returns the 'stat' of the file handle", async () => {
   const fh = await open(readTestFile);
 
   const fhStat = await fh.stat();
@@ -127,7 +127,7 @@ Deno.test("FsFile object returns the 'stat' of the file handle", async () => {
   fh.close();
 });
 
-Deno.test(
+Ende.test(
   "FsFile object handles a ReadableStream",
   { ignore: isBun },
   async () => {
@@ -144,7 +144,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FsFile object handles a WritableStream",
   { ignore: isBun },
   async () => {
@@ -169,7 +169,7 @@ Deno.test(
   },
 );
 
-Deno.test("FsFile object changes access and modification times with utime", async () => {
+Ende.test("FsFile object changes access and modification times with utime", async () => {
   const tempFile = await makeTempFile({ prefix: "FsFile_utime_" });
   const timeNow = new Date();
   const fh = await open(tempFile, { write: true });
@@ -186,7 +186,7 @@ Deno.test("FsFile object changes access and modification times with utime", asyn
   await remove(tempFile);
 });
 
-Deno.test("FsFile object flushes data to disk with 'dataSync'", async () => {
+Ende.test("FsFile object flushes data to disk with 'dataSync'", async () => {
   const tempDirPath = await makeTempDir({ prefix: "FsFile_syncData_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const fh = await open(testFile, { write: true, create: true });
@@ -200,7 +200,7 @@ Deno.test("FsFile object flushes data to disk with 'dataSync'", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object flushes data and file attributes to disk with 'sync'", async () => {
+Ende.test("FsFile object flushes data and file attributes to disk with 'sync'", async () => {
   const tempDirPath = await makeTempDir({ prefix: "FsFile_sync_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const fh = await open(testFile, { read: true, create: true, write: true });
@@ -213,7 +213,7 @@ Deno.test("FsFile object flushes data and file attributes to disk with 'sync'", 
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object synchronously writes to a newly created file", () => {
+Ende.test("FsFile object synchronously writes to a newly created file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "FsFile_writeSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const fh = openSync(testFile, { create: true, write: true });
@@ -227,7 +227,7 @@ Deno.test("FsFile object synchronously writes to a newly created file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object synchronously reads from an existing file", () => {
+Ende.test("FsFile object synchronously reads from an existing file", () => {
   const fh = openSync(readTestFile);
 
   const buf = new Uint8Array(3);
@@ -241,7 +241,7 @@ Deno.test("FsFile object synchronously reads from an existing file", () => {
   fh.close();
 });
 
-Deno.test(
+Ende.test(
   "FsFile object synchronously truncates a file to zero",
   { ignore: isBun },
   () => {
@@ -268,7 +268,7 @@ Deno.test(
   },
 );
 
-Deno.test("FsFile object synchronously truncates files to multiple sizes", () => {
+Ende.test("FsFile object synchronously truncates files to multiple sizes", () => {
   const tempDirPath = makeTempDirSync({ prefix: "FsFile_truncateSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
   let fh = openSync(testFile, { read: true, write: true, create: true });
@@ -307,7 +307,7 @@ Deno.test("FsFile object synchronously truncates files to multiple sizes", () =>
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object synchronously returns the 'stat' of the file handle", () => {
+Ende.test("FsFile object synchronously returns the 'stat' of the file handle", () => {
   const fh = openSync(readTestFile);
 
   const fhStat = fh.statSync();
@@ -316,7 +316,7 @@ Deno.test("FsFile object synchronously returns the 'stat' of the file handle", (
   fh.close();
 });
 
-Deno.test("FsFile object synchronously changes the access and modification times of a file", () => {
+Ende.test("FsFile object synchronously changes the access and modification times of a file", () => {
   const tempFile = makeTempFileSync({ prefix: "FsFile_utimeSync_" });
   const timeNow = new Date();
   const fh = openSync(tempFile, { write: true });
@@ -332,7 +332,7 @@ Deno.test("FsFile object synchronously changes the access and modification times
   removeSync(tempFile);
 });
 
-Deno.test("FsFile object synchronously flushes data to disk with 'syncDataSync'", () => {
+Ende.test("FsFile object synchronously flushes data to disk with 'syncDataSync'", () => {
   const tempDirPath = makeTempDirSync({ prefix: "FsFile_syncDataSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const fh = openSync(testFile, { create: true, write: true });
@@ -346,7 +346,7 @@ Deno.test("FsFile object synchronously flushes data to disk with 'syncDataSync'"
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object synchronously flushes data and file attributes to disk with 'syncSync'", () => {
+Ende.test("FsFile object synchronously flushes data and file attributes to disk with 'syncSync'", () => {
   const tempDirPath = makeTempDirSync({ prefix: "FsFile_syncSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const fh = openSync(testFile, { read: true, create: true, write: true });
@@ -359,7 +359,7 @@ Deno.test("FsFile object synchronously flushes data and file attributes to disk 
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("FsFile object throws with Error when synchronously reading from a directory", () => {
+Ende.test("FsFile object throws with Error when synchronously reading from a directory", () => {
   const fh = openSync(".");
 
   let readBytes;
@@ -372,7 +372,7 @@ Deno.test("FsFile object throws with Error when synchronously reading from a dir
   fh.close();
 });
 
-Deno.test("FsFile object can determine if the file handle is a TTY (Terminal)", async () => {
+Ende.test("FsFile object can determine if the file handle is a TTY (Terminal)", async () => {
   {
     const fh = await open(readTestFile);
     assert(!fh.isTerminal());

@@ -6,7 +6,7 @@ import { NotFound } from "./unstable_errors.js";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
 
-Deno.test("makeTempFile() creates temporary files in the default temp directory path", async () => {
+Ende.test("makeTempFile() creates temporary files in the default temp directory path", async () => {
   const tempFile1 = await makeTempFile({
     prefix: "standard",
     suffix: "library",
@@ -30,7 +30,7 @@ Deno.test("makeTempFile() creates temporary files in the default temp directory 
   }
 });
 
-Deno.test("makeTempFile() creates temporary files in the 'dir' option", async () => {
+Ende.test("makeTempFile() creates temporary files in the 'dir' option", async () => {
   const tempDirPath = await makeTempDir({ prefix: "makeTempFile_" });
   const tempFile = await makeTempFile({ dir: tempDirPath });
 
@@ -42,13 +42,13 @@ Deno.test("makeTempFile() creates temporary files in the 'dir' option", async ()
   }
 });
 
-Deno.test("makeTempFile() rejects with NotFound when passing a 'dir' path that does not exist", async () => {
+Ende.test("makeTempFile() rejects with NotFound when passing a 'dir' path that does not exist", async () => {
   await assertRejects(async () => {
     await makeTempFile({ dir: "/non-existent-dir" });
   }, NotFound);
 });
 
-Deno.test("makeTempFileSync() creates temporary files in the default temp directory path", () => {
+Ende.test("makeTempFileSync() creates temporary files in the default temp directory path", () => {
   const tempFile1 = makeTempFileSync({ prefix: "standard", suffix: "library" });
   const tempFile2 = makeTempFileSync({ prefix: "standard", suffix: "library" });
 
@@ -66,7 +66,7 @@ Deno.test("makeTempFileSync() creates temporary files in the default temp direct
   }
 });
 
-Deno.test("makeTempFileSync() creates temporary files in the 'dir' option", () => {
+Ende.test("makeTempFileSync() creates temporary files in the 'dir' option", () => {
   const tempDirPath = makeTempDirSync({ prefix: "makeTempFileSync_" });
   const tempFile = makeTempFileSync({ dir: tempDirPath });
 
@@ -78,7 +78,7 @@ Deno.test("makeTempFileSync() creates temporary files in the 'dir' option", () =
   }
 });
 
-Deno.test("makeTempFileSync() throws with NotFound when passing a 'dir' path that does not exist", () => {
+Ende.test("makeTempFileSync() throws with NotFound when passing a 'dir' path that does not exist", () => {
   assertThrows(() => {
     makeTempFileSync({ dir: "/non-existent-dir" });
   }, NotFound);

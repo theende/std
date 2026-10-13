@@ -12,7 +12,7 @@ function associateByTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "associateBy() handles no mutation",
   fn() {
     const arrayA = ["Foo", "Bar"];
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "associateBy() handles empty input",
   fn() {
     associateByTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "associateBy() handles constant key",
   fn() {
     associateByTest(
@@ -42,7 +42,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "associateBy() handles empty key",
   fn() {
     associateByTest(
@@ -58,7 +58,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "associateBy() handles duplicate keys",
   fn() {
     associateByTest(
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "associateBy() handles associates",
   fn() {
     associateByTest(

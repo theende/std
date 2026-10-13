@@ -35,7 +35,7 @@ function checkExistsSync(path: string | URL) {
   }
 }
 
-Deno.test(
+Ende.test(
   "remove() removes an existing and empty directory",
   { ignore: isBun },
   async () => {
@@ -53,7 +53,7 @@ Deno.test(
   },
 );
 
-Deno.test("remove() remove a non empty directory", async () => {
+Ende.test("remove() remove a non empty directory", async () => {
   const tempDir1 = await makeTempDir({ prefix: "remove_async_" });
   const tempDir2 = await makeTempDir({
     dir: tempDir1,
@@ -80,7 +80,7 @@ Deno.test("remove() remove a non empty directory", async () => {
   }
 });
 
-Deno.test(
+Ende.test(
   "remove() remove a non existed directory",
   { ignore: isBun },
   async () => {
@@ -100,7 +100,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "remove() remove a non existed directory with option",
   { ignore: isBun },
   async () => {
@@ -120,7 +120,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "removeSync() remove an existed and empty directory",
   { ignore: isBun },
   () => {
@@ -136,7 +136,7 @@ Deno.test(
   },
 );
 
-Deno.test("removeSync() remove a non empty directory", () => {
+Ende.test("removeSync() remove a non empty directory", () => {
   const tempDir1 = makeTempDirSync({ prefix: "remove_sync_" });
   const tempDir2 = makeTempDirSync({
     dir: tempDir1,
@@ -162,7 +162,7 @@ Deno.test("removeSync() remove a non empty directory", () => {
   }
 });
 
-Deno.test("removeSync() remove a non existed directory", () => {
+Ende.test("removeSync() remove a non existed directory", () => {
   const tempDir = makeTempDirSync({ prefix: "remove_sync_" });
   const nonExistedDir = join(tempDir, "non", "existed", "dir");
 
@@ -178,7 +178,7 @@ Deno.test("removeSync() remove a non existed directory", () => {
   }
 });
 
-Deno.test("removeSync() remove a non existed directory with option", () => {
+Ende.test("removeSync() remove a non existed directory with option", () => {
   const tempDir = makeTempDirSync({ prefix: "remove_sync_" });
   const nonExistedDir = join(tempDir, "non", "existed", "dir");
 

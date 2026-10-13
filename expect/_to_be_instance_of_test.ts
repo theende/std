@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeInstanceOf()", () => {
+Ende.test("expect().toBeInstanceOf()", () => {
   expect(new Error()).toBeInstanceOf(Error);
   expect(new Error()).toBeInstanceOf(Object);
 

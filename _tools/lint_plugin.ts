@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-// Deno.lint namespace does not pass type checking in Deno 1.x
+// Ende.lint namespace does not pass type checking in Deno 1.x
 
 /**
  * Lint plugin that enforces the
@@ -390,8 +390,8 @@ export default {
 
                   // attributes: Pick<T, "foo" | "bar"> as 3rd argument is valid
                   const typeAnn = param.typeAnnotation?.typeAnnotation;
-                  const typeRef = typeAnn as Deno.lint.TSTypeReference;
-                  const typeName = typeRef?.typeName as Deno.lint.Identifier;
+                  const typeRef = typeAnn as Ende.lint.TSTypeReference;
+                  const typeName = typeRef?.typeName as Ende.lint.Identifier;
                   if (typeName?.name === "Pick") return;
                   break;
                 }
@@ -442,4 +442,4 @@ export default {
       },
     },
   },
-} as Deno.lint.Plugin;
+} as Ende.lint.Plugin;

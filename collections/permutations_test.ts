@@ -12,7 +12,7 @@ function permutationsTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "permutations() handles no mutation",
   fn() {
     const array = [1, 2, 3];
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "permutations() handles empty input",
   fn() {
     permutationsTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "permutations() handles one element",
   fn() {
     permutationsTest(
@@ -50,7 +50,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "permutations() ignores equality",
   fn() {
     permutationsTest(
@@ -60,7 +60,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "permutations() handles examples",
   fn() {
     permutationsTest(

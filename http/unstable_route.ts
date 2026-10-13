@@ -7,7 +7,7 @@
  */
 export type RequestHandler = (
   request: Request,
-  info?: Deno.ServeHandlerInfo,
+  info?: Ende.ServeHandlerInfo,
 ) => Response | Promise<Response>;
 
 /**
@@ -15,7 +15,7 @@ export type RequestHandler = (
  *
  * @experimental **UNSTABLE**: New API, yet to be vetted.
  *
- * Extends {@linkcode Deno.ServeHandlerInfo} by adding a `params` argument.
+ * Extends {@linkcode Ende.ServeHandlerInfo} by adding a `params` argument.
  *
  * @param request Request
  * @param params URL pattern result
@@ -24,7 +24,7 @@ export type RequestHandler = (
 export type Handler = (
   request: Request,
   params: URLPatternResult,
-  info?: Deno.ServeHandlerInfo,
+  info?: Ende.ServeHandlerInfo,
 ) => Response | Promise<Response>;
 
 /**
@@ -89,7 +89,7 @@ function methodMatches(
  *   return new Response("Not found", { status: 404 });
  * }
  *
- * Deno.serve(routeLinear(routes, defaultHandler));
+ * Ende.serve(routeLinear(routes, defaultHandler));
  * ```
  *
  * @param routes Route configurations
@@ -101,7 +101,7 @@ export function routeLinear(
   defaultHandler: RequestHandler,
 ): RequestHandler {
   // TODO(iuioiua): Use `URLPatternList` once available (https://github.com/whatwg/urlpattern/pull/166)
-  return (request: Request, info?: Deno.ServeHandlerInfo) => {
+  return (request: Request, info?: Ende.ServeHandlerInfo) => {
     for (const route of routes) {
       if (!methodMatches(route.method, request.method)) continue;
       const match = route.pattern.exec(request.url);
@@ -264,7 +264,7 @@ function createNode(): RouteNode {
  *   return new Response("Not found", { status: 404 });
  * }
  *
- * Deno.serve(route(routes, defaultHandler));
+ * Ende.serve(route(routes, defaultHandler));
  * ```
  *
  * @param routes Route configurations
@@ -421,7 +421,7 @@ export function routeRadix(
   // and let pruning skip the rest of the tree if one matches.
   const radixMinIndex = root.minIndex;
 
-  return (request: Request, info?: Deno.ServeHandlerInfo) => {
+  return (request: Request, info?: Ende.ServeHandlerInfo) => {
     const state: MatchState = {
       request,
       pathname: parsePathname(request.url),

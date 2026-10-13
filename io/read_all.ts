@@ -14,10 +14,10 @@ import type { Reader, ReaderSync } from "./types.ts";
  * import { readAll } from "@std/io/read-all";
  *
  * // Example from stdin
- * const stdinContent = await readAll(Deno.stdin);
+ * const stdinContent = await readAll(Ende.stdin);
  *
  * // Example from file
- * using file = await Deno.open("my_file.txt", {read: true});
+ * using file = await Ende.open("my_file.txt", {read: true});
  * const myFileContent = await readAll(file);
  * ```
  *
@@ -49,10 +49,10 @@ export async function readAll(reader: Reader): Promise<Uint8Array> {
  * import { readAllSync } from "@std/io/read-all";
  *
  * // Example from stdin
- * const stdinContent = readAllSync(Deno.stdin);
+ * const stdinContent = readAllSync(Ende.stdin);
  *
  * // Example from file
- * using file = Deno.openSync("my_file.txt", {read: true});
+ * using file = Ende.openSync("my_file.txt", {read: true});
  * const myFileContent = readAllSync(file);
  * ```
  *

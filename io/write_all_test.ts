@@ -5,7 +5,7 @@ import { writeAll, writeAllSync } from "./write_all.ts";
 import { Buffer } from "./buffer.ts";
 import { init } from "./_test_common.ts";
 
-Deno.test("writeAll()", async () => {
+Ende.test("writeAll()", async () => {
   const testBytes = init();
   assert(testBytes);
   const writer = new Buffer();
@@ -14,7 +14,7 @@ Deno.test("writeAll()", async () => {
   assertEquals(testBytes, actualBytes);
 });
 
-Deno.test("writeAllSync()", () => {
+Ende.test("writeAllSync()", () => {
   const testBytes = init();
   assert(testBytes);
   const writer = new Buffer();

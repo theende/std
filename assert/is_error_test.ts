@@ -4,7 +4,7 @@ import { AssertionError, assertIsError, assertThrows } from "./mod.ts";
 class CustomError extends Error {}
 class AnotherCustomError extends Error {}
 
-Deno.test("assertIsError() throws when given value isn't error", () => {
+Ende.test("assertIsError() throws when given value isn't error", () => {
   assertThrows(
     () => assertIsError("Panic!", undefined, "Panic!"),
     AssertionError,
@@ -24,11 +24,11 @@ Deno.test("assertIsError() throws when given value isn't error", () => {
   );
 });
 
-Deno.test("assertIsError() allows subclass of Error", () => {
+Ende.test("assertIsError() allows subclass of Error", () => {
   assertIsError(new AssertionError("Fail!"), Error, "Fail!");
 });
 
-Deno.test("assertIsError() allows custom error", () => {
+Ende.test("assertIsError() allows custom error", () => {
   assertIsError(new CustomError("failed"), CustomError, "fail");
   assertThrows(
     () => assertIsError(new AnotherCustomError("failed"), CustomError, "fail"),
@@ -37,14 +37,14 @@ Deno.test("assertIsError() allows custom error", () => {
   );
 });
 
-Deno.test("assertIsError() accepts abstract class", () => {
+Ende.test("assertIsError() accepts abstract class", () => {
   abstract class AbstractError extends Error {}
   class ConcreteError extends AbstractError {}
 
   assertIsError(new ConcreteError("failed"), AbstractError, "fail");
 });
 
-Deno.test("assertIsError() throws with message diff containing double quotes", () => {
+Ende.test("assertIsError() throws with message diff containing double quotes", () => {
   assertThrows(
     () =>
       assertIsError(
@@ -57,7 +57,7 @@ Deno.test("assertIsError() throws with message diff containing double quotes", (
   );
 });
 
-Deno.test("assertIsError() throws when given value doesn't match regex ", () => {
+Ende.test("assertIsError() throws when given value doesn't match regex ", () => {
   assertIsError(new AssertionError("Regex test"), Error, /ege/);
   assertThrows(
     () => assertIsError(new AssertionError("Regex test"), Error, /egg/),
@@ -66,7 +66,7 @@ Deno.test("assertIsError() throws when given value doesn't match regex ", () => 
   );
 });
 
-Deno.test("assertIsError() throws with custom message", () => {
+Ende.test("assertIsError() throws with custom message", () => {
   assertThrows(
     () =>
       assertIsError(

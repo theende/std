@@ -4,14 +4,14 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { assertArgs, lastPathSegment, stripSuffix } from "./basename.ts";
 import { CHAR_FORWARD_SLASH } from "./constants.ts";
 
-Deno.test("assertArgs()", () => {
+Ende.test("assertArgs()", () => {
   assertEquals(assertArgs("", ""), "");
   assertEquals(assertArgs("foo", "bar"), undefined);
   // @ts-expect-error - testing invalid input for suffix
   assertEquals(assertArgs("", undefined), "");
 });
 
-Deno.test("assertArgs() throws", () => {
+Ende.test("assertArgs() throws", () => {
   assertThrows(
     // @ts-expect-error - testing invalid input
     () => assertArgs(undefined, "bar"),
@@ -26,7 +26,7 @@ Deno.test("assertArgs() throws", () => {
   );
 });
 
-Deno.test("lastPathSegment()", () => {
+Ende.test("lastPathSegment()", () => {
   assertEquals(
     lastPathSegment("foo", (char) => char === CHAR_FORWARD_SLASH),
     "foo",
@@ -41,7 +41,7 @@ Deno.test("lastPathSegment()", () => {
   );
 });
 
-Deno.test("stripSuffix()", () => {
+Ende.test("stripSuffix()", () => {
   assertEquals(stripSuffix("foo", "bar"), "foo");
   assertEquals(stripSuffix("foobar", "bar"), "foo");
   assertEquals(stripSuffix("foobar", "baz"), "foobar");

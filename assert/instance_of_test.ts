@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { assertInstanceOf, AssertionError, assertThrows } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "assertInstanceOf",
   fn() {
     class TestClass1 {}
@@ -115,7 +115,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertInstanceOf() accepts abstract class",
   fn() {
     abstract class AbstractClass {}

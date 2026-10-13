@@ -5,7 +5,7 @@ import { realPath, realPathSync } from "./unstable_real_path.ts";
 import { NotFound } from "./unstable_errors.js";
 import { platform } from "node:os";
 
-Deno.test("realPath() returns the absolute path from a relative file path", async () => {
+Ende.test("realPath() returns the absolute path from a relative file path", async () => {
   const testFileRelative = "fs/testdata/0.ts";
   const testFileReal = await realPath(testFileRelative);
   if (platform() === "win32") {
@@ -17,7 +17,7 @@ Deno.test("realPath() returns the absolute path from a relative file path", asyn
   }
 });
 
-Deno.test("realPath() returns the absolute path of the linked file via symlink", async () => {
+Ende.test("realPath() returns the absolute path of the linked file via symlink", async () => {
   // `fs/testdata/0-link` is symlinked to file `fs/testdata/0.ts`.
   const testFileSymlink = "fs/testdata/0-link";
   const testFileReal = await realPath(testFileSymlink);
@@ -30,13 +30,13 @@ Deno.test("realPath() returns the absolute path of the linked file via symlink",
   }
 });
 
-Deno.test("realPath() rejects with NotFound for a non-existent file", async () => {
+Ende.test("realPath() rejects with NotFound for a non-existent file", async () => {
   await assertRejects(async () => {
     await realPath("non-existent-file.txt");
   }, NotFound);
 });
 
-Deno.test("realPathSync() returns the absolute path of a relative file", () => {
+Ende.test("realPathSync() returns the absolute path of a relative file", () => {
   const testFileRelative = "fs/testdata/0.ts";
   const testFileReal = realPathSync(testFileRelative);
   if (platform() === "win32") {
@@ -48,7 +48,7 @@ Deno.test("realPathSync() returns the absolute path of a relative file", () => {
   }
 });
 
-Deno.test("realPathSync() returns the absolute path of the linked file via symlink", () => {
+Ende.test("realPathSync() returns the absolute path of the linked file via symlink", () => {
   // `fs/testdata/0-link` is symlinked to file `fs/testdata/0.ts`.
   const testFileSymlink = "fs/testdata/0-link";
   const testFileReal = realPathSync(testFileSymlink);
@@ -61,7 +61,7 @@ Deno.test("realPathSync() returns the absolute path of the linked file via symli
   }
 });
 
-Deno.test("realPathSync() throws with NotFound for a non-existent file", () => {
+Ende.test("realPathSync() throws with NotFound for a non-existent file", () => {
   assertThrows(() => {
     realPathSync("non-existent-file.txt");
   }, NotFound);

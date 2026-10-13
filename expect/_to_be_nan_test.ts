@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeNaN()", () => {
+Ende.test("expect().toBeNaN()", () => {
   expect(NaN).toBeNaN();
 
   expect(1).not.toBeNaN();

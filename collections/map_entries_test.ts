@@ -12,7 +12,7 @@ function mapEntriesTest<T, O>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles empty input",
   fn() {
     mapEntriesTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles identity",
   fn() {
     mapEntriesTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles to constant entry",
   fn() {
     mapEntriesTest(
@@ -66,7 +66,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles overlapping keys",
   fn() {
     mapEntriesTest(
@@ -103,7 +103,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles normal mappers",
   fn() {
     mapEntriesTest(

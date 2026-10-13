@@ -11,7 +11,7 @@ import {
 } from "./unstable_stringify.ts";
 import { compare, parse } from "@std/semver";
 
-Deno.test({
+Ende.test({
   name: "stringify()",
   fn() {
     const FIXTURE = {
@@ -47,7 +47,7 @@ binary: !<tag:yaml.org,2002:binary> SGVsbG8=
   },
 });
 
-Deno.test({
+Ende.test({
   name: "arrays can be stringified directly",
   fn() {
     const array = [1, 2, 3];
@@ -58,7 +58,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "strings can be stringified directly",
   fn() {
     const string = "Hello world";
@@ -69,7 +69,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "numbers can be stringified directly",
   fn() {
     const number = 1.01;
@@ -80,7 +80,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles integers",
   fn() {
     assertEquals(stringify(42), "42\n");
@@ -90,7 +90,7 @@ Deno.test({
     assertEquals(stringify(new Number(-42)), "-42\n");
   },
 });
-Deno.test({
+Ende.test({
   name: "stringify() handles integers with styles option",
   fn() {
     // binary, octal, and hexadecimal can be specified in styles options
@@ -138,7 +138,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles boolean values",
   fn() {
     assertEquals(stringify(true), "true\n");
@@ -148,7 +148,7 @@ Deno.test({
     assertEquals(stringify(new Boolean(false)), "false\n");
   },
 });
-Deno.test({
+Ende.test({
   name: "stringify() handles boolean with styles option",
   fn() {
     assertEquals(
@@ -188,7 +188,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() serializes Uint8Array as !!binary",
   fn() {
     assertEquals(
@@ -210,7 +210,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() throws with `!!js/*` yaml types with default schemas",
   fn() {
     assertThrows(
@@ -226,7 +226,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles `!!js/*` yaml types with extended schema",
   fn() {
     const object = {
@@ -247,7 +247,7 @@ undefined: !<tag:yaml.org,2002:js/undefined> ''
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "stringify() throws with `!!js/function` yaml types with extended schema",
   fn() {
@@ -261,7 +261,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "stringify() ignores `!!js/*` yaml types when skipInvalid option is true",
   fn() {
@@ -280,7 +280,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles float values",
   fn() {
     assertEquals(stringify(4.1), `4.1\n`);
@@ -298,7 +298,7 @@ Deno.test({
     assertEquals(stringify(NaN), `.nan\n`);
   },
 });
-Deno.test({
+Ende.test({
   name: "stringify() handles float values with styles option",
   fn() {
     assertEquals(
@@ -336,7 +336,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() encode string with special characters",
   fn() {
     assertEquals(stringify("\x03"), `"\\x03"\n`);
@@ -348,7 +348,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() format Date objet into ISO string",
   fn() {
     assertEquals(
@@ -358,7 +358,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() works with useAnchors option",
   fn() {
     const obj = { foo: "bar" };
@@ -373,7 +373,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() uses block scalar style for multiline strings",
   fn() {
     assertEquals(
@@ -393,7 +393,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() uses folded scalar style for long strings",
   fn() {
     assertEquals(
@@ -413,7 +413,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "stringify() uses flow style for arrays and mappings when the nesting level exceeds flowLevel option value",
   fn() {
@@ -438,7 +438,7 @@ bar: {a: *ref_0, b: *ref_1}
   },
 });
 
-Deno.test("stringify() handles indentation", () => {
+Ende.test("stringify() handles indentation", () => {
   const object = {
     name: "John",
     age: 30,
@@ -466,7 +466,7 @@ skills:
   assertEquals(actual.trim(), expected.trim());
 });
 
-Deno.test("stringify() handles indentation with whitespace values", () => {
+Ende.test("stringify() handles indentation with whitespace values", () => {
   const object = {
     name: "John",
     age: 30,
@@ -494,7 +494,7 @@ skills:
   assertEquals(actual.trim(), expected.trim());
 });
 
-Deno.test("stringify() handles indentation with start newline values", () => {
+Ende.test("stringify() handles indentation with start newline values", () => {
   const object = {
     name: "John",
     age: 30,
@@ -522,7 +522,7 @@ skills:
   assertEquals(actual.trim(), expected.trim());
 });
 
-Deno.test("stringify() handles indentation with trailing newline values", () => {
+Ende.test("stringify() handles indentation with trailing newline values", () => {
   const object = {
     name: "John",
     age: 30,
@@ -550,7 +550,7 @@ skills:
   assertEquals(actual.trim(), expected.trim());
 });
 
-Deno.test(
+Ende.test(
   "stringify() changes indentation style for arrays when arrayIndent = false is specified",
   () => {
     const object = {
@@ -581,7 +581,7 @@ skills:
   },
 );
 
-Deno.test("stringify() changes the key order when the sortKeys option is specified", () => {
+Ende.test("stringify() changes the key order when the sortKeys option is specified", () => {
   const object = {
     "1.0.0": null,
     "0.0.0-0": null,
@@ -626,7 +626,7 @@ Deno.test("stringify() changes the key order when the sortKeys option is specifi
   );
 });
 
-Deno.test("stringify() passes depth to sortKeys callback", () => {
+Ende.test("stringify() passes depth to sortKeys callback", () => {
   const input = { b: 1, a: 2, nested: { c: 3, d: 4 } };
   const sortKeys = (a: string, b: string, depth: number) =>
     depth === 0 ? a.localeCompare(b) : b.localeCompare(a);
@@ -636,7 +636,7 @@ Deno.test("stringify() passes depth to sortKeys callback", () => {
   assertEquals(stringify(input, { sortKeys }), expected);
 });
 
-Deno.test("stringify() changes line wrap behavior based on lineWidth option", () => {
+Ende.test("stringify() changes line wrap behavior based on lineWidth option", () => {
   const object = {
     message:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -686,7 +686,7 @@ Deno.test("stringify() changes line wrap behavior based on lineWidth option", ()
   );
 });
 
-Deno.test("stringify() changes indentation with indent option", () => {
+Ende.test("stringify() changes indentation with indent option", () => {
   const object = {
     name: "John",
     age: 30,
@@ -729,7 +729,7 @@ skills:
   );
 });
 
-Deno.test("stringify() handles nil", () => {
+Ende.test("stringify() handles nil", () => {
   assertEquals(stringify(null), "null\n");
   assertEquals(
     stringify(null, { styles: { "tag:yaml.org,2002:null": "lowercase" } }),
@@ -745,7 +745,7 @@ Deno.test("stringify() handles nil", () => {
   );
 });
 
-Deno.test("stringify() handles sequence", () => {
+Ende.test("stringify() handles sequence", () => {
   assertEquals(stringify([]), "[]\n");
   assertEquals(
     stringify(["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"]),
@@ -756,7 +756,7 @@ Deno.test("stringify() handles sequence", () => {
   );
 });
 
-Deno.test("stringify() handles mapping", () => {
+Ende.test("stringify() handles mapping", () => {
   assertEquals(stringify({}), "{}\n");
   assertEquals(
     stringify({ Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" }),
@@ -767,26 +767,26 @@ Oren: Ben-Kiki
   );
 });
 
-Deno.test("stringify() handles string", () => {
+Ende.test("stringify() handles string", () => {
   assertEquals(stringify("Hello World"), "Hello World\n");
   assertEquals(stringify(new String("Hello World")), "Hello World\n");
 });
 
-Deno.test("stringify() uses quotes around deprecated boolean notations when `compatMode: true`", () => {
+Ende.test("stringify() uses quotes around deprecated boolean notations when `compatMode: true`", () => {
   assertEquals(stringify("On", { compatMode: true }), "'On'\n");
   assertEquals(stringify("Off", { compatMode: true }), "'Off'\n");
   assertEquals(stringify("Yes", { compatMode: true }), "'Yes'\n");
   assertEquals(stringify("No", { compatMode: true }), "'No'\n");
 });
 
-Deno.test("stringify() handles undefined with skipInvalid option", () => {
+Ende.test("stringify() handles undefined with skipInvalid option", () => {
   assertEquals(
     stringify(undefined, { skipInvalid: true }),
     "",
   );
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles object with condenseFlow option",
   fn() {
     assertEquals(
@@ -799,14 +799,14 @@ Deno.test({
   },
 });
 
-Deno.test("stringify() returns emtpy array on invalid entries", () => {
+Ende.test("stringify() returns emtpy array on invalid entries", () => {
   assertEquals(
     stringify([undefined], { skipInvalid: true }),
     "[]\n",
   );
 });
 
-Deno.test("stringify() handles duplicate array references", () => {
+Ende.test("stringify() handles duplicate array references", () => {
   const a = ["foo"];
   assertEquals(
     stringify([a, a]),
@@ -814,7 +814,7 @@ Deno.test("stringify() handles duplicate array references", () => {
   );
 });
 
-Deno.test({
+Ende.test({
   name:
     "stringify() handles undefined array entry with skipInvalid and flowLevel option",
   fn() {
@@ -828,7 +828,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "stringify() handles undefined object entry with skipInvalid and flowLevel option",
   fn() {
@@ -842,7 +842,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "stringify() handles undefined object entry with big key and skipInvalid and flowLevel option",
   fn() {
@@ -857,7 +857,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles duplicate binary references",
   fn() {
     const a = new Uint8Array();
@@ -868,7 +868,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles quoteStyle",
   fn() {
     const object = { url: "https://example.com" };
@@ -883,7 +883,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "unstableStringify() handles custom types",
   fn() {
     const foo: ImplicitType = {

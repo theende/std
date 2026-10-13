@@ -9,7 +9,7 @@ import {
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { assertType, type IsExact } from "@std/testing/types";
 
-Deno.test({
+Ende.test({
   name: "getCookies() parses cookie",
   fn() {
     let headers = new Headers();
@@ -40,7 +40,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "getCookies() has correct types",
   fn() {
     const headers = new Headers([["Cookie", "foo=bar"]]);
@@ -57,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "setCookie() validates names",
   fn() {
     const tokens = [
@@ -90,7 +90,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "setCookie() validates value",
   fn() {
     const tokens = [
@@ -138,7 +138,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "setCookie() validates path",
   fn() {
     const path = "/;domain=sub.domain.com";
@@ -160,7 +160,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "setCookie() validates domain",
   fn() {
     const tokens = ["-domain.com", "domain.org.", "domain.org-"];
@@ -184,7 +184,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "deleteCookie()",
   fn() {
     let headers = new Headers();
@@ -220,7 +220,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "setCookie() handles Set-Cookie",
   fn() {
     let headers = new Headers();
@@ -423,7 +423,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "setCookie() parses Set-Cookie",
   fn() {
     let headers = new Headers({ "set-cookie": "Space=Cat" });
@@ -639,7 +639,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "getSetCookies() is locale independent",
   fn() {
     const setCookie = "a=b; EXPIRES=Thu, 19 Sep 2024 07:47:28 GMT";

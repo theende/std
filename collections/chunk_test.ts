@@ -14,7 +14,7 @@ function chunkTest<I>(
 
 const testArray = [1, 2, 3, 4, 5, 6];
 
-Deno.test({
+Ende.test({
   name: "chunk() does not mutate the input",
   fn() {
     const array = [1, 2, 3, 4];
@@ -24,7 +24,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chunk() throws on non naturals",
   fn() {
     assertThrows(
@@ -55,7 +55,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chunk() handles empty input",
   fn() {
     chunkTest(
@@ -65,7 +65,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chunk() handles single element chunks",
   fn() {
     chunkTest(
@@ -79,7 +79,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chunk() handles n chunks fitting",
   fn() {
     chunkTest(
@@ -93,7 +93,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chunk() handles n chunks not fitting",
   fn() {
     chunkTest(
@@ -107,7 +107,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chunk() handles chunks equal to length",
   fn() {
     chunkTest(
@@ -121,7 +121,7 @@ Deno.test({
   },
 });
 
-Deno.test("chunk() handles a generator", () => {
+Ende.test("chunk() handles a generator", () => {
   function* gen() {
     yield "a";
     yield "b";
@@ -135,14 +135,14 @@ Deno.test("chunk() handles a generator", () => {
   assertEquals(chunk(gen(), 5), [["a", "b", "c", "d"]], "size > gen.length");
 });
 
-Deno.test("chunk() handles a string", () => {
+Ende.test("chunk() handles a string", () => {
   assertEquals(chunk("abcdefg", 4), [
     ["a", "b", "c", "d"],
     ["e", "f", "g"],
   ]);
 });
 
-Deno.test("chunk() handles a Set", () => {
+Ende.test("chunk() handles a Set", () => {
   const set = new Set([1, 2, 3, 4, 5, 6]);
   assertEquals(chunk(set, 2), [
     [1, 2],
@@ -151,7 +151,7 @@ Deno.test("chunk() handles a Set", () => {
   ]);
 });
 
-Deno.test("chunk() handles a Map", () => {
+Ende.test("chunk() handles a Map", () => {
   const map = new Map([
     ["a", 1],
     ["b", 2],
@@ -176,7 +176,7 @@ Deno.test("chunk() handles a Map", () => {
   ]);
 });
 
-Deno.test("chunk() handles user-defined iterable", () => {
+Ende.test("chunk() handles user-defined iterable", () => {
   class MyIterable {
     *[Symbol.iterator]() {
       yield 1;
@@ -194,7 +194,7 @@ Deno.test("chunk() handles user-defined iterable", () => {
   ]);
 });
 
-Deno.test("chunk() handles a TypedArrays", () => {
+Ende.test("chunk() handles a TypedArrays", () => {
   const typedArrays = [
     Uint8Array,
     Uint8ClampedArray,
@@ -216,7 +216,7 @@ Deno.test("chunk() handles a TypedArrays", () => {
   }
 });
 
-Deno.test("chunk() handles an array with empty slots", () => {
+Ende.test("chunk() handles an array with empty slots", () => {
   // Regression test for chunk that only allowed Array instances instead of any Iterable.
   // This is a special case where an array is filled with empty slots which is a different kind of nothing than null or undefined
   // Typed arrays are not affected, as they are filled with 0 instead of empty slots

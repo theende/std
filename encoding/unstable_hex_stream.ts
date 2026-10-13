@@ -10,13 +10,13 @@
  * import { HexEncoderStream } from "@std/encoding/unstable-hex-stream";
  * import { toText } from "@std/streams";
  *
- * const readable = (await Deno.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new HexEncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeHex(await Deno.readFile("./ende.lock")),
+ *   encodeHex(await Ende.readFile("./ende.lock")),
  * );
  * ```
  *
@@ -55,13 +55,13 @@ const decoder = new TextDecoder();
  * import { HexEncoderStream } from "@std/encoding/unstable-hex-stream";
  * import { toText } from "@std/streams";
  *
- * const readable = (await Deno.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new HexEncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeHex(await Deno.readFile("./ende.lock")),
+ *   encodeHex(await Ende.readFile("./ende.lock")),
  * );
  * ```
  */
@@ -106,14 +106,14 @@ export class HexEncoderStream<T extends "string" | "bytes">
  * } from "@std/encoding/unstable-hex-stream";
  * import { toBytes } from "@std/streams/to-bytes";
  *
- * const readable = (await Deno.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new HexEncoderStream({ output: "bytes" }))
  *   .pipeThrough(new HexDecoderStream({ input: "bytes" }));
  *
  * assertEquals(
  *   await toBytes(readable),
- *   await Deno.readFile("./ende.lock"),
+ *   await Ende.readFile("./ende.lock"),
  * );
  * ```
  */

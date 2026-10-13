@@ -13,7 +13,7 @@ function distinctByTest<I>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "distinctBy() handles identities on empty array",
   fn() {
     distinctByTest(
@@ -24,7 +24,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinctBy() gets head on noop selector",
   fn() {
     distinctByTest(
@@ -35,7 +35,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinctBy() removes duplicates and preserves order on identity",
   fn() {
     distinctByTest(
@@ -51,7 +51,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinctBy() does not check for deep equality on identity",
   fn() {
     const objects = [{ foo: "bar" }, { foo: "bar" }];
@@ -91,7 +91,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinctBy() handles distincts by selected value and preserves order",
   fn() {
     const kim = { name: "Kim", age: 22 };
@@ -118,7 +118,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinctBy() passes index to discriminator",
   fn() {
     const result = distinctBy(

@@ -7,10 +7,10 @@ import { restore, stub } from "@std/testing/mock";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-Deno.test("promptMultipleSelect() handles enter", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles enter", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -25,7 +25,7 @@ Deno.test("promptMultipleSelect() handles enter", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -41,7 +41,7 @@ Deno.test("promptMultipleSelect() handles enter", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -62,10 +62,10 @@ Deno.test("promptMultipleSelect() handles enter", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles selection", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles selection", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -86,7 +86,7 @@ Deno.test("promptMultipleSelect() handles selection", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -103,7 +103,7 @@ Deno.test("promptMultipleSelect() handles selection", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -124,10 +124,10 @@ Deno.test("promptMultipleSelect() handles selection", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles multiple selection", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles multiple selection", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -172,7 +172,7 @@ Deno.test("promptMultipleSelect() handles multiple selection", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -193,7 +193,7 @@ Deno.test("promptMultipleSelect() handles multiple selection", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -218,10 +218,10 @@ Deno.test("promptMultipleSelect() handles multiple selection", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles arrow down", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles arrow down", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -254,7 +254,7 @@ Deno.test("promptMultipleSelect() handles arrow down", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -273,7 +273,7 @@ Deno.test("promptMultipleSelect() handles arrow down", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -294,10 +294,10 @@ Deno.test("promptMultipleSelect() handles arrow down", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles arrow up", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles arrow up", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -330,7 +330,7 @@ Deno.test("promptMultipleSelect() handles arrow up", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -349,7 +349,7 @@ Deno.test("promptMultipleSelect() handles arrow up", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -370,10 +370,10 @@ Deno.test("promptMultipleSelect() handles arrow up", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles up index overflow", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles up index overflow", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -399,7 +399,7 @@ Deno.test("promptMultipleSelect() handles up index overflow", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -417,7 +417,7 @@ Deno.test("promptMultipleSelect() handles up index overflow", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -438,10 +438,10 @@ Deno.test("promptMultipleSelect() handles up index overflow", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles down index overflow", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles down index overflow", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -481,7 +481,7 @@ Deno.test("promptMultipleSelect() handles down index overflow", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -501,7 +501,7 @@ Deno.test("promptMultipleSelect() handles down index overflow", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -522,10 +522,10 @@ Deno.test("promptMultipleSelect() handles down index overflow", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() scrolls down and display lines correctly", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() scrolls down and display lines correctly", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -575,7 +575,7 @@ Deno.test("promptMultipleSelect() scrolls down and display lines correctly", () 
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -596,7 +596,7 @@ Deno.test("promptMultipleSelect() scrolls down and display lines correctly", () 
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -618,10 +618,10 @@ Deno.test("promptMultipleSelect() scrolls down and display lines correctly", () 
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles clear option", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles clear option", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -643,7 +643,7 @@ Deno.test("promptMultipleSelect() handles clear option", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -660,7 +660,7 @@ Deno.test("promptMultipleSelect() handles clear option", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -681,14 +681,14 @@ Deno.test("promptMultipleSelect() handles clear option", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles ETX", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles ETX", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   let called = false;
   stub(
-    Deno,
+    Ende,
     "exit",
     (() => {
       called = true;
@@ -707,7 +707,7 @@ Deno.test("promptMultipleSelect() handles ETX", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -723,7 +723,7 @@ Deno.test("promptMultipleSelect() handles ETX", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -744,10 +744,10 @@ Deno.test("promptMultipleSelect() handles ETX", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() supports search by typing", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() supports search by typing", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -794,7 +794,7 @@ Deno.test("promptMultipleSelect() supports search by typing", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -817,7 +817,7 @@ Deno.test("promptMultipleSelect() supports search by typing", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -838,10 +838,10 @@ Deno.test("promptMultipleSelect() supports search by typing", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles search", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles search", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -867,7 +867,7 @@ Deno.test("promptMultipleSelect() handles search", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -886,7 +886,7 @@ Deno.test("promptMultipleSelect() handles search", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -907,10 +907,10 @@ Deno.test("promptMultipleSelect() handles search", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles search backspace", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles search backspace", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -941,7 +941,7 @@ Deno.test("promptMultipleSelect() handles search backspace", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -960,7 +960,7 @@ Deno.test("promptMultipleSelect() handles search backspace", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -981,10 +981,10 @@ Deno.test("promptMultipleSelect() handles search backspace", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() handles search no matches", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => ({ columns: 80, rows: 24 }));
+Ende.test("promptMultipleSelect() handles search no matches", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => ({ columns: 80, rows: 24 }));
 
   const expectedOutput = [
     "\x1b[?25l",
@@ -1021,7 +1021,7 @@ Deno.test("promptMultipleSelect() handles search no matches", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -1043,7 +1043,7 @@ Deno.test("promptMultipleSelect() handles search no matches", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -1064,16 +1064,16 @@ Deno.test("promptMultipleSelect() handles search no matches", () => {
   restore();
 });
 
-Deno.test("promptMultipleSelect() returns null if Deno.stdin.isTerminal() is false", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => false);
+Ende.test("promptMultipleSelect() returns null if Ende.stdin.isTerminal() is false", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => false);
 
   const expectedOutput: string[] = [];
 
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);

@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 
 class Cat {}
-Deno.test("expect.any()", () => {
+Ende.test("expect.any()", () => {
   expect(new Cat()).toEqual(expect.any(Cat));
   expect(new Cat()).toEqual(expect.any(Object));
   expect("Hello").toEqual(expect.any(String));

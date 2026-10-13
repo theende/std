@@ -4,7 +4,7 @@ import { assertEquals } from "@std/assert";
 import { format } from "./format.ts";
 import { parse } from "./parse.ts";
 
-Deno.test("format()", async (t) => {
+Ende.test("format()", async (t) => {
   const versions: [string, string][] = [
     ["0.0.0", "0.0.0"],
     ["1.2.3", "1.2.3"],

@@ -3,7 +3,7 @@
 import { assert, assertLessOrEqual } from "@std/assert";
 import { FixedChunkStream } from "./unstable_fixed_chunk_stream.ts";
 
-Deno.test("FixedChunkStream", async () => {
+Ende.test("FixedChunkStream", async () => {
   const size = 512;
 
   const readable = ReadableStream.from(function* () {

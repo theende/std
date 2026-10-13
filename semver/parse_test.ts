@@ -2,7 +2,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { parse } from "./parse.ts";
 
-Deno.test("parse() handles major", async (t) => {
+Ende.test("parse() handles major", async (t) => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -23,7 +23,7 @@ Deno.test("parse() handles major", async (t) => {
   }
 });
 
-Deno.test("parse() handles minor", async (t) => {
+Ende.test("parse() handles minor", async (t) => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -44,7 +44,7 @@ Deno.test("parse() handles minor", async (t) => {
   }
 });
 
-Deno.test("parse() handles patch", async (t) => {
+Ende.test("parse() handles patch", async (t) => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -65,7 +65,7 @@ Deno.test("parse() handles patch", async (t) => {
   }
 });
 
-Deno.test("parse() handles prerelease", async (t) => {
+Ende.test("parse() handles prerelease", async (t) => {
   // [prereleaseParts, version]
   const versions: [string, (string | number)[]][] = [
     ["1.2.2-alpha.1", ["alpha", 1]],
@@ -89,7 +89,7 @@ Deno.test("parse() handles prerelease", async (t) => {
   }
 });
 
-Deno.test({
+Ende.test({
   name: "parse() throws on bad versions",
   fn: async (t) => {
     const versions: [unknown][] = [
@@ -115,7 +115,7 @@ Deno.test({
   },
 });
 
-Deno.test("parse() throws on invalid versions", async (t) => {
+Ende.test("parse() throws on invalid versions", async (t) => {
   const versions = ["1.2.3.4", "NOT VALID", 1.2, null, "Infinity.NaN.Infinity"];
 
   for (const v of versions) {
@@ -130,7 +130,7 @@ Deno.test("parse() throws on invalid versions", async (t) => {
   }
 });
 
-Deno.test("parse() handles big numeric prerelease", function () {
+Ende.test("parse() handles big numeric prerelease", function () {
   const r = parse(`1.2.3-beta.${Number.MAX_SAFE_INTEGER}0`);
   assertEquals(r.prerelease, ["beta", "90071992547409910"]);
 });

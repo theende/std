@@ -16,7 +16,7 @@
  * import { askForCursorPositionSync } from "@std/cli/unstable-get-cursor";
  *
  * const { column, row } = askForCursorPositionSync()!;
- * await Deno.stderr.write(new TextEncoder().encode(
+ * await Ende.stderr.write(new TextEncoder().encode(
  *   Ansi.setCursorPosition() +
  *     "Hello World!" +
  *     Ansi.setCursorPosition(row, column),
@@ -26,17 +26,17 @@
 export function askForCursorPositionSync():
   | { row: number; column: number }
   | null {
-  if (!Deno.stdin.isTerminal() || !Deno.stderr.isTerminal()) {
+  if (!Ende.stdin.isTerminal() || !Ende.stderr.isTerminal()) {
     return null;
   }
-  Deno.stdin.setRaw(true, { cbreak: true });
-  Deno.stderr.writeSync(Uint8Array.from([0x1b, 0x5b, 0x36, 0x6e])); // \x1b[6n
+  Ende.stdin.setRaw(true, { cbreak: true });
+  Ende.stderr.writeSync(Uint8Array.from([0x1b, 0x5b, 0x36, 0x6e])); // \x1b[6n
   const buffer = new Uint8Array(1024);
   while (true) {
-    const x = Deno.stdin.readSync(buffer.subarray(32));
+    const x = Ende.stdin.readSync(buffer.subarray(32));
     const csi = findCSI(buffer.subarray(0, 32 + x!));
     if (csi?.final === 82) { // R
-      Deno.stdin.setRaw(false);
+      Ende.stdin.setRaw(false);
       const [row, column] = new TextDecoder()
         .decode(csi.parameters)
         .split(";")

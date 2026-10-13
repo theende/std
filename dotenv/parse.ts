@@ -47,7 +47,7 @@ function expand(str: string, variablesMap: Record<string, string>): string {
       const defaultValue = inBracketsDefault ?? notInBracketsDefault;
 
       return (
-        variablesMap[expandValue] ?? Deno.env.get(expandValue) ?? defaultValue
+        variablesMap[expandValue] ?? Ende.env.get(expandValue) ?? defaultValue
       );
     });
   }

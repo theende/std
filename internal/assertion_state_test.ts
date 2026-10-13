@@ -4,7 +4,7 @@ import { assertEquals, assertStringIncludes } from "@std/assert";
 import { AssertionState } from "./assertion_state.ts";
 import { stripAnsiCode } from "./styles.ts";
 
-Deno.test("AssertionState checkAssertionErrorState pass", () => {
+Ende.test("AssertionState checkAssertionErrorState pass", () => {
   const assertionState = new AssertionState();
   try {
     assertionState.setAssertionTriggered(true);
@@ -14,7 +14,7 @@ Deno.test("AssertionState checkAssertionErrorState pass", () => {
   }
 });
 
-Deno.test("AssertionState checkAssertionErrorState pass", () => {
+Ende.test("AssertionState checkAssertionErrorState pass", () => {
   const assertionState = new AssertionState();
   try {
     assertionState.setAssertionTriggered(true);
@@ -28,7 +28,7 @@ Deno.test("AssertionState checkAssertionErrorState pass", () => {
   }
 });
 
-Deno.test("AssertionState checkAssertionErrorState fail", () => {
+Ende.test("AssertionState checkAssertionErrorState fail", () => {
   const assertionState = new AssertionState();
   try {
     assertionState.setAssertionCheck(true);
@@ -38,11 +38,11 @@ Deno.test("AssertionState checkAssertionErrorState fail", () => {
   }
 });
 
-Deno.test({
+Ende.test({
   name: "AssertionState throws if not cleaned up",
-  ignore: !Deno.Command,
+  ignore: !Ende.Command,
   fn: async () => {
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: [
         "eval",
         `

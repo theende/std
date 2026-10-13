@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { assertAlmostEquals, AssertionError, assertThrows } from "./mod.ts";
 
-Deno.test("assertAlmostEquals() matches values within default precision range", () => {
+Ende.test("assertAlmostEquals() matches values within default precision range", () => {
   assertAlmostEquals(-0, +0);
   assertAlmostEquals(Math.PI, Math.PI);
   assertAlmostEquals(0.1 + 0.2, 0.3);
@@ -13,7 +13,7 @@ Deno.test("assertAlmostEquals() matches values within default precision range", 
   assertAlmostEquals(-1.000000001e-8, -1.000000002e-8);
 });
 
-Deno.test("assertAlmostEquals() throws values outside default precision range", () => {
+Ende.test("assertAlmostEquals() throws values outside default precision range", () => {
   assertThrows(() => assertAlmostEquals(1, 2));
   assertThrows(() => assertAlmostEquals(1, 1.1));
   assertThrows(() => assertAlmostEquals(9e20, 9.01e20));
@@ -21,11 +21,11 @@ Deno.test("assertAlmostEquals() throws values outside default precision range", 
   assertThrows(() => assertAlmostEquals(1e-8, 1e-9)); // different order of magnitude
 });
 
-Deno.test("assertAlmostEquals() matches values within higher precision range", () => {
+Ende.test("assertAlmostEquals() matches values within higher precision range", () => {
   assertAlmostEquals(0.1 + 0.2, 0.3, 1e-16);
 });
 
-Deno.test("assertAlmostEquals() throws values outside higher precision range", () => {
+Ende.test("assertAlmostEquals() throws values outside higher precision range", () => {
   assertThrows(
     () => assertAlmostEquals(0.1 + 0.2, 0.3, 1e-17),
     AssertionError,
@@ -37,11 +37,11 @@ Deno.test("assertAlmostEquals() throws values outside higher precision range", (
   );
 });
 
-Deno.test("assertAlmostEquals() matches infinity with infinity", () => {
+Ende.test("assertAlmostEquals() matches infinity with infinity", () => {
   assertAlmostEquals(Infinity, Infinity);
 });
 
-Deno.test("assertAlmostEquals() throws when special numbers do not match", () => {
+Ende.test("assertAlmostEquals() throws when special numbers do not match", () => {
   assertThrows(
     () => assertAlmostEquals(0, Infinity),
     AssertionError,
@@ -59,7 +59,7 @@ Deno.test("assertAlmostEquals() throws when special numbers do not match", () =>
   );
 });
 
-Deno.test("assertAlmostEquals() throws with custom message", () => {
+Ende.test("assertAlmostEquals() throws with custom message", () => {
   assertThrows(
     () => assertAlmostEquals(-Infinity, +Infinity, 1e-17, "CUSTOM MESSAGE"),
     AssertionError,

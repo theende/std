@@ -3,12 +3,12 @@ import { assertEquals } from "@std/assert";
 import * as windows from "./windows/mod.ts";
 import * as posix from "./posix/mod.ts";
 
-Deno.test(`normalize() returns "." if input is empty`, function () {
+Ende.test(`normalize() returns "." if input is empty`, function () {
   assertEquals(posix.normalize(""), ".");
   assertEquals(windows.normalize(""), ".");
 });
 
-Deno.test("posix.normalize() normalizes posix specific paths", () => {
+Ende.test("posix.normalize() normalizes posix specific paths", () => {
   assertEquals(
     posix.normalize("/foo/bar//baz/asdf/quux/.."),
     "/foo/bar/baz/asdf",
@@ -19,7 +19,7 @@ Deno.test("posix.normalize() normalizes posix specific paths", () => {
   );
 });
 
-Deno.test("windows.normalize() normalizes windows specific paths", () => {
+Ende.test("windows.normalize() normalizes windows specific paths", () => {
   assertEquals(
     windows.normalize("//server/share/dir/file.ext"),
     "\\\\server\\share\\dir\\file.ext",

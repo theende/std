@@ -93,7 +93,7 @@ export function encodeHex(
  * } from "@std/encoding/unstable-hex";
  *
  * const prefix = "data:url/fake,";
- * const input = await Deno.readFile("./ende.lock");
+ * const input = await Ende.readFile("./ende.lock");
  * const output = new Uint8Array(prefix.length + calcSizeHex(input.length));
  *
  * const o = new TextEncoder().encodeInto(prefix, output).written;
@@ -101,7 +101,7 @@ export function encodeHex(
  * assertEquals(
  *   new TextDecoder().decode(output),
  *   "data:url/fake," +
- *     encodeHex(await Deno.readFile("./ende.lock")),
+ *     encodeHex(await Ende.readFile("./ende.lock")),
  * );
  * ```
  */

@@ -12,7 +12,7 @@ function filterValuesTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "filterValues() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterValues() handles empty input",
   fn() {
     filterValuesTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterValues() handles identity",
   fn() {
     filterValuesTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterValues() handles filters",
   fn() {
     filterValuesTest(

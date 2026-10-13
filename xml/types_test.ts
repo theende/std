@@ -14,7 +14,7 @@ import type { XmlNode } from "./types.ts";
 // Type Guards
 // =============================================================================
 
-Deno.test("isElement() returns true for element nodes", () => {
+Ende.test("isElement() returns true for element nodes", () => {
   const node: XmlNode = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -24,7 +24,7 @@ Deno.test("isElement() returns true for element nodes", () => {
   assertEquals(isElement(node), true);
 });
 
-Deno.test("isElement() returns false for non-element nodes", () => {
+Ende.test("isElement() returns false for non-element nodes", () => {
   const text: XmlNode = { type: "text", text: "hello" };
   const cdata: XmlNode = { type: "cdata", text: "data" };
   const comment: XmlNode = { type: "comment", text: "note" };
@@ -34,12 +34,12 @@ Deno.test("isElement() returns false for non-element nodes", () => {
   assertEquals(isElement(comment), false);
 });
 
-Deno.test("isText() returns true for text nodes", () => {
+Ende.test("isText() returns true for text nodes", () => {
   const node: XmlNode = { type: "text", text: "hello" };
   assertEquals(isText(node), true);
 });
 
-Deno.test("isText() returns false for non-text nodes", () => {
+Ende.test("isText() returns false for non-text nodes", () => {
   const element: XmlNode = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -54,12 +54,12 @@ Deno.test("isText() returns false for non-text nodes", () => {
   assertEquals(isText(comment), false);
 });
 
-Deno.test("isCData() returns true for CDATA nodes", () => {
+Ende.test("isCData() returns true for CDATA nodes", () => {
   const node: XmlNode = { type: "cdata", text: "<script>" };
   assertEquals(isCData(node), true);
 });
 
-Deno.test("isCData() returns false for non-CDATA nodes", () => {
+Ende.test("isCData() returns false for non-CDATA nodes", () => {
   const element: XmlNode = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -74,12 +74,12 @@ Deno.test("isCData() returns false for non-CDATA nodes", () => {
   assertEquals(isCData(comment), false);
 });
 
-Deno.test("isComment() returns true for comment nodes", () => {
+Ende.test("isComment() returns true for comment nodes", () => {
   const node: XmlNode = { type: "comment", text: "A comment" };
   assertEquals(isComment(node), true);
 });
 
-Deno.test("isComment() returns false for non-comment nodes", () => {
+Ende.test("isComment() returns false for non-comment nodes", () => {
   const element: XmlNode = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -98,7 +98,7 @@ Deno.test("isComment() returns false for non-comment nodes", () => {
 // XmlSyntaxError
 // =============================================================================
 
-Deno.test("XmlSyntaxError contains position information", () => {
+Ende.test("XmlSyntaxError contains position information", () => {
   const error = new XmlSyntaxError("Test error", {
     line: 5,
     column: 10,
@@ -112,7 +112,7 @@ Deno.test("XmlSyntaxError contains position information", () => {
   assertEquals(error.message, "Test error at line 5, column 10");
 });
 
-Deno.test("XmlSyntaxError omits position from message when line is 0", () => {
+Ende.test("XmlSyntaxError omits position from message when line is 0", () => {
   const error = new XmlSyntaxError("Test error", {
     line: 0,
     column: 0,
@@ -125,7 +125,7 @@ Deno.test("XmlSyntaxError omits position from message when line is 0", () => {
   assertEquals(error.offset, 0);
 });
 
-Deno.test("XmlSyntaxError is instanceof SyntaxError", () => {
+Ende.test("XmlSyntaxError is instanceof SyntaxError", () => {
   const error = new XmlSyntaxError("Test", { line: 1, column: 1, offset: 0 });
   assertEquals(error instanceof SyntaxError, true);
 });
@@ -134,7 +134,7 @@ Deno.test("XmlSyntaxError is instanceof SyntaxError", () => {
 // Type Guard Usage with Filtering
 // =============================================================================
 
-Deno.test("type guards work for filtering arrays", () => {
+Ende.test("type guards work for filtering arrays", () => {
   const nodes: XmlNode[] = [
     {
       type: "element",

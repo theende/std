@@ -4,7 +4,7 @@ import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toHaveBeenLastCalledWith() checks the last call of mock function", () => {
+Ende.test("expect().toHaveBeenLastCalledWith() checks the last call of mock function", () => {
   const mockFn = fn();
 
   mockFn(1, 2, 3);
@@ -23,7 +23,7 @@ Deno.test("expect().toHaveBeenLastCalledWith() checks the last call of mock func
   }, AssertionError);
 });
 
-Deno.test("expect().toHaveBeenLastCalledWith() handles the case when the mock is not called", () => {
+Ende.test("expect().toHaveBeenLastCalledWith() handles the case when the mock is not called", () => {
   const mockFn = fn();
 
   expect(mockFn).not.toHaveBeenLastCalledWith(1, 2, 3);
@@ -34,7 +34,7 @@ Deno.test("expect().toHaveBeenLastCalledWith() handles the case when the mock is
   );
 });
 
-Deno.test("expect().toHaveBeenLastCalledWith() with custom error message", () => {
+Ende.test("expect().toHaveBeenLastCalledWith() with custom error message", () => {
   const msg = "toHaveBeenLastCalledWith custom error message";
   const mockFn = fn();
 

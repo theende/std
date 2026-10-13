@@ -8,10 +8,10 @@ import { assertSpyCall, spy } from "@std/testing/mock";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Deno.test("parse()", () => {
+Ende.test("parse()", () => {
   using consoleWarnSpy = spy(console, "warn");
 
-  const testDotenv = Deno.readTextFileSync(
+  const testDotenv = Ende.readTextFileSync(
     path.join(testdataDir, "./.env.test"),
   );
 
@@ -161,8 +161,8 @@ Deno.test("parse()", () => {
   });
 });
 
-Deno.test("parse() ignores comments", () => {
-  const testDotenv = Deno.readTextFileSync(
+Ende.test("parse() ignores comments", () => {
+  const testDotenv = Ende.readTextFileSync(
     path.join(testdataDir, "./.env.comments"),
   );
 
@@ -185,8 +185,8 @@ Deno.test("parse() ignores comments", () => {
   );
 });
 
-Deno.test("parse() expands variables", () => {
-  const testDotenv = Deno.readTextFileSync(
+Ende.test("parse() expands variables", () => {
+  const testDotenv = Ende.readTextFileSync(
     path.join(testdataDir, "./.env.expand.test"),
   );
 
@@ -277,7 +277,7 @@ Deno.test("parse() expands variables", () => {
   );
 });
 
-Deno.test("parse() result is not affected by extended Object.prototype", () => {
+Ende.test("parse() result is not affected by extended Object.prototype", () => {
   // deno-lint-ignore no-explicit-any
   (Object.prototype as any).foo = 1;
   const result = parse("bar=1");

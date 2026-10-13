@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -42,8 +42,8 @@ import { mapError } from "./_map_error.ts";
  * @param mode A sequence of 3 octal numbers representing file permissions.
  */
 export async function chmod(path: string | URL, mode: number) {
-  if (isDeno) {
-    await Deno.chmod(path, mode);
+  if (isEnde) {
+    await Ende.chmod(path, mode);
   } else {
     try {
       await getNodeFs().promises.chmod(path, mode);
@@ -76,8 +76,8 @@ export async function chmod(path: string | URL, mode: number) {
  * @param mode A sequence of 3 octal numbers representing permissions. See {@linkcode chmod}.
  */
 export function chmodSync(path: string | URL, mode: number) {
-  if (isDeno) {
-    Deno.chmodSync(path, mode);
+  if (isEnde) {
+    Ende.chmodSync(path, mode);
   } else {
     try {
       getNodeFs().chmodSync(path, mode);

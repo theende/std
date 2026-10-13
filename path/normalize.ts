@@ -16,7 +16,7 @@ import { normalize as windowsNormalize } from "./windows/normalize.ts";
  * import { normalize } from "@std/path/normalize";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(normalize("C:\\foo\\bar\\..\\baz\\quux"), "C:\\foo\\baz\\quux");
  *   assertEquals(normalize(new URL("file:///C:/foo/bar/../baz/quux")), "C:\\foo\\baz\\quux");
  * } else {

@@ -4,7 +4,7 @@ import { assert, assertRejects, assertThrows } from "@std/assert";
 import { stat, statSync } from "./unstable_stat.ts";
 import { NotFound } from "./unstable_errors.js";
 
-Deno.test("stat() and statSync() return FileInfo for a file", async () => {
+Ende.test("stat() and statSync() return FileInfo for a file", async () => {
   {
     const fileInfo = await stat("README.md");
     assert(fileInfo.isFile);
@@ -16,7 +16,7 @@ Deno.test("stat() and statSync() return FileInfo for a file", async () => {
   }
 });
 
-Deno.test("stat() and statSync() return FileInfo for a directory", async () => {
+Ende.test("stat() and statSync() return FileInfo for a directory", async () => {
   {
     const fileInfo = await stat("fs");
     assert(fileInfo.isDirectory);
@@ -27,7 +27,7 @@ Deno.test("stat() and statSync() return FileInfo for a directory", async () => {
   }
 });
 
-Deno.test("stat() and statSync() throw with NotFound for a non-existent file", async () => {
+Ende.test("stat() and statSync() throw with NotFound for a non-existent file", async () => {
   await assertRejects(async () => {
     await stat("non_existent_file");
   }, NotFound);

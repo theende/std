@@ -15,7 +15,7 @@ import {
 // validateXmlDeclaration Tests
 // =============================================================================
 
-Deno.test("validateXmlDeclaration() accepts minimal declaration", () => {
+Ende.test("validateXmlDeclaration() accepts minimal declaration", () => {
   const result = validateXmlDeclaration('version="1.0"');
   assertEquals(result.valid, true);
   if (result.valid) {
@@ -25,7 +25,7 @@ Deno.test("validateXmlDeclaration() accepts minimal declaration", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts declaration with encoding", () => {
+Ende.test("validateXmlDeclaration() accepts declaration with encoding", () => {
   const result = validateXmlDeclaration('version="1.0" encoding="UTF-8"');
   assertEquals(result.valid, true);
   if (result.valid) {
@@ -34,7 +34,7 @@ Deno.test("validateXmlDeclaration() accepts declaration with encoding", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts declaration with standalone", () => {
+Ende.test("validateXmlDeclaration() accepts declaration with standalone", () => {
   const result = validateXmlDeclaration('version="1.0" standalone="yes"');
   assertEquals(result.valid, true);
   if (result.valid) {
@@ -42,7 +42,7 @@ Deno.test("validateXmlDeclaration() accepts declaration with standalone", () => 
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts declaration with all attributes", () => {
+Ende.test("validateXmlDeclaration() accepts declaration with all attributes", () => {
   const result = validateXmlDeclaration(
     'version="1.0" encoding="UTF-8" standalone="no"',
   );
@@ -54,7 +54,7 @@ Deno.test("validateXmlDeclaration() accepts declaration with all attributes", ()
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts single-quoted values", () => {
+Ende.test("validateXmlDeclaration() accepts single-quoted values", () => {
   const result = validateXmlDeclaration("version='1.0' encoding='UTF-8'");
   assertEquals(result.valid, true);
   if (result.valid) {
@@ -63,7 +63,7 @@ Deno.test("validateXmlDeclaration() accepts single-quoted values", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts trailing whitespace", () => {
+Ende.test("validateXmlDeclaration() accepts trailing whitespace", () => {
   const result = validateXmlDeclaration('version="1.0"   ');
   assertEquals(result.valid, true);
   if (result.valid) {
@@ -71,7 +71,7 @@ Deno.test("validateXmlDeclaration() accepts trailing whitespace", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects missing version attribute", () => {
+Ende.test("validateXmlDeclaration() rejects missing version attribute", () => {
   const result = validateXmlDeclaration('encoding="UTF-8"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -82,7 +82,7 @@ Deno.test("validateXmlDeclaration() rejects missing version attribute", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects VERSION (uppercase)", () => {
+Ende.test("validateXmlDeclaration() rejects VERSION (uppercase)", () => {
   const result = validateXmlDeclaration('VERSION="1.0"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -93,7 +93,7 @@ Deno.test("validateXmlDeclaration() rejects VERSION (uppercase)", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects Version (mixed case)", () => {
+Ende.test("validateXmlDeclaration() rejects Version (mixed case)", () => {
   const result = validateXmlDeclaration('Version="1.0"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -104,7 +104,7 @@ Deno.test("validateXmlDeclaration() rejects Version (mixed case)", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects duplicate version", () => {
+Ende.test("validateXmlDeclaration() rejects duplicate version", () => {
   const result = validateXmlDeclaration('version="1.0" version="1.1"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -115,7 +115,7 @@ Deno.test("validateXmlDeclaration() rejects duplicate version", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects encoding before version", () => {
+Ende.test("validateXmlDeclaration() rejects encoding before version", () => {
   const result = validateXmlDeclaration('encoding="UTF-8" version="1.0"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -127,7 +127,7 @@ Deno.test("validateXmlDeclaration() rejects encoding before version", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects duplicate encoding", () => {
+Ende.test("validateXmlDeclaration() rejects duplicate encoding", () => {
   const result = validateXmlDeclaration(
     'version="1.0" encoding="UTF-8" encoding="ASCII"',
   );
@@ -140,7 +140,7 @@ Deno.test("validateXmlDeclaration() rejects duplicate encoding", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects encoding after standalone", () => {
+Ende.test("validateXmlDeclaration() rejects encoding after standalone", () => {
   const result = validateXmlDeclaration(
     'version="1.0" standalone="yes" encoding="UTF-8"',
   );
@@ -153,7 +153,7 @@ Deno.test("validateXmlDeclaration() rejects encoding after standalone", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects standalone before version", () => {
+Ende.test("validateXmlDeclaration() rejects standalone before version", () => {
   const result = validateXmlDeclaration('standalone="yes" version="1.0"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -165,7 +165,7 @@ Deno.test("validateXmlDeclaration() rejects standalone before version", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects duplicate standalone", () => {
+Ende.test("validateXmlDeclaration() rejects duplicate standalone", () => {
   const result = validateXmlDeclaration(
     'version="1.0" standalone="yes" standalone="no"',
   );
@@ -178,7 +178,7 @@ Deno.test("validateXmlDeclaration() rejects duplicate standalone", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects ENCODING (uppercase)", () => {
+Ende.test("validateXmlDeclaration() rejects ENCODING (uppercase)", () => {
   const result = validateXmlDeclaration('version="1.0" ENCODING="UTF-8"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -189,7 +189,7 @@ Deno.test("validateXmlDeclaration() rejects ENCODING (uppercase)", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects STANDALONE (uppercase)", () => {
+Ende.test("validateXmlDeclaration() rejects STANDALONE (uppercase)", () => {
   const result = validateXmlDeclaration('version="1.0" STANDALONE="yes"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -200,7 +200,7 @@ Deno.test("validateXmlDeclaration() rejects STANDALONE (uppercase)", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects unknown attribute", () => {
+Ende.test("validateXmlDeclaration() rejects unknown attribute", () => {
   const result = validateXmlDeclaration('version="1.0" unknown="value"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -211,7 +211,7 @@ Deno.test("validateXmlDeclaration() rejects unknown attribute", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects missing = after attribute name", () => {
+Ende.test("validateXmlDeclaration() rejects missing = after attribute name", () => {
   const result = validateXmlDeclaration('version "1.0"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -222,7 +222,7 @@ Deno.test("validateXmlDeclaration() rejects missing = after attribute name", () 
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects missing quote after =", () => {
+Ende.test("validateXmlDeclaration() rejects missing quote after =", () => {
   const result = validateXmlDeclaration("version=");
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -233,7 +233,7 @@ Deno.test("validateXmlDeclaration() rejects missing quote after =", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects non-quote character after =", () => {
+Ende.test("validateXmlDeclaration() rejects non-quote character after =", () => {
   const result = validateXmlDeclaration("version=1.0");
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -244,7 +244,7 @@ Deno.test("validateXmlDeclaration() rejects non-quote character after =", () => 
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects unterminated value", () => {
+Ende.test("validateXmlDeclaration() rejects unterminated value", () => {
   const result = validateXmlDeclaration('version="1.0');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -252,7 +252,7 @@ Deno.test("validateXmlDeclaration() rejects unterminated value", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects invalid version number", () => {
+Ende.test("validateXmlDeclaration() rejects invalid version number", () => {
   const result = validateXmlDeclaration('version="2.0"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -263,7 +263,7 @@ Deno.test("validateXmlDeclaration() rejects invalid version number", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects version without minor number", () => {
+Ende.test("validateXmlDeclaration() rejects version without minor number", () => {
   const result = validateXmlDeclaration('version="1."');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -274,7 +274,7 @@ Deno.test("validateXmlDeclaration() rejects version without minor number", () =>
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects invalid encoding name", () => {
+Ende.test("validateXmlDeclaration() rejects invalid encoding name", () => {
   const result = validateXmlDeclaration('version="1.0" encoding="123UTF"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -285,7 +285,7 @@ Deno.test("validateXmlDeclaration() rejects invalid encoding name", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects encoding with invalid character", () => {
+Ende.test("validateXmlDeclaration() rejects encoding with invalid character", () => {
   const result = validateXmlDeclaration('version="1.0" encoding="UTF@8"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -296,7 +296,7 @@ Deno.test("validateXmlDeclaration() rejects encoding with invalid character", ()
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects empty encoding name", () => {
+Ende.test("validateXmlDeclaration() rejects empty encoding name", () => {
   const result = validateXmlDeclaration('version="1.0" encoding=""');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -307,7 +307,7 @@ Deno.test("validateXmlDeclaration() rejects empty encoding name", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects invalid standalone value", () => {
+Ende.test("validateXmlDeclaration() rejects invalid standalone value", () => {
   const result = validateXmlDeclaration('version="1.0" standalone="maybe"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -318,7 +318,7 @@ Deno.test("validateXmlDeclaration() rejects invalid standalone value", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects missing whitespace between attributes", () => {
+Ende.test("validateXmlDeclaration() rejects missing whitespace between attributes", () => {
   const result = validateXmlDeclaration('version="1.0"encoding="UTF-8"');
   assertEquals(result.valid, false);
   if (!result.valid) {
@@ -333,27 +333,27 @@ Deno.test("validateXmlDeclaration() rejects missing whitespace between attribute
 // validateQName Tests
 // =============================================================================
 
-Deno.test("validateQName() accepts simple name without colon", () => {
+Ende.test("validateQName() accepts simple name without colon", () => {
   const error = validateQName("element", -1);
   assertEquals(error, null);
 });
 
-Deno.test("validateQName() accepts valid prefixed name", () => {
+Ende.test("validateQName() accepts valid prefixed name", () => {
   const error = validateQName("ns:element", 2);
   assertEquals(error, null);
 });
 
-Deno.test("validateQName() rejects colon at start", () => {
+Ende.test("validateQName() rejects colon at start", () => {
   const error = validateQName(":element", 0);
   assertEquals(error, "QName cannot start with ':'");
 });
 
-Deno.test("validateQName() rejects colon at end", () => {
+Ende.test("validateQName() rejects colon at end", () => {
   const error = validateQName("element:", 7);
   assertEquals(error, "QName cannot end with ':'");
 });
 
-Deno.test("validateQName() rejects multiple colons", () => {
+Ende.test("validateQName() rejects multiple colons", () => {
   const error = validateQName("a:b:c", 1);
   assertEquals(error, "QName cannot contain multiple ':'");
 });
@@ -362,12 +362,12 @@ Deno.test("validateQName() rejects multiple colons", () => {
 // validateNamespaceBinding Tests
 // =============================================================================
 
-Deno.test("validateNamespaceBinding() accepts default namespace declaration", () => {
+Ende.test("validateNamespaceBinding() accepts default namespace declaration", () => {
   const error = validateNamespaceBinding("xmlns", "http://example.com", false);
   assertEquals(error, null);
 });
 
-Deno.test("validateNamespaceBinding() accepts prefixed namespace declaration", () => {
+Ende.test("validateNamespaceBinding() accepts prefixed namespace declaration", () => {
   const error = validateNamespaceBinding(
     "xmlns:ns",
     "http://example.com",
@@ -376,7 +376,7 @@ Deno.test("validateNamespaceBinding() accepts prefixed namespace declaration", (
   assertEquals(error, null);
 });
 
-Deno.test("validateNamespaceBinding() rejects empty prefix after xmlns:", () => {
+Ende.test("validateNamespaceBinding() rejects empty prefix after xmlns:", () => {
   const error = validateNamespaceBinding(
     "xmlns:",
     "http://example.com",
@@ -385,7 +385,7 @@ Deno.test("validateNamespaceBinding() rejects empty prefix after xmlns:", () => 
   assertEquals(error, "Cannot have empty namespace prefix after 'xmlns:'");
 });
 
-Deno.test("validateNamespaceBinding() rejects prefix unbinding (empty URI)", () => {
+Ende.test("validateNamespaceBinding() rejects prefix unbinding (empty URI)", () => {
   const error = validateNamespaceBinding("xmlns:ns", "", false);
   assertEquals(
     error,
@@ -393,12 +393,12 @@ Deno.test("validateNamespaceBinding() rejects prefix unbinding (empty URI)", () 
   );
 });
 
-Deno.test("validateNamespaceBinding() allows empty default namespace", () => {
+Ende.test("validateNamespaceBinding() allows empty default namespace", () => {
   const error = validateNamespaceBinding("xmlns", "", false);
   assertEquals(error, null);
 });
 
-Deno.test("validateNamespaceBinding() rejects xmlns prefix declaration", () => {
+Ende.test("validateNamespaceBinding() rejects xmlns prefix declaration", () => {
   const error = validateNamespaceBinding(
     "xmlns:xmlns",
     "http://example.com",
@@ -407,7 +407,7 @@ Deno.test("validateNamespaceBinding() rejects xmlns prefix declaration", () => {
   assertEquals(error, "Cannot declare the 'xmlns' prefix");
 });
 
-Deno.test("validateNamespaceBinding() rejects wrong URI for xml prefix", () => {
+Ende.test("validateNamespaceBinding() rejects wrong URI for xml prefix", () => {
   const error = validateNamespaceBinding(
     "xmlns:xml",
     "http://wrong.uri",
@@ -419,7 +419,7 @@ Deno.test("validateNamespaceBinding() rejects wrong URI for xml prefix", () => {
   );
 });
 
-Deno.test("validateNamespaceBinding() accepts correct xml prefix binding", () => {
+Ende.test("validateNamespaceBinding() accepts correct xml prefix binding", () => {
   const error = validateNamespaceBinding(
     "xmlns:xml",
     "http://www.w3.org/XML/1998/namespace",
@@ -428,7 +428,7 @@ Deno.test("validateNamespaceBinding() accepts correct xml prefix binding", () =>
   assertEquals(error, null);
 });
 
-Deno.test("validateNamespaceBinding() rejects xml namespace URI for non-xml prefix", () => {
+Ende.test("validateNamespaceBinding() rejects xml namespace URI for non-xml prefix", () => {
   const error = validateNamespaceBinding(
     "xmlns:other",
     "http://www.w3.org/XML/1998/namespace",
@@ -440,7 +440,7 @@ Deno.test("validateNamespaceBinding() rejects xml namespace URI for non-xml pref
   );
 });
 
-Deno.test("validateNamespaceBinding() rejects binding to xmlns namespace", () => {
+Ende.test("validateNamespaceBinding() rejects binding to xmlns namespace", () => {
   const error = validateNamespaceBinding(
     "xmlns:ns",
     "http://www.w3.org/2000/xmlns/",
@@ -452,7 +452,7 @@ Deno.test("validateNamespaceBinding() rejects binding to xmlns namespace", () =>
   );
 });
 
-Deno.test("validateNamespaceBinding() rejects xml namespace as default", () => {
+Ende.test("validateNamespaceBinding() rejects xml namespace as default", () => {
   const error = validateNamespaceBinding(
     "xmlns",
     "http://www.w3.org/XML/1998/namespace",
@@ -464,7 +464,7 @@ Deno.test("validateNamespaceBinding() rejects xml namespace as default", () => {
   );
 });
 
-Deno.test("validateNamespaceBinding() rejects xmlns namespace as default", () => {
+Ende.test("validateNamespaceBinding() rejects xmlns namespace as default", () => {
   const error = validateNamespaceBinding(
     "xmlns",
     "http://www.w3.org/2000/xmlns/",
@@ -481,7 +481,7 @@ Deno.test("validateNamespaceBinding() rejects xmlns namespace as default", () =>
 // parseName Tests
 // =============================================================================
 
-Deno.test("parseName() parses simple name without prefix", () => {
+Ende.test("parseName() parses simple name without prefix", () => {
   const result = parseName("element");
   assertEquals(result.raw, "element");
   assertEquals(result.local, "element");
@@ -489,7 +489,7 @@ Deno.test("parseName() parses simple name without prefix", () => {
   assertEquals(result.uri, undefined);
 });
 
-Deno.test("parseName() parses prefixed name", () => {
+Ende.test("parseName() parses prefixed name", () => {
   const result = parseName("ns:element");
   assertEquals(result.raw, "ns:element");
   assertEquals(result.local, "element");
@@ -497,7 +497,7 @@ Deno.test("parseName() parses prefixed name", () => {
   assertEquals(result.uri, undefined);
 });
 
-Deno.test("parseName() parses prefixed name with URI", () => {
+Ende.test("parseName() parses prefixed name with URI", () => {
   const result = parseName("ns:element", "http://example.com");
   assertEquals(result.raw, "ns:element");
   assertEquals(result.local, "element");
@@ -505,7 +505,7 @@ Deno.test("parseName() parses prefixed name with URI", () => {
   assertEquals(result.uri, "http://example.com");
 });
 
-Deno.test("parseName() does not include URI for unprefixed name", () => {
+Ende.test("parseName() does not include URI for unprefixed name", () => {
   const result = parseName("element", "http://example.com");
   // parseName doesn't use URI for unprefixed names
   assertEquals(result.raw, "element");
@@ -517,7 +517,7 @@ Deno.test("parseName() does not include URI for unprefixed name", () => {
 // Additional Coverage: validateXmlDeclaration Edge Cases
 // =============================================================================
 
-Deno.test("validateXmlDeclaration() rejects version with non-digit character", () => {
+Ende.test("validateXmlDeclaration() rejects version with non-digit character", () => {
   // Tests line 82-84: version like "1.0a" where non-digit appears after digits
   const result = validateXmlDeclaration('version="1.0a"');
   assertEquals(result.valid, false);
@@ -529,7 +529,7 @@ Deno.test("validateXmlDeclaration() rejects version with non-digit character", (
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts encoding starting with lowercase", () => {
+Ende.test("validateXmlDeclaration() accepts encoding starting with lowercase", () => {
   // Tests line 104: encoding name starting with lowercase letter
   const result = validateXmlDeclaration('version="1.0" encoding="utf-8"');
   assertEquals(result.valid, true);
@@ -538,7 +538,7 @@ Deno.test("validateXmlDeclaration() accepts encoding starting with lowercase", (
   }
 });
 
-Deno.test("validateXmlDeclaration() accepts encoding with mixed case and special chars", () => {
+Ende.test("validateXmlDeclaration() accepts encoding with mixed case and special chars", () => {
   // Tests line 113: encoding with various valid characters (letters, digits, ., _, -)
   const result = validateXmlDeclaration(
     'version="1.0" encoding="Shift_JIS-2004"',
@@ -549,7 +549,7 @@ Deno.test("validateXmlDeclaration() accepts encoding with mixed case and special
   }
 });
 
-Deno.test("validateXmlDeclaration() handles leading whitespace", () => {
+Ende.test("validateXmlDeclaration() handles leading whitespace", () => {
   // Tests lines 179-181: leading whitespace in declaration content
   const result = validateXmlDeclaration('   version="1.0"');
   assertEquals(result.valid, true);
@@ -558,7 +558,7 @@ Deno.test("validateXmlDeclaration() handles leading whitespace", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() handles trailing whitespace only", () => {
+Ende.test("validateXmlDeclaration() handles trailing whitespace only", () => {
   // Tests lines 196-199: empty name after whitespace (trailing whitespace)
   const result = validateXmlDeclaration('version="1.0"   ');
   assertEquals(result.valid, true);
@@ -567,7 +567,7 @@ Deno.test("validateXmlDeclaration() handles trailing whitespace only", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() handles whitespace around = in attributes", () => {
+Ende.test("validateXmlDeclaration() handles whitespace around = in attributes", () => {
   // Tests lines 276-278: whitespace after = in attribute
   const result = validateXmlDeclaration('version = "1.0" encoding =  "UTF-8"');
   assertEquals(result.valid, true);
@@ -577,7 +577,7 @@ Deno.test("validateXmlDeclaration() handles whitespace around = in attributes", 
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects Encoding (mixed case)", () => {
+Ende.test("validateXmlDeclaration() rejects Encoding (mixed case)", () => {
   // Tests line 246-247: Encoding mixed case variant
   const result = validateXmlDeclaration('version="1.0" Encoding="UTF-8"');
   assertEquals(result.valid, false);
@@ -589,7 +589,7 @@ Deno.test("validateXmlDeclaration() rejects Encoding (mixed case)", () => {
   }
 });
 
-Deno.test("validateXmlDeclaration() rejects Standalone (mixed case)", () => {
+Ende.test("validateXmlDeclaration() rejects Standalone (mixed case)", () => {
   // Tests line 247: Standalone mixed case variant
   const result = validateXmlDeclaration('version="1.0" Standalone="yes"');
   assertEquals(result.valid, false);
@@ -607,21 +607,21 @@ Deno.test("validateXmlDeclaration() rejects Standalone (mixed case)", () => {
 
 import { isReservedPiTarget } from "./_common.ts";
 
-Deno.test("isReservedPiTarget() returns true for 'xml'", () => {
+Ende.test("isReservedPiTarget() returns true for 'xml'", () => {
   assertEquals(isReservedPiTarget("xml"), true);
 });
 
-Deno.test("isReservedPiTarget() returns true for 'XML'", () => {
+Ende.test("isReservedPiTarget() returns true for 'XML'", () => {
   assertEquals(isReservedPiTarget("XML"), true);
 });
 
-Deno.test("isReservedPiTarget() returns true for mixed case 'Xml'", () => {
+Ende.test("isReservedPiTarget() returns true for mixed case 'Xml'", () => {
   assertEquals(isReservedPiTarget("Xml"), true);
   assertEquals(isReservedPiTarget("xMl"), true);
   assertEquals(isReservedPiTarget("xML"), true);
 });
 
-Deno.test("isReservedPiTarget() returns false for other targets", () => {
+Ende.test("isReservedPiTarget() returns false for other targets", () => {
   assertEquals(isReservedPiTarget("target"), false);
   assertEquals(isReservedPiTarget("xmlfoo"), false); // starts with xml but longer
   assertEquals(isReservedPiTarget("xm"), false); // too short
@@ -632,12 +632,12 @@ Deno.test("isReservedPiTarget() returns false for other targets", () => {
 // XML 1.1 Namespace Unbinding Tests
 // =============================================================================
 
-Deno.test("validateNamespaceBinding() xml11 allows prefix unbinding", () => {
+Ende.test("validateNamespaceBinding() xml11 allows prefix unbinding", () => {
   const error = validateNamespaceBinding("xmlns:ns", "", true);
   assertEquals(error, null);
 });
 
-Deno.test("validateNamespaceBinding() xml11 still rejects xmlns prefix declaration", () => {
+Ende.test("validateNamespaceBinding() xml11 still rejects xmlns prefix declaration", () => {
   const error = validateNamespaceBinding(
     "xmlns:xmlns",
     "http://example.com",
@@ -646,7 +646,7 @@ Deno.test("validateNamespaceBinding() xml11 still rejects xmlns prefix declarati
   assertEquals(typeof error, "string");
 });
 
-Deno.test("validateNamespaceBinding() xml11 still validates xml prefix binding", () => {
+Ende.test("validateNamespaceBinding() xml11 still validates xml prefix binding", () => {
   const error = validateNamespaceBinding(
     "xmlns:xml",
     "http://wrong.example.com",
@@ -659,36 +659,36 @@ Deno.test("validateNamespaceBinding() xml11 still validates xml prefix binding",
 // LINE_ENDING_REGEXP Tests
 // =============================================================================
 
-Deno.test("LINE_ENDING_REGEXP 1.0 normalizes \\r\\n to \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.0 normalizes \\r\\n to \\n", () => {
   assertEquals("a\r\nb".replace(LINE_ENDING_REGEXP["1.0"], "\n"), "a\nb");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.0 normalizes standalone \\r to \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.0 normalizes standalone \\r to \\n", () => {
   assertEquals("a\rb".replace(LINE_ENDING_REGEXP["1.0"], "\n"), "a\nb");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.0 does not normalize NEL or LS", () => {
+Ende.test("LINE_ENDING_REGEXP 1.0 does not normalize NEL or LS", () => {
   assertEquals("a\x85b".replace(LINE_ENDING_REGEXP["1.0"], "\n"), "a\x85b");
   assertEquals("a\u2028b".replace(LINE_ENDING_REGEXP["1.0"], "\n"), "a\u2028b");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.1 normalizes \\r\\n to \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.1 normalizes \\r\\n to \\n", () => {
   assertEquals("a\r\nb".replace(LINE_ENDING_REGEXP["1.1"], "\n"), "a\nb");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.1 normalizes standalone \\r to \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.1 normalizes standalone \\r to \\n", () => {
   assertEquals("a\rb".replace(LINE_ENDING_REGEXP["1.1"], "\n"), "a\nb");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.1 normalizes NEL to \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.1 normalizes NEL to \\n", () => {
   assertEquals("a\x85b".replace(LINE_ENDING_REGEXP["1.1"], "\n"), "a\nb");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.1 normalizes \\r\\x85 to single \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.1 normalizes \\r\\x85 to single \\n", () => {
   assertEquals("a\r\x85b".replace(LINE_ENDING_REGEXP["1.1"], "\n"), "a\nb");
 });
 
-Deno.test("LINE_ENDING_REGEXP 1.1 normalizes LS (U+2028) to \\n", () => {
+Ende.test("LINE_ENDING_REGEXP 1.1 normalizes LS (U+2028) to \\n", () => {
   assertEquals("a\u2028b".replace(LINE_ENDING_REGEXP["1.1"], "\n"), "a\nb");
 });
 
@@ -696,34 +696,34 @@ Deno.test("LINE_ENDING_REGEXP 1.1 normalizes LS (U+2028) to \\n", () => {
 // validatePubidLiteral Tests
 // =============================================================================
 
-Deno.test("validatePubidLiteral() accepts valid characters", () => {
+Ende.test("validatePubidLiteral() accepts valid characters", () => {
   assertEquals(
     validatePubidLiteral("-//OASIS//DTD DocBook V4.5//EN", '"'),
     null,
   );
 });
 
-Deno.test("validatePubidLiteral() accepts empty string", () => {
+Ende.test("validatePubidLiteral() accepts empty string", () => {
   assertEquals(validatePubidLiteral("", '"'), null);
 });
 
-Deno.test("validatePubidLiteral() accepts all special PubidChars", () => {
+Ende.test("validatePubidLiteral() accepts all special PubidChars", () => {
   assertEquals(
     validatePubidLiteral("-()+,./:=?;!*#@$_%", '"'),
     null,
   );
 });
 
-Deno.test("validatePubidLiteral() accepts single quote inside double-quoted literal", () => {
+Ende.test("validatePubidLiteral() accepts single quote inside double-quoted literal", () => {
   assertEquals(validatePubidLiteral("it's", '"'), null);
 });
 
-Deno.test("validatePubidLiteral() rejects single quote inside single-quoted literal", () => {
+Ende.test("validatePubidLiteral() rejects single quote inside single-quoted literal", () => {
   const error = validatePubidLiteral("it's", "'");
   assertEquals(typeof error, "string");
 });
 
-Deno.test("validatePubidLiteral() rejects invalid character", () => {
+Ende.test("validatePubidLiteral() rejects invalid character", () => {
   const error = validatePubidLiteral("hello\x7F", '"');
   assertEquals(typeof error, "string");
 });
@@ -732,11 +732,11 @@ Deno.test("validatePubidLiteral() rejects invalid character", () => {
 // isIllegalXmlLiteralChar Tests
 // =============================================================================
 
-Deno.test("isIllegalXmlLiteralChar() xml10 rejects NULL", () => {
+Ende.test("isIllegalXmlLiteralChar() xml10 rejects NULL", () => {
   assertEquals(isIllegalXmlLiteralChar(0x00, false), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml10 rejects C0 controls except TAB/LF/CR", () => {
+Ende.test("isIllegalXmlLiteralChar() xml10 rejects C0 controls except TAB/LF/CR", () => {
   assertEquals(isIllegalXmlLiteralChar(0x01, false), true);
   assertEquals(isIllegalXmlLiteralChar(0x08, false), true);
   assertEquals(isIllegalXmlLiteralChar(0x0B, false), true);
@@ -745,28 +745,28 @@ Deno.test("isIllegalXmlLiteralChar() xml10 rejects C0 controls except TAB/LF/CR"
   assertEquals(isIllegalXmlLiteralChar(0x1F, false), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml10 allows TAB, LF, CR", () => {
+Ende.test("isIllegalXmlLiteralChar() xml10 allows TAB, LF, CR", () => {
   assertEquals(isIllegalXmlLiteralChar(0x09, false), false);
   assertEquals(isIllegalXmlLiteralChar(0x0A, false), false);
   assertEquals(isIllegalXmlLiteralChar(0x0D, false), false);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml10 rejects noncharacters", () => {
+Ende.test("isIllegalXmlLiteralChar() xml10 rejects noncharacters", () => {
   assertEquals(isIllegalXmlLiteralChar(0xFFFE, false), true);
   assertEquals(isIllegalXmlLiteralChar(0xFFFF, false), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml10 allows normal characters", () => {
+Ende.test("isIllegalXmlLiteralChar() xml10 allows normal characters", () => {
   assertEquals(isIllegalXmlLiteralChar(0x20, false), false);
   assertEquals(isIllegalXmlLiteralChar(0x41, false), false);
   assertEquals(isIllegalXmlLiteralChar(0x7F, false), false);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 rejects NULL", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 rejects NULL", () => {
   assertEquals(isIllegalXmlLiteralChar(0x00, true), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 restricts C0 controls (literal only)", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 restricts C0 controls (literal only)", () => {
   assertEquals(isIllegalXmlLiteralChar(0x01, true), true);
   assertEquals(isIllegalXmlLiteralChar(0x08, true), true);
   assertEquals(isIllegalXmlLiteralChar(0x0B, true), true);
@@ -775,13 +775,13 @@ Deno.test("isIllegalXmlLiteralChar() xml11 restricts C0 controls (literal only)"
   assertEquals(isIllegalXmlLiteralChar(0x1F, true), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 allows TAB, LF, CR", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 allows TAB, LF, CR", () => {
   assertEquals(isIllegalXmlLiteralChar(0x09, true), false);
   assertEquals(isIllegalXmlLiteralChar(0x0A, true), false);
   assertEquals(isIllegalXmlLiteralChar(0x0D, true), false);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 restricts C1 controls except NEL", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 restricts C1 controls except NEL", () => {
   assertEquals(isIllegalXmlLiteralChar(0x7F, true), true);
   assertEquals(isIllegalXmlLiteralChar(0x80, true), true);
   assertEquals(isIllegalXmlLiteralChar(0x84, true), true);
@@ -789,16 +789,16 @@ Deno.test("isIllegalXmlLiteralChar() xml11 restricts C1 controls except NEL", ()
   assertEquals(isIllegalXmlLiteralChar(0x9F, true), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 allows NEL (U+0085)", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 allows NEL (U+0085)", () => {
   assertEquals(isIllegalXmlLiteralChar(0x85, true), false);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 rejects noncharacters", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 rejects noncharacters", () => {
   assertEquals(isIllegalXmlLiteralChar(0xFFFE, true), true);
   assertEquals(isIllegalXmlLiteralChar(0xFFFF, true), true);
 });
 
-Deno.test("isIllegalXmlLiteralChar() xml11 allows normal characters", () => {
+Ende.test("isIllegalXmlLiteralChar() xml11 allows normal characters", () => {
   assertEquals(isIllegalXmlLiteralChar(0x20, true), false);
   assertEquals(isIllegalXmlLiteralChar(0x41, true), false);
   assertEquals(isIllegalXmlLiteralChar(0xA0, true), false);

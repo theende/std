@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert/equals";
 import { html } from "./unstable_html.ts";
 
-Deno.test("html()", () => {
+Ende.test("html()", () => {
   const a = "red";
   const b = "blue";
   const result = html`
@@ -16,7 +16,7 @@ Deno.test("html()", () => {
   );
 });
 
-Deno.test("html() treats undefined as empty string", () => {
+Ende.test("html() treats undefined as empty string", () => {
   assertEquals(
     html`
       <div>${undefined}</div>
@@ -27,7 +27,7 @@ Deno.test("html() treats undefined as empty string", () => {
   );
 });
 
-Deno.test("html() with no interpolations", () => {
+Ende.test("html() with no interpolations", () => {
   assertEquals(
     html`
       <p>hello</p>
@@ -38,7 +38,7 @@ Deno.test("html() with no interpolations", () => {
   );
 });
 
-Deno.test("html() with empty string interpolation", () => {
+Ende.test("html() with empty string interpolation", () => {
   assertEquals(
     html`
       <div>${""}</div>
@@ -49,7 +49,7 @@ Deno.test("html() with empty string interpolation", () => {
   );
 });
 
-Deno.test("html() does not escape HTML in interpolated values", () => {
+Ende.test("html() does not escape HTML in interpolated values", () => {
   const userInput = '<script>alert("XSS")</script>';
   assertEquals(
     html`

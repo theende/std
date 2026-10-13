@@ -9,7 +9,7 @@ import { copyFile, copyFileSync } from "./unstable_copy_file.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { readTextFile, readTextFileSync } from "./unstable_read_text_file.ts";
 
-Deno.test("copyFile() copies content to an existed file", async () => {
+Ende.test("copyFile() copies content to an existed file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "copy_file_async_" });
   const source = join(tempDirPath, "source.txt");
   const target = join(tempDirPath, "target.txt");
@@ -28,7 +28,7 @@ Deno.test("copyFile() copies content to an existed file", async () => {
   }
 });
 
-Deno.test("copyFile() copies content to a directory, which will throw an error", async () => {
+Ende.test("copyFile() copies content to a directory, which will throw an error", async () => {
   const tempDirPath = await makeTempDir({ prefix: "copy_file_async_" });
   const source = join(tempDirPath, "source.txt");
 
@@ -45,7 +45,7 @@ Deno.test("copyFile() copies content to a directory, which will throw an error",
   }
 });
 
-Deno.test(
+Ende.test(
   "copyFile() copies content to a non existed file",
   async () => {
     const tempDirPath = await makeTempDir({ prefix: "copy_file_async_" });
@@ -69,7 +69,7 @@ Deno.test(
   },
 );
 
-Deno.test("copyFileSync() copies content to an existed file", () => {
+Ende.test("copyFileSync() copies content to an existed file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "copy_file_sync_" });
   const source = join(tempDirPath, "source.txt");
   const target = join(tempDirPath, "target.txt");
@@ -86,7 +86,7 @@ Deno.test("copyFileSync() copies content to an existed file", () => {
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("copyFileSync() copies content to a directory, which will throw an error", () => {
+Ende.test("copyFileSync() copies content to a directory, which will throw an error", () => {
   const tempDirPath = makeTempDirSync({ prefix: "copy_file_sync_" });
   const source = join(tempDirPath, "source.txt");
 
@@ -103,7 +103,7 @@ Deno.test("copyFileSync() copies content to a directory, which will throw an err
   }
 });
 
-Deno.test("copyFileSync() copies content to a non existed file", () => {
+Ende.test("copyFileSync() copies content to a non existed file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "copy_file_sync_" });
   const source = join(tempDirPath, "source.txt");
   const target = join(tempDirPath, "target.txt");

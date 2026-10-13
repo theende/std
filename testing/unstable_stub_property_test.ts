@@ -10,7 +10,7 @@ const STUBBED_VALUE = "baz";
 
 type Obj = { [PROP]?: string };
 
-Deno.test("stubProperty() stubs properties and returns them to their original values", () => {
+Ende.test("stubProperty() stubs properties and returns them to their original values", () => {
   const descriptors: (TypedPropertyDescriptor<string> | undefined)[] = [
     undefined,
     {
@@ -77,7 +77,7 @@ Deno.test("stubProperty() stubs properties and returns them to their original va
   }
 });
 
-Deno.test("stubProperty() throws if property is not configurable or writable", () => {
+Ende.test("stubProperty() throws if property is not configurable or writable", () => {
   assertThrows(
     () =>
       stubProperty(

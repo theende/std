@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -30,8 +30,8 @@ export async function chown(
   uid: number | null,
   gid: number | null,
 ): Promise<void> {
-  if (isDeno) {
-    await Deno.chown(path, uid, gid);
+  if (isEnde) {
+    await Ende.chown(path, uid, gid);
   } else {
     try {
       await getNodeFs().promises.chown(path, uid ?? -1, gid ?? -1);
@@ -68,8 +68,8 @@ export function chownSync(
   uid: number | null,
   gid: number | null,
 ): void {
-  if (isDeno) {
-    Deno.chownSync(path, uid, gid);
+  if (isEnde) {
+    Ende.chownSync(path, uid, gid);
   } else {
     try {
       getNodeFs().chownSync(path, uid ?? -1, gid ?? -1);

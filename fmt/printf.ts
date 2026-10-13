@@ -58,8 +58,8 @@
  * | `T`   | type of arg, as returned by `typeof`                           |
  * | `v`   | value of argument in 'default' format (see below)              |
  * | `j`   | argument as formatted by `JSON.stringify`                      |
- * | `i`   | argument as formatted by `Deno.inspect`                        |
- * | `I`   | argument as formatted by `Deno.inspect` in compact format      |
+ * | `i`   | argument as formatted by `Ende.inspect`                        |
+ * | `I`   | argument as formatted by `Ende.inspect` in compact format      |
  *
  * ## Width and Precision
  *
@@ -258,7 +258,7 @@ class Printf {
     for (let i = 0; i !== this.haveSeen.length; ++i) {
       if (!this.haveSeen[i]) {
         extras = true;
-        err += ` '${Deno.inspect(this.args[i])}'`;
+        err += ` '${Ende.inspect(this.args[i])}'`;
       }
     }
     err += ")";
@@ -921,7 +921,7 @@ class Printf {
       const options = this.flags.precision !== -1
         ? { depth: this.flags.precision }
         : {};
-      return this.pad(Deno.inspect(val, options));
+      return this.pad(Ende.inspect(val, options));
     } else {
       const p = this.flags.precision;
       return p === -1 ? val.toString() : val.toString().slice(0, p);
@@ -942,8 +942,8 @@ class Printf {
    * @param compact Whether or not the output should be compact.
    */
   fmtI(val: unknown, compact: boolean): string {
-    return Deno.inspect(val, {
-      colors: !Deno?.noColor,
+    return Ende.inspect(val, {
+      colors: !Ende?.noColor,
       compact,
       depth: Infinity,
       iterableLimit: Infinity,
@@ -1011,5 +1011,5 @@ export function sprintf(format: string, ...args: unknown[]): string {
  */
 export function printf(format: string, ...args: unknown[]) {
   const s = sprintf(format, ...args);
-  Deno.stdout.writeSync(new TextEncoder().encode(s));
+  Ende.stdout.writeSync(new TextEncoder().encode(s));
 }

@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-// Deno.lint namespace does not pass type checking in Deno 1.x
+// Ende.lint namespace does not pass type checking in Deno 1.x
 
 import { assertEquals } from "@std/assert/equals";
 import lintPlugin, { COPYRIGHT_NOTICE } from "./lint_plugin.ts";
@@ -7,11 +7,11 @@ import lintPlugin, { COPYRIGHT_NOTICE } from "./lint_plugin.ts";
 function assertLintPluginDiagnostics(
   source: string,
   // Note: if empty, means no lint errors
-  expectedDiagnostics: Deno.lint.Diagnostic[],
+  expectedDiagnostics: Ende.lint.Diagnostic[],
   // Set to false when wanting to check comments (i.e. testing of `deno-style-guide/copyright-notice` lint rule)
   ignoreComments = true,
 ) {
-  const actualDiagnostics = Deno.lint.runPlugin(
+  const actualDiagnostics = Ende.lint.runPlugin(
     lintPlugin,
     ignoreComments ? "ignore_comments.ts" : "main.ts", // Dummy filename, file doesn't need to exist.
     source,
@@ -19,8 +19,8 @@ function assertLintPluginDiagnostics(
   assertEquals(actualDiagnostics, expectedDiagnostics);
 }
 
-Deno.test("deno-style-guide/prefer-private-field", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/prefer-private-field", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -58,8 +58,8 @@ class MyClass {
   );
 });
 
-Deno.test("deno-style-guide/no-top-level-arrow-syntax", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/no-top-level-arrow-syntax", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Bad
   assertLintPluginDiagnostics(
@@ -99,8 +99,8 @@ function foo() {
   );
 });
 
-Deno.test("deno-style-guide/no-external-code", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/no-external-code", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
   assertLintPluginDiagnostics('import { walk } from "@std/fs/walk";', []);
@@ -129,8 +129,8 @@ import { bad } from "jsr:@malicious-muffin/bad";
   );
 });
 
-Deno.test("deno-style-guide/naming-convention", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/naming-convention", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -240,12 +240,12 @@ enum enumName {
         message: "Interface name 'interfaceName' is not PascalCase.",
         range: [264, 277],
       },
-    ] as unknown as Deno.lint.Diagnostic[],
+    ] as unknown as Ende.lint.Diagnostic[],
   );
 });
 
-Deno.test("deno-style-guide/error-message", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/error-message", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -313,8 +313,8 @@ new CustomError("Can't parse input");
   );
 });
 
-Deno.test("deno-style-guide/exported-function-args-maximum", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/exported-function-args-maximum", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -377,8 +377,8 @@ export function foo(bar: unknown, baz: unknown, bat: unknown, options: Record<st
   );
 });
 
-Deno.test("deno-style-guide/copyright-notice", {
-  ignore: !Deno.version.deno.startsWith("2"),
+Ende.test("deno-style-guide/copyright-notice", {
+  ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
   assertLintPluginDiagnostics(

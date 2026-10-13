@@ -1,16 +1,16 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-export interface DenoJson {
+export interface EndeJson {
   name: string;
   version: string;
   exports: Record<string, string>;
   workspace?: string[];
 }
 
-async function importJson(path: string): Promise<DenoJson> {
+async function importJson(path: string): Promise<EndeJson> {
   return (await import(path, { with: { type: "json" } })).default;
 }
 
-export async function getPackagesDenoJsons(): Promise<DenoJson[]> {
+export async function getPackagesEndeJsons(): Promise<EndeJson[]> {
   const { workspace } = await importJson("../ende.json");
   return Promise.all(
     workspace!.map((path) => importJson(`../${path}/ende.json`)),
@@ -18,7 +18,7 @@ export async function getPackagesDenoJsons(): Promise<DenoJson[]> {
 }
 
 export async function getEntrypoints(): Promise<string[]> {
-  return (await getPackagesDenoJsons())
+  return (await getPackagesEndeJsons())
     .flatMap(({ name, exports }) =>
       Object.keys(exports).map((mod) =>
         mod === "." ? name : name + mod.slice(1)

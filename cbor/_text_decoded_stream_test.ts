@@ -8,7 +8,7 @@ import { CborSequenceDecoderStream } from "./sequence_decoder_stream.ts";
 import { CborTextEncoderStream } from "./text_encoder_stream.ts";
 import { CborSequenceEncoderStream } from "./sequence_encoder_stream.ts";
 
-Deno.test("CborTextDecodedStream() consuming indefinite length text string", async () => {
+Ende.test("CborTextDecodedStream() consuming indefinite length text string", async () => {
   const size = random(0, 24);
 
   const reader = CborTextEncoderStream.from([
@@ -30,7 +30,7 @@ Deno.test("CborTextDecodedStream() consuming indefinite length text string", asy
   reader.releaseLock();
 });
 
-Deno.test("CborTextDecodedStream() consuming large definite length text string", async () => {
+Ende.test("CborTextDecodedStream() consuming large definite length text string", async () => {
   // Strings need to be 2 ** 16 bytes+ to be decoded via a CborTextDecodedStream.
   const size = random(2 ** 16, 2 ** 17);
 
@@ -50,7 +50,7 @@ Deno.test("CborTextDecodedStream() consuming large definite length text string",
   reader.releaseLock();
 });
 
-Deno.test("CborTextDecodedStream() being cancelled", async () => {
+Ende.test("CborTextDecodedStream() being cancelled", async () => {
   const size = random(0, 24);
 
   const reader = ReadableStream.from([

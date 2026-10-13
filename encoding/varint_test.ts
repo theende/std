@@ -23,20 +23,20 @@ function encodeDecode(i: number | bigint) {
   );
 }
 
-Deno.test("decodeVarint() handles empty buff", () => {
+Ende.test("decodeVarint() handles empty buff", () => {
   assertThrows(() => decodeVarint(Uint8Array.of()), RangeError);
 });
 
-Deno.test("decodeVarint() handles manual", () => {
+Ende.test("decodeVarint() handles manual", () => {
   assertEquals(decodeVarint(Uint8Array.of(172, 2)), [300n, 2]);
 });
-Deno.test("decodeVarint() handles max size", () => {
+Ende.test("decodeVarint() handles max size", () => {
   assertEquals(
     decodeVarint(Uint8Array.of(255, 255, 255, 255, 255, 255, 255, 255, 255, 1)),
     [18446744073709551615n, 10],
   );
 });
-Deno.test("decodeVarint() throws on overflow", () => {
+Ende.test("decodeVarint() throws on overflow", () => {
   assertThrows(
     () =>
       decodeVarint(
@@ -45,7 +45,7 @@ Deno.test("decodeVarint() throws on overflow", () => {
     RangeError,
   );
 });
-Deno.test("decodeVarint() handles with offset", () => {
+Ende.test("decodeVarint() handles with offset", () => {
   assertEquals(
     decodeVarint(
       Uint8Array.of(
@@ -69,16 +69,16 @@ Deno.test("decodeVarint() handles with offset", () => {
     [18446744073709551615n, 14],
   );
 });
-Deno.test("decodeVarint32() handles manual", () => {
+Ende.test("decodeVarint32() handles manual", () => {
   assertEquals(decodeVarint32(Uint8Array.of(172, 2)), [300, 2]);
 });
-Deno.test("decodeVarint32() handles max size", () => {
+Ende.test("decodeVarint32() handles max size", () => {
   assertEquals(
     decodeVarint32(Uint8Array.of(255, 255, 255, 255, 15, 0, 0, 0, 0, 0)),
     [4294967295, 5],
   );
 });
-Deno.test("decodeVarint32() throws on overflow", () => {
+Ende.test("decodeVarint32() throws on overflow", () => {
   assertThrows(
     () =>
       decodeVarint32(
@@ -87,7 +87,7 @@ Deno.test("decodeVarint32() throws on overflow", () => {
     RangeError,
   );
 });
-Deno.test("decodeVarint32() handles with offset", () => {
+Ende.test("decodeVarint32() handles with offset", () => {
   assertEquals(
     decodeVarint32(
       Uint8Array.of(255, 255, 255, 255, 255, 255, 255, 255, 15, 0),
@@ -96,7 +96,7 @@ Deno.test("decodeVarint32() handles with offset", () => {
     [4294967295, 9],
   );
 });
-Deno.test("encodeVarint() handles manual", () => {
+Ende.test("encodeVarint() handles manual", () => {
   assertEquals(encodeVarint(300, new Uint8Array(2)), [
     Uint8Array.of(172, 2),
     2,
@@ -110,10 +110,10 @@ Deno.test("encodeVarint() handles manual", () => {
     [Uint8Array.of(255, 255, 255, 255, 255, 255, 255, 255, 255, 1), 10],
   );
 });
-Deno.test("encodeVarint() throws on overflow uint64", () => {
+Ende.test("encodeVarint() throws on overflow uint64", () => {
   assertThrows(() => encodeVarint(1e+30), RangeError, "overflows uint64");
 });
-Deno.test("encodeVarint() throws on overflow uint64 with default buffer", () => {
+Ende.test("encodeVarint() throws on overflow uint64 with default buffer", () => {
   // 0x1234567891234567891n is 73 bits, exceeds MaxUint64 (2^64 - 1).
   // The default 10-byte buffer must not silently truncate the encoding.
   assertThrows(
@@ -122,7 +122,7 @@ Deno.test("encodeVarint() throws on overflow uint64 with default buffer", () => 
     "overflows uint64",
   );
 });
-Deno.test("encodeVarint() throws when the buffer is too small", () => {
+Ende.test("encodeVarint() throws when the buffer is too small", () => {
   // MaxUint64 needs 10 bytes to encode; a 5-byte buffer is too small.
   assertThrows(
     () => encodeVarint(MaxUint64, new Uint8Array(5)),
@@ -130,14 +130,14 @@ Deno.test("encodeVarint() throws when the buffer is too small", () => {
     "the provided buffer is too small",
   );
 });
-Deno.test("encodeVarint() throws on overflow with negative", () => {
+Ende.test("encodeVarint() throws on overflow with negative", () => {
   assertThrows(
     () => encodeVarint(-1),
     RangeError,
     "Cannot encode the input into varint as it should be non-negative integer: received -1",
   );
 });
-Deno.test("encodeVarint() encodes with offset", () => {
+Ende.test("encodeVarint() encodes with offset", () => {
   let uint = new Uint8Array(3);
   assertEquals(
     encodeVarint(300, uint, 1),
@@ -152,7 +152,7 @@ Deno.test("encodeVarint() encodes with offset", () => {
   );
   assertEquals(uint, Uint8Array.of(12, 12, 12, 255, 255, 255, 255, 15, 0, 0));
 });
-Deno.test("encodeDecode() handles BigInt", () => {
+Ende.test("encodeDecode() handles BigInt", () => {
   for (
     const i of [
       0n,
@@ -179,7 +179,7 @@ Deno.test("encodeDecode() handles BigInt", () => {
     encodeDecode(i);
   }
 });
-Deno.test("encodeDecode() handles decodeVarint32", () => {
+Ende.test("encodeDecode() handles decodeVarint32", () => {
   for (
     const i of [
       0,

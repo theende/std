@@ -3,7 +3,7 @@
 import { toLines } from "./unstable_to_lines.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test("toLines() parses simple input", async () => {
+Ende.test("toLines() parses simple input", async () => {
   const stream = ReadableStream.from([
     "qwertzu",
     "iopasd\r\nmnbvc",
@@ -26,7 +26,7 @@ Deno.test("toLines() parses simple input", async () => {
   ]);
 });
 
-Deno.test("toLines() parses large chunks", async () => {
+Ende.test("toLines() parses large chunks", async () => {
   const totalLines = 20_000;
   const stream = ReadableStream.from(["\n".repeat(totalLines)]).pipeThrough(
     new TextEncoderStream(),

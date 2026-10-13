@@ -39,7 +39,7 @@ const strings = Array.from({ length: 10000 }).map(() =>
   generateRandomString(0, 100)
 );
 
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "splitReverseJoin",
   fn: () => {
@@ -48,7 +48,7 @@ Deno.bench({
     }
   },
 });
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "forOf",
   fn: () => {
@@ -57,7 +57,7 @@ Deno.bench({
     }
   },
 });
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "reduce",
   fn: () => {
@@ -66,7 +66,7 @@ Deno.bench({
     }
   },
 });
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "spreadReverseJoin",
   fn: () => {
@@ -75,7 +75,7 @@ Deno.bench({
     }
   },
 });
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "forLoop",
   fn: () => {
@@ -84,7 +84,7 @@ Deno.bench({
     }
   },
 });
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "esrever",
   fn: () => {
@@ -93,7 +93,7 @@ Deno.bench({
     }
   },
 });
-Deno.bench({
+Ende.bench({
   group: "reverseString",
   name: "esrever (no unicode)",
   fn: () => {

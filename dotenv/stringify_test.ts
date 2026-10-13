@@ -4,7 +4,7 @@ import { assertEquals } from "@std/assert";
 import { stringify } from "./stringify.ts";
 import { parse } from "./parse.ts";
 
-Deno.test("stringify()", async (t) => {
+Ende.test("stringify()", async (t) => {
   await t.step(
     "basic",
     () =>
@@ -86,7 +86,7 @@ Deno.test("stringify()", async (t) => {
     ));
 });
 
-Deno.test("stringify() round-trips through parse() for tricky values", () => {
+Ende.test("stringify() round-trips through parse() for tricky values", () => {
   // Regression for https://github.com/denoland/std/issues/7055 — values
   // containing combinations of quotes, apostrophes, real newlines, and
   // literal backslash-n (or other escape-like character pairs) must round-trip
@@ -131,7 +131,7 @@ Deno.test("stringify() round-trips through parse() for tricky values", () => {
   }
 });
 
-Deno.test("stringify() round-trips JSON-encoded payloads", () => {
+Ende.test("stringify() round-trips JSON-encoded payloads", () => {
   const payloads = [
     { foo: "bar" },
     { greeting: "hello\nworld" },

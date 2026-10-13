@@ -16,7 +16,7 @@ import type { Reader } from "./types.ts";
  * const res = await fetch("https://deno.land");
  *
  * const reader = readerFromStreamReader(res.body!.getReader());
- * await copy(reader, Deno.stdout);
+ * await copy(reader, Ende.stdout);
  * ```
  *
  * @param streamReader The stream reader to read from

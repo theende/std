@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import type { RemoveOptions } from "./unstable_types.ts";
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -33,8 +33,8 @@ export async function remove(
   path: string | URL,
   options?: RemoveOptions,
 ) {
-  if (isDeno) {
-    await Deno.remove(path, options);
+  if (isEnde) {
+    await Ende.remove(path, options);
   } else {
     const { recursive = false } = options ?? {};
     try {
@@ -82,8 +82,8 @@ export function removeSync(
   path: string | URL,
   options?: RemoveOptions,
 ) {
-  if (isDeno) {
-    Deno.removeSync(path, options);
+  if (isEnde) {
+    Ende.removeSync(path, options);
   } else {
     const { recursive = false } = options ?? {};
     try {

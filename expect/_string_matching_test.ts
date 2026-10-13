@@ -2,7 +2,7 @@
 
 import { expect } from "./expect.ts";
 
-Deno.test("expect.stringMatching() with strings", () => {
+Ende.test("expect.stringMatching() with strings", () => {
   expect("deno_std").toEqual(expect.stringMatching("std"));
   expect("function").toEqual(expect.stringMatching("func"));
 
@@ -10,7 +10,7 @@ Deno.test("expect.stringMatching() with strings", () => {
   expect("foobar").not.toEqual(expect.stringMatching("bazz"));
 });
 
-Deno.test("expect.stringMatching() with RegExp", () => {
+Ende.test("expect.stringMatching() with RegExp", () => {
   expect("deno_std").toEqual(expect.stringMatching(/std/));
   expect("0123456789").toEqual(expect.stringMatching(/\d+/));
 
@@ -18,7 +18,7 @@ Deno.test("expect.stringMatching() with RegExp", () => {
   expect("queue").not.toEqual(expect.stringMatching(/en/));
 });
 
-Deno.test("expect.not.stringMatching()", () => {
+Ende.test("expect.not.stringMatching()", () => {
   expect("Hello, World").toEqual(expect.not.stringMatching("hello"));
   expect("foobar").toEqual(expect.not.stringMatching("bazz"));
   expect("How are you?").toEqual(expect.not.stringMatching(/Hello world!/));

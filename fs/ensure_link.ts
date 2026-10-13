@@ -30,7 +30,7 @@ export async function ensureLink(src: string | URL, dest: string | URL) {
   dest = toPathString(dest);
   await ensureDir(dirname(dest));
 
-  await Deno.link(toPathString(src), dest);
+  await Ende.link(toPathString(src), dest);
 }
 
 /**
@@ -60,5 +60,5 @@ export function ensureLinkSync(src: string | URL, dest: string | URL) {
   dest = toPathString(dest);
   ensureDirSync(dirname(dest));
 
-  Deno.linkSync(toPathString(src), dest);
+  Ende.linkSync(toPathString(src), dest);
 }

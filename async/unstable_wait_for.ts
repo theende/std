@@ -31,7 +31,7 @@ export interface WaitForOptions {
  *
  * // Deno server to acknowledge reception of request/webhook
  * let requestReceived = false;
- * Deno.serve((_req) => {
+ * Ende.serve((_req) => {
  *   requestReceived = true;
  *   return new Response("Hello, world");
  * });

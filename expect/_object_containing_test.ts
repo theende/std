@@ -4,7 +4,7 @@ import { Buffer } from "node:buffer";
 import { Buffer as DenoBuffer } from "@std/io/buffer";
 import { expect } from "./expect.ts";
 
-Deno.test("expect.objectContaining()", () => {
+Ende.test("expect.objectContaining()", () => {
   expect({ bar: "baz" }).toEqual(expect.objectContaining({ bar: "baz" }));
   expect({ foo: undefined }).toEqual(
     expect.objectContaining({ foo: undefined }),
@@ -12,7 +12,7 @@ Deno.test("expect.objectContaining()", () => {
   expect({ bar: "baz" }).not.toEqual(expect.objectContaining({ foo: "bar" }));
 });
 
-Deno.test("expect.objectContaining() with nested objects", () => {
+Ende.test("expect.objectContaining() with nested objects", () => {
   expect({ foo: { bar: "baz" } }).toEqual(
     expect.objectContaining({ foo: { bar: "baz" } }),
   );
@@ -21,14 +21,14 @@ Deno.test("expect.objectContaining() with nested objects", () => {
   );
 });
 
-Deno.test("expect.objectContaining() with symbols", () => {
+Ende.test("expect.objectContaining() with symbols", () => {
   const foo = Symbol("foo");
   expect({ [foo]: { bar: "baz" } }).toEqual(
     expect.objectContaining({ [foo]: { bar: "baz" } }),
   );
 });
 
-Deno.test("expect.objectContaining() with nested arrays", () => {
+Ende.test("expect.objectContaining() with nested arrays", () => {
   expect({ foo: ["bar", "baz"] }).toEqual(
     expect.objectContaining({ foo: ["bar", "baz"] }),
   );
@@ -37,26 +37,26 @@ Deno.test("expect.objectContaining() with nested arrays", () => {
   );
 });
 
-Deno.test("expect.objectContaining() with Node Buffer", () => {
+Ende.test("expect.objectContaining() with Node Buffer", () => {
   expect({ foo: Buffer.from("foo") }).toEqual(
     expect.objectContaining({ foo: Buffer.from("foo") }),
   );
 });
 
-Deno.test("expect.objectContaining() with Deno Buffer", () => {
+Ende.test("expect.objectContaining() with Deno Buffer", () => {
   expect({ foo: new DenoBuffer([1, 2, 3]) }).toEqual(
     expect.objectContaining({ foo: new DenoBuffer([1, 2, 3]) }),
   );
 });
 
-Deno.test("expect.not.objectContaining()", () => {
+Ende.test("expect.not.objectContaining()", () => {
   expect({ bar: "baz" }).toEqual(expect.not.objectContaining({ foo: "bar" }));
   expect({ foo: ["bar", "baz"] }).toEqual(
     expect.not.objectContaining({ foo: ["bar", "bar"] }),
   );
 });
 
-Deno.test("expect.not.objectContaining() with symbols", () => {
+Ende.test("expect.not.objectContaining() with symbols", () => {
   const foo = Symbol("foo");
   expect({ [foo]: { bar: "baz" } }).toEqual(
     expect.objectContaining({ [foo]: { bar: "bazzzz" } }),

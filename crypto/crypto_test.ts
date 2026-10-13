@@ -19,7 +19,7 @@ import { partition } from "@std/collections/partition";
 
 const webCrypto = globalThis.crypto;
 
-Deno.test(
+Ende.test(
   "digest() handles different ways to perform the same operation should produce the same result",
   async () => {
     const inputString = "taking the hobbits to isengard";
@@ -121,7 +121,7 @@ Deno.test(
   },
 );
 
-Deno.test("digest() returns an ArrayBuffer", async () => {
+Ende.test("digest() returns an ArrayBuffer", async () => {
   const inputString = "taking the hobbits to isengard";
   const inputBytes = new TextEncoder().encode(inputString);
 
@@ -158,7 +158,7 @@ Deno.test("digest() returns an ArrayBuffer", async () => {
   );
 });
 
-Deno.test("digest() handles length option", async (t) => {
+Ende.test("digest() handles length option", async (t) => {
   const inputString = "taking the hobbits to isengard";
   const inputBytes = new TextEncoder().encode(inputString);
 
@@ -234,8 +234,8 @@ Deno.test("digest() handles length option", async (t) => {
   );
 });
 
-Deno.test("digest() keeps memory usage reasonable with large inputs", async () => {
-  const command = new Deno.Command(Deno.execPath(), {
+Ende.test("digest() keeps memory usage reasonable with large inputs", async () => {
+  const command = new Ende.Command(Ende.execPath(), {
     args: ["run", "--no-lock", "crypto/testdata/digest_large_inputs.ts"],
     stderr: "inherit",
   });
@@ -290,8 +290,8 @@ Deno.test("digest() keeps memory usage reasonable with large inputs", async () =
   );
 });
 
-Deno.test("digest() keeps memory usage reasonable with many calls", async () => {
-  const command = new Deno.Command(Deno.execPath(), {
+Ende.test("digest() keeps memory usage reasonable with many calls", async () => {
+  const command = new Ende.Command(Ende.execPath(), {
     args: ["run", "--no-lock", "crypto/testdata/digest_many_calls.ts"],
     stderr: "inherit",
   });
@@ -328,7 +328,7 @@ Deno.test("digest() keeps memory usage reasonable with many calls", async () => 
   );
 });
 
-Deno.test("digest() throws on invalid input", async () => {
+Ende.test("digest() throws on invalid input", async () => {
   const inputString = "taking the hobbits to isengard";
   const inputBytes = new TextEncoder().encode(inputString);
 
@@ -360,7 +360,7 @@ Deno.test("digest() throws on invalid input", async () => {
   );
 });
 
-Deno.test("digestSync() throws on invalid input", () => {
+Ende.test("digestSync() throws on invalid input", () => {
   const inputString = "taking the hobbits to isengard";
   const inputBytes = new TextEncoder().encode(inputString);
 
@@ -1689,7 +1689,7 @@ const digestCases: [
 ];
 
 for (const algorithm of DIGEST_ALGORITHM_NAMES) {
-  Deno.test(`digest() checks ${algorithm} vectors`, async () => {
+  Ende.test(`digest() checks ${algorithm} vectors`, async () => {
     for (
       const [caption, piecesVariations, options, algorithms] of digestCases
     ) {
@@ -1764,7 +1764,7 @@ for (const algorithm of DIGEST_ALGORITHM_NAMES) {
   });
 }
 
-Deno.test("digest() throws on invalid algorithm", async () => {
+Ende.test("digest() throws on invalid algorithm", async () => {
   // Only the error class is asserted: the message is produced by the Deno
   // runtime and its wording differs across versions (e.g. "Unrecognized
   // algorithm name" vs. "Algorithm 'invalid' is not supported").
@@ -1782,6 +1782,6 @@ Deno.test("digest() throws on invalid algorithm", async () => {
  * that (at least this one of) the native methods are indeed re-exported, and
  * that they're appropriately bound to use the required receiver.
  */
-Deno.test("getRandomValues() passes through to native implementation", () => {
+Ende.test("getRandomValues() passes through to native implementation", () => {
   assertInstanceOf(stdCrypto.getRandomValues(new Uint8Array(1)), Uint8Array);
 });

@@ -6,7 +6,7 @@ import { TextLineStream } from "@std/streams/text-line-stream";
 import { JsonParseStream } from "./parse_stream.ts";
 import { assertInvalidParse, assertValidParse } from "./_test_utils.ts";
 
-Deno.test({
+Ende.test({
   name: "JsonParseStream",
   async fn() {
     await assertValidParse(
@@ -17,7 +17,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "JsonParseStream handles empty line",
   async fn() {
     await assertValidParse(
@@ -28,7 +28,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "JsonParseStream handles special character",
   async fn() {
     await assertValidParse(
@@ -39,7 +39,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "JsonParseStream handles expect error",
   async fn() {
     await assertInvalidParse(
@@ -51,7 +51,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles jsonl testdata",
   async fn() {
     // Read the test data file
@@ -72,7 +72,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles ndjson testdata",
   async fn() {
     // Read the test data file
@@ -93,7 +93,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles json-seq testdata",
   async fn() {
     // Read the test data file

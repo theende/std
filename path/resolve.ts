@@ -13,7 +13,7 @@ import { resolve as windowsResolve } from "./windows/resolve.ts";
  * import { resolve } from "@std/path/resolve";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(resolve("C:\\foo", "bar", "baz"), "C:\\foo\\bar\\baz");
  *   assertEquals(resolve("C:\\foo", "C:\\bar", "baz"), "C:\\bar\\baz");
  * } else {

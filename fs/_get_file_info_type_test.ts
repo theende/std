@@ -10,7 +10,7 @@ import { ensureDirSync } from "./ensure_dir.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Deno.test("getFileInfoType() returns entity type as a string", function () {
+Ende.test("getFileInfoType() returns entity type as a string", function () {
   const pairs = [
     [path.join(testdataDir, "file_type_1"), "file"],
     [path.join(testdataDir, "file_type_dir_1"), "dir"],
@@ -31,9 +31,9 @@ Deno.test("getFileInfoType() returns entity type as a string", function () {
         break;
     }
 
-    const stat = Deno.statSync(filePath);
+    const stat = Ende.statSync(filePath);
 
-    Deno.removeSync(filePath, { recursive: true });
+    Ende.removeSync(filePath, { recursive: true });
 
     assertEquals(getFileInfoType(stat), type);
   });

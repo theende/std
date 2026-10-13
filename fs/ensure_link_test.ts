@@ -7,8 +7,8 @@ import { ensureLink, ensureLinkSync } from "./ensure_link.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Deno.test("ensureLink() rejects if src and dest do not exist", async function () {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("ensureLink() rejects if src and dest do not exist", async function () {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_ensure_link_",
   });
   const srcDir = path.join(testdataDir, "ensure_link_1");
@@ -22,11 +22,11 @@ Deno.test("ensureLink() rejects if src and dest do not exist", async function ()
     },
   );
 
-  await Deno.remove(tempDirPath, { recursive: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("ensureLinkSync() throws if src and dest do not exist", function () {
-  const tempDirPath = Deno.makeTempDirSync({
+Ende.test("ensureLinkSync() throws if src and dest do not exist", function () {
+  const tempDirPath = Ende.makeTempDirSync({
     prefix: "deno_std_ensure_link_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_2");
@@ -37,24 +37,24 @@ Deno.test("ensureLinkSync() throws if src and dest do not exist", function () {
     ensureLinkSync(testFile, linkFile);
   });
 
-  Deno.removeSync(tempDirPath, { recursive: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("ensureLink() ensures dest links to the src", async function () {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("ensureLink() ensures dest links to the src", async function () {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_ensure_link_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_3");
   const testFile = path.join(testDir, "test.txt");
   const linkFile = path.join(testDir, "link.txt");
 
-  await Deno.mkdir(testDir, { recursive: true });
-  await Deno.writeFile(testFile, new Uint8Array());
+  await Ende.mkdir(testDir, { recursive: true });
+  await Ende.writeFile(testFile, new Uint8Array());
 
   await ensureLink(testFile, linkFile);
 
-  const srcStat = await Deno.lstat(testFile);
-  const linkStat = await Deno.lstat(linkFile);
+  const srcStat = await Ende.lstat(testFile);
+  const linkStat = await Ende.lstat(linkFile);
 
   assertEquals(srcStat.isFile, true);
   assertEquals(linkStat.isFile, true);
@@ -62,42 +62,42 @@ Deno.test("ensureLink() ensures dest links to the src", async function () {
   // har link success. try to change one of them. they should be change both.
 
   // let's change origin file.
-  await Deno.writeTextFile(testFile, "123");
+  await Ende.writeTextFile(testFile, "123");
 
-  const testFileContent1 = await Deno.readTextFile(testFile);
-  const linkFileContent1 = await Deno.readTextFile(testFile);
+  const testFileContent1 = await Ende.readTextFile(testFile);
+  const linkFileContent1 = await Ende.readTextFile(testFile);
 
   assertEquals(testFileContent1, "123");
   assertEquals(testFileContent1, linkFileContent1);
 
   // let's change link file.
-  await Deno.writeFile(testFile, new TextEncoder().encode("abc"));
+  await Ende.writeFile(testFile, new TextEncoder().encode("abc"));
 
-  const testFileContent2 = await Deno.readTextFile(testFile);
-  const linkFileContent2 = await Deno.readTextFile(testFile);
+  const testFileContent2 = await Ende.readTextFile(testFile);
+  const linkFileContent2 = await Ende.readTextFile(testFile);
 
   assertEquals(testFileContent2, "abc");
   assertEquals(testFileContent2, linkFileContent2);
 
-  await Deno.remove(tempDirPath, { recursive: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("ensureLinkSync() ensures dest links to the src", function () {
-  const tempDirPath = Deno.makeTempDirSync({
+Ende.test("ensureLinkSync() ensures dest links to the src", function () {
+  const tempDirPath = Ende.makeTempDirSync({
     prefix: "deno_std_ensure_link_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_4");
   const testFile = path.join(testDir, "test.txt");
   const linkFile = path.join(testDir, "link.txt");
 
-  Deno.mkdirSync(testDir, { recursive: true });
-  Deno.writeFileSync(testFile, new Uint8Array());
+  Ende.mkdirSync(testDir, { recursive: true });
+  Ende.writeFileSync(testFile, new Uint8Array());
 
   ensureLinkSync(testFile, linkFile);
 
-  const srcStat = Deno.lstatSync(testFile);
+  const srcStat = Ende.lstatSync(testFile);
 
-  const linkStat = Deno.lstatSync(linkFile);
+  const linkStat = Ende.lstatSync(linkFile);
 
   assertEquals(srcStat.isFile, true);
   assertEquals(linkStat.isFile, true);
@@ -105,44 +105,44 @@ Deno.test("ensureLinkSync() ensures dest links to the src", function () {
   // har link success. try to change one of them. they should be change both.
 
   // let's change origin file.
-  Deno.writeFileSync(testFile, new TextEncoder().encode("123"));
+  Ende.writeFileSync(testFile, new TextEncoder().encode("123"));
 
   const testFileContent1 = new TextDecoder().decode(
-    Deno.readFileSync(testFile),
+    Ende.readFileSync(testFile),
   );
   const linkFileContent1 = new TextDecoder().decode(
-    Deno.readFileSync(testFile),
+    Ende.readFileSync(testFile),
   );
 
   assertEquals(testFileContent1, "123");
   assertEquals(testFileContent1, linkFileContent1);
 
   // let's change link file.
-  Deno.writeFileSync(testFile, new TextEncoder().encode("abc"));
+  Ende.writeFileSync(testFile, new TextEncoder().encode("abc"));
 
   const testFileContent2 = new TextDecoder().decode(
-    Deno.readFileSync(testFile),
+    Ende.readFileSync(testFile),
   );
   const linkFileContent2 = new TextDecoder().decode(
-    Deno.readFileSync(testFile),
+    Ende.readFileSync(testFile),
   );
 
   assertEquals(testFileContent2, "abc");
   assertEquals(testFileContent2, linkFileContent2);
 
-  Deno.removeSync(tempDirPath, { recursive: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("ensureLink() rejects if link does not exist", async function () {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("ensureLink() rejects if link does not exist", async function () {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_ensure_link_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_origin_3");
   const linkDir = path.join(tempDirPath, "ensure_link_link_3");
   const testFile = path.join(testDir, "test.txt");
 
-  await Deno.mkdir(testDir, { recursive: true });
-  await Deno.writeFile(testFile, new Uint8Array());
+  await Ende.mkdir(testDir, { recursive: true });
+  await Ende.writeFile(testFile, new Uint8Array());
 
   await assertRejects(
     async () => {
@@ -152,19 +152,19 @@ Deno.test("ensureLink() rejects if link does not exist", async function () {
     // "Access is denied. (os error 5)" // throw in CI
   );
 
-  await Deno.remove(tempDirPath, { recursive: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("ensureLinkSync() throws if link does not exist", function () {
-  const tempDirPath = Deno.makeTempDirSync({
+Ende.test("ensureLinkSync() throws if link does not exist", function () {
+  const tempDirPath = Ende.makeTempDirSync({
     prefix: "deno_std_ensure_link_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_origin_3");
   const linkDir = path.join(tempDirPath, "ensure_link_link_3");
   const testFile = path.join(testDir, "test.txt");
 
-  Deno.mkdirSync(testDir, { recursive: true });
-  Deno.writeFileSync(testFile, new Uint8Array());
+  Ende.mkdirSync(testDir, { recursive: true });
+  Ende.writeFileSync(testFile, new Uint8Array());
 
   assertThrows(
     () => {
@@ -174,5 +174,5 @@ Deno.test("ensureLinkSync() throws if link does not exist", function () {
     // "Access is denied. (os error 5)" // throw in CI
   );
 
-  Deno.removeSync(tempDirPath, { recursive: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });

@@ -5,7 +5,7 @@ import { buildMessage, createColor, createSign } from "./build_message.ts";
 import { truncateDiff } from "@std/internal/truncate-build-message";
 import type { DiffResult } from "@std/internal/types";
 
-Deno.test("buildMessage()", async (t) => {
+Ende.test("buildMessage()", async (t) => {
   const prelude = [
     "",
     "",
@@ -73,7 +73,7 @@ Deno.test("buildMessage()", async (t) => {
   });
 });
 
-Deno.test("createColor()", () => {
+Ende.test("createColor()", () => {
   assertEquals(createColor("added")("foo"), green(bold("foo")));
   assertEquals(createColor("removed")("foo"), red(bold("foo")));
   assertEquals(createColor("common")("foo"), white("foo"));
@@ -82,7 +82,7 @@ Deno.test("createColor()", () => {
   assertEquals(createColor("common", true)("foo"), white("foo"));
 });
 
-Deno.test("createSign()", () => {
+Ende.test("createSign()", () => {
   assertEquals(createSign("added"), "+   ");
   assertEquals(createSign("removed"), "-   ");
   assertEquals(createSign("common"), "    ");

@@ -127,7 +127,7 @@ export type ConfigureGlobalSanitizersOptions = {
  *
  * @deprecated This will be removed in 2.0.0. There is no global equivalent;
  * pass `sanitizeOps`, `sanitizeResources` or `sanitizeExit` options to
- * individual `Deno.test()` calls instead.
+ * individual `Ende.test()` calls instead.
  */
 export function configureGlobalSanitizers(
   options: ConfigureGlobalSanitizersOptions,

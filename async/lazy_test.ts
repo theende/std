@@ -3,13 +3,13 @@
 import { assertEquals, assertRejects, assertStrictEquals } from "@std/assert";
 import { Lazy } from "./lazy.ts";
 
-Deno.test("Lazy.get() initializes and returns sync value", async () => {
+Ende.test("Lazy.get() initializes and returns sync value", async () => {
   const lazy = new Lazy(() => 42);
   const value = await lazy.get();
   assertEquals(value, 42);
 });
 
-Deno.test("Lazy.get() deduplicates concurrent callers", async () => {
+Ende.test("Lazy.get() deduplicates concurrent callers", async () => {
   let initCount = 0;
   const lazy = new Lazy<number>(async () => {
     initCount++;
@@ -22,7 +22,7 @@ Deno.test("Lazy.get() deduplicates concurrent callers", async () => {
   assertEquals(initCount, 1);
 });
 
-Deno.test("Lazy.get() retries after rejection", async () => {
+Ende.test("Lazy.get() retries after rejection", async () => {
   let attempts = 0;
   const lazy = new Lazy<number>(() => {
     attempts++;
@@ -41,7 +41,7 @@ Deno.test("Lazy.get() retries after rejection", async () => {
   assertEquals(attempts, 2);
 });
 
-Deno.test("Lazy.get() propagates rejection to all concurrent callers", async () => {
+Ende.test("Lazy.get() propagates rejection to all concurrent callers", async () => {
   const lazy = new Lazy<number>(() => Promise.reject(new Error("init failed")));
   const [resultA, resultB] = await Promise.allSettled([lazy.get(), lazy.get()]);
   assertEquals(resultA.status, "rejected");
@@ -56,7 +56,7 @@ Deno.test("Lazy.get() propagates rejection to all concurrent callers", async () 
   );
 });
 
-Deno.test("Lazy.initialized reflects lifecycle", async () => {
+Ende.test("Lazy.initialized reflects lifecycle", async () => {
   const holder: { resolve: (v: number) => void } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
@@ -79,7 +79,7 @@ Deno.test("Lazy.initialized reflects lifecycle", async () => {
   assertEquals(lazy.initialized, false);
 });
 
-Deno.test("Lazy.initialized is false after rejection", async () => {
+Ende.test("Lazy.initialized is false after rejection", async () => {
   const lazy = new Lazy<number>(() => Promise.reject(new Error("fail")));
   try {
     await lazy.get();
@@ -89,7 +89,7 @@ Deno.test("Lazy.initialized is false after rejection", async () => {
   assertEquals(lazy.initialized, false);
 });
 
-Deno.test("Lazy.peek() reflects lifecycle", async () => {
+Ende.test("Lazy.peek() reflects lifecycle", async () => {
   const holder: { resolve: (v: number) => void } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
@@ -125,14 +125,14 @@ Deno.test("Lazy.peek() reflects lifecycle", async () => {
   assertEquals(failing.peek(), { ok: false });
 });
 
-Deno.test("Lazy.peek() disambiguates T = undefined", async () => {
+Ende.test("Lazy.peek() disambiguates T = undefined", async () => {
   const lazy = new Lazy<undefined>(() => undefined);
   assertEquals(lazy.peek(), { ok: false });
   await lazy.get();
   assertEquals(lazy.peek(), { ok: true, value: undefined });
 });
 
-Deno.test("Lazy.peek() returns { ok: false } while in-flight", async () => {
+Ende.test("Lazy.peek() returns { ok: false } while in-flight", async () => {
   const holder: { resolve: (v: number) => void } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
@@ -147,13 +147,13 @@ Deno.test("Lazy.peek() returns { ok: false } while in-flight", async () => {
   assertEquals(await getPromise, 99);
 });
 
-Deno.test("Lazy.peek() returns { ok: true, value } after initialization", async () => {
+Ende.test("Lazy.peek() returns { ok: true, value } after initialization", async () => {
   const lazy = new Lazy(() => 42);
   await lazy.get();
   assertEquals(lazy.peek(), { ok: true, value: 42 });
 });
 
-Deno.test("Lazy.reset() causes re-initialization", async () => {
+Ende.test("Lazy.reset() causes re-initialization", async () => {
   let initCount = 0;
   const lazy = new Lazy(() => {
     initCount++;
@@ -165,7 +165,7 @@ Deno.test("Lazy.reset() causes re-initialization", async () => {
   assertEquals(initCount, 2);
 });
 
-Deno.test("Lazy.reset() does not affect in-flight initialization", async () => {
+Ende.test("Lazy.reset() does not affect in-flight initialization", async () => {
   const holder: { resolve: (v: string) => void } = { resolve: () => {} };
   const lazy = new Lazy<string>(
     () =>
@@ -181,7 +181,7 @@ Deno.test("Lazy.reset() does not affect in-flight initialization", async () => {
   assertEquals(value, "ok");
 });
 
-Deno.test("Lazy.get() after reset() during in-flight triggers fresh init", async () => {
+Ende.test("Lazy.get() after reset() during in-flight triggers fresh init", async () => {
   let initCount = 0;
   const holders: { resolve: (v: number) => void }[] = [];
   const lazy = new Lazy<number>(
@@ -210,7 +210,7 @@ Deno.test("Lazy.get() after reset() during in-flight triggers fresh init", async
   assertEquals(lazy.peek(), { ok: true, value: 2 });
 });
 
-Deno.test("Lazy.get() resolves falsy values correctly", async (t) => {
+Ende.test("Lazy.get() resolves falsy values correctly", async (t) => {
   await t.step("0", async () => {
     const lazy = new Lazy(() => 0);
     assertEquals(await lazy.get(), 0);
@@ -236,7 +236,7 @@ Deno.test("Lazy.get() resolves falsy values correctly", async (t) => {
   });
 });
 
-Deno.test("Lazy.get() rejects immediately with already-aborted signal", async () => {
+Ende.test("Lazy.get() rejects immediately with already-aborted signal", async () => {
   const lazy = new Lazy(() => 42);
   const reason = new Error("aborted");
   await assertRejects(
@@ -247,7 +247,7 @@ Deno.test("Lazy.get() rejects immediately with already-aborted signal", async ()
   assertEquals(lazy.peek(), { ok: false });
 });
 
-Deno.test("Lazy.get() rejects when signal is aborted during initialization", async () => {
+Ende.test("Lazy.get() rejects when signal is aborted during initialization", async () => {
   const lazy = new Lazy<number>(
     () => new Promise(() => {}),
   );
@@ -261,7 +261,7 @@ Deno.test("Lazy.get() rejects when signal is aborted during initialization", asy
   );
 });
 
-Deno.test("Lazy.get() signal does not affect other callers", async () => {
+Ende.test("Lazy.get() signal does not affect other callers", async () => {
   const holder: { resolve: (v: number) => void } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
@@ -281,7 +281,7 @@ Deno.test("Lazy.get() signal does not affect other callers", async () => {
   assertEquals(lazy.peek(), { ok: true, value: 42 });
 });
 
-Deno.test("Lazy.get() with signal rejects when initializer fails", async () => {
+Ende.test("Lazy.get() with signal rejects when initializer fails", async () => {
   const lazy = new Lazy<number>(() => Promise.reject(new Error("boom")));
   const controller = new AbortController();
   await assertRejects(
@@ -291,7 +291,7 @@ Deno.test("Lazy.get() with signal rejects when initializer fails", async () => {
   );
 });
 
-Deno.test("Lazy.get() signal is ignored after successful initialization", async () => {
+Ende.test("Lazy.get() signal is ignored after successful initialization", async () => {
   const lazy = new Lazy(() => 42);
   await lazy.get();
   const value = await lazy.get({ signal: AbortSignal.abort() });

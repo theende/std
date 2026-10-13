@@ -2,7 +2,7 @@
 import { equals } from "./equals.ts";
 import { assert, assertEquals, assertNotEquals } from "@std/assert";
 
-Deno.test("equals()", async (t) => {
+Ende.test("equals()", async (t) => {
   await t.step("`true` where `a` and `b` are identical", () => {
     assert(equals(
       new Uint8Array([0, 1, 2, 3]),
@@ -37,7 +37,7 @@ Deno.test("equals()", async (t) => {
 
 const THRESHOLD_32_BIT = 160;
 
-Deno.test("equals() handles randomized testing", () => {
+Ende.test("equals() handles randomized testing", () => {
   // run tests before and after cutoff
   for (let len = THRESHOLD_32_BIT - 10; len <= THRESHOLD_32_BIT + 10; len++) {
     const arr1 = crypto.getRandomValues(new Uint8Array(len));
@@ -60,7 +60,7 @@ Deno.test("equals() handles randomized testing", () => {
 });
 
 // https://github.com/denoland/std/issues/3603
-Deno.test("equals() works with .subarray()", () => {
+Ende.test("equals() works with .subarray()", () => {
   const a = new Uint8Array(1001).subarray(1);
   const b = new Uint8Array(1000);
   a[0] = 123;

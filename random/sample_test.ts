@@ -9,7 +9,7 @@ import {
 } from "@std/assert";
 import { randomSeeded } from "./seeded.ts";
 
-Deno.test({
+Ende.test({
   name: "sample() handles no mutation",
   fn() {
     const array = ["a", "abc", "ba"];
@@ -19,7 +19,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sample() returns undefined if the array is empty",
   fn() {
     const actual = sample([]);
@@ -27,7 +27,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sample() handles array of numbers",
   fn() {
     const input = [1, 2, 3];
@@ -37,7 +37,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sample() handles array of objects",
   fn() {
     const input = [
@@ -56,7 +56,7 @@ Deno.test({
   },
 });
 
-Deno.test("sample() picks a random item from the provided items", () => {
+Ende.test("sample() picks a random item from the provided items", () => {
   const items = ["a", "b", "c"];
   const prng = randomSeeded(0n);
 
@@ -68,13 +68,13 @@ Deno.test("sample() picks a random item from the provided items", () => {
   assertEquals(picks, ["a", "c", "a", "a", "a", "b", "a", "c", "a", "b"]);
 });
 
-Deno.test("sample() with weights returns undefined if the array is empty", () => {
+Ende.test("sample() with weights returns undefined if the array is empty", () => {
   const items: unknown[] = [];
   const weights: number[] = [];
   assertEquals(sample(items, { weights }), undefined);
 });
 
-Deno.test("sample() with weights throws if the total weight is 0", () => {
+Ende.test("sample() with weights throws if the total weight is 0", () => {
   const items = ["a", "b", "c"];
   const weights = [0, 0, 0];
 
@@ -85,7 +85,7 @@ Deno.test("sample() with weights throws if the total weight is 0", () => {
   );
 });
 
-Deno.test("sample() with weights throws if the wrong number of weights is provided", () => {
+Ende.test("sample() with weights throws if the wrong number of weights is provided", () => {
   const items = ["a", "b", "c"] as const;
   const weights = [1, 2, 3, 4] as const;
 
@@ -96,7 +96,7 @@ Deno.test("sample() with weights throws if the wrong number of weights is provid
   );
 });
 
-Deno.test("sample() works with typed arrays", () => {
+Ende.test("sample() works with typed arrays", () => {
   const items = new Uint8Array([0, 1, 2]);
   const weights = new Uint8Array([10, 5, 250]);
   const prng = randomSeeded(1n);
@@ -104,14 +104,14 @@ Deno.test("sample() works with typed arrays", () => {
   assertEquals(sample(items, { weights, prng }), 2);
 });
 
-Deno.test("sample() with weights never picks an item with weight of 0", () => {
+Ende.test("sample() with weights never picks an item with weight of 0", () => {
   const items = ["a", "b"];
   const weights = [1, 0];
 
   assertEquals(sample(items, { weights }), "a");
 });
 
-Deno.test("sample() with weights picks a random item from the provided items with a weighted probability", () => {
+Ende.test("sample() with weights picks a random item from the provided items with a weighted probability", () => {
   const weightedItems = [["a", 1], ["b", 2], ["c", 3]] as const;
   const weights = weightedItems.map(([, weight]) => weight);
   const values = weightedItems.map(([value]) => value);
@@ -139,7 +139,7 @@ Deno.test("sample() with weights picks a random item from the provided items wit
   }
 });
 
-Deno.test("sample() with weights works with a Map", () => {
+Ende.test("sample() with weights works with a Map", () => {
   const weightedItems = new Map([["a", 1], ["b", 2], ["c", 999]]);
   const prng = randomSeeded(0n);
 

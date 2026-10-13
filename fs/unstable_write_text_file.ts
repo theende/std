@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { getWriteFsFlag } from "./_get_fs_flag.ts";
 import { mapError } from "./_map_error.ts";
 import type { WriteFileOptions } from "./unstable_types.ts";
@@ -29,8 +29,8 @@ export async function writeTextFile(
   data: string | ReadableStream<string>,
   options?: WriteFileOptions,
 ): Promise<void> {
-  if (isDeno) {
-    await Deno.writeTextFile(path, data, { ...options });
+  if (isEnde) {
+    await Ende.writeTextFile(path, data, { ...options });
   } else {
     const {
       append = false,
@@ -80,8 +80,8 @@ export function writeTextFileSync(
   data: string,
   options?: WriteFileOptions,
 ): void {
-  if (isDeno) {
-    Deno.writeTextFileSync(path, data, { ...options });
+  if (isEnde) {
+    Ende.writeTextFileSync(path, data, { ...options });
   } else {
     const {
       append = false,

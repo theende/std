@@ -16,7 +16,7 @@ const testOptions = Object.freeze({
   envPath: path.join(testdataDir, ".env"),
 });
 
-Deno.test("load() handles non-existent .env files", async () => {
+Ende.test("load() handles non-existent .env files", async () => {
   // .env doesn't exist in the current directory
   assertEquals({}, await load());
   assertEquals({}, loadSync());
@@ -28,7 +28,7 @@ Deno.test("load() handles non-existent .env files", async () => {
   assertEquals({}, loadSync(loadOptions));
 });
 
-Deno.test("load() handles URL as path for .env files", async () => {
+Ende.test("load() handles URL as path for .env files", async () => {
   const conf = loadSync({
     envPath: new URL(
       path.toFileUrl(path.join(testdataDir, ".env")),
@@ -46,7 +46,7 @@ Deno.test("load() handles URL as path for .env files", async () => {
   assertEquals(asyncConf.GREETING, "hello world", "loaded from .env");
 });
 
-Deno.test("load() handles comprised .env and .env.defaults", async () => {
+Ende.test("load() handles comprised .env and .env.defaults", async () => {
   const conf = loadSync(testOptions);
   assertEquals(conf.GREETING, "hello world", "loaded from .env");
 
@@ -54,9 +54,9 @@ Deno.test("load() handles comprised .env and .env.defaults", async () => {
   assertEquals(asyncConf.GREETING, "hello world", "loaded from .env");
 });
 
-Deno.test("load() handles exported entries accessibility in Deno.env", async () => {
-  assert(Deno.env.get("GREETING") === undefined, "GREETING is not set");
-  assert(Deno.env.get("DEFAULT1") === undefined, "DEFAULT1 is not set");
+Ende.test("load() handles exported entries accessibility in Ende.env", async () => {
+  assert(Ende.env.get("GREETING") === undefined, "GREETING is not set");
+  assert(Ende.env.get("DEFAULT1") === undefined, "DEFAULT1 is not set");
 
   loadSync({ ...testOptions, export: true });
   validateExport();
@@ -68,18 +68,18 @@ Deno.test("load() handles exported entries accessibility in Deno.env", async () 
 function validateExport(): void {
   try {
     assertEquals(
-      Deno.env.get("GREETING"),
+      Ende.env.get("GREETING"),
       "hello world",
-      "exported from .env -> Deno.env",
+      "exported from .env -> Ende.env",
     );
   } finally {
-    Deno.env.delete("GREETING");
+    Ende.env.delete("GREETING");
   }
 }
 
-Deno.test("load() process does not overridde env vars by .env values", async () => {
-  Deno.env.set("GREETING", "Do not override!");
-  assert(Deno.env.get("DEFAULT1") === undefined, "DEFAULT1 is not set");
+Ende.test("load() process does not overridde env vars by .env values", async () => {
+  Ende.env.set("GREETING", "Do not override!");
+  assert(Ende.env.get("DEFAULT1") === undefined, "DEFAULT1 is not set");
 
   validateNotOverridden(loadSync({ ...testOptions, export: true }));
   validateNotOverridden(await load({ ...testOptions, export: true }));
@@ -89,17 +89,17 @@ function validateNotOverridden(conf: Record<string, string>): void {
   try {
     assertEquals(conf.GREETING, "hello world", "value from .env");
     assertEquals(
-      Deno.env.get("GREETING"),
+      Ende.env.get("GREETING"),
       "Do not override!",
-      "not exported from .env -> Deno.env",
+      "not exported from .env -> Ende.env",
     );
   } finally {
-    Deno.env.delete("DEFAULT1");
+    Ende.env.delete("DEFAULT1");
   }
 }
 
-Deno.test("load() loads .env successfully from default file names/paths", async () => {
-  const command = new Deno.Command(Deno.execPath(), {
+Ende.test("load() loads .env successfully from default file names/paths", async () => {
+  const command = new Ende.Command(Ende.execPath(), {
     args: [
       "run",
       "--no-lock",
@@ -117,9 +117,9 @@ Deno.test("load() loads .env successfully from default file names/paths", async 
   assertEquals(conf.GREETING, "hello world", "fetches .env by default");
 });
 
-Deno.test("load() expands empty values from process env expand as empty value", async () => {
+Ende.test("load() expands empty values from process env expand as empty value", async () => {
   try {
-    Deno.env.set("EMPTY", "");
+    Ende.env.set("EMPTY", "");
 
     // .env.single.expand contains one key which expands to the "EMPTY" process env var
     const loadOptions = {
@@ -140,11 +140,11 @@ Deno.test("load() expands empty values from process env expand as empty value", 
       "empty value expanded from process env",
     );
   } finally {
-    Deno.env.delete("EMPTY");
+    Ende.env.delete("EMPTY");
   }
 });
 
-Deno.test(
+Ende.test(
   "loadSync() checks that --allow-env is not required if no process env vars are expanded upon",
   {
     permissions: {
@@ -158,7 +158,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "loadSync() checks that --allow-env is required when process env vars are expanded upon",
   {
     permissions: {
@@ -174,13 +174,13 @@ Deno.test(
     assertThrows(
       () => loadSync(loadOptions),
       // deno-lint-ignore no-explicit-any
-      (Deno as any).errors.NotCapable ?? Deno.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
       `Requires env access to "EMPTY", run again with the --allow-env flag`,
     );
   },
 );
 
-Deno.test(
+Ende.test(
   "loadSync() checks that --allow-env restricted access works when process env vars are expanded upon",
   {
     permissions: {
@@ -190,7 +190,7 @@ Deno.test(
   },
   () => {
     try {
-      Deno.env.set("EMPTY", "");
+      Ende.env.set("EMPTY", "");
 
       const loadOptions = {
         envPath: path.join(testdataDir, "./.env.single.expand"),
@@ -202,14 +202,14 @@ Deno.test(
         "empty value expanded from process env",
       );
     } finally {
-      Deno.env.delete("EMPTY");
+      Ende.env.delete("EMPTY");
     }
   },
 );
 
 // TODO(cknight): test permissions
 
-Deno.test(
+Ende.test(
   "loadSync() prevents file system reads of default path parameter values by using explicit null",
   {
     permissions: {

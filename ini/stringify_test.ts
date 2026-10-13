@@ -3,7 +3,7 @@
 import { stringify } from "./mod.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "stringify()",
   fn() {
     assertEquals(stringify({ a: "b" }), "a=b");

@@ -8,7 +8,7 @@ import {
   assertThrows,
 } from "@std/assert";
 
-Deno.test("expect().toMatchObject()", () => {
+Ende.test("expect().toMatchObject()", () => {
   const house0 = {
     bath: true,
     bedrooms: 4,
@@ -56,7 +56,7 @@ Deno.test("expect().toMatchObject()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toMatchObject() with array", () => {
+Ende.test("expect().toMatchObject() with array", () => {
   const fixedPriorityQueue = Array.from({ length: 5 });
   fixedPriorityQueue[0] = { data: 1, priority: 0 };
 
@@ -65,7 +65,7 @@ Deno.test("expect().toMatchObject() with array", () => {
   ]);
 });
 
-Deno.test("expect().toMatchObject() with asymmetric matcher", () => {
+Ende.test("expect().toMatchObject() with asymmetric matcher", () => {
   expect({ position: { x: 0, y: 0 } }).toMatchObject({
     position: {
       x: expect.any(Number),
@@ -74,7 +74,7 @@ Deno.test("expect().toMatchObject() with asymmetric matcher", () => {
   });
 });
 
-Deno.test("expect().toMatchObject() with custom error message", () => {
+Ende.test("expect().toMatchObject() with custom error message", () => {
   const house0 = {
     bath: true,
     bedrooms: 4,
@@ -115,7 +115,7 @@ Deno.test("expect().toMatchObject() with custom error message", () => {
   );
 });
 
-Deno.test("expect().toMatchObject() throws the correct error messages", () => {
+Ende.test("expect().toMatchObject() throws the correct error messages", () => {
   {
     const e = assertThrows(
       () => expect({ a: 1 }).toMatchObject({ a: 2 }),
@@ -132,7 +132,7 @@ Deno.test("expect().toMatchObject() throws the correct error messages", () => {
   }
 });
 
-Deno.test("expect().toMatchObject() displays a diff", async (t) => {
+Ende.test("expect().toMatchObject() displays a diff", async (t) => {
   await t.step("with expect.any", () => {
     assertThrows(
       () =>
@@ -300,7 +300,7 @@ Deno.test("expect().toMatchObject() displays a diff", async (t) => {
   });
 });
 
-Deno.test(
+Ende.test(
   "expect().toMatchObject() failure headline describes a subset match, not equality (#6999)",
   () => {
     const e = assertThrows(

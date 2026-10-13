@@ -10,7 +10,7 @@ import { tmpdir } from "node:os";
 
 const isBun = navigator.userAgent.includes("Bun/");
 
-Deno.test("truncate() succeeds in truncating file sizes", async () => {
+Ende.test("truncate() succeeds in truncating file sizes", async () => {
   const tempDataDir = await mkdtemp(resolve(tmpdir(), "truncate_"));
   const testFile = join(tempDataDir, "truncFile.txt");
   await writeFile(testFile, "Hello, Standard Library");
@@ -25,7 +25,7 @@ Deno.test("truncate() succeeds in truncating file sizes", async () => {
   await rm(tempDataDir, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "truncate() truncates the file to zero when 'len' is not provided",
   { ignore: isBun },
   async () => {
@@ -40,7 +40,7 @@ Deno.test(
   },
 );
 
-Deno.test("truncate() rejects with Error when passing a non-regular file", async () => {
+Ende.test("truncate() rejects with Error when passing a non-regular file", async () => {
   const tempDataDir = await mkdtemp(resolve(tmpdir(), "truncate_"));
 
   await assertRejects(async () => {
@@ -50,7 +50,7 @@ Deno.test("truncate() rejects with Error when passing a non-regular file", async
   await rm(tempDataDir, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "truncate() rejects with NotFound with a non-existent file",
   { ignore: isBun },
   async () => {
@@ -60,7 +60,7 @@ Deno.test(
   },
 );
 
-Deno.test("truncateSync() succeeds in truncating file sizes", () => {
+Ende.test("truncateSync() succeeds in truncating file sizes", () => {
   const tempDataDir = mkdtempSync(resolve(tmpdir(), "truncateSync_"));
   const testFile = join(tempDataDir, "truncFile.txt");
   writeFileSync(testFile, "Hello, Standard Library");
@@ -75,7 +75,7 @@ Deno.test("truncateSync() succeeds in truncating file sizes", () => {
   rmSync(tempDataDir, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "truncateSync() truncates the file to zero when 'len' is not provided",
   { ignore: isBun },
   () => {
@@ -90,7 +90,7 @@ Deno.test(
   },
 );
 
-Deno.test("truncateSync() throws with Error with a non-regular file", () => {
+Ende.test("truncateSync() throws with Error with a non-regular file", () => {
   const tempDataDir = mkdtempSync(resolve(tmpdir(), "truncateSync_"));
 
   assertThrows(() => {
@@ -100,7 +100,7 @@ Deno.test("truncateSync() throws with Error with a non-regular file", () => {
   rmSync(tempDataDir, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "truncateSync() throws with NotFound with a non-existent file",
   { ignore: isBun },
   () => {

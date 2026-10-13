@@ -10,7 +10,7 @@ import { throttle, type ThrottledFunction } from "./unstable_throttle.ts";
 import { delay } from "./delay.ts";
 import { FakeTime } from "@std/testing/time";
 
-Deno.test("throttle() handles called", async () => {
+Ende.test("throttle() handles called", async () => {
   let called = 0;
   const t = throttle(() => called++, 100);
   assertEquals(t.throttling, false);
@@ -33,7 +33,7 @@ Deno.test("throttle() handles called", async () => {
   assertGreater(t.lastExecution, lastExecution);
 });
 
-Deno.test("throttle() handles cancelled", () => {
+Ende.test("throttle() handles cancelled", () => {
   let called = 0;
   const t = throttle(() => called++, 100);
   t();
@@ -48,7 +48,7 @@ Deno.test("throttle() handles cancelled", () => {
   assertEquals(t.lastExecution, -Infinity);
 });
 
-Deno.test("throttle() handles flush", () => {
+Ende.test("throttle() handles flush", () => {
   using time = new FakeTime(0);
 
   let called = 0;
@@ -90,7 +90,7 @@ Deno.test("throttle() handles flush", () => {
   assertEquals(arg, "baz");
 });
 
-Deno.test("throttle() handles params and context", async () => {
+Ende.test("throttle() handles params and context", async () => {
   const params: Array<string | number> = [];
   const t: ThrottledFunction<[string, number]> = throttle(
     function (param1: string, param2: number) {
@@ -112,7 +112,7 @@ Deno.test("throttle() handles params and context", async () => {
   assertEquals(t.throttling, false);
 });
 
-Deno.test("throttle() handles ensureLastCall option", async (t) => {
+Ende.test("throttle() handles ensureLastCall option", async (t) => {
   for (
     const options of [
       undefined,
@@ -154,7 +154,7 @@ Deno.test("throttle() handles ensureLastCall option", async (t) => {
   }
 });
 
-Deno.test("throttle() handles dynamic timeframe", () => {
+Ende.test("throttle() handles dynamic timeframe", () => {
   using time = new FakeTime();
   let calls = 0;
   const fn = throttle(

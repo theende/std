@@ -26,21 +26,21 @@ import { toPathString } from "./_to_path_string.ts";
  */
 export async function emptyDir(dir: string | URL) {
   try {
-    const items = await Array.fromAsync(Deno.readDir(dir));
+    const items = await Array.fromAsync(Ende.readDir(dir));
 
     await Promise.all(items.map((item) => {
       if (item && item.name) {
         const filepath = join(toPathString(dir), item.name);
-        return Deno.remove(filepath, { recursive: true });
+        return Ende.remove(filepath, { recursive: true });
       }
     }));
   } catch (err) {
-    if (!(err instanceof Deno.errors.NotFound)) {
+    if (!(err instanceof Ende.errors.NotFound)) {
       throw err;
     }
 
     // if not exist. then create it
-    await Deno.mkdir(dir, { recursive: true });
+    await Ende.mkdir(dir, { recursive: true });
   }
 }
 
@@ -69,21 +69,21 @@ export async function emptyDir(dir: string | URL) {
  */
 export function emptyDirSync(dir: string | URL) {
   try {
-    const items = [...Deno.readDirSync(dir)];
+    const items = [...Ende.readDirSync(dir)];
 
     // If the directory exists, remove all entries inside it.
     while (items.length) {
       const item = items.shift();
       if (item && item.name) {
         const filepath = join(toPathString(dir), item.name);
-        Deno.removeSync(filepath, { recursive: true });
+        Ende.removeSync(filepath, { recursive: true });
       }
     }
   } catch (err) {
-    if (!(err instanceof Deno.errors.NotFound)) {
+    if (!(err instanceof Ende.errors.NotFound)) {
       throw err;
     }
     // if not exist. then create it
-    Deno.mkdirSync(dir, { recursive: true });
+    Ende.mkdirSync(dir, { recursive: true });
   }
 }

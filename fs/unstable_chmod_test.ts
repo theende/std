@@ -21,7 +21,7 @@ import {
   symlinkSync,
 } from "node:fs";
 
-Deno.test({
+Ende.test({
   name: "chmod() sets read only permission bits on regular files",
   ignore: platform() === "win32",
   fn: async () => {
@@ -45,7 +45,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chmod() sets read only permission bits on a directory",
   ignore: platform() === "win32",
   fn: async () => {
@@ -68,7 +68,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chmod() sets write only permission bits of regular file via symlink",
   ignore: platform() === "win32",
   fn: async () => {
@@ -99,13 +99,13 @@ Deno.test({
   },
 });
 
-Deno.test("chmod() rejects with NotFound for a non-existent file", async () => {
+Ende.test("chmod() rejects with NotFound for a non-existent file", async () => {
   await assertRejects(async () => {
     await chmod("non_existent_file.txt", 0o644);
   }, NotFound);
 });
 
-Deno.test({
+Ende.test({
   name: "chmodSync() sets read-only permission bits on regular files",
   ignore: platform() === "win32",
   fn: () => {
@@ -129,7 +129,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chmodSync() sets read-only permissions bits on directories",
   ignore: platform() === "win32",
   fn: () => {
@@ -152,7 +152,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chmodSync() sets write only permission on a regular file via symlink",
   ignore: platform() === "win32",
   fn: () => {
@@ -183,7 +183,7 @@ Deno.test({
   },
 });
 
-Deno.test("chmodSync() throws with NotFound for a non-existent file", () => {
+Ende.test("chmodSync() throws with NotFound for a non-existent file", () => {
   assertThrows(() => {
     chmodSync("non_existent_file.txt", 0o644);
   }, NotFound);

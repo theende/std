@@ -11,19 +11,19 @@ function invertTest<T extends Record<PropertyKey, PropertyKey>>(
   assertEquals(actual, expected);
 }
 
-Deno.test("invert()", () => {
+Ende.test("invert()", () => {
   invertTest({ a: "x", b: "y", c: "z" }, { x: "a", y: "b", z: "c" });
 });
 
-Deno.test("invert() handles empty input", () => {
+Ende.test("invert() handles empty input", () => {
   invertTest({}, {});
 });
 
-Deno.test("invert() handles duplicate values", () => {
+Ende.test("invert() handles duplicate values", () => {
   invertTest({ a: "x", b: "x", c: "z" }, { x: "b", z: "c" });
 });
 
-Deno.test("invert() handles nested input", () => {
+Ende.test("invert() handles nested input", () => {
   // @ts-expect-error - testing invalid input
   invertTest({ a: { b: "c" } }, { "[object Object]": "a" });
   // @ts-expect-error - testing invalid input

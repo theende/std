@@ -33,7 +33,7 @@ import {
 // These tests verify specific error messages and edge cases.
 // =============================================================================
 
-Deno.test({
+Ende.test({
   name: "parseList() rejects trailing garbage",
   fn() {
     assertThrows(
@@ -44,7 +44,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseList() rejects unterminated inner list",
   fn() {
     assertThrows(
@@ -55,7 +55,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseList() rejects invalid inner list separator",
   fn() {
     assertThrows(
@@ -66,7 +66,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseList() parses whitespace-only as empty list",
   fn() {
     const list = parseList("   ");
@@ -74,7 +74,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseList() rejects unterminated inner list at EOF",
   fn() {
     assertThrows(
@@ -85,7 +85,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseDictionary() rejects trailing garbage",
   fn() {
     assertThrows(
@@ -96,7 +96,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseDictionary() parses whitespace-only as empty dictionary",
   fn() {
     const dict = parseDictionary("   ");
@@ -104,7 +104,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseDictionary() handles key starting with *",
   fn() {
     const dict = parseDictionary("*key=1");
@@ -116,7 +116,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() parses token starting with *",
   fn() {
     const item = parseItem("*foo");
@@ -124,7 +124,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() rejects trailing garbage",
   fn() {
     assertThrows(
@@ -135,7 +135,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() rejects whitespace-only input",
   fn() {
     assertThrows(
@@ -146,7 +146,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() rejects decimal with no fractional digits",
   fn() {
     assertThrows(
@@ -157,7 +157,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() rejects unterminated binary",
   fn() {
     assertThrows(
@@ -168,7 +168,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() rejects invalid char in string after escape",
   fn() {
     // String with escape sequence followed by invalid character (NUL)
@@ -181,7 +181,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() rejects invalid key start in parameters",
   fn() {
     assertThrows(
@@ -192,7 +192,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseItem() handles token with all valid chars",
   fn() {
     const item = parseItem("a0_-.*/+!#$%&'^`|~:");
@@ -200,7 +200,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseDictionary() handles key with all valid chars",
   fn() {
     const dict = parseDictionary("a0_-.*=1");
@@ -213,21 +213,21 @@ Deno.test({
 // Note: Serialization is NOT covered by conformance tests
 // =============================================================================
 
-Deno.test({
+Ende.test({
   name: "serializeList() serializes basic list",
   fn() {
     assertEquals(serializeList([item(integer(1)), item(integer(42))]), "1, 42");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeList() serializes empty list",
   fn() {
     assertEquals(serializeList([]), "");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeList() serializes inner list",
   fn() {
     assertEquals(
@@ -237,7 +237,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeList() serializes inner list with parameters",
   fn() {
     assertEquals(
@@ -249,7 +249,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() serializes basic dictionary",
   fn() {
     const dict: Dictionary = new Map([
@@ -260,7 +260,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() omits =?1 for true boolean",
   fn() {
     const dict: Dictionary = new Map([["a", item(boolean(true))]]);
@@ -268,7 +268,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() includes =?0 for false boolean",
   fn() {
     const dict: Dictionary = new Map([["a", item(boolean(false))]]);
@@ -276,7 +276,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() handles key starting with *",
   fn() {
     const dict: Dictionary = new Map([["*key", item(integer(1))]]);
@@ -284,7 +284,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() serializes inner list value",
   fn() {
     const dict: Dictionary = new Map([
@@ -294,7 +294,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() covers all bare item types",
   fn() {
     assertEquals(serializeItem(item(token("foo"))), "foo");
@@ -313,7 +313,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() escapes quotes and backslash in string",
   fn() {
     assertEquals(
@@ -327,7 +327,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() serializes item with parameters",
   fn() {
     assertEquals(
@@ -339,7 +339,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() handles boundary integers",
   fn() {
     assertEquals(
@@ -353,7 +353,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() handles decimal edge cases",
   fn() {
     assertEquals(serializeItem(item(decimal(1.0))), "1.0");
@@ -361,14 +361,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() handles token starting with *",
   fn() {
     assertEquals(serializeItem(item(token("*foo"))), "*foo");
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'serializeItem() encodes % and " in display string',
   fn() {
     assertEquals(
@@ -382,7 +382,7 @@ Deno.test({
 // Serialization Error Tests
 // =============================================================================
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects out-of-range integer",
   fn() {
     assertThrows(
@@ -398,7 +398,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects non-integer value for integer type",
   fn() {
     assertThrows(
@@ -409,7 +409,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects non-finite decimal",
   fn() {
     assertThrows(
@@ -425,7 +425,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects decimal with integer part too large",
   fn() {
     assertThrows(
@@ -441,7 +441,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects invalid date",
   fn() {
     assertThrows(
@@ -452,7 +452,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects non-printable ASCII in string",
   fn() {
     assertThrows(
@@ -463,7 +463,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects non-ASCII in string",
   fn() {
     assertThrows(
@@ -474,7 +474,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects empty token",
   fn() {
     assertThrows(
@@ -485,7 +485,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects token with invalid start character",
   fn() {
     assertThrows(
@@ -496,7 +496,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects token with invalid character",
   fn() {
     assertThrows(
@@ -507,7 +507,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() rejects invalid key",
   fn() {
     const dict: Dictionary = new Map([["INVALID", item(integer(1))]]);
@@ -519,7 +519,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() rejects empty key",
   fn() {
     const dict: Dictionary = new Map([["", item(integer(1))]]);
@@ -531,7 +531,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeDictionary() rejects key with invalid character",
   fn() {
     const dict: Dictionary = new Map([["a!b", item(integer(1))]]);
@@ -543,7 +543,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "serializeItem() rejects invalid parameter key",
   fn() {
     assertThrows(
@@ -558,7 +558,7 @@ Deno.test({
 // Round-trip Tests
 // =============================================================================
 
-Deno.test({
+Ende.test({
   name: "round-trip: list with inner list",
   fn() {
     const input = "1, 42, (a b)";
@@ -569,7 +569,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "round-trip: dictionary with mixed values",
   fn() {
     const input = 'a=1, b="hello", c';
@@ -580,7 +580,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "round-trip: item with parameters",
   fn() {
     const input = "foo;a=1;b";
@@ -596,7 +596,7 @@ Deno.test({
 // Convenience Builder Tests
 // =============================================================================
 
-Deno.test({
+Ende.test({
   name: "factory functions create correct bare items",
   fn() {
     assertEquals(integer(42), { type: "integer", value: 42 });
@@ -615,7 +615,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "item() creates item with empty parameters by default",
   fn() {
     const i = item(integer(42));
@@ -624,7 +624,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "item() creates item with parameters from iterable",
   fn() {
     const i = item(token("foo"), [["a", integer(1)], ["b", boolean(true)]]);
@@ -635,7 +635,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "item() creates item with parameters from Map",
   fn() {
     const params = new Map<string, BareItem>([["q", decimal(0.9)]]);
@@ -644,7 +644,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "innerList() creates inner list with empty parameters by default",
   fn() {
     const il = innerList([item(integer(1)), item(integer(2))]);
@@ -653,7 +653,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "innerList() creates inner list with parameters",
   fn() {
     const il = innerList(
@@ -669,7 +669,7 @@ Deno.test({
 // Type Guard Tests
 // =============================================================================
 
-Deno.test({
+Ende.test({
   name: "isItem() distinguishes items from inner lists",
   fn() {
     const list = parseList("1, (2 3)");
@@ -678,7 +678,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isInnerList() distinguishes inner lists from items",
   fn() {
     const list = parseList("1, (2 3)");
@@ -687,7 +687,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "type guards work with dictionary values",
   fn() {
     const dict = parseDictionary("a=1, b=(1 2)");
@@ -901,7 +901,7 @@ interface ConformanceTestCase {
 
 // Load and run tests from a JSON file
 async function runConformanceTests(
-  t: Deno.TestContext,
+  t: Ende.TestContext,
   filename: string,
 ): Promise<void> {
   const testData = await import(`./testdata/structured_fields/${filename}`, {
@@ -1020,98 +1020,98 @@ async function runConformanceTests(
 }
 
 // Run all conformance test files
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: binary.json",
   async fn(t) {
     await runConformanceTests(t, "binary.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: boolean.json",
   async fn(t) {
     await runConformanceTests(t, "boolean.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: date.json",
   async fn(t) {
     await runConformanceTests(t, "date.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: dictionary.json",
   async fn(t) {
     await runConformanceTests(t, "dictionary.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: display-string.json",
   async fn(t) {
     await runConformanceTests(t, "display-string.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: examples.json",
   async fn(t) {
     await runConformanceTests(t, "examples.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: item.json",
   async fn(t) {
     await runConformanceTests(t, "item.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: list.json",
   async fn(t) {
     await runConformanceTests(t, "list.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: number.json",
   async fn(t) {
     await runConformanceTests(t, "number.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: param-dict.json",
   async fn(t) {
     await runConformanceTests(t, "param-dict.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: param-list.json",
   async fn(t) {
     await runConformanceTests(t, "param-list.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: param-listlist.json",
   async fn(t) {
     await runConformanceTests(t, "param-listlist.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: string.json",
   async fn(t) {
     await runConformanceTests(t, "string.json");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "HTTPWG Conformance Tests: token.json",
   async fn(t) {
     await runConformanceTests(t, "token.json");

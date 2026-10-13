@@ -12,7 +12,7 @@ function firstNotNullishOfTest<T, O>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles no mutation",
   fn() {
     const array = [1, 2, 3, 4];
@@ -22,42 +22,42 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles empty input",
   fn() {
     firstNotNullishOfTest([[], (it) => it], undefined);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles all items nullish",
   fn() {
     firstNotNullishOfTest([[undefined, null], (it) => it], undefined);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles identity",
   fn() {
     firstNotNullishOfTest([[[], 1, 3], (it) => it], []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles array of array",
   fn() {
     firstNotNullishOfTest([[[, 0], [null], ["Kim"]], (it) => it[0]], "Kim");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles falsy values",
   fn() {
     firstNotNullishOfTest([[undefined, false, null], (it) => it], false);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles mappers without nullish values",
   fn() {
     firstNotNullishOfTest(
@@ -68,7 +68,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() handles mappers with nullish values",
   fn() {
     firstNotNullishOfTest(
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "firstNotNullishOf() passes index to selector",
   fn() {
     const result = firstNotNullishOf(

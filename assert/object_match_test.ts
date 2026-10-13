@@ -37,20 +37,20 @@ const q = { foo: [1, 2] as unknown[] };
 q.foo[2] = q.foo;
 const r = { bar: [[1, [2, [q]]]] };
 
-Deno.test("assertObjectMatch() matches simple subset", () => {
+Ende.test("assertObjectMatch() matches simple subset", () => {
   assertObjectMatch(a, {
     foo: true,
   });
 });
 
-Deno.test("assertObjectMatch() matches subset with another subset", () => {
+Ende.test("assertObjectMatch() matches subset with another subset", () => {
   assertObjectMatch(b, {
     foo: true,
     baz: { bar: false },
   });
 });
 
-Deno.test("assertObjectMatch() matches subset with multiple subsets", () => {
+Ende.test("assertObjectMatch() matches subset with multiple subsets", () => {
   assertObjectMatch(c, {
     foo: true,
     baz: { bar: false },
@@ -60,7 +60,7 @@ Deno.test("assertObjectMatch() matches subset with multiple subsets", () => {
   });
 });
 
-Deno.test("assertObjectMatch() matches subset with same object reference as subset", () => {
+Ende.test("assertObjectMatch() matches subset with same object reference as subset", () => {
   assertObjectMatch(d, {
     corge: {
       foo: true,
@@ -73,7 +73,7 @@ Deno.test("assertObjectMatch() matches subset with same object reference as subs
   });
 });
 
-Deno.test("assertObjectMatch() matches subset with circular reference", () => {
+Ende.test("assertObjectMatch() matches subset with circular reference", () => {
   assertObjectMatch(e, {
     foo: true,
     bar: {
@@ -87,17 +87,17 @@ Deno.test("assertObjectMatch() matches subset with circular reference", () => {
   assertObjectMatch(q, { foo: [1, 2, [1, 2, [1, 2, [1, 2]]]] });
 });
 
-Deno.test("assertObjectMatch() matches subset with interface", () => {
+Ende.test("assertObjectMatch() matches subset with interface", () => {
   assertObjectMatch(g, { bar: false });
 });
 
-Deno.test("assertObjectMatch() matches subset with same symbol", () => {
+Ende.test("assertObjectMatch() matches subset with same symbol", () => {
   assertObjectMatch(f, {
     [sym]: true,
   });
 });
 
-Deno.test("assertObjectMatch() matches subset with array inside", () => {
+Ende.test("assertObjectMatch() matches subset with array inside", () => {
   assertObjectMatch(h, { foo: [] });
   assertObjectMatch(h, { foo: [1, 2] });
   assertObjectMatch(h, { foo: [1, 2, 3] });
@@ -107,19 +107,19 @@ Deno.test("assertObjectMatch() matches subset with array inside", () => {
   });
 });
 
-Deno.test("assertObjectMatch() matches subset with nested array inside", () => {
+Ende.test("assertObjectMatch() matches subset with nested array inside", () => {
   assertObjectMatch(j, { foo: [[1, 2, 3]] });
   assertObjectMatch(k, { foo: [[1, [2, [3]]]] });
   assertObjectMatch(l, { foo: [[1, [2, [a, e, j, k]]]] });
   assertObjectMatch(r, { bar: [[1, [2, [q]]]] });
 });
 
-Deno.test("assertObjectMatch() matches subset with regexp", () => {
+Ende.test("assertObjectMatch() matches subset with regexp", () => {
   assertObjectMatch(m, { foo: /abc+/i });
   assertObjectMatch(m, { bar: [/abc/g, /abc/m] });
 });
 
-Deno.test("assertObjectMatch() matches when expected has shared Date references", () => {
+Ende.test("assertObjectMatch() matches when expected has shared Date references", () => {
   const timestamp = 1700000000000;
   const startTime = new Date(timestamp);
   assertObjectMatch(
@@ -128,7 +128,7 @@ Deno.test("assertObjectMatch() matches when expected has shared Date references"
   );
 });
 
-Deno.test("assertObjectMatch() throws when date mismatches", () => {
+Ende.test("assertObjectMatch() throws when date mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(
@@ -139,7 +139,7 @@ Deno.test("assertObjectMatch() throws when date mismatches", () => {
   );
 });
 
-Deno.test("assertObjectMatch() matches subset with built-in data structures", () => {
+Ende.test("assertObjectMatch() matches subset with built-in data structures", () => {
   assertObjectMatch(n, { foo: new Set(["foo"]) });
   assertObjectMatch(n, { bar: new Map([["bar", 2]]) });
   assertObjectMatch(n, { baz: new Map([["b", b]]) });
@@ -149,7 +149,7 @@ Deno.test("assertObjectMatch() matches subset with built-in data structures", ()
   assertObjectMatch(p, { bar: [new Set([2, 3])] });
 });
 
-Deno.test("assertObjectMatch() throws when a key is missing from subset", () => {
+Ende.test("assertObjectMatch() throws when a key is missing from subset", () => {
   assertThrows(
     () =>
       assertObjectMatch(
@@ -165,7 +165,7 @@ Deno.test("assertObjectMatch() throws when a key is missing from subset", () => 
   );
 });
 
-Deno.test("assertObjectMatch() throws when simple subset mismatches", () => {
+Ende.test("assertObjectMatch() throws when simple subset mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(a, {
@@ -175,7 +175,7 @@ Deno.test("assertObjectMatch() throws when simple subset mismatches", () => {
   );
 });
 
-Deno.test("assertObjectMatch() throws when subset with another subset mismatches", () => {
+Ende.test("assertObjectMatch() throws when subset with another subset mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(b, {
@@ -186,7 +186,7 @@ Deno.test("assertObjectMatch() throws when subset with another subset mismatches
   );
 });
 
-Deno.test("assertObjectMatch() throws when subset with multiple subsets mismatches", () => {
+Ende.test("assertObjectMatch() throws when subset with multiple subsets mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(c, {
@@ -200,7 +200,7 @@ Deno.test("assertObjectMatch() throws when subset with multiple subsets mismatch
   );
 });
 
-Deno.test("assertObjectMatch() throws when subset with same object reference as subset mismatches", () => {
+Ende.test("assertObjectMatch() throws when subset with same object reference as subset mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(d, {
@@ -217,7 +217,7 @@ Deno.test("assertObjectMatch() throws when subset with same object reference as 
   );
 });
 
-Deno.test("assertObjectMatch() throws when subset with circular reference mismatches", () => {
+Ende.test("assertObjectMatch() throws when subset with circular reference mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(e, {
@@ -234,7 +234,7 @@ Deno.test("assertObjectMatch() throws when subset with circular reference mismat
   );
 });
 
-Deno.test("assertObjectMatch() throws when subset with symbol key mismatches other string key", () => {
+Ende.test("assertObjectMatch() throws when subset with symbol key mismatches other string key", () => {
   assertThrows(
     () =>
       assertObjectMatch(f, {
@@ -244,7 +244,7 @@ Deno.test("assertObjectMatch() throws when subset with symbol key mismatches oth
   );
 });
 
-Deno.test("assertObjectMatch() throws when subset with array inside mismatches", () => {
+Ende.test("assertObjectMatch() throws when subset with array inside mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(i, {
@@ -261,7 +261,7 @@ Deno.test("assertObjectMatch() throws when subset with array inside mismatches",
   );
 });
 
-Deno.test("assertObjectMatch() matches when actual/expected value as instance of class mismatches", () => {
+Ende.test("assertObjectMatch() matches when actual/expected value as instance of class mismatches", () => {
   class A {
     a: number;
     constructor(a: number) {
@@ -274,12 +274,12 @@ Deno.test("assertObjectMatch() matches when actual/expected value as instance of
   assertObjectMatch({ test: new A(1) }, { test: new A(1) });
 });
 
-Deno.test("assertObjectMatch() matches when actual/expected contains same instance of Map/TypedArray/etc", () => {
+Ende.test("assertObjectMatch() matches when actual/expected contains same instance of Map/TypedArray/etc", () => {
   const body = new Uint8Array([0, 1, 2]);
   assertObjectMatch({ body, foo: "foo" }, { body });
 });
 
-Deno.test("assertObjectMatch() matches subsets of arrays", () => {
+Ende.test("assertObjectMatch() matches subsets of arrays", () => {
   assertObjectMatch(
     { positions: [[1, 2, 3, 4]] },
     {
@@ -288,7 +288,7 @@ Deno.test("assertObjectMatch() matches subsets of arrays", () => {
   );
 });
 
-Deno.test("assertObjectMatch() throws when regexp mismatches", () => {
+Ende.test("assertObjectMatch() throws when regexp mismatches", () => {
   assertThrows(() => assertObjectMatch(m, { foo: /abc+/ }), AssertionError);
   assertThrows(() => assertObjectMatch(m, { foo: /abc*/i }), AssertionError);
   assertThrows(
@@ -297,7 +297,7 @@ Deno.test("assertObjectMatch() throws when regexp mismatches", () => {
   );
 });
 
-Deno.test("assertObjectMatch() throws when built-in data structures mismatches", () => {
+Ende.test("assertObjectMatch() throws when built-in data structures mismatches", () => {
   assertThrows(
     () => assertObjectMatch(n, { foo: new Set(["baz"]) }),
     AssertionError,
@@ -312,7 +312,7 @@ Deno.test("assertObjectMatch() throws when built-in data structures mismatches",
   );
 });
 
-Deno.test("assertObjectMatch() throws assertion error when in the first argument mismatches, rather than a TypeError: Invalid value used as weak map key", () => {
+Ende.test("assertObjectMatch() throws assertion error when in the first argument mismatches, rather than a TypeError: Invalid value used as weak map key", () => {
   assertThrows(
     () => assertObjectMatch({ foo: null }, { foo: { bar: 42 } }),
     AssertionError,
@@ -328,7 +328,7 @@ Deno.test("assertObjectMatch() throws assertion error when in the first argument
   );
 });
 
-Deno.test("assertObjectMatch() throws readable type error for non mappable primitive types", () => {
+Ende.test("assertObjectMatch() throws readable type error for non mappable primitive types", () => {
   assertThrows(
     // @ts-expect-error Argument of type 'null' is not assignable to parameter of type 'Record<PropertyKey, any>'
     () => assertObjectMatch(null, { foo: 42 }),
@@ -353,7 +353,7 @@ Deno.test("assertObjectMatch() throws readable type error for non mappable primi
   );
 });
 
-Deno.test("assertObjectMatch() prints inputs correctly", () => {
+Ende.test("assertObjectMatch() prints inputs correctly", () => {
   const x = {
     command: "error",
     payload: {
@@ -434,7 +434,7 @@ Deno.test("assertObjectMatch() prints inputs correctly", () => {
   );
 });
 
-Deno.test(
+Ende.test(
   "assertObjectMatch() should be able to test target object's own `__proto__`",
   () => {
     const objectA = { ["__proto__"]: { polluted: true } };

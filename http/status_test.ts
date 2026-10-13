@@ -12,7 +12,7 @@ import {
 } from "./status.ts";
 import { assert, assertEquals } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "STATUS_CODE",
   fn() {
     // just spot check a few common codes
@@ -23,7 +23,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "STATUS_TEXT",
   fn() {
     // just spot check a few common codes
@@ -37,7 +37,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isInformationalStatus()",
   fn() {
     assert(isInformationalStatus(STATUS_CODE.Continue));
@@ -47,7 +47,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isSuccessfulStatus()",
   fn() {
     assert(isSuccessfulStatus(STATUS_CODE.OK));
@@ -57,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isRedirectStatus()",
   fn() {
     assert(isRedirectStatus(STATUS_CODE.Found));
@@ -67,7 +67,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isClientErrorStatus()",
   fn() {
     assert(isClientErrorStatus(STATUS_CODE.NotFound));
@@ -77,7 +77,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isServerErrorStatus()",
   fn() {
     assert(isServerErrorStatus(STATUS_CODE.InternalServerError));
@@ -87,7 +87,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isErrorStatus()",
   fn() {
     assert(isErrorStatus(STATUS_CODE.InternalServerError));

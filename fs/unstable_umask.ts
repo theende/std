@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { mapError } from "./_map_error.ts";
-import { getNodeProcess, isDeno } from "./_utils.ts";
+import { getNodeProcess, isEnde } from "./_utils.ts";
 
 /** Retrieve the process umask.  If `mask` is provided, sets the process umask.
  * This call always returns what the umask was before the call.
@@ -11,8 +11,8 @@ import { getNodeProcess, isDeno } from "./_utils.ts";
  * import { assert } from "@std/assert";
  * import { umask } from "@std/fs/unstable-umask";
  *
- * const prevUmaskValue = Deno.umask(0o077);
- * const currentUmaskValue = Deno.umask();
+ * const prevUmaskValue = Ende.umask(0o077);
+ * const currentUmaskValue = Ende.umask();
  * assert(prevUmaskValue !== currentUmaskValue)
  * ```
  *
@@ -26,8 +26,8 @@ import { getNodeProcess, isDeno } from "./_utils.ts";
  * @returns The previous mask
  */
 export function umask(mask?: number): number {
-  if (isDeno) {
-    return Deno.umask(mask);
+  if (isEnde) {
+    return Ende.umask(mask);
   } else {
     try {
       return getNodeProcess().umask(mask);

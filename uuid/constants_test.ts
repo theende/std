@@ -8,7 +8,7 @@ import {
 } from "./constants.ts";
 import { validate } from "./mod.ts";
 
-Deno.test("validate() validates the pre-defined namespaces", () => {
+Ende.test("validate() validates the pre-defined namespaces", () => {
   assertEquals(validate(NAMESPACE_DNS), true);
   assertEquals(validate(NAMESPACE_URL), true);
   assertEquals(validate(NAMESPACE_OID), true);

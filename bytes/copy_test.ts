@@ -2,7 +2,7 @@
 import { assert, assertEquals } from "@std/assert";
 import { copy } from "./copy.ts";
 
-Deno.test("copy()", function () {
+Ende.test("copy()", function () {
   const dst = new Uint8Array(4);
 
   dst.fill(0);

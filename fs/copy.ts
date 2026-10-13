@@ -45,13 +45,13 @@ async function ensureValidCopy(
   src: string | URL,
   dest: string | URL,
   options: InternalCopyOptions,
-): Promise<Deno.FileInfo | undefined> {
-  let destStat: Deno.FileInfo;
+): Promise<Ende.FileInfo | undefined> {
+  let destStat: Ende.FileInfo;
 
   try {
-    destStat = await Deno.lstat(dest);
+    destStat = await Ende.lstat(dest);
   } catch (err) {
-    if (err instanceof Deno.errors.NotFound) {
+    if (err instanceof Ende.errors.NotFound) {
       return;
     }
     throw err;
@@ -63,7 +63,7 @@ async function ensureValidCopy(
     );
   }
   if (!options.overwrite) {
-    throw new Deno.errors.AlreadyExists(`'${dest}' already exists.`);
+    throw new Ende.errors.AlreadyExists(`'${dest}' already exists.`);
   }
 
   return destStat;
@@ -73,12 +73,12 @@ function ensureValidCopySync(
   src: string | URL,
   dest: string | URL,
   options: InternalCopyOptions,
-): Deno.FileInfo | undefined {
-  let destStat: Deno.FileInfo;
+): Ende.FileInfo | undefined {
+  let destStat: Ende.FileInfo;
   try {
-    destStat = Deno.lstatSync(dest);
+    destStat = Ende.lstatSync(dest);
   } catch (err) {
-    if (err instanceof Deno.errors.NotFound) {
+    if (err instanceof Ende.errors.NotFound) {
       return;
     }
     throw err;
@@ -90,7 +90,7 @@ function ensureValidCopySync(
     );
   }
   if (!options.overwrite) {
-    throw new Deno.errors.AlreadyExists(`'${dest}' already exists`);
+    throw new Ende.errors.AlreadyExists(`'${dest}' already exists`);
   }
 
   return destStat;
@@ -103,12 +103,12 @@ async function copyFile(
   options: InternalCopyOptions,
 ) {
   await ensureValidCopy(src, dest, options);
-  await Deno.copyFile(src, dest);
+  await Ende.copyFile(src, dest);
   if (options.preserveTimestamps) {
-    const statInfo = await Deno.stat(src);
+    const statInfo = await Ende.stat(src);
     assertIsDate(statInfo.atime, "statInfo.atime");
     assertIsDate(statInfo.mtime, "statInfo.mtime");
-    await Deno.utime(dest, statInfo.atime, statInfo.mtime);
+    await Ende.utime(dest, statInfo.atime, statInfo.mtime);
   }
 }
 /* copy file to dest synchronously */
@@ -118,12 +118,12 @@ function copyFileSync(
   options: InternalCopyOptions,
 ) {
   ensureValidCopySync(src, dest, options);
-  Deno.copyFileSync(src, dest);
+  Ende.copyFileSync(src, dest);
   if (options.preserveTimestamps) {
-    const statInfo = Deno.statSync(src);
+    const statInfo = Ende.statSync(src);
     assertIsDate(statInfo.atime, "statInfo.atime");
     assertIsDate(statInfo.mtime, "statInfo.mtime");
-    Deno.utimeSync(dest, statInfo.atime, statInfo.mtime);
+    Ende.utimeSync(dest, statInfo.atime, statInfo.mtime);
   }
 }
 
@@ -134,20 +134,20 @@ async function copySymLink(
   options: InternalCopyOptions,
 ) {
   await ensureValidCopy(src, dest, options);
-  const originSrcFilePath = await Deno.readLink(src);
-  const type = getFileInfoType(await Deno.lstat(src));
+  const originSrcFilePath = await Ende.readLink(src);
+  const type = getFileInfoType(await Ende.lstat(src));
   if (isWindows) {
-    await Deno.symlink(originSrcFilePath, dest, {
+    await Ende.symlink(originSrcFilePath, dest, {
       type: type === "dir" ? "dir" : "file",
     });
   } else {
-    await Deno.symlink(originSrcFilePath, dest);
+    await Ende.symlink(originSrcFilePath, dest);
   }
   if (options.preserveTimestamps) {
-    const statInfo = await Deno.lstat(src);
+    const statInfo = await Ende.lstat(src);
     assertIsDate(statInfo.atime, "statInfo.atime");
     assertIsDate(statInfo.mtime, "statInfo.mtime");
-    await Deno.utime(dest, statInfo.atime, statInfo.mtime);
+    await Ende.utime(dest, statInfo.atime, statInfo.mtime);
   }
 }
 
@@ -158,21 +158,21 @@ function copySymlinkSync(
   options: InternalCopyOptions,
 ) {
   ensureValidCopySync(src, dest, options);
-  const originSrcFilePath = Deno.readLinkSync(src);
-  const type = getFileInfoType(Deno.lstatSync(src));
+  const originSrcFilePath = Ende.readLinkSync(src);
+  const type = getFileInfoType(Ende.lstatSync(src));
   if (isWindows) {
-    Deno.symlinkSync(originSrcFilePath, dest, {
+    Ende.symlinkSync(originSrcFilePath, dest, {
       type: type === "dir" ? "dir" : "file",
     });
   } else {
-    Deno.symlinkSync(originSrcFilePath, dest);
+    Ende.symlinkSync(originSrcFilePath, dest);
   }
 
   if (options.preserveTimestamps) {
-    const statInfo = Deno.lstatSync(src);
+    const statInfo = Ende.lstatSync(src);
     assertIsDate(statInfo.atime, "statInfo.atime");
     assertIsDate(statInfo.mtime, "statInfo.mtime");
-    Deno.utimeSync(dest, statInfo.atime, statInfo.mtime);
+    Ende.utimeSync(dest, statInfo.atime, statInfo.mtime);
   }
 }
 
@@ -192,10 +192,10 @@ async function copyDir(
   }
 
   if (options.preserveTimestamps) {
-    const srcStatInfo = await Deno.stat(src);
+    const srcStatInfo = await Ende.stat(src);
     assertIsDate(srcStatInfo.atime, "statInfo.atime");
     assertIsDate(srcStatInfo.mtime, "statInfo.mtime");
-    await Deno.utime(dest, srcStatInfo.atime, srcStatInfo.mtime);
+    await Ende.utime(dest, srcStatInfo.atime, srcStatInfo.mtime);
   }
 
   src = toPathString(src);
@@ -203,7 +203,7 @@ async function copyDir(
 
   const promises = [];
 
-  for await (const entry of Deno.readDir(src)) {
+  for await (const entry of Ende.readDir(src)) {
     const srcPath = join(src, entry.name);
     const destPath = join(dest, basename(srcPath as string));
     if (entry.isSymlink) {
@@ -234,16 +234,16 @@ function copyDirSync(
   }
 
   if (options.preserveTimestamps) {
-    const srcStatInfo = Deno.statSync(src);
+    const srcStatInfo = Ende.statSync(src);
     assertIsDate(srcStatInfo.atime, "statInfo.atime");
     assertIsDate(srcStatInfo.mtime, "statInfo.mtime");
-    Deno.utimeSync(dest, srcStatInfo.atime, srcStatInfo.mtime);
+    Ende.utimeSync(dest, srcStatInfo.atime, srcStatInfo.mtime);
   }
 
   src = toPathString(src);
   dest = toPathString(dest);
 
-  for (const entry of Deno.readDirSync(src)) {
+  for (const entry of Ende.readDirSync(src)) {
     const srcPath = join(src, entry.name);
     const destPath = join(dest, basename(srcPath as string));
     if (entry.isSymlink) {
@@ -315,7 +315,7 @@ export async function copy(
     throw new Error("Source and destination cannot be the same");
   }
 
-  const srcStat = await Deno.lstat(src);
+  const srcStat = await Ende.lstat(src);
 
   if (srcStat.isDirectory && isSubdir(src, dest)) {
     throw new Error(
@@ -391,7 +391,7 @@ export function copySync(
     throw new Error("Source and destination cannot be the same");
   }
 
-  const srcStat = Deno.lstatSync(src);
+  const srcStat = Ende.lstatSync(src);
 
   if (srcStat.isDirectory && isSubdir(src, dest)) {
     throw new Error(

@@ -132,20 +132,20 @@ function checkFormat(
   });
 }
 
-Deno.test("windows.parse()", function () {
+Ende.test("windows.parse()", function () {
   checkParseFormat(windows, winPaths);
   checkSpecialCaseParseFormat(windows, winSpecialCaseParseTests);
 });
 
-Deno.test("posix.parse()", function () {
+Ende.test("posix.parse()", function () {
   checkParseFormat(posix, unixPaths);
 });
 
-Deno.test("windows.format()", function () {
+Ende.test("windows.format()", function () {
   checkFormat(windows, winSpecialCaseFormatTests);
 });
 
-Deno.test("posix.format()", function () {
+Ende.test("posix.format()", function () {
   checkFormat(posix, unixSpecialCaseFormatTests);
 });
 
@@ -181,7 +181,7 @@ const posixTrailingTests: ParseTestCase[] = [
   ],
 ];
 
-Deno.test("windows.parseTrailing()", function () {
+Ende.test("windows.parseTrailing()", function () {
   windowsTrailingTests.forEach(function (p) {
     const actual = windows.parse(p[0]);
     const expected = p[1];
@@ -189,7 +189,7 @@ Deno.test("windows.parseTrailing()", function () {
   });
 });
 
-Deno.test("parseTrailing()", function () {
+Ende.test("parseTrailing()", function () {
   posixTrailingTests.forEach(function (p) {
     const actual = posix.parse(p[0]);
     const expected = p[1];

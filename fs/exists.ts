@@ -52,9 +52,9 @@ export interface ExistsOptions {
  * ```ts ignore
  * // Notice no use of exists
  * try {
- *   await Deno.remove("./foo", { recursive: true });
+ *   await Ende.remove("./foo", { recursive: true });
  * } catch (error) {
- *   if (!(error instanceof Deno.errors.NotFound)) {
+ *   if (!(error instanceof Ende.errors.NotFound)) {
  *     throw error;
  *   }
  *   // Do nothing...
@@ -126,7 +126,7 @@ export async function exists(
   options?: ExistsOptions,
 ): Promise<boolean> {
   try {
-    const stat = await Deno.stat(path);
+    const stat = await Ende.stat(path);
     if (
       options &&
       (options.isReadable || options.isDirectory || options.isFile)
@@ -148,12 +148,12 @@ export async function exists(
     }
     return true;
   } catch (error) {
-    if (error instanceof Deno.errors.NotFound) {
+    if (error instanceof Ende.errors.NotFound) {
       return false;
     }
-    if (error instanceof Deno.errors.PermissionDenied) {
+    if (error instanceof Ende.errors.PermissionDenied) {
       if (
-        (await Deno.permissions.query({ name: "read", path })).state ===
+        (await Ende.permissions.query({ name: "read", path })).state ===
           "granted"
       ) {
         // --allow-read not missing
@@ -191,9 +191,9 @@ export async function exists(
  * ```ts ignore
  * // Notice no use of exists
  * try {
- *   Deno.removeSync("./foo", { recursive: true });
+ *   Ende.removeSync("./foo", { recursive: true });
  * } catch (error) {
- *   if (!(error instanceof Deno.errors.NotFound)) {
+ *   if (!(error instanceof Ende.errors.NotFound)) {
  *     throw error;
  *   }
  *   // Do nothing...
@@ -265,7 +265,7 @@ export function existsSync(
   options?: ExistsOptions,
 ): boolean {
   try {
-    const stat = Deno.statSync(path);
+    const stat = Ende.statSync(path);
     if (
       options &&
       (options.isReadable || options.isDirectory || options.isFile)
@@ -287,12 +287,12 @@ export function existsSync(
     }
     return true;
   } catch (error) {
-    if (error instanceof Deno.errors.NotFound) {
+    if (error instanceof Ende.errors.NotFound) {
       return false;
     }
-    if (error instanceof Deno.errors.PermissionDenied) {
+    if (error instanceof Ende.errors.PermissionDenied) {
       if (
-        Deno.permissions.querySync({ name: "read", path }).state === "granted"
+        Ende.permissions.querySync({ name: "read", path }).state === "granted"
       ) {
         // --allow-read not missing
         return !options?.isReadable; // PermissionDenied was raised by file system, so the item exists, but can't be read
@@ -302,12 +302,12 @@ export function existsSync(
   }
 }
 
-function fileIsReadable(stat: Deno.FileInfo) {
+function fileIsReadable(stat: Ende.FileInfo) {
   if (stat.mode === null) {
     return true; // Exclusive on Non-POSIX systems
-  } else if (Deno.uid() === stat.uid) {
+  } else if (Ende.uid() === stat.uid) {
     return (stat.mode & 0o400) === 0o400; // User is owner and can read?
-  } else if (Deno.gid() === stat.gid) {
+  } else if (Ende.gid() === stat.gid) {
     return (stat.mode & 0o040) === 0o040; // User group is owner and can read?
   }
   return (stat.mode & 0o004) === 0o004; // Others can read?

@@ -41,7 +41,7 @@ export const testCases = [
   },
 ];
 
-Deno.test("escapeCss() gives same results as CSS.escape in browser", async (t) => {
+Ende.test("escapeCss() gives same results as CSS.escape in browser", async (t) => {
   for (const { input, expected } of testCases) {
     await t.step(JSON.stringify(input), () => {
       const result = escapeCss(input);

@@ -9,7 +9,7 @@
  * ```ts no-assert
  * import { fn, expect } from "@std/expect";
  *
- * Deno.test("example", () => {
+ * Ende.test("example", () => {
  *   const mockFn = fn((a: number, b: number) => a + b);
  *   const result = mockFn(1, 2);
  *   expect(result).toEqual(3);
@@ -33,7 +33,7 @@ import { MOCK_SYMBOL, type MockCall } from "./_mock_util.ts";
  * ```ts no-assert
  * import { fn, expect } from "@std/expect";
  *
- * Deno.test("example", () => {
+ * Ende.test("example", () => {
  *   const mockFn = fn(
  *     (a: number, b: number) => a + b,
  *     (a: number, b: number) => a - b

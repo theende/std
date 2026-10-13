@@ -13,7 +13,7 @@ const forbiddenCustomElementNames: string[] = [
   "missing-glyph",
 ] as const;
 
-Deno.test("isValidCustomElementName()", async (t) => {
+Ende.test("isValidCustomElementName()", async (t) => {
   await t.step("handles forbidden custom names", () => {
     forbiddenCustomElementNames.map((forbiddenName) => {
       assertEquals(isValidCustomElementName(forbiddenName), false);

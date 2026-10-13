@@ -3,7 +3,7 @@
 import { assertEquals, assertRejects } from "@std/assert";
 import { zipReadableStreams } from "./zip_readable_streams.ts";
 
-Deno.test("zipReadableStreams()", async () => {
+Ende.test("zipReadableStreams()", async () => {
   const textStream = ReadableStream.from([
     "qwertzuiopasd",
     "mnbvcxylkjhgfds",
@@ -30,7 +30,7 @@ Deno.test("zipReadableStreams()", async () => {
   ]);
 });
 
-Deno.test("zipReadableStreams handles errors by closing the stream with an error", async () => {
+Ende.test("zipReadableStreams handles errors by closing the stream with an error", async () => {
   const errorStream = new ReadableStream({
     start(controller) {
       controller.enqueue("Initial data");

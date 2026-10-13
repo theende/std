@@ -24,17 +24,17 @@ function testAscii(expected: string, input: string) {
   assertEquals(expected, reverse(input, {}));
 }
 
-Deno.test("reverse() handles empty string", () => {
+Ende.test("reverse() handles empty string", () => {
   testBothAsciiAndUnicode("", "");
 });
 
-Deno.test("reverse() reverses a string", () => {
+Ende.test("reverse() reverses a string", () => {
   testBothAsciiAndUnicode("olleh", "hello");
   testBothAsciiAndUnicode("dlrow olleh", "hello world");
 });
 
 // CREDIT: https://github.com/mathiasbynens/esrever/blob/14b34013dad49106ca08c0e65919f1fc8fea5331/README.md
-Deno.test("reverse() handles unicode strings", () => {
+Ende.test("reverse() handles unicode strings", () => {
   testUnicode(
     "Lorem ipsum 𝌆 dolor sit ameͨ͆t.",
     ".teͨ͆ma tis rolod 𝌆 muspi meroL",

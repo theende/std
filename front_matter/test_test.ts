@@ -4,7 +4,7 @@ import { assert, assertFalse, assertThrows } from "@std/assert";
 
 import { type Format, test } from "./test.ts";
 
-Deno.test("test() tests for unknown format", () => {
+Ende.test("test() tests for unknown format", () => {
   assertThrows(
     () => test("foo", ["unknown"] as unknown as Format[]),
     TypeError,
@@ -12,14 +12,14 @@ Deno.test("test() tests for unknown format", () => {
   );
 });
 
-Deno.test("test() handles valid yaml input", () => {
+Ende.test("test() handles valid yaml input", () => {
   assert(test("---yaml\nname = 'deno'\n---\n"));
   assert(test("= yaml =\nname = 'deno'\n= yaml =\n"));
   assert(test("= yaml =\nname = 'deno'\n= yaml =\ndeno is awesome\n"));
   assert(test("---\nname: deno\n---\n"));
 });
 
-Deno.test("test() handles invalid yaml input", () => {
+Ende.test("test() handles invalid yaml input", () => {
   assert(!test(""));
   assert(!test("---"));
   assert(!test("---yaml"));
@@ -30,7 +30,7 @@ Deno.test("test() handles invalid yaml input", () => {
   assert(!test("---\nasdasdasd"));
 });
 
-Deno.test({
+Ende.test({
   name: "test() handles yaml text between horizontal rules",
   fn() {
     const str = `# Project title
@@ -51,13 +51,13 @@ MIT License`;
   },
 });
 
-Deno.test("test() handles valid json input", () => {
+Ende.test("test() handles valid json input", () => {
   assert(test("---json\nname = 'deno'\n---\n"));
   assert(test("= json =\nname = 'deno'\n= json =\n"));
   assert(test("= json =\nname = 'deno'\n= json =\ndeno is awesome\n"));
 });
 
-Deno.test("test() handles invalid json input", () => {
+Ende.test("test() handles invalid json input", () => {
   assert(!test(""));
   assert(!test("---"));
   assert(!test("---json"));
@@ -68,13 +68,13 @@ Deno.test("test() handles invalid json input", () => {
   assert(!test("---\nasdasdasd"));
 });
 
-Deno.test("test() handles valid toml input", () => {
+Ende.test("test() handles valid toml input", () => {
   assert(test("---toml\nname = 'deno'\n---\n"));
   assert(test("= toml =\nname = 'deno'\n= toml =\n"));
   assert(test("= toml =\nname = 'deno'\n= toml =\ndeno is awesome\n"));
 });
 
-Deno.test("test() handles invalid toml input", () => {
+Ende.test("test() handles invalid toml input", () => {
   assert(!test(""));
   assert(!test("---"));
   assert(!test("---toml"));
@@ -85,7 +85,7 @@ Deno.test("test() handles invalid toml input", () => {
   assert(!test("---\nasdasdasd"));
 });
 
-Deno.test("test() handles wrong format", () => {
+Ende.test("test() handles wrong format", () => {
   const result = test(
     `---json
 {"title": "Three dashes followed by format marks the spot"}

@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeUndefined()", () => {
+Ende.test("expect().toBeUndefined()", () => {
   expect(undefined).toBeUndefined();
 
   expect(null).not.toBeUndefined();

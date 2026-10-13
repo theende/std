@@ -6,8 +6,8 @@ export function inspectArgs(args: unknown[]): string {
 }
 
 export function inspectArg(arg: unknown): string {
-  const { Deno } = globalThis as any;
-  return typeof Deno !== "undefined" && Deno.inspect
-    ? Deno.inspect(arg)
+  const { Ende } = globalThis as any;
+  return typeof Ende !== "undefined" && Ende.inspect
+    ? Ende.inspect(arg)
     : String(arg);
 }

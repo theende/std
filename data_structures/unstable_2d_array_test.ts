@@ -2,7 +2,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { D2Array } from "./unstable_2d_array.ts";
 
-Deno.test("D2Array constructor - width/height overload", () => {
+Ende.test("D2Array constructor - width/height overload", () => {
   const arr = new D2Array(3, 2, "test");
   assertEquals(arr.width, 3);
   assertEquals(arr.height, 2);
@@ -13,7 +13,7 @@ Deno.test("D2Array constructor - width/height overload", () => {
   ]);
 });
 
-Deno.test("D2Array constructor - array overload", () => {
+Ende.test("D2Array constructor - array overload", () => {
   const input = [
     [1, 2, 3],
     [4, 5, 6],
@@ -28,14 +28,14 @@ Deno.test("D2Array constructor - array overload", () => {
   ]);
 });
 
-Deno.test("D2Array constructor - throws on invalid dimensions", () => {
+Ende.test("D2Array constructor - throws on invalid dimensions", () => {
   assertThrows(() => new D2Array(0, 5, false), "Width must be greater than 0");
   assertThrows(() => new D2Array(5, 0, false), "Height must be greater than 0");
   assertThrows(() => new D2Array([], false), "Height must be greater than 0");
   assertThrows(() => new D2Array([[]], false), "Width must be greater than 0");
 });
 
-Deno.test("D2Array width and height getters", () => {
+Ende.test("D2Array width and height getters", () => {
   const arr1 = new D2Array(5, 3, 0);
   assertEquals(arr1.width, 5);
   assertEquals(arr1.height, 3);
@@ -50,7 +50,7 @@ Deno.test("D2Array width and height getters", () => {
   assertEquals(arr2.height, 4);
 });
 
-Deno.test("D2Array slice - default parameters", () => {
+Ende.test("D2Array slice - default parameters", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
@@ -66,7 +66,7 @@ Deno.test("D2Array slice - default parameters", () => {
   ]);
 });
 
-Deno.test("D2Array slice - with coordinates and dimensions", () => {
+Ende.test("D2Array slice - with coordinates and dimensions", () => {
   const arr = new D2Array([
     [1, 2, 3, 4],
     [5, 6, 7, 8],
@@ -81,7 +81,7 @@ Deno.test("D2Array slice - with coordinates and dimensions", () => {
   ]);
 });
 
-Deno.test("D2Array slice - partial dimensions", () => {
+Ende.test("D2Array slice - partial dimensions", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
@@ -101,7 +101,7 @@ Deno.test("D2Array slice - partial dimensions", () => {
   ]);
 });
 
-Deno.test("D2Array resize - same size", () => {
+Ende.test("D2Array resize - same size", () => {
   const arr = new D2Array(3, 2, 0);
   arr.raw[0]![0] = 5;
   arr.resize(3, 2);
@@ -110,7 +110,7 @@ Deno.test("D2Array resize - same size", () => {
   assertEquals(arr.raw[0]![0], 5);
 });
 
-Deno.test("D2Array resize - shrink both dimensions", () => {
+Ende.test("D2Array resize - shrink both dimensions", () => {
   const arr = new D2Array([
     [1, 2, 3, 4],
     [5, 6, 7, 8],
@@ -125,7 +125,7 @@ Deno.test("D2Array resize - shrink both dimensions", () => {
   ]);
 });
 
-Deno.test("D2Array resize - grow both dimensions", () => {
+Ende.test("D2Array resize - grow both dimensions", () => {
   const arr = new D2Array([
     [1, 2],
     [3, 4],
@@ -140,7 +140,7 @@ Deno.test("D2Array resize - grow both dimensions", () => {
   ]);
 });
 
-Deno.test("D2Array resize - mixed grow/shrink", () => {
+Ende.test("D2Array resize - mixed grow/shrink", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
@@ -157,13 +157,13 @@ Deno.test("D2Array resize - mixed grow/shrink", () => {
   ]);
 });
 
-Deno.test("D2Array resize - throws on invalid dimensions", () => {
+Ende.test("D2Array resize - throws on invalid dimensions", () => {
   const arr = new D2Array(3, 3, 0);
   assertThrows(() => arr.resize(0, 3), "Width must be greater than 0");
   assertThrows(() => arr.resize(3, 0), "Height must be greater than 0");
 });
 
-Deno.test("D2Array insert - with D2Array", () => {
+Ende.test("D2Array insert - with D2Array", () => {
   const arr = new D2Array(5, 5, false);
   const insert = new D2Array(3, 3, true);
   arr.insert(1, 1, insert);
@@ -176,7 +176,7 @@ Deno.test("D2Array insert - with D2Array", () => {
   ]);
 });
 
-Deno.test("D2Array insert - with regular array", () => {
+Ende.test("D2Array insert - with regular array", () => {
   const arr = new D2Array(4, 4, 0);
   const insert = [
     [1, 2],
@@ -191,7 +191,7 @@ Deno.test("D2Array insert - with regular array", () => {
   ]);
 });
 
-Deno.test("D2Array insert - out of bounds clipping", () => {
+Ende.test("D2Array insert - out of bounds clipping", () => {
   const arr = new D2Array(3, 3, 0);
   const insert = [
     [1, 2, 3, 4],
@@ -207,7 +207,7 @@ Deno.test("D2Array insert - out of bounds clipping", () => {
   ]);
 });
 
-Deno.test("D2Array insert - at origin", () => {
+Ende.test("D2Array insert - at origin", () => {
   const arr = new D2Array(3, 3, 0);
   const insert = [
     [1, 2],
@@ -221,7 +221,7 @@ Deno.test("D2Array insert - at origin", () => {
   ]);
 });
 
-Deno.test("D2Array iterator functionality", () => {
+Ende.test("D2Array iterator functionality", () => {
   const arr = new D2Array([
     [1, 2],
     [3, 4],
@@ -240,7 +240,7 @@ Deno.test("D2Array iterator functionality", () => {
   ]);
 });
 
-Deno.test("D2Array iterator with spread operator", () => {
+Ende.test("D2Array iterator with spread operator", () => {
   const arr = new D2Array([
     ["a", "b"],
     ["c", "d"],
@@ -253,14 +253,14 @@ Deno.test("D2Array iterator with spread operator", () => {
   ]);
 });
 
-Deno.test("D2Array slice - edge cases", () => {
+Ende.test("D2Array slice - edge cases", () => {
   const arr = new D2Array(2, 2, 0);
 
   assertThrows(() => arr.slice(0, 0, 0, 1), "Width must be greater than 0");
   assertThrows(() => arr.slice(0, 0, 1, 0), "Height must be greater than 0");
 });
 
-Deno.test("D2Array array constructor maintains independence", () => {
+Ende.test("D2Array array constructor maintains independence", () => {
   const original = [
     [1, 2],
     [3, 4],
@@ -271,7 +271,7 @@ Deno.test("D2Array array constructor maintains independence", () => {
   assertEquals(arr.raw[0]![0], 1);
 });
 
-Deno.test("D2Array slice creates independent copy", () => {
+Ende.test("D2Array slice creates independent copy", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
@@ -283,7 +283,7 @@ Deno.test("D2Array slice creates independent copy", () => {
   assertEquals(slice.raw[0]![0], 1);
 });
 
-Deno.test("D2Array insert with coordinates beyond array bounds", () => {
+Ende.test("D2Array insert with coordinates beyond array bounds", () => {
   const arr = new D2Array(3, 3, 0);
   const insert = [[1, 2], [3, 4]];
 

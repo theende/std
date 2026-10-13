@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toHaveLength()", () => {
+Ende.test("expect().toHaveLength()", () => {
   expect([1, 2, 3]).toHaveLength(3);
   expect("abc").toHaveLength(3);
 
@@ -25,7 +25,7 @@ Deno.test("expect().toHaveLength()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toHaveLength() with custom error message", () => {
+Ende.test("expect().toHaveLength() with custom error message", () => {
   const msg = "toHaveLength Custom Error";
 
   expect(() => {

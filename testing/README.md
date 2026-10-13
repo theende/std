@@ -14,7 +14,7 @@ function secondInterval(cb: () => void) {
   return setInterval(cb, 1000);
 }
 
-Deno.test("secondInterval calls callback every second and stops after being cleared", () => {
+Ende.test("secondInterval calls callback every second and stops after being cleared", () => {
   using time = new FakeTime();
 
   const cb = spy();

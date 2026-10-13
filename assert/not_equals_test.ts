@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { AssertionError, assertNotEquals, assertThrows } from "./mod.ts";
 
-Deno.test("assertNotEquals()", () => {
+Ende.test("assertNotEquals()", () => {
   assertNotEquals<unknown>({ foo: "bar" }, { bar: "foo" });
   assertNotEquals("Denosaurus", "Tyrannosaurus");
   assertNotEquals(
@@ -11,7 +11,7 @@ Deno.test("assertNotEquals()", () => {
   assertNotEquals(new Date("invalid"), new Date(2019, 0, 3, 4, 20, 1, 20));
 });
 
-Deno.test("assertNotEquals() throws", () => {
+Ende.test("assertNotEquals() throws", () => {
   assertThrows(
     () => {
       assertNotEquals("foo", "foo");
@@ -32,7 +32,7 @@ Deno.test("assertNotEquals() throws", () => {
   );
 });
 
-Deno.test("assertNotEquals() throws with custom message", () => {
+Ende.test("assertNotEquals() throws with custom message", () => {
   assertThrows(
     () => {
       assertNotEquals("foo", "foo", "CUSTOM MESSAGE");

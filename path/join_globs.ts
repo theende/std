@@ -19,7 +19,7 @@ export type { GlobOptions };
  * import { joinGlobs } from "@std/path/join-globs";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(joinGlobs(["foo", "bar", "..", "baz"]), "foo\\baz");
  *   assertEquals(joinGlobs(["foo", "**", "bar", "..", "baz"], { globstar: true }), "foo\\**\\baz");
  * } else {

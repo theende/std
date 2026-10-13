@@ -47,7 +47,7 @@ for (
   }
 
   for (const name of BENCHMARKED_DIGEST_ALGORITHM_NAMES) {
-    Deno.bench({
+    Ende.bench({
       group: `digesting ${humanLength}`,
       name: `${name} from std/crypto Wasm digesting ${humanLength}`,
       async fn() {
@@ -58,7 +58,7 @@ for (
     if (
       (WEB_CRYPTO_DIGEST_ALGORITHM_NAMES as readonly string[]).includes(name)
     ) {
-      Deno.bench({
+      Ende.bench({
         group: `digesting ${humanLength}`,
         name: `${name} from runtime WebCrypto digesting ${humanLength}`,
         async fn() {
@@ -72,7 +72,7 @@ for (
     ) {
       const nodeName = name.replace("-", "").toLowerCase();
 
-      Deno.bench({
+      Ende.bench({
         group: `digesting ${humanLength}`,
         name: `${name} from runtime node:crypto digesting ${humanLength}`,
         fn() {

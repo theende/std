@@ -52,7 +52,7 @@ const relativeTests = {
   ] as const,
 };
 
-Deno.test("posix.relative()", function () {
+Ende.test("posix.relative()", function () {
   relativeTests.posix.forEach(function (p) {
     const expected = p[2];
     const actual = posix.relative(p[0], p[1]);
@@ -60,7 +60,7 @@ Deno.test("posix.relative()", function () {
   });
 });
 
-Deno.test("windows.relative()", function () {
+Ende.test("windows.relative()", function () {
   relativeTests.windows.forEach(function (p) {
     const expected = p[2];
     const actual = windows.relative(p[0], p[1]);
@@ -68,7 +68,7 @@ Deno.test("windows.relative()", function () {
   });
 });
 
-Deno.test("relative() returns current working directory if input is empty", function () {
+Ende.test("relative() returns current working directory if input is empty", function () {
   const pwd = process.cwd();
   assertEquals(relative("", pwd), "");
   assertEquals(relative(pwd, ""), "");

@@ -3,7 +3,7 @@
 import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
 import { assert, assertEquals, assertRejects } from "@std/assert";
 
-Deno.test("FormDataEncoderStream", async () => {
+Ende.test("FormDataEncoderStream", async () => {
   const formData = await new FormDataEncoderStream(ReadableStream
     .from([
       { name: "a", value: "b" },
@@ -44,7 +44,7 @@ Deno.test("FormDataEncoderStream", async () => {
   assertEquals(await g.bytes(), new Uint8Array(30));
 });
 
-Deno.test(
+Ende.test(
   "FormDataEncoderStream handles readable entry has error",
   async () => {
     const response = new FormDataEncoderStream(
@@ -63,7 +63,7 @@ Deno.test(
   },
 );
 
-Deno.test("FormDataEncoderStream destructuring works correctly", async () => {
+Ende.test("FormDataEncoderStream destructuring works correctly", async () => {
   const encoder = FormDataEncoderStream
     .from(ReadableStream.from([{ name: "a", value: "b" }]));
 
@@ -73,7 +73,7 @@ Deno.test("FormDataEncoderStream destructuring works correctly", async () => {
   assertEquals(formData.get("a"), "b");
 });
 
-Deno.test("FormDataEncoderStream handles small byob requests", async () => {
+Ende.test("FormDataEncoderStream handles small byob requests", async () => {
   const reader = FormDataEncoderStream
     .from(
       ReadableStream.from([{ name: "abcdefghijklmnopqrstuvwxyz", value: "b" }]),
@@ -88,7 +88,7 @@ Deno.test("FormDataEncoderStream handles small byob requests", async () => {
   }
 });
 
-Deno.test(
+Ende.test(
   "FormDataEncoderStream handles being cancelled correctly",
   async () => {
     await FormDataEncoderStream
@@ -98,7 +98,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "FormDataEncoderStream handles being cancelled midway through",
   async () => {
     const reader = FormDataEncoderStream

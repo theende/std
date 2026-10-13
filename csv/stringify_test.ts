@@ -15,7 +15,7 @@ import { stringify } from "./stringify.ts";
 const CRLF = "\r\n";
 const BYTE_ORDER_MARK = "\ufeff";
 
-Deno.test({
+Ende.test({
   name: "stringify() handles various inputs",
   async fn(t) {
     await t.step({

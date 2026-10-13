@@ -6,13 +6,13 @@ import { fromFileUrl } from "../../path/mod.ts";
 import fc from "fast-check";
 
 // Note: This test is optional. It requires the Rust code to be compiled locally
-Deno.test("fast-check equality with unicode_width Rust crate", async (t) => {
+Ende.test("fast-check equality with unicode_width Rust crate", async (t) => {
   const libName = ({
     darwin: "libunicode_width_crate.dylib",
     linux: "libunicode_width_crate.so",
     windows: "libunicode_width_crate.dll",
     // deno-lint-ignore no-explicit-any
-  } as any)[Deno.build.os];
+  } as any)[Ende.build.os];
   const libPath = fromFileUrl(
     import.meta.resolve(
       `../testdata/unicode_width_crate/target/debug/${libName}`,
@@ -22,12 +22,12 @@ Deno.test("fast-check equality with unicode_width Rust crate", async (t) => {
   const toCString = (str: string) => new TextEncoder().encode(str + "\0");
 
   // @ts-ignore type-check errors if unavailable due to lack of --unstable-ffi flag
-  let dylib: Deno.DynamicLibrary<{
+  let dylib: Ende.DynamicLibrary<{
     unicode_width: { parameters: ["buffer"]; result: "usize" };
   }>;
 
   try {
-    dylib = Deno.dlopen(libPath, {
+    dylib = Ende.dlopen(libPath, {
       unicode_width: { parameters: ["buffer"], result: "usize" },
     });
 

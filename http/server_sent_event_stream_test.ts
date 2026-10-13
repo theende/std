@@ -14,7 +14,7 @@ function createStream(
     .pipeThrough(new TextDecoderStream());
 }
 
-Deno.test("ServerSentEventStream enqueues a stringified server-sent event message object", async () => {
+Ende.test("ServerSentEventStream enqueues a stringified server-sent event message object", async () => {
   const stream = createStream([
     {
       comment: "a",
@@ -58,14 +58,14 @@ Deno.test("ServerSentEventStream enqueues a stringified server-sent event messag
   );
 });
 
-Deno.test("ServerSentEventStream serializes multi-line comments", async () => {
+Ende.test("ServerSentEventStream serializes multi-line comments", async () => {
   const stream = createStream([{ comment: "line1\nline2\r\nline3" }]);
   const result = await Array.fromAsync(stream);
 
   assertEquals(result, [":line1\n:line2\n:line3\n\n"]);
 });
 
-Deno.test("ServerSentEventStream serializes empty string fields", async () => {
+Ende.test("ServerSentEventStream serializes empty string fields", async () => {
   const stream = createStream([
     { comment: "" },
     { event: "" },
@@ -84,7 +84,7 @@ Deno.test("ServerSentEventStream serializes empty string fields", async () => {
   ]);
 });
 
-Deno.test("ServerSentEventStream throws if single-line fields contain a newline", async () => {
+Ende.test("ServerSentEventStream throws if single-line fields contain a newline", async () => {
   // Event
   await assertRejects(
     async () => await createStream([{ event: "a\n" }]).getReader().read(),

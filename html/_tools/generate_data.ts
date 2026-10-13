@@ -14,7 +14,7 @@ const data = Object.fromEntries(
   Object.entries(entityList).map(([k, v]) => [k, v.characters]),
 );
 
-await Deno.writeTextFile(
+await Ende.writeTextFile(
   new URL(import.meta.resolve("../named_entity_list.json")),
   JSON.stringify(data, null, 2) + "\n",
 );

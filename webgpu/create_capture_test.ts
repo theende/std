@@ -4,7 +4,7 @@ import { assert, assertEquals } from "@std/assert";
 import { ignore } from "./_test_utils.ts";
 import { createCapture } from "./create_capture.ts";
 
-Deno.test({
+Ende.test({
   ignore,
   name: "createCapture()",
   fn: async () => {

@@ -7,7 +7,7 @@ import { eTag, ifMatch, ifNoneMatch } from "./etag.ts";
 
 const encoder = new TextEncoder();
 
-Deno.test({
+Ende.test({
   name: "eTag() handles empty string",
   async fn() {
     const actual = await eTag("");
@@ -15,7 +15,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "eTag() handles string",
   async fn() {
     const actual = await eTag("hello deno");
@@ -23,7 +23,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "eTag() handles empty Uint8Array",
   async fn() {
     const actual = await eTag(new Uint8Array());
@@ -31,7 +31,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "eTag() handles Uint8Array",
   async fn() {
     const actual = await eTag(encoder.encode("hello deno"));
@@ -39,8 +39,8 @@ Deno.test({
   },
 });
 
-Deno.test({
-  name: "eTag() handles Deno.FileInfo",
+Ende.test({
+  name: "eTag() handles Ende.FileInfo",
   async fn() {
     const fixture = {
       isFile: true,
@@ -70,7 +70,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ifMatch()",
   async fn() {
     assert(!ifMatch(`"abcdefg"`, await eTag("hello deno")));
@@ -96,7 +96,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ifNoneMatch()",
   async fn() {
     assert(ifNoneMatch(`"abcdefg"`, await eTag("hello deno")));
@@ -134,7 +134,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "eTag() returns string type for string and Uint8Array",
   async fn() {
     {
@@ -148,7 +148,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "eTag() returns undefined when calcFileInfo returns undefined",
   async fn() {
     {

@@ -8,7 +8,7 @@ import type { XmlDocument, XmlElement } from "./types.ts";
 // Basic Elements
 // =============================================================================
 
-Deno.test("stringify() serializes empty element", () => {
+Ende.test("stringify() serializes empty element", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -19,7 +19,7 @@ Deno.test("stringify() serializes empty element", () => {
   assertEquals(stringify(element), "<root/>");
 });
 
-Deno.test("stringify() serializes element with text content", () => {
+Ende.test("stringify() serializes element with text content", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "greeting", local: "greeting" },
@@ -30,7 +30,7 @@ Deno.test("stringify() serializes element with text content", () => {
   assertEquals(stringify(element), "<greeting>Hello!</greeting>");
 });
 
-Deno.test("stringify() serializes nested elements", () => {
+Ende.test("stringify() serializes nested elements", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -52,7 +52,7 @@ Deno.test("stringify() serializes nested elements", () => {
 // Namespace Prefixes
 // =============================================================================
 
-Deno.test("stringify() includes namespace prefix in tag name", () => {
+Ende.test("stringify() includes namespace prefix in tag name", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "ns:element", prefix: "ns", local: "element" },
@@ -67,7 +67,7 @@ Deno.test("stringify() includes namespace prefix in tag name", () => {
 // Attributes
 // =============================================================================
 
-Deno.test("stringify() serializes single attribute", () => {
+Ende.test("stringify() serializes single attribute", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "item", local: "item" },
@@ -78,7 +78,7 @@ Deno.test("stringify() serializes single attribute", () => {
   assertEquals(stringify(element), '<item id="123"/>');
 });
 
-Deno.test("stringify() serializes multiple attributes", () => {
+Ende.test("stringify() serializes multiple attributes", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "item", local: "item" },
@@ -89,7 +89,7 @@ Deno.test("stringify() serializes multiple attributes", () => {
   assertEquals(stringify(element), '<item id="1" class="main"/>');
 });
 
-Deno.test("stringify() encodes special characters in attributes", () => {
+Ende.test("stringify() encodes special characters in attributes", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "item", local: "item" },
@@ -103,7 +103,7 @@ Deno.test("stringify() encodes special characters in attributes", () => {
   );
 });
 
-Deno.test("stringify() encodes whitespace in attributes", () => {
+Ende.test("stringify() encodes whitespace in attributes", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "item", local: "item" },
@@ -118,7 +118,7 @@ Deno.test("stringify() encodes whitespace in attributes", () => {
 // Text Content
 // =============================================================================
 
-Deno.test("stringify() encodes special characters in text", () => {
+Ende.test("stringify() encodes special characters in text", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -132,7 +132,7 @@ Deno.test("stringify() encodes special characters in text", () => {
   );
 });
 
-Deno.test("stringify() preserves whitespace in text", () => {
+Ende.test("stringify() preserves whitespace in text", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -147,7 +147,7 @@ Deno.test("stringify() preserves whitespace in text", () => {
 // CDATA Sections
 // =============================================================================
 
-Deno.test("stringify() serializes CDATA section", () => {
+Ende.test("stringify() serializes CDATA section", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -158,7 +158,7 @@ Deno.test("stringify() serializes CDATA section", () => {
   assertEquals(stringify(element), "<root><![CDATA[<not>xml</not>]]></root>");
 });
 
-Deno.test("stringify() does not encode entities in CDATA", () => {
+Ende.test("stringify() does not encode entities in CDATA", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -176,7 +176,7 @@ Deno.test("stringify() does not encode entities in CDATA", () => {
 // Comments
 // =============================================================================
 
-Deno.test("stringify() serializes comments", () => {
+Ende.test("stringify() serializes comments", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -191,7 +191,7 @@ Deno.test("stringify() serializes comments", () => {
 // Mixed Content
 // =============================================================================
 
-Deno.test("stringify() serializes mixed content", () => {
+Ende.test("stringify() serializes mixed content", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -215,7 +215,7 @@ Deno.test("stringify() serializes mixed content", () => {
 // XML Declaration
 // =============================================================================
 
-Deno.test("stringify() includes XML declaration from document", () => {
+Ende.test("stringify() includes XML declaration from document", () => {
   const doc: XmlDocument = {
     declaration: {
       type: "declaration",
@@ -235,7 +235,7 @@ Deno.test("stringify() includes XML declaration from document", () => {
   assertEquals(stringify(doc), '<?xml version="1.0"?><root/>');
 });
 
-Deno.test("stringify() includes encoding in declaration", () => {
+Ende.test("stringify() includes encoding in declaration", () => {
   const doc: XmlDocument = {
     declaration: {
       type: "declaration",
@@ -256,7 +256,7 @@ Deno.test("stringify() includes encoding in declaration", () => {
   assertEquals(stringify(doc), '<?xml version="1.0" encoding="UTF-8"?><root/>');
 });
 
-Deno.test("stringify() includes standalone in declaration", () => {
+Ende.test("stringify() includes standalone in declaration", () => {
   const doc: XmlDocument = {
     declaration: {
       type: "declaration",
@@ -277,7 +277,7 @@ Deno.test("stringify() includes standalone in declaration", () => {
   assertEquals(stringify(doc), '<?xml version="1.0" standalone="yes"?><root/>');
 });
 
-Deno.test("stringify() omits declaration when option is false", () => {
+Ende.test("stringify() omits declaration when option is false", () => {
   const doc: XmlDocument = {
     declaration: {
       type: "declaration",
@@ -297,7 +297,7 @@ Deno.test("stringify() omits declaration when option is false", () => {
   assertEquals(stringify(doc, { declaration: false }), "<root/>");
 });
 
-Deno.test("stringify() handles document without declaration", () => {
+Ende.test("stringify() handles document without declaration", () => {
   const doc: XmlDocument = {
     root: {
       type: "element",
@@ -314,7 +314,7 @@ Deno.test("stringify() handles document without declaration", () => {
 // Pretty Printing
 // =============================================================================
 
-Deno.test("stringify() pretty-prints with indent option", () => {
+Ende.test("stringify() pretty-prints with indent option", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -335,7 +335,7 @@ Deno.test("stringify() pretty-prints with indent option", () => {
   );
 });
 
-Deno.test("stringify() pretty-prints deeply nested elements", () => {
+Ende.test("stringify() pretty-prints deeply nested elements", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "a", local: "a" },
@@ -363,7 +363,7 @@ Deno.test("stringify() pretty-prints deeply nested elements", () => {
   );
 });
 
-Deno.test("stringify() keeps text content inline when pretty-printing", () => {
+Ende.test("stringify() keeps text content inline when pretty-printing", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "p", local: "p" },
@@ -374,7 +374,7 @@ Deno.test("stringify() keeps text content inline when pretty-printing", () => {
   assertEquals(stringify(element, { indent: "  " }), "<p>Hello World</p>");
 });
 
-Deno.test("stringify() pretty-prints declaration on separate line", () => {
+Ende.test("stringify() pretty-prints declaration on separate line", () => {
   const doc: XmlDocument = {
     declaration: {
       type: "declaration",
@@ -397,7 +397,7 @@ Deno.test("stringify() pretty-prints declaration on separate line", () => {
   );
 });
 
-Deno.test("stringify() pretty-prints comments", () => {
+Ende.test("stringify() pretty-prints comments", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -423,7 +423,7 @@ Deno.test("stringify() pretty-prints comments", () => {
 // Complex Documents
 // =============================================================================
 
-Deno.test("stringify() handles complex document", () => {
+Ende.test("stringify() handles complex document", () => {
   const doc: XmlDocument = {
     declaration: {
       type: "declaration",
@@ -469,7 +469,7 @@ Deno.test("stringify() handles complex document", () => {
 // Edge Cases
 // =============================================================================
 
-Deno.test("stringify() handles Unicode content", () => {
+Ende.test("stringify() handles Unicode content", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -480,7 +480,7 @@ Deno.test("stringify() handles Unicode content", () => {
   assertEquals(stringify(element), "<root>日本語 🎉 émoji</root>");
 });
 
-Deno.test("stringify() handles empty string attribute", () => {
+Ende.test("stringify() handles empty string attribute", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "item", local: "item" },
@@ -495,7 +495,7 @@ Deno.test("stringify() handles empty string attribute", () => {
 // CDATA Edge Cases (XML 1.0 §2.7)
 // =============================================================================
 
-Deno.test("stringify() escapes ]]> in CDATA by splitting", () => {
+Ende.test("stringify() escapes ]]> in CDATA by splitting", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -509,7 +509,7 @@ Deno.test("stringify() escapes ]]> in CDATA by splitting", () => {
   );
 });
 
-Deno.test("stringify() escapes multiple ]]> in CDATA", () => {
+Ende.test("stringify() escapes multiple ]]> in CDATA", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -523,7 +523,7 @@ Deno.test("stringify() escapes multiple ]]> in CDATA", () => {
   );
 });
 
-Deno.test("stringify() handles ]]> at start of CDATA", () => {
+Ende.test("stringify() handles ]]> at start of CDATA", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -537,7 +537,7 @@ Deno.test("stringify() handles ]]> at start of CDATA", () => {
   );
 });
 
-Deno.test("stringify() handles ]]> at end of CDATA", () => {
+Ende.test("stringify() handles ]]> at end of CDATA", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -555,7 +555,7 @@ Deno.test("stringify() handles ]]> at end of CDATA", () => {
 // Comment Edge Cases (XML 1.0 §2.5)
 // =============================================================================
 
-Deno.test("stringify() throws for -- in comment", () => {
+Ende.test("stringify() throws for -- in comment", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -570,7 +570,7 @@ Deno.test("stringify() throws for -- in comment", () => {
   );
 });
 
-Deno.test("stringify() throws for comment ending with -", () => {
+Ende.test("stringify() throws for comment ending with -", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },
@@ -585,7 +585,7 @@ Deno.test("stringify() throws for comment ending with -", () => {
   );
 });
 
-Deno.test("stringify() allows single hyphen in comment", () => {
+Ende.test("stringify() allows single hyphen in comment", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "root", local: "root" },

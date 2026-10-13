@@ -4,7 +4,7 @@ import { BinaryHeap } from "./binary_heap.ts";
 import { ascend, descend } from "./comparators.ts";
 import { type Container, MyMath } from "./_test_utils.ts";
 
-Deno.test("BinaryHeap throws if compare is not a function", () => {
+Ende.test("BinaryHeap throws if compare is not a function", () => {
   assertThrows(
     () => new BinaryHeap({} as (a: number, b: number) => number),
     TypeError,
@@ -12,7 +12,7 @@ Deno.test("BinaryHeap throws if compare is not a function", () => {
   );
 });
 
-Deno.test("BinaryHeap works with default descend comparator", () => {
+Ende.test("BinaryHeap works with default descend comparator", () => {
   const maxHeap = new BinaryHeap<number>();
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [100, 10, 9, 9, 9, 1, 0, -1, -9, -10, -100];
@@ -49,7 +49,7 @@ Deno.test("BinaryHeap works with default descend comparator", () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("BinaryHeap works with ascend comparator", () => {
+Ende.test("BinaryHeap works with ascend comparator", () => {
   const minHeap = new BinaryHeap<number>(ascend);
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [-100, -10, -9, -1, 0, 1, 9, 9, 9, 10, 100];
@@ -86,7 +86,7 @@ Deno.test("BinaryHeap works with ascend comparator", () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("BinaryHeap contains objects", () => {
+Ende.test("BinaryHeap contains objects", () => {
   const heap = new BinaryHeap((
     a: Container,
     b: Container,
@@ -118,7 +118,7 @@ Deno.test("BinaryHeap contains objects", () => {
   assertEquals(heap.isEmpty(), true);
 });
 
-Deno.test("BinaryHeap.from() handles iterable", () => {
+Ende.test("BinaryHeap.from() handles iterable", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const originalValues: number[] = Array.from(values);
   const expected: number[] = [100, 10, 9, 9, 9, 1, 0, -1, -9, -10, -100];
@@ -163,7 +163,7 @@ Deno.test("BinaryHeap.from() handles iterable", () => {
   assertEquals([...heap].reverse(), expected.map((v: number) => 3 * v));
 });
 
-Deno.test("BinaryHeap.from() handles default descend comparator", () => {
+Ende.test("BinaryHeap.from() handles default descend comparator", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [100, 10, 9, 9, 9, 1, 0, -1, -9, -10, -100];
   const maxHeap = new BinaryHeap<number>();
@@ -215,7 +215,7 @@ Deno.test("BinaryHeap.from() handles default descend comparator", () => {
   assertEquals([...heap].reverse(), expected.map((v: number) => 3 * v));
 });
 
-Deno.test("BinaryHeap.from() handles ascend comparator", () => {
+Ende.test("BinaryHeap.from() handles ascend comparator", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [-100, -10, -9, -1, 0, 1, 9, 9, 9, 10, 100];
   const minHeap = new BinaryHeap<number>(ascend);
@@ -267,7 +267,7 @@ Deno.test("BinaryHeap.from() handles ascend comparator", () => {
   assertEquals([...heap].reverse(), expected.map((v: number) => 3 * v));
 });
 
-Deno.test("BinaryHeap handles edge case 1", () => {
+Ende.test("BinaryHeap handles edge case 1", () => {
   const minHeap = new BinaryHeap<number>(ascend);
   minHeap.push(4, 2, 8, 1, 10, 7, 3, 6, 5);
   assertEquals(minHeap.pop(), 1);
@@ -277,7 +277,7 @@ Deno.test("BinaryHeap handles edge case 1", () => {
   assertEquals([...minHeap], expected);
 });
 
-Deno.test("BinaryHeap handles edge case 2", () => {
+Ende.test("BinaryHeap handles edge case 2", () => {
   interface Point {
     x: number;
     y: number;
@@ -289,7 +289,7 @@ Deno.test("BinaryHeap handles edge case 2", () => {
   assertEquals([...minHeap], expected);
 });
 
-Deno.test("BinaryHeap handles edge case 3", () => {
+Ende.test("BinaryHeap handles edge case 3", () => {
   interface Point {
     x: number;
     y: number;
@@ -317,7 +317,7 @@ Deno.test("BinaryHeap handles edge case 3", () => {
   assertEquals([...minHeap], expected);
 });
 
-Deno.test("BinaryHeap handles README example", () => {
+Ende.test("BinaryHeap handles README example", () => {
   const maxHeap = new BinaryHeap<number>();
   maxHeap.push(4, 1, 3, 5, 2);
   assertEquals(maxHeap.peek(), 5);
@@ -340,14 +340,14 @@ Deno.test("BinaryHeap handles README example", () => {
   assertEquals([...words], []);
 });
 
-Deno.test("BinaryHeap.toArray()", () => {
+Ende.test("BinaryHeap.toArray()", () => {
   const values = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const maxHeap = new BinaryHeap<number>();
   maxHeap.push(...values);
   assert(maxHeap.toArray().every((value) => values.includes(value)));
 });
 
-Deno.test("BinaryHeap.drain()", () => {
+Ende.test("BinaryHeap.drain()", () => {
   const values = [2, 4, 3, 5, 1];
   const expected = [5, 4, 3, 2, 1];
   const heap = new BinaryHeap<number>();
@@ -356,7 +356,7 @@ Deno.test("BinaryHeap.drain()", () => {
   assertEquals(heap.length, 0);
 });
 
-Deno.test("BinaryHeap drain copy", () => {
+Ende.test("BinaryHeap drain copy", () => {
   const values = [2, 4, 3, 5, 1];
   const expected = [5, 4, 3, 2, 1];
   const heap = new BinaryHeap<number>();
@@ -366,7 +366,7 @@ Deno.test("BinaryHeap drain copy", () => {
   assertEquals(heap.length, 5);
 });
 
-Deno.test("BinaryHeap.clear()", () => {
+Ende.test("BinaryHeap.clear()", () => {
   const values = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const maxHeap = new BinaryHeap<number>();
   maxHeap.push(...values);

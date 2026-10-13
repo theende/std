@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { AssertionError, assertStrictEquals, assertThrows } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "assertStrictEquals()",
   fn() {
     assertStrictEquals(true, true);
@@ -19,7 +19,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertStrictEquals() types test",
   fn() {
     const x = { number: 2 };
@@ -41,7 +41,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertStrictEquals() throws with structure diff",
   fn() {
     assertThrows(
@@ -59,7 +59,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertStrictEquals() throws with reference diff",
   fn() {
     assertThrows(
@@ -75,7 +75,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertStrictEquals() throws with custom message",
   fn() {
     assertThrows(

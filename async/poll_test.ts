@@ -3,7 +3,7 @@ import { assertEquals, assertRejects } from "@std/assert";
 import { poll } from "./poll.ts";
 import { FakeTime } from "@std/testing/time";
 
-Deno.test("poll() returns result when isDone returns true", async () => {
+Ende.test("poll() returns result when isDone returns true", async () => {
   let callCount = 0;
   const result = await poll(
     () => {
@@ -18,7 +18,7 @@ Deno.test("poll() returns result when isDone returns true", async () => {
   assertEquals(callCount, 3);
 });
 
-Deno.test("poll() returns immediately when isDone returns true on first call", async () => {
+Ende.test("poll() returns immediately when isDone returns true on first call", async () => {
   using time = new FakeTime();
   const startTime = time.now;
 
@@ -31,7 +31,7 @@ Deno.test("poll() returns immediately when isDone returns true on first call", a
   assertEquals(time.now, startTime);
 });
 
-Deno.test("poll() works with async functions", async () => {
+Ende.test("poll() works with async functions", async () => {
   let callCount = 0;
   const result = await poll(
     async () => {
@@ -45,7 +45,7 @@ Deno.test("poll() works with async functions", async () => {
   assertEquals(result, 3);
 });
 
-Deno.test("poll() respects interval timing", async () => {
+Ende.test("poll() respects interval timing", async () => {
   using time = new FakeTime();
 
   let callCount = 0;
@@ -72,7 +72,7 @@ Deno.test("poll() respects interval timing", async () => {
   await promise;
 });
 
-Deno.test("poll() handles abort signal", async () => {
+Ende.test("poll() handles abort signal", async () => {
   using time = new FakeTime();
   const controller = new AbortController();
   let callCount = 0;
@@ -101,7 +101,7 @@ Deno.test("poll() handles abort signal", async () => {
   assertEquals(callCount, 3);
 });
 
-Deno.test("poll() handles already aborted signal", async () => {
+Ende.test("poll() handles already aborted signal", async () => {
   const controller = new AbortController();
   controller.abort();
 
@@ -116,7 +116,7 @@ Deno.test("poll() handles already aborted signal", async () => {
   );
 });
 
-Deno.test("poll() propagates custom abort reason", async () => {
+Ende.test("poll() propagates custom abort reason", async () => {
   const controller = new AbortController();
   const customError = new Error("custom reason");
   controller.abort(customError);
@@ -133,7 +133,7 @@ Deno.test("poll() propagates custom abort reason", async () => {
   );
 });
 
-Deno.test("poll() propagates errors from fn", async () => {
+Ende.test("poll() propagates errors from fn", async () => {
   await assertRejects(
     () =>
       poll(
@@ -147,7 +147,7 @@ Deno.test("poll() propagates errors from fn", async () => {
   );
 });
 
-Deno.test("poll() propagates errors from isDone", async () => {
+Ende.test("poll() propagates errors from isDone", async () => {
   await assertRejects(
     () =>
       poll(
@@ -161,7 +161,7 @@ Deno.test("poll() propagates errors from isDone", async () => {
   );
 });
 
-Deno.test("poll() throws RangeError for negative interval", () => {
+Ende.test("poll() throws RangeError for negative interval", () => {
   assertRejects(
     () =>
       poll(
@@ -173,7 +173,7 @@ Deno.test("poll() throws RangeError for negative interval", () => {
   );
 });
 
-Deno.test("poll() throws RangeError for NaN interval", () => {
+Ende.test("poll() throws RangeError for NaN interval", () => {
   assertRejects(
     () =>
       poll(
@@ -185,7 +185,7 @@ Deno.test("poll() throws RangeError for NaN interval", () => {
   );
 });
 
-Deno.test("poll() throws RangeError for Infinity interval", () => {
+Ende.test("poll() throws RangeError for Infinity interval", () => {
   assertRejects(
     () =>
       poll(

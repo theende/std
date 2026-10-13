@@ -7,7 +7,7 @@ import { isNameChar, isNameStartChar } from "./_name_chars.ts";
 // NameStartChar Tests
 // =============================================================================
 
-Deno.test("isNameStartChar() returns true for ASCII letters", () => {
+Ende.test("isNameStartChar() returns true for ASCII letters", () => {
   // a-z
   for (let c = 0x61; c <= 0x7A; c++) {
     assertEquals(isNameStartChar(c), true, `a-z: U+${c.toString(16)}`);
@@ -18,23 +18,23 @@ Deno.test("isNameStartChar() returns true for ASCII letters", () => {
   }
 });
 
-Deno.test("isNameStartChar() returns true for underscore and colon", () => {
+Ende.test("isNameStartChar() returns true for underscore and colon", () => {
   assertEquals(isNameStartChar(0x5F), true, "underscore _");
   assertEquals(isNameStartChar(0x3A), true, "colon :");
 });
 
-Deno.test("isNameStartChar() returns false for digits", () => {
+Ende.test("isNameStartChar() returns false for digits", () => {
   for (let c = 0x30; c <= 0x39; c++) {
     assertEquals(isNameStartChar(c), false, `digit: U+${c.toString(16)}`);
   }
 });
 
-Deno.test("isNameStartChar() returns false for hyphen and dot", () => {
+Ende.test("isNameStartChar() returns false for hyphen and dot", () => {
   assertEquals(isNameStartChar(0x2D), false, "hyphen -");
   assertEquals(isNameStartChar(0x2E), false, "dot .");
 });
 
-Deno.test("isNameStartChar() returns false for ASCII invalid chars", () => {
+Ende.test("isNameStartChar() returns false for ASCII invalid chars", () => {
   assertEquals(isNameStartChar(0x20), false, "space");
   assertEquals(isNameStartChar(0x21), false, "!");
   assertEquals(isNameStartChar(0x3C), false, "<");
@@ -44,7 +44,7 @@ Deno.test("isNameStartChar() returns false for ASCII invalid chars", () => {
   assertEquals(isNameStartChar(0x7B), false, "{");
 });
 
-Deno.test("isNameStartChar() validates Latin-1 Supplement correctly", () => {
+Ende.test("isNameStartChar() validates Latin-1 Supplement correctly", () => {
   // Valid: [#xC0-#xD6]
   assertEquals(isNameStartChar(0xC0), true, "À");
   assertEquals(isNameStartChar(0xD6), true, "Ö");
@@ -68,7 +68,7 @@ Deno.test("isNameStartChar() validates Latin-1 Supplement correctly", () => {
   assertEquals(isNameStartChar(0xBF), false, "¿");
 });
 
-Deno.test("isNameStartChar() validates Unicode ranges correctly", () => {
+Ende.test("isNameStartChar() validates Unicode ranges correctly", () => {
   // [#x100-#x2FF] - Latin Extended
   assertEquals(isNameStartChar(0x100), true, "Ā");
   assertEquals(isNameStartChar(0x2FF), true, "end of Latin Extended");
@@ -96,7 +96,7 @@ Deno.test("isNameStartChar() validates Unicode ranges correctly", () => {
   assertEquals(isNameStartChar(0x206F), false, "Nominal Digit Shapes");
 });
 
-Deno.test("isNameStartChar() validates astral planes", () => {
+Ende.test("isNameStartChar() validates astral planes", () => {
   // [#x10000-#xEFFFF]
   assertEquals(isNameStartChar(0x10000), true, "Linear B Syllable");
   assertEquals(isNameStartChar(0x1F600), true, "😀 emoji (in valid range)");
@@ -108,7 +108,7 @@ Deno.test("isNameStartChar() validates astral planes", () => {
 // NameChar Tests
 // =============================================================================
 
-Deno.test("isNameChar() returns true for all NameStartChar", () => {
+Ende.test("isNameChar() returns true for all NameStartChar", () => {
   // Sample of NameStartChar that should also be valid NameChar
   assertEquals(isNameChar(0x61), true, "a");
   assertEquals(isNameChar(0x5A), true, "Z");
@@ -118,34 +118,34 @@ Deno.test("isNameChar() returns true for all NameStartChar", () => {
   assertEquals(isNameChar(0x4E00), true, "一");
 });
 
-Deno.test("isNameChar() returns true for digits", () => {
+Ende.test("isNameChar() returns true for digits", () => {
   for (let c = 0x30; c <= 0x39; c++) {
     assertEquals(isNameChar(c), true, `digit: U+${c.toString(16)}`);
   }
 });
 
-Deno.test("isNameChar() returns true for hyphen and dot", () => {
+Ende.test("isNameChar() returns true for hyphen and dot", () => {
   assertEquals(isNameChar(0x2D), true, "hyphen -");
   assertEquals(isNameChar(0x2E), true, "dot .");
 });
 
-Deno.test("isNameChar() returns true for middle dot", () => {
+Ende.test("isNameChar() returns true for middle dot", () => {
   assertEquals(isNameChar(0xB7), true, "· middle dot");
 });
 
-Deno.test("isNameChar() returns true for combining diacritical marks", () => {
+Ende.test("isNameChar() returns true for combining diacritical marks", () => {
   // [#x0300-#x036F]
   assertEquals(isNameChar(0x0300), true, "Combining Grave Accent");
   assertEquals(isNameChar(0x036F), true, "Combining Latin Small Letter X");
   assertEquals(isNameChar(0x0370), true, "Ͱ (is NameStartChar)");
 });
 
-Deno.test("isNameChar() returns true for undertie and character tie", () => {
+Ende.test("isNameChar() returns true for undertie and character tie", () => {
   assertEquals(isNameChar(0x203F), true, "Undertie");
   assertEquals(isNameChar(0x2040), true, "Character Tie");
 });
 
-Deno.test("isNameChar() returns false for invalid chars", () => {
+Ende.test("isNameChar() returns false for invalid chars", () => {
   assertEquals(isNameChar(0x20), false, "space");
   assertEquals(isNameChar(0x3C), false, "<");
   assertEquals(isNameChar(0x3E), false, ">");
@@ -157,7 +157,7 @@ Deno.test("isNameChar() returns false for invalid chars", () => {
 // Edge Cases
 // =============================================================================
 
-Deno.test("isNameStartChar() rejects control characters", () => {
+Ende.test("isNameStartChar() rejects control characters", () => {
   for (let c = 0; c < 0x20; c++) {
     assertEquals(
       isNameStartChar(c),
@@ -167,7 +167,7 @@ Deno.test("isNameStartChar() rejects control characters", () => {
   }
 });
 
-Deno.test("isNameChar() rejects control characters", () => {
+Ende.test("isNameChar() rejects control characters", () => {
   for (let c = 0; c < 0x20; c++) {
     assertEquals(isNameChar(c), false, `control char: U+${c.toString(16)}`);
   }
@@ -177,7 +177,7 @@ Deno.test("isNameChar() rejects control characters", () => {
 // Additional Coverage: Unicode Range Tests
 // =============================================================================
 
-Deno.test("isNameStartChar() validates Glagolitic and Extended Latin range", () => {
+Ende.test("isNameStartChar() validates Glagolitic and Extended Latin range", () => {
   // [#x2C00-#x2FEF] - Glagolitic, Latin Extended-C/D, Coptic, Georgian Supplement
   assertEquals(isNameStartChar(0x2C00), true, "Glagolitic Capital Azu");
   assertEquals(isNameStartChar(0x2C30), true, "Glagolitic Small Azu");
@@ -189,7 +189,7 @@ Deno.test("isNameStartChar() validates Glagolitic and Extended Latin range", () 
   );
 });
 
-Deno.test("isNameStartChar() validates CJK Compatibility and Arabic Presentation Forms range", () => {
+Ende.test("isNameStartChar() validates CJK Compatibility and Arabic Presentation Forms range", () => {
   // [#xF900-#xFDCF] | [#xFDF0-#xFFFD]
   assertEquals(isNameStartChar(0xF900), true, "CJK Compatibility start");
   assertEquals(
@@ -208,7 +208,7 @@ Deno.test("isNameStartChar() validates CJK Compatibility and Arabic Presentation
   assertEquals(isNameStartChar(0xFFFE), false, "non-character");
 });
 
-Deno.test("isNameStartChar() validates Superscripts and Currency range", () => {
+Ende.test("isNameStartChar() validates Superscripts and Currency range", () => {
   // [#x2070-#x218F] - Superscripts, Currency, Letterlike, Number Forms
   assertEquals(isNameStartChar(0x2070), true, "Superscript zero");
   assertEquals(isNameStartChar(0x20AC), true, "Euro sign");
@@ -217,7 +217,7 @@ Deno.test("isNameStartChar() validates Superscripts and Currency range", () => {
   assertEquals(isNameStartChar(0x2190), false, "Arrow - outside range");
 });
 
-Deno.test("isNameChar() rejects characters not in any valid range", () => {
+Ende.test("isNameChar() rejects characters not in any valid range", () => {
   // Tests line 111: return false in isUnicodeNameChar
   // Characters that are neither NameStartChar nor in the NameChar-only ranges
   assertEquals(isNameChar(0x2000), false, "En Quad - general punctuation");

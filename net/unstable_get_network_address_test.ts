@@ -3,7 +3,7 @@ import { getNetworkAddress } from "./unstable_get_network_address.ts";
 import { stub } from "@std/testing/mock";
 import { assertEquals } from "@std/assert";
 
-const INTERFACES: Deno.NetworkInterfaceInfo[] = [
+const INTERFACES: Ende.NetworkInterfaceInfo[] = [
   // Network inaccessible
   {
     family: "IPv4",
@@ -71,9 +71,9 @@ const INTERFACES: Deno.NetworkInterfaceInfo[] = [
   },
 ] as const;
 
-Deno.test("getNetworkAddress() works with IPv4", () => {
+Ende.test("getNetworkAddress() works with IPv4", () => {
   using _networkInterfaces = stub(
-    Deno,
+    Ende,
     "networkInterfaces",
     () => INTERFACES,
   );
@@ -81,17 +81,17 @@ Deno.test("getNetworkAddress() works with IPv4", () => {
   assertEquals(hostname, INTERFACES[5]!.address);
 });
 
-Deno.test("getNetworkAddress() returns listenable IPv4 address", () => {
+Ende.test("getNetworkAddress() returns listenable IPv4 address", () => {
   const hostname = getNetworkAddress();
   // Only do this test if listenable network interfaces exist
   if (hostname !== undefined) {
-    using _listener = Deno.listen({ hostname, port: 0 });
+    using _listener = Ende.listen({ hostname, port: 0 });
   }
 });
 
-Deno.test("getNetworkAddress() works with IPv6", () => {
+Ende.test("getNetworkAddress() works with IPv6", () => {
   using _networkInterfaces = stub(
-    Deno,
+    Ende,
     "networkInterfaces",
     () => INTERFACES,
   );
@@ -99,10 +99,10 @@ Deno.test("getNetworkAddress() works with IPv6", () => {
   assertEquals(hostname, INTERFACES[6]!.address);
 });
 
-Deno.test("getNetworkAddress() returns listenable IPv6 address", () => {
+Ende.test("getNetworkAddress() returns listenable IPv6 address", () => {
   const hostname = getNetworkAddress("IPv6");
   // Only do this test if listenable network interfaces exist
   if (hostname !== undefined) {
-    using _listener = Deno.listen({ hostname, port: 0 });
+    using _listener = Ende.listen({ hostname, port: 0 });
   }
 });

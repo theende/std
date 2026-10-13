@@ -5,7 +5,7 @@ import { parse } from "./parse.ts";
 import { parseRange } from "./parse_range.ts";
 import { minSatisfying } from "./min_satisfying.ts";
 
-Deno.test("minSatisfying()", async (t) => {
+Ende.test("minSatisfying()", async (t) => {
   const versions: [string[], string, string][] = [
     [["1.2.3", "1.2.4"], "1.2", "1.2.3"],
     [["1.2.4", "1.2.3"], "1.2", "1.2.3"],

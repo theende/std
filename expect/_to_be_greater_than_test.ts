@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeGreaterThan()", () => {
+Ende.test("expect().toBeGreaterThan()", () => {
   expect(11).toBeGreaterThan(10);
 
   expect(10).not.toBeGreaterThan(10);
@@ -21,7 +21,7 @@ Deno.test("expect().toBeGreaterThan()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toBeGreaterThan() with custom error message message", () => {
+Ende.test("expect().toBeGreaterThan() with custom error message message", () => {
   const msg = "toBeGreaterThan Custom Error";
 
   expect(() => expect(10, msg).toBeGreaterThan(10)).toThrow(

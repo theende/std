@@ -12,7 +12,7 @@ export const DIFF_CONTEXT_LENGTH = "DIFF_CONTEXT_LENGTH";
  *
  * @example Usage
  * ```ts no-assert ignore
- * Deno.env.set("DIFF_CONTEXT_LENGTH", "10");
+ * Ende.env.set("DIFF_CONTEXT_LENGTH", "10");
  * getTruncationContextLengthFromEnv(); // 10
  * ```
  */
@@ -28,16 +28,16 @@ export function getTruncationContextLengthFromEnv(): number | null {
 
 function getTruncationEnvVar() {
   // deno-lint-ignore no-explicit-any
-  const { Deno, process } = globalThis as any;
+  const { Ende, process } = globalThis as any;
 
-  if (typeof Deno === "object") {
-    const permissionStatus = Deno.permissions.querySync({
+  if (typeof Ende === "object") {
+    const permissionStatus = Ende.permissions.querySync({
       name: "env",
       variable: DIFF_CONTEXT_LENGTH,
     }).state ?? "granted";
 
     return permissionStatus === "granted"
-      ? Deno.env.get(DIFF_CONTEXT_LENGTH) ?? null
+      ? Ende.env.get(DIFF_CONTEXT_LENGTH) ?? null
       : null;
   }
   const nodeEnv = process?.getBuiltinModule?.("node:process")?.env as

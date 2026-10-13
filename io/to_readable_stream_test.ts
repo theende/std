@@ -34,7 +34,7 @@ class MockReaderCloser implements Reader, Closer {
   }
 }
 
-Deno.test("toReadableStream()", async function () {
+Ende.test("toReadableStream()", async function () {
   const encoder = new TextEncoder();
   const reader = new Buffer(encoder.encode("hello deno land"));
   const stream = toReadableStream(reader);
@@ -43,7 +43,7 @@ Deno.test("toReadableStream()", async function () {
   assertEquals(decoder.decode(concat(actual)), "hello deno land");
 });
 
-Deno.test("toReadableStream() handles close", async function () {
+Ende.test("toReadableStream() handles close", async function () {
   const encoder = new TextEncoder();
   const reader = new MockReaderCloser();
   reader.chunks = [
@@ -58,7 +58,7 @@ Deno.test("toReadableStream() handles close", async function () {
   assertEquals(reader.closeCall, 1);
 });
 
-Deno.test("toReadableStream() doesn't call close with `autoClose` is false", async function () {
+Ende.test("toReadableStream() doesn't call close with `autoClose` is false", async function () {
   const encoder = new TextEncoder();
   const reader = new MockReaderCloser();
   reader.chunks = [
@@ -73,7 +73,7 @@ Deno.test("toReadableStream() doesn't call close with `autoClose` is false", asy
   assertEquals(reader.closeCall, 0);
 });
 
-Deno.test("toReadableStream() handles `chunkSize` option", async function () {
+Ende.test("toReadableStream() handles `chunkSize` option", async function () {
   const encoder = new TextEncoder();
   const reader = new MockReaderCloser();
   reader.chunks = [

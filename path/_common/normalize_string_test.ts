@@ -8,7 +8,7 @@ function isSeparator(code: number): boolean {
   return code === CHAR_FORWARD_SLASH;
 }
 
-Deno.test("normalizeSring()", () => {
+Ende.test("normalizeSring()", () => {
   assertEquals(normalizeString("", true, "/", isSeparator), "");
   assertEquals(normalizeString("", false, "/", isSeparator), "");
   assertEquals(normalizeString("a/../b", true, "/", isSeparator), "b");

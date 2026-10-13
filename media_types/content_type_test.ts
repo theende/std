@@ -3,7 +3,7 @@
 import { contentType } from "./content_type.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "contentType()",
   fn() {
     const fixtures = [
@@ -23,7 +23,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "contentType() implies types",
   fn() {
     let _str: string;

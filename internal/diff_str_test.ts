@@ -3,7 +3,7 @@
 import { createDetails, diffStr, tokenize, unescape } from "./diff_str.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: 'diff() "a" vs "b" (diffstr)',
   fn() {
     const diffResult = diffStr("a", "b");
@@ -28,7 +28,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a b c d" vs "a b x d e" (diffStr)',
   fn() {
     const diffResult = diffStr(
@@ -78,7 +78,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a b" vs "a  b" (diffstr)',
   fn() {
     const diffResult = diffStr("a b", "a  b");
@@ -107,7 +107,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `diff() "3.14" vs "2.71" (diffStr)`,
   fn() {
     const diffResult = diffStr("3.14", "2.71");
@@ -160,7 +160,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `diff() single line "a b" vs "c d" (diffStr)`,
   fn() {
     const diffResult = diffStr("a b", "c d");
@@ -189,7 +189,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `diff() single line, different word length "a bc" vs "cd e" (diffStr)`,
   fn() {
     const diffResult = diffStr("a bc", "cd e");
@@ -218,7 +218,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `diff() single line, "a\tb" vs "a\fb" (diffStr)`,
   fn() {
     const diffResult = diffStr("a\tb", "a\fb");
@@ -247,7 +247,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `diff() single line, "a\\\\tb" vs "a\tb" (diffStr)`,
   fn() {
     const diffResult = diffStr("a\\tb", "a\tb");
@@ -276,7 +276,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `diff() "\\b\\f\\r\\t\\v\\n" vs "\\r\\n" (diffStr)`,
   fn() {
     const diffResult = diffStr("\b\f\r\t\v\n", "\r\n");
@@ -307,7 +307,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "diff() multiline with more removed lines",
   fn() {
     const diffResult = diffStr("a\na", "e");
@@ -336,7 +336,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "createDetails()",
   fn() {
     const tokens = [
@@ -353,7 +353,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "tokenize()",
   fn() {
     assertEquals(tokenize("a\nb"), ["a\n", "b"]);
@@ -366,7 +366,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "unescape()",
   fn() {
     assertEquals(unescape("Hello\nWorld"), "Hello\\n\nWorld");

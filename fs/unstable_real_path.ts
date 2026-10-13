@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -29,8 +29,8 @@ import { mapError } from "./_map_error.ts";
  * @returns A promise fulfilling with the absolute `path` of the file.
  */
 export async function realPath(path: string | URL): Promise<string> {
-  if (isDeno) {
-    return Deno.realPath(path);
+  if (isEnde) {
+    return Ende.realPath(path);
   } else {
     try {
       return await getNodeFs().promises.realpath(path);
@@ -67,8 +67,8 @@ export async function realPath(path: string | URL): Promise<string> {
  * @returns The absolute `path` of the file.
  */
 export function realPathSync(path: string | URL): string {
-  if (isDeno) {
-    return Deno.realPathSync(path);
+  if (isEnde) {
+    return Ende.realPathSync(path);
   } else {
     try {
       return getNodeFs().realpathSync(path);

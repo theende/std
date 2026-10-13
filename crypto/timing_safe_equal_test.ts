@@ -3,7 +3,7 @@
 import { assert, assertThrows } from "@std/assert";
 import { timingSafeEqual } from "./timing_safe_equal.ts";
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares equal ArrayBuffer",
   fn() {
     const a = new ArrayBuffer(2);
@@ -18,7 +18,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares unequal ArrayBuffer",
   fn() {
     const a = new ArrayBuffer(2);
@@ -33,7 +33,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares equal Uint8Array",
   fn() {
     const a = new Uint8Array([212, 213]);
@@ -42,7 +42,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares unequal Uint8Array",
   fn() {
     const a = new Uint8Array([212, 213]);
@@ -51,7 +51,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares equal encoded Uint8Array",
   fn() {
     const encoder = new TextEncoder();
@@ -61,7 +61,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares unequal encoded Uint8Array",
   fn() {
     const encoder = new TextEncoder();
@@ -71,7 +71,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() throws on different byte lengths (a > b)",
   fn() {
     const a = new Uint8Array([212, 213]);
@@ -84,7 +84,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() throws on different byte lengths (a < b)",
   fn() {
     const a = new Uint8Array([212]);
@@ -97,7 +97,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "timingSafeEqual() handles Uint8Array with different buffer sizes (a > b)",
   fn() {
@@ -122,7 +122,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "timingSafeEqual() handles Uint8Array with different buffer sizes (b > a)",
   fn() {
@@ -147,7 +147,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() handles Uint8Array with non-0 byteOffset",
   fn() {
     const a = new SharedArrayBuffer(4);
@@ -171,7 +171,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares equal DataViews",
   fn() {
     const a = new ArrayBuffer(2);
@@ -186,7 +186,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares unequal DataViews",
   fn() {
     const a = new ArrayBuffer(2);
@@ -201,7 +201,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares equal SharedArrayBuffers",
   fn() {
     const a = new SharedArrayBuffer(2);
@@ -212,7 +212,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "timingSafeEqual() compares unequal SharedArrayBuffers",
   fn() {
     const a = new SharedArrayBuffer(2);

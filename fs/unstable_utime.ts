@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /** Changes the access (`atime`) and modification (`mtime`) times of a file
@@ -19,9 +19,9 @@ import { mapError } from "./_map_error.ts";
  * const newAccessDate = new Date()
  * const newModifiedDate = new Date()
  *
- * const fileBefore = await Deno.stat("README.md")
- * await Deno.utime("README.md", newAccessDate, newModifiedDate)
- * const fileAfter = await Deno.stat("README.md")
+ * const fileBefore = await Ende.stat("README.md")
+ * await Ende.utime("README.md", newAccessDate, newModifiedDate)
+ * const fileAfter = await Ende.stat("README.md")
  *
  * assert(fileBefore.atime !== fileAfter.atime)
  * assert(fileBefore.mtime !== fileAfter.mtime)
@@ -38,8 +38,8 @@ export async function utime(
   atime: number | Date,
   mtime: number | Date,
 ): Promise<void> {
-  if (isDeno) {
-    await Deno.utime(path, atime, mtime);
+  if (isEnde) {
+    await Ende.utime(path, atime, mtime);
   } else {
     try {
       await getNodeFs().promises.utimes(path, atime, mtime);
@@ -66,9 +66,9 @@ export async function utime(
  * const newAccessDate = new Date()
  * const newModifiedDate = new Date()
  *
- * const fileBefore = await Deno.stat("README.md")
- * Deno.utimeSync("README.md", newAccessDate, newModifiedDate)
- * const fileAfter = await Deno.stat("README.md")
+ * const fileBefore = await Ende.stat("README.md")
+ * Ende.utimeSync("README.md", newAccessDate, newModifiedDate)
+ * const fileAfter = await Ende.stat("README.md")
  *
  * assert(fileBefore.atime !== fileAfter.atime)
  * assert(fileBefore.mtime !== fileAfter.mtime)
@@ -85,8 +85,8 @@ export function utimeSync(
   atime: number | Date,
   mtime: number | Date,
 ): void {
-  if (isDeno) {
-    return Deno.utimeSync(path, atime, mtime);
+  if (isEnde) {
+    return Ende.utimeSync(path, atime, mtime);
   } else {
     try {
       getNodeFs().utimesSync(path, atime, mtime);

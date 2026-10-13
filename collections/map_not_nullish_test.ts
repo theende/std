@@ -12,7 +12,7 @@ function mapNotNullishTest<T, O>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "mapNotNullish() handles no mutation",
   fn() {
     const array = [1, 2, 3, 4];
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapNotNullish() handles empty input",
   fn() {
     mapNotNullishTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapNotNullish() handles identity",
   fn() {
     mapNotNullishTest(
@@ -45,7 +45,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapNotNullish() handles mappers without nullish values",
   fn() {
     mapNotNullishTest(
@@ -65,7 +65,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapNotNullish() handles mappers with nullish values",
   fn() {
     mapNotNullishTest(
@@ -91,7 +91,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapNotNullish() passes index to transformer",
   fn() {
     const result = mapNotNullish(

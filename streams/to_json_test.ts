@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { toJson } from "./to_json.ts";
 
-Deno.test("toJson()", async () => {
+Ende.test("toJson()", async () => {
   const strings = [
     "[",
     "1, 2, 3, 4,",

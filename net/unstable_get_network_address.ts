@@ -8,7 +8,7 @@
  * This is inspired by the util of the same name in
  * {@linkcode https://www.npmjs.com/package/serve | npm:serve}.
  *
- * For more advanced use, use {@linkcode Deno.networkInterfaces} directly.
+ * For more advanced use, use {@linkcode Ende.networkInterfaces} directly.
  *
  * @see {@link https://github.com/vercel/serve/blob/1ea55b1b5004f468159b54775e4fb3090fedbb2b/source/utilities/http.ts#L33}
  *
@@ -21,7 +21,7 @@
  *
  * const hostname = getNetworkAddress()!;
  *
- * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
+ * Ende.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```
  *
  * @example Get the IPv6 network address
@@ -30,13 +30,13 @@
  *
  * const hostname = getNetworkAddress("IPv6")!;
  *
- * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
+ * Ende.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```
  */
 export function getNetworkAddress(
-  family: Deno.NetworkInterfaceInfo["family"] = "IPv4",
+  family: Ende.NetworkInterfaceInfo["family"] = "IPv4",
 ): string | undefined {
-  return Deno.networkInterfaces()
+  return Ende.networkInterfaces()
     .find((i) =>
       i.family === family &&
       i.mac !== "00:00:00:00:00:00" &&

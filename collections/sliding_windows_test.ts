@@ -31,7 +31,7 @@ function slidingWindowsThrowsTest<T>(
   );
 }
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles no mutation",
   fn() {
     const numbers = [1, 2, 3, 4, 5];
@@ -40,7 +40,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles empty input",
   fn() {
     slidingWindowsTest([[], 3], []);
@@ -51,7 +51,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles default option",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 5], [
@@ -72,7 +72,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles step option",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 5, { step: 2 }], [
@@ -90,7 +90,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles partial option",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 5, { partial: true }], [
@@ -117,7 +117,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles step and partial option",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 5, { step: 2, partial: true }], [
@@ -138,7 +138,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles invalid size or step: other than number",
   fn() {
     slidingWindowsThrowsTest(
@@ -166,7 +166,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles invalid size or step: not integer number",
   fn() {
     slidingWindowsThrowsTest(
@@ -192,7 +192,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles invalid size or step: not positive number",
   fn() {
     slidingWindowsThrowsTest(
@@ -218,7 +218,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles invalid size or step: infinity",
   fn() {
     slidingWindowsThrowsTest(
@@ -244,7 +244,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles large size",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 100], []);
@@ -257,7 +257,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles large step",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 3, { step: 100 }], [
@@ -269,7 +269,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "slidingWindows() handles empty Array",
   fn() {
     slidingWindowsTest([Array(5), 5], [
@@ -290,7 +290,7 @@ Deno.test({
   },
 });
 
-Deno.test("slidingWindows() handles a generator", () => {
+Ende.test("slidingWindows() handles a generator", () => {
   function* gen() {
     yield 1;
     yield 2;
@@ -315,7 +315,7 @@ Deno.test("slidingWindows() handles a generator", () => {
   slidingWindowsTest([emptyGen(), 3], []);
 });
 
-Deno.test("slidingWindows() handles a string", () => {
+Ende.test("slidingWindows() handles a string", () => {
   const str = "12345";
   slidingWindowsTest([str, 5], [["1", "2", "3", "4", "5"]]);
   slidingWindowsTest([str, 3], [["1", "2", "3"], ["2", "3", "4"], [
@@ -326,14 +326,14 @@ Deno.test("slidingWindows() handles a string", () => {
   slidingWindowsTest([str, 1], [["1"], ["2"], ["3"], ["4"], ["5"]]);
 });
 
-Deno.test("slidingWindows() handles a Set", () => {
+Ende.test("slidingWindows() handles a Set", () => {
   const set = new Set([1, 2, 3, 4, 5]);
   slidingWindowsTest([set, 5], [[1, 2, 3, 4, 5]]);
   slidingWindowsTest([set, 3], [[1, 2, 3], [2, 3, 4], [3, 4, 5]]);
   slidingWindowsTest([set, 1], [[1], [2], [3], [4], [5]]);
 });
 
-Deno.test("slidingWindows() handles a Map", () => {
+Ende.test("slidingWindows() handles a Map", () => {
   const map = new Map([
     ["a", 1],
     ["b", 2],

@@ -8,28 +8,28 @@ const MIXED_INPUT2 = "deno\r\nis not\nnode";
 const LF_INPUT = "deno\nis not\nnode";
 const NO_NL_INPUT = "deno is not node";
 
-Deno.test({
+Ende.test({
   name: "detect() detects CRLF as the end-of-line character",
   fn() {
     assertEquals(detect(CRLF_INPUT), CRLF);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "detect() detects LF as the end-of-line character",
   fn() {
     assertEquals(detect(LF_INPUT), LF);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "detect() returns null for a string with no end-of-line character",
   fn() {
     assertEquals(detect(NO_NL_INPUT), null);
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "detect() detects the most common end-of-line character in a mixed string",
   fn() {
@@ -38,7 +38,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() converts the end-of-line character to the specified one",
   fn() {
     assertEquals(format(CRLF_INPUT, LF), LF_INPUT);

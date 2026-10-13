@@ -81,7 +81,7 @@ function repeat(c: string, bytes: number): Uint8Array {
   return ui8;
 }
 
-Deno.test("Buffer", () => {
+Ende.test("Buffer", () => {
   init();
   assert(testBytes);
   assert(testString);
@@ -89,7 +89,7 @@ Deno.test("Buffer", () => {
   check(buf, testString);
 });
 
-Deno.test("Buffer handles basic operations", async () => {
+Ende.test("Buffer handles basic operations", async () => {
   assert(testBytes);
   assert(testString);
   const buf = new Buffer();
@@ -128,7 +128,7 @@ Deno.test("Buffer handles basic operations", async () => {
   }
 });
 
-Deno.test("Buffer.read() handles empty at eof", async () => {
+Ende.test("Buffer.read() handles empty at eof", async () => {
   // check that EOF of 'buf' is not reached (even though it's empty) if
   // results are written to buffer that has 0 length (ie. it can't store any data)
   const buf = new Buffer();
@@ -137,7 +137,7 @@ Deno.test("Buffer.read() handles empty at eof", async () => {
   assertEquals(result, 0);
 });
 
-Deno.test("Buffer.write() handles large bytes", async () => {
+Ende.test("Buffer.write() handles large bytes", async () => {
   init();
   const buf = new Buffer();
   const limit = 9;
@@ -148,7 +148,7 @@ Deno.test("Buffer.write() handles large bytes", async () => {
   check(buf, "");
 });
 
-Deno.test("Buffer.grow() throws if growing beyond maximum size", async () => {
+Ende.test("Buffer.grow() throws if growing beyond maximum size", async () => {
   init();
   const tmp = new Uint8Array(72);
   const growLen = Number.MAX_VALUE;
@@ -165,7 +165,7 @@ Deno.test("Buffer.grow() throws if growing beyond maximum size", async () => {
   );
 });
 
-Deno.test({
+Ende.test({
   name: "Buffer.writeSync() grows buffer to max capacity",
   ignore: ignoreMaxSizeTests,
   fn() {
@@ -188,7 +188,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "Buffer.readFrom() rejects if read max_size + 1",
   ignore: ignoreMaxSizeTests,
   async fn() {
@@ -205,7 +205,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "Buffer.readFromSync() throws if read max_size + 1",
   ignore: ignoreMaxSizeTests,
   fn() {
@@ -222,7 +222,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "Buffer.readFromSync() reads close to max_size",
   ignore: ignoreMaxSizeTests,
   fn() {
@@ -237,7 +237,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "Buffer.readFrom() reads close to max_size",
   ignore: ignoreMaxSizeTests,
   async fn() {
@@ -251,7 +251,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "Buffer.readFrom() reads close to max_size with initial grow",
   ignore: ignoreMaxSizeTests,
   async fn() {
@@ -266,7 +266,7 @@ Deno.test({
   },
 });
 
-Deno.test("Buffer.write() handles large bytes", async () => {
+Ende.test("Buffer.write() handles large bytes", async () => {
   init();
   assert(testBytes);
   assert(testString);
@@ -279,12 +279,12 @@ Deno.test("Buffer.write() handles large bytes", async () => {
   check(buf, "");
 });
 
-Deno.test("Buffer handles capacity with preallocated slice", () => {
+Ende.test("Buffer handles capacity with preallocated slice", () => {
   const buf = new Buffer(new ArrayBuffer(10));
   assertEquals(buf.capacity, 10);
 });
 
-Deno.test("Buffer.readFrom()", async () => {
+Ende.test("Buffer.readFrom()", async () => {
   init();
   assert(testBytes);
   assert(testString);
@@ -306,7 +306,7 @@ Deno.test("Buffer.readFrom()", async () => {
   });
 });
 
-Deno.test("Buffer.readFromSync()", async () => {
+Ende.test("Buffer.readFromSync()", async () => {
   init();
   assert(testBytes);
   assert(testString);
@@ -328,7 +328,7 @@ Deno.test("Buffer.readFromSync()", async () => {
   });
 });
 
-Deno.test("Buffer.grow()", async () => {
+Ende.test("Buffer.grow()", async () => {
   const tmp = new Uint8Array(72);
   for (const startLen of [0, 100, 1000, 10000]) {
     const xBytes = repeat("x", startLen);
@@ -352,7 +352,7 @@ Deno.test("Buffer.grow()", async () => {
   }
 });
 
-Deno.test("Buffer.write() and Buffer.readFromSync()", () => {
+Ende.test("Buffer.write() and Buffer.readFromSync()", () => {
   // defaults to copy
   const args = [undefined, { copy: true }] as const;
   for (const arg of args) {
@@ -371,7 +371,7 @@ Deno.test("Buffer.write() and Buffer.readFromSync()", () => {
   }
 });
 
-Deno.test("Buffer.bytes() with copy set to false", () => {
+Ende.test("Buffer.bytes() with copy set to false", () => {
   const bufSize = 64 * 1024;
   const bytes = new TextEncoder().encode("a".repeat(bufSize));
   const reader = new Buffer();
@@ -386,7 +386,7 @@ Deno.test("Buffer.bytes() with copy set to false", () => {
   assert(actualBytes.buffer.byteLength > actualBytes.byteLength);
 });
 
-Deno.test("Buffer.bytes() with copy set to false after Buffer.grow()", () => {
+Ende.test("Buffer.bytes() with copy set to false after Buffer.grow()", () => {
   const bufSize = 64 * 1024;
   const bytes = new TextEncoder().encode("a".repeat(bufSize));
   const reader = new Buffer();

@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toThrow()", () => {
+Ende.test("expect().toThrow()", () => {
   expect(() => {
     throw new Error("hello world");
   }).toThrow();
@@ -101,7 +101,7 @@ Deno.test("expect().toThrow()", () => {
   );
 });
 
-Deno.test("expect().toThrow() with custom error message", () => {
+Ende.test("expect().toThrow() with custom error message", () => {
   const msg = "toThrow custom error message";
 
   assertThrows(

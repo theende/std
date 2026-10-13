@@ -128,7 +128,7 @@ const windowsJoinUrlTests: UrlTestCase[] = [
   [[new URL("file:///c:/"), "file"], "c:\\file"],
 ];
 
-Deno.test("posix.join()", function () {
+Ende.test("posix.join()", function () {
   joinTests.forEach(function (p) {
     const _p = p[0];
     const actual = posix.join.apply(null, _p);
@@ -142,7 +142,7 @@ Deno.test("posix.join()", function () {
   });
 });
 
-Deno.test("windows.join()", function () {
+Ende.test("windows.join()", function () {
   joinTests.forEach(function (p) {
     const _p = p[0];
     const actual = windows.join.apply(null, _p).replace(backslashRE, "/");
@@ -169,7 +169,7 @@ Deno.test("windows.join()", function () {
   });
 });
 
-Deno.test(`join() returns "." if input is empty`, function () {
+Ende.test(`join() returns "." if input is empty`, function () {
   assertEquals(join(""), ".");
   assertEquals(join("", ""), ".");
 

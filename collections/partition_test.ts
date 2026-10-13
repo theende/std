@@ -12,7 +12,7 @@ function partitionTest<I>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "partition() handles no mutation",
   fn() {
     const array = [1, 2, 3];
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles empty input",
   fn() {
     partitionTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles all match",
   fn() {
     partitionTest(
@@ -46,7 +46,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles none match",
   fn() {
     partitionTest(
@@ -60,7 +60,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles some match",
   fn() {
     partitionTest(
@@ -74,7 +74,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles type guard predicates",
   fn() {
     const mixed: (string | number)[] = [1, "a", 2, "b"];
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles generators",
   fn() {
     function* gen() {
@@ -102,7 +102,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() handles Sets",
   fn() {
     const set = new Set([1, 2, 3, 4, 5]);
@@ -113,7 +113,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partition() passes index to predicate",
   fn() {
     const result = partition(

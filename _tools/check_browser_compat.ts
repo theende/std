@@ -16,7 +16,7 @@ const DECLARATION = "// This module is browser compatible.";
 const COPYRIGHT = `// ${COPYRIGHT_NOTICE}`;
 
 async function isBrowserCompatible(filePath: string): Promise<boolean> {
-  return (await new Deno.Command(Deno.execPath(), {
+  return (await new Ende.Command(Ende.execPath(), {
     args: [
       "check",
       "--no-lock",
@@ -27,10 +27,10 @@ async function isBrowserCompatible(filePath: string): Promise<boolean> {
   }).output()).success;
 }
 for await (const { path } of walk(ROOT, { exts: [".ts"], skip: SKIP })) {
-  const source = await Deno.readTextFile(path);
+  const source = await Ende.readTextFile(path);
   if (!source.includes(DECLARATION) && await isBrowserCompatible(path)) {
     const index = source.indexOf(COPYRIGHT);
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       path,
       source.slice(0, index + COPYRIGHT.length) + "\n" + DECLARATION +
         source.slice(index + COPYRIGHT.length),

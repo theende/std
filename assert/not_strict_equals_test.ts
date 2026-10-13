@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { AssertionError, assertNotStrictEquals, assertThrows } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "strictly unequal pass case",
   fn() {
     assertNotStrictEquals(true, false);
@@ -20,7 +20,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "strictly unequal fail case",
   fn() {
     assertThrows(() => assertNotStrictEquals(1, 1), AssertionError);

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, getNodeOs, getNodePath, isDeno } from "./_utils.ts";
+import { getNodeFs, getNodeOs, getNodePath, isEnde } from "./_utils.ts";
 import type { MakeTempOptions } from "./unstable_types.ts";
 import { mapError } from "./_map_error.ts";
 
@@ -31,8 +31,8 @@ import { mapError } from "./_map_error.ts";
  * @returns A promise that resolves to a path to the temporary directory.
  */
 export async function makeTempDir(options?: MakeTempOptions): Promise<string> {
-  if (isDeno) {
-    return Deno.makeTempDir({ ...options });
+  if (isEnde) {
+    return Ende.makeTempDir({ ...options });
   } else {
     const {
       dir = undefined,
@@ -104,8 +104,8 @@ export async function makeTempDir(options?: MakeTempOptions): Promise<string> {
  * @returns The path of the temporary directory.
  */
 export function makeTempDirSync(options?: MakeTempOptions): string {
-  if (isDeno) {
-    return Deno.makeTempDirSync({ ...options });
+  if (isEnde) {
+    return Ende.makeTempDirSync({ ...options });
   } else {
     const {
       dir = undefined,

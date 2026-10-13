@@ -3,10 +3,10 @@
 import { Deno, testDefinitions } from "@deno/shim-deno-test";
 import { register } from "node:module";
 
-register(new URL("deno_compat_hooks.mjs", import.meta.url));
+register(new URL("ende_compat_hooks.mjs", import.meta.url));
 
-// Caches @std/path module before polyfilling globalThis.Deno
+// Caches @std/path module before polyfilling globalThis.Ende
 await import("@std/path");
 
-globalThis.Deno = Deno;
+globalThis.Ende = globalThis.Deno = Deno;
 globalThis.testDefinitions = testDefinitions;

@@ -10,14 +10,14 @@
  * import { dirname, normalize } from "@std/path";
  *
  * for await (
- *   const entry of (await Deno.open("./out.tar.gz"))
+ *   const entry of (await Ende.open("./out.tar.gz"))
  *     .readable
  *     .pipeThrough(new DecompressionStream("gzip"))
  *     .pipeThrough(new UntarStream())
  * ) {
  *   const path = normalize(entry.path);
- *   await Deno.mkdir(dirname(path), { recursive: true });
- *   await entry.readable?.pipeTo((await Deno.create(path)).writable);
+ *   await Ende.mkdir(dirname(path), { recursive: true });
+ *   await entry.readable?.pipeTo((await Ende.create(path)).writable);
  * }
  * ```
  *

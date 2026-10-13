@@ -15,7 +15,7 @@ function generateKey(
   );
 }
 
-Deno.test("encryptAesGcm()/decryptAesGcm() round-trips empty plaintext", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() round-trips empty plaintext", async () => {
   const key = await generateKey(256);
   const plaintext = new Uint8Array(0);
   const encrypted = await encryptAesGcm(key, plaintext);
@@ -23,7 +23,7 @@ Deno.test("encryptAesGcm()/decryptAesGcm() round-trips empty plaintext", async (
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("encryptAesGcm()/decryptAesGcm() round-trips non-empty plaintext", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() round-trips non-empty plaintext", async () => {
   const key = await generateKey(256);
   const plaintext = crypto.getRandomValues(new Uint8Array(1024));
   const encrypted = await encryptAesGcm(key, plaintext);
@@ -31,7 +31,7 @@ Deno.test("encryptAesGcm()/decryptAesGcm() round-trips non-empty plaintext", asy
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("encryptAesGcm() output length is 12 + plaintext.length + 16", async () => {
+Ende.test("encryptAesGcm() output length is 12 + plaintext.length + 16", async () => {
   const key = await generateKey(256);
   for (const size of [0, 1, 256]) {
     const plaintext = new Uint8Array(size);
@@ -40,7 +40,7 @@ Deno.test("encryptAesGcm() output length is 12 + plaintext.length + 16", async (
   }
 });
 
-Deno.test("encryptAesGcm() generates different nonces per call", async () => {
+Ende.test("encryptAesGcm() generates different nonces per call", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("hello");
   const a = await encryptAesGcm(key, plaintext);
@@ -48,7 +48,7 @@ Deno.test("encryptAesGcm() generates different nonces per call", async () => {
   assertNotEquals(a.subarray(0, 12), b.subarray(0, 12));
 });
 
-Deno.test("encryptAesGcm()/decryptAesGcm() round-trips with matching additionalData", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() round-trips with matching additionalData", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("secret");
   const aad = encoder.encode("metadata");
@@ -61,7 +61,7 @@ Deno.test("encryptAesGcm()/decryptAesGcm() round-trips with matching additionalD
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("decryptAesGcm() rejects with wrong additionalData", async () => {
+Ende.test("decryptAesGcm() rejects with wrong additionalData", async () => {
   const key = await generateKey(256);
   const encrypted = await encryptAesGcm(key, encoder.encode("secret"), {
     additionalData: encoder.encode("correct"),
@@ -75,7 +75,7 @@ Deno.test("decryptAesGcm() rejects with wrong additionalData", async () => {
   );
 });
 
-Deno.test("decryptAesGcm() rejects when additionalData expected but not provided", async () => {
+Ende.test("decryptAesGcm() rejects when additionalData expected but not provided", async () => {
   const key = await generateKey(256);
   const encrypted = await encryptAesGcm(key, encoder.encode("secret"), {
     additionalData: encoder.encode("metadata"),
@@ -86,7 +86,7 @@ Deno.test("decryptAesGcm() rejects when additionalData expected but not provided
   );
 });
 
-Deno.test("decryptAesGcm() rejects on tampered ciphertext", async () => {
+Ende.test("decryptAesGcm() rejects on tampered ciphertext", async () => {
   const key = await generateKey(256);
   const encrypted = await encryptAesGcm(key, encoder.encode("hello"));
   encrypted[14]! ^= 0xff;
@@ -96,7 +96,7 @@ Deno.test("decryptAesGcm() rejects on tampered ciphertext", async () => {
   );
 });
 
-Deno.test("decryptAesGcm() throws RangeError for data shorter than 28 bytes", async () => {
+Ende.test("decryptAesGcm() throws RangeError for data shorter than 28 bytes", async () => {
   const key = await generateKey(256);
   for (const size of [0, 1, 12, 27]) {
     await assertRejects(
@@ -107,7 +107,7 @@ Deno.test("decryptAesGcm() throws RangeError for data shorter than 28 bytes", as
   }
 });
 
-Deno.test("decryptAesGcm() rejects with a different key", async () => {
+Ende.test("decryptAesGcm() rejects with a different key", async () => {
   const key1 = await generateKey(256);
   const key2 = await generateKey(256);
   const encrypted = await encryptAesGcm(key1, encoder.encode("hello"));
@@ -117,7 +117,7 @@ Deno.test("decryptAesGcm() rejects with a different key", async () => {
   );
 });
 
-Deno.test("encryptAesGcm() output is valid Web Crypto AES-GCM", async () => {
+Ende.test("encryptAesGcm() output is valid Web Crypto AES-GCM", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("interop test");
   const encrypted = await encryptAesGcm(key, plaintext);
@@ -135,7 +135,7 @@ Deno.test("encryptAesGcm() output is valid Web Crypto AES-GCM", async () => {
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("decryptAesGcm() decrypts manually constructed wire format", async () => {
+Ende.test("decryptAesGcm() decrypts manually constructed wire format", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("manual wire format");
   const nonce = crypto.getRandomValues(new Uint8Array(12));
@@ -156,7 +156,7 @@ Deno.test("decryptAesGcm() decrypts manually constructed wire format", async () 
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("encryptAesGcm()/decryptAesGcm() works with AES-128", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() works with AES-128", async () => {
   const key = await generateKey(128);
   const plaintext = encoder.encode("AES-128 test");
   const encrypted = await encryptAesGcm(key, plaintext);
@@ -164,7 +164,7 @@ Deno.test("encryptAesGcm()/decryptAesGcm() works with AES-128", async () => {
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("encryptAesGcm()/decryptAesGcm() round-trips ArrayBuffer inputs", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() round-trips ArrayBuffer inputs", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("arraybuffer test");
   const encrypted = await encryptAesGcm(key, plaintext.buffer as ArrayBuffer);
@@ -175,7 +175,7 @@ Deno.test("encryptAesGcm()/decryptAesGcm() round-trips ArrayBuffer inputs", asyn
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("encryptAesGcm()/decryptAesGcm() round-trips DataView inputs", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() round-trips DataView inputs", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("dataview test");
   const plaintextView = new DataView(
@@ -193,7 +193,7 @@ Deno.test("encryptAesGcm()/decryptAesGcm() round-trips DataView inputs", async (
   assertEquals(decrypted, plaintext);
 });
 
-Deno.test("encryptAesGcm()/decryptAesGcm() round-trips Uint8Array subarray with non-zero byteOffset", async () => {
+Ende.test("encryptAesGcm()/decryptAesGcm() round-trips Uint8Array subarray with non-zero byteOffset", async () => {
   const key = await generateKey(256);
   const plaintext = encoder.encode("offset test");
 

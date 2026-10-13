@@ -4,7 +4,7 @@ import { assert, assertRejects, assertThrows } from "@std/assert";
 import { lstat, lstatSync } from "./unstable_lstat.ts";
 import { NotFound } from "./unstable_errors.js";
 
-Deno.test("lstat() and lstatSync() return FileInfo for a file", async () => {
+Ende.test("lstat() and lstatSync() return FileInfo for a file", async () => {
   {
     const fileInfo = await lstat("README.md");
     assert(fileInfo.isFile);
@@ -15,7 +15,7 @@ Deno.test("lstat() and lstatSync() return FileInfo for a file", async () => {
   }
 });
 
-Deno.test("lstat() and lstatSync() do not follow symlinks", async () => {
+Ende.test("lstat() and lstatSync() do not follow symlinks", async () => {
   const linkFile = new URL("testdata/0-link", import.meta.url);
   {
     const fileInfo = await lstat(linkFile);
@@ -27,7 +27,7 @@ Deno.test("lstat() and lstatSync() do not follow symlinks", async () => {
   }
 });
 
-Deno.test("lstat() and lstatSync() return FileInfo for a directory", async () => {
+Ende.test("lstat() and lstatSync() return FileInfo for a directory", async () => {
   {
     const fileInfo = await lstat("fs");
     assert(fileInfo.isDirectory);
@@ -38,7 +38,7 @@ Deno.test("lstat() and lstatSync() return FileInfo for a directory", async () =>
   }
 });
 
-Deno.test("lstat() and lstatSync() throw with NotFound for a non-existent file", async () => {
+Ende.test("lstat() and lstatSync() throw with NotFound for a non-existent file", async () => {
   await assertRejects(async () => {
     await lstat("non_existent_file");
   }, NotFound);

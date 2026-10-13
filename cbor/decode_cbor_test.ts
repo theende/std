@@ -7,23 +7,23 @@ import { encodeCbor } from "./encode_cbor.ts";
 import { CborTag } from "./tag.ts";
 import type { CborType } from "./types.ts";
 
-Deno.test("decodeCbor() decoding undefined", () => {
+Ende.test("decodeCbor() decoding undefined", () => {
   assertEquals(decodeCbor(encodeCbor(undefined)), undefined);
 });
 
-Deno.test("decodeCbor() decoding null", () => {
+Ende.test("decodeCbor() decoding null", () => {
   assertEquals(decodeCbor(encodeCbor(null)), null);
 });
 
-Deno.test("decodeCbor() decoding true", () => {
+Ende.test("decodeCbor() decoding true", () => {
   assertEquals(decodeCbor(encodeCbor(true)), true);
 });
 
-Deno.test("decodeCbor() decoding false", () => {
+Ende.test("decodeCbor() decoding false", () => {
   assertEquals(decodeCbor(encodeCbor(false)), false);
 });
 
-Deno.test("decodeCbor() decoding integers", () => {
+Ende.test("decodeCbor() decoding integers", () => {
   let num = random(0, 24);
   assertEquals(decodeCbor(encodeCbor(num)), num);
   assertEquals(decodeCbor(encodeCbor(BigInt(num))), num);
@@ -65,7 +65,7 @@ Deno.test("decodeCbor() decoding integers", () => {
   assertEquals(decodeCbor(encodeCbor(BigInt(num))), BigInt(num));
 });
 
-Deno.test("decodeCbor() decoding strings", () => {
+Ende.test("decodeCbor() decoding strings", () => {
   const textDecoder = new TextDecoder();
 
   let text = textDecoder.decode(
@@ -91,7 +91,7 @@ Deno.test("decodeCbor() decoding strings", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("decodeCbor() decoding Uint8Arrays", () => {
+Ende.test("decodeCbor() decoding Uint8Arrays", () => {
   let bytes = new Uint8Array(random(0, 24)).map((_) => random(0, 256));
   assertEquals(decodeCbor(encodeCbor(bytes)), bytes);
 
@@ -107,12 +107,12 @@ Deno.test("decodeCbor() decoding Uint8Arrays", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("decodeCbor() decoding Dates", () => {
+Ende.test("decodeCbor() decoding Dates", () => {
   const date = new Date();
   assertEquals(decodeCbor(encodeCbor(date)), date);
 });
 
-Deno.test("decodeCbor() decoding bignums", () => {
+Ende.test("decodeCbor() decoding bignums", () => {
   let num = 2n ** 64n;
   assertEquals(decodeCbor(encodeCbor(num)), num);
 
@@ -120,12 +120,12 @@ Deno.test("decodeCbor() decoding bignums", () => {
   assertEquals(decodeCbor(encodeCbor(num)), num);
 });
 
-Deno.test("decodeCbor() decoding Map<CborType, CborType>", () => {
+Ende.test("decodeCbor() decoding Map<CborType, CborType>", () => {
   const map = new Map<CborType, CborType>([[1, 2], ["3", 4], [[5], { a: 6 }]]);
   assertEquals(decodeCbor(encodeCbor(map)), map);
 });
 
-Deno.test("decodeCbor() decoding Maps", () => {
+Ende.test("decodeCbor() decoding Maps", () => {
   let pairs = random(0, 24);
   let map = new Map(
     new Array(pairs)
@@ -161,7 +161,7 @@ Deno.test("decodeCbor() decoding Maps", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("decodeCbor() decoding arrays", () => {
+Ende.test("decodeCbor() decoding arrays", () => {
   let array = new Array(random(0, 24)).fill(0).map((_) => random(0, 2 ** 32));
   assertEquals(decodeCbor(encodeCbor(array)), array);
 
@@ -181,7 +181,7 @@ Deno.test("decodeCbor() decoding arrays", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("decodeCbor() decoding objects", () => {
+Ende.test("decodeCbor() decoding objects", () => {
   let pairs = random(0, 24);
   let object = Object.fromEntries(
     new Array(pairs).fill(0).map((_, i) => [i, i]),
@@ -203,7 +203,7 @@ Deno.test("decodeCbor() decoding objects", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("decodeCbor() decoding CborTag()", () => {
+Ende.test("decodeCbor() decoding CborTag()", () => {
   const tag = new CborTag(
     4,
     new Uint8Array(random(0, 24)).map((_) => random(0, 256)),
@@ -211,7 +211,7 @@ Deno.test("decodeCbor() decoding CborTag()", () => {
   assertEquals(decodeCbor(encodeCbor(tag)), tag);
 });
 
-Deno.test("decodeCbor() rejecting empty encoded data", () => {
+Ende.test("decodeCbor() rejecting empty encoded data", () => {
   assertThrows(
     () => {
       decodeCbor(new Uint8Array(0));
@@ -221,7 +221,7 @@ Deno.test("decodeCbor() rejecting empty encoded data", () => {
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 0 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 0 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -272,7 +272,7 @@ Deno.test("decodeCbor() rejecting majorType 0 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 1 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 1 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -323,7 +323,7 @@ Deno.test("decodeCbor() rejecting majorType 1 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 2 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 2 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -362,7 +362,7 @@ Deno.test("decodeCbor() rejecting majorType 2 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 2 due to invalid indefinite length byte string", () => {
+Ende.test("decodeCbor() rejecting majorType 2 due to invalid indefinite length byte string", () => {
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b010_11111]));
@@ -393,7 +393,7 @@ Deno.test("decodeCbor() rejecting majorType 2 due to invalid indefinite length b
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 3 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 3 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -432,7 +432,7 @@ Deno.test("decodeCbor() rejecting majorType 3 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 3 due to invalid indefinite length text string", () => {
+Ende.test("decodeCbor() rejecting majorType 3 due to invalid indefinite length text string", () => {
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b011_11111]));
@@ -463,7 +463,7 @@ Deno.test("decodeCbor() rejecting majorType 3 due to invalid indefinite length t
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 4 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 4 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -502,7 +502,7 @@ Deno.test("decodeCbor() rejecting majorType 4 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 4 due to invalid indefinite length arrays", () => {
+Ende.test("decodeCbor() rejecting majorType 4 due to invalid indefinite length arrays", () => {
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b100_11111]));
@@ -519,7 +519,7 @@ Deno.test("decodeCbor() rejecting majorType 4 due to invalid indefinite length a
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 5 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 5 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -558,7 +558,7 @@ Deno.test("decodeCbor() rejecting majorType 5 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 5 due to maps having invalid keys", () => {
+Ende.test("decodeCbor() rejecting majorType 5 due to maps having invalid keys", () => {
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b101_00001, 0b000_00000, 0b000_00000]));
@@ -585,7 +585,7 @@ Deno.test("decodeCbor() rejecting majorType 5 due to maps having invalid keys", 
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 5 due to invalid indefinite length maps", () => {
+Ende.test("decodeCbor() rejecting majorType 5 due to invalid indefinite length maps", () => {
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b101_11111]));
@@ -636,7 +636,7 @@ Deno.test("decodeCbor() rejecting majorType 5 due to invalid indefinite length m
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 6 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 6 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -665,7 +665,7 @@ Deno.test("decodeCbor() rejecting majorType 6 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting majorType 7 due to additional information", () => {
+Ende.test("decodeCbor() rejecting majorType 7 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -704,7 +704,7 @@ Deno.test("decodeCbor() rejecting majorType 7 due to additional information", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting tagNumber 2 & 3 due to invalid tagContent", () => {
+Ende.test("decodeCbor() rejecting tagNumber 2 & 3 due to invalid tagContent", () => {
   assertThrows(
     () => decodeCbor(encodeCbor(new CborTag(2, "a string is invalid"))),
     TypeError,
@@ -717,7 +717,7 @@ Deno.test("decodeCbor() rejecting tagNumber 2 & 3 due to invalid tagContent", ()
   );
 });
 
-Deno.test("decodeCbor() rejecting tagNumber 259 due to additional information", () => {
+Ende.test("decodeCbor() rejecting tagNumber 259 due to additional information", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -765,7 +765,7 @@ Deno.test("decodeCbor() rejecting tagNumber 259 due to additional information", 
   );
 });
 
-Deno.test("decodeCbor() rejecting TagNumber 259 due to maps having invalid keys", () => {
+Ende.test("decodeCbor() rejecting TagNumber 259 due to maps having invalid keys", () => {
   assertThrows(
     () => {
       decodeCbor(
@@ -788,7 +788,7 @@ Deno.test("decodeCbor() rejecting TagNumber 259 due to maps having invalid keys"
   );
 });
 
-Deno.test("decodeCbor() rejecting tagNumber 259 due to invalid indefinite length maps", () => {
+Ende.test("decodeCbor() rejecting tagNumber 259 due to invalid indefinite length maps", () => {
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([217, 1, 3, 0b101_11111]));
@@ -836,7 +836,7 @@ Deno.test("decodeCbor() rejecting tagNumber 259 due to invalid indefinite length
   );
 });
 
-Deno.test("decodeCbor() correctly decoding with subarrays", () => {
+Ende.test("decodeCbor() correctly decoding with subarrays", () => {
   let encodedData = encodeCbor(0);
   let buffer = new Uint8Array(encodedData.length + 7);
   buffer.set(encodedData, 7);

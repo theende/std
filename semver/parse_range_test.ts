@@ -4,7 +4,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { parseRange } from "./parse_range.ts";
 import type { Range } from "./types.ts";
 
-Deno.test("parseRange() parse ranges of different kinds", () => {
+Ende.test("parseRange() parse ranges of different kinds", () => {
   const ranges: [string, Range][] = [
     ["1.0.0 - 2.0.0", [
       [
@@ -365,7 +365,7 @@ Deno.test("parseRange() parse ranges of different kinds", () => {
   }
 });
 
-Deno.test("parseRange() parse ranges with hyphens", () => {
+Ende.test("parseRange() parse ranges with hyphens", () => {
   const ranges: [string, Range][] = [
     ["1.2.3 - 2.3.4", [
       [
@@ -455,7 +455,7 @@ Deno.test("parseRange() parse ranges with hyphens", () => {
   }
 });
 
-Deno.test("parseRange() parses ranges with x", () => {
+Ende.test("parseRange() parses ranges with x", () => {
   const ranges: [string, Range][] = [
     ["*", [
       [
@@ -513,7 +513,7 @@ Deno.test("parseRange() parses ranges with x", () => {
   }
 });
 
-Deno.test("parseRanges() parses ranges with tilde", () => {
+Ende.test("parseRanges() parses ranges with tilde", () => {
   const ranges: [string, Range][] = [
     ["~1.2.3", [
       [
@@ -571,7 +571,7 @@ Deno.test("parseRanges() parses ranges with tilde", () => {
   }
 });
 
-Deno.test("parseRange() parses ranges with caret", () => {
+Ende.test("parseRange() parses ranges with caret", () => {
   const ranges: [string, Range][] = [
     ["^1.2.3", [
       [
@@ -659,7 +659,7 @@ Deno.test("parseRange() parses ranges with caret", () => {
   }
 });
 
-Deno.test("parseRange() throws on invalid range", () => {
+Ende.test("parseRange() throws on invalid range", () => {
   assertThrows(
     () => parseRange("blerg"),
     TypeError,
@@ -673,7 +673,7 @@ Deno.test("parseRange() throws on invalid range", () => {
   );
 });
 
-Deno.test("parseRange() handles wildcards", () => {
+Ende.test("parseRange() handles wildcards", () => {
   assertEquals(parseRange("<1.*"), [
     [{ operator: "<", major: 1, minor: 0, patch: 0 }],
   ]);

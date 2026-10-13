@@ -19,7 +19,7 @@ export interface GetAvailablePortOptions {
  *
  * > [!IMPORTANT]
  * > In most cases, this function is not needed. Do not use it for trivial uses
- * > such as when using {@linkcode Deno.serve} or {@linkcode Deno.listen}
+ * > such as when using {@linkcode Ende.serve} or {@linkcode Ende.listen}
  * > directly. Instead, set the `port` option to `0` to automatically use an
  * > available port, then get the assigned port from the function's return
  * > object (see "Recommended Usage" example).
@@ -34,19 +34,19 @@ export interface GetAvailablePortOptions {
  * import { getAvailablePort } from "@std/net/get-available-port";
  *
  * const port = getAvailablePort();
- * Deno.serve({ port }, () => new Response("Hello, world!"));
+ * Ende.serve({ port }, () => new Response("Hello, world!"));
  * ```
  *
  * Good:
  * ```ts ignore no-assert
- * const { port } = Deno.serve({ port: 0 }, () => new Response("Hello, world!")).addr;
+ * const { port } = Ende.serve({ port: 0 }, () => new Response("Hello, world!")).addr;
  * ```
  *
  * Good:
  * ```ts no-assert
  * import { getAvailablePort } from "@std/net/get-available-port";
  *
- * const command = new Deno.Command(Deno.execPath(), {
+ * const command = new Ende.Command(Ende.execPath(), {
  *   args: ["test.ts", "--port", getAvailablePort().toString()],
  * });
  * // ...
@@ -56,16 +56,16 @@ export function getAvailablePort(options?: GetAvailablePortOptions): number {
   if (options?.preferredPort) {
     try {
       // Check if the preferred port is available
-      using listener = Deno.listen({ port: options.preferredPort });
+      using listener = Ende.listen({ port: options.preferredPort });
       return listener.addr.port;
     } catch (e) {
       // If the preferred port is not available, fall through and find an available port
-      if (!(e instanceof Deno.errors.AddrInUse)) {
+      if (!(e instanceof Ende.errors.AddrInUse)) {
         throw e;
       }
     }
   }
 
-  using listener = Deno.listen({ port: 0 });
+  using listener = Ende.listen({ port: 0 });
   return listener.addr.port;
 }

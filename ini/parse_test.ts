@@ -8,7 +8,7 @@ import {
   assertThrows,
 } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "parse()",
   fn() {
     assertEquals(
@@ -24,7 +24,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() with comment",
   fn() {
     assertEquals(parse("#comment\na=b"), { a: "b" });
@@ -33,7 +33,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() special character",
   fn() {
     assertEquals(parse("a=👪"), { a: "👪" });
@@ -45,7 +45,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() throws error with correct messages",
   fn() {
     assertThrows(
@@ -76,7 +76,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles __proto__",
   fn() {
     // The result of JSON.parse and the result of INI.parse should match
@@ -97,7 +97,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() duplicates object key",
   fn() {
     // The result of JSON.parse and the result of INI.parse should match
@@ -108,7 +108,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() does not parse other than strings",
   fn() {
     assertThrows(
@@ -132,7 +132,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() uses Object.defineProperty when setting object property",
   async fn() {
     // Tests if the value is set using `Object.defineProperty(target, key, {value})`
@@ -150,7 +150,7 @@ Deno.test({
       import { parse } from "${import.meta.resolve("./parse.ts")}";
       parse('[__proto__]\\nisAdmin = true');
     `;
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       stdout: "inherit",
       stderr: "inherit",
       args: ["eval", "--no-lock", testCode],
@@ -160,7 +160,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() return value as number",
   fn() {
     assertEquals(parse("value=123"), { value: 123 });
@@ -168,7 +168,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() correctly parse number with special characters ",
   fn() {
     assertEquals(parse("value=123foo"), { value: "123foo" });
@@ -179,14 +179,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() return value as null",
   fn() {
     assertEquals(parse("value=null"), { value: null });
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() correctly parse booleans",
   fn() {
     assertEquals(parse("value=true"), { value: true });
@@ -194,7 +194,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles line breaks",
   fn() {
     assertEquals(parse("value=true\rvalue2=false\r"), {
@@ -212,7 +212,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles spaces around value",
   fn() {
     assertEquals(parse("value= true"), { value: true });
@@ -222,7 +222,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() parses padded lines",
   fn() {
     assertEquals(parse("  value=true"), { value: true });
@@ -253,7 +253,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() reviver function is type casted",
   fn() {
     const expected = { a: 100, b: true, c: null, d: "foo" };

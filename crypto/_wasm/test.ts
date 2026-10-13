@@ -4,7 +4,7 @@ import { digest } from "./mod.ts";
 
 const webCrypto = globalThis.crypto;
 
-Deno.test("test", async () => {
+Ende.test("test", async () => {
   const input = new TextEncoder().encode("SHA-384");
 
   const wasmDigest = digest("SHA-384", input, undefined);

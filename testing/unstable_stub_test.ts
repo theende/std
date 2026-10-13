@@ -10,7 +10,7 @@ import {
 import { Point, type PointWithExtra } from "./_test_utils.ts";
 import { type Stub, stub } from "./unstable_stub.ts";
 
-Deno.test("stub()", () => {
+Ende.test("stub()", () => {
   const point = new Point(2, 3);
   const func = stub(point, "action");
 
@@ -47,7 +47,7 @@ Deno.test("stub()", () => {
   assertEquals(func.restored, true);
 });
 
-Deno.test("stub() works on function", () => {
+Ende.test("stub() works on function", () => {
   const point = new Point(2, 3);
   const returns = [1, "b", 2, "d"];
   const func = stub(point, "action", () => returns.shift());
@@ -84,7 +84,7 @@ Deno.test("stub() works on function", () => {
   );
   assertEquals(func.restored, true);
 });
-Deno.test("stub() works on getter", () => {
+Ende.test("stub() works on getter", () => {
   const point = new Point(5, 6);
   const returns = [1, 2, 3, 4];
   const func = stub(point, "x", {
@@ -122,7 +122,7 @@ Deno.test("stub() works on getter", () => {
   );
   assertEquals(func.restored, true);
 });
-Deno.test("stub() works on setter", () => {
+Ende.test("stub() works on setter", () => {
   const point = new Point(5, 6);
   const func = stub(point, "x", {
     set: function (value: number) {
@@ -155,7 +155,7 @@ Deno.test("stub() works on setter", () => {
   );
   assertEquals(func.restored, true);
 });
-Deno.test("stub() works on getter and setter", () => {
+Ende.test("stub() works on getter and setter", () => {
   const point = new Point(5, 6);
   const returns = [1, 2, 3, 4];
   const func = stub(point, "x", {
@@ -208,7 +208,7 @@ Deno.test("stub() works on getter and setter", () => {
   assertEquals(point.x, 5);
   assertEquals(func.restored, true);
 });
-Deno.test("stub() supports explicit resource management", () => {
+Ende.test("stub() supports explicit resource management", () => {
   const point = new Point(2, 3);
   const returns = [1, "b", 2, "d"];
   let funcRef: Stub<Point> | null = null;
@@ -252,7 +252,7 @@ Deno.test("stub() supports explicit resource management", () => {
     assertEquals(funcRef.restored, true);
   }
 });
-Deno.test("stub() handles non existent function", () => {
+Ende.test("stub() handles non existent function", () => {
   const point = new Point(2, 3);
   const castPoint = point as PointWithExtra;
   let i = 0;
@@ -295,7 +295,7 @@ Deno.test("stub() handles non existent function", () => {
 });
 
 // This doesn't test any runtime code, only if the TypeScript types are correct.
-Deno.test("stub() correctly handles types", () => {
+Ende.test("stub() correctly handles types", () => {
   // @ts-expect-error Stubbing with incorrect argument types should cause a type error
   stub(new Point(2, 3), "explicitTypes", (_x: string, _y: number) => true);
 
@@ -336,7 +336,7 @@ Deno.test("stub() correctly handles types", () => {
   });
 });
 
-Deno.test("stub() works with throwing fake implementation", () => {
+Ende.test("stub() works with throwing fake implementation", () => {
   const obj = {
     fn() {
       throw new Error("failed");
@@ -353,7 +353,7 @@ Deno.test("stub() works with throwing fake implementation", () => {
   });
 });
 
-Deno.test("stub() throws when the property is not a method", () => {
+Ende.test("stub() throws when the property is not a method", () => {
   const obj = { fn: 1 };
   assertThrows(
     // deno-lint-ignore no-explicit-any
@@ -363,7 +363,7 @@ Deno.test("stub() throws when the property is not a method", () => {
   );
 });
 
-Deno.test("stub() throws when try stubbing already stubbed method", () => {
+Ende.test("stub() throws when try stubbing already stubbed method", () => {
   const obj = { fn() {} };
   stub(obj, "fn");
   assertThrows(
@@ -373,7 +373,7 @@ Deno.test("stub() throws when try stubbing already stubbed method", () => {
   );
 });
 
-Deno.test("stub() throws when neither setter not getter is defined", () => {
+Ende.test("stub() throws when neither setter not getter is defined", () => {
   const obj = { prop: "foo" };
 
   assertThrows(
@@ -383,7 +383,7 @@ Deno.test("stub() throws when neither setter not getter is defined", () => {
   );
 });
 
-Deno.test("stub() throws then the property is not configurable", () => {
+Ende.test("stub() throws then the property is not configurable", () => {
   const obj = { fn() {} };
   Object.defineProperty(obj, "fn", { configurable: false });
   assertThrows(

@@ -14,7 +14,7 @@
  *   return setInterval(cb, 1000);
  * }
  *
- * Deno.test("secondInterval calls callback every second and stops after being cleared", () => {
+ * Ende.test("secondInterval calls callback every second and stops after being cleared", () => {
  *   using time = new FakeTime();
  *
  *   const cb = spy();
@@ -270,7 +270,7 @@ let dueTree: RedBlackTree<DueNode>;
  *   return setInterval(cb, 1000);
  * }
  *
- * Deno.test("secondInterval calls callback every second and stops after being cleared", () => {
+ * Ende.test("secondInterval calls callback every second and stops after being cleared", () => {
  *   using time = new FakeTime();
  *
  *   const cb = spy();
@@ -634,7 +634,7 @@ export class FakeTime {
    *   return setInterval(cb, 1000);
    * }
    *
-   * Deno.test("secondInterval calls callback every second and stops after being cleared", () => {
+   * Ende.test("secondInterval calls callback every second and stops after being cleared", () => {
    *   using time = new FakeTime();
    *
    *   const cb = spy();

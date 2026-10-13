@@ -21,7 +21,7 @@ function bytes(...hextets: number[]): Uint8Array {
   return out;
 }
 
-Deno.test("parseIPv4() returns the address bytes", () => {
+Ende.test("parseIPv4() returns the address bytes", () => {
   const list: [string, number[]][] = [
     ["192.148.122.255", [192, 148, 122, 255]],
     ["0.128.11.33", [0, 128, 11, 33]],
@@ -34,7 +34,7 @@ Deno.test("parseIPv4() returns the address bytes", () => {
   }
 });
 
-Deno.test("parseIPv4() returns undefined for invalid addresses", () => {
+Ende.test("parseIPv4() returns undefined for invalid addresses", () => {
   const list = [
     // Out of range.
     "192.148.122.256",
@@ -65,7 +65,7 @@ Deno.test("parseIPv4() returns undefined for invalid addresses", () => {
   }
 });
 
-Deno.test("isIPv4()", () => {
+Ende.test("isIPv4()", () => {
   const list = [
     { addr: "192.148.122.255", expected: true },
     { addr: "0.128.11.33", expected: true },
@@ -93,7 +93,7 @@ Deno.test("isIPv4()", () => {
   }
 });
 
-Deno.test("parseIPv6() returns the address bytes", () => {
+Ende.test("parseIPv6() returns the address bytes", () => {
   const list: [string, Uint8Array][] = [
     [
       "2001:db8:3333:4444:5555:6666:7777:8888",
@@ -125,7 +125,7 @@ Deno.test("parseIPv6() returns the address bytes", () => {
   }
 });
 
-Deno.test("parseIPv6() returns undefined for invalid addresses", () => {
+Ende.test("parseIPv6() returns undefined for invalid addresses", () => {
   const list = [
     // Not hex.
     "2001:db8:3333:4444:5555:6666:7777:gggg",
@@ -164,7 +164,7 @@ Deno.test("parseIPv6() returns undefined for invalid addresses", () => {
   }
 });
 
-Deno.test("isIPv6()", () => {
+Ende.test("isIPv6()", () => {
   const list = [
     { addr: "2001:db8:3333:4444:5555:6666:7777:8888", expected: true },
     { addr: "2001:db8::1", expected: true },
@@ -199,7 +199,7 @@ Deno.test("isIPv6()", () => {
   }
 });
 
-Deno.test("matchSubnets()", () => {
+Ende.test("matchSubnets()", () => {
   const mixed = [
     "192.168.1.0/24",
     "10.0.0.0/8",
@@ -244,7 +244,7 @@ Deno.test("matchSubnets()", () => {
   }
 });
 
-Deno.test("matchIPv4Subnet()", () => {
+Ende.test("matchIPv4Subnet()", () => {
   const list = [
     { addr: "192.168.1.10", subnet: "192.168.1.0/24", expected: true },
     { addr: "192.168.1.11", subnet: "/32", expected: false },
@@ -293,7 +293,7 @@ Deno.test("matchIPv4Subnet()", () => {
   }
 });
 
-Deno.test("matchIPv6Subnet()", () => {
+Ende.test("matchIPv6Subnet()", () => {
   const list = [
     // Basic functionality
     { addr: "2001:db8::1", subnet: "2001:db8::/64", expected: true },

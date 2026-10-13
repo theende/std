@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { cycle } from "./unstable_cycle.ts";
 
-Deno.test({
+Ende.test({
   name: "cycle() basic usage with an array",
   fn() {
     const cyclic = cycle([1, 2, 3]);
@@ -17,7 +17,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "cycle() works with a string iterable",
   fn() {
     const cyclic = cycle("ab");
@@ -31,7 +31,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "cycle() works with a single element iterable",
   fn() {
     const cyclic = cycle([42]);
@@ -45,7 +45,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "cycle() does not mutate the input iterable",
   fn() {
     const input = [1, 2, 3];

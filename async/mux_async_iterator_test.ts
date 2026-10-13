@@ -25,7 +25,7 @@ class CustomAsyncIterable {
   }
 }
 
-Deno.test("MuxAsyncIterator()", async () => {
+Ende.test("MuxAsyncIterator()", async () => {
   const mux = new MuxAsyncIterator<number>();
   mux.add(gen123());
   mux.add(gen456());
@@ -34,14 +34,14 @@ Deno.test("MuxAsyncIterator()", async () => {
   assertEquals(results, new Set([1, 2, 3, 4, 5, 6]));
 });
 
-Deno.test("MuxAsyncIterator() works with no iterables", async () => {
+Ende.test("MuxAsyncIterator() works with no iterables", async () => {
   const mux = new MuxAsyncIterator<number>();
   const results = new Set(await Array.fromAsync(mux));
   assertEquals(results.size, 0);
   assertEquals(results, new Set([]));
 });
 
-Deno.test("MuxAsyncIterator() clears iterables after successful iteration", async () => {
+Ende.test("MuxAsyncIterator() clears iterables after successful iteration", async () => {
   const mux = new MuxAsyncIterator<number>();
   mux.add(gen123());
   mux.add(gen456());
@@ -54,7 +54,7 @@ Deno.test("MuxAsyncIterator() clears iterables after successful iteration", asyn
   assertEquals(results2, new Set([1, 2, 3]));
 });
 
-Deno.test("MuxAsyncIterator() takes async iterable as source", async () => {
+Ende.test("MuxAsyncIterator() takes async iterable as source", async () => {
   const mux = new MuxAsyncIterator<number>();
   mux.add(new CustomAsyncIterable());
   const results = new Set(await Array.fromAsync(mux));
@@ -62,7 +62,7 @@ Deno.test("MuxAsyncIterator() takes async iterable as source", async () => {
   assertEquals(results, new Set([1, 2, 3]));
 });
 
-Deno.test("MuxAsyncIterator() throws when the source throws", async () => {
+Ende.test("MuxAsyncIterator() throws when the source throws", async () => {
   const mux = new MuxAsyncIterator<number>();
   mux.add(gen123());
   mux.add(genThrows());
@@ -73,7 +73,7 @@ Deno.test("MuxAsyncIterator() throws when the source throws", async () => {
   );
 });
 
-Deno.test("MuxAsyncIterator() doesn't clear iterables after throwing", async () => {
+Ende.test("MuxAsyncIterator() doesn't clear iterables after throwing", async () => {
   const mux = new MuxAsyncIterator<number>();
   mux.add(genThrows());
   await assertRejects(

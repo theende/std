@@ -30,7 +30,7 @@ function assertInvalidParse(
   );
 }
 
-Deno.test({
+Ende.test({
   name: "parse() handles single line comment",
   fn() {
     assertValidParse(`"aaa"//comment`, "aaa");
@@ -40,7 +40,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles multi line comments",
   fn() {
     assertValidParse(`"aaa"/*comment*/`, "aaa");
@@ -52,7 +52,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles special characters",
   fn() {
     assertValidParse(`"👪"`, "👪");
@@ -68,7 +68,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles #numberEndToken correctly",
   fn() {
     // Correctly parses the letters after the numbers (` \t\r\n[]{}:,/`)
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() throws error message",
   fn() {
     assertInvalidParse(
@@ -137,7 +137,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles __proto__",
   fn() {
     // The result of JSON.parse and the result of JSONC.parse should match
@@ -154,7 +154,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles duplicate object key",
   fn() {
     // The result of JSON.parse and the result of JSONC.parse should match
@@ -165,7 +165,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles non-string input type",
   fn() {
     assertInvalidParse(
@@ -179,7 +179,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles consecutive backslash",
   fn() {
     assertValidParse('"foo\\\\"', "foo\\");
@@ -196,7 +196,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() uses Object.defineProperty when setting object property",
   async fn() {
     // Tests if the value is set using `Object.defineProperty(target, key, {value})`
@@ -214,7 +214,7 @@ Deno.test({
       import { parse } from "${import.meta.resolve("./parse.ts")}";
       parse('{"__proto__": {"isAdmin": true}}');
     `;
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       stdout: "inherit",
       stderr: "inherit",
       args: ["eval", "--no-lock", testCode],
@@ -224,7 +224,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "new parse() throws error",
   fn() {
     assertThrows(
@@ -236,7 +236,7 @@ Deno.test({
   },
 });
 
-Deno.test("parse() handles lone continuation byte in key and tailing comma", () => {
+Ende.test("parse() handles lone continuation byte in key and tailing comma", () => {
   assertEquals(parse('{"�":"0",}'), { "�": "0" });
 });
 
@@ -246,7 +246,7 @@ Deno.test("parse() handles lone continuation byte in key and tailing comma", () 
  *
  * @see {@link https://github.com/microsoft/node-jsonc-parser/blob/35d94cd71bd48f9784453b2439262c938e21d49b/src/test/json.test.ts}
  */
-Deno.test("[jsonc] parse node-jsonc-parser:literals", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:literals", () => {
   assertValidParse("true", true);
   assertValidParse("false", false);
   assertValidParse("null", null);
@@ -265,7 +265,7 @@ Deno.test("[jsonc] parse node-jsonc-parser:literals", () => {
   assertValidParse("1.2E-3 // comment", 1.2E-3);
 });
 
-Deno.test("[jsonc] parse node-jsonc-parser:objects", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:objects", () => {
   assertValidParse("{}", {});
   assertValidParse('{ "foo": true }', { foo: true });
   assertValidParse('{ "bar": 8, "xoo": "foo" }', { bar: 8, xoo: "foo" });
@@ -291,14 +291,14 @@ Deno.test("[jsonc] parse node-jsonc-parser:objects", () => {
   assertValidParse('{ "": true }', { "": true });
 });
 
-Deno.test("[jsonc] parse node-jsonc-parser:arrays", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:arrays", () => {
   assertValidParse("[]", []);
   assertValidParse("[ [],  [ [] ]]", [[], [[]]]);
   assertValidParse("[ 1, 2, 3 ]", [1, 2, 3]);
   assertValidParse('[ { "a": null } ]', [{ a: null }]);
 });
 
-Deno.test("[jsonc] parse node-jsonc-parser:objects with errors", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:objects with errors", () => {
   assertInvalidParse("{,}", SyntaxError);
   assertInvalidParse('{ "bar": 8 "xoo": "foo" }', SyntaxError);
   assertInvalidParse('{ ,"bar": 8 }', SyntaxError);
@@ -307,19 +307,19 @@ Deno.test("[jsonc] parse node-jsonc-parser:objects with errors", () => {
   assertInvalidParse('{ 8, "foo": 9 }', SyntaxError);
 });
 
-Deno.test("[jsonc] parse node-jsonc-parser:array with errors", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:array with errors", () => {
   assertInvalidParse("[,]", SyntaxError);
   assertInvalidParse("[ 1 2, 3 ]", SyntaxError);
   assertInvalidParse("[ ,1, 2, 3 ]", SyntaxError);
   assertInvalidParse("[ ,1, 2, 3, ]", SyntaxError);
 });
 
-Deno.test("[jsonc] parse node-jsonc-parser:errors", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:errors", () => {
   assertInvalidParse("", SyntaxError);
   assertInvalidParse("1,1", SyntaxError);
 });
 
-Deno.test("[jsonc] parse node-jsonc-parser:trailing comma", () => {
+Ende.test("[jsonc] parse node-jsonc-parser:trailing comma", () => {
   assertValidParse('{ "hello": [], }', { hello: [] });
   assertValidParse('{ "hello": [] }', { hello: [] });
   assertValidParse(

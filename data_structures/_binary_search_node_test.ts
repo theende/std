@@ -10,7 +10,7 @@ function beforeEach() {
   parent.right = child;
 }
 
-Deno.test("BinarySearchNode", () => {
+Ende.test("BinarySearchNode", () => {
   beforeEach();
   assertStrictEquals(parent.parent, null);
   assertStrictEquals(parent.left, null);
@@ -23,7 +23,7 @@ Deno.test("BinarySearchNode", () => {
   assertStrictEquals(child.value, 7);
 });
 
-Deno.test("BinarySearchNode.from()", () => {
+Ende.test("BinarySearchNode.from()", () => {
   beforeEach();
   const parentClone: BinarySearchNode<number> = BinarySearchNode.from(parent);
   const childClone: BinarySearchNode<number> = BinarySearchNode.from(child);
@@ -39,7 +39,7 @@ Deno.test("BinarySearchNode.from()", () => {
   assertStrictEquals(childClone.value, 7);
 });
 
-Deno.test("BinarySearchNode.directionFromParent()", () => {
+Ende.test("BinarySearchNode.directionFromParent()", () => {
   beforeEach();
   const child2 = new BinarySearchNode(parent, 3);
   assertEquals(child2.directionFromParent(), null);
@@ -49,7 +49,7 @@ Deno.test("BinarySearchNode.directionFromParent()", () => {
   assertEquals(child.directionFromParent(), "right");
 });
 
-Deno.test("BinarySearchNode.findMinNode()", () => {
+Ende.test("BinarySearchNode.findMinNode()", () => {
   beforeEach();
   assertStrictEquals(parent.findMinNode(), parent);
   const child2 = new BinarySearchNode(parent, 3);
@@ -63,7 +63,7 @@ Deno.test("BinarySearchNode.findMinNode()", () => {
   assertStrictEquals(parent.findMinNode(), child4);
 });
 
-Deno.test("BinarySearchNode.findMaxNode()", () => {
+Ende.test("BinarySearchNode.findMaxNode()", () => {
   beforeEach();
   assertStrictEquals(parent.findMaxNode(), child);
   const child2 = new BinarySearchNode(child, 6);
@@ -79,7 +79,7 @@ Deno.test("BinarySearchNode.findMaxNode()", () => {
   assertStrictEquals(parent.findMaxNode(), parent);
 });
 
-Deno.test("BinarySearchNode.findSuccessorNode()", () => {
+Ende.test("BinarySearchNode.findSuccessorNode()", () => {
   beforeEach();
   assertStrictEquals(parent.findSuccessorNode(), child);
   assertStrictEquals(child.findSuccessorNode(), null);

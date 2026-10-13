@@ -7,7 +7,7 @@ function assertLevenshteinBidi(a: string, b: string, distance: number) {
   assertEquals(levenshteinDistance(b, a), distance);
 }
 
-Deno.test("levenshteinDistance() handles basic cases", () => {
+Ende.test("levenshteinDistance() handles basic cases", () => {
   assertEquals(levenshteinDistance("levenshtein", "levenshtein"), 0);
   assertEquals(levenshteinDistance("sitting", "kitten"), 3);
   assertEquals(levenshteinDistance("gumbo", "gambol"), 2);
@@ -16,13 +16,13 @@ Deno.test("levenshteinDistance() handles basic cases", () => {
   assertEquals(levenshteinDistance("aargh", "aarrgh"), 1);
 });
 
-Deno.test("levenshteinDistance() handles empty strings", () => {
+Ende.test("levenshteinDistance() handles empty strings", () => {
   assertEquals(levenshteinDistance("", "a"), 1);
   assertEquals(levenshteinDistance("a", ""), 1);
   assertEquals(levenshteinDistance("", ""), 0);
 });
 
-Deno.test("levenshteinDistance() handles long strings", () => {
+Ende.test("levenshteinDistance() handles long strings", () => {
   assertEquals(
     levenshteinDistance(
       "the quick brown fox jumps over the lazy dog",
@@ -32,7 +32,7 @@ Deno.test("levenshteinDistance() handles long strings", () => {
   );
 });
 
-Deno.test("levenshteinDistance() handles code points above U+FFFF", async (t) => {
+Ende.test("levenshteinDistance() handles code points above U+FFFF", async (t) => {
   await t.step("one of inputs is empty fast path", () => {
     assertLevenshteinBidi("💩", "", 1);
     assertLevenshteinBidi("\u{10FFFF}", "", 1);

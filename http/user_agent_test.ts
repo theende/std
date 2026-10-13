@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { UserAgent } from "./user_agent.ts";
 
-Deno.test({
+Ende.test({
   name: "UserAgent.prototype.browser",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/browser-all.json", {
@@ -25,7 +25,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "UserAgent.prototype.cpu",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/cpu-all.json", {
@@ -43,7 +43,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "UserAgent.prototype.device",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/device-all.json", {
@@ -65,7 +65,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "UserAgent.prototype.engine",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/engine-all.json", {
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "UserAgent.prototype.os",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/os-all.json", {
@@ -107,7 +107,7 @@ Deno.test({
   },
 });
 
-Deno.test("UserAgent.constructor() accepts null", () => {
+Ende.test("UserAgent.constructor() accepts null", () => {
   const ua = new UserAgent(null);
   assertEquals(ua.ua, "");
   assertEquals(ua.browser, {
@@ -125,14 +125,14 @@ Deno.test("UserAgent.constructor() accepts null", () => {
   assertEquals(ua.os, { name: undefined, version: undefined });
 });
 
-Deno.test("UserAgent.toString() returns ua itself", () => {
+Ende.test("UserAgent.toString() returns ua itself", () => {
   const ua = new UserAgent(
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
   );
   assertEquals(ua.toString(), ua.ua);
 });
 
-Deno.test("UserAgent.toJSON() returns the object { browser, cpu, device, engine, os, ua }", () => {
+Ende.test("UserAgent.toJSON() returns the object { browser, cpu, device, engine, os, ua }", () => {
   const ua = new UserAgent(
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
   );
@@ -147,12 +147,12 @@ Deno.test("UserAgent.toJSON() returns the object { browser, cpu, device, engine,
   });
 });
 
-Deno.test("UserAgent supports custom inspect in Deno", () => {
+Ende.test("UserAgent supports custom inspect in Deno", () => {
   const ua = new UserAgent(
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
   );
   assertEquals(
-    Deno.inspect(ua),
+    Ende.inspect(ua),
     `UserAgent {
   browser: { name: "Chrome", version: "64.0.3282.140", major: "64" },
   cpu: { architecture: "amd64" },
@@ -164,13 +164,13 @@ Deno.test("UserAgent supports custom inspect in Deno", () => {
   );
 });
 
-Deno.test("UserAgent supports custom inspect in Node.js", async () => {
+Ende.test("UserAgent supports custom inspect in Node.js", async () => {
   const { inspect } = await import("node:util");
 
   const ua = new UserAgent(
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
   );
-  // Needs to delete Deno.customInspect to enable Node's inspect
+  // Needs to delete Ende.customInspect to enable Node's inspect
   // deno-lint-ignore no-explicit-any
   (ua as any)[Symbol.for("Deno.customInspect")] = undefined;
   assertEquals(

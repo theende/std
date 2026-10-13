@@ -11,7 +11,7 @@ import {
 } from "@std/assert";
 import { FakeTime } from "@std/testing/time";
 
-Deno.test("pooledMap() throws for invalid poolLimit", () => {
+Ende.test("pooledMap() throws for invalid poolLimit", () => {
   const noop = (i: number) => Promise.resolve(i);
   for (const poolLimit of [0, -1, 1.5, NaN, Infinity]) {
     assertThrows(
@@ -22,7 +22,7 @@ Deno.test("pooledMap() throws for invalid poolLimit", () => {
   }
 });
 
-Deno.test("pooledMap()", async () => {
+Ende.test("pooledMap()", async () => {
   using time = new FakeTime();
 
   const start = Date.now();
@@ -43,7 +43,7 @@ Deno.test("pooledMap()", async () => {
   assertLess(diff, 900);
 });
 
-Deno.test("pooledMap() handles errors", async () => {
+Ende.test("pooledMap() handles errors", async () => {
   async function mapNumber(n: number): Promise<number> {
     if (n <= 2) {
       throw new Error(`Bad number: ${n}`);
@@ -67,7 +67,7 @@ Deno.test("pooledMap() handles errors", async () => {
   assertEquals(mappedNumbers, [3]);
 });
 
-Deno.test("pooledMap() returns ordered items", async () => {
+Ende.test("pooledMap() returns ordered items", async () => {
   const results = pooledMap(
     2,
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -78,7 +78,7 @@ Deno.test("pooledMap() returns ordered items", async () => {
   assertEquals(returned, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 });
 
-Deno.test("pooledMap() checks browser compat", async () => {
+Ende.test("pooledMap() checks browser compat", async () => {
   // Simulates the environment where Symbol.asyncIterator is not available
   const asyncIterFunc = ReadableStream.prototype[Symbol.asyncIterator];
   // deno-lint-ignore no-explicit-any

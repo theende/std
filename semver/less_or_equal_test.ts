@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert";
 import { parse } from "./parse.ts";
 import { lessOrEqual } from "./less_or_equal.ts";
 
-Deno.test({
+Ende.test({
   name: "lessOrEqual()",
   fn: async (t) => {
     // [version1, version2]

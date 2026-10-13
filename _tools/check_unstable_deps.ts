@@ -8,7 +8,7 @@
  *
  * @module
  */
-import { getEntrypoints, getPackagesDenoJsons, resolve } from "./utils.ts";
+import { getEntrypoints, getPackagesEndeJsons, resolve } from "./utils.ts";
 import { partition } from "@std/collections/partition";
 import { createGraph } from "@deno/graph";
 
@@ -20,7 +20,7 @@ const EXCEPTIONS = [
 ];
 
 const entrypoints = await getEntrypoints();
-const unstablePackageNames = (await getPackagesDenoJsons())
+const unstablePackageNames = (await getPackagesEndeJsons())
   .filter(({ version }) => version.startsWith("0."))
   .map(({ name }) => name);
 
@@ -53,6 +53,6 @@ for (const module of graph.modules) {
 }
 
 if (hasError) {
-  Deno.exit(1);
+  Ende.exit(1);
 }
 console.log("No unstable module is used in stable modules.");

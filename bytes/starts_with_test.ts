@@ -2,7 +2,7 @@
 import { assert } from "@std/assert";
 import { startsWith } from "./starts_with.ts";
 
-Deno.test("startsWith()", async (t) => {
+Ende.test("startsWith()", async (t) => {
   await t.step("`true` where `source` and `prefix` are identical", () => {
     assert(startsWith(
       new Uint8Array([0, 1, 2, 3]),

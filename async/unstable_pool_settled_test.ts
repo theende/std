@@ -9,7 +9,7 @@ import {
 } from "@std/assert";
 import { delay } from "./delay.ts";
 
-Deno.test("pooledMapSettled() throws for invalid poolLimit", () => {
+Ende.test("pooledMapSettled() throws for invalid poolLimit", () => {
   const noop = (i: number) => i;
   for (const poolLimit of [0, -1, 1.5, NaN, Infinity]) {
     assertThrows(
@@ -20,7 +20,7 @@ Deno.test("pooledMapSettled() throws for invalid poolLimit", () => {
   }
 });
 
-Deno.test("pooledMapSettled() yields rejected results without stopping", async () => {
+Ende.test("pooledMapSettled() yields rejected results without stopping", async () => {
   const results = await Array.fromAsync(
     pooledMapSettled(
       [1, 2, 3, 4],
@@ -39,7 +39,7 @@ Deno.test("pooledMapSettled() yields rejected results without stopping", async (
   assertEquals(results[3]!.status, "rejected");
 });
 
-Deno.test("pooledMapSettled() preserves input order", async () => {
+Ende.test("pooledMapSettled() preserves input order", async () => {
   const results = await Array.fromAsync(
     pooledMapSettled(
       [1, 2, 3, 4, 5],
@@ -60,7 +60,7 @@ Deno.test("pooledMapSettled() preserves input order", async () => {
   );
 });
 
-Deno.test("pooledMapSettled() supports sync iteratorFn", async () => {
+Ende.test("pooledMapSettled() supports sync iteratorFn", async () => {
   const results = await Array.fromAsync(
     pooledMapSettled(
       ["a", "b", "c"],
@@ -76,7 +76,7 @@ Deno.test("pooledMapSettled() supports sync iteratorFn", async () => {
   ]);
 });
 
-Deno.test("pooledMapSettled() respects pool limit", async () => {
+Ende.test("pooledMapSettled() respects pool limit", async () => {
   let concurrent = 0;
   let maxConcurrent = 0;
 
@@ -98,7 +98,7 @@ Deno.test("pooledMapSettled() respects pool limit", async () => {
   assertLess(maxConcurrent, 3);
 });
 
-Deno.test("pooledMapSettled() rejects with already-aborted signal", async () => {
+Ende.test("pooledMapSettled() rejects with already-aborted signal", async () => {
   const controller = new AbortController();
   controller.abort(new Error("already aborted"));
 
@@ -115,7 +115,7 @@ Deno.test("pooledMapSettled() rejects with already-aborted signal", async () => 
   );
 });
 
-Deno.test("pooledMapSettled() yields in-flight results then rejects on abort", async () => {
+Ende.test("pooledMapSettled() yields in-flight results then rejects on abort", async () => {
   const controller = new AbortController();
   const collected: PromiseSettledResult<number>[] = [];
 
@@ -146,7 +146,7 @@ Deno.test("pooledMapSettled() yields in-flight results then rejects on abort", a
   }
 });
 
-Deno.test("pooledMapSettled() propagates source iterable error after in-flight results", async () => {
+Ende.test("pooledMapSettled() propagates source iterable error after in-flight results", async () => {
   async function* failing() {
     yield 1;
     yield 2;
@@ -177,7 +177,7 @@ Deno.test("pooledMapSettled() propagates source iterable error after in-flight r
   ]);
 });
 
-Deno.test("pooledMapSettled() source error is not wrapped as PromiseSettledResult", async () => {
+Ende.test("pooledMapSettled() source error is not wrapped as PromiseSettledResult", async () => {
   async function* failing() {
     yield 1;
     throw new Error("source failed");
@@ -207,7 +207,7 @@ Deno.test("pooledMapSettled() source error is not wrapped as PromiseSettledResul
   assertEquals(collected, [{ status: "fulfilled", value: 1 }]);
 });
 
-Deno.test("pooledMapSettled() rejects with source error when signal is not yet aborted at source failure", async () => {
+Ende.test("pooledMapSettled() rejects with source error when signal is not yet aborted at source failure", async () => {
   const controller = new AbortController();
 
   async function* failingSource() {
@@ -241,7 +241,7 @@ Deno.test("pooledMapSettled() rejects with source error when signal is not yet a
   assertGreaterOrEqual(collected.length, 1);
 });
 
-Deno.test("pooledMapSettled() rejects with abort reason when signal is already aborted at source failure", async () => {
+Ende.test("pooledMapSettled() rejects with abort reason when signal is already aborted at source failure", async () => {
   const controller = new AbortController();
 
   function* failingSource() {
@@ -271,7 +271,7 @@ Deno.test("pooledMapSettled() rejects with abort reason when signal is already a
   assertEquals(collected, [{ status: "fulfilled", value: 1 }]);
 });
 
-Deno.test({
+Ende.test({
   name:
     "pooledMapSettled() reacts to abort while waiting for slow async source",
   async fn() {
@@ -303,7 +303,7 @@ Deno.test({
   sanitizeResources: false,
 });
 
-Deno.test({
+Ende.test({
   name: "pooledMapSettled() reacts to abort with stalled async source",
   async fn() {
     const controller = new AbortController();
@@ -334,7 +334,7 @@ Deno.test({
   sanitizeResources: false,
 });
 
-Deno.test("pooledMapSettled() rejects with abort reason after source is exhausted", async () => {
+Ende.test("pooledMapSettled() rejects with abort reason after source is exhausted", async () => {
   const controller = new AbortController();
   const gates = [Promise.withResolvers<void>(), Promise.withResolvers<void>()];
   const collected: PromiseSettledResult<number>[] = [];
@@ -368,7 +368,7 @@ Deno.test("pooledMapSettled() rejects with abort reason after source is exhauste
   ]);
 });
 
-Deno.test("pooledMapSettled() does not start new items after sync abort from source", async () => {
+Ende.test("pooledMapSettled() does not start new items after sync abort from source", async () => {
   const controller = new AbortController();
   const started: number[] = [];
 
@@ -397,7 +397,7 @@ Deno.test("pooledMapSettled() does not start new items after sync abort from sou
   assertEquals(started, [1]);
 });
 
-Deno.test("pooledMapSettled() checks browser compat", async () => {
+Ende.test("pooledMapSettled() checks browser compat", async () => {
   const asyncIterFunc = ReadableStream.prototype[Symbol.asyncIterator];
   // deno-lint-ignore no-explicit-any
   delete (ReadableStream.prototype as any)[Symbol.asyncIterator];
@@ -420,7 +420,7 @@ Deno.test("pooledMapSettled() checks browser compat", async () => {
 // timers that cannot be deterministically drained. Sanitizers are disabled
 // following the same pattern as delay_test.ts.
 
-Deno.test({
+Ende.test({
   name:
     "pooledMapSettled() handles early consumer break without unhandled rejections",
   async fn() {
@@ -449,7 +449,7 @@ Deno.test({
   sanitizeResources: false,
 });
 
-Deno.test({
+Ende.test({
   name: "pooledMapSettled() handles early consumer break with source error",
   async fn() {
     async function* failingSource() {
@@ -482,7 +482,7 @@ Deno.test({
   sanitizeResources: false,
 });
 
-Deno.test({
+Ende.test({
   name: "pooledMapSettled() fallback path handles early consumer break",
   async fn() {
     const asyncIterFunc = ReadableStream.prototype[Symbol.asyncIterator];

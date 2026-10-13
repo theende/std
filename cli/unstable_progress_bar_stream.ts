@@ -26,7 +26,7 @@ export type { Uint8Array_ };
  *   readable = readable
  *     ?.pipeThrough(new ProgressBarStream({ max })) ?? null;
  * }
- * await readable?.pipeTo((await Deno.create("./_tmp/example.com.html")).writable);
+ * await readable?.pipeTo((await Ende.create("./_tmp/example.com.html")).writable);
  * ```
  */
 export class ProgressBarStream
@@ -45,7 +45,7 @@ export class ProgressBarStream
    *   readable = readable
    *     ?.pipeThrough(new ProgressBarStream({ max })) ?? null;
    * }
-   * await readable?.pipeTo((await Deno.create("./_tmp/example.com.html")).writable);
+   * await readable?.pipeTo((await Ende.create("./_tmp/example.com.html")).writable);
    * ```
    * @param options The options to configure various settings of the progress bar.
    */

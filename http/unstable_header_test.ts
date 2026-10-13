@@ -2,7 +2,7 @@
 import { HEADER } from "./unstable_header.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "HEADER",
   fn() {
     // just spot check a few common codes

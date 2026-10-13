@@ -12,7 +12,7 @@ function mapValuesTest<T, O>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "mapValues() does not mutate its input",
   fn() {
     const object = { a: 5, b: true };
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() handles empty input",
   fn() {
     mapValuesTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() handles identity",
   fn() {
     mapValuesTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() handles falsy values",
   fn() {
     mapValuesTest<number, null | undefined | string | boolean>(
@@ -76,7 +76,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() handles normal mappers",
   fn() {
     mapValuesTest(
@@ -110,7 +110,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() preserves key type (Record)",
   fn() {
     type Variants = "a" | "b";
@@ -125,7 +125,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() preserves key type (Partial Record)",
   fn() {
     type Variants = "a" | "b";
@@ -140,7 +140,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapValues() pass key to transformer",
   fn() {
     const key = "key";

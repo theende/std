@@ -4,7 +4,7 @@ import { assertThrows } from "@std/assert";
 import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
 
-Deno.test("expect().toHaveBeenCalled() checks the mock call", () => {
+Ende.test("expect().toHaveBeenCalled() checks the mock call", () => {
   const mockFn = fn();
   mockFn();
 
@@ -17,7 +17,7 @@ Deno.test("expect().toHaveBeenCalled() checks the mock call", () => {
   );
 });
 
-Deno.test("expect().toHaveBeenCalled() handles the case when the mock is not called", () => {
+Ende.test("expect().toHaveBeenCalled() handles the case when the mock is not called", () => {
   const mockFn = fn();
 
   expect(mockFn).not.toHaveBeenCalled();
@@ -29,7 +29,7 @@ Deno.test("expect().toHaveBeenCalled() handles the case when the mock is not cal
   );
 });
 
-Deno.test("expect().toHaveBeenCalled() with custom error message", () => {
+Ende.test("expect().toHaveBeenCalled() with custom error message", () => {
   const msg = "toHaveBeenCalled Custom Error";
   const mockFn = fn();
   mockFn();

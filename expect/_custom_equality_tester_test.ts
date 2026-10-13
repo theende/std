@@ -59,7 +59,7 @@ function* toIterator<T>(array: Array<T>): Iterator<T> {
   }
 }
 
-Deno.test("Basic custom equality test", () => {
+Ende.test("Basic custom equality test", () => {
   expect(duration1).toEqual(duration1);
   expect(duration1).not.toEqual(duration3);
   expect(duration1).not.toEqual(duration2);
@@ -73,7 +73,7 @@ Deno.test("Basic custom equality test", () => {
   });
 });
 
-Deno.test("Basic custom equality test may contain different Duration Object", () => {
+Ende.test("Basic custom equality test may contain different Duration Object", () => {
   expect([duration1]).not.toContain(duration2);
   expect([duration1]).toContain(duration1);
   expect([duration2]).toContainEqual(duration3);

@@ -12,7 +12,7 @@ import {
 import { remove, removeSync } from "./unstable_remove.ts";
 import { join } from "node:path";
 
-Deno.test("create() creates a file", async () => {
+Ende.test("create() creates a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "create_" });
   const testFile = join(tempDirPath, "createFile.txt");
 
@@ -33,7 +33,7 @@ Deno.test("create() creates a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("create() truncates an existing file path", async () => {
+Ende.test("create() truncates an existing file path", async () => {
   const tempFile = await makeTempFile({ prefix: "create_" });
   await writeTextFile(tempFile, "Hello, Standard Library");
 
@@ -46,7 +46,7 @@ Deno.test("create() truncates an existing file path", async () => {
   await remove(tempFile);
 });
 
-Deno.test("create() rejects with Error when using a file path that is not a regular file", async () => {
+Ende.test("create() rejects with Error when using a file path that is not a regular file", async () => {
   const tempDir = await makeTempDir({ prefix: "create_" });
 
   await assertRejects(async () => {
@@ -56,7 +56,7 @@ Deno.test("create() rejects with Error when using a file path that is not a regu
   await remove(tempDir);
 });
 
-Deno.test("createSync() creates a new file", () => {
+Ende.test("createSync() creates a new file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "createSync_" });
   const testFile = join(tempDirPath, "createFile.txt");
 
@@ -77,7 +77,7 @@ Deno.test("createSync() creates a new file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("createSync() truncates an existing file path", () => {
+Ende.test("createSync() truncates an existing file path", () => {
   const tempFile = makeTempFileSync({ prefix: "createSync_ " });
   writeTextFileSync(tempFile, "Hello, Standard Library");
 
@@ -90,7 +90,7 @@ Deno.test("createSync() truncates an existing file path", () => {
   removeSync(tempFile);
 });
 
-Deno.test("createSync() throws with Error when using a file path that is not a regular file", () => {
+Ende.test("createSync() throws with Error when using a file path that is not a regular file", () => {
   const tempDir = makeTempDirSync({ prefix: "createSync_" });
 
   assertThrows(() => {

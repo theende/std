@@ -10,23 +10,23 @@ import {
   type ResponseCacheControl,
 } from "./unstable_cache_control.ts";
 
-Deno.test("parseCacheControl() returns empty object for null", () => {
+Ende.test("parseCacheControl() returns empty object for null", () => {
   assertEquals(parseCacheControl(null), {});
 });
 
-Deno.test("parseCacheControl() returns empty object for empty string", () => {
+Ende.test("parseCacheControl() returns empty object for empty string", () => {
   assertEquals(parseCacheControl(""), {});
   assertEquals(parseCacheControl("   "), {});
 });
 
-Deno.test("parseCacheControl() parses single boolean directive", () => {
+Ende.test("parseCacheControl() parses single boolean directive", () => {
   assertEquals(parseCacheControl("no-store"), { noStore: true });
   assertEquals(parseCacheControl("no-cache"), { noCache: true });
   assertEquals(parseCacheControl("public"), { public: true });
   assertEquals(parseCacheControl("immutable"), { immutable: true });
 });
 
-Deno.test("parseCacheControl() parses single valued directive", () => {
+Ende.test("parseCacheControl() parses single valued directive", () => {
   assertEquals(parseCacheControl("max-age=3600"), { maxAge: 3600 });
   assertEquals(parseCacheControl("s-maxage=0"), { sMaxage: 0 });
   assertEquals(parseCacheControl("stale-while-revalidate=60"), {
@@ -34,71 +34,71 @@ Deno.test("parseCacheControl() parses single valued directive", () => {
   });
 });
 
-Deno.test("parseCacheControl() parses multiple directives", () => {
+Ende.test("parseCacheControl() parses multiple directives", () => {
   assertEquals(
     parseCacheControl("max-age=300, private, must-revalidate"),
     { maxAge: 300, private: true, mustRevalidate: true },
   );
 });
 
-Deno.test("parseCacheControl() parses no-cache with field names", () => {
+Ende.test("parseCacheControl() parses no-cache with field names", () => {
   assertEquals(parseCacheControl('no-cache="foo"'), { noCache: ["foo"] });
   assertEquals(parseCacheControl('no-cache="foo, bar"'), {
     noCache: ["foo", "bar"],
   });
 });
 
-Deno.test("parseCacheControl() parses private with field names", () => {
+Ende.test("parseCacheControl() parses private with field names", () => {
   assertEquals(parseCacheControl('private="x-custom"'), {
     private: ["x-custom"],
   });
 });
 
-Deno.test("parseCacheControl() parses max-stale with and without value", () => {
+Ende.test("parseCacheControl() parses max-stale with and without value", () => {
   assertEquals(parseCacheControl("max-stale"), { maxStale: true });
   assertEquals(parseCacheControl("max-stale=120"), { maxStale: 120 });
 });
 
-Deno.test("parseCacheControl() is case insensitive", () => {
+Ende.test("parseCacheControl() is case insensitive", () => {
   assertEquals(parseCacheControl("NO-STORE"), { noStore: true });
   assertEquals(parseCacheControl("Max-Age=100"), { maxAge: 100 });
 });
 
-Deno.test("parseCacheControl() ignores unknown directives", () => {
+Ende.test("parseCacheControl() ignores unknown directives", () => {
   assertEquals(parseCacheControl("no-store, unknown=1, no-cache"), {
     noStore: true,
     noCache: true,
   });
 });
 
-Deno.test("parseCacheControl() ignores malformed numeric values", () => {
+Ende.test("parseCacheControl() ignores malformed numeric values", () => {
   assertEquals(parseCacheControl("max-age=abc"), {});
   assertEquals(parseCacheControl("max-age=-1"), {});
   assertEquals(parseCacheControl("s-maxage=1.5"), {});
   assertEquals(parseCacheControl("max-stale=abc"), {});
 });
 
-Deno.test("parseCacheControl() ignores valued directives without a value", () => {
+Ende.test("parseCacheControl() ignores valued directives without a value", () => {
   assertEquals(parseCacheControl("max-age"), {});
   assertEquals(parseCacheControl("stale-while-revalidate"), {});
 });
 
-Deno.test("parseCacheControl() keeps well-formed directives when others are malformed", () => {
+Ende.test("parseCacheControl() keeps well-formed directives when others are malformed", () => {
   assertEquals(
     parseCacheControl("max-age=abc, no-store, s-maxage=600"),
     { noStore: true, sMaxage: 600 },
   );
 });
 
-Deno.test("parseCacheControl() ignores duplicates after a malformed first occurrence", () => {
+Ende.test("parseCacheControl() ignores duplicates after a malformed first occurrence", () => {
   assertEquals(parseCacheControl("max-age=abc, max-age=100"), {});
 });
 
-Deno.test("formatCacheControl() returns empty string for empty object", () => {
+Ende.test("formatCacheControl() returns empty string for empty object", () => {
   assertEquals(formatCacheControl({}), "");
 });
 
-Deno.test("formatCacheControl() serializes boolean directives", () => {
+Ende.test("formatCacheControl() serializes boolean directives", () => {
   assertEquals(formatCacheControl({ noStore: true }), "no-store");
   assertEquals(
     formatCacheControl({ noStore: true, noTransform: true }),
@@ -106,7 +106,7 @@ Deno.test("formatCacheControl() serializes boolean directives", () => {
   );
 });
 
-Deno.test("formatCacheControl() serializes valued directives", () => {
+Ende.test("formatCacheControl() serializes valued directives", () => {
   assertEquals(formatCacheControl({ maxAge: 3600 }), "max-age=3600");
   assertEquals(
     formatCacheControl({ maxAge: 0, sMaxage: 100 }),
@@ -114,7 +114,7 @@ Deno.test("formatCacheControl() serializes valued directives", () => {
   );
 });
 
-Deno.test("formatCacheControl() serializes no-cache and private with field names", () => {
+Ende.test("formatCacheControl() serializes no-cache and private with field names", () => {
   assertEquals(
     formatCacheControl({ noCache: ["foo", "bar"] }),
     'no-cache="foo, bar"',
@@ -125,7 +125,7 @@ Deno.test("formatCacheControl() serializes no-cache and private with field names
   );
 });
 
-Deno.test("formatCacheControl() round-trip", () => {
+Ende.test("formatCacheControl() round-trip", () => {
   const value =
     "max-age=300, private, must-revalidate, stale-while-revalidate=60";
   const parsed = parseCacheControl(value);
@@ -138,7 +138,7 @@ Deno.test("formatCacheControl() round-trip", () => {
   );
 });
 
-Deno.test("formatCacheControl() throws on negative number", () => {
+Ende.test("formatCacheControl() throws on negative number", () => {
   assertThrows(
     () => formatCacheControl({ maxAge: -1 }),
     RangeError,
@@ -146,7 +146,7 @@ Deno.test("formatCacheControl() throws on negative number", () => {
   );
 });
 
-Deno.test("formatCacheControl() throws on NaN", () => {
+Ende.test("formatCacheControl() throws on NaN", () => {
   assertThrows(
     () => formatCacheControl({ maxAge: NaN }),
     RangeError,
@@ -154,53 +154,53 @@ Deno.test("formatCacheControl() throws on NaN", () => {
   );
 });
 
-Deno.test("parseCacheControl() parses min-fresh", () => {
+Ende.test("parseCacheControl() parses min-fresh", () => {
   assertEquals(parseCacheControl("min-fresh=30"), { minFresh: 30 });
 });
 
-Deno.test("parseCacheControl() ignores min-fresh without a value", () => {
+Ende.test("parseCacheControl() ignores min-fresh without a value", () => {
   assertEquals(parseCacheControl("min-fresh"), {});
 });
 
-Deno.test("parseCacheControl() parses stale-if-error", () => {
+Ende.test("parseCacheControl() parses stale-if-error", () => {
   assertEquals(parseCacheControl("stale-if-error=300"), {
     staleIfError: 300,
   });
 });
 
-Deno.test("parseCacheControl() ignores stale-if-error without a value", () => {
+Ende.test("parseCacheControl() ignores stale-if-error without a value", () => {
   assertEquals(parseCacheControl("stale-if-error"), {});
 });
 
-Deno.test("parseCacheControl() ignores s-maxage without a value", () => {
+Ende.test("parseCacheControl() ignores s-maxage without a value", () => {
   assertEquals(parseCacheControl("s-maxage"), {});
 });
 
-Deno.test("parseCacheControl() parses no-transform", () => {
+Ende.test("parseCacheControl() parses no-transform", () => {
   assertEquals(parseCacheControl("no-transform"), { noTransform: true });
 });
 
-Deno.test("parseCacheControl() parses only-if-cached", () => {
+Ende.test("parseCacheControl() parses only-if-cached", () => {
   assertEquals(parseCacheControl("only-if-cached"), { onlyIfCached: true });
 });
 
-Deno.test("parseCacheControl() parses must-understand", () => {
+Ende.test("parseCacheControl() parses must-understand", () => {
   assertEquals(parseCacheControl("must-understand"), {
     mustUnderstand: true,
   });
 });
 
-Deno.test("parseCacheControl() parses proxy-revalidate", () => {
+Ende.test("parseCacheControl() parses proxy-revalidate", () => {
   assertEquals(parseCacheControl("proxy-revalidate"), {
     proxyRevalidate: true,
   });
 });
 
-Deno.test("parseCacheControl() uses first occurrence for duplicate directives", () => {
+Ende.test("parseCacheControl() uses first occurrence for duplicate directives", () => {
   assertEquals(parseCacheControl("max-age=100, max-age=200"), { maxAge: 100 });
 });
 
-Deno.test(
+Ende.test(
   "parseCacheControl() uses first occurrence when request-leaning directives repeat",
   () => {
     assertEquals(
@@ -226,7 +226,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "parseCacheControl() uses first occurrence when response-leaning directives repeat",
   () => {
     assertEquals(
@@ -258,33 +258,33 @@ Deno.test(
   },
 );
 
-Deno.test("parseCacheControl() clamps values above 2^31 to 2147483648", () => {
+Ende.test("parseCacheControl() clamps values above 2^31 to 2147483648", () => {
   assertEquals(parseCacheControl("max-age=9999999999"), {
     maxAge: 2_147_483_648,
   });
 });
 
-Deno.test("formatCacheControl() clamps values above 2^31 to 2147483648", () => {
+Ende.test("formatCacheControl() clamps values above 2^31 to 2147483648", () => {
   assertEquals(
     formatCacheControl({ maxAge: 9_999_999_999 }),
     "max-age=2147483648",
   );
 });
 
-Deno.test("formatCacheControl() serializes empty array as bare directive", () => {
+Ende.test("formatCacheControl() serializes empty array as bare directive", () => {
   assertEquals(formatCacheControl({ noCache: [] }), "no-cache");
   assertEquals(formatCacheControl({ private: [] }), "private");
 });
 
-Deno.test("formatCacheControl() serializes max-stale boolean", () => {
+Ende.test("formatCacheControl() serializes max-stale boolean", () => {
   assertEquals(formatCacheControl({ maxStale: true }), "max-stale");
 });
 
-Deno.test("formatCacheControl() serializes max-stale with value", () => {
+Ende.test("formatCacheControl() serializes max-stale with value", () => {
   assertEquals(formatCacheControl({ maxStale: 120 }), "max-stale=120");
 });
 
-Deno.test("formatCacheControl() serializes all response directives", () => {
+Ende.test("formatCacheControl() serializes all response directives", () => {
   assertEquals(
     formatCacheControl({
       maxAge: 300,
@@ -305,51 +305,51 @@ Deno.test("formatCacheControl() serializes all response directives", () => {
   );
 });
 
-Deno.test("parseCacheControl() splits correctly when quotes contain commas", () => {
+Ende.test("parseCacheControl() splits correctly when quotes contain commas", () => {
   assertEquals(
     parseCacheControl('no-cache="foo, bar", max-age=60'),
     { noCache: ["foo", "bar"], maxAge: 60 },
   );
 });
 
-Deno.test("parseCacheControl() parses private with unquoted value", () => {
+Ende.test("parseCacheControl() parses private with unquoted value", () => {
   assertEquals(parseCacheControl("private=foo"), { private: ["foo"] });
 });
 
-Deno.test("parseCacheControl() handles trailing and leading commas", () => {
+Ende.test("parseCacheControl() handles trailing and leading commas", () => {
   assertEquals(parseCacheControl(",no-store,"), { noStore: true });
 });
 
-Deno.test("parseCacheControl() return type is CacheControl", () => {
+Ende.test("parseCacheControl() return type is CacheControl", () => {
   const cc = parseCacheControl("no-store");
   assertType<IsExact<typeof cc, CacheControl>>(true);
 });
 
-Deno.test("parseCacheControl() splits correctly when quoted values contain escaped quotes", () => {
+Ende.test("parseCacheControl() splits correctly when quoted values contain escaped quotes", () => {
   assertEquals(
     parseCacheControl('no-cache="x-\\"header", max-age=60'),
     { noCache: ['x-"header'], maxAge: 60 },
   );
 });
 
-Deno.test("parseCacheControl() normalizes no-cache with empty value to true", () => {
+Ende.test("parseCacheControl() normalizes no-cache with empty value to true", () => {
   assertEquals(parseCacheControl("no-cache="), { noCache: true });
   assertEquals(parseCacheControl('no-cache=""'), { noCache: true });
 });
 
-Deno.test("parseCacheControl() normalizes private with empty value to true", () => {
+Ende.test("parseCacheControl() normalizes private with empty value to true", () => {
   assertEquals(parseCacheControl("private="), { private: true });
   assertEquals(parseCacheControl('private=""'), { private: true });
 });
 
-Deno.test("parseCacheControl() round-trips no-cache with empty value", () => {
+Ende.test("parseCacheControl() round-trips no-cache with empty value", () => {
   const parsed = parseCacheControl("no-cache=");
   const formatted = formatCacheControl(parsed);
   const reparsed = parseCacheControl(formatted);
   assertEquals(parsed, reparsed);
 });
 
-Deno.test("formatCacheControl() accepts RequestCacheControl and ResponseCacheControl", () => {
+Ende.test("formatCacheControl() accepts RequestCacheControl and ResponseCacheControl", () => {
   const req: RequestCacheControl = { maxStale: true, noStore: true };
   const res: ResponseCacheControl = { maxAge: 3600, public: true };
   formatCacheControl(req);
@@ -362,7 +362,7 @@ Deno.test("formatCacheControl() accepts RequestCacheControl and ResponseCacheCon
   >(true);
 });
 
-Deno.test("parseCacheControl() accepts quoted-string form for numeric arguments", () => {
+Ende.test("parseCacheControl() accepts quoted-string form for numeric arguments", () => {
   assertEquals(parseCacheControl('max-age="60"'), { maxAge: 60 });
   assertEquals(parseCacheControl('s-maxage="0"'), { sMaxage: 0 });
   assertEquals(parseCacheControl('stale-while-revalidate="30"'), {
@@ -371,18 +371,18 @@ Deno.test("parseCacheControl() accepts quoted-string form for numeric arguments"
   assertEquals(parseCacheControl('max-stale="120"'), { maxStale: 120 });
 });
 
-Deno.test("parseCacheControl() ignores quoted-string with non-digit content", () => {
+Ende.test("parseCacheControl() ignores quoted-string with non-digit content", () => {
   assertEquals(parseCacheControl('max-age="abc"'), {});
 });
 
-Deno.test("parseCacheControl() unescapes backslash quoted-pairs in field names", () => {
+Ende.test("parseCacheControl() unescapes backslash quoted-pairs in field names", () => {
   assertEquals(
     parseCacheControl('no-cache="x-\\\\header"'),
     { noCache: ["x-\\header"] },
   );
 });
 
-Deno.test("formatCacheControl() throws on invalid field-name characters", () => {
+Ende.test("formatCacheControl() throws on invalid field-name characters", () => {
   assertThrows(
     () => formatCacheControl({ noCache: ['has"quote'] }),
     TypeError,

@@ -3,14 +3,14 @@
 import { assertFp, backTrace, createCommon, createFp, diff } from "./diff.ts";
 import { assertEquals, assertThrows } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "diff() with empty values",
   fn() {
     assertEquals(diff([], []), []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a" vs "b"',
   fn() {
     assertEquals(diff(["a"], ["b"]), [
@@ -20,28 +20,28 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a" vs "a"',
   fn() {
     assertEquals(diff(["a"], ["a"]), [{ type: "common", value: "a" }]);
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a" vs ""',
   fn() {
     assertEquals(diff(["a"], []), [{ type: "removed", value: "a" }]);
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "" vs "a"',
   fn() {
     assertEquals(diff([], ["a"]), [{ type: "added", value: "a" }]);
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a" vs "a, b"',
   fn() {
     assertEquals(diff(["a"], ["a", "b"]), [
@@ -51,7 +51,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "a, x, c" vs "a, b, c"',
   fn() {
     assertEquals(diff(["a", "x", "c"], ["a", "b", "c"]), [
@@ -63,7 +63,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "strength" vs "string"',
   fn() {
     assertEquals(diff(Array.from("strength"), Array.from("string")), [
@@ -80,7 +80,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "strength" vs ""',
   fn() {
     assertEquals(diff(Array.from("strength"), Array.from("")), [
@@ -96,7 +96,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "" vs "strength"',
   fn() {
     assertEquals(diff(Array.from(""), Array.from("strength")), [
@@ -112,7 +112,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'diff() "abc", "c" vs "abc", "bcd", "c"',
   fn() {
     assertEquals(diff(["abc", "c"], ["abc", "bcd", "c"]), [
@@ -123,7 +123,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertFp()",
   fn() {
     const fp = { y: 0, id: 0 };
@@ -131,7 +131,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertFp() throws",
   fn() {
     assertThrows(
@@ -157,7 +157,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "backTrace()",
   fn() {
     assertEquals(
@@ -171,7 +171,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "createCommon()",
   fn() {
     assertEquals(createCommon([], []), []);
@@ -183,7 +183,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "createFp()",
   fn() {
     assertEquals(
@@ -201,7 +201,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'createFp() "isAdding"',
   fn() {
     assertEquals(
@@ -219,7 +219,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: 'createFp() "!isAdding"',
   fn() {
     assertEquals(
@@ -237,7 +237,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "createFp() throws",
   fn() {
     assertThrows(

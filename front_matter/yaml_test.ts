@@ -5,7 +5,7 @@ import { extract as unstableExtract } from "./unstable_yaml.ts";
 import { assertEquals } from "@std/assert/equals";
 import { assertThrows } from "../assert/throws.ts";
 
-Deno.test("yaml() extracts type error on invalid input", () => {
+Ende.test("yaml() extracts type error on invalid input", () => {
   assertThrows(() => extract(""));
   assertThrows(() => extract("---"));
   assertThrows(() => extract(`---yaml`));
@@ -16,7 +16,7 @@ Deno.test("yaml() extracts type error on invalid input", () => {
   assertThrows(() => extract("---\nasdasdasd"));
 });
 
-Deno.test("yaml() parses yaml delineated by `---`", () => {
+Ende.test("yaml() parses yaml delineated by `---`", () => {
   const input = `---
 title: Three dashes marks the spot
 tags:
@@ -49,7 +49,7 @@ expanded-description: with some --- crazy stuff in it`,
   assertEquals(content, expected);
 });
 
-Deno.test("yaml() parses yaml delineated by `---yaml`", () => {
+Ende.test("yaml() parses yaml delineated by `---yaml`", () => {
   const input = `---yaml
 title: Three dashes marks the spot
 tags:
@@ -82,13 +82,13 @@ expanded-description: with some --- crazy stuff in it`,
   assertEquals(content, expected);
 });
 
-Deno.test("extractYaml() allows whitespaces after the header", () => {
+Ende.test("extractYaml() allows whitespaces after the header", () => {
   assertEquals(extract("---  \nfoo: 0\n---\n").attrs, { foo: 0 });
   assertEquals(extract("---yaml  \nfoo: 0\n--- \n").attrs, { foo: 0 });
   assertEquals(extract("= yaml =  \nfoo: 0\n---\n").attrs, { foo: 0 });
 });
 
-Deno.test("(unstable)extractYaml() parses with schema options", () => {
+Ende.test("(unstable)extractYaml() parses with schema options", () => {
   assertEquals(
     unstableExtract("---\ndate: 2024-08-20\n---\n", { schema: "json" }).attrs,
     {
@@ -97,7 +97,7 @@ Deno.test("(unstable)extractYaml() parses with schema options", () => {
   );
 });
 
-Deno.test("extractYaml() handles empty frontMatter", () => {
+Ende.test("extractYaml() handles empty frontMatter", () => {
   assertEquals(
     extract("---\n---\n"),
     { attrs: {}, body: "", frontMatter: "" },
@@ -119,7 +119,7 @@ Deno.test("extractYaml() handles empty frontMatter", () => {
   );
 });
 
-Deno.test("extractYaml() throws at missing newline before body", () => {
+Ende.test("extractYaml() throws at missing newline before body", () => {
   assertThrows(
     () => extract("---yaml\nfoo: bar\n---body"),
     TypeError,

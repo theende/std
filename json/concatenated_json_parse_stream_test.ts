@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert";
 import { ConcatenatedJsonParseStream } from "./concatenated_json_parse_stream.ts";
 import { assertInvalidParse, assertValidParse } from "./_test_utils.ts";
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream",
   async fn() {
     await assertValidParse(
@@ -39,7 +39,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream handles primitive",
   async fn() {
     await assertValidParse(
@@ -220,7 +220,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream handles chunk",
   async fn() {
     await assertValidParse(
@@ -278,7 +278,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream handles surrogate pair",
   async fn() {
     await assertValidParse(
@@ -289,7 +289,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream handles symbol between double quotes",
   async fn() {
     await assertValidParse(
@@ -300,7 +300,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream handles primitives in containers",
   async fn() {
     await assertValidParse(
@@ -311,7 +311,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream handles halfway chunk",
   async fn() {
     await assertInvalidParse(
@@ -323,7 +323,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ConcatenatedJsonParseStream truncates error message",
   async fn() {
     await assertInvalidParse(
@@ -335,7 +335,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   // Read the test data file
   name: "parse() handles concatenated-json testdata",
   async fn() {

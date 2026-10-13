@@ -25,7 +25,7 @@ function removed(s: string): string {
   return red(bold(stripAnsiCode(s)));
 }
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() matches when values are equal",
   fn() {
     expect({ a: 10 }).toEqual({ a: 10 });
@@ -37,7 +37,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() throws when numbers are not equal",
   fn() {
     assertThrows(
@@ -54,7 +54,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() throws when compare number with string",
   fn() {
     assertThrows(
@@ -70,7 +70,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() throws when array are not equal",
   fn() {
     assertThrows(
@@ -87,7 +87,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() throws when objects are no equal",
   fn() {
     assertThrows(
@@ -107,7 +107,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() throws when date are not equal",
   fn() {
     assertThrows(
@@ -139,7 +139,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "expect().toEqual() throws with custom message",
   fn() {
     assertThrows(
@@ -156,7 +156,7 @@ Deno.test({
   },
 });
 
-Deno.test(
+Ende.test(
   "expect().toEqual() compares objects structurally if one object's constructor is undefined and the other is Object",
   () => {
     const a = Object.create(null);
@@ -170,7 +170,7 @@ Deno.test(
   },
 );
 
-Deno.test("expect().toEqual() diff for differently ordered objects", () => {
+Ende.test("expect().toEqual() diff for differently ordered objects", () => {
   assertThrows(
     () => {
       expect({
@@ -196,7 +196,7 @@ Deno.test("expect().toEqual() diff for differently ordered objects", () => {
   );
 });
 
-Deno.test("expect().toEqual() same Set with object keys", () => {
+Ende.test("expect().toEqual() same Set with object keys", () => {
   const data = [
     {
       id: "_1p7ZED73OF98VbT1SzSkjn",
@@ -215,14 +215,14 @@ Deno.test("expect().toEqual() same Set with object keys", () => {
   expect(new Set(data)).toEqual(new Set(data));
 });
 
-Deno.test("expect().toEqual() does not throw when a key with undfined value exists in only one of values", () => {
+Ende.test("expect().toEqual() does not throw when a key with undfined value exists in only one of values", () => {
   // bar: undefined is ignored in comparison
   expect({ foo: 1, bar: undefined }).toEqual({ foo: 1 });
   expect({ foo: 1, bar: undefined }).not.toEqual({ foo: undefined });
 });
 
 // https://github.com/denoland/std/issues/4244
-Deno.test("expect().toEqual() align to jest test cases", () => {
+Ende.test("expect().toEqual() align to jest test cases", () => {
   function create() {
     class Person {
       constructor(readonly name = "deno") {}
@@ -260,7 +260,7 @@ Deno.test("expect().toEqual() align to jest test cases", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toEqual() matches when Error Objects are equal", () => {
+Ende.test("expect().toEqual() matches when Error Objects are equal", () => {
   function getError() {
     return new Error("missing param: name");
   }
@@ -272,7 +272,7 @@ Deno.test("expect().toEqual() matches when Error Objects are equal", () => {
   expect(getError()).not.toEqual(expectErrObjectWithEmail);
 });
 
-Deno.test("expect().toEqual() handles Sets", () => {
+Ende.test("expect().toEqual() handles Sets", () => {
   expect(new Set([1, 2, 3])).toEqual(new Set([1, 2, 3]));
   expect(new Set([1, 2, 3])).not.toEqual(new Set([1, 2]));
   expect(new Set([1, 2, 3])).not.toEqual(new Set([1, 2, 4]));
@@ -289,7 +289,7 @@ Deno.test("expect().toEqual() handles Sets", () => {
   expect(a).toEqual(b);
 });
 
-Deno.test("expect().toEqual() handles Maps", () => {
+Ende.test("expect().toEqual() handles Maps", () => {
   expect(new Map([[1, 2], [3, 4]])).toEqual(new Map([[1, 2], [3, 4]]));
   expect(new Map([[1, 2], [3, 4]])).not.toEqual(new Map([[1, 2], [3, 5]]));
 });
@@ -298,7 +298,7 @@ Deno.test("expect().toEqual() handles Maps", () => {
 // Remove the below lines when `Iterator` global is available in TypeScript
 // deno-lint-ignore no-explicit-any
 const Iterator = (globalThis as any).Iterator;
-Deno.test("expect().toEqual() handles iterators", () => {
+Ende.test("expect().toEqual() handles iterators", () => {
   expect(Iterator.from([1, 2, 3])).toEqual(Iterator.from([1, 2, 3]));
   expect(Iterator.from([1, 2, 3])).not.toEqual(Iterator.from([1, 2, 4]));
   expect(Iterator.from([1, 2, 3])).not.toEqual(Iterator.from([1, 2, 3, 4]));
@@ -308,7 +308,7 @@ Deno.test("expect().toEqual() handles iterators", () => {
   expect(iter0).not.toEqual(iter1);
 });
 
-Deno.test("expect.toEqual with custom message", () => {
+Ende.test("expect.toEqual with custom message", () => {
   expect(() => expect(42, "toEqual Custom Message").toEqual(43)).toThrow(
     /^toEqual Custom Message:/,
   );

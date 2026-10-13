@@ -14,7 +14,7 @@ async function* getData(
   }
 }
 
-Deno.test("ProgressBarStream() flushes", async () => {
+Ende.test("ProgressBarStream() flushes", async () => {
   const { readable, writable } = new TransformStream();
 
   for await (
@@ -34,7 +34,7 @@ Deno.test("ProgressBarStream() flushes", async () => {
   assertEquals((await new Response(readable).bytes()).subarray(-1)[0], 10);
 });
 
-Deno.test("ProgressBarStream() cancels", async () => {
+Ende.test("ProgressBarStream() cancels", async () => {
   const { readable, writable } = new TransformStream();
 
   await ReadableStream

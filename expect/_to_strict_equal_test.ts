@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toStrictEqual()", () => {
+Ende.test("expect().toStrictEqual()", () => {
   expect(1).toStrictEqual(1);
   expect({ a: 1 }).toStrictEqual({ a: 1 });
 

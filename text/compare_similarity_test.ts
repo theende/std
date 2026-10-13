@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { compareSimilarity } from "./compare_similarity.ts";
 
-Deno.test("compareSimilarity() handles basic example 1", function () {
+Ende.test("compareSimilarity() handles basic example 1", function () {
   const words = ["hi", "hello", "help"];
 
   assertEquals(
@@ -11,7 +11,7 @@ Deno.test("compareSimilarity() handles basic example 1", function () {
   );
 });
 
-Deno.test("compareSimilarity() handles basic example 2", function () {
+Ende.test("compareSimilarity() handles basic example 2", function () {
   const words = ["hi", "hello", "help", "HOWDY"];
 
   assertEquals(

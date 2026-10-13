@@ -2,7 +2,7 @@
 import { assertEquals } from "../assert/equals.ts";
 import { generateRandomString } from "./_test_util.ts";
 
-Deno.test({
+Ende.test({
   name: "generateRandomString() generates a string of the correct length",
   fn() {
     assertEquals(generateRandomString(0, 0), "");

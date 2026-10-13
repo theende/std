@@ -3,7 +3,7 @@
 import { earlyZipReadableStreams } from "./early_zip_readable_streams.ts";
 import { assertEquals, assertRejects } from "@std/assert";
 
-Deno.test("earlyZipReadableStreams() handles short first", async () => {
+Ende.test("earlyZipReadableStreams() handles short first", async () => {
   const textStream = ReadableStream.from(["1", "2", "3"]);
   const textStream2 = ReadableStream.from(["a", "b", "c", "d", "e"]);
 
@@ -21,7 +21,7 @@ Deno.test("earlyZipReadableStreams() handles short first", async () => {
   ]);
 });
 
-Deno.test("earlyZipReadableStreams() handles long first", async () => {
+Ende.test("earlyZipReadableStreams() handles long first", async () => {
   const textStream = ReadableStream.from(["a", "b", "c", "d", "e"]);
   const textStream2 = ReadableStream.from(["1", "2", "3"]);
 
@@ -40,7 +40,7 @@ Deno.test("earlyZipReadableStreams() handles long first", async () => {
   ]);
 });
 
-Deno.test("earlyZipReadableStreams() can zip three streams", async () => {
+Ende.test("earlyZipReadableStreams() can zip three streams", async () => {
   const textStream = ReadableStream.from(["a", "b", "c", "d", "e"]);
   const textStream2 = ReadableStream.from(["1", "2", "3"]);
   const textStream3 = ReadableStream.from(["x", "y"]);
@@ -61,7 +61,7 @@ Deno.test("earlyZipReadableStreams() can zip three streams", async () => {
   ]);
 });
 
-Deno.test("earlyZipReadableStreams() forwards cancel()", async () => {
+Ende.test("earlyZipReadableStreams() forwards cancel()", async () => {
   const num = 10;
   let cancelled = 0;
   const streams = new Array(num).fill(false).map(() =>
@@ -82,7 +82,7 @@ Deno.test("earlyZipReadableStreams() forwards cancel()", async () => {
   assertEquals(cancelled, num);
 });
 
-Deno.test("earlyZipReadableStreams() controller error", async () => {
+Ende.test("earlyZipReadableStreams() controller error", async () => {
   const errorMsg = "Test error";
   const stream = new ReadableStream({
     start(controller) {

@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { toText } from "./to_text.ts";
 
-Deno.test("toText()", async () => {
+Ende.test("toText()", async () => {
   const strings = ["hello", " js ", "fans", " 中文♥"];
   const expected = "hello js fans 中文♥";
 

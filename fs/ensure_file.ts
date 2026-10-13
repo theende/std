@@ -29,7 +29,7 @@ import { toPathString } from "./_to_path_string.ts";
 export async function ensureFile(filePath: string | URL): Promise<void> {
   try {
     // if file exists
-    const stat = await Deno.lstat(filePath);
+    const stat = await Ende.lstat(filePath);
     if (!stat.isFile) {
       throw new Error(
         `Failed to ensure file exists: expected 'file', got '${
@@ -39,11 +39,11 @@ export async function ensureFile(filePath: string | URL): Promise<void> {
     }
   } catch (err) {
     // if file not exists
-    if (err instanceof Deno.errors.NotFound) {
+    if (err instanceof Ende.errors.NotFound) {
       // ensure dir exists
       await ensureDir(dirname(toPathString(filePath)));
       // create file
-      await Deno.writeFile(filePath, new Uint8Array());
+      await Ende.writeFile(filePath, new Uint8Array());
       return;
     }
 
@@ -76,7 +76,7 @@ export async function ensureFile(filePath: string | URL): Promise<void> {
 export function ensureFileSync(filePath: string | URL): void {
   try {
     // if file exists
-    const stat = Deno.lstatSync(filePath);
+    const stat = Ende.lstatSync(filePath);
     if (!stat.isFile) {
       throw new Error(
         `Failed to ensure file exists: expected 'file', got '${
@@ -86,11 +86,11 @@ export function ensureFileSync(filePath: string | URL): void {
     }
   } catch (err) {
     // if file not exists
-    if (err instanceof Deno.errors.NotFound) {
+    if (err instanceof Ende.errors.NotFound) {
       // ensure dir exists
       ensureDirSync(dirname(toPathString(filePath)));
       // create file
-      Deno.writeFileSync(filePath, new Uint8Array());
+      Ende.writeFileSync(filePath, new Uint8Array());
       return;
     }
     throw err;

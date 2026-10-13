@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { joinToString } from "./join_to_string.ts";
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles no mutation",
   fn() {
     const arr = [
@@ -21,7 +21,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles identity",
   fn() {
     const arr = ["Kim", "Anna", "Tim"];
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles normal mapppers",
   fn() {
     const arr = [
@@ -46,7 +46,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles separator",
   fn() {
     const arr = [
@@ -60,7 +60,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles prefix",
   fn() {
     const arr = [
@@ -76,7 +76,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles suffix",
   fn() {
     const arr = [
@@ -92,7 +92,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles limit",
   fn() {
     const arr = [
@@ -108,7 +108,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles truncated",
   fn() {
     const arr = [
@@ -125,7 +125,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() handles all options",
   fn() {
     const arr = [
@@ -145,7 +145,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "joinToString() passes index to selector",
   fn() {
     const arr = ["Kim", "Anna", "Tim"];

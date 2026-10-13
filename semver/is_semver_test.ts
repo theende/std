@@ -3,7 +3,7 @@ import { assert } from "@std/assert";
 import { ANY } from "./_constants.ts";
 import { isSemVer } from "./is_semver.ts";
 
-Deno.test({
+Ende.test({
   name: "isSemVer() handles invalid input",
   fn: async (t) => {
     const versions: [unknown][] = [
@@ -31,7 +31,7 @@ Deno.test({
       [{ major: 0, minor: 0, patch: 0, build: [], prerelease: [Number.NaN] }],
     ];
     for (const [v] of versions) {
-      await t.step(`${Deno.inspect(v)}`, () => {
+      await t.step(`${Ende.inspect(v)}`, () => {
         const actual = isSemVer(v);
         assert(!actual);
       });
@@ -39,7 +39,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isSemVer()",
   fn: async (t) => {
     const versions: [unknown][] = [
@@ -65,7 +65,7 @@ Deno.test({
     ];
     for (const [v] of versions) {
       await t.step(
-        `${Deno.inspect(v)}`,
+        `${Ende.inspect(v)}`,
         () => {
           const actual = isSemVer(v);
           assert(actual);

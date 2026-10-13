@@ -38,7 +38,7 @@ function assertContentfulEntries<K, V>(
   assertEquals([...cache], entries);
 }
 
-Deno.test("TtlCache deletes entries", async (t) => {
+Ende.test("TtlCache deletes entries", async (t) => {
   await t.step("after the default TTL, passed in constructor", () => {
     using time = new FakeTime(0);
 
@@ -107,7 +107,7 @@ Deno.test("TtlCache deletes entries", async (t) => {
   });
 });
 
-Deno.test("TtlCache onEject()", async (t) => {
+Ende.test("TtlCache onEject()", async (t) => {
   await t.step("calls onEject on delete and TTL expiry", () => {
     using time = new FakeTime(0);
     let called = 0;
@@ -202,7 +202,7 @@ Deno.test("TtlCache onEject()", async (t) => {
   });
 });
 
-Deno.test("TtlCache validates TTL", async (t) => {
+Ende.test("TtlCache validates TTL", async (t) => {
   await t.step("constructor rejects negative defaultTtl", () => {
     assertThrows(
       () => new TtlCache(-1),
@@ -265,7 +265,7 @@ Deno.test("TtlCache validates TTL", async (t) => {
   });
 });
 
-Deno.test("TtlCache peek()", async (t) => {
+Ende.test("TtlCache peek()", async (t) => {
   await t.step("returns value without resetting sliding TTL", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
@@ -301,14 +301,14 @@ Deno.test("TtlCache peek()", async (t) => {
   });
 });
 
-Deno.test("TtlCache get() returns undefined for missing key with sliding expiration", () => {
+Ende.test("TtlCache get() returns undefined for missing key with sliding expiration", () => {
   using cache = new TtlCache<string, number>(100, {
     slidingExpiration: true,
   });
   assertEquals(cache.get("missing"), undefined);
 });
 
-Deno.test("TtlCache sliding expiration", async (t) => {
+Ende.test("TtlCache sliding expiration", async (t) => {
   await t.step("get() resets TTL", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
@@ -471,7 +471,7 @@ Deno.test("TtlCache sliding expiration", async (t) => {
   });
 });
 
-Deno.test("TtlCache clear() calls all onEject callbacks even if one throws", () => {
+Ende.test("TtlCache clear() calls all onEject callbacks even if one throws", () => {
   const ejected: string[] = [];
   using cache = new TtlCache<string, number>(1000, {
     onEject: (k) => {

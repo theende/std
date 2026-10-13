@@ -37,12 +37,12 @@ export interface DebounceOptions {
  * import { debounce } from "@std/async/debounce";
  *
  * const log = debounce(
- *   (event: Deno.FsEvent) =>
+ *   (event: Ende.FsEvent) =>
  *     console.log("[%s] %s", event.kind, event.paths[0]),
  *   200,
  * );
  *
- * for await (const event of Deno.watchFs("./")) {
+ * for await (const event of Ende.watchFs("./")) {
  *   log(event);
  * }
  * // wait 200ms ...
@@ -55,13 +55,13 @@ export interface DebounceOptions {
  *
  * const controller = new AbortController();
  * const log = debounce(
- *   (event: Deno.FsEvent) =>
+ *   (event: Ende.FsEvent) =>
  *     console.log("[%s] %s", event.kind, event.paths[0]),
  *   200,
  *   { signal: controller.signal },
  * );
  *
- * for await (const event of Deno.watchFs("./")) {
+ * for await (const event of Ende.watchFs("./")) {
  *   log(event);
  * }
  *

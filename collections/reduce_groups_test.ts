@@ -16,7 +16,7 @@ function reduceGroupsTest<T, A>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles no mutation",
   fn() {
     const input = {
@@ -33,7 +33,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles array of numbers",
   fn() {
     reduceGroupsTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles array of strings",
   fn() {
     reduceGroupsTest(
@@ -73,7 +73,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles mapper",
   fn() {
     reduceGroupsTest(
@@ -93,7 +93,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles initial value",
   fn() {
     reduceGroupsTest(
@@ -113,7 +113,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapEntries() handles empty input",
   fn() {
     reduceGroupsTest([{}, () => 0, 0], {});

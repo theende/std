@@ -122,7 +122,7 @@ const testCasesDelimiter: TestCases = {
 
 for (const [standard, tests] of Object.entries(testCasesNoDelimiter)) {
   if (tests === undefined) continue;
-  Deno.test({
+  Ende.test({
     name: `encodeAscii85() encode ${standard}`,
     fn() {
       for (const [bin, b85] of tests) {
@@ -136,7 +136,7 @@ for (const [standard, tests] of Object.entries(testCasesNoDelimiter)) {
     },
   });
 
-  Deno.test({
+  Ende.test({
     name: `decodeAscii85() decode ${standard}`,
     fn() {
       for (const [bin, b85] of tests) {
@@ -152,7 +152,7 @@ for (const [standard, tests] of Object.entries(testCasesNoDelimiter)) {
 }
 for (const [standard, tests] of Object.entries(testCasesDelimiter)) {
   if (tests === undefined) continue;
-  Deno.test({
+  Ende.test({
     name: `encodeAscii85() encodes ${standard} with delimiter`,
     fn() {
       for (const [bin, b85] of tests) {
@@ -167,7 +167,7 @@ for (const [standard, tests] of Object.entries(testCasesDelimiter)) {
     },
   });
 
-  Deno.test({
+  Ende.test({
     name: `decodeAscii85() decodes ${standard} with delimiter`,
     fn() {
       for (const [bin, b85] of tests) {
@@ -182,7 +182,7 @@ for (const [standard, tests] of Object.entries(testCasesDelimiter)) {
   });
 }
 
-Deno.test({
+Ende.test({
   name: `encodeAscii85() encodes subarray of an Uint8Array`,
   fn() {
     const data1 = new Uint8Array([0x73, 0x70, 0x61, 0x6d]);
@@ -198,7 +198,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: `decodeAscii85() decodes with default standard`,
   fn() {
     const tests = [

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -25,8 +25,8 @@ import { mapError } from "./_map_error.ts";
  * link.
  */
 export async function readLink(path: string | URL): Promise<string> {
-  if (isDeno) {
-    return Deno.readLink(path);
+  if (isEnde) {
+    return Ende.readLink(path);
   } else {
     try {
       return await getNodeFs().promises.readlink(path);
@@ -57,8 +57,8 @@ export async function readLink(path: string | URL): Promise<string> {
  * @returns The file path pointed by the symbolic link.
  */
 export function readLinkSync(path: string | URL): string {
-  if (isDeno) {
-    return Deno.readLinkSync(path);
+  if (isEnde) {
+    return Ende.readLinkSync(path);
   } else {
     try {
       return getNodeFs().readlinkSync(path);

@@ -24,7 +24,7 @@ async function waitsUntilExhausted(options: RetryOptions): Promise<number[]> {
   return starts.slice(1).map((at, i) => at - starts[i]!);
 }
 
-Deno.test("retry() retries until the function succeeds", async () => {
+Ende.test("retry() retries until the function succeeds", async () => {
   let attempts = 0;
   const result = await retry(() => {
     attempts++;
@@ -35,11 +35,11 @@ Deno.test("retry() retries until the function succeeds", async () => {
   assertEquals(attempts, 3);
 });
 
-Deno.test("retry() works without options", async () => {
+Ende.test("retry() works without options", async () => {
   assertEquals(await retry(() => "ok"), "ok");
 });
 
-Deno.test("retry() re-exports the stable RetryError", async () => {
+Ende.test("retry() re-exports the stable RetryError", async () => {
   assertStrictEquals(RetryError, StableRetryError);
   const thrown = new Error("Failure");
   const error = await assertRejects(
@@ -54,7 +54,7 @@ Deno.test("retry() re-exports the stable RetryError", async () => {
   assertStrictEquals(error.cause, thrown);
 });
 
-Deno.test("retry() validates the inherited options", async () => {
+Ende.test("retry() validates the inherited options", async () => {
   await assertRejects(
     () => retry(() => {}, { maxAttempts: 0 }),
     RangeError,
@@ -87,7 +87,7 @@ Deno.test("retry() validates the inherited options", async () => {
   );
 });
 
-Deno.test("retry() keeps the computed backoff without getDelay", async () => {
+Ende.test("retry() keeps the computed backoff without getDelay", async () => {
   assertEquals(await waitsUntilExhausted({ jitter: 0 }), [
     1000,
     2000,
@@ -96,7 +96,7 @@ Deno.test("retry() keeps the computed backoff without getDelay", async () => {
   ]);
 });
 
-Deno.test("retry() keeps the computed backoff when getDelay returns it", async () => {
+Ende.test("retry() keeps the computed backoff when getDelay returns it", async () => {
   assertEquals(
     await waitsUntilExhausted({
       jitter: 0,
@@ -106,7 +106,7 @@ Deno.test("retry() keeps the computed backoff when getDelay returns it", async (
   );
 });
 
-Deno.test("retry() treats an explicitly undefined getDelay as omitted", async () => {
+Ende.test("retry() treats an explicitly undefined getDelay as omitted", async () => {
   assertEquals(
     await waitsUntilExhausted(
       { jitter: 0, getDelay: undefined },
@@ -115,7 +115,7 @@ Deno.test("retry() treats an explicitly undefined getDelay as omitted", async ()
   );
 });
 
-Deno.test("retry() calls getDelay once per eligible retry", async () => {
+Ende.test("retry() calls getDelay once per eligible retry", async () => {
   const thrown = new Error("Failure");
   const calls: [unknown, number][] = [];
   await assertRejects(
@@ -136,7 +136,7 @@ Deno.test("retry() calls getDelay once per eligible retry", async () => {
   assertStrictEquals(calls[0]![0], thrown);
 });
 
-Deno.test("retry() waits for the delay returned by getDelay, below the base and above the cap", async () => {
+Ende.test("retry() waits for the delay returned by getDelay, below the base and above the cap", async () => {
   assertEquals(
     await waitsUntilExhausted({
       maxAttempts: 3,
@@ -149,7 +149,7 @@ Deno.test("retry() waits for the delay returned by getDelay, below the base and 
   );
 });
 
-Deno.test("retry() computes the next backoff from the attempt count, not the previous override", async () => {
+Ende.test("retry() computes the next backoff from the attempt count, not the previous override", async () => {
   const computed: number[] = [];
   await waitsUntilExhausted({
     jitter: 0,
@@ -161,7 +161,7 @@ Deno.test("retry() computes the next backoff from the attempt count, not the pre
   assertEquals(computed, [1000, 2000, 4000, 8000]);
 });
 
-Deno.test("retry() passes the capped, jittered delay to getDelay and neither resamples nor clamps the result", async () => {
+Ende.test("retry() passes the capped, jittered delay to getDelay and neither resamples nor clamps the result", async () => {
   using _random = stub(Math, "random", () => 0.5);
   const computed: number[] = [];
   const waits = await waitsUntilExhausted({
@@ -179,7 +179,7 @@ Deno.test("retry() passes the capped, jittered delay to getDelay and neither res
   assertEquals(waits, [2000, 3000]);
 });
 
-Deno.test("retry() does not call getDelay when there is no retry", async (t) => {
+Ende.test("retry() does not call getDelay when there is no retry", async (t) => {
   await t.step("first attempt succeeds", async () => {
     let calls = 0;
     const result = await retry(() => "ok", {
@@ -249,7 +249,7 @@ Deno.test("retry() does not call getDelay when there is no retry", async (t) => 
   });
 });
 
-Deno.test("retry() rejects with the value thrown by getDelay and stops retrying", async () => {
+Ende.test("retry() rejects with the value thrown by getDelay and stops retrying", async () => {
   using time = new FakeTime();
   const start = time.now;
   const callbackError = new Error("Callback failure");
@@ -269,7 +269,7 @@ Deno.test("retry() rejects with the value thrown by getDelay and stops retrying"
   assertEquals(time.now, start); // no wait was scheduled
 });
 
-Deno.test("retry() rejects invalid values returned by getDelay", async (t) => {
+Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
   const rejects = async (
     getDelay: () => unknown,
     ErrorClass: ErrorConstructor,
@@ -340,7 +340,7 @@ Deno.test("retry() rejects invalid values returned by getDelay", async (t) => {
   });
 });
 
-Deno.test("retry() accepts zero, fractional, and very large delays", async (t) => {
+Ende.test("retry() accepts zero, fractional, and very large delays", async (t) => {
   await t.step("zero retries without waiting", async () => {
     assertEquals(
       await waitsUntilExhausted({ maxAttempts: 3, getDelay: () => 0 }),
@@ -367,7 +367,7 @@ Deno.test("retry() accepts zero, fractional, and very large delays", async (t) =
   );
 });
 
-Deno.test("retry() waits until cancellation when getDelay returns Infinity", async () => {
+Ende.test("retry() waits until cancellation when getDelay returns Infinity", async () => {
   using time = new FakeTime();
   const controller = new AbortController();
   let attempts = 0;
@@ -384,7 +384,7 @@ Deno.test("retry() waits until cancellation when getDelay returns Infinity", asy
   assertEquals(attempts, 1);
 });
 
-Deno.test("retry() handles cancellation around getDelay", async (t) => {
+Ende.test("retry() handles cancellation around getDelay", async (t) => {
   await t.step("signal aborted before the first attempt", async () => {
     let calls = 0;
     let attempts = 0;

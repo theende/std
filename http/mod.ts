@@ -51,7 +51,7 @@
  * ```ts ignore
  * import { UserAgent } from "@std/http/user-agent";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
  *   return new Response(`Hello, ${userAgent.browser.name}
  *     on ${userAgent.os.name} ${userAgent.os.version}!`);
@@ -91,7 +91,7 @@
  *   return new Response("Not found", { status: 404 });
  * }
  *
- * Deno.serve(route(routes, defaultHandler));
+ * Ende.serve(route(routes, defaultHandler));
  * ```
  *
  * @module

@@ -6,7 +6,7 @@ import { SEPARATOR as SEP_POSIX } from "@std/path/posix/constants";
 import { SEPARATOR as SEP_WIN32 } from "@std/path/windows/constants";
 import { isSubdir } from "./_is_subdir.ts";
 
-Deno.test("isSubdir() returns a boolean indicating if dir is a subdir", function () {
+Ende.test("isSubdir() returns a boolean indicating if dir is a subdir", function () {
   const pairs = [
     ["", "", false, SEP_POSIX],
     [".", "", false, SEP_POSIX],

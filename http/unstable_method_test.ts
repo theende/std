@@ -3,7 +3,7 @@
 import { METHOD } from "./unstable_method.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test({
+Ende.test({
   name: "METHOD",
   fn() {
     // just spot check a few common methods

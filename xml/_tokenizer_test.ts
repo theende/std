@@ -129,7 +129,7 @@ function isTokenType<T extends string>(
 // Basic element tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles simple element", () => {
+Ende.test("XmlTokenizer.process() handles simple element", () => {
   const tokens = collectTokens("<root></root>");
   assertEquals(tokens.length, 3);
   assertEquals(tokens[0]?.type, "start_tag_open");
@@ -139,7 +139,7 @@ Deno.test("XmlTokenizer.process() handles simple element", () => {
   assertEquals(tokens[2]?.name, "root");
 });
 
-Deno.test("XmlTokenizer.process() handles self-closing element", () => {
+Ende.test("XmlTokenizer.process() handles self-closing element", () => {
   const tokens = collectTokens("<item/>");
   assertEquals(tokens.length, 2);
   assertEquals(tokens[0]?.type, "start_tag_open");
@@ -148,7 +148,7 @@ Deno.test("XmlTokenizer.process() handles self-closing element", () => {
   assertEquals(tokens[1]?.selfClosing, true);
 });
 
-Deno.test("XmlTokenizer.process() handles self-closing element with space", () => {
+Ende.test("XmlTokenizer.process() handles self-closing element with space", () => {
   const tokens = collectTokens("<item />");
   assertEquals(tokens.length, 2);
   assertEquals(tokens[0]?.type, "start_tag_open");
@@ -156,7 +156,7 @@ Deno.test("XmlTokenizer.process() handles self-closing element with space", () =
   assertEquals(tokens[1]?.selfClosing, true);
 });
 
-Deno.test("XmlTokenizer.process() handles nested elements", () => {
+Ende.test("XmlTokenizer.process() handles nested elements", () => {
   const tokens = collectTokens("<a><b></b></a>");
   assertEquals(tokens.length, 6);
   assertEquals(tokens[0]?.name, "a");
@@ -169,7 +169,7 @@ Deno.test("XmlTokenizer.process() handles nested elements", () => {
 // Attribute tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles single attribute", () => {
+Ende.test("XmlTokenizer.process() handles single attribute", () => {
   const tokens = collectTokens('<item id="123"/>');
   assertEquals(tokens.length, 3);
   assertEquals(tokens[1]?.type, "attribute");
@@ -177,7 +177,7 @@ Deno.test("XmlTokenizer.process() handles single attribute", () => {
   assertEquals(tokens[1]?.value, "123");
 });
 
-Deno.test("XmlTokenizer.process() handles multiple attributes", () => {
+Ende.test("XmlTokenizer.process() handles multiple attributes", () => {
   const tokens = collectTokens('<item id="1" name="test"/>');
   const attrs = tokens.filter(isTokenType("attribute"));
   assertEquals(attrs.length, 2);
@@ -185,20 +185,20 @@ Deno.test("XmlTokenizer.process() handles multiple attributes", () => {
   assertEquals(attrs[1]?.name, "name");
 });
 
-Deno.test("XmlTokenizer.process() handles single-quoted attributes", () => {
+Ende.test("XmlTokenizer.process() handles single-quoted attributes", () => {
   const tokens = collectTokens("<item id='123'/>");
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, "123");
 });
 
-Deno.test("XmlTokenizer.process() handles attributes with entities", () => {
+Ende.test("XmlTokenizer.process() handles attributes with entities", () => {
   const tokens = collectTokens('<item value="a&lt;b"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   // Tokenizer does NOT decode entities - that's the parser's job
   assertEquals(attr?.value, "a&lt;b");
 });
 
-Deno.test("XmlTokenizer.process() handles namespaced attributes", () => {
+Ende.test("XmlTokenizer.process() handles namespaced attributes", () => {
   const tokens = collectTokens('<item xml:lang="en"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.name, "xml:lang");
@@ -208,20 +208,20 @@ Deno.test("XmlTokenizer.process() handles namespaced attributes", () => {
 // Text content tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles text content", () => {
+Ende.test("XmlTokenizer.process() handles text content", () => {
   const tokens = collectTokens("<root>Hello World</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "Hello World");
 });
 
-Deno.test("XmlTokenizer.process() handles text with entities", () => {
+Ende.test("XmlTokenizer.process() handles text with entities", () => {
   const tokens = collectTokens("<root>&lt;test&gt;</root>");
   const text = tokens.find((t) => t.type === "text");
   // Tokenizer does NOT decode entities
   assertEquals(text?.content, "&lt;test&gt;");
 });
 
-Deno.test("XmlTokenizer.process() handles multiple text nodes", () => {
+Ende.test("XmlTokenizer.process() handles multiple text nodes", () => {
   const tokens = collectTokens("<a>one<b/>two</a>");
   const texts = tokens.filter(isTokenType("text"));
   assertEquals(texts.length, 2);
@@ -233,19 +233,19 @@ Deno.test("XmlTokenizer.process() handles multiple text nodes", () => {
 // CDATA tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles CDATA section", () => {
+Ende.test("XmlTokenizer.process() handles CDATA section", () => {
   const tokens = collectTokens("<root><![CDATA[<script>]]></root>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "<script>");
 });
 
-Deno.test("XmlTokenizer.process() handles CDATA with special chars", () => {
+Ende.test("XmlTokenizer.process() handles CDATA with special chars", () => {
   const tokens = collectTokens("<r><![CDATA[a & b < c]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a & b < c");
 });
 
-Deno.test("XmlTokenizer.process() handles CDATA with ]] inside", () => {
+Ende.test("XmlTokenizer.process() handles CDATA with ]] inside", () => {
   const tokens = collectTokens("<r><![CDATA[a]]b]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a]]b");
@@ -255,19 +255,19 @@ Deno.test("XmlTokenizer.process() handles CDATA with ]] inside", () => {
 // Comment tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment", () => {
+Ende.test("XmlTokenizer.process() handles comment", () => {
   const tokens = collectTokens("<root><!-- comment --></root>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, " comment ");
 });
 
-Deno.test("XmlTokenizer.process() handles empty comment", () => {
+Ende.test("XmlTokenizer.process() handles empty comment", () => {
   const tokens = collectTokens("<root><!----></root>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, "");
 });
 
-Deno.test("XmlTokenizer.process() handles comment with dashes", () => {
+Ende.test("XmlTokenizer.process() handles comment with dashes", () => {
   const tokens = collectTokens("<root><!-- a-b-c --></root>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, " a-b-c ");
@@ -277,14 +277,14 @@ Deno.test("XmlTokenizer.process() handles comment with dashes", () => {
 // Processing instruction tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles processing instruction", () => {
+Ende.test("XmlTokenizer.process() handles processing instruction", () => {
   const tokens = collectTokens("<?php echo 'hi'; ?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.target, "php");
   assertEquals(pi?.content, "echo 'hi';");
 });
 
-Deno.test("XmlTokenizer.process() handles empty processing instruction", () => {
+Ende.test("XmlTokenizer.process() handles empty processing instruction", () => {
   const tokens = collectTokens("<?target?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.target, "target");
@@ -295,13 +295,13 @@ Deno.test("XmlTokenizer.process() handles empty processing instruction", () => {
 // XML declaration tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles XML declaration", () => {
+Ende.test("XmlTokenizer.process() handles XML declaration", () => {
   const tokens = collectTokens('<?xml version="1.0"?><root/>');
   const decl = tokens.find((t) => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
 });
 
-Deno.test("XmlTokenizer.process() handles XML declaration with encoding", () => {
+Ende.test("XmlTokenizer.process() handles XML declaration with encoding", () => {
   const tokens = collectTokens(
     '<?xml version="1.0" encoding="UTF-8"?><root/>',
   );
@@ -310,7 +310,7 @@ Deno.test("XmlTokenizer.process() handles XML declaration with encoding", () => 
   assertEquals(decl?.encoding, "UTF-8");
 });
 
-Deno.test("XmlTokenizer.process() handles XML declaration with standalone", () => {
+Ende.test("XmlTokenizer.process() handles XML declaration with standalone", () => {
   const tokens = collectTokens(
     '<?xml version="1.0" standalone="yes"?><root/>',
   );
@@ -318,7 +318,7 @@ Deno.test("XmlTokenizer.process() handles XML declaration with standalone", () =
   assertEquals(decl?.standalone, "yes");
 });
 
-Deno.test("XmlTokenizer.process() handles full XML declaration", () => {
+Ende.test("XmlTokenizer.process() handles full XML declaration", () => {
   const tokens = collectTokens(
     '<?xml version="1.0" encoding="UTF-8" standalone="no"?><root/>',
   );
@@ -332,13 +332,13 @@ Deno.test("XmlTokenizer.process() handles full XML declaration", () => {
 // Line ending normalization tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() normalizes CRLF to LF", () => {
+Ende.test("XmlTokenizer.process() normalizes CRLF to LF", () => {
   const tokens = collectTokens("<root>a\r\nb</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "a\nb");
 });
 
-Deno.test("XmlTokenizer.process() normalizes CR to LF", () => {
+Ende.test("XmlTokenizer.process() normalizes CR to LF", () => {
   const tokens = collectTokens("<root>a\rb</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "a\nb");
@@ -348,7 +348,7 @@ Deno.test("XmlTokenizer.process() normalizes CR to LF", () => {
 // Position tracking tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() tracks position correctly", () => {
+Ende.test("XmlTokenizer.process() tracks position correctly", () => {
   const tokens = collectTokens("<root>\n  <item/>\n</root>");
   const item = tokens.find(
     (t) => t.type === "start_tag_open" && t.name === "item",
@@ -361,14 +361,14 @@ Deno.test("XmlTokenizer.process() tracks position correctly", () => {
 // Error handling tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on unexpected character in tag", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected character in tag", () => {
   assertThrows(
     () => collectTokens("<root<>"),
     XmlSyntaxError,
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unclosed tag", () => {
+Ende.test("XmlTokenizer.process() throws on unclosed tag", () => {
   assertThrows(
     () => collectTokens("<root"),
     XmlSyntaxError,
@@ -376,7 +376,7 @@ Deno.test("XmlTokenizer.process() throws on unclosed tag", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on < in attribute value", () => {
+Ende.test("XmlTokenizer.process() throws on < in attribute value", () => {
   assertThrows(
     () => collectTokens('<root attr="<">'),
     XmlSyntaxError,
@@ -388,7 +388,7 @@ Deno.test("XmlTokenizer.process() throws on < in attribute value", () => {
 // Namespace prefix tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles namespaced element", () => {
+Ende.test("XmlTokenizer.process() handles namespaced element", () => {
   const tokens = collectTokens("<ns:root></ns:root>");
   assertEquals(tokens[0]?.name, "ns:root");
   assertEquals(tokens[2]?.name, "ns:root");
@@ -398,13 +398,13 @@ Deno.test("XmlTokenizer.process() handles namespaced element", () => {
 // Whitespace handling tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() preserves whitespace in text", () => {
+Ende.test("XmlTokenizer.process() preserves whitespace in text", () => {
   const tokens = collectTokens("<root>  spaced  </root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "  spaced  ");
 });
 
-Deno.test("XmlTokenizer.process() handles whitespace-only text", () => {
+Ende.test("XmlTokenizer.process() handles whitespace-only text", () => {
   const tokens = collectTokens("<root>   </root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "   ");
@@ -414,7 +414,7 @@ Deno.test("XmlTokenizer.process() handles whitespace-only text", () => {
 // Edge case tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles Unicode in element names", () => {
+Ende.test("XmlTokenizer.process() handles Unicode in element names", () => {
   const tokens = collectTokens("<日本語></日本語>");
   const open = tokens.find((t) => t.type === "start_tag_open");
   const end = tokens.find((t) => t.type === "end_tag");
@@ -422,13 +422,13 @@ Deno.test("XmlTokenizer.process() handles Unicode in element names", () => {
   assertEquals(end?.name, "日本語");
 });
 
-Deno.test("XmlTokenizer.process() handles Unicode in attribute values", () => {
+Ende.test("XmlTokenizer.process() handles Unicode in attribute values", () => {
   const tokens = collectTokens('<item name="日本語"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, "日本語");
 });
 
-Deno.test("XmlTokenizer.process() handles deeply nested elements", () => {
+Ende.test("XmlTokenizer.process() handles deeply nested elements", () => {
   const tokens = collectTokens("<a><b><c><d></d></c></b></a>");
   const opens = tokens.filter(isTokenType("start_tag_open"));
   const ends = tokens.filter(isTokenType("end_tag"));
@@ -442,25 +442,25 @@ Deno.test("XmlTokenizer.process() handles deeply nested elements", () => {
 // Chunked input edge cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles chunk boundary in tag name", () => {
+Ende.test("XmlTokenizer.process() handles chunk boundary in tag name", () => {
   const tokens = collectChunkedTokens("<ro", "ot/>");
   const open = tokens.find((t) => t.type === "start_tag_open");
   assertEquals(open?.name, "root");
 });
 
-Deno.test("XmlTokenizer.process() handles chunk boundary in attribute value", () => {
+Ende.test("XmlTokenizer.process() handles chunk boundary in attribute value", () => {
   const tokens = collectChunkedTokens('<item attr="val', 'ue"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, "value");
 });
 
-Deno.test("XmlTokenizer.process() handles chunk boundary in CDATA", () => {
+Ende.test("XmlTokenizer.process() handles chunk boundary in CDATA", () => {
   const tokens = collectChunkedTokens("<r><![CDA", "TA[content]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "content");
 });
 
-Deno.test("XmlTokenizer.process() handles chunk boundary in comment", () => {
+Ende.test("XmlTokenizer.process() handles chunk boundary in comment", () => {
   const tokens = collectChunkedTokens("<r><!--com", "ment--></r>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, "comment");
@@ -470,13 +470,13 @@ Deno.test("XmlTokenizer.process() handles chunk boundary in comment", () => {
 // DOCTYPE tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles simple DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() handles simple DOCTYPE", () => {
   const tokens = collectTokens("<!DOCTYPE html><html></html>");
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.name, "html");
 });
 
-Deno.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC identifier", () => {
+Ende.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC identifier", () => {
   const tokens = collectTokens(
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html></html>',
   );
@@ -489,7 +489,7 @@ Deno.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC identifier", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() handles DOCTYPE with SYSTEM identifier", () => {
+Ende.test("XmlTokenizer.process() handles DOCTYPE with SYSTEM identifier", () => {
   const tokens = collectTokens(
     '<!DOCTYPE greeting SYSTEM "hello.dtd"><greeting></greeting>',
   );
@@ -499,7 +499,7 @@ Deno.test("XmlTokenizer.process() handles DOCTYPE with SYSTEM identifier", () =>
   assertEquals(tokens[0]?.systemId, "hello.dtd");
 });
 
-Deno.test("XmlTokenizer.process() handles DOCTYPE with internal subset", () => {
+Ende.test("XmlTokenizer.process() handles DOCTYPE with internal subset", () => {
   const tokens = collectTokens(
     '<!DOCTYPE root [<!ELEMENT root (#PCDATA)><!ENTITY greeting "Hello">]><root></root>',
   );
@@ -512,7 +512,7 @@ Deno.test("XmlTokenizer.process() handles DOCTYPE with internal subset", () => {
 // Self-closing tag chunk boundary tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles self-closing tag with / and > in separate chunks", () => {
+Ende.test("XmlTokenizer.process() handles self-closing tag with / and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<item/", ">");
   assertEquals(tokens.length, 2);
   assertEquals(tokens[0]?.type, "start_tag_open");
@@ -525,13 +525,13 @@ Deno.test("XmlTokenizer.process() handles self-closing tag with / and > in separ
 // Comment chunk boundary tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment ending -- and > in separate chunks", () => {
+Ende.test("XmlTokenizer.process() handles comment ending -- and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<r><!-- hello --", "></r>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, " hello ");
 });
 
-Deno.test("XmlTokenizer.process() throws on -- inside comment", () => {
+Ende.test("XmlTokenizer.process() throws on -- inside comment", () => {
   assertThrows(
     () => collectTokens("<r><!-- a--b --></r>"),
     XmlSyntaxError,
@@ -543,7 +543,7 @@ Deno.test("XmlTokenizer.process() throws on -- inside comment", () => {
 // Additional error handling tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on unclosed comment", () => {
+Ende.test("XmlTokenizer.process() throws on unclosed comment", () => {
   assertThrows(
     () => collectTokens("<root><!-- unclosed"),
     XmlSyntaxError,
@@ -551,7 +551,7 @@ Deno.test("XmlTokenizer.process() throws on unclosed comment", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unclosed CDATA", () => {
+Ende.test("XmlTokenizer.process() throws on unclosed CDATA", () => {
   assertThrows(
     () => collectTokens("<root><![CDATA[unclosed"),
     XmlSyntaxError,
@@ -559,7 +559,7 @@ Deno.test("XmlTokenizer.process() throws on unclosed CDATA", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unclosed attribute value", () => {
+Ende.test("XmlTokenizer.process() throws on unclosed attribute value", () => {
   assertThrows(
     () => collectTokens('<root attr="unclosed'),
     XmlSyntaxError,
@@ -571,13 +571,13 @@ Deno.test("XmlTokenizer.process() throws on unclosed attribute value", () => {
 // XML declaration edge cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles XML declaration with single quotes", () => {
+Ende.test("XmlTokenizer.process() handles XML declaration with single quotes", () => {
   const tokens = collectTokens("<?xml version='1.0'?><root/>");
   const decl = tokens.find((t) => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
 });
 
-Deno.test("XmlTokenizer.process() rejects reserved PI target case variants (XML 1.0 §2.6)", () => {
+Ende.test("XmlTokenizer.process() rejects reserved PI target case variants (XML 1.0 §2.6)", () => {
   // XML 1.0 §2.6: "xml" target must be lowercase; case variants are reserved
   assertThrows(
     () => collectTokens('<?XML version="1.0"?><root/>'),
@@ -595,7 +595,7 @@ Deno.test("XmlTokenizer.process() rejects reserved PI target case variants (XML 
 // Position tracking edge cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() tracks position correctly with CRLF", () => {
+Ende.test("XmlTokenizer.process() tracks position correctly with CRLF", () => {
   const tokens = collectTokens("<root>\r\n  <item/>\r\n</root>");
   const item = tokens.find(
     (t) => t.type === "start_tag_open" && t.name === "item",
@@ -604,7 +604,7 @@ Deno.test("XmlTokenizer.process() tracks position correctly with CRLF", () => {
   assertEquals(item?.position?.column, 3);
 });
 
-Deno.test("XmlTokenizer.process() tracks offset correctly", () => {
+Ende.test("XmlTokenizer.process() tracks offset correctly", () => {
   const tokens = collectTokens("<a><b/></a>");
   const b = tokens.find(
     (t) => t.type === "start_tag_open" && t.name === "b",
@@ -616,13 +616,13 @@ Deno.test("XmlTokenizer.process() tracks offset correctly", () => {
 // CDATA closing sequence chunk boundary tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles CDATA with ] and ]> in separate chunks", () => {
+Ende.test("XmlTokenizer.process() handles CDATA with ] and ]> in separate chunks", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[foo]", "]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "foo");
 });
 
-Deno.test("XmlTokenizer.process() handles CDATA with ]] and > in separate chunks", () => {
+Ende.test("XmlTokenizer.process() handles CDATA with ]] and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[bar]]", "></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "bar");
@@ -632,14 +632,14 @@ Deno.test("XmlTokenizer.process() handles CDATA with ]] and > in separate chunks
 // PI closing sequence chunk boundary tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles PI with ? and > in separate chunks", () => {
+Ende.test("XmlTokenizer.process() handles PI with ? and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<?php echo 'hi'; ?", "><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.target, "php");
   assertEquals(pi?.content, "echo 'hi';");
 });
 
-Deno.test("XmlTokenizer.process() handles XML declaration with ? and > in separate chunks", () => {
+Ende.test("XmlTokenizer.process() handles XML declaration with ? and > in separate chunks", () => {
   const tokens = collectChunkedTokens(
     '<?xml version="1.0" encoding="UTF-8"?',
     "><root/>",
@@ -653,7 +653,7 @@ Deno.test("XmlTokenizer.process() handles XML declaration with ? and > in separa
 // Finalize error path tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.finalize() throws for input ending with <", () => {
+Ende.test("XmlTokenizer.finalize() throws for input ending with <", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<", callbacks);
@@ -664,7 +664,7 @@ Deno.test("XmlTokenizer.finalize() throws for input ending with <", () => {
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for unclosed PI content", () => {
+Ende.test("XmlTokenizer.finalize() throws for unclosed PI content", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<?target content", callbacks);
@@ -675,7 +675,7 @@ Deno.test("XmlTokenizer.finalize() throws for unclosed PI content", () => {
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for unclosed DOCTYPE", () => {
+Ende.test("XmlTokenizer.finalize() throws for unclosed DOCTYPE", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<!DOCTYPE html", callbacks);
@@ -690,13 +690,13 @@ Deno.test("XmlTokenizer.finalize() throws for unclosed DOCTYPE", () => {
 // End tag whitespace handling tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles end tag with whitespace before >", () => {
+Ende.test("XmlTokenizer.process() handles end tag with whitespace before >", () => {
   const tokens = collectTokens("<root></root >");
   assertEquals(tokens[2]?.type, "end_tag");
   assertEquals(tokens[2]?.name, "root");
 });
 
-Deno.test("XmlTokenizer.process() handles end tag with multiple whitespace before >", () => {
+Ende.test("XmlTokenizer.process() handles end tag with multiple whitespace before >", () => {
   const tokens = collectTokens("<item></item   >");
   assertEquals(tokens[2]?.type, "end_tag");
   assertEquals(tokens[2]?.name, "item");
@@ -706,14 +706,14 @@ Deno.test("XmlTokenizer.process() handles end tag with multiple whitespace befor
 // Attribute whitespace handling tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles whitespace around attribute =", () => {
+Ende.test("XmlTokenizer.process() handles whitespace around attribute =", () => {
   const tokens = collectTokens('<item attr = "value"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.name, "attr");
   assertEquals(attr?.value, "value");
 });
 
-Deno.test("XmlTokenizer.process() handles whitespace before attribute value", () => {
+Ende.test("XmlTokenizer.process() handles whitespace before attribute value", () => {
   const tokens = collectTokens('<item attr=  "value"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, "value");
@@ -723,14 +723,14 @@ Deno.test("XmlTokenizer.process() handles whitespace before attribute value", ()
 // PI chunk boundary tests (target/content split)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles PI target split across chunks", () => {
+Ende.test("XmlTokenizer.process() handles PI target split across chunks", () => {
   const tokens = collectChunkedTokens("<?tar", "get content?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.target, "target");
   assertEquals(pi?.content, "content");
 });
 
-Deno.test("XmlTokenizer.process() handles PI content split across chunks", () => {
+Ende.test("XmlTokenizer.process() handles PI content split across chunks", () => {
   const tokens = collectChunkedTokens("<?php echo ", "'hello';?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.target, "php");
@@ -741,7 +741,7 @@ Deno.test("XmlTokenizer.process() handles PI content split across chunks", () =>
 // Position tracking disabled tests
 // =============================================================================
 
-Deno.test("XmlTokenizer with trackPosition: false uses default positions", () => {
+Ende.test("XmlTokenizer with trackPosition: false uses default positions", () => {
   const tokenizer = new XmlTokenizer({ trackPosition: false });
   const { tokens, callbacks } = createCollector();
   tokenizer.process("<root>\n  <item/>\n</root>", callbacks);
@@ -764,7 +764,7 @@ Deno.test("XmlTokenizer with trackPosition: false uses default positions", () =>
 // Additional error path tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on < in single-quoted attribute value", () => {
+Ende.test("XmlTokenizer.process() throws on < in single-quoted attribute value", () => {
   assertThrows(
     () => collectTokens("<root attr='<'/>"),
     XmlSyntaxError,
@@ -772,7 +772,7 @@ Deno.test("XmlTokenizer.process() throws on < in single-quoted attribute value",
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid character in end tag", () => {
+Ende.test("XmlTokenizer.process() throws on invalid character in end tag", () => {
   assertThrows(
     () => collectTokens("<root></@>"),
     XmlSyntaxError,
@@ -780,7 +780,7 @@ Deno.test("XmlTokenizer.process() throws on invalid character in end tag", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on expected > after / in self-closing", () => {
+Ende.test("XmlTokenizer.process() throws on expected > after / in self-closing", () => {
   assertThrows(
     () => collectTokens("<item/ >"),
     XmlSyntaxError,
@@ -792,7 +792,7 @@ Deno.test("XmlTokenizer.process() throws on expected > after / in self-closing",
 // Comment edge case tests (-- handling)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on -- not followed by > in comment", () => {
+Ende.test("XmlTokenizer.process() throws on -- not followed by > in comment", () => {
   assertThrows(
     () => collectTokens("<r><!--a--b--></r>"),
     XmlSyntaxError,
@@ -800,7 +800,7 @@ Deno.test("XmlTokenizer.process() throws on -- not followed by > in comment", ()
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on -- at chunk boundary in comment", () => {
+Ende.test("XmlTokenizer.process() throws on -- at chunk boundary in comment", () => {
   assertThrows(
     () => collectChunkedTokens("<r><!--a-", "-b--></r>"),
     XmlSyntaxError,
@@ -808,7 +808,7 @@ Deno.test("XmlTokenizer.process() throws on -- at chunk boundary in comment", ()
   );
 });
 
-Deno.test("XmlTokenizer.process() rejects single - before --> in comment", () => {
+Ende.test("XmlTokenizer.process() rejects single - before --> in comment", () => {
   // XML 1.0 §2.5: Comment grammar requires every '-' to be followed by a non-dash
   // character, so a '-' immediately before '-->' is invalid
   assertThrows(
@@ -822,25 +822,25 @@ Deno.test("XmlTokenizer.process() rejects single - before --> in comment", () =>
 // CDATA edge case tests (] and ]] handling)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles ] not followed by ]> in CDATA", () => {
+Ende.test("XmlTokenizer.process() handles ] not followed by ]> in CDATA", () => {
   const tokens = collectTokens("<r><![CDATA[a]b]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a]b");
 });
 
-Deno.test("XmlTokenizer.process() handles ]] not followed by > in CDATA", () => {
+Ende.test("XmlTokenizer.process() handles ]] not followed by > in CDATA", () => {
   const tokens = collectTokens("<r><![CDATA[a]]b]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a]]b");
 });
 
-Deno.test("XmlTokenizer.process() handles ] at chunk boundary in CDATA", () => {
+Ende.test("XmlTokenizer.process() handles ] at chunk boundary in CDATA", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[a]", "b]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a]b");
 });
 
-Deno.test("XmlTokenizer.process() handles ]] at chunk boundary not followed by >", () => {
+Ende.test("XmlTokenizer.process() handles ]] at chunk boundary not followed by >", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[a]]", "b]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a]]b");
@@ -850,25 +850,25 @@ Deno.test("XmlTokenizer.process() handles ]] at chunk boundary not followed by >
 // PI edge case tests (? handling)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles ? not followed by > in PI", () => {
+Ende.test("XmlTokenizer.process() handles ? not followed by > in PI", () => {
   const tokens = collectTokens("<?php echo '?'; ?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.content, "echo '?';");
 });
 
-Deno.test("XmlTokenizer.process() handles multiple ? in PI content", () => {
+Ende.test("XmlTokenizer.process() handles multiple ? in PI content", () => {
   const tokens = collectTokens("<?php ??? ?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.content, "???");
 });
 
-Deno.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
+Ende.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
   const tokens = collectChunkedTokens("<?php test?", " more?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.content, "test? more");
 });
 
-Deno.test("XmlTokenizer.process() handles empty PI target with immediate ?>", () => {
+Ende.test("XmlTokenizer.process() handles empty PI target with immediate ?>", () => {
   // This tests the PI_AFTER_TARGET state with immediate close
   const tokens = collectTokens("<?x?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
@@ -880,7 +880,7 @@ Deno.test("XmlTokenizer.process() handles empty PI target with immediate ?>", ()
 // DOCTYPE edge case tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC ID only (no SYSTEM)", () => {
+Ende.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC ID only (no SYSTEM)", () => {
   const tokens = collectTokens(
     '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>',
   );
@@ -889,7 +889,7 @@ Deno.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC ID only (no SYSTEM
   assertEquals(tokens[0]?.systemId, undefined);
 });
 
-Deno.test("XmlTokenizer.process() handles DOCTYPE with internal subset bracket", () => {
+Ende.test("XmlTokenizer.process() handles DOCTYPE with internal subset bracket", () => {
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ENTITY test 'value'>]><root/>",
   );
@@ -901,7 +901,7 @@ Deno.test("XmlTokenizer.process() handles DOCTYPE with internal subset bracket",
 // Additional error path tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on unexpected char after tag name", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char after tag name", () => {
   assertThrows(
     () => collectTokens("<root@/>"),
     XmlSyntaxError,
@@ -909,7 +909,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char after tag name", () 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char in attribute name", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char in attribute name", () => {
   assertThrows(
     () => collectTokens("<root attr@='val'/>"),
     XmlSyntaxError,
@@ -917,7 +917,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char in attribute name", 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid DOCTYPE spelling", () => {
+Ende.test("XmlTokenizer.process() throws on invalid DOCTYPE spelling", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPO root><root/>"),
     XmlSyntaxError,
@@ -925,7 +925,7 @@ Deno.test("XmlTokenizer.process() throws on invalid DOCTYPE spelling", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid CDATA start", () => {
+Ende.test("XmlTokenizer.process() throws on invalid CDATA start", () => {
   assertThrows(
     () => collectTokens("<root><![CDATX[test]]></root>"),
     XmlSyntaxError,
@@ -933,7 +933,7 @@ Deno.test("XmlTokenizer.process() throws on invalid CDATA start", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on missing second - to start comment", () => {
+Ende.test("XmlTokenizer.process() throws on missing second - to start comment", () => {
   assertThrows(
     () => collectTokens("<root><!-x></root>"),
     XmlSyntaxError,
@@ -941,7 +941,7 @@ Deno.test("XmlTokenizer.process() throws on missing second - to start comment", 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char in end tag after whitespace", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char in end tag after whitespace", () => {
   assertThrows(
     () => collectTokens("<root></root @>"),
     XmlSyntaxError,
@@ -949,7 +949,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char in end tag after whi
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid PUBLIC spelling", () => {
+Ende.test("XmlTokenizer.process() throws on invalid PUBLIC spelling", () => {
   // "PUBLIX" doesn't start with "PUBLIC" after 5 chars
   assertThrows(
     () => collectTokens('<!DOCTYPE html PUBLIX "-//W3C//"><html/>'),
@@ -958,7 +958,7 @@ Deno.test("XmlTokenizer.process() throws on invalid PUBLIC spelling", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid char in PI target", () => {
+Ende.test("XmlTokenizer.process() throws on invalid char in PI target", () => {
   assertThrows(
     () => collectTokens("<?tar@get ?><root/>"),
     XmlSyntaxError,
@@ -966,7 +966,7 @@ Deno.test("XmlTokenizer.process() throws on invalid char in PI target", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on expected > after ? in PI target", () => {
+Ende.test("XmlTokenizer.process() throws on expected > after ? in PI target", () => {
   // PI with ? immediately after target, followed by non->
   assertThrows(
     () => collectTokens("<?x?y><root/>"),
@@ -979,7 +979,7 @@ Deno.test("XmlTokenizer.process() throws on expected > after ? in PI target", ()
 // Additional edge cases for higher coverage
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() rejects XML declaration without version", () => {
+Ende.test("XmlTokenizer.process() rejects XML declaration without version", () => {
   // XML 1.0 §2.8: version is required in XML declaration
   assertThrows(
     () => collectTokens("<?xml?><root/>"),
@@ -988,21 +988,21 @@ Deno.test("XmlTokenizer.process() rejects XML declaration without version", () =
   );
 });
 
-Deno.test("XmlTokenizer.process() handles ]]] sequence in CDATA", () => {
+Ende.test("XmlTokenizer.process() handles ]]] sequence in CDATA", () => {
   // Tests CDATA with consecutive ] characters where one starts new close attempt
   const tokens = collectTokens("<r><![CDATA[a]]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "a]");
 });
 
-Deno.test("XmlTokenizer.process() handles PI with ?? followed by >", () => {
+Ende.test("XmlTokenizer.process() handles PI with ?? followed by >", () => {
   // Tests consecutive ? in PI content
   const tokens = collectTokens("<?php test??><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.content, "test?");
 });
 
-Deno.test("XmlTokenizer.process() throws on unsupported markup <!ENTITY", () => {
+Ende.test("XmlTokenizer.process() throws on unsupported markup <!ENTITY", () => {
   assertThrows(
     () => collectTokens("<root><!ENTITY test 'value'></root>"),
     XmlSyntaxError,
@@ -1010,34 +1010,34 @@ Deno.test("XmlTokenizer.process() throws on unsupported markup <!ENTITY", () => 
   );
 });
 
-Deno.test("XmlTokenizer.process() handles DOCTYPE with direct internal subset", () => {
+Ende.test("XmlTokenizer.process() handles DOCTYPE with direct internal subset", () => {
   // DOCTYPE that goes directly to internal subset via [
   const tokens = collectTokens("<!DOCTYPE root[<!ENTITY x 'y'>]><root/>");
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.name, "root");
 });
 
-Deno.test("XmlTokenizer.process() handles comment - at chunk boundary followed by non-dash", () => {
+Ende.test("XmlTokenizer.process() handles comment - at chunk boundary followed by non-dash", () => {
   // Single - at chunk boundary, next char is not -
   const tokens = collectChunkedTokens("<r><!-", "- test --></r>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, " test ");
 });
 
-Deno.test("XmlTokenizer.process() handles multiline comment for position tracking", () => {
+Ende.test("XmlTokenizer.process() handles multiline comment for position tracking", () => {
   // Multi-line content to hit #updatePositionForRegion newline tracking
   const tokens = collectTokens("<r><!--\nline2\nline3--></r>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, "\nline2\nline3");
 });
 
-Deno.test("XmlTokenizer.process() handles multiline CDATA for position tracking", () => {
+Ende.test("XmlTokenizer.process() handles multiline CDATA for position tracking", () => {
   const tokens = collectTokens("<r><![CDATA[\nline2\nline3]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "\nline2\nline3");
 });
 
-Deno.test("XmlTokenizer.process() handles multiline PI for position tracking", () => {
+Ende.test("XmlTokenizer.process() handles multiline PI for position tracking", () => {
   const tokens = collectTokens("<?php\nline2\nline3?><root/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.content, "line2\nline3");
@@ -1047,7 +1047,7 @@ Deno.test("XmlTokenizer.process() handles multiline PI for position tracking", (
 // Additional Coverage Tests - Streaming Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles attribute name split across chunks", () => {
+Ende.test("XmlTokenizer.process() handles attribute name split across chunks", () => {
   // Tests partial attribute name handling at buffer boundary
   const tokens = collectChunkedTokens("<root attr", 'ibute="value"/>');
   const attr = tokens.find((t) => t.type === "attribute");
@@ -1055,21 +1055,21 @@ Deno.test("XmlTokenizer.process() handles attribute name split across chunks", (
   assertEquals(attr?.value, "value");
 });
 
-Deno.test("XmlTokenizer.process() handles single dash in comment content", () => {
+Ende.test("XmlTokenizer.process() handles single dash in comment content", () => {
   // Tests COMMENT state handling single dash followed by non-dash
   const tokens = collectTokens("<root><!-- a-b-c --></root>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, " a-b-c ");
 });
 
-Deno.test("XmlTokenizer.process() handles dash at end of comment content chunk", () => {
+Ende.test("XmlTokenizer.process() handles dash at end of comment content chunk", () => {
   // Tests COMMENT_DASH state: dash followed by non-dash char
   const tokens = collectChunkedTokens("<root><!--test-", "x--></root>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, "test-x");
 });
 
-Deno.test("XmlTokenizer.process() handles declaration with single-quoted standalone", () => {
+Ende.test("XmlTokenizer.process() handles declaration with single-quoted standalone", () => {
   // Tests single quote variants in declaration parsing
   const tokens = collectTokens("<?xml version='1.0' standalone='yes'?><root/>");
   const decl = tokens.find((t) => t.type === "declaration");
@@ -1077,7 +1077,7 @@ Deno.test("XmlTokenizer.process() handles declaration with single-quoted standal
   assertEquals(decl?.standalone, "yes");
 });
 
-Deno.test("XmlTokenizer.process() handles declaration with single-quoted encoding", () => {
+Ende.test("XmlTokenizer.process() handles declaration with single-quoted encoding", () => {
   const tokens = collectTokens(
     "<?xml version='1.0' encoding='ISO-8859-1'?><root/>",
   );
@@ -1089,7 +1089,7 @@ Deno.test("XmlTokenizer.process() handles declaration with single-quoted encodin
 // Additional Coverage Tests - Error Paths
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on unexpected char in end tag", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char in end tag", () => {
   // Tests error path in END_TAG_NAME state for invalid characters
   assertThrows(
     () => collectTokens("<root></root@>"),
@@ -1098,7 +1098,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char in end tag", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char after tag name", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char after tag name", () => {
   // Tests error path in AFTER_TAG_NAME state
   assertThrows(
     () => collectTokens("<root @/>"),
@@ -1107,7 +1107,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char after tag name", () 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid char after attribute name whitespace", () => {
+Ende.test("XmlTokenizer.process() throws on invalid char after attribute name whitespace", () => {
   // Tests AFTER_ATTRIBUTE_NAME error path - whitespace then invalid char
   assertThrows(
     () => collectTokens("<root attr @/>"),
@@ -1116,7 +1116,7 @@ Deno.test("XmlTokenizer.process() throws on invalid char after attribute name wh
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char after <", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char after <", () => {
   // Tests OPEN_TAG state error for invalid start character
   assertThrows(
     () => collectTokens("<root><@invalid/></root>"),
@@ -1129,14 +1129,14 @@ Deno.test("XmlTokenizer.process() throws on unexpected char after <", () => {
 // Additional Coverage Tests - CDATA and PI edge cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles ] at chunk boundary in CDATA", () => {
+Ende.test("XmlTokenizer.process() handles ] at chunk boundary in CDATA", () => {
   // Tests CDATA state handling single ] followed by non-] character
   const tokens = collectChunkedTokens("<r><![CDATA[test]", "x]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "test]x");
 });
 
-Deno.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
+Ende.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
   // Tests PI_CONTENT state handling ? followed by non-> character
   const tokens = collectChunkedTokens("<?php test?", "x?><r/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
@@ -1147,7 +1147,7 @@ Deno.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
 // DTD Comment Tests (DOCTYPE Internal Subset)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment inside DOCTYPE internal subset", () => {
+Ende.test("XmlTokenizer.process() handles comment inside DOCTYPE internal subset", () => {
   // Tests DTD_COMMENT_START, DTD_COMMENT, DTD_COMMENT_DASH, DTD_COMMENT_DASH_DASH states
   const tokens = collectTokens(
     "<!DOCTYPE root [<!-- DTD comment -->]><root/>",
@@ -1156,7 +1156,7 @@ Deno.test("XmlTokenizer.process() handles comment inside DOCTYPE internal subset
   assertEquals(tokens[1]?.type, "start_tag_open");
 });
 
-Deno.test("XmlTokenizer.process() handles comment with dashes inside DOCTYPE internal subset", () => {
+Ende.test("XmlTokenizer.process() handles comment with dashes inside DOCTYPE internal subset", () => {
   // Tests DTD_COMMENT_DASH state (dash followed by non-dash)
   const tokens = collectTokens(
     "<!DOCTYPE root [<!-- a-b-c -->]><root/>",
@@ -1164,7 +1164,7 @@ Deno.test("XmlTokenizer.process() handles comment with dashes inside DOCTYPE int
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() throws on multiple trailing dashes in DOCTYPE comment", () => {
+Ende.test("XmlTokenizer.process() throws on multiple trailing dashes in DOCTYPE comment", () => {
   // Per XML 1.0 §2.5, after '--' only '>' is permitted.
   // '<!------>' has content '--' which contains the forbidden '--' sequence.
   assertThrows(
@@ -1174,7 +1174,7 @@ Deno.test("XmlTokenizer.process() throws on multiple trailing dashes in DOCTYPE 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on -- in comment inside DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() throws on -- in comment inside DOCTYPE", () => {
   // Tests DTD_COMMENT_DASH_DASH error path
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!-- a--b -->]><root/>"),
@@ -1183,7 +1183,7 @@ Deno.test("XmlTokenizer.process() throws on -- in comment inside DOCTYPE", () =>
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws on unterminated comment in DOCTYPE", () => {
+Ende.test("XmlTokenizer.finalize() throws on unterminated comment in DOCTYPE", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<!DOCTYPE root [<!-- unterminated", callbacks);
@@ -1198,7 +1198,7 @@ Deno.test("XmlTokenizer.finalize() throws on unterminated comment in DOCTYPE", (
 // DTD Processing Instruction Tests (DOCTYPE Internal Subset)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles PI inside DOCTYPE internal subset", () => {
+Ende.test("XmlTokenizer.process() handles PI inside DOCTYPE internal subset", () => {
   // Tests DTD_PI and DTD_PI_QUESTION states
   const tokens = collectTokens(
     "<!DOCTYPE root [<?target content?>]><root/>",
@@ -1207,7 +1207,7 @@ Deno.test("XmlTokenizer.process() handles PI inside DOCTYPE internal subset", ()
   assertEquals(tokens[1]?.type, "start_tag_open");
 });
 
-Deno.test("XmlTokenizer.process() handles PI with ? inside DOCTYPE internal subset", () => {
+Ende.test("XmlTokenizer.process() handles PI with ? inside DOCTYPE internal subset", () => {
   // Tests DTD_PI_QUESTION with ? followed by non->
   const tokens = collectTokens(
     "<!DOCTYPE root [<?target test?content?>]><root/>",
@@ -1215,7 +1215,7 @@ Deno.test("XmlTokenizer.process() handles PI with ? inside DOCTYPE internal subs
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles PI with multiple ? in DOCTYPE internal subset", () => {
+Ende.test("XmlTokenizer.process() handles PI with multiple ? in DOCTYPE internal subset", () => {
   // Tests DTD_PI_QUESTION staying in state for consecutive ?
   const tokens = collectTokens(
     "<!DOCTYPE root [<?target ????>]><root/>",
@@ -1223,7 +1223,7 @@ Deno.test("XmlTokenizer.process() handles PI with multiple ? in DOCTYPE internal
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.finalize() throws on unterminated PI in DOCTYPE", () => {
+Ende.test("XmlTokenizer.finalize() throws on unterminated PI in DOCTYPE", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<!DOCTYPE root [<?target unterminated", callbacks);
@@ -1238,7 +1238,7 @@ Deno.test("XmlTokenizer.finalize() throws on unterminated PI in DOCTYPE", () => 
 // DTD Parameter Entity Reference Tests (DOCTYPE Internal Subset)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles parameter entity reference in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() handles parameter entity reference in DOCTYPE", () => {
   // Tests DTD_PE_REF state
   const tokens = collectTokens(
     "<!DOCTYPE root [%entity;]><root/>",
@@ -1247,7 +1247,7 @@ Deno.test("XmlTokenizer.process() handles parameter entity reference in DOCTYPE"
   assertEquals(tokens[1]?.type, "start_tag_open");
 });
 
-Deno.test("XmlTokenizer.process() handles parameter entity with long name in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() handles parameter entity with long name in DOCTYPE", () => {
   // Tests DTD_PE_REF state with multiple name characters
   const tokens = collectTokens(
     "<!DOCTYPE root [%longEntityName123;]><root/>",
@@ -1255,7 +1255,7 @@ Deno.test("XmlTokenizer.process() handles parameter entity with long name in DOC
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid char in parameter entity reference", () => {
+Ende.test("XmlTokenizer.process() throws on invalid char in parameter entity reference", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [%entity@;]><root/>"),
     XmlSyntaxError,
@@ -1263,7 +1263,7 @@ Deno.test("XmlTokenizer.process() throws on invalid char in parameter entity ref
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws on unterminated parameter entity reference", () => {
+Ende.test("XmlTokenizer.finalize() throws on unterminated parameter entity reference", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<!DOCTYPE root [%entity", callbacks);
@@ -1278,7 +1278,7 @@ Deno.test("XmlTokenizer.finalize() throws on unterminated parameter entity refer
 // DTD Internal Subset Chunk Boundary Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment across chunks in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() handles comment across chunks in DOCTYPE", () => {
   const tokens = collectChunkedTokens(
     "<!DOCTYPE root [<!-",
     "- comment -->]><root/>",
@@ -1286,7 +1286,7 @@ Deno.test("XmlTokenizer.process() handles comment across chunks in DOCTYPE", () 
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles PI across chunks in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() handles PI across chunks in DOCTYPE", () => {
   const tokens = collectChunkedTokens(
     "<!DOCTYPE root [<?tar",
     "get content?>]><root/>",
@@ -1294,7 +1294,7 @@ Deno.test("XmlTokenizer.process() handles PI across chunks in DOCTYPE", () => {
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() throws on DOCTYPE quoted string spanning chunk boundary", () => {
+Ende.test("XmlTokenizer.process() throws on DOCTYPE quoted string spanning chunk boundary", () => {
   assertThrows(
     () =>
       collectChunkedTokens(
@@ -1310,7 +1310,7 @@ Deno.test("XmlTokenizer.process() throws on DOCTYPE quoted string spanning chunk
 // Illegal XML Character Validation Tests (XML 1.0 §2.2)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on NUL character in text content", () => {
+Ende.test("XmlTokenizer.process() throws on NUL character in text content", () => {
   assertThrows(
     () => collectTokens("<root>test\x00value</root>"),
     XmlSyntaxError,
@@ -1318,7 +1318,7 @@ Deno.test("XmlTokenizer.process() throws on NUL character in text content", () =
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on control character in text content", () => {
+Ende.test("XmlTokenizer.process() throws on control character in text content", () => {
   // U+0001 (SOH) is illegal in XML 1.0
   assertThrows(
     () => collectTokens("<root>test\x01value</root>"),
@@ -1327,7 +1327,7 @@ Deno.test("XmlTokenizer.process() throws on control character in text content", 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on illegal character in CDATA section", () => {
+Ende.test("XmlTokenizer.process() throws on illegal character in CDATA section", () => {
   assertThrows(
     () => collectTokens("<r><![CDATA[test\x02value]]></r>"),
     XmlSyntaxError,
@@ -1335,7 +1335,7 @@ Deno.test("XmlTokenizer.process() throws on illegal character in CDATA section",
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on illegal character in comment", () => {
+Ende.test("XmlTokenizer.process() throws on illegal character in comment", () => {
   assertThrows(
     () => collectTokens("<r><!--test\x03value--></r>"),
     XmlSyntaxError,
@@ -1343,7 +1343,7 @@ Deno.test("XmlTokenizer.process() throws on illegal character in comment", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on illegal character in PI content", () => {
+Ende.test("XmlTokenizer.process() throws on illegal character in PI content", () => {
   assertThrows(
     () => collectTokens("<?php test\x04value?><r/>"),
     XmlSyntaxError,
@@ -1351,7 +1351,7 @@ Deno.test("XmlTokenizer.process() throws on illegal character in PI content", ()
   );
 });
 
-Deno.test("XmlTokenizer.process() allows TAB, LF, CR in text content", () => {
+Ende.test("XmlTokenizer.process() allows TAB, LF, CR in text content", () => {
   // These are the only valid C0 control characters
   const tokens = collectTokens("<root>tab:\there\nline\rend</root>");
   const text = tokens.find((t) => t.type === "text");
@@ -1363,7 +1363,7 @@ Deno.test("XmlTokenizer.process() allows TAB, LF, CR in text content", () => {
 // Text Content ]]> Prohibition Tests (XML 1.0 §2.4)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on ]]> in text content", () => {
+Ende.test("XmlTokenizer.process() throws on ]]> in text content", () => {
   assertThrows(
     () => collectTokens("<root>invalid ]]> here</root>"),
     XmlSyntaxError,
@@ -1371,14 +1371,14 @@ Deno.test("XmlTokenizer.process() throws on ]]> in text content", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() allows ]] followed by non-> in text", () => {
+Ende.test("XmlTokenizer.process() allows ]] followed by non-> in text", () => {
   // ]] followed by non-> character is fine
   const tokens = collectTokens("<root>test ]] here</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "test ]] here");
 });
 
-Deno.test("XmlTokenizer.process() allows ] and ] separately in text", () => {
+Ende.test("XmlTokenizer.process() allows ] and ] separately in text", () => {
   const tokens = collectTokens("<root>brackets ] and ] here</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "brackets ] and ] here");
@@ -1388,7 +1388,7 @@ Deno.test("XmlTokenizer.process() allows ] and ] separately in text", () => {
 // Whitespace Between Attributes Tests (XML 1.0 §3.1)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on missing whitespace between attributes", () => {
+Ende.test("XmlTokenizer.process() throws on missing whitespace between attributes", () => {
   assertThrows(
     () => collectTokens('<root a="1"b="2"/>'),
     XmlSyntaxError,
@@ -1396,7 +1396,7 @@ Deno.test("XmlTokenizer.process() throws on missing whitespace between attribute
   );
 });
 
-Deno.test("XmlTokenizer.process() handles multiple attributes with proper whitespace", () => {
+Ende.test("XmlTokenizer.process() handles multiple attributes with proper whitespace", () => {
   const tokens = collectTokens('<root a="1" b="2" c="3"/>');
   const attrs = tokens.filter(isTokenType("attribute"));
   assertEquals(attrs.length, 3);
@@ -1409,7 +1409,7 @@ Deno.test("XmlTokenizer.process() handles multiple attributes with proper whites
 // XML Declaration Validation Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on uppercase VERSION in declaration", () => {
+Ende.test("XmlTokenizer.process() throws on uppercase VERSION in declaration", () => {
   assertThrows(
     () => collectTokens('<?xml VERSION="1.0"?><root/>'),
     XmlSyntaxError,
@@ -1417,7 +1417,7 @@ Deno.test("XmlTokenizer.process() throws on uppercase VERSION in declaration", (
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on uppercase ENCODING in declaration", () => {
+Ende.test("XmlTokenizer.process() throws on uppercase ENCODING in declaration", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0" ENCODING="UTF-8"?><root/>'),
     XmlSyntaxError,
@@ -1425,7 +1425,7 @@ Deno.test("XmlTokenizer.process() throws on uppercase ENCODING in declaration", 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on uppercase STANDALONE in declaration", () => {
+Ende.test("XmlTokenizer.process() throws on uppercase STANDALONE in declaration", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0" STANDALONE="yes"?><root/>'),
     XmlSyntaxError,
@@ -1433,7 +1433,7 @@ Deno.test("XmlTokenizer.process() throws on uppercase STANDALONE in declaration"
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid version number", () => {
+Ende.test("XmlTokenizer.process() throws on invalid version number", () => {
   assertThrows(
     () => collectTokens('<?xml version="2.0"?><root/>'),
     XmlSyntaxError,
@@ -1441,7 +1441,7 @@ Deno.test("XmlTokenizer.process() throws on invalid version number", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on version not starting with 1.", () => {
+Ende.test("XmlTokenizer.process() throws on version not starting with 1.", () => {
   assertThrows(
     () => collectTokens('<?xml version="0.9"?><root/>'),
     XmlSyntaxError,
@@ -1449,7 +1449,7 @@ Deno.test("XmlTokenizer.process() throws on version not starting with 1.", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid encoding name starting with digit", () => {
+Ende.test("XmlTokenizer.process() throws on invalid encoding name starting with digit", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0" encoding="8859-1"?><root/>'),
     XmlSyntaxError,
@@ -1457,7 +1457,7 @@ Deno.test("XmlTokenizer.process() throws on invalid encoding name starting with 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid standalone value", () => {
+Ende.test("XmlTokenizer.process() throws on invalid standalone value", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0" standalone="true"?><root/>'),
     XmlSyntaxError,
@@ -1465,7 +1465,7 @@ Deno.test("XmlTokenizer.process() throws on invalid standalone value", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on duplicate version attribute", () => {
+Ende.test("XmlTokenizer.process() throws on duplicate version attribute", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0" version="1.1"?><root/>'),
     XmlSyntaxError,
@@ -1473,7 +1473,7 @@ Deno.test("XmlTokenizer.process() throws on duplicate version attribute", () => 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on standalone before encoding", () => {
+Ende.test("XmlTokenizer.process() throws on standalone before encoding", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -1484,7 +1484,7 @@ Deno.test("XmlTokenizer.process() throws on standalone before encoding", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on XML declaration after content", () => {
+Ende.test("XmlTokenizer.process() throws on XML declaration after content", () => {
   // Text before XML declaration
   assertThrows(
     () => collectTokens('  <?xml version="1.0"?><root/>'),
@@ -1493,7 +1493,7 @@ Deno.test("XmlTokenizer.process() throws on XML declaration after content", () =
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on XML declaration after comment", () => {
+Ende.test("XmlTokenizer.process() throws on XML declaration after comment", () => {
   assertThrows(
     () => collectTokens('<!-- comment --><?xml version="1.0"?><root/>'),
     XmlSyntaxError,
@@ -1501,7 +1501,7 @@ Deno.test("XmlTokenizer.process() throws on XML declaration after comment", () =
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unknown attribute in declaration", () => {
+Ende.test("XmlTokenizer.process() throws on unknown attribute in declaration", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0" foo="bar"?><root/>'),
     XmlSyntaxError,
@@ -1509,7 +1509,7 @@ Deno.test("XmlTokenizer.process() throws on unknown attribute in declaration", (
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on missing whitespace between declaration attrs", () => {
+Ende.test("XmlTokenizer.process() throws on missing whitespace between declaration attrs", () => {
   assertThrows(
     () => collectTokens('<?xml version="1.0"encoding="UTF-8"?><root/>'),
     XmlSyntaxError,
@@ -1521,7 +1521,7 @@ Deno.test("XmlTokenizer.process() throws on missing whitespace between declarati
 // DOCTYPE Case Sensitivity Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on lowercase 'public' in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() throws on lowercase 'public' in DOCTYPE", () => {
   assertThrows(
     () => collectTokens('<!DOCTYPE html public "-//W3C//"><html/>'),
     XmlSyntaxError,
@@ -1529,7 +1529,7 @@ Deno.test("XmlTokenizer.process() throws on lowercase 'public' in DOCTYPE", () =
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on lowercase 'system' in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() throws on lowercase 'system' in DOCTYPE", () => {
   assertThrows(
     () => collectTokens('<!DOCTYPE html system "test.dtd"><html/>'),
     XmlSyntaxError,
@@ -1537,7 +1537,7 @@ Deno.test("XmlTokenizer.process() throws on lowercase 'system' in DOCTYPE", () =
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on invalid SYSTEM keyword spelling", () => {
+Ende.test("XmlTokenizer.process() throws on invalid SYSTEM keyword spelling", () => {
   assertThrows(
     () => collectTokens('<!DOCTYPE html SYSTEX "test.dtd"><html/>'),
     XmlSyntaxError,
@@ -1549,7 +1549,7 @@ Deno.test("XmlTokenizer.process() throws on invalid SYSTEM keyword spelling", ()
 // PubidLiteral Validation Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on invalid character in PUBLIC ID", () => {
+Ende.test("XmlTokenizer.process() throws on invalid character in PUBLIC ID", () => {
   // Character < is not valid in PubidLiteral
   assertThrows(
     () =>
@@ -1561,7 +1561,7 @@ Deno.test("XmlTokenizer.process() throws on invalid character in PUBLIC ID", () 
   );
 });
 
-Deno.test("XmlTokenizer.process() allows valid PubidChar characters", () => {
+Ende.test("XmlTokenizer.process() allows valid PubidChar characters", () => {
   // Valid: a-zA-Z0-9 and special chars -'()+,./:=?;!*#@$_%
   const tokens = collectTokens(
     '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html/>',
@@ -1574,7 +1574,7 @@ Deno.test("XmlTokenizer.process() allows valid PubidChar characters", () => {
 // DTD Internal Subset Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on conditional sections in internal subset", () => {
+Ende.test("XmlTokenizer.process() throws on conditional sections in internal subset", () => {
   // Bare [ in internal subset indicates conditional section (only allowed in external subset)
   assertThrows(
     () => collectTokens("<!DOCTYPE root [ [ ]><root/>"),
@@ -1583,28 +1583,28 @@ Deno.test("XmlTokenizer.process() throws on conditional sections in internal sub
   );
 });
 
-Deno.test("XmlTokenizer.process() handles DTD ELEMENT declaration", () => {
+Ende.test("XmlTokenizer.process() handles DTD ELEMENT declaration", () => {
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ELEMENT root (#PCDATA)>]><root/>",
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles DTD ATTLIST declaration", () => {
+Ende.test("XmlTokenizer.process() handles DTD ATTLIST declaration", () => {
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ATTLIST root id ID #IMPLIED>]><root/>",
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles DTD NOTATION declaration", () => {
+Ende.test("XmlTokenizer.process() handles DTD NOTATION declaration", () => {
   const tokens = collectTokens(
     '<!DOCTYPE root [<!NOTATION gif SYSTEM "image/gif">]><root/>',
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() throws on unknown DTD declaration", () => {
+Ende.test("XmlTokenizer.process() throws on unknown DTD declaration", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!UNKNOWN test>]><root/>"),
     XmlSyntaxError,
@@ -1616,7 +1616,7 @@ Deno.test("XmlTokenizer.process() throws on unknown DTD declaration", () => {
 // ENTITY Declaration Validation Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on parameter entity with NDATA", () => {
+Ende.test("XmlTokenizer.process() throws on parameter entity with NDATA", () => {
   // Parameter entities cannot have NDATA declarations
   assertThrows(
     () =>
@@ -1628,7 +1628,7 @@ Deno.test("XmlTokenizer.process() throws on parameter entity with NDATA", () => 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on duplicate SYSTEM keyword", () => {
+Ende.test("XmlTokenizer.process() throws on duplicate SYSTEM keyword", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -1639,7 +1639,7 @@ Deno.test("XmlTokenizer.process() throws on duplicate SYSTEM keyword", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on lowercase 'system' in ENTITY", () => {
+Ende.test("XmlTokenizer.process() throws on lowercase 'system' in ENTITY", () => {
   assertThrows(
     () =>
       collectTokens('<!DOCTYPE root [<!ENTITY e system "file.txt">]><root/>'),
@@ -1648,7 +1648,7 @@ Deno.test("XmlTokenizer.process() throws on lowercase 'system' in ENTITY", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on lowercase 'public' in ENTITY", () => {
+Ende.test("XmlTokenizer.process() throws on lowercase 'public' in ENTITY", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -1659,7 +1659,7 @@ Deno.test("XmlTokenizer.process() throws on lowercase 'public' in ENTITY", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on lowercase 'ndata' in ENTITY", () => {
+Ende.test("XmlTokenizer.process() throws on lowercase 'ndata' in ENTITY", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -1670,7 +1670,7 @@ Deno.test("XmlTokenizer.process() throws on lowercase 'ndata' in ENTITY", () => 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on PUBLIC without system ID", () => {
+Ende.test("XmlTokenizer.process() throws on PUBLIC without system ID", () => {
   assertThrows(
     () =>
       collectTokens('<!DOCTYPE root [<!ENTITY e PUBLIC "-//W3C//">]><root/>'),
@@ -1683,7 +1683,7 @@ Deno.test("XmlTokenizer.process() throws on PUBLIC without system ID", () => {
 // Empty PI Target Test
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on empty PI target", () => {
+Ende.test("XmlTokenizer.process() throws on empty PI target", () => {
   assertThrows(
     () => collectTokens("<? ?><root/>"),
     XmlSyntaxError,
@@ -1691,7 +1691,7 @@ Deno.test("XmlTokenizer.process() throws on empty PI target", () => {
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on PI target starting with invalid char", () => {
+Ende.test("XmlTokenizer.process() throws on PI target starting with invalid char", () => {
   assertThrows(
     () => collectTokens("<?123target?><root/>"),
     XmlSyntaxError,
@@ -1703,20 +1703,20 @@ Deno.test("XmlTokenizer.process() throws on PI target starting with invalid char
 // Astral Plane Character Tests (Surrogate Pairs)
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles astral plane characters in element content", () => {
+Ende.test("XmlTokenizer.process() handles astral plane characters in element content", () => {
   // U+1F600 (😀) encoded as surrogate pair \uD83D\uDE00
   const tokens = collectTokens("<root>Hello \u{1F600} World</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "Hello 😀 World");
 });
 
-Deno.test("XmlTokenizer.process() handles astral plane character in attribute value", () => {
+Ende.test("XmlTokenizer.process() handles astral plane character in attribute value", () => {
   const tokens = collectTokens('<root attr="test \u{1F600} value"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, "test 😀 value");
 });
 
-Deno.test("XmlTokenizer.process() handles CJK Extension B characters in element name", () => {
+Ende.test("XmlTokenizer.process() handles CJK Extension B characters in element name", () => {
   // U+20000 is a valid NameStartChar (CJK Unified Ideographs Extension B)
   const tokens = collectTokens("<\u{20000}></\u{20000}>");
   assertEquals(tokens[0]?.name, "𠀀");
@@ -1727,7 +1727,7 @@ Deno.test("XmlTokenizer.process() handles CJK Extension B characters in element 
 // Finalize Error Path Coverage Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.finalize() throws for markup declaration without type", () => {
+Ende.test("XmlTokenizer.finalize() throws for markup declaration without type", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<root><!", callbacks);
@@ -1738,7 +1738,7 @@ Deno.test("XmlTokenizer.finalize() throws for markup declaration without type", 
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for unclosed end tag", () => {
+Ende.test("XmlTokenizer.finalize() throws for unclosed end tag", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<root></root", callbacks);
@@ -1749,7 +1749,7 @@ Deno.test("XmlTokenizer.finalize() throws for unclosed end tag", () => {
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for DTD declaration keyword", () => {
+Ende.test("XmlTokenizer.finalize() throws for DTD declaration keyword", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<!DOCTYPE root [<!ENT", callbacks);
@@ -1760,7 +1760,7 @@ Deno.test("XmlTokenizer.finalize() throws for DTD declaration keyword", () => {
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for DTD string literal", () => {
+Ende.test("XmlTokenizer.finalize() throws for DTD string literal", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process('<!DOCTYPE root [<!ENTITY e "unterminated', callbacks);
@@ -1775,7 +1775,7 @@ Deno.test("XmlTokenizer.finalize() throws for DTD string literal", () => {
 // Complex DTD Declaration Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles ELEMENT declaration with content model operators", () => {
+Ende.test("XmlTokenizer.process() handles ELEMENT declaration with content model operators", () => {
   // Test *, +, ? operators in content model
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ELEMENT root (a, b*, c+, d?)>]><root/>",
@@ -1783,21 +1783,21 @@ Deno.test("XmlTokenizer.process() handles ELEMENT declaration with content model
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles ELEMENT declaration with nested parentheses", () => {
+Ende.test("XmlTokenizer.process() handles ELEMENT declaration with nested parentheses", () => {
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ELEMENT root ((a|b), (c|d))>]><root/>",
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles ATTLIST with #FIXED value", () => {
+Ende.test("XmlTokenizer.process() handles ATTLIST with #FIXED value", () => {
   const tokens = collectTokens(
     '<!DOCTYPE root [<!ATTLIST root type CDATA #FIXED "default">]><root/>',
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles ENTITY with external identifier", () => {
+Ende.test("XmlTokenizer.process() handles ENTITY with external identifier", () => {
   // ENTITY declaration with SYSTEM external identifier
   const tokens = collectTokens(
     '<!DOCTYPE root [<!ENTITY logo SYSTEM "images/logo.gif">]><root/>',
@@ -1809,7 +1809,7 @@ Deno.test("XmlTokenizer.process() handles ENTITY with external identifier", () =
 // Chunk Boundary Edge Cases for DTD
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles ENTITY value across chunks", () => {
+Ende.test("XmlTokenizer.process() handles ENTITY value across chunks", () => {
   const tokens = collectChunkedTokens(
     '<!DOCTYPE root [<!ENTITY greeting "Hel',
     'lo World">]><root/>',
@@ -1817,7 +1817,7 @@ Deno.test("XmlTokenizer.process() handles ENTITY value across chunks", () => {
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles DTD declaration keyword across chunks", () => {
+Ende.test("XmlTokenizer.process() handles DTD declaration keyword across chunks", () => {
   const tokens = collectChunkedTokens(
     "<!DOCTYPE root [<!ELE",
     "MENT root (#PCDATA)>]><root/>",
@@ -1829,13 +1829,13 @@ Deno.test("XmlTokenizer.process() handles DTD declaration keyword across chunks"
 // End Tag Name Chunk Boundary Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles end tag name split across chunks", () => {
+Ende.test("XmlTokenizer.process() handles end tag name split across chunks", () => {
   const tokens = collectChunkedTokens("<root></ro", "ot>");
   assertEquals(tokens[2]?.type, "end_tag");
   assertEquals(tokens[2]?.name, "root");
 });
 
-Deno.test("XmlTokenizer.process() handles end tag with whitespace across chunks", () => {
+Ende.test("XmlTokenizer.process() handles end tag with whitespace across chunks", () => {
   const tokens = collectChunkedTokens("<root></root ", ">");
   assertEquals(tokens[2]?.type, "end_tag");
   assertEquals(tokens[2]?.name, "root");
@@ -1845,13 +1845,13 @@ Deno.test("XmlTokenizer.process() handles end tag with whitespace across chunks"
 // Attribute Value Quote Handling Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles double quote inside single-quoted attr", () => {
+Ende.test("XmlTokenizer.process() handles double quote inside single-quoted attr", () => {
   const tokens = collectTokens("<root attr='say \"hello\"'/>");
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, 'say "hello"');
 });
 
-Deno.test("XmlTokenizer.process() handles single quote inside double-quoted attr", () => {
+Ende.test("XmlTokenizer.process() handles single quote inside double-quoted attr", () => {
   const tokens = collectTokens('<root attr="it\'s working"/>');
   const attr = tokens.find((t) => t.type === "attribute");
   assertEquals(attr?.value, "it's working");
@@ -1861,7 +1861,7 @@ Deno.test("XmlTokenizer.process() handles single quote inside double-quoted attr
 // Position Tracking Disabled - Error Path Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer with trackPosition: false still reports errors", () => {
+Ende.test("XmlTokenizer with trackPosition: false still reports errors", () => {
   const tokenizer = new XmlTokenizer({ trackPosition: false });
   const { callbacks } = createCollector();
   // Trigger an error - position will be NO_POSITION (0, 0, 0)
@@ -1874,7 +1874,7 @@ Deno.test("XmlTokenizer with trackPosition: false still reports errors", () => {
   );
 });
 
-Deno.test("XmlTokenizer with trackPosition: false handles ]]> in text", () => {
+Ende.test("XmlTokenizer with trackPosition: false handles ]]> in text", () => {
   const tokenizer = new XmlTokenizer({ trackPosition: false });
   const { callbacks } = createCollector();
   assertThrows(
@@ -1890,13 +1890,13 @@ Deno.test("XmlTokenizer with trackPosition: false handles ]]> in text", () => {
 // Text Content Chunk Boundary Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles text content split across multiple chunks", () => {
+Ende.test("XmlTokenizer.process() handles text content split across multiple chunks", () => {
   const tokens = collectChunkedTokens("<root>Hello ", "Wor", "ld</root>");
   const text = tokens.find((t) => t.type === "text");
   assertEquals(text?.content, "Hello World");
 });
 
-Deno.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (]] then >)", () => {
+Ende.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (]] then >)", () => {
   assertThrows(
     () => collectChunkedTokens("<root>test]]", ">more</root>"),
     XmlSyntaxError,
@@ -1904,7 +1904,7 @@ Deno.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (]] th
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (] then ]>)", () => {
+Ende.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (] then ]>)", () => {
   assertThrows(
     () => collectChunkedTokens("<root>test]", "]>more</root>"),
     XmlSyntaxError,
@@ -1912,7 +1912,7 @@ Deno.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (] the
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on ]]> straddling three chunks", () => {
+Ende.test("XmlTokenizer.process() throws on ]]> straddling three chunks", () => {
   assertThrows(
     () => collectChunkedTokens("<root>test]", "]", ">more</root>"),
     XmlSyntaxError,
@@ -1924,7 +1924,7 @@ Deno.test("XmlTokenizer.process() throws on ]]> straddling three chunks", () => 
 // Comment Edge Cases - Batch Capture Path
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on -- at chunk boundary forming double dash", () => {
+Ende.test("XmlTokenizer.process() throws on -- at chunk boundary forming double dash", () => {
   // Partial ends with -, new content starts with - = forms --
   assertThrows(
     () => collectChunkedTokens("<r><!--abc-", "-def--></r>"),
@@ -1933,7 +1933,7 @@ Deno.test("XmlTokenizer.process() throws on -- at chunk boundary forming double 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on trailing dash in batch comment capture", () => {
+Ende.test("XmlTokenizer.process() throws on trailing dash in batch comment capture", () => {
   // The batch capture finds --> but content before it ends with -
   assertThrows(
     () => collectTokens("<r><!--test---></r>"),
@@ -1942,7 +1942,7 @@ Deno.test("XmlTokenizer.process() throws on trailing dash in batch comment captu
   );
 });
 
-Deno.test("XmlTokenizer.process() handles long comment for batch capture", () => {
+Ende.test("XmlTokenizer.process() handles long comment for batch capture", () => {
   // Long comment triggers batch capture path
   const longContent = "a".repeat(1000);
   const tokens = collectTokens(`<r><!--${longContent}--></r>`);
@@ -1950,7 +1950,7 @@ Deno.test("XmlTokenizer.process() handles long comment for batch capture", () =>
   assertEquals(comment?.content, longContent);
 });
 
-Deno.test("XmlTokenizer.process() throws on -- in long comment batch capture", () => {
+Ende.test("XmlTokenizer.process() throws on -- in long comment batch capture", () => {
   // Double dash in the safe region of batch capture
   const prefix = "a".repeat(500);
   assertThrows(
@@ -1960,7 +1960,7 @@ Deno.test("XmlTokenizer.process() throws on -- in long comment batch capture", (
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on illegal char in batch comment capture", () => {
+Ende.test("XmlTokenizer.process() throws on illegal char in batch comment capture", () => {
   // Illegal character in the safe region
   const prefix = "a".repeat(100);
   assertThrows(
@@ -1974,7 +1974,7 @@ Deno.test("XmlTokenizer.process() throws on illegal char in batch comment captur
 // PI Content Batch Capture Tests
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on illegal char in batch PI capture", () => {
+Ende.test("XmlTokenizer.process() throws on illegal char in batch PI capture", () => {
   const prefix = "a".repeat(100);
   assertThrows(
     () => collectTokens(`<?php ${prefix}\x06${prefix}?><r/>`),
@@ -1987,7 +1987,7 @@ Deno.test("XmlTokenizer.process() throws on illegal char in batch PI capture", (
 // DOCTYPE Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on missing quote for SYSTEM ID", () => {
+Ende.test("XmlTokenizer.process() throws on missing quote for SYSTEM ID", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root SYSTEM test.dtd><root/>"),
     XmlSyntaxError,
@@ -1995,7 +1995,7 @@ Deno.test("XmlTokenizer.process() throws on missing quote for SYSTEM ID", () => 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char after PUBLIC ID", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char after PUBLIC ID", () => {
   assertThrows(
     () => collectTokens('<!DOCTYPE root PUBLIC "-//W3C//" @><root/>'),
     XmlSyntaxError,
@@ -2003,7 +2003,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char after PUBLIC ID", ()
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char in DOCTYPE internal subset", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char in DOCTYPE internal subset", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [@]><root/>"),
     XmlSyntaxError,
@@ -2011,7 +2011,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char in DOCTYPE internal 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on expected ! or ? after < in DTD", () => {
+Ende.test("XmlTokenizer.process() throws on expected ! or ? after < in DTD", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<x]><root/>"),
     XmlSyntaxError,
@@ -2019,7 +2019,7 @@ Deno.test("XmlTokenizer.process() throws on expected ! or ? after < in DTD", () 
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on incomplete comment start in DTD", () => {
+Ende.test("XmlTokenizer.process() throws on incomplete comment start in DTD", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!-x]><root/>"),
     XmlSyntaxError,
@@ -2027,7 +2027,7 @@ Deno.test("XmlTokenizer.process() throws on incomplete comment start in DTD", ()
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char in declaration keyword", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char in declaration keyword", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ENT@ITY x 'y'>]><root/>"),
     XmlSyntaxError,
@@ -2039,7 +2039,7 @@ Deno.test("XmlTokenizer.process() throws on unexpected char in declaration keywo
 // DTD Declaration Content Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on missing whitespace before quote in DTD", () => {
+Ende.test("XmlTokenizer.process() throws on missing whitespace before quote in DTD", () => {
   assertThrows(
     () => collectTokens('<!DOCTYPE root [<!ENTITY e"value">]><root/>'),
     XmlSyntaxError,
@@ -2047,7 +2047,7 @@ Deno.test("XmlTokenizer.process() throws on missing whitespace before quote in D
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on missing whitespace before paren in DTD", () => {
+Ende.test("XmlTokenizer.process() throws on missing whitespace before paren in DTD", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ELEMENT root(#PCDATA)>]><root/>"),
     XmlSyntaxError,
@@ -2055,7 +2055,7 @@ Deno.test("XmlTokenizer.process() throws on missing whitespace before paren in D
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on unmatched closing paren in DTD", () => {
+Ende.test("XmlTokenizer.process() throws on unmatched closing paren in DTD", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ELEMENT root )>]><root/>"),
     XmlSyntaxError,
@@ -2063,7 +2063,7 @@ Deno.test("XmlTokenizer.process() throws on unmatched closing paren in DTD", () 
   );
 });
 
-Deno.test("XmlTokenizer.process() handles brackets in DTD declaration", () => {
+Ende.test("XmlTokenizer.process() handles brackets in DTD declaration", () => {
   // Square brackets are used in ATTLIST for enumerated types
   const tokens = collectTokens(
     '<!DOCTYPE root [<!ATTLIST root type (a|b) "a">]><root/>',
@@ -2071,7 +2071,7 @@ Deno.test("XmlTokenizer.process() handles brackets in DTD declaration", () => {
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles pipe in DTD declaration", () => {
+Ende.test("XmlTokenizer.process() handles pipe in DTD declaration", () => {
   // Pipe is used in content models for choice
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ELEMENT root (a|b|c)>]><root/>",
@@ -2079,7 +2079,7 @@ Deno.test("XmlTokenizer.process() handles pipe in DTD declaration", () => {
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles semicolon in DTD declaration", () => {
+Ende.test("XmlTokenizer.process() handles semicolon in DTD declaration", () => {
   // Semicolon ends entity references
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ENTITY e '%other;'>]><root/>",
@@ -2087,7 +2087,7 @@ Deno.test("XmlTokenizer.process() handles semicolon in DTD declaration", () => {
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() handles hash in DTD declaration", () => {
+Ende.test("XmlTokenizer.process() handles hash in DTD declaration", () => {
   // Hash is used for #PCDATA, #IMPLIED, etc.
   const tokens = collectTokens(
     "<!DOCTYPE root [<!ATTLIST root attr CDATA #IMPLIED>]><root/>",
@@ -2095,7 +2095,7 @@ Deno.test("XmlTokenizer.process() handles hash in DTD declaration", () => {
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() throws on unexpected char in DTD declaration", () => {
+Ende.test("XmlTokenizer.process() throws on unexpected char in DTD declaration", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ENTITY e ~value>]><root/>"),
     XmlSyntaxError,
@@ -2107,14 +2107,14 @@ Deno.test("XmlTokenizer.process() throws on unexpected char in DTD declaration",
 // ENTITY Declaration - PUBLIC with Both Literals
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles ENTITY with PUBLIC external ID", () => {
+Ende.test("XmlTokenizer.process() handles ENTITY with PUBLIC external ID", () => {
   const tokens = collectTokens(
     '<!DOCTYPE root [<!ENTITY logo PUBLIC "-//W3C//" "http://example.com/logo.gif">]><root/>',
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
-Deno.test("XmlTokenizer.process() throws on duplicate PUBLIC keyword in ENTITY", () => {
+Ende.test("XmlTokenizer.process() throws on duplicate PUBLIC keyword in ENTITY", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -2125,7 +2125,7 @@ Deno.test("XmlTokenizer.process() throws on duplicate PUBLIC keyword in ENTITY",
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on NDATA without external ID", () => {
+Ende.test("XmlTokenizer.process() throws on NDATA without external ID", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -2140,7 +2140,7 @@ Deno.test("XmlTokenizer.process() throws on NDATA without external ID", () => {
 // Finalize Error Messages for Various States
 // =============================================================================
 
-Deno.test("XmlTokenizer.finalize() throws for PI target only", () => {
+Ende.test("XmlTokenizer.finalize() throws for PI target only", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<?target", callbacks);
@@ -2151,7 +2151,7 @@ Deno.test("XmlTokenizer.finalize() throws for PI target only", () => {
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for PI target with ?", () => {
+Ende.test("XmlTokenizer.finalize() throws for PI target with ?", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<?x?", callbacks);
@@ -2162,7 +2162,7 @@ Deno.test("XmlTokenizer.finalize() throws for PI target with ?", () => {
   );
 });
 
-Deno.test("XmlTokenizer.finalize() throws for DOCTYPE name only", () => {
+Ende.test("XmlTokenizer.finalize() throws for DOCTYPE name only", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
   tokenizer.process("<!DOCTYP", callbacks);
@@ -2177,7 +2177,7 @@ Deno.test("XmlTokenizer.finalize() throws for DOCTYPE name only", () => {
 // Non-ASCII Name Characters Without Position Tracking
 // =============================================================================
 
-Deno.test("XmlTokenizer with trackPosition: false handles non-ASCII element names", () => {
+Ende.test("XmlTokenizer with trackPosition: false handles non-ASCII element names", () => {
   const tokenizer = new XmlTokenizer({ trackPosition: false });
   const { tokens, callbacks } = createCollector();
   tokenizer.process("<日本語></日本語>", callbacks);
@@ -2185,7 +2185,7 @@ Deno.test("XmlTokenizer with trackPosition: false handles non-ASCII element name
   assertEquals(tokens[0]?.name, "日本語");
 });
 
-Deno.test("XmlTokenizer with trackPosition: false handles astral plane names", () => {
+Ende.test("XmlTokenizer with trackPosition: false handles astral plane names", () => {
   // CJK Extension B character U+20000
   const tokenizer = new XmlTokenizer({ trackPosition: false });
   const { tokens, callbacks } = createCollector();
@@ -2198,7 +2198,7 @@ Deno.test("XmlTokenizer with trackPosition: false handles astral plane names", (
 // PubidLiteral Character Coverage
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() allows all valid PubidChar in PUBLIC ID", () => {
+Ende.test("XmlTokenizer.process() allows all valid PubidChar in PUBLIC ID", () => {
   // Test various valid PubidChar: space, CR, LF, letters, digits, special chars
   const tokens = collectTokens(
     '<!DOCTYPE root PUBLIC "-//W3C//DTD (Test+1.0)/EN;!*#@$_%" "test.dtd"><root/>',
@@ -2207,7 +2207,7 @@ Deno.test("XmlTokenizer.process() allows all valid PubidChar in PUBLIC ID", () =
   assertEquals(tokens[0]?.publicId, "-//W3C//DTD (Test+1.0)/EN;!*#@$_%");
 });
 
-Deno.test("XmlTokenizer.process() allows single quote in double-quoted PUBLIC ID", () => {
+Ende.test("XmlTokenizer.process() allows single quote in double-quoted PUBLIC ID", () => {
   const tokens = collectTokens(
     '<!DOCTYPE root PUBLIC "-//W3C//It\'s a Test//EN" "test.dtd"><root/>',
   );
@@ -2218,14 +2218,14 @@ Deno.test("XmlTokenizer.process() allows single quote in double-quoted PUBLIC ID
 // Comment Boundary Edge Cases - Partial Ending with Dash
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment where partial ends with dash", () => {
+Ende.test("XmlTokenizer.process() handles comment where partial ends with dash", () => {
   // Chunk boundary splits comment so partial ends with - and new starts with non-dash
   const tokens = collectChunkedTokens("<r><!--test-", "abc--></r>");
   const comment = tokens.find((t) => t.type === "comment");
   assertEquals(comment?.content, "test-abc");
 });
 
-Deno.test("XmlTokenizer.process() handles trailing dash before --> across chunks", () => {
+Ende.test("XmlTokenizer.process() handles trailing dash before --> across chunks", () => {
   // Tests line 891-902: partial ends with dash, new content is empty (just -->)
   assertThrows(
     () => collectChunkedTokens("<r><!--test-", "--></r>"),
@@ -2238,14 +2238,14 @@ Deno.test("XmlTokenizer.process() handles trailing dash before --> across chunks
 // CDATA Edge Cases - Char-by-Char Fallback
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles CDATA with multiple ] in sequence", () => {
+Ende.test("XmlTokenizer.process() handles CDATA with multiple ] in sequence", () => {
   // Tests CDATA_BRACKET_BRACKET with additional ] (line 1794-1798)
   const tokens = collectTokens("<r><![CDATA[test]]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
   assertEquals(cdata?.content, "test]");
 });
 
-Deno.test("XmlTokenizer.process() handles CDATA char-by-char fallback for non-]", () => {
+Ende.test("XmlTokenizer.process() handles CDATA char-by-char fallback for non-]", () => {
   // After batch capture, remaining char is not ] - tests line 1623-1625
   const tokens = collectChunkedTokens("<r><![CDATA[ab", "c]]></r>");
   const cdata = tokens.find((t) => t.type === "cdata");
@@ -2256,14 +2256,14 @@ Deno.test("XmlTokenizer.process() handles CDATA char-by-char fallback for non-]"
 // PI Edge Cases - Char-by-Char and Multiple ?
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles multiple ? in PI_QUESTION state", () => {
+Ende.test("XmlTokenizer.process() handles multiple ? in PI_QUESTION state", () => {
   // Tests line 1901-1904: consecutive ? in PI content
   const tokens = collectTokens("<?php echo ??? stuff?><r/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
   assertEquals(pi?.content, "echo ??? stuff");
 });
 
-Deno.test("XmlTokenizer.process() handles PI char-by-char fallback for non-?", () => {
+Ende.test("XmlTokenizer.process() handles PI char-by-char fallback for non-?", () => {
   // After batch capture, remaining char is not ? - tests line 1657-1659
   const tokens = collectChunkedTokens("<?php ab", "c?><r/>");
   const pi = tokens.find((t) => t.type === "processing_instruction");
@@ -2274,7 +2274,7 @@ Deno.test("XmlTokenizer.process() handles PI char-by-char fallback for non-?", (
 // Comment Char-by-Char Fallback
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment char-by-char fallback for non-dash", () => {
+Ende.test("XmlTokenizer.process() handles comment char-by-char fallback for non-dash", () => {
   // After batch capture, remaining char is not - : tests line 1597-1599
   const tokens = collectChunkedTokens("<r><!--ab", "c--></r>");
   const comment = tokens.find((t) => t.type === "comment");
@@ -2285,7 +2285,7 @@ Deno.test("XmlTokenizer.process() handles comment char-by-char fallback for non-
 // AFTER_TAG_NAME State - Tag Closing Variants
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles > immediately after attribute value", () => {
+Ende.test("XmlTokenizer.process() handles > immediately after attribute value", () => {
   // Tests AFTER_TAG_NAME with > (line 1395-1399)
   const tokens = collectTokens('<root attr="value">content</root>');
   assertEquals(tokens[0]?.type, "start_tag_open");
@@ -2294,7 +2294,7 @@ Deno.test("XmlTokenizer.process() handles > immediately after attribute value", 
   assertEquals(tokens[2]?.selfClosing, false);
 });
 
-Deno.test("XmlTokenizer.process() handles / immediately after attribute value", () => {
+Ende.test("XmlTokenizer.process() handles / immediately after attribute value", () => {
   // Tests AFTER_TAG_NAME with / (line 1400-1403) and self-closing
   const tokens = collectTokens('<root attr="value"/>');
   assertEquals(tokens[2]?.type, "start_tag_close");
@@ -2305,7 +2305,7 @@ Deno.test("XmlTokenizer.process() handles / immediately after attribute value", 
 // Attribute Value Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on missing quote for attribute value", () => {
+Ende.test("XmlTokenizer.process() throws on missing quote for attribute value", () => {
   // Tests BEFORE_ATTRIBUTE_VALUE error (line 1507-1509)
   assertThrows(
     () => collectTokens("<root attr=value/>"),
@@ -2314,7 +2314,7 @@ Deno.test("XmlTokenizer.process() throws on missing quote for attribute value", 
   );
 });
 
-Deno.test("XmlTokenizer.process() handles whitespace after attribute name before =", () => {
+Ende.test("XmlTokenizer.process() handles whitespace after attribute name before =", () => {
   // Tests AFTER_ATTRIBUTE_NAME whitespace handling (line 1514-1516)
   const tokens = collectTokens('<root attr  =  "value"/>');
   const attr = tokens.find((t) => t.type === "attribute");
@@ -2326,7 +2326,7 @@ Deno.test("XmlTokenizer.process() handles whitespace after attribute name before
 // DOCTYPE Name Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on invalid char in DOCTYPE name", () => {
+Ende.test("XmlTokenizer.process() throws on invalid char in DOCTYPE name", () => {
   // Tests line 1957-1963
   assertThrows(
     () => collectTokens("<!DOCTYPE root@name><root/>"),
@@ -2335,7 +2335,7 @@ Deno.test("XmlTokenizer.process() throws on invalid char in DOCTYPE name", () =>
   );
 });
 
-Deno.test("XmlTokenizer.process() throws on missing quote for PUBLIC ID", () => {
+Ende.test("XmlTokenizer.process() throws on missing quote for PUBLIC ID", () => {
   // Tests line 2061-2063
   assertThrows(
     () => collectTokens("<!DOCTYPE root PUBLIC -//W3C//><root/>"),
@@ -2348,7 +2348,7 @@ Deno.test("XmlTokenizer.process() throws on missing quote for PUBLIC ID", () => 
 // DTD Declaration Keyword Edge Cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on dash after partial declaration keyword", () => {
+Ende.test("XmlTokenizer.process() throws on dash after partial declaration keyword", () => {
   // Tests line 2177-2181: dash after some keyword chars
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ENTI-TY x 'y'>]><root/>"),
@@ -2361,7 +2361,7 @@ Deno.test("XmlTokenizer.process() throws on dash after partial declaration keywo
 // Illegal Character in Attribute Value Batch Capture
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on < in long attribute value", () => {
+Ende.test("XmlTokenizer.process() throws on < in long attribute value", () => {
   // Tests batch capture error path (line 1195-1198)
   const prefix = "a".repeat(100);
   assertThrows(
@@ -2375,7 +2375,7 @@ Deno.test("XmlTokenizer.process() throws on < in long attribute value", () => {
 // Illegal Chars in CDATA Safe Region
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() throws on illegal char in CDATA safe region", () => {
+Ende.test("XmlTokenizer.process() throws on illegal char in CDATA safe region", () => {
   // Tests line 1140-1147
   const prefix = "a".repeat(100);
   assertThrows(
@@ -2389,7 +2389,7 @@ Deno.test("XmlTokenizer.process() throws on illegal char in CDATA safe region", 
 // Cross-chunk streaming edge cases
 // =============================================================================
 
-Deno.test("XmlTokenizer.process() handles comment split at dash boundary", () => {
+Ende.test("XmlTokenizer.process() handles comment split at dash boundary", () => {
   // Chunk ends with a single '-' inside comment body → batch capture
   // consumes up to it, then the switch COMMENT case hits the dash fallback
   // (lines 1642-1652) and transitions to COMMENT_DASH across chunks
@@ -2401,7 +2401,7 @@ Deno.test("XmlTokenizer.process() handles comment split at dash boundary", () =>
   assertEquals(comment?.content, "abc");
 });
 
-Deno.test("XmlTokenizer.process() handles CDATA split at bracket boundary", () => {
+Ende.test("XmlTokenizer.process() handles CDATA split at bracket boundary", () => {
   // Chunk ends with ']' inside CDATA → batch capture consumes up to it,
   // then the switch CDATA case hits the bracket fallback (lines 1668-1678)
   const tokens = collectChunkedTokens(
@@ -2412,7 +2412,7 @@ Deno.test("XmlTokenizer.process() handles CDATA split at bracket boundary", () =
   assertEquals(cdata?.content, "abc");
 });
 
-Deno.test("XmlTokenizer.process() handles PI split at question mark boundary", () => {
+Ende.test("XmlTokenizer.process() handles PI split at question mark boundary", () => {
   // Chunk ends with '?' inside PI content → batch capture consumes up to it,
   // then the switch PI_CONTENT case hits the question fallback (lines 1702-1712)
   const tokens = collectChunkedTokens(
@@ -2424,7 +2424,7 @@ Deno.test("XmlTokenizer.process() handles PI split at question mark boundary", (
   assertEquals(pi?.content, "abc");
 });
 
-Deno.test("XmlTokenizer.process() handles attribute value split across chunks", () => {
+Ende.test("XmlTokenizer.process() handles attribute value split across chunks", () => {
   // Chunk ends mid-attribute-value with no closing quote →
   // exercises attribute batch capture incomplete path (lines 1216-1219)
   const tokens = collectChunkedTokens(
@@ -2436,7 +2436,7 @@ Deno.test("XmlTokenizer.process() handles attribute value split across chunks", 
   assertEquals(attr?.value, "hello world");
 });
 
-Deno.test("XmlTokenizer.process() throws on lowercase public/system in DOCTYPE", () => {
+Ende.test("XmlTokenizer.process() throws on lowercase public/system in DOCTYPE", () => {
   assertThrows(
     () =>
       collectTokens(
@@ -2478,7 +2478,7 @@ function collectTokensXml11(xml: string): XmlToken[] {
   return tokens;
 }
 
-Deno.test("XmlTokenizer xml11 rejects literal C0 control in text", () => {
+Ende.test("XmlTokenizer xml11 rejects literal C0 control in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\x01</root>"),
     XmlSyntaxError,
@@ -2486,7 +2486,7 @@ Deno.test("XmlTokenizer xml11 rejects literal C0 control in text", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects literal C1 control in text", () => {
+Ende.test("XmlTokenizer xml11 rejects literal C1 control in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\x80</root>"),
     XmlSyntaxError,
@@ -2499,7 +2499,7 @@ Deno.test("XmlTokenizer xml11 rejects literal C1 control in text", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects NULL in text", () => {
+Ende.test("XmlTokenizer xml11 rejects NULL in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\x00</root>"),
     XmlSyntaxError,
@@ -2507,13 +2507,13 @@ Deno.test("XmlTokenizer xml11 rejects NULL in text", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 allows NEL (U+0085) after line-ending normalization", () => {
+Ende.test("XmlTokenizer xml11 allows NEL (U+0085) after line-ending normalization", () => {
   const tokens = collectTokensXml11("<root>a\x85b</root>");
   const textToken = tokens.find((t) => t.type === "text");
   assertEquals(textToken?.content, "a\nb");
 });
 
-Deno.test("XmlTokenizer xml11 rejects literal C0 control in comment", () => {
+Ende.test("XmlTokenizer xml11 rejects literal C0 control in comment", () => {
   assertThrows(
     () => collectTokensXml11("<root><!--\x01--></root>"),
     XmlSyntaxError,
@@ -2521,7 +2521,7 @@ Deno.test("XmlTokenizer xml11 rejects literal C0 control in comment", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects literal C1 control in comment", () => {
+Ende.test("XmlTokenizer xml11 rejects literal C1 control in comment", () => {
   assertThrows(
     () => collectTokensXml11("<root><!--\x80--></root>"),
     XmlSyntaxError,
@@ -2529,7 +2529,7 @@ Deno.test("XmlTokenizer xml11 rejects literal C1 control in comment", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects literal C0 control in PI content", () => {
+Ende.test("XmlTokenizer xml11 rejects literal C0 control in PI content", () => {
   assertThrows(
     () => collectTokensXml11("<root><?pi \x02?></root>"),
     XmlSyntaxError,
@@ -2537,7 +2537,7 @@ Deno.test("XmlTokenizer xml11 rejects literal C0 control in PI content", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects literal C1 control in CDATA", () => {
+Ende.test("XmlTokenizer xml11 rejects literal C1 control in CDATA", () => {
   assertThrows(
     () => collectTokensXml11("<root><![CDATA[\x80]]></root>"),
     XmlSyntaxError,
@@ -2545,7 +2545,7 @@ Deno.test("XmlTokenizer xml11 rejects literal C1 control in CDATA", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects noncharacter U+FFFE in text", () => {
+Ende.test("XmlTokenizer xml11 rejects noncharacter U+FFFE in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\uFFFE</root>"),
     XmlSyntaxError,
@@ -2553,7 +2553,7 @@ Deno.test("XmlTokenizer xml11 rejects noncharacter U+FFFE in text", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects noncharacter U+FFFF in text", () => {
+Ende.test("XmlTokenizer xml11 rejects noncharacter U+FFFF in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\uFFFF</root>"),
     XmlSyntaxError,
@@ -2561,13 +2561,13 @@ Deno.test("XmlTokenizer xml11 rejects noncharacter U+FFFF in text", () => {
   );
 });
 
-Deno.test("XmlTokenizer xml11 allows normal text content", () => {
+Ende.test("XmlTokenizer xml11 allows normal text content", () => {
   const tokens = collectTokensXml11("<root>hello</root>");
   const textToken = tokens.find((t) => t.type === "text");
   assertEquals(textToken?.content, "hello");
 });
 
-Deno.test("XmlTokenizer xml11 rejects C0 in text without position tracking", () => {
+Ende.test("XmlTokenizer xml11 rejects C0 in text without position tracking", () => {
   const tokenizer = new XmlTokenizer({ xml11: true, trackPosition: false });
   const { callbacks } = createCollector();
   assertThrows(
@@ -2580,7 +2580,7 @@ Deno.test("XmlTokenizer xml11 rejects C0 in text without position tracking", () 
   );
 });
 
-Deno.test("XmlTokenizer xml11 rejects C1 in text without position tracking", () => {
+Ende.test("XmlTokenizer xml11 rejects C1 in text without position tracking", () => {
   const tokenizer = new XmlTokenizer({ xml11: true, trackPosition: false });
   const { callbacks } = createCollector();
   assertThrows(

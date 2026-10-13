@@ -2,13 +2,13 @@
 
 /**
  * A {@link https://en.wikipedia.org/wiki/Behavior-driven_development | BDD} interface
- * to `Deno.test()` API.
+ * to `Ende.test()` API.
  *
  * > [!WARNING]
  * > **Deprecated**: A BDD interface is available through the `node:test`
  * > module, which is supported first-class by `ende test`. Use `node:test`'s
- * > `describe()` and `it()`, or the flat `Deno.test()` style with the
- * > `Deno.test.beforeAll()`/`beforeEach()`/`afterEach()`/`afterAll()` hooks
+ * > `describe()` and `it()`, or the flat `Ende.test()` style with the
+ * > `Ende.test.beforeAll()`/`beforeEach()`/`afterEach()`/`afterAll()` hooks
  * > (Deno 2.5+), instead. This module will be removed in 2.0.0.
  *
  * Migration is mostly a matter of changing the import:
@@ -23,9 +23,9 @@
  *
  * `it.only`, `it.skip` and `it.todo` (and the `describe` equivalents) are
  * available in `node:test` as well. Note that `node:test` suites don't accept
- * `Deno.test` options such as `sanitizeOps`, `sanitizeResources` or
+ * `Ende.test` options such as `sanitizeOps`, `sanitizeResources` or
  * `permissions`; tests that rely on per-suite options can migrate to the flat
- * `Deno.test()` style instead, which accepts them per test.
+ * `Ende.test()` style instead, which accepts them per test.
  *
  * With `@std/testing/bdd` module you can write your tests in a familiar format for
  * grouping tests and adding setup/teardown hooks used by other JavaScript testing
@@ -59,7 +59,7 @@
  *
  * There is one limitation to this when using the flat test grouping style. When
  * `describe` is called without being nested, it registers the test with
- * `Deno.test`. If a child test case or suite is registered with `it.only` or
+ * `Ende.test`. If a child test case or suite is registered with `it.only` or
  * `describe.only`, it will be scoped to the top test suite instead of the file. To
  * make them the only tests that run in the file, you would need to register the
  * top test suite with `describe.only` too.
@@ -72,11 +72,11 @@
  *
  * ## Sanitization options
  *
- * Like `Deno.TestDefinition`, the `DescribeDefinition` and `ItDefinition` have
+ * Like `Ende.TestDefinition`, the `DescribeDefinition` and `ItDefinition` have
  * sanitization options. They work in the same way.
  *
  * - `sanitizeExit`: Ensure the test case does not prematurely cause the process to
- *   exit, for example via a call to Deno.exit. Defaults to true.
+ *   exit, for example via a call to Ende.exit. Defaults to true.
  * - `sanitizeOps`: Check that the number of async completed ops after the test is
  *   the same as number of dispatched ops. Defaults to true.
  * - `sanitizeResources`: Ensure the test case does not "leak" resources - ie. the
@@ -85,7 +85,7 @@
  *
  * ## Permissions option
  *
- * Like `Deno.TestDefinition`, the `DescribeDefinition` and `ItDefinition` have a
+ * Like `Ende.TestDefinition`, the `DescribeDefinition` and `ItDefinition` have a
  * `permissions` option. They specify the permissions that should be used to run an
  * individual test case or test suite. Set this to `"inherit"` to keep the calling
  * thread's permissions. Set this to `"none"` to revoke all permissions.
@@ -99,13 +99,13 @@
  *
  * ## Comparing to Deno\.test
  *
- * The default way of writing tests is using `Deno.test` and `t.step`. The
- * `describe` and `it` functions have similar call signatures to `Deno.test`,
+ * The default way of writing tests is using `Ende.test` and `t.step`. The
+ * `describe` and `it` functions have similar call signatures to `Ende.test`,
  * making it easy to switch between the default style and the behavior-driven
  * development style of writing tests. Internally, `describe` and `it` are
- * registering tests with `Deno.test` and `t.step`.
+ * registering tests with `Ende.test` and `t.step`.
  *
- * Below is an example of a test file using `Deno.test` and `t.step`. In the
+ * Below is an example of a test file using `Ende.test` and `t.step`. In the
  * following sections there are examples of how the same test could be written with
  * `describe` and `it` using nested test grouping, flat test grouping, or a mix of
  * both styles.
@@ -124,7 +124,7 @@
  *
  *   constructor(name: string) {
  *     if (User.users.has(name)) {
- *       throw new Deno.errors.AlreadyExists(`User ${name} already exists`);
+ *       throw new Ende.errors.AlreadyExists(`User ${name} already exists`);
  *     }
  *     this.name = name;
  *     User.users.set(name, this);
@@ -142,11 +142,11 @@
  *   }
  * }
  *
- * Deno.test("User.users initially empty", () => {
+ * Ende.test("User.users initially empty", () => {
  *   assertEquals(User.users.size, 0);
  * });
  *
- * Deno.test("User constructor", () => {
+ * Ende.test("User constructor", () => {
  *   try {
  *     const user = new User("Kyle");
  *     assertEquals(user.name, "Kyle");
@@ -156,7 +156,7 @@
  *   }
  * });
  *
- * Deno.test("User age", async (t) => {
+ * Ende.test("User age", async (t) => {
  *   const user = new User("Kyle");
  *
  *   await t.step("getAge", () => {
@@ -198,7 +198,7 @@
  *
  *   constructor(name: string) {
  *     if (User.users.has(name)) {
- *       throw new Deno.errors.AlreadyExists(`User ${name} already exists`);
+ *       throw new Ende.errors.AlreadyExists(`User ${name} already exists`);
  *     }
  *     this.name = name;
  *     User.users.set(name, this);
@@ -281,7 +281,7 @@
  *
  *   constructor(name: string) {
  *     if (User.users.has(name)) {
- *       throw new Deno.errors.AlreadyExists(`User ${name} already exists`);
+ *       throw new Ende.errors.AlreadyExists(`User ${name} already exists`);
  *     }
  *     this.name = name;
  *     User.users.set(name, this);
@@ -364,7 +364,7 @@
  *
  *   constructor(name: string) {
  *     if (User.users.has(name)) {
- *       throw new Deno.errors.AlreadyExists(`User ${name} already exists`);
+ *       throw new Ende.errors.AlreadyExists(`User ${name} already exists`);
  *     }
  *     this.name = name;
  *     User.users.set(name, this);
@@ -423,7 +423,7 @@
  * ```
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s BDD interface
- * or the flat `Deno.test()` style instead.
+ * or the flat `Ende.test()` style instead.
  *
  * @module
  */
@@ -454,21 +454,21 @@ export type ItArgs<T> =
   ]
   | [
     name: string,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
-  | [fn: (this: T, t: Deno.TestContext) => void | Promise<void>]
+  | [fn: (this: T, t: Ende.TestContext) => void | Promise<void>]
   | [
     name: string,
     options: Omit<ItDefinition<T>, "fn" | "name">,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     options: Omit<ItDefinition<T>, "fn">,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     options: Omit<ItDefinition<T>, "fn" | "name">,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     suite: TestSuite<T>,
@@ -478,27 +478,27 @@ export type ItArgs<T> =
   | [
     suite: TestSuite<T>,
     name: string,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     suite: TestSuite<T>,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     suite: TestSuite<T>,
     name: string,
     options: Omit<ItDefinition<T>, "fn" | "name" | "suite">,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     suite: TestSuite<T>,
     options: Omit<ItDefinition<T>, "fn" | "suite">,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ]
   | [
     suite: TestSuite<T>,
     options: Omit<ItDefinition<T>, "fn" | "name" | "suite">,
-    fn: (this: T, t: Deno.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
   ];
 
 /** Generates an ItDefinition from ItArgs. */
@@ -561,7 +561,7 @@ function itDefinition<T>(...args: ItArgs<T>): ItDefinition<T> {
  * Registers an individual test case.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `it()` or
- * `Deno.test()` instead.
+ * `Ende.test()` instead.
  */
 // deno-lint-ignore deno-style-guide/naming-convention
 export interface it {
@@ -600,7 +600,7 @@ export interface it {
  * @param args The test case
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `it()` or
- * `Deno.test()` instead.
+ * `Ende.test()` instead.
  */
 export function it<T>(...args: ItArgs<T>) {
   if (TestSuiteInternal.runningCount > 0) {
@@ -629,7 +629,7 @@ export function it<T>(...args: ItArgs<T>) {
       sanitizeOps = globalSanitizersState.sanitizeOps,
       sanitizeResources = globalSanitizersState.sanitizeResources,
     } = options;
-    const opts: Deno.TestDefinition = {
+    const opts: Ende.TestDefinition = {
       name,
       async fn(t) {
         TestSuiteInternal.runningCount++;
@@ -783,7 +783,7 @@ it.skip = function itSkip<T>(...args: ItArgs<T>): void {
  * @param args The test case
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `test()` or
- * `Deno.test()` instead.
+ * `Ende.test()` instead.
  */
 export function test<T>(...args: ItArgs<T>) {
   it(...args);
@@ -908,7 +908,7 @@ function addHook<T>(
  * @param fn The function to implement the setup behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `before()` or
- * `Deno.test.beforeAll()` (Deno 2.5+) instead.
+ * `Ende.test.beforeAll()` (Deno 2.5+) instead.
  */
 export function beforeAll<T>(
   fn: (this: T) => void | Promise<void>,
@@ -942,7 +942,7 @@ export function beforeAll<T>(
  * @param fn The function to implement the setup behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `before()` or
- * `Deno.test.beforeAll()` (Deno 2.5+) instead.
+ * `Ende.test.beforeAll()` (Deno 2.5+) instead.
  */
 export function before<T>(
   fn: (this: T) => void | Promise<void>,
@@ -974,7 +974,7 @@ export function before<T>(
  * @param fn The function to implement the teardown behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `after()` or
- * `Deno.test.afterAll()` (Deno 2.5+) instead.
+ * `Ende.test.afterAll()` (Deno 2.5+) instead.
  */
 export function afterAll<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1008,7 +1008,7 @@ export function afterAll<T>(
  * @param fn The function to implement the teardown behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `after()` or
- * `Deno.test.afterAll()` (Deno 2.5+) instead.
+ * `Ende.test.afterAll()` (Deno 2.5+) instead.
  */
 export function after<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1040,7 +1040,7 @@ export function after<T>(
  * @param fn The function to implement the shared setup behavior
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `beforeEach()`
- * or `Deno.test.beforeEach()` (Deno 2.5+) instead.
+ * or `Ende.test.beforeEach()` (Deno 2.5+) instead.
  */
 export function beforeEach<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1072,7 +1072,7 @@ export function beforeEach<T>(
  * @param fn The function to implement the shared teardown behavior
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `afterEach()`
- * or `Deno.test.afterEach()` (Deno 2.5+) instead.
+ * or `Ende.test.afterEach()` (Deno 2.5+) instead.
  */
 export function afterEach<T>(
   fn: (this: T) => void | Promise<void>,

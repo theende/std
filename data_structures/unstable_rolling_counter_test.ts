@@ -4,13 +4,13 @@ import { RollingCounter } from "./unstable_rolling_counter.ts";
 
 // -- Constructor --
 
-Deno.test("RollingCounter() throws on invalid segmentCount", () => {
+Ende.test("RollingCounter() throws on invalid segmentCount", () => {
   for (const bad of [0, -1, 1.5, NaN, Infinity]) {
     assertThrows(() => new RollingCounter(bad), RangeError);
   }
 });
 
-Deno.test("RollingCounter() initializes with correct segmentCount and zero total", () => {
+Ende.test("RollingCounter() initializes with correct segmentCount and zero total", () => {
   const counter = new RollingCounter(3);
   assertEquals(counter.segmentCount, 3);
   assertEquals(counter.total, 0);
@@ -19,14 +19,14 @@ Deno.test("RollingCounter() initializes with correct segmentCount and zero total
 
 // -- increment --
 
-Deno.test("RollingCounter.increment() throws on invalid n", () => {
+Ende.test("RollingCounter.increment() throws on invalid n", () => {
   const counter = new RollingCounter(3);
   for (const bad of [-1, 1.5, NaN, Infinity]) {
     assertThrows(() => counter.increment(bad), RangeError);
   }
 });
 
-Deno.test("RollingCounter.increment() defaults to 1 and accumulates in current segment", () => {
+Ende.test("RollingCounter.increment() defaults to 1 and accumulates in current segment", () => {
   const counter = new RollingCounter(3);
   assertEquals(counter.increment(), 1);
   assertEquals(counter.increment(4), 5);
@@ -36,7 +36,7 @@ Deno.test("RollingCounter.increment() defaults to 1 and accumulates in current s
 
 // -- rotate (single step) --
 
-Deno.test("RollingCounter.rotate() evicts oldest segment and updates total", () => {
+Ende.test("RollingCounter.rotate() evicts oldest segment and updates total", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -53,7 +53,7 @@ Deno.test("RollingCounter.rotate() evicts oldest segment and updates total", () 
   assertEquals([...counter], [3, 7, 0]);
 });
 
-Deno.test("RollingCounter.rotate() on empty segments returns 0", () => {
+Ende.test("RollingCounter.rotate() on empty segments returns 0", () => {
   const counter = new RollingCounter(3);
   assertEquals(counter.rotate(), 0);
   assertEquals(counter.total, 0);
@@ -61,14 +61,14 @@ Deno.test("RollingCounter.rotate() on empty segments returns 0", () => {
 
 // -- rotate(steps) --
 
-Deno.test("RollingCounter.rotate() throws on invalid steps", () => {
+Ende.test("RollingCounter.rotate() throws on invalid steps", () => {
   const counter = new RollingCounter(3);
   for (const bad of [-1, 1.5, NaN, Infinity]) {
     assertThrows(() => counter.rotate(bad), RangeError);
   }
 });
 
-Deno.test("RollingCounter.rotate() with steps=0 is a no-op", () => {
+Ende.test("RollingCounter.rotate() with steps=0 is a no-op", () => {
   const counter = new RollingCounter(3);
   counter.increment(10);
   assertEquals(counter.rotate(0), 0);
@@ -81,7 +81,7 @@ Deno.test("RollingCounter.rotate() with steps=0 is a no-op", () => {
   assertEquals(counter.total, 11);
 });
 
-Deno.test("RollingCounter.rotate() bulk advances partial window", () => {
+Ende.test("RollingCounter.rotate() bulk advances partial window", () => {
   const counter = new RollingCounter(4);
   counter.increment(10);
   counter.rotate();
@@ -97,7 +97,7 @@ Deno.test("RollingCounter.rotate() bulk advances partial window", () => {
   assertEquals([...counter], [30, 40, 0, 0]);
 });
 
-Deno.test("RollingCounter.rotate() with steps >= segmentCount clears all and positions cursor correctly", () => {
+Ende.test("RollingCounter.rotate() with steps >= segmentCount clears all and positions cursor correctly", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -113,7 +113,7 @@ Deno.test("RollingCounter.rotate() with steps >= segmentCount clears all and pos
   assertEquals([...counter], [0, 1, 2]);
 });
 
-Deno.test("RollingCounter.rotate() with steps > segmentCount clears all", () => {
+Ende.test("RollingCounter.rotate() with steps > segmentCount clears all", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -124,7 +124,7 @@ Deno.test("RollingCounter.rotate() with steps > segmentCount clears all", () => 
   assertEquals(counter.total, 0);
 });
 
-Deno.test("RollingCounter.rotate() bulk matches repeated single rotates", () => {
+Ende.test("RollingCounter.rotate() bulk matches repeated single rotates", () => {
   const a = new RollingCounter(4);
   const b = new RollingCounter(4);
   for (const c of [a, b]) {
@@ -148,7 +148,7 @@ Deno.test("RollingCounter.rotate() bulk matches repeated single rotates", () => 
 
 // -- clear --
 
-Deno.test("RollingCounter.clear() resets to initial state", () => {
+Ende.test("RollingCounter.clear() resets to initial state", () => {
   const counter = new RollingCounter(3);
   counter.increment(10);
   counter.rotate();
@@ -172,7 +172,7 @@ Deno.test("RollingCounter.clear() resets to initial state", () => {
 
 // -- current --
 
-Deno.test("RollingCounter.current returns the current segment value", () => {
+Ende.test("RollingCounter.current returns the current segment value", () => {
   const counter = new RollingCounter(3);
   assertEquals(counter.current, 0);
 
@@ -186,14 +186,14 @@ Deno.test("RollingCounter.current returns the current segment value", () => {
   assertEquals(counter.current, 3);
 });
 
-Deno.test("RollingCounter.current is 0 after clear", () => {
+Ende.test("RollingCounter.current is 0 after clear", () => {
   const counter = new RollingCounter(3);
   counter.increment(10);
   counter.clear();
   assertEquals(counter.current, 0);
 });
 
-Deno.test("RollingCounter.current tracks the newest segment after bulk rotate", () => {
+Ende.test("RollingCounter.current tracks the newest segment after bulk rotate", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -207,7 +207,7 @@ Deno.test("RollingCounter.current tracks the newest segment after bulk rotate", 
 
 // -- Symbol.toStringTag --
 
-Deno.test("RollingCounter[Symbol.toStringTag] returns 'RollingCounter'", () => {
+Ende.test("RollingCounter[Symbol.toStringTag] returns 'RollingCounter'", () => {
   const counter = new RollingCounter(3);
   assertEquals(
     Object.prototype.toString.call(counter),
@@ -217,7 +217,7 @@ Deno.test("RollingCounter[Symbol.toStringTag] returns 'RollingCounter'", () => {
 
 // -- Symbol.iterator --
 
-Deno.test("RollingCounter[Symbol.iterator]() yields segments oldest to newest", () => {
+Ende.test("RollingCounter[Symbol.iterator]() yields segments oldest to newest", () => {
   const counter = new RollingCounter(3);
   counter.increment(1);
   counter.rotate();
@@ -232,7 +232,7 @@ Deno.test("RollingCounter[Symbol.iterator]() yields segments oldest to newest", 
 
 // -- Edge cases --
 
-Deno.test("RollingCounter with segmentCount of 1 evicts on every rotate", () => {
+Ende.test("RollingCounter with segmentCount of 1 evicts on every rotate", () => {
   const counter = new RollingCounter(1);
   counter.increment(42);
   assertEquals([...counter], [42]);
@@ -243,7 +243,7 @@ Deno.test("RollingCounter with segmentCount of 1 evicts on every rotate", () => 
   assertEquals([...counter], [0]);
 });
 
-Deno.test("RollingCounter handles many rotations without data loss", () => {
+Ende.test("RollingCounter handles many rotations without data loss", () => {
   const counter = new RollingCounter(3);
   counter.increment(10);
   for (let i = 0; i < 100; i++) counter.rotate();
@@ -255,7 +255,7 @@ Deno.test("RollingCounter handles many rotations without data loss", () => {
 
 // -- toArray --
 
-Deno.test("RollingCounter.toArray() returns segments oldest-to-newest", () => {
+Ende.test("RollingCounter.toArray() returns segments oldest-to-newest", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -263,7 +263,7 @@ Deno.test("RollingCounter.toArray() returns segments oldest-to-newest", () => {
   assertEquals(counter.toArray(), [0, 5, 3]);
 });
 
-Deno.test("RollingCounter.toArray() matches [...counter]", () => {
+Ende.test("RollingCounter.toArray() matches [...counter]", () => {
   const counter = new RollingCounter(4);
   counter.increment(1);
   counter.rotate();
@@ -273,7 +273,7 @@ Deno.test("RollingCounter.toArray() matches [...counter]", () => {
   assertEquals(counter.toArray(), [...counter]);
 });
 
-Deno.test("RollingCounter.toArray() returns a fresh array", () => {
+Ende.test("RollingCounter.toArray() returns a fresh array", () => {
   const counter = new RollingCounter(3);
   counter.increment(10);
   const arr = counter.toArray();
@@ -283,7 +283,7 @@ Deno.test("RollingCounter.toArray() returns a fresh array", () => {
 
 // -- at --
 
-Deno.test("RollingCounter.at() indexes oldest-to-newest", () => {
+Ende.test("RollingCounter.at() indexes oldest-to-newest", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -293,7 +293,7 @@ Deno.test("RollingCounter.at() indexes oldest-to-newest", () => {
   assertEquals(counter.at(2), 3);
 });
 
-Deno.test("RollingCounter.at() supports negative indices", () => {
+Ende.test("RollingCounter.at() supports negative indices", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   counter.rotate();
@@ -304,7 +304,7 @@ Deno.test("RollingCounter.at() supports negative indices", () => {
   assertEquals(counter.at(-3), 0);
 });
 
-Deno.test("RollingCounter.at() returns undefined for out-of-range indices", () => {
+Ende.test("RollingCounter.at() returns undefined for out-of-range indices", () => {
   const counter = new RollingCounter(3);
   counter.increment(1);
   assertEquals(counter.at(3), undefined);
@@ -313,7 +313,7 @@ Deno.test("RollingCounter.at() returns undefined for out-of-range indices", () =
   assertEquals(counter.at(-99), undefined);
 });
 
-Deno.test("RollingCounter.at() tracks rotation", () => {
+Ende.test("RollingCounter.at() tracks rotation", () => {
   const counter = new RollingCounter(4);
   counter.increment(10);
   counter.rotate();
@@ -335,7 +335,7 @@ Deno.test("RollingCounter.at() tracks rotation", () => {
 
 // -- toJSON / from --
 
-Deno.test("RollingCounter.toJSON() and from() round-trip through JSON", () => {
+Ende.test("RollingCounter.toJSON() and from() round-trip through JSON", () => {
   const original = new RollingCounter(4);
   original.increment(5);
   original.rotate();
@@ -351,7 +351,7 @@ Deno.test("RollingCounter.toJSON() and from() round-trip through JSON", () => {
   assertEquals(restored.segmentCount, original.segmentCount);
 });
 
-Deno.test("RollingCounter.toJSON() on a never-rotated counter", () => {
+Ende.test("RollingCounter.toJSON() on a never-rotated counter", () => {
   const counter = new RollingCounter(3);
   counter.increment(5);
   const snapshot = counter.toJSON();
@@ -362,7 +362,7 @@ Deno.test("RollingCounter.toJSON() on a never-rotated counter", () => {
   assertEquals(restored.total, 5);
 });
 
-Deno.test("RollingCounter.from() produces an independent, functional copy", () => {
+Ende.test("RollingCounter.from() produces an independent, functional copy", () => {
   const a = new RollingCounter(3);
   a.increment(5);
   a.rotate();
@@ -378,13 +378,13 @@ Deno.test("RollingCounter.from() produces an independent, functional copy", () =
   assertEquals([...b], [5, 3, 7]);
 });
 
-Deno.test("RollingCounter.from() with single-segment counter", () => {
+Ende.test("RollingCounter.from() with single-segment counter", () => {
   const restored = RollingCounter.from({ segments: [42] });
   assertEquals(restored.total, 42);
   assertEquals(restored.rotate(), 42);
 });
 
-Deno.test("RollingCounter.from() with a RollingCounter instance produces an independent clone", () => {
+Ende.test("RollingCounter.from() with a RollingCounter instance produces an independent clone", () => {
   const original = new RollingCounter(3);
   original.increment(5);
   original.rotate();
@@ -403,7 +403,7 @@ Deno.test("RollingCounter.from() with a RollingCounter instance produces an inde
   assertEquals(clone.total, 15);
 });
 
-Deno.test("RollingCounter.from() with a RollingCounter instance matches from(c.toJSON())", () => {
+Ende.test("RollingCounter.from() with a RollingCounter instance matches from(c.toJSON())", () => {
   const original = new RollingCounter(4);
   original.increment(10);
   original.rotate();
@@ -426,11 +426,11 @@ Deno.test("RollingCounter.from() with a RollingCounter instance matches from(c.t
   assertEquals(viaInstance.total, viaSnapshot.total);
 });
 
-Deno.test("RollingCounter.from() throws on empty segments", () => {
+Ende.test("RollingCounter.from() throws on empty segments", () => {
   assertThrows(() => RollingCounter.from({ segments: [] }), RangeError);
 });
 
-Deno.test("RollingCounter.from() throws on non-array segments", () => {
+Ende.test("RollingCounter.from() throws on non-array segments", () => {
   assertThrows(
     // deno-lint-ignore no-explicit-any
     () => RollingCounter.from({ segments: "no" as any }),
@@ -438,7 +438,7 @@ Deno.test("RollingCounter.from() throws on non-array segments", () => {
   );
 });
 
-Deno.test("RollingCounter.from() throws on null / undefined / non-object source", () => {
+Ende.test("RollingCounter.from() throws on null / undefined / non-object source", () => {
   for (const bad of [null, undefined, 42, "snap", true]) {
     assertThrows(
       // deno-lint-ignore no-explicit-any
@@ -449,7 +449,7 @@ Deno.test("RollingCounter.from() throws on null / undefined / non-object source"
   }
 });
 
-Deno.test("RollingCounter.from() throws on invalid segment values", () => {
+Ende.test("RollingCounter.from() throws on invalid segment values", () => {
   for (const bad of [-1, 1.5, NaN, Infinity]) {
     assertThrows(
       () => RollingCounter.from({ segments: [0, bad, 0] }),

@@ -8,7 +8,7 @@ import { XmlSyntaxError } from "./types.ts";
 // parseXmlStream (Direct Callback API)
 // =============================================================================
 
-Deno.test("parseXmlStream() basic usage", async () => {
+Ende.test("parseXmlStream() basic usage", async () => {
   const xml = "<root><item>Hello</item></root>";
   const stream = ReadableStream.from([xml]);
 
@@ -28,7 +28,7 @@ Deno.test("parseXmlStream() basic usage", async () => {
   assertEquals(texts, ["Hello"]);
 });
 
-Deno.test("parseXmlStream() handles chunked input", async () => {
+Ende.test("parseXmlStream() handles chunked input", async () => {
   const stream = ReadableStream.from(["<root>", "Hello", "</root>"]);
 
   const elements: string[] = [];
@@ -50,7 +50,7 @@ Deno.test("parseXmlStream() handles chunked input", async () => {
   assertEquals(texts, ["Hello"]);
 });
 
-Deno.test("parseXmlStream() handles attributes via iterator", async () => {
+Ende.test("parseXmlStream() handles attributes via iterator", async () => {
   const xml = '<root id="1" class="test"><item name="foo"/></root>';
   const stream = ReadableStream.from([xml]);
 
@@ -74,7 +74,7 @@ Deno.test("parseXmlStream() handles attributes via iterator", async () => {
   ]);
 });
 
-Deno.test("parseXmlStream() handles namespaced elements", async () => {
+Ende.test("parseXmlStream() handles namespaced elements", async () => {
   const xml = '<ns:root xmlns:ns="http://example.com"><ns:item/></ns:root>';
   const stream = ReadableStream.from([xml]);
 
@@ -99,7 +99,7 @@ Deno.test("parseXmlStream() handles namespaced elements", async () => {
   ]);
 });
 
-Deno.test("parseXmlStream() handles position tracking", async () => {
+Ende.test("parseXmlStream() handles position tracking", async () => {
   const xml = "<root><item/></root>";
   const stream = ReadableStream.from([xml]);
 
@@ -129,7 +129,7 @@ Deno.test("parseXmlStream() handles position tracking", async () => {
   ]);
 });
 
-Deno.test("parseXmlStream() handles CDATA and comments", async () => {
+Ende.test("parseXmlStream() handles CDATA and comments", async () => {
   const xml = "<root><![CDATA[data]]><!-- comment --></root>";
   const stream = ReadableStream.from([xml]);
 
@@ -150,7 +150,7 @@ Deno.test("parseXmlStream() handles CDATA and comments", async () => {
   ]);
 });
 
-Deno.test("parseXmlStream() handles declaration", async () => {
+Ende.test("parseXmlStream() handles declaration", async () => {
   const xml = '<?xml version="1.0" encoding="UTF-8"?><root/>';
   const stream = ReadableStream.from([xml]);
 
@@ -168,7 +168,7 @@ Deno.test("parseXmlStream() handles declaration", async () => {
   assertEquals(encoding, "UTF-8");
 });
 
-Deno.test("parseXmlStream() invokes onDoctype when disallowDoctype is false", async () => {
+Ende.test("parseXmlStream() invokes onDoctype when disallowDoctype is false", async () => {
   const xml = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0//EN" ' +
     '"http://www.w3.org/TR/xhtml1/DTD/xhtml1.dtd"><html/>';
   const stream = ReadableStream.from([xml]);
@@ -196,7 +196,7 @@ Deno.test("parseXmlStream() invokes onDoctype when disallowDoctype is false", as
   }]);
 });
 
-Deno.test("parseXmlStream() rejects DOCTYPE by default without invoking onDoctype", async () => {
+Ende.test("parseXmlStream() rejects DOCTYPE by default without invoking onDoctype", async () => {
   const xml = "<!DOCTYPE root><root/>";
   const stream = ReadableStream.from([xml]);
 
@@ -215,7 +215,7 @@ Deno.test("parseXmlStream() rejects DOCTYPE by default without invoking onDoctyp
   assertEquals(called, false);
 });
 
-Deno.test("parseXmlStream() ignores whitespace when configured", async () => {
+Ende.test("parseXmlStream() ignores whitespace when configured", async () => {
   const xml = "<root>\n  <item/>\n</root>";
   const stream = ReadableStream.from([xml]);
 
@@ -234,7 +234,7 @@ Deno.test("parseXmlStream() ignores whitespace when configured", async () => {
   assertEquals(texts, []);
 });
 
-Deno.test("parseXmlStream() throws on malformed XML", async () => {
+Ende.test("parseXmlStream() throws on malformed XML", async () => {
   const xml = "<root attr=value/>";
   const stream = ReadableStream.from([xml]);
 
@@ -244,7 +244,7 @@ Deno.test("parseXmlStream() throws on malformed XML", async () => {
   );
 });
 
-Deno.test("parseXmlStream() accepts AsyncIterable", async () => {
+Ende.test("parseXmlStream() accepts AsyncIterable", async () => {
   async function* generateChunks(): AsyncGenerator<string> {
     yield "<root>";
     yield "<item/>";
@@ -262,7 +262,7 @@ Deno.test("parseXmlStream() accepts AsyncIterable", async () => {
   assertEquals(elements, ["root", "item"]);
 });
 
-Deno.test("parseXmlStream() handles tag split across chunks", async () => {
+Ende.test("parseXmlStream() handles tag split across chunks", async () => {
   const stream = ReadableStream.from(["<ro", "ot></root>"]);
 
   const elements: string[] = [];
@@ -276,7 +276,7 @@ Deno.test("parseXmlStream() handles tag split across chunks", async () => {
   assertEquals(elements, ["root"]);
 });
 
-Deno.test("parseXmlStream() handles attribute split across chunks", async () => {
+Ende.test("parseXmlStream() handles attribute split across chunks", async () => {
   const stream = ReadableStream.from(['<item id="12', '3"/>']);
 
   const attrs: string[] = [];
@@ -292,7 +292,7 @@ Deno.test("parseXmlStream() handles attribute split across chunks", async () => 
   assertEquals(attrs, ["123"]);
 });
 
-Deno.test("parseXmlStream() handles many small chunks", async () => {
+Ende.test("parseXmlStream() handles many small chunks", async () => {
   const xml = "<root><item>content</item></root>";
   const chunks = xml.split(""); // One character per chunk
   const stream = ReadableStream.from(chunks);
@@ -311,7 +311,7 @@ Deno.test("parseXmlStream() handles many small chunks", async () => {
   assertEquals(elements, ["root", "item", "/item", "/root"]);
 });
 
-Deno.test("parseXmlStream() handles empty chunks", async () => {
+Ende.test("parseXmlStream() handles empty chunks", async () => {
   const stream = ReadableStream.from(["", "<root/>", ""]);
 
   const elements: string[] = [];
@@ -328,7 +328,7 @@ Deno.test("parseXmlStream() handles empty chunks", async () => {
   assertEquals(elements, ["root", "/root"]);
 });
 
-Deno.test("parseXmlStream() handles RSS-like feed", async () => {
+Ende.test("parseXmlStream() handles RSS-like feed", async () => {
   const xml = `<?xml version="1.0"?>
 <rss version="2.0">
   <channel>
@@ -359,7 +359,7 @@ Deno.test("parseXmlStream() handles RSS-like feed", async () => {
 // parseXmlStreamFromBytes
 // =============================================================================
 
-Deno.test("parseXmlStreamFromBytes() handles byte stream", async () => {
+Ende.test("parseXmlStreamFromBytes() handles byte stream", async () => {
   const xml = "<root><item>Hello</item></root>";
   const bytes = new TextEncoder().encode(xml);
   const stream = ReadableStream.from([bytes]);
@@ -375,7 +375,7 @@ Deno.test("parseXmlStreamFromBytes() handles byte stream", async () => {
   assertEquals(elements, ["root", "item"]);
 });
 
-Deno.test("parseXmlStreamFromBytes() handles multi-byte characters", async () => {
+Ende.test("parseXmlStreamFromBytes() handles multi-byte characters", async () => {
   const xml = "<root>Hello 世界 🌍</root>";
   const bytes = new TextEncoder().encode(xml);
   // Split bytes to test streaming decode
@@ -394,7 +394,7 @@ Deno.test("parseXmlStreamFromBytes() handles multi-byte characters", async () =>
   assertEquals(texts.join(""), "Hello 世界 🌍");
 });
 
-Deno.test("parseXmlStreamFromBytes() accepts AsyncIterable", async () => {
+Ende.test("parseXmlStreamFromBytes() accepts AsyncIterable", async () => {
   const xml = "<root><item/></root>";
   const bytes = new TextEncoder().encode(xml);
 
@@ -418,7 +418,7 @@ Deno.test("parseXmlStreamFromBytes() accepts AsyncIterable", async () => {
 // AsyncIterable tests (using Symbol.asyncIterator check path)
 // =============================================================================
 
-Deno.test("parseXmlStream() handles AsyncIterable via Symbol.asyncIterator check", async () => {
+Ende.test("parseXmlStream() handles AsyncIterable via Symbol.asyncIterator check", async () => {
   // This tests the Symbol.asyncIterator branch in parseXmlStream
   async function* generateChunks(): AsyncGenerator<string> {
     yield "<root>";
@@ -445,7 +445,7 @@ Deno.test("parseXmlStream() handles AsyncIterable via Symbol.asyncIterator check
   assertEquals(texts, ["text"]);
 });
 
-Deno.test("parseXmlStreamFromBytes() handles AsyncIterable with multi-byte split", async () => {
+Ende.test("parseXmlStreamFromBytes() handles AsyncIterable with multi-byte split", async () => {
   // Test that decodeAsyncIterable handles the final yield properly
   // and that multi-byte characters split across chunks are decoded correctly
   const xml = "<root>Hello 世界</root>";
@@ -472,7 +472,7 @@ Deno.test("parseXmlStreamFromBytes() handles AsyncIterable with multi-byte split
   assertEquals(texts.join(""), "Hello 世界");
 });
 
-Deno.test("parseXmlStreamFromBytes() flushes decoder at end of stream", async () => {
+Ende.test("parseXmlStreamFromBytes() flushes decoder at end of stream", async () => {
   // Tests the final decoder.decode() flush path (line 160)
   // Use multiple small chunks to ensure decoder has buffered state
   const xml = "<root>test</root>";
@@ -498,7 +498,7 @@ Deno.test("parseXmlStreamFromBytes() flushes decoder at end of stream", async ()
 // Streaming Parser Error Tests (XmlEventParser validation paths)
 // =============================================================================
 
-Deno.test("parseXmlStream() throws on invalid QName element name", async () => {
+Ende.test("parseXmlStream() throws on invalid QName element name", async () => {
   const xml = '<:element xmlns=":"/>';
   const stream = ReadableStream.from([xml]);
 
@@ -509,7 +509,7 @@ Deno.test("parseXmlStream() throws on invalid QName element name", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on element using xmlns prefix", async () => {
+Ende.test("parseXmlStream() throws on element using xmlns prefix", async () => {
   const xml = '<xmlns:test xmlns:xmlns="http://example.com"/>';
   const stream = ReadableStream.from([xml]);
 
@@ -520,7 +520,7 @@ Deno.test("parseXmlStream() throws on element using xmlns prefix", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on invalid QName attribute name", async () => {
+Ende.test("parseXmlStream() throws on invalid QName attribute name", async () => {
   const xml = '<root :attr="value"/>';
   const stream = ReadableStream.from([xml]);
 
@@ -531,7 +531,7 @@ Deno.test("parseXmlStream() throws on invalid QName attribute name", async () =>
   );
 });
 
-Deno.test("parseXmlStream() throws on invalid namespace binding", async () => {
+Ende.test("parseXmlStream() throws on invalid namespace binding", async () => {
   // xmlns:xml cannot be rebound to a different URI
   const xml = '<root xmlns:xml="http://wrong.com"/>';
   const stream = ReadableStream.from([xml]);
@@ -542,7 +542,7 @@ Deno.test("parseXmlStream() throws on invalid namespace binding", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on duplicate attribute", async () => {
+Ende.test("parseXmlStream() throws on duplicate attribute", async () => {
   const xml = '<root attr="1" attr="2"/>';
   const stream = ReadableStream.from([xml]);
 
@@ -553,7 +553,7 @@ Deno.test("parseXmlStream() throws on duplicate attribute", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on multiple root elements", async () => {
+Ende.test("parseXmlStream() throws on multiple root elements", async () => {
   const xml = "<root/><extra/>";
   const stream = ReadableStream.from([xml]);
 
@@ -564,7 +564,7 @@ Deno.test("parseXmlStream() throws on multiple root elements", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on unbound namespace prefix in element", async () => {
+Ende.test("parseXmlStream() throws on unbound namespace prefix in element", async () => {
   const xml = "<ns:root/>";
   const stream = ReadableStream.from([xml]);
 
@@ -575,7 +575,7 @@ Deno.test("parseXmlStream() throws on unbound namespace prefix in element", asyn
   );
 });
 
-Deno.test("parseXmlStream() throws on unbound namespace prefix in attribute", async () => {
+Ende.test("parseXmlStream() throws on unbound namespace prefix in attribute", async () => {
   const xml = '<root ns:attr="value"/>';
   const stream = ReadableStream.from([xml]);
 
@@ -586,7 +586,7 @@ Deno.test("parseXmlStream() throws on unbound namespace prefix in attribute", as
   );
 });
 
-Deno.test("parseXmlStream() throws on duplicate expanded attribute names", async () => {
+Ende.test("parseXmlStream() throws on duplicate expanded attribute names", async () => {
   const xml =
     '<root xmlns:a="http://example.com" xmlns:b="http://example.com" a:attr="1" b:attr="2"/>';
   const stream = ReadableStream.from([xml]);
@@ -598,7 +598,7 @@ Deno.test("parseXmlStream() throws on duplicate expanded attribute names", async
   );
 });
 
-Deno.test("parseXmlStream() throws on text before root", async () => {
+Ende.test("parseXmlStream() throws on text before root", async () => {
   const xml = "text<root/>";
   const stream = ReadableStream.from([xml]);
 
@@ -609,7 +609,7 @@ Deno.test("parseXmlStream() throws on text before root", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on text after root", async () => {
+Ende.test("parseXmlStream() throws on text after root", async () => {
   const xml = "<root/>text";
   const stream = ReadableStream.from([xml]);
 
@@ -620,7 +620,7 @@ Deno.test("parseXmlStream() throws on text after root", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on entity reference before root", async () => {
+Ende.test("parseXmlStream() throws on entity reference before root", async () => {
   const xml = "&amp;<root/>";
   const stream = ReadableStream.from([xml]);
 
@@ -631,7 +631,7 @@ Deno.test("parseXmlStream() throws on entity reference before root", async () =>
   );
 });
 
-Deno.test("parseXmlStream() throws on CDATA before root", async () => {
+Ende.test("parseXmlStream() throws on CDATA before root", async () => {
   const xml = "<![CDATA[test]]><root/>";
   const stream = ReadableStream.from([xml]);
 
@@ -642,7 +642,7 @@ Deno.test("parseXmlStream() throws on CDATA before root", async () => {
   );
 });
 
-Deno.test("parseXmlStream() throws on CDATA after root", async () => {
+Ende.test("parseXmlStream() throws on CDATA after root", async () => {
   const xml = "<root/><![CDATA[test]]>";
   const stream = ReadableStream.from([xml]);
 
@@ -653,7 +653,7 @@ Deno.test("parseXmlStream() throws on CDATA after root", async () => {
   );
 });
 
-Deno.test("parseXmlStream() handles xml prefix on element", async () => {
+Ende.test("parseXmlStream() handles xml prefix on element", async () => {
   // xml: prefix is always bound to the XML namespace
   // This tests the xml prefix element URI resolution path
   const xml = '<xml:element xmlns:xml="http://www.w3.org/XML/1998/namespace"/>';
@@ -670,7 +670,7 @@ Deno.test("parseXmlStream() handles xml prefix on element", async () => {
   assertEquals(elements[0]?.uri, "http://www.w3.org/XML/1998/namespace");
 });
 
-Deno.test("parseXmlStream() handles namespace scope restoration", async () => {
+Ende.test("parseXmlStream() handles namespace scope restoration", async () => {
   // Tests that namespace bindings are properly restored when elements close
   const xml =
     `<root xmlns:ns="http://outer.com"><child xmlns:ns="http://inner.com"><ns:inner/></child><ns:outer/></root>`;
@@ -691,7 +691,7 @@ Deno.test("parseXmlStream() handles namespace scope restoration", async () => {
   assertEquals(outer?.uri, "http://outer.com");
 });
 
-Deno.test("parseXmlStream() handles self-closing element namespace restoration", async () => {
+Ende.test("parseXmlStream() handles self-closing element namespace restoration", async () => {
   // Tests namespace restoration for self-closing elements
   const xml =
     '<root xmlns:ns="http://outer.com"><inner xmlns:ns="http://inner.com" ns:attr="value"/><ns:outer/></root>';
@@ -712,7 +712,7 @@ Deno.test("parseXmlStream() handles self-closing element namespace restoration",
 // Additional Coverage: Decoder Flush Path
 // =============================================================================
 
-Deno.test("parseXmlStreamFromBytes() yields final flush when stream ends with incomplete UTF-8", async () => {
+Ende.test("parseXmlStreamFromBytes() yields final flush when stream ends with incomplete UTF-8", async () => {
   // Tests the branch where decoder.decode() (final flush) returns non-empty content
   // This happens when the byte stream ends with incomplete UTF-8 bytes
   // The TextDecoder will produce replacement characters (U+FFFD) on flush
@@ -746,7 +746,7 @@ Deno.test("parseXmlStreamFromBytes() yields final flush when stream ends with in
 // XML 1.1 Streaming Tests
 // =============================================================================
 
-Deno.test("parseXmlStream() xml11 accepts C0 control char refs", async () => {
+Ende.test("parseXmlStream() xml11 accepts C0 control char refs", async () => {
   const xml = "<root>&#x1;&#x2;</root>";
   const stream = ReadableStream.from([xml]);
   let text = "";
@@ -758,7 +758,7 @@ Deno.test("parseXmlStream() xml11 accepts C0 control char refs", async () => {
   assertEquals(text, "\x01\x02");
 });
 
-Deno.test("parseXmlStream() xml11 rejects literal C0 controls", async () => {
+Ende.test("parseXmlStream() xml11 rejects literal C0 controls", async () => {
   const xml = "<root>\x01</root>";
   const stream = ReadableStream.from([xml]);
   await assertRejects(
@@ -771,7 +771,7 @@ Deno.test("parseXmlStream() xml11 rejects literal C0 controls", async () => {
   );
 });
 
-Deno.test("parseXmlStream() xml11 rejects literal C0 controls with position tracking", async () => {
+Ende.test("parseXmlStream() xml11 rejects literal C0 controls with position tracking", async () => {
   const xml = "<root>\x01</root>";
   const stream = ReadableStream.from([xml]);
   await assertRejects(
@@ -784,7 +784,7 @@ Deno.test("parseXmlStream() xml11 rejects literal C0 controls with position trac
   );
 });
 
-Deno.test("parseXmlStream() xml11 rejects literal C1 controls", async () => {
+Ende.test("parseXmlStream() xml11 rejects literal C1 controls", async () => {
   const xml = "<root>\x80</root>";
   const stream = ReadableStream.from([xml]);
   await assertRejects(
@@ -797,7 +797,7 @@ Deno.test("parseXmlStream() xml11 rejects literal C1 controls", async () => {
   );
 });
 
-Deno.test("parseXmlStream() xml11 normalizes NEL line endings", async () => {
+Ende.test("parseXmlStream() xml11 normalizes NEL line endings", async () => {
   const xml = "<root>a\x85b</root>";
   const stream = ReadableStream.from([xml]);
   let text = "";
@@ -809,7 +809,7 @@ Deno.test("parseXmlStream() xml11 normalizes NEL line endings", async () => {
   assertEquals(text, "a\nb");
 });
 
-Deno.test("parseXmlStream() xml11 allows namespace prefix unbinding", async () => {
+Ende.test("parseXmlStream() xml11 allows namespace prefix unbinding", async () => {
   const xml =
     '<root xmlns:ns="http://example.com"><child xmlns:ns="" /></root>';
   const stream = ReadableStream.from([xml]);

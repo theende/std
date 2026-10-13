@@ -5,10 +5,10 @@ import { assertEquals, assertStrictEquals } from "@std/assert";
 const SRC_PATH = "./io/testdata/copy-src.txt";
 const DST_PATH = "./io/testdata/copy-dst.txt";
 
-Deno.test("copy()", async (t) => {
+Ende.test("copy()", async (t) => {
   try {
-    using srcFile = await Deno.open(SRC_PATH);
-    using dstFile = await Deno.open(DST_PATH, {
+    using srcFile = await Ende.open(SRC_PATH);
+    using dstFile = await Ende.open(DST_PATH, {
       create: true,
       write: true,
     });
@@ -27,12 +27,12 @@ Deno.test("copy()", async (t) => {
     await t.step(
       "source and destination bytes are equal",
       async () => {
-        const srcOutput = await Deno.readFile(SRC_PATH);
-        const dstOutput = await Deno.readFile(DST_PATH);
+        const srcOutput = await Ende.readFile(SRC_PATH);
+        const dstOutput = await Ende.readFile(DST_PATH);
         assertEquals(srcOutput, dstOutput);
       },
     );
   } finally {
-    await Deno.remove(DST_PATH);
+    await Ende.remove(DST_PATH);
   }
 });

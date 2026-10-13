@@ -16,7 +16,7 @@ function assertIsDefaultAbortReason(reason: unknown) {
   assertStrictEquals(reason.name, "AbortError");
 }
 
-Deno.test("delay()", async () => {
+Ende.test("delay()", async () => {
   const start = new Date();
   const delayedPromise = delay(100);
   const result = await delayedPromise;
@@ -25,21 +25,21 @@ Deno.test("delay()", async () => {
   assert(diff >= 100);
 });
 
-Deno.test("delay() resolves immediately with ms = 0", async () => {
+Ende.test("delay() resolves immediately with ms = 0", async () => {
   const start = new Date();
   await delay(0);
   const diff = new Date().getTime() - start.getTime();
   assert(diff < 50);
 });
 
-Deno.test("delay() treats negative ms as 0", async () => {
+Ende.test("delay() treats negative ms as 0", async () => {
   const start = new Date();
   await delay(-100);
   const diff = new Date().getTime() - start.getTime();
   assert(diff < 50);
 });
 
-Deno.test("delay() handles abort", async () => {
+Ende.test("delay() handles abort", async () => {
   const start = new Date();
   const abort = new AbortController();
   const { signal } = abort;
@@ -51,7 +51,7 @@ Deno.test("delay() handles abort", async () => {
   assertIsDefaultAbortReason(cause);
 });
 
-Deno.test("delay() checks abort reason", async (ctx) => {
+Ende.test("delay() checks abort reason", async (ctx) => {
   async function assertRejectsReason(reason: unknown) {
     const start = new Date();
     const abort = new AbortController();
@@ -86,7 +86,7 @@ Deno.test("delay() checks abort reason", async (ctx) => {
   });
 });
 
-Deno.test("delay() handles non-aborted signal", async () => {
+Ende.test("delay() handles non-aborted signal", async () => {
   const start = new Date();
   const abort = new AbortController();
   const { signal } = abort;
@@ -97,7 +97,7 @@ Deno.test("delay() handles non-aborted signal", async () => {
   assert(diff >= 100);
 });
 
-Deno.test("delay() handles aborted signal after delay", async () => {
+Ende.test("delay() handles aborted signal after delay", async () => {
   const start = new Date();
   const abort = new AbortController();
   const { signal } = abort;
@@ -109,7 +109,7 @@ Deno.test("delay() handles aborted signal after delay", async () => {
   assert(diff >= 100);
 });
 
-Deno.test("delay() handles already aborted signal", async () => {
+Ende.test("delay() handles already aborted signal", async () => {
   const start = new Date();
   const abort = new AbortController();
   abort.abort();
@@ -121,9 +121,9 @@ Deno.test("delay() handles already aborted signal", async () => {
   assertIsDefaultAbortReason(cause);
 });
 
-Deno.test("delay() handles persistent option", async () => {
+Ende.test("delay() handles persistent option", async () => {
   // Stub with itself to ensure the actual function is still called, but we can track calls
-  using unrefTimer = stub(Deno, "unrefTimer", Deno.unrefTimer);
+  using unrefTimer = stub(Ende, "unrefTimer", Ende.unrefTimer);
 
   await Promise.all([
     delay(0, { persistent: false }),
@@ -133,18 +133,18 @@ Deno.test("delay() handles persistent option", async () => {
   assertSpyCalls(unrefTimer, 1);
 });
 
-Deno.test("delay() handles persistent option with reference error", async () => {
-  using unrefTimer = stub(Deno, "unrefTimer", () => {
+Ende.test("delay() handles persistent option with reference error", async () => {
+  using unrefTimer = stub(Ende, "unrefTimer", () => {
     throw new ReferenceError();
   });
   await delay(100, { persistent: false });
   assertSpyCalls(unrefTimer, 1);
 });
 
-Deno.test({
+Ende.test({
   name: "delay() handles persistent option with error",
   async fn() {
-    using unrefTimer = stub(Deno, "unrefTimer", () => {
+    using unrefTimer = stub(Ende, "unrefTimer", () => {
       throw new TypeError("Error!");
     });
 
@@ -160,7 +160,7 @@ Deno.test({
   sanitizeOps: false,
 });
 
-Deno.test({
+Ende.test({
   name: "delay() doesn't resolve early with `ms` argument > 0x7fffffff",
   async fn(t) {
     for (
@@ -183,7 +183,7 @@ Deno.test({
   sanitizeOps: false,
 });
 
-Deno.test({
+Ende.test({
   name: "delay() handles abort with ms > 0x7fffffff",
   async fn() {
     const abort = new AbortController();
@@ -217,7 +217,7 @@ async function advanceUntilComplete<T>(
   return result;
 }
 
-Deno.test({
+Ende.test({
   name: "delay() runs to completion with `ms` argument > 0x7fffffff",
   async fn() {
     using time = new FakeTime(0);

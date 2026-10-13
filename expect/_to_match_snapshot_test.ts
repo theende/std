@@ -18,7 +18,7 @@ function withTestName(name: string, fn: () => void) {
   }
 }
 
-Deno.test("expect().toMatchSnapshot() throws without currentTestName", () => {
+Ende.test("expect().toMatchSnapshot() throws without currentTestName", () => {
   expect.setState({ currentTestName: undefined, testPath: import.meta.url });
   assertThrows(
     () => {
@@ -30,7 +30,7 @@ Deno.test("expect().toMatchSnapshot() throws without currentTestName", () => {
   expect.setState({ currentTestName: undefined, testPath: undefined });
 });
 
-Deno.test("expect().not.toMatchSnapshot() throws", () => {
+Ende.test("expect().not.toMatchSnapshot() throws", () => {
   withTestName("not snapshot", () => {
     assertThrows(
       () => {
@@ -42,7 +42,7 @@ Deno.test("expect().not.toMatchSnapshot() throws", () => {
   });
 });
 
-Deno.test("expect().toMatchSnapshot() throws on missing snapshot in assert mode", () => {
+Ende.test("expect().toMatchSnapshot() throws on missing snapshot in assert mode", () => {
   withTestName("missing snapshot test", () => {
     assertThrows(
       () => {
@@ -54,7 +54,7 @@ Deno.test("expect().toMatchSnapshot() throws on missing snapshot in assert mode"
   });
 });
 
-Deno.test("expect().toMatchSnapshot() with hint throws on missing snapshot", () => {
+Ende.test("expect().toMatchSnapshot() with hint throws on missing snapshot", () => {
   withTestName("hint test", () => {
     assertThrows(
       () => {
@@ -66,7 +66,7 @@ Deno.test("expect().toMatchSnapshot() with hint throws on missing snapshot", () 
   });
 });
 
-Deno.test("expect().toMatchSnapshot() with property matchers rejects non-object values", () => {
+Ende.test("expect().toMatchSnapshot() with property matchers rejects non-object values", () => {
   withTestName("property matcher test", () => {
     assertThrows(
       () => {
@@ -78,7 +78,7 @@ Deno.test("expect().toMatchSnapshot() with property matchers rejects non-object 
   });
 });
 
-Deno.test("expect().toMatchSnapshot() with property matchers rejects non-matching values", () => {
+Ende.test("expect().toMatchSnapshot() with property matchers rejects non-matching values", () => {
   withTestName("property matcher mismatch", () => {
     assertThrows(
       () => {
@@ -92,15 +92,15 @@ Deno.test("expect().toMatchSnapshot() with property matchers rejects non-matchin
   });
 });
 
-Deno.test("expect().toMatchSnapshot() detects snapshot mismatch", () => {
+Ende.test("expect().toMatchSnapshot() detects snapshot mismatch", () => {
   // Create a temporary test setup with a pre-existing snapshot
-  const dir = Deno.makeTempDirSync();
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
   const snapshotDir = `${dir}/__snapshots__`;
   const snapshotFile = `${snapshotDir}/test.ts.snap`;
 
-  Deno.mkdirSync(snapshotDir);
-  Deno.writeTextFileSync(
+  Ende.mkdirSync(snapshotDir);
+  Ende.writeTextFileSync(
     snapshotFile,
     `export const snapshot = {};\n\nsnapshot[\`mismatch test 1\`] = \`"old value"\`;\n`,
   );
@@ -121,18 +121,18 @@ Deno.test("expect().toMatchSnapshot() detects snapshot mismatch", () => {
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("expect().toMatchSnapshot() matches existing snapshot", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("expect().toMatchSnapshot() matches existing snapshot", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
   const snapshotDir = `${dir}/__snapshots__`;
   const snapshotFile = `${snapshotDir}/test.ts.snap`;
 
-  Deno.mkdirSync(snapshotDir);
-  Deno.writeTextFileSync(
+  Ende.mkdirSync(snapshotDir);
+  Ende.writeTextFileSync(
     snapshotFile,
     `export const snapshot = {};\n\nsnapshot[\`match test 1\`] = \`"hello"\`;\n`,
   );
@@ -148,18 +148,18 @@ Deno.test("expect().toMatchSnapshot() matches existing snapshot", () => {
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("expect().toMatchSnapshot() matches multi-line snapshot", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("expect().toMatchSnapshot() matches multi-line snapshot", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
   const snapshotDir = `${dir}/__snapshots__`;
   const snapshotFile = `${snapshotDir}/test.ts.snap`;
 
-  Deno.mkdirSync(snapshotDir);
-  Deno.writeTextFileSync(
+  Ende.mkdirSync(snapshotDir);
+  Ende.writeTextFileSync(
     snapshotFile,
     `export const snapshot = {};\n\nsnapshot[\`object test 1\`] = \`\n{\n  bar: 2,\n  foo: 1,\n}\n\`;\n`,
   );
@@ -174,18 +174,18 @@ Deno.test("expect().toMatchSnapshot() matches multi-line snapshot", () => {
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("expect().toMatchSnapshot() multiple snapshots per test use counter", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("expect().toMatchSnapshot() multiple snapshots per test use counter", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
   const snapshotDir = `${dir}/__snapshots__`;
   const snapshotFile = `${snapshotDir}/test.ts.snap`;
 
-  Deno.mkdirSync(snapshotDir);
-  Deno.writeTextFileSync(
+  Ende.mkdirSync(snapshotDir);
+  Ende.writeTextFileSync(
     snapshotFile,
     [
       `export const snapshot = {};`,
@@ -211,18 +211,18 @@ Deno.test("expect().toMatchSnapshot() multiple snapshots per test use counter", 
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("expect().toMatchSnapshot() with hint in snapshot key", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("expect().toMatchSnapshot() with hint in snapshot key", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
   const snapshotDir = `${dir}/__snapshots__`;
   const snapshotFile = `${snapshotDir}/test.ts.snap`;
 
-  Deno.mkdirSync(snapshotDir);
-  Deno.writeTextFileSync(
+  Ende.mkdirSync(snapshotDir);
+  Ende.writeTextFileSync(
     snapshotFile,
     `export const snapshot = {};\n\nsnapshot[\`hint test: my hint 1\`] = \`"hinted"\`;\n`,
   );
@@ -237,11 +237,11 @@ Deno.test("expect().toMatchSnapshot() with hint in snapshot key", () => {
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("expect.setState() and expect.getState() work correctly", () => {
+Ende.test("expect.setState() and expect.getState() work correctly", () => {
   expect.setState({ currentTestName: "test 1" });
   const state1 = expect.getState();
   expect(state1.currentTestName).toBe("test 1");

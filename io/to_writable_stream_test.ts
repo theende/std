@@ -23,7 +23,7 @@ class MockWriterCloser implements Writer, Closer {
   }
 }
 
-Deno.test("toWritableStream()", async function () {
+Ende.test("toWritableStream()", async function () {
   const written: string[] = [];
   const chunks: string[] = ["hello", "deno", "land"];
   const decoder = new TextDecoder();
@@ -44,7 +44,7 @@ Deno.test("toWritableStream()", async function () {
   assertEquals(written, chunks);
 });
 
-Deno.test("toWritableStream() calls close on close", async function () {
+Ende.test("toWritableStream() calls close on close", async function () {
   const written: string[] = [];
   const chunks: string[] = ["hello", "deno", "land"];
   const decoder = new TextDecoder();
@@ -67,7 +67,7 @@ Deno.test("toWritableStream() calls close on close", async function () {
   assertEquals(writer.closeCall, 1);
 });
 
-Deno.test("toWritableStream() calls close on abort", async function () {
+Ende.test("toWritableStream() calls close on abort", async function () {
   const written: string[] = [];
   const chunks: string[] = ["hello", "deno", "land"];
   const decoder = new TextDecoder();
@@ -90,7 +90,7 @@ Deno.test("toWritableStream() calls close on abort", async function () {
   assertEquals(writer.closeCall, 1);
 });
 
-Deno.test("toWritableStream() doesn't call close with autoClose false", async function () {
+Ende.test("toWritableStream() doesn't call close with autoClose false", async function () {
   const written: string[] = [];
   const chunks: string[] = ["hello", "deno", "land"];
   const decoder = new TextDecoder();

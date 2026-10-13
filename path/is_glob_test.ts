@@ -4,7 +4,7 @@ import { isGlob } from "./is_glob.ts";
 import { disposableStack } from "../internal/_testing.ts";
 import { Worker } from "node:worker_threads";
 
-Deno.test({
+Ende.test({
   name: "isGlob()",
   fn() {
     // should be true if valid glob pattern
@@ -117,7 +117,7 @@ Deno.test({
 const isBun = navigator.userAgent.includes("Bun/");
 
 // ref https://github.com/denoland/std/pull/6764
-Deno.test({
+Ende.test({
   name:
     "isGlob works with the input that includes large number of open brackets",
   // Bun 1.4.2 crashes when constructing a node:worker_threads Worker

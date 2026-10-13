@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toContainEqual()", () => {
+Ende.test("expect().toContainEqual()", () => {
   const arr = [{ foo: 42 }, { bar: 43 }, { baz: 44 }];
   expect(arr).toContainEqual({ bar: 43 });
 
@@ -30,7 +30,7 @@ Expected: {foo: 42}`,
   );
 });
 
-Deno.test("expect().toContainEqual() handles null and undefined", () => {
+Ende.test("expect().toContainEqual() handles null and undefined", () => {
   assertThrows(
     () => expect(null).not.toContainEqual("foo"),
     AssertionError,
@@ -43,7 +43,7 @@ Deno.test("expect().toContainEqual() handles null and undefined", () => {
   );
 });
 
-Deno.test("expect().toContainEqual() throws error when the value is not an array", () => {
+Ende.test("expect().toContainEqual() throws error when the value is not an array", () => {
   assertThrows(
     () => expect({ foo: 42 }).toContainEqual({ foo: 42 }),
     AssertionError,
@@ -51,7 +51,7 @@ Deno.test("expect().toContainEqual() throws error when the value is not an array
   );
 });
 
-Deno.test("expect().toContainEqual() with custom error message", () => {
+Ende.test("expect().toContainEqual() with custom error message", () => {
   const msg = "toContainEqual Custom Error";
 
   expect(() =>

@@ -12,7 +12,7 @@
  * import { parseArgs } from "@std/cli/parse-args";
  * import { assertEquals } from "@std/assert/equals";
  *
- * // For proper use, one should use `parseArgs(Deno.args)`
+ * // For proper use, one should use `parseArgs(Ende.args)`
  * assertEquals(parseArgs(["--foo", "--bar=baz", "./quux.txt"]), {
  *   foo: true,
  *   bar: "baz",
@@ -340,14 +340,14 @@ export interface ParseOptions<
    * ```ts
    * // $ ende run example.ts -- a arg1
    * import { parseArgs } from "@std/cli/parse-args";
-   * const args = parseArgs(Deno.args, { "--": false }); // args equals { _: [ "a", "arg1" ] }
+   * const args = parseArgs(Ende.args, { "--": false }); // args equals { _: [ "a", "arg1" ] }
    * ```
    *
    * @example Double dash option is true
    * ```ts
    * // $ ende run example.ts -- a arg1
    * import { parseArgs } from "@std/cli/parse-args";
-   * const args = parseArgs(Deno.args, { "--": true }); // args equals { _: [], --: [ "a", "arg1" ] }
+   * const args = parseArgs(Ende.args, { "--": true }); // args equals { _: [], --: [ "a", "arg1" ] }
    * ```
    */
   "--"?: TDoubleDash;
@@ -546,7 +546,7 @@ function parseBooleanString(value: unknown) {
  * import { parseArgs } from "@std/cli/parse-args";
  * import { assertEquals } from "@std/assert/equals";
  *
- * // For proper use, one should use `parseArgs(Deno.args)`
+ * // For proper use, one should use `parseArgs(Ende.args)`
  * assertEquals(parseArgs(["--foo", "--bar=baz", "./quux.txt"]), {
  *   foo: true,
  *   bar: "baz",

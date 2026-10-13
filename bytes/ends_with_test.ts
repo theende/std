@@ -2,7 +2,7 @@
 import { assert } from "@std/assert";
 import { endsWith } from "./ends_with.ts";
 
-Deno.test("endsWith()", async (t) => {
+Ende.test("endsWith()", async (t) => {
   await t.step("`true` where `source` and `suffix` are identical", () => {
     assert(endsWith(
       new Uint8Array([0, 1, 2, 3]),

@@ -25,10 +25,10 @@ export function getErrorMessage(message: string, options: SnapshotOptions) {
  * @deprecated This will be removed in 2.0.0. The built-in
  * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
  * (Deno 2.9+) uses the same serialization by default; for custom
- * serialization, call `Deno.inspect()` directly.
+ * serialization, call `Ende.inspect()` directly.
  */
 export function serialize(actual: unknown): string {
-  return Deno.inspect(actual, {
+  return Ende.inspect(actual, {
     depth: Infinity,
     sorted: true,
     trailingComma: true,
@@ -64,7 +64,7 @@ export function getMode(options: SnapshotOptions) {
   } else if (_mode) {
     return _mode;
   } else {
-    _mode = Deno.args.some((arg) => arg === "--update" || arg === "-u")
+    _mode = Ende.args.some((arg) => arg === "--update" || arg === "-u")
       ? "update"
       : "assert";
     return _mode;
@@ -106,4 +106,4 @@ export function getSnapshotNotMatchMessage(
 }
 
 // TODO(WWRS): Remove this when we drop support for Deno 1.x
-export const LINT_SUPPORTED = !Deno.version.deno.startsWith("1.");
+export const LINT_SUPPORTED = !Ende.version.ende.startsWith("1.");

@@ -23,7 +23,7 @@ async function expandGlobArray(
     ({ path }) => path,
   );
   paths.sort();
-  const root = normalize(forceRoot || options.root || Deno.cwd());
+  const root = normalize(forceRoot || options.root || Ende.cwd());
   for (const path of paths) {
     assert(path.startsWith(root));
   }
@@ -43,7 +43,7 @@ function expandGlobSyncArray(
     ({ path }): string => path,
   );
   pathsSync.sort();
-  const root = normalize(forceRoot || options.root || Deno.cwd());
+  const root = normalize(forceRoot || options.root || Ende.cwd());
   for (const path of pathsSync) {
     assert(path.startsWith(root));
   }
@@ -60,7 +60,7 @@ const EG_OPTIONS: ExpandGlobOptions = {
   extended: false,
 };
 
-Deno.test("expandGlob() with wildcard input returns all test data", async function () {
+Ende.test("expandGlob() with wildcard input returns all test data", async function () {
   const options = EG_OPTIONS;
   assertEquals(await expandGlobArray("*", options), [
     "a[b]c",
@@ -72,7 +72,7 @@ Deno.test("expandGlob() with wildcard input returns all test data", async functi
   ]);
 });
 
-Deno.test("expandGlobSync() with wildcard input returns all test data", function () {
+Ende.test("expandGlobSync() with wildcard input returns all test data", function () {
   const options = EG_OPTIONS;
   assertEquals(expandGlobSyncArray("*", options), [
     "a[b]c",
@@ -84,7 +84,7 @@ Deno.test("expandGlobSync() with wildcard input returns all test data", function
   ]);
 });
 
-Deno.test("expandGlob() excludes items in `exclude` option", async function () {
+Ende.test("expandGlob() excludes items in `exclude` option", async function () {
   const options = { ...EG_OPTIONS, exclude: ["abc"] };
   assertEquals(await expandGlobArray("*", options), [
     "a[b]c",
@@ -102,12 +102,12 @@ Deno.test("expandGlob() excludes items in `exclude` option", async function () {
   ]);
 });
 
-Deno.test("expandGlob() returns empty array if path doesn't exist", async function () {
+Ende.test("expandGlob() returns empty array if path doesn't exist", async function () {
   assertEquals(await expandGlobArray("nonexistent", EG_OPTIONS), []);
   assertEquals(expandGlobSyncArray("nonexistent", EG_OPTIONS), []);
 });
 
-Deno.test(
+Ende.test(
   "expandGlob() throws permission error if the runtime doesn't have read permission",
   { permissions: {} },
   async function () {
@@ -117,7 +117,7 @@ Deno.test(
           await expandGlobArray("*", EG_OPTIONS);
         },
         // deno-lint-ignore no-explicit-any
-        (Deno as any).errors.NotCapable ?? Deno.errors.PermissionDenied,
+        (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
         "run again with the --allow-read flag",
       );
     }
@@ -128,14 +128,14 @@ Deno.test(
           expandGlobSyncArray("*", EG_OPTIONS);
         },
         // deno-lint-ignore no-explicit-any
-        (Deno as any).errors.NotCapable ?? Deno.errors.PermissionDenied,
+        (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
         "run again with the --allow-read flag",
       );
     }
   },
 );
 
-Deno.test("expandGlob() with */ input returns subdirs", async function () {
+Ende.test("expandGlob() with */ input returns subdirs", async function () {
   const options = EG_OPTIONS;
   assertEquals(await expandGlobArray("*/", options), [
     "a[b]c",
@@ -143,7 +143,7 @@ Deno.test("expandGlob() with */ input returns subdirs", async function () {
   ]);
 });
 
-Deno.test("expandGlobSync() with */ input returns subdirs", function () {
+Ende.test("expandGlobSync() with */ input returns subdirs", function () {
   const options = EG_OPTIONS;
   assertEquals(expandGlobSyncArray("*/", options), [
     "a[b]c",
@@ -151,7 +151,7 @@ Deno.test("expandGlobSync() with */ input returns subdirs", function () {
   ]);
 });
 
-Deno.test("expandGlob() with subdir/../* input expands parent", async function () {
+Ende.test("expandGlob() with subdir/../* input expands parent", async function () {
   const options = EG_OPTIONS;
   assertEquals(await expandGlobArray("subdir/../*", options), [
     "a[b]c",
@@ -163,7 +163,7 @@ Deno.test("expandGlob() with subdir/../* input expands parent", async function (
   ]);
 });
 
-Deno.test("expandGlobSync() with subdir/../* input expands parent", function () {
+Ende.test("expandGlobSync() with subdir/../* input expands parent", function () {
   const options = EG_OPTIONS;
   assertEquals(expandGlobSyncArray("subdir/../*", options), [
     "a[b]c",
@@ -175,7 +175,7 @@ Deno.test("expandGlobSync() with subdir/../* input expands parent", function () 
   ]);
 });
 
-Deno.test("expandGlob() accepts extended option set as true", async function () {
+Ende.test("expandGlob() accepts extended option set as true", async function () {
   const options = { ...EG_OPTIONS, extended: true };
   assertEquals(await expandGlobArray("abc?(def|ghi)", options), [
     "abc",
@@ -197,7 +197,7 @@ Deno.test("expandGlob() accepts extended option set as true", async function () 
   assertEquals(await expandGlobArray("abc!(def|ghi)", options), ["abc"]);
 });
 
-Deno.test("expandGlobSync() accepts extended option set as true", function () {
+Ende.test("expandGlobSync() accepts extended option set as true", function () {
   const options = { ...EG_OPTIONS, extended: true };
   assertEquals(expandGlobSyncArray("abc?(def|ghi)", options), [
     "abc",
@@ -219,7 +219,7 @@ Deno.test("expandGlobSync() accepts extended option set as true", function () {
   assertEquals(expandGlobSyncArray("abc!(def|ghi)", options), ["abc"]);
 });
 
-Deno.test("expandGlob() with globstar returns all dirs", async function () {
+Ende.test("expandGlob() with globstar returns all dirs", async function () {
   const options = { ...EG_OPTIONS };
   assertEquals(
     await expandGlobArray("**/abc", options),
@@ -227,7 +227,7 @@ Deno.test("expandGlob() with globstar returns all dirs", async function () {
   );
 });
 
-Deno.test("expandGlobSync() with globstar returns all dirs", function () {
+Ende.test("expandGlobSync() with globstar returns all dirs", function () {
   const options = { ...EG_OPTIONS };
   assertEquals(
     expandGlobSyncArray("**/abc", options),
@@ -235,7 +235,7 @@ Deno.test("expandGlobSync() with globstar returns all dirs", function () {
   );
 });
 
-Deno.test("expandGlob() with globstar parent returns all dirs", async function () {
+Ende.test("expandGlob() with globstar parent returns all dirs", async function () {
   const options = { ...EG_OPTIONS, globstar: true };
   assertEquals(
     await expandGlobArray(joinGlobs(["subdir", "**", ".."], options), options),
@@ -243,7 +243,7 @@ Deno.test("expandGlob() with globstar parent returns all dirs", async function (
   );
 });
 
-Deno.test("expandGlobSync() with globstar parent returns all dirs", function () {
+Ende.test("expandGlobSync() with globstar parent returns all dirs", function () {
   const options = { ...EG_OPTIONS, globstar: true };
   assertEquals(
     expandGlobSyncArray(joinGlobs(["subdir", "**", ".."], options), options),
@@ -251,7 +251,7 @@ Deno.test("expandGlobSync() with globstar parent returns all dirs", function () 
   );
 });
 
-Deno.test("expandGlob() with globstar parent and globstar option set to false returns current dir", async function () {
+Ende.test("expandGlob() with globstar parent and globstar option set to false returns current dir", async function () {
   const options = { ...EG_OPTIONS, globstar: false };
   assertEquals(await expandGlobArray("**", options), [
     ".",
@@ -264,7 +264,7 @@ Deno.test("expandGlob() with globstar parent and globstar option set to false re
   ]);
 });
 
-Deno.test("expandGlobSync() with globstar parent and globstar option set to false returns current dir", function () {
+Ende.test("expandGlobSync() with globstar parent and globstar option set to false returns current dir", function () {
   const options = { ...EG_OPTIONS, globstar: false };
   assertEquals(expandGlobSyncArray("**", options), [
     ".",
@@ -277,21 +277,21 @@ Deno.test("expandGlobSync() with globstar parent and globstar option set to fals
   ]);
 });
 
-Deno.test("expandGlob() accepts includeDirs option set to false", async function () {
+Ende.test("expandGlob() accepts includeDirs option set to false", async function () {
   const options = { ...EG_OPTIONS, includeDirs: false };
   assertEquals(await expandGlobArray("subdir", options), []);
 });
 
-Deno.test("expandGlobSync() accepts includeDirs option set to false", function () {
+Ende.test("expandGlobSync() accepts includeDirs option set to false", function () {
   const options = { ...EG_OPTIONS, includeDirs: false };
   assertEquals(expandGlobSyncArray("subdir", options), []);
 });
 
-Deno.test(
+Ende.test(
   "expandGlob() throws permission error without fs permissions",
   async function () {
     const exampleUrl = new URL("testdata/expand_wildcard.js", import.meta.url);
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: [
         "run",
         "--quiet",
@@ -311,17 +311,17 @@ Deno.test(
   },
 );
 
-Deno.test("expandGlob() returns single entry when root is not glob", async function () {
+Ende.test("expandGlob() returns single entry when root is not glob", async function () {
   const options = { ...EG_OPTIONS, root: join(EG_OPTIONS.root!, "a[b]c") };
   assertEquals(await expandGlobArray("*", options), ["foo"]);
 });
 
-Deno.test("expandGlobSync() returns single entry when root is not glob", function () {
+Ende.test("expandGlobSync() returns single entry when root is not glob", function () {
   const options = { ...EG_OPTIONS, root: join(EG_OPTIONS.root!, "a[b]c") };
   assertEquals(expandGlobSyncArray("*", options), ["foo"]);
 });
 
-Deno.test("expandGlob() accepts followSymlinks option set to true", async function () {
+Ende.test("expandGlob() accepts followSymlinks option set to true", async function () {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "link"),
@@ -330,7 +330,7 @@ Deno.test("expandGlob() accepts followSymlinks option set to true", async functi
   assertEquals(await expandGlobArray("*", options), ["abc"]);
 });
 
-Deno.test("expandGlobSync() accepts followSymlinks option set to true", function () {
+Ende.test("expandGlobSync() accepts followSymlinks option set to true", function () {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "link"),
@@ -339,7 +339,7 @@ Deno.test("expandGlobSync() accepts followSymlinks option set to true", function
   assertEquals(expandGlobSyncArray("*", options), ["abc"]);
 });
 
-Deno.test("expandGlob() accepts followSymlinks option set to true with canonicalize", async function () {
+Ende.test("expandGlob() accepts followSymlinks option set to true with canonicalize", async function () {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
@@ -351,7 +351,7 @@ Deno.test("expandGlob() accepts followSymlinks option set to true with canonical
   );
 });
 
-Deno.test("expandGlobSync() accepts followSymlinks option set to true with canonicalize", function () {
+Ende.test("expandGlobSync() accepts followSymlinks option set to true with canonicalize", function () {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
@@ -363,7 +363,7 @@ Deno.test("expandGlobSync() accepts followSymlinks option set to true with canon
   );
 });
 
-Deno.test("expandGlob() accepts followSymlinks option set to true without canonicalize", async function () {
+Ende.test("expandGlob() accepts followSymlinks option set to true without canonicalize", async function () {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
@@ -376,7 +376,7 @@ Deno.test("expandGlob() accepts followSymlinks option set to true without canoni
   );
 });
 
-Deno.test("expandGlobSync() accepts followSymlinks option set to true without canonicalize", function () {
+Ende.test("expandGlobSync() accepts followSymlinks option set to true without canonicalize", function () {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
@@ -389,7 +389,7 @@ Deno.test("expandGlobSync() accepts followSymlinks option set to true without ca
   );
 });
 
-Deno.test(
+Ende.test(
   "expandGlob() does not require read permissions when root path is specified",
   {
     permissions: { read: [EG_OPTIONS.root!] },
@@ -400,7 +400,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "expandGlobSync() does not require read permissions when root path is specified",
   {
     permissions: { read: [EG_OPTIONS.root!] },
@@ -411,7 +411,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "expandGlob() does not require read permissions when an absolute glob is specified",
   {
     permissions: { read: [EG_OPTIONS.root!] },
@@ -426,7 +426,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "expandGlobSync() does not require read permissions when an absolute glob is specified",
   {
     permissions: { read: [EG_OPTIONS.root!] },
@@ -441,9 +441,9 @@ Deno.test(
   },
 );
 
-const escapeChar = Deno.build.os === "windows" ? "`" : "\\";
+const escapeChar = Ende.build.os === "windows" ? "`" : "\\";
 
-Deno.test("expandGlob() finds directory with escaped brackets", async function () {
+Ende.test("expandGlob() finds directory with escaped brackets", async function () {
   assertEquals(
     await expandGlobArray(`a${escapeChar}[b${escapeChar}]c`, EG_OPTIONS),
     ["a[b]c"],
@@ -454,7 +454,7 @@ Deno.test("expandGlob() finds directory with escaped brackets", async function (
   );
 });
 
-Deno.test("expandGlobSync() finds directory with escaped brackets", function () {
+Ende.test("expandGlobSync() finds directory with escaped brackets", function () {
   assertEquals(
     expandGlobSyncArray(`a${escapeChar}[b${escapeChar}]c`, EG_OPTIONS),
     ["a[b]c"],

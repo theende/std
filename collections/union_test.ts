@@ -12,7 +12,7 @@ function unionTest<I>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "union() handles no mutations",
   fn() {
     const arrayA = [1, 2, 3];
@@ -24,14 +24,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles empty input",
   fn() {
     unionTest([], []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles empty arrays",
   fn() {
     unionTest(
@@ -45,7 +45,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles one input",
   fn() {
     unionTest(
@@ -63,7 +63,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles some empty",
   fn() {
     unionTest([[], ["a", "b", "c"]], ["a", "b", "c"]);
@@ -72,7 +72,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles distinct sets",
   fn() {
     unionTest([["a", "b", "c"], ["d", "e", "f"]], [
@@ -104,7 +104,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles overlapping sets",
   fn() {
     unionTest([["a", "b"], ["b", "c"]], ["a", "b", "c"]);
@@ -119,7 +119,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles objects",
   fn() {
     const a = { foo: "bar" };
@@ -146,7 +146,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "union() handles functions",
   fn() {
     const a = () => {};

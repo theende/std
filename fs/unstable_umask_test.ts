@@ -4,7 +4,7 @@ import { assertEquals, assertNotEquals } from "@std/assert";
 import { umask } from "./unstable_umask.ts";
 import { platform } from "node:os";
 
-Deno.test({
+Ende.test({
   name: "umask() changes current mask",
   ignore: platform() === "win32",
 }, () => {

@@ -2,7 +2,7 @@
 
 import { expect } from "./expect.ts";
 
-Deno.test("expect.closeTo()", () => {
+Ende.test("expect.closeTo()", () => {
   expect(0.1 + 0.2).toEqual(expect.closeTo(0.3));
   expect(Math.PI).toEqual(expect.closeTo(3.14));
   expect(Number.POSITIVE_INFINITY).toEqual(

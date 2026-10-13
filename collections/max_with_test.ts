@@ -12,7 +12,7 @@ function maxWithTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles no mutation",
   fn() {
     const input = [[1, 3], [6, 1, 3], [4]];
@@ -22,14 +22,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles empty input",
   fn() {
     maxWithTest<string>([[], (a, b) => a.length - b.length], undefined);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles array of arrays",
   fn() {
     maxWithTest([[[1, 3], [6, 1, 3], [4]], (a, b) => a.length - b.length], [
@@ -40,7 +40,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles array of strings",
   fn() {
     maxWithTest(
@@ -50,7 +50,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles array of objects",
   fn() {
     maxWithTest(
@@ -67,7 +67,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles duplicates",
   fn() {
     maxWithTest(
@@ -77,7 +77,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "maxWith() handles array containing undefined",
   fn() {
     maxWithTest(

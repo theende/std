@@ -30,7 +30,7 @@ map.set("Hello", "World!");
 map.set(() => "Hello", "World!");
 map.set(1, 2);
 
-Deno.test("assertInlineSnapshot()", () => {
+Ende.test("assertInlineSnapshot()", () => {
   assertInlineSnapshot(
     { a: 1, b: 2 },
     `{
@@ -79,23 +79,23 @@ Deno.test("assertInlineSnapshot()", () => {
   assertInlineSnapshot("hello world", `"hello world"`);
 });
 
-Deno.test("assertInlineSnapshot() formats", async () => {
+Ende.test("assertInlineSnapshot() formats", async () => {
   if (!LINT_SUPPORTED) return;
 
   const fileContents =
     `import { assertInlineSnapshot } from "${SNAPSHOT_MODULE_URL}";
-Deno.test("format test", async () => {
+Ende.test("format test", async () => {
   assertInlineSnapshot( "hello world", "" );
 });`;
 
-  const tempDir = await Deno.makeTempDir();
+  const tempDir = await Ende.makeTempDir();
   const formatTestFile = join(tempDir, "format_test.ts");
   const noFormatTestFile = join(tempDir, "no_format_test.ts");
   try {
-    await Deno.writeTextFile(formatTestFile, fileContents);
-    await Deno.writeTextFile(noFormatTestFile, fileContents);
+    await Ende.writeTextFile(formatTestFile, fileContents);
+    await Ende.writeTextFile(noFormatTestFile, fileContents);
 
-    const formatCommand = new Deno.Command(Deno.execPath(), {
+    const formatCommand = new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "--no-lock",
@@ -109,7 +109,7 @@ Deno.test("format test", async () => {
     });
     await formatCommand.output();
 
-    const noFormatCommand = new Deno.Command(Deno.execPath(), {
+    const noFormatCommand = new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "--no-lock",
@@ -124,40 +124,40 @@ Deno.test("format test", async () => {
     await noFormatCommand.output();
 
     assertEquals(
-      await Deno.readTextFile(formatTestFile),
+      await Ende.readTextFile(formatTestFile),
       `import { assertInlineSnapshot } from "${SNAPSHOT_MODULE_URL}";
-Deno.test("format test", async () => {
+Ende.test("format test", async () => {
   assertInlineSnapshot("hello world", \`"hello world"\`);
 });\n`,
     );
     assertEquals(
-      await Deno.readTextFile(noFormatTestFile),
+      await Ende.readTextFile(noFormatTestFile),
       `import { assertInlineSnapshot } from "${SNAPSHOT_MODULE_URL}";
-Deno.test("format test", async () => {
+Ende.test("format test", async () => {
   assertInlineSnapshot( "hello world", \`"hello world"\` );
 });`,
     );
   } finally {
-    await Deno.remove(tempDir, { recursive: true });
+    await Ende.remove(tempDir, { recursive: true });
   }
 });
 
-Deno.test("assertInlineSnapshot() counts lines and columns like V8", async () => {
+Ende.test("assertInlineSnapshot() counts lines and columns like V8", async () => {
   if (!LINT_SUPPORTED) return;
 
-  const tempDir = await Deno.makeTempDir();
+  const tempDir = await Ende.makeTempDir();
   const countTestFile = join(tempDir, "count_test.ts");
   try {
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       countTestFile,
       `import { assertInlineSnapshot } from "${SNAPSHOT_MODULE_URL}";
  \n \r \n\r \r\n \u2028 \u2029 
-Deno.test("format", async () => {
+Ende.test("format", async () => {
   /* 🐈‍⬛🇦🇶 */ assertInlineSnapshot( "hello world", "" );
 });`,
     );
 
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: [
         "test",
         "--no-lock",
@@ -172,19 +172,19 @@ Deno.test("format", async () => {
     await command.output();
 
     assertEquals(
-      await Deno.readTextFile(countTestFile),
+      await Ende.readTextFile(countTestFile),
       `import { assertInlineSnapshot } from "${SNAPSHOT_MODULE_URL}";
  \n \r \n\r \r\n \u2028 \u2029 
-Deno.test("format", async () => {
+Ende.test("format", async () => {
   /* 🐈‍⬛🇦🇶 */ assertInlineSnapshot( "hello world", \`"hello world"\` );
 });`,
     );
   } finally {
-    await Deno.remove(tempDir, { recursive: true });
+    await Ende.remove(tempDir, { recursive: true });
   }
 });
 
-Deno.test("createAssertInlineSnapshot()", () => {
+Ende.test("createAssertInlineSnapshot()", () => {
   const assertMonochromeInlineSnapshot = createAssertInlineSnapshot<string>({
     serializer: stripAnsiCode,
   });

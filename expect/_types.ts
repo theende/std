@@ -718,7 +718,7 @@ export interface Expected<IsAsync = false> {
    * ```ts ignore
    * import { expect } from "@std/expect";
    *
-   * Deno.test("snapshot test", () => {
+   * Ende.test("snapshot test", () => {
    *   expect.setState({ currentTestName: "snapshot test", testPath: import.meta.url });
    *   expect({ foo: 42 }).toMatchSnapshot();
    * });
@@ -735,7 +735,7 @@ export interface Expected<IsAsync = false> {
    * ```ts ignore
    * import { expect } from "@std/expect";
    *
-   * Deno.test("snapshot with matchers", () => {
+   * Ende.test("snapshot with matchers", () => {
    *   expect.setState({ currentTestName: "snapshot with matchers", testPath: import.meta.url });
    *   expect({ id: 1, name: "Alice" }).toMatchSnapshot({
    *     id: expect.any(Number),
@@ -760,7 +760,7 @@ export interface Expected<IsAsync = false> {
    * ```ts
    * import { expect } from "@std/expect";
    *
-   * Deno.test("inline snapshot", () => {
+   * Ende.test("inline snapshot", () => {
    *   expect({ foo: 42 }).toMatchInlineSnapshot(`
    * {
    *   foo: 42,
@@ -780,7 +780,7 @@ export interface Expected<IsAsync = false> {
    * ```ts ignore
    * import { expect } from "@std/expect";
    *
-   * Deno.test("inline snapshot with matchers", () => {
+   * Ende.test("inline snapshot with matchers", () => {
    *   expect({ id: 1, name: "Alice" }).toMatchInlineSnapshot({
    *     id: expect.any(Number),
    *   }, `

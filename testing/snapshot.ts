@@ -17,12 +17,12 @@
  * // Before
  * import { assertSnapshot } from "@std/testing/snapshot";
  *
- * Deno.test("snapshot", async (t) => {
+ * Ende.test("snapshot", async (t) => {
  *   await assertSnapshot(t, { hello: "world!" });
  * });
  *
  * // After (Deno 2.9+, no import needed)
- * Deno.test("snapshot", async (t) => {
+ * Ende.test("snapshot", async (t) => {
  *   await t.assertSnapshot({ hello: "world!" });
  * });
  * ```
@@ -40,7 +40,7 @@
  * // example_test.ts
  * import { assertSnapshot } from "@std/testing/snapshot";
  *
- * Deno.test("isSnapshotMatch", async function (t): Promise<void> {
+ * Ende.test("isSnapshotMatch", async function (t): Promise<void> {
  *   const a = {
  *     hello: "world!",
  *     example: 123,
@@ -68,7 +68,7 @@
  * // example_test.ts
  * import { assertInlineSnapshot } from "@std/testing/unstable-snapshot";
  *
- * Deno.test("isInlineSnapshotMatch", function (): void {
+ * Ende.test("isInlineSnapshotMatch", function (): void {
  *   const a = {
  *     hello: "world!",
  *     example: 123,
@@ -133,7 +133,7 @@
  * // example_test.ts ignore
  * import { assertSnapshot } from "@std/testing/snapshot";
  *
- * Deno.test("isSnapshotMatch", async function (t): Promise<void> {
+ * Ende.test("isSnapshotMatch", async function (t): Promise<void> {
  *   const a = {
  *     hello: "world!",
  *     example: 123,
@@ -181,7 +181,7 @@
  *   assertSnapshot,
  * );
  *
- * Deno.test("isSnapshotMatch", async function (t): Promise<void> {
+ * Ende.test("isSnapshotMatch", async function (t): Promise<void> {
  *   const a = "\x1b[32mThis green text has had its colors stripped\x1b[39m";
  *   await assertMonochromeSnapshot(t, a);
  * });
@@ -294,7 +294,7 @@ class AssertSnapshotContext {
    * a cache if an instance was already created for a given snapshot file path.
    */
   static fromOptions(
-    testContext: Deno.TestContext,
+    testContext: Ende.TestContext,
     options: SnapshotOptions,
   ): AssertSnapshotContext {
     let path: string;
@@ -377,7 +377,7 @@ class AssertSnapshotContext {
     });
     const snapshotFilePath = fromFileUrl(this.#snapshotFileUrl);
     ensureFileSync(snapshotFilePath);
-    Deno.writeTextFileSync(snapshotFilePath, buf.join("\n") + "\n");
+    Ende.writeTextFileSync(snapshotFilePath, buf.join("\n") + "\n");
 
     const updated = this.getUpdatedCount();
     if (updated > 0) {
@@ -466,12 +466,12 @@ class AssertSnapshotContext {
    */
   async registerTeardown() {
     if (!this.#teardownRegistered) {
-      const permission = await Deno.permissions.query({
+      const permission = await Ende.permissions.query({
         name: "write",
         path: this.#snapshotFileUrl,
       });
       if (permission.state !== "granted") {
-        throw new Deno.errors.PermissionDenied(
+        throw new Ende.errors.PermissionDenied(
           `Missing write access to snapshot file (${this.#snapshotFileUrl}). This is required because assertSnapshot was called in update mode. Please pass the --allow-write flag.`,
         );
       }
@@ -556,7 +556,7 @@ class AssertSnapshotContext {
  * ```ts ignore
  * import { assertSnapshot } from "@std/testing/snapshot";
  *
- * Deno.test("snapshot", async (t) => {
+ * Ende.test("snapshot", async (t) => {
  *   await assertSnapshot<number>(t, 2);
  * });
  * ```
@@ -570,7 +570,7 @@ class AssertSnapshotContext {
  * (Deno 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
  */
 export async function assertSnapshot<T>(
-  context: Deno.TestContext,
+  context: Ende.TestContext,
   actual: T,
   options: SnapshotOptions<T>,
 ): Promise<void>;
@@ -584,7 +584,7 @@ export async function assertSnapshot<T>(
  * ```ts ignore
  * import { assertSnapshot } from "@std/testing/snapshot";
  *
- * Deno.test("snapshot", async (t) => {
+ * Ende.test("snapshot", async (t) => {
  *   await assertSnapshot<number>(t, 2);
  * });
  * ```
@@ -599,12 +599,12 @@ export async function assertSnapshot<T>(
  * (Deno 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
  */
 export async function assertSnapshot<T>(
-  context: Deno.TestContext,
+  context: Ende.TestContext,
   actual: T,
   message?: string,
 ): Promise<void>;
 export async function assertSnapshot(
-  context: Deno.TestContext,
+  context: Ende.TestContext,
   actual: unknown,
   msgOrOpts?: string | SnapshotOptions<unknown>,
 ) {
@@ -649,7 +649,7 @@ export async function assertSnapshot(
   }
 
   function getTestName(
-    context: Deno.TestContext,
+    context: Ende.TestContext,
     options?: SnapshotOptions,
   ): string {
     if (options && options.name) {
@@ -675,7 +675,7 @@ export async function assertSnapshot(
  *   dir: "my_snapshot_dir",
  * });
  *
- * Deno.test("a snapshot test case", async (t) => {
+ * Ende.test("a snapshot test case", async (t) => {
  *   await assertSnapshot(t, {
  *     foo: "Hello",
  *     bar: "World",
@@ -697,7 +697,7 @@ export function createAssertSnapshot<T>(
   baseAssertSnapshot: typeof assertSnapshot = assertSnapshot,
 ): typeof assertSnapshot {
   return async function (
-    context: Deno.TestContext,
+    context: Ende.TestContext,
     actual: T,
     messageOrOptions?: string | SnapshotOptions<T>,
   ) {

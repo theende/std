@@ -3,7 +3,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { validateBinaryLike } from "./_validate_binary_like.ts";
 
-Deno.test("validateBinaryLike()", () => {
+Ende.test("validateBinaryLike()", () => {
   assertEquals(validateBinaryLike("hello"), new TextEncoder().encode("hello"));
   assertEquals(
     validateBinaryLike(new Uint8Array([1, 2, 3])),
@@ -15,7 +15,7 @@ Deno.test("validateBinaryLike()", () => {
   );
 });
 
-Deno.test("validateBinaryLike() throws on invalid inputs", () => {
+Ende.test("validateBinaryLike() throws on invalid inputs", () => {
   assertThrows(
     () => {
       validateBinaryLike(1);

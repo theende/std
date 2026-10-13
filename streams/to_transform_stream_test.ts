@@ -3,7 +3,7 @@
 import { assertEquals, assertRejects, assertThrows } from "@std/assert";
 import { toTransformStream } from "./to_transform_stream.ts";
 
-Deno.test({
+Ende.test({
   name: "toTransformStream()",
   async fn() {
     const readable = ReadableStream.from([0, 1, 2])
@@ -18,7 +18,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "toTransformStream() handles iterable instead of asyncIterable",
   async fn() {
     const readable = ReadableStream.from([0, 1, 2])
@@ -33,7 +33,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "toTransformStream() throws if transformer returns non-iterable",
   fn() {
     assertThrows(
@@ -65,7 +65,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "toTransformStream() propagates the error from readable 1",
   async fn(t) {
     // When data is pipelined in the order of readable1 → generator → readable2,
@@ -128,7 +128,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "toTransformStream() propagates the error from generator",
   async fn(t) {
     // When data is pipelined in the order of readable1 → generator → readable2,
@@ -170,7 +170,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "toTransformStream() propagates cancellation from readable 2",
   async fn(t) {
     // When data is pipelined in the order of readable1 → generator → readable2,
@@ -221,7 +221,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "toTransformStream() handles streams cancel with the correct error message",
   async fn() {
@@ -240,7 +240,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "toTransformStream() executes finally blocks on cancellation",
   async fn() {
     let finallyCalled = false;

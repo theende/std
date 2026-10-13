@@ -5,7 +5,7 @@ import { extract } from "./json.ts";
 
 import { assertEquals } from "@std/assert/equals";
 
-Deno.test("json() extracts type error on invalid input", () => {
+Ende.test("json() extracts type error on invalid input", () => {
   assertThrows(() => extract(""));
   assertThrows(() => extract("---"));
   assertThrows(() => extract(`---toml`));
@@ -16,7 +16,7 @@ Deno.test("json() extracts type error on invalid input", () => {
   assertThrows(() => extract("---\nasdasdasd"));
 });
 
-Deno.test("json() parses json delineate by ---json", () => {
+Ende.test("json() parses json delineate by ---json", () => {
   const input = `---json
 {
   "title": "Three dashes followed by the format marks the spot",
@@ -52,12 +52,12 @@ don't break
   assertEquals(actual, expected);
 });
 
-Deno.test("extractJson() allows whitespaces after the header", () => {
+Ende.test("extractJson() allows whitespaces after the header", () => {
   assertEquals(extract('---json  \n{"foo": 0}\n---\n').attrs, { foo: 0 });
   assertEquals(extract('= json =  \n{"foo": 0}\n---\n').attrs, { foo: 0 });
 });
 
-Deno.test("extractJson() handles empty frontMatter", () => {
+Ende.test("extractJson() handles empty frontMatter", () => {
   assertEquals(
     extract("---json\n---\n"),
     { attrs: {}, body: "", frontMatter: "" },
@@ -73,7 +73,7 @@ Deno.test("extractJson() handles empty frontMatter", () => {
   );
 });
 
-Deno.test("extractJson() throws at missing newline before body", () => {
+Ende.test("extractJson() throws at missing newline before body", () => {
   assertThrows(
     () => extract('---json\n{ "foo": "bar" }\n---body'),
     TypeError,

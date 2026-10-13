@@ -9,7 +9,7 @@ import {
   UntarStream,
 } from "./untar_stream.ts";
 
-Deno.test("expandTarArchiveCheckingHeaders", async () => {
+Ende.test("expandTarArchiveCheckingHeaders", async () => {
   const text = new TextEncoder().encode("Hello World!");
   const seconds = Math.floor(Date.now() / 1000);
 
@@ -79,7 +79,7 @@ Deno.test("expandTarArchiveCheckingHeaders", async () => {
   }]);
 });
 
-Deno.test("expandTarArchiveCheckingBodies", async () => {
+Ende.test("expandTarArchiveCheckingBodies", async () => {
   const text = new TextEncoder().encode("Hello World!");
 
   const readable = ReadableStream.from<TarStreamInput>([
@@ -104,7 +104,7 @@ Deno.test("expandTarArchiveCheckingBodies", async () => {
   assertEquals(buffer, text);
 });
 
-Deno.test("UntarStream() with size equals to multiple of 512", async () => {
+Ende.test("UntarStream() with size equals to multiple of 512", async () => {
   const size = 512 * 3;
   const data = Uint8Array.from(
     { length: size },
@@ -129,7 +129,7 @@ Deno.test("UntarStream() with size equals to multiple of 512", async () => {
   assertEquals(buffer, data);
 });
 
-Deno.test("UntarStream() with invalid size", async () => {
+Ende.test("UntarStream() with invalid size", async () => {
   const bytes = (await toBytes(
     ReadableStream.from<TarStreamInput>([
       {
@@ -154,7 +154,7 @@ Deno.test("UntarStream() with invalid size", async () => {
   );
 });
 
-Deno.test("UntarStream() with invalid ending", async () => {
+Ende.test("UntarStream() with invalid ending", async () => {
   const tarBytes = await toBytes(
     ReadableStream.from<TarStreamInput>([
       {
@@ -180,7 +180,7 @@ Deno.test("UntarStream() with invalid ending", async () => {
   );
 });
 
-Deno.test("UntarStream() with too small size", async () => {
+Ende.test("UntarStream() with too small size", async () => {
   const readable = ReadableStream.from([new Uint8Array(512)])
     .pipeThrough(new UntarStream());
 
@@ -193,7 +193,7 @@ Deno.test("UntarStream() with too small size", async () => {
   );
 });
 
-Deno.test("UntarStream() with invalid checksum", async () => {
+Ende.test("UntarStream() with invalid checksum", async () => {
   const tarBytes = await toBytes(
     ReadableStream.from<TarStreamInput>([
       {
@@ -219,7 +219,7 @@ Deno.test("UntarStream() with invalid checksum", async () => {
   );
 });
 
-Deno.test("UntarStream() with extra bytes", async () => {
+Ende.test("UntarStream() with extra bytes", async () => {
   const readable = ReadableStream.from<TarStreamInput>([
     {
       type: "directory",
@@ -242,7 +242,7 @@ Deno.test("UntarStream() with extra bytes", async () => {
   }
 });
 
-Deno.test("UntarStream() with extra checksum digits", async () => {
+Ende.test("UntarStream() with extra checksum digits", async () => {
   const bytes = await toBytes(
     ReadableStream.from<TarStreamInput>([
       { type: "directory", path: "a" },

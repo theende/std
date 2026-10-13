@@ -2,7 +2,7 @@
 import { includesNeedle } from "./includes_needle.ts";
 import { assert } from "@std/assert";
 
-Deno.test("includesNeedle()", () => {
+Ende.test("includesNeedle()", () => {
   const encoder = new TextEncoder();
   const source = encoder.encode("deno.land");
   const pattern = encoder.encode("deno");

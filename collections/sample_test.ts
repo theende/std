@@ -3,7 +3,7 @@
 import { assert, assertEquals } from "@std/assert";
 import { sample } from "./sample.ts";
 
-Deno.test({
+Ende.test({
   name: "sample() does not mutate input",
   fn() {
     const array = ["a", "abc", "ba"];
@@ -13,7 +13,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sample() handles empty input",
   fn() {
     const actual = sample([]);
@@ -21,7 +21,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sample() handles array of numbers",
   fn() {
     const input = [1, 2, 3];
@@ -31,7 +31,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sample() handles array of objects",
   fn() {
     const input = [
@@ -50,13 +50,13 @@ Deno.test({
   },
 });
 
-Deno.test("sample() returns the first element if there is only one element", () => {
+Ende.test("sample() returns the first element if there is only one element", () => {
   const input = [1];
   const actual = sample(input);
   assertEquals(actual, 1);
 });
 
-Deno.test("sample() handles a generator", () => {
+Ende.test("sample() handles a generator", () => {
   function* gen() {
     yield 1;
     yield 2;
@@ -67,14 +67,14 @@ Deno.test("sample() handles a generator", () => {
   assert(Array.from(gen()).includes(actual));
 });
 
-Deno.test("sample() handles a Set", () => {
+Ende.test("sample() handles a Set", () => {
   const input = new Set([1, 2, 3]);
   const actual = sample(input);
   assert(actual !== undefined);
   assert(input.has(actual));
 });
 
-Deno.test("sample() handles a Map", () => {
+Ende.test("sample() handles a Map", () => {
   const input = new Map([
     ["a", 1],
     ["b", 2],
@@ -88,7 +88,7 @@ Deno.test("sample() handles a Map", () => {
   assert(input.get(actual[0]) === actual[1]);
 });
 
-Deno.test("sample() handles TypedArrays", () => {
+Ende.test("sample() handles TypedArrays", () => {
   const typedArrays = [
     Uint8Array,
     Uint8ClampedArray,
@@ -108,7 +108,7 @@ Deno.test("sample() handles TypedArrays", () => {
   }
 });
 
-Deno.test("sample() handles a string", () => {
+Ende.test("sample() handles a string", () => {
   const input = "abc";
   const actual = sample("abc");
   assert(actual !== undefined);
@@ -116,7 +116,7 @@ Deno.test("sample() handles a string", () => {
   assert(input.includes(actual));
 });
 
-Deno.test("sample() handles user-defined iterable", () => {
+Ende.test("sample() handles user-defined iterable", () => {
   const iterable = {
     *[Symbol.iterator]() {
       yield "a";

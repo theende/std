@@ -21,14 +21,14 @@ import { TestSuiteInternal } from "./_test_suite.ts";
 import { assertSpyCall, assertSpyCalls, type Spy, spy, stub } from "./mock.ts";
 import { TestContext } from "./_test_helpers.ts";
 
-const baseStepOptions: Omit<Deno.TestStepDefinition, "name" | "fn"> = {
+const baseStepOptions: Omit<Ende.TestStepDefinition, "name" | "fn"> = {
   ignore: false,
   sanitizeExit: true,
   sanitizeOps: true,
   sanitizeResources: true,
 };
 
-const baseOptions: Omit<Deno.TestDefinition, "name" | "fn"> = {
+const baseOptions: Omit<Ende.TestDefinition, "name" | "fn"> = {
   ...baseStepOptions,
   only: false,
   permissions: "inherit",
@@ -68,8 +68,8 @@ function hookFns() {
   };
 }
 
-Deno.test("beforeAll(), afterAll(), beforeEach() and afterEach()", async () => {
-  using test = stub(Deno, "test");
+Ende.test("beforeAll(), afterAll(), beforeEach() and afterEach()", async () => {
+  using test = stub(Ende, "test");
   const fns = [spy(), spy()] as const;
   const { beforeAllFn, afterAllFn, beforeEachFn, afterEachFn } = hookFns();
 
@@ -89,7 +89,7 @@ Deno.test("beforeAll(), afterAll(), beforeEach() and afterEach()", async () => {
 
     assertSpyCall(test, 0);
     const call = test.calls[0];
-    const options = call?.args[0] as Deno.TestDefinition;
+    const options = call?.args[0] as Ende.TestDefinition;
     assertEquals(Object.keys(options).sort(), ["fn", "name"]);
     assertEquals(options.name, "global");
 
@@ -123,8 +123,8 @@ Deno.test("beforeAll(), afterAll(), beforeEach() and afterEach()", async () => {
   assertSpyCalls(afterEachFn, 2);
 });
 
-Deno.test("beforeAll() with it.only() propagates only to Deno.test", () => {
-  using test = stub(Deno, "test");
+Ende.test("beforeAll() with it.only() propagates only to Ende.test", () => {
+  using test = stub(Ende, "test");
   try {
     beforeAll(() => {});
 
@@ -133,7 +133,7 @@ Deno.test("beforeAll() with it.only() propagates only to Deno.test", () => {
     it({ name: "c", fn: () => {} });
 
     assertSpyCall(test, 0);
-    const options = test.calls[0]?.args[0] as Deno.TestDefinition;
+    const options = test.calls[0]?.args[0] as Ende.TestDefinition;
     assertEquals(Object.keys(options).sort(), ["fn", "name", "only"]);
     assertObjectMatch(options, { name: "global", only: true });
   } finally {
@@ -141,16 +141,16 @@ Deno.test("beforeAll() with it.only() propagates only to Deno.test", () => {
   }
 });
 
-Deno.test("it()", async (t) => {
+Ende.test("it()", async (t) => {
   /**
-   * Asserts that `Deno.test` is called with the correct options for the `it` call in the callback function.
+   * Asserts that `Ende.test` is called with the correct options for the `it` call in the callback function.
    * This is used to reduce code duplication when testing calling `it` with different call signatures.
    */
   async function assertOptions<T>(
-    expectedOptions: Omit<Deno.TestDefinition, "name" | "fn">,
+    expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
     cb: (fn: Spy) => void,
   ) {
-    using test = stub(Deno, "test");
+    using test = stub(Ende, "test");
     const fn = spy();
     try {
       cb(fn);
@@ -158,7 +158,7 @@ Deno.test("it()", async (t) => {
       assertSpyCalls(fn, 0);
       assertSpyCall(test, 0);
       const call = test.calls[0];
-      const options = call?.args[0] as Deno.TestDefinition;
+      const options = call?.args[0] as Ende.TestDefinition;
       assertEquals(
         Object.keys(options).sort(),
         ["name", "fn", ...Object.keys(expectedOptions)].sort(),
@@ -184,7 +184,7 @@ Deno.test("it()", async (t) => {
   }
 
   /**
-   * Asserts that `Deno.test` is called with just the name and function for the `it` call in the callback function.
+   * Asserts that `Ende.test` is called with just the name and function for the `it` call in the callback function.
    * This is used to reduce code duplication when testing calling `it` with different call signatures.
    */
   async function assertMinimumOptions(
@@ -194,7 +194,7 @@ Deno.test("it()", async (t) => {
   }
 
   /**
-   * Asserts that `Deno.test` is called with all of the options for the `it` call in the callback function.
+   * Asserts that `Ende.test` is called with all of the options for the `it` call in the callback function.
    * This is used to reduce code duplication when testing calling `it` with different call signatures.
    */
   async function assertAllOptions(
@@ -331,7 +331,7 @@ Deno.test("it()", async (t) => {
 
   await t.step("only", async (t) => {
     /**
-     * Asserts that `Deno.test` is called with just the name, only, and function for the `it.only` call in the callback function.
+     * Asserts that `Ende.test` is called with just the name, only, and function for the `it.only` call in the callback function.
      * This is used to reduce code duplication when testing calling `it.only` with different call signatures.
      */
     async function assertMinimumOptions(
@@ -341,7 +341,7 @@ Deno.test("it()", async (t) => {
     }
 
     /**
-     * Asserts that `Deno.test` is called with all of the options for the `it.only` call in the callback function.
+     * Asserts that `Ende.test` is called with all of the options for the `it.only` call in the callback function.
      * This is used to reduce code duplication when testing calling `it.only` with different call signatures.
      */
     async function assertAllOptions(
@@ -485,7 +485,7 @@ Deno.test("it()", async (t) => {
 
   await t.step("ignore", async (t) => {
     /**
-     * Asserts that `Deno.test` is called with just the name, ignore, and function for the `it.ignore` call in the callback function.
+     * Asserts that `Ende.test` is called with just the name, ignore, and function for the `it.ignore` call in the callback function.
      * This is used to reduce code duplication when testing calling `it.ignore` with different call signatures.
      */
     async function assertMinimumOptions(
@@ -495,7 +495,7 @@ Deno.test("it()", async (t) => {
     }
 
     /**
-     * Asserts that `Deno.test` is called with all of the options for the `it.ignore` call in the callback function.
+     * Asserts that `Ende.test` is called with all of the options for the `it.ignore` call in the callback function.
      * This is used to reduce code duplication when testing calling `it.ignore` with different call signatures.
      */
     async function assertAllOptions(
@@ -646,24 +646,24 @@ Deno.test("it()", async (t) => {
   });
 });
 
-Deno.test("describe()", async (t) => {
+Ende.test("describe()", async (t) => {
   /**
-   * Asserts that `Deno.test` is called with the correct options for the `describe` call in the callback function.
+   * Asserts that `Ende.test` is called with the correct options for the `describe` call in the callback function.
    * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
    * This is used to reduce code duplication when testing calling `describe` with different call signatures.
    */
   async function assertOptions(
-    expectedOptions: Omit<Deno.TestDefinition, "name" | "fn">,
+    expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
     cb: (fns: readonly [Spy, Spy]) => void,
   ) {
-    using test = stub(Deno, "test");
+    using test = stub(Ende, "test");
     const fns = [spy(), spy()] as const;
     try {
       cb(fns);
 
       assertSpyCall(test, 0);
       const call = test.calls[0];
-      const options = call?.args[0] as Deno.TestDefinition;
+      const options = call?.args[0] as Ende.TestDefinition;
       assertEquals(
         Object.keys(options).sort(),
         ["name", "fn", ...Object.keys(expectedOptions)].sort(),
@@ -702,7 +702,7 @@ Deno.test("describe()", async (t) => {
   }
 
   /**
-   * Asserts that `Deno.test` is called with just the name and function for the `describe` call in the callback function.
+   * Asserts that `Ende.test` is called with just the name and function for the `describe` call in the callback function.
    * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
    * This is used to reduce code duplication when testing calling `describe` with different call signatures.
    */
@@ -713,7 +713,7 @@ Deno.test("describe()", async (t) => {
   }
 
   /**
-   * Asserts that `Deno.test` is called with all of the options for the `describe` call in the callback function.
+   * Asserts that `Ende.test` is called with all of the options for the `describe` call in the callback function.
    * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
    * This is used to reduce code duplication when testing calling `describe` with different call signatures.
    */
@@ -887,7 +887,7 @@ Deno.test("describe()", async (t) => {
 
   await t.step("only", async (t) => {
     /**
-     * Asserts that `Deno.test` is called with just the name, only, and function for the `describe.only` call in the callback function.
+     * Asserts that `Ende.test` is called with just the name, only, and function for the `describe.only` call in the callback function.
      * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
      * This is used to reduce code duplication when testing calling `describe.only` with different call signatures.
      */
@@ -898,7 +898,7 @@ Deno.test("describe()", async (t) => {
     }
 
     /**
-     * Asserts that `Deno.test` is called with all of the options for the `describe.only` call in the callback function.
+     * Asserts that `Ende.test` is called with all of the options for the `describe.only` call in the callback function.
      * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
      * This is used to reduce code duplication when testing calling `describe.only` with different call signatures.
      */
@@ -1088,20 +1088,20 @@ Deno.test("describe()", async (t) => {
 
   await t.step("ignore", async (t) => {
     /**
-     * Asserts that `Deno.test` is called with the correct options for the `describe` call in the callback function.
+     * Asserts that `Ende.test` is called with the correct options for the `describe` call in the callback function.
      * This is used to reduce code duplication when testing calling `describe` with different call signatures.
      */
     async function assertIgnoreOptions(
-      expectedOptions: Omit<Deno.TestDefinition, "name" | "fn">,
+      expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
       cb: (fns: readonly [Spy, Spy]) => void,
     ) {
-      using test = stub(Deno, "test");
+      using test = stub(Ende, "test");
       const fns = [spy(), spy()] as const;
       try {
         cb(fns);
         assertSpyCall(test, 0);
         const call = test.calls[0];
-        const options = call?.args[0] as Deno.TestDefinition;
+        const options = call?.args[0] as Ende.TestDefinition;
         assertEquals(
           Object.keys(options).sort(),
           ["name", "fn", ...Object.keys(expectedOptions)].sort(),
@@ -1127,7 +1127,7 @@ Deno.test("describe()", async (t) => {
       }
     }
     /**
-     * Asserts that `Deno.test` is called with just the name, ignore, and function for the `describe.ignore` call in the callback function.
+     * Asserts that `Ende.test` is called with just the name, ignore, and function for the `describe.ignore` call in the callback function.
      * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
      * This is used to reduce code duplication when testing calling `describe.ignore` with different call signatures.
      */
@@ -1138,7 +1138,7 @@ Deno.test("describe()", async (t) => {
     }
 
     /**
-     * Asserts that `Deno.test` is called with all of the options for the `describe.ignore` call in the callback function.
+     * Asserts that `Ende.test` is called with all of the options for the `describe.ignore` call in the callback function.
      * In addition to that, it asserts that the individual test cases registered with `it` use the test step API correctly.
      * This is used to reduce code duplication when testing calling `describe.ignore` with different call signatures.
      */
@@ -1345,14 +1345,14 @@ Deno.test("describe()", async (t) => {
     async function assertOnly(
       cb: (fns: readonly [Spy, Spy, Spy]) => void,
     ) {
-      using test = stub(Deno, "test");
+      using test = stub(Ende, "test");
       const fns = [spy(), spy(), spy()] as const;
       try {
         cb(fns);
 
         assertSpyCall(test, 0);
         const call = test.calls[0];
-        const options = call?.args[0] as Deno.TestDefinition;
+        const options = call?.args[0] as Ende.TestDefinition;
         assertEquals(
           Object.keys(options).sort(),
           ["name", "only", "fn"].sort(),
@@ -1441,14 +1441,14 @@ Deno.test("describe()", async (t) => {
     async function assertOnly(
       cb: (fns: readonly [Spy, Spy, Spy]) => void,
     ) {
-      using test = stub(Deno, "test");
+      using test = stub(Ende, "test");
       const fns = [spy(), spy(), spy()] as const;
       try {
         cb(fns);
 
         assertSpyCall(test, 0);
         const call = test.calls[0];
-        const options = call?.args[0] as Deno.TestDefinition;
+        const options = call?.args[0] as Ende.TestDefinition;
         assertEquals(
           Object.keys(options).sort(),
           ["name", "only", "fn"].sort(),
@@ -1549,7 +1549,7 @@ Deno.test("describe()", async (t) => {
         },
       ) => void,
     ) {
-      using test = stub(Deno, "test");
+      using test = stub(Ende, "test");
       const fns = [spy(), spy()] as const;
       const { beforeAllFn, afterAllFn, beforeEachFn, afterEachFn } = hookFns();
 
@@ -1562,7 +1562,7 @@ Deno.test("describe()", async (t) => {
 
         assertSpyCall(test, 0);
         const call = test.calls[0];
-        const options = call?.args[0] as Deno.TestDefinition;
+        const options = call?.args[0] as Ende.TestDefinition;
         assertEquals(Object.keys(options).sort(), ["fn", "name"]);
         assertEquals(options.name, "example");
 
@@ -1663,7 +1663,7 @@ Deno.test("describe()", async (t) => {
     await t.step(
       "nested",
       async () => {
-        using test = stub(Deno, "test");
+        using test = stub(Ende, "test");
         const fns = [spy(), spy()] as const;
         const { beforeAllFn, afterAllFn, beforeEachFn, afterEachFn } =
           hookFns();
@@ -1688,7 +1688,7 @@ Deno.test("describe()", async (t) => {
 
           assertSpyCall(test, 0);
           const call = test.calls[0];
-          const options = call?.args[0] as Deno.TestDefinition;
+          const options = call?.args[0] as Ende.TestDefinition;
           assertEquals(Object.keys(options).sort(), ["fn", "name"]);
           assertEquals(options.name, "example");
 
@@ -1737,7 +1737,7 @@ Deno.test("describe()", async (t) => {
     await t.step(
       "nested with hooks",
       async () => {
-        using test = stub(Deno, "test");
+        using test = stub(Ende, "test");
         const fns = [
           spy(function (this: NestedContext) {
             this.x = 2;
@@ -1805,7 +1805,7 @@ Deno.test("describe()", async (t) => {
 
           assertSpyCall(test, 0);
           const call = test.calls[0];
-          const options = call?.args[0] as Deno.TestDefinition;
+          const options = call?.args[0] as Ende.TestDefinition;
           assertEquals(Object.keys(options).sort(), ["fn", "name"]);
           assertEquals(options.name, "example");
 
@@ -1925,7 +1925,7 @@ Deno.test("describe()", async (t) => {
   await t.step(
     "multiple hook calls",
     async () => {
-      using test = stub(Deno, "test");
+      using test = stub(Ende, "test");
       const context = new TestContext("example");
       const beforeAllFn = spy();
       const afterAllFn = spy();
@@ -1963,7 +1963,7 @@ Deno.test("describe()", async (t) => {
           });
         });
         const call = test.calls[0];
-        const options = call?.args[0] as Deno.TestDefinition;
+        const options = call?.args[0] as Ende.TestDefinition;
         await options.fn(context);
       } finally {
         TestSuiteInternal.reset();
@@ -1993,7 +1993,7 @@ Deno.test("describe()", async (t) => {
   await t.step(
     "throws if nested test case is called with permission option",
     async () => {
-      using test = stub(Deno, "test");
+      using test = stub(Ende, "test");
       const context = new TestContext("example");
       try {
         describe("foo", () => {
@@ -2002,7 +2002,7 @@ Deno.test("describe()", async (t) => {
           });
         });
         const call = test.calls[0];
-        const options = call?.args[0] as Deno.TestDefinition;
+        const options = call?.args[0] as Ende.TestDefinition;
         await assertRejects(
           async () => await options.fn(context),
           Error,

@@ -10,13 +10,13 @@
  * import { Base32EncoderStream } from "@std/encoding/unstable-base32-stream";
  * import { toText } from "@std/streams";
  *
- * const readable = (await Deno.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new Base32EncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeBase32(await Deno.readFile("./ende.lock"), { alphabet: "base32" }),
+ *   encodeBase32(await Ende.readFile("./ende.lock"), { alphabet: "base32" }),
  * );
  * ```
  *
@@ -57,13 +57,13 @@ const decoder = new TextDecoder();
  * import { Base32EncoderStream } from "@std/encoding/unstable-base32-stream";
  * import { toText } from "@std/streams";
  *
- * const readable = (await Deno.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new Base32EncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeBase32(await Deno.readFile("./ende.lock"), { alphabet: "base32" }),
+ *   encodeBase32(await Ende.readFile("./ende.lock"), { alphabet: "base32" }),
  * );
  * ```
  */
@@ -136,14 +136,14 @@ export class Base32EncoderStream<T extends "string" | "bytes">
  * } from "@std/encoding/unstable-base32-stream";
  * import { toBytes } from "@std/streams/to-bytes";
  *
- * const readable = (await Deno.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new Base32EncoderStream({ output: "string" }))
  *   .pipeThrough(new Base32DecoderStream({ input: "string" }));
  *
  * assertEquals(
  *   await toBytes(readable),
- *   await Deno.readFile("./ende.lock"),
+ *   await Ende.readFile("./ende.lock"),
  * );
  * ```
  *

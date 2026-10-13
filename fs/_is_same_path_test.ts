@@ -5,9 +5,9 @@ import { assertEquals } from "@std/assert";
 import * as path from "@std/path";
 import { isSamePath } from "./_is_same_path.ts";
 
-Deno.test({
+Ende.test({
   name: "isSamePath() works correctly for win32",
-  ignore: Deno.build.os !== "windows",
+  ignore: Ende.build.os !== "windows",
   fn() {
     const pairs: (string | URL | boolean)[][] = [
       ["", "", true],
@@ -31,9 +31,9 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isSamePath() works correctly for posix",
-  ignore: Deno.build.os === "windows",
+  ignore: Ende.build.os === "windows",
   fn() {
     const pairs: (string | URL | boolean)[][] = [
       ["", "", true],

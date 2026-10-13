@@ -175,19 +175,19 @@ const SLASH_CODE_POINT = "/".charCodeAt(0);
  *   {
  *     type: "file",
  *     path: 'ende.json',
- *     size: (await Deno.stat('ende.json')).size,
- *     readable: (await Deno.open('ende.json')).readable
+ *     size: (await Ende.stat('ende.json')).size,
+ *     readable: (await Ende.open('ende.json')).readable
  *   },
  *   {
  *     type: "file",
  *     path: '.vscode/settings.json',
- *     size: (await Deno.stat('.vscode/settings.json')).size,
- *     readable: (await Deno.open('.vscode/settings.json')).readable
+ *     size: (await Ende.stat('.vscode/settings.json')).size,
+ *     readable: (await Ende.open('.vscode/settings.json')).readable
  *   }
  * ])
  *   .pipeThrough(new TarStream())
  *   .pipeThrough(new CompressionStream('gzip'))
- *   .pipeTo((await Deno.create('./out.tar.gz')).writable)
+ *   .pipeTo((await Ende.create('./out.tar.gz')).writable)
  * ```
  */
 export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
@@ -420,19 +420,19 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
    *   {
    *     type: "file",
    *     path: 'ende.json',
-   *     size: (await Deno.stat('ende.json')).size,
-   *     readable: (await Deno.open('ende.json')).readable
+   *     size: (await Ende.stat('ende.json')).size,
+   *     readable: (await Ende.open('ende.json')).readable
    *   },
    *   {
    *     type: "file",
    *     path: '.vscode/settings.json',
-   *     size: (await Deno.stat('.vscode/settings.json')).size,
-   *     readable: (await Deno.open('.vscode/settings.json')).readable
+   *     size: (await Ende.stat('.vscode/settings.json')).size,
+   *     readable: (await Ende.open('.vscode/settings.json')).readable
    *   }
    * ])
    *   .pipeThrough(new TarStream())
    *   .pipeThrough(new CompressionStream('gzip'))
-   *   .pipeTo((await Deno.create('./out.tar.gz')).writable)
+   *   .pipeTo((await Ende.create('./out.tar.gz')).writable)
    * ```
    */
   get readable(): ReadableStream<Uint8Array_> {
@@ -456,19 +456,19 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
    *   {
    *     type: "file",
    *     path: 'ende.json',
-   *     size: (await Deno.stat('ende.json')).size,
-   *     readable: (await Deno.open('ende.json')).readable
+   *     size: (await Ende.stat('ende.json')).size,
+   *     readable: (await Ende.open('ende.json')).readable
    *   },
    *   {
    *     type: "file",
    *     path: '.vscode/settings.json',
-   *     size: (await Deno.stat('.vscode/settings.json')).size,
-   *     readable: (await Deno.open('.vscode/settings.json')).readable
+   *     size: (await Ende.stat('.vscode/settings.json')).size,
+   *     readable: (await Ende.open('.vscode/settings.json')).readable
    *   }
    * ])
    *   .pipeThrough(new TarStream())
    *   .pipeThrough(new CompressionStream('gzip'))
-   *   .pipeTo((await Deno.create('./out.tar.gz')).writable)
+   *   .pipeTo((await Ende.create('./out.tar.gz')).writable)
    * ```
    */
   get writable(): WritableStream<TarStreamInput> {
@@ -487,15 +487,15 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
  * ```ts no-assert ignore
  * import { assertValidTarStreamOptions, TarStream, type TarStreamInput } from "@std/tar";
  *
- *  const paths = (await Array.fromAsync(Deno.readDir('./')))
+ *  const paths = (await Array.fromAsync(Ende.readDir('./')))
  *   .filter(entry => entry.isFile)
  *   .map(entry => entry.name);
  *
- * await Deno.mkdir('./out/', { recursive: true })
+ * await Ende.mkdir('./out/', { recursive: true })
  * await ReadableStream.from(paths)
  *   .pipeThrough(new TransformStream<string, TarStreamInput>({
  *     async transform(path, controller) {
- *       const stats = await Deno.stat(path);
+ *       const stats = await Ende.stat(path);
  *       const options = { mtime: stats.mtime?.getTime()! / 1000 };
  *       try {
  *         // Filter out any paths that would have an invalid options provided.
@@ -504,7 +504,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
  *           type: "file",
  *           path,
  *           size: stats.size,
- *           readable: (await Deno.open(path)).readable,
+ *           readable: (await Ende.open(path)).readable,
  *           options,
  *         });
  *       } catch (error) {
@@ -514,7 +514,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
  *   }))
  *   .pipeThrough(new TarStream())
  *   .pipeThrough(new CompressionStream('gzip'))
- *   .pipeTo((await Deno.create('./out/archive.tar.gz')).writable);
+ *   .pipeTo((await Ende.create('./out/archive.tar.gz')).writable);
  * ```
  */
 export function assertValidTarStreamOptions(options: TarStreamOptions): void {
@@ -643,7 +643,7 @@ function parsePath(size: number, buffer: Uint8Array_): void {
  * ```ts no-assert ignore
  * import { assertValidPath, TarStream, type TarStreamInput } from "@std/tar";
  *
- * const paths = (await Array.fromAsync(Deno.readDir("./")))
+ * const paths = (await Array.fromAsync(Ende.readDir("./")))
  *   .filter(entry => entry.isFile)
  *   .map((entry) => entry.name)
  *   // Filter out any paths that are invalid as they are to be placed inside a Tar.
@@ -657,7 +657,7 @@ function parsePath(size: number, buffer: Uint8Array_): void {
  *     }
  *   });
  *
- * await Deno.mkdir('./out/', { recursive: true })
+ * await Ende.mkdir('./out/', { recursive: true })
  * await ReadableStream.from(paths)
  *   .pipeThrough(
  *     new TransformStream<string, TarStreamInput>({
@@ -665,15 +665,15 @@ function parsePath(size: number, buffer: Uint8Array_): void {
  *         controller.enqueue({
  *           type: "file",
  *           path,
- *           size: (await Deno.stat(path)).size,
- *           readable: (await Deno.open(path)).readable,
+ *           size: (await Ende.stat(path)).size,
+ *           readable: (await Ende.open(path)).readable,
  *         });
  *       },
  *     }),
  *   )
  *   .pipeThrough(new TarStream())
  *   .pipeThrough(new CompressionStream('gzip'))
- *   .pipeTo((await Deno.create('./out/archive.tar.gz')).writable);
+ *   .pipeTo((await Ende.create('./out/archive.tar.gz')).writable);
  * ```
  */
 export function assertValidPath(path: string): void {
@@ -698,7 +698,7 @@ export function assertValidPath(path: string): void {
  *   { type: "symlink", path: "./link", linkname },
  * ])
  *   .pipeThrough(new TarStream())
- *   .pipeTo((await Deno.create('./out.tar')).writable);
+ *   .pipeTo((await Ende.create('./out.tar')).writable);
  * ```
  */
 export function assertValidLinkname(linkname: string): void {

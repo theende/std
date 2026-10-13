@@ -5,7 +5,7 @@ import {
   type ModuleGraphJson,
   type ModuleJson,
 } from "@deno/graph";
-import { getPackagesDenoJsons, resolve } from "./utils.ts";
+import { getPackagesEndeJsons, resolve } from "./utils.ts";
 import graphviz from "graphviz";
 import { parse } from "../semver/parse.ts";
 
@@ -35,8 +35,8 @@ type Dep = {
   state: DepState;
 };
 
-const packagesDenoJsons = await getPackagesDenoJsons();
-const ENTRYPOINTS = Object.fromEntries(packagesDenoJsons.map((pkg) => {
+const packagesEndeJsons = await getPackagesEndeJsons();
+const ENTRYPOINTS = Object.fromEntries(packagesEndeJsons.map((pkg) => {
   const entrypoints = Object.values(pkg.exports);
   return [pkg.name.replace("@std/", "").replace("-", "_"), entrypoints];
 })) as Record<string, string[]>;
@@ -153,7 +153,7 @@ function stateToNodeStyle(state: DepState) {
   }
 }
 
-if (Deno.args.includes("--graph")) {
+if (Ende.args.includes("--graph")) {
   const lines = [];
   lines.push("digraph std_deps {");
   for (const mod of Object.keys(deps)) {
@@ -168,8 +168,8 @@ if (Deno.args.includes("--graph")) {
   // Compile the graph to SVG using the `dot` layout algorithm
   const svg = await graphviz.graphviz.dot(graph, "svg");
   console.log("Writing dependency graph image to .github/dependency_graph.svg");
-  await Deno.writeTextFile(".github/dependency_graph.svg", svg);
-} else if (Deno.args.includes("--all-imports")) {
+  await Ende.writeTextFile(".github/dependency_graph.svg", svg);
+} else if (Ende.args.includes("--all-imports")) {
   for (const [mod, entrypoints] of Object.entries(ENTRYPOINTS)) {
     for (const path of entrypoints) {
       if (path === "./mod.ts") {
@@ -189,7 +189,7 @@ if (Deno.args.includes("--graph")) {
     const res = checkCircularDeps(mod);
     if (res) {
       console.log(`Circular dependencies found: ${res.join(" -> ")}`);
-      Deno.exit(1);
+      Ende.exit(1);
     }
   }
   console.log("No circular dependencies found.");

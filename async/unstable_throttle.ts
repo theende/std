@@ -52,7 +52,7 @@ export interface ThrottledFunction<T extends Array<unknown>> {
  *
  * let called = 0;
  * const requestReceived = Promise.withResolvers<void>();
- * await using server = Deno.serve({ port: 0 }, () => {
+ * await using server = Ende.serve({ port: 0 }, () => {
  *   requestReceived.resolve();
  *   return new Response(`${called++}`);
  * });

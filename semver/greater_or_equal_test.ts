@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert";
 import { parse } from "./parse.ts";
 import { greaterOrEqual } from "./greater_or_equal.ts";
 
-Deno.test({
+Ende.test({
   name: "greaterOrEqual()",
   fn: async (t) => {
     // [version1, version2]

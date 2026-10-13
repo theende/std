@@ -27,7 +27,7 @@ import {
   value,
 } from "./_parser.ts";
 
-Deno.test({
+Ende.test({
   name: "Scanner",
   fn() {
     const scanner = new Scanner(" # comment\n\n\na \nb");
@@ -45,7 +45,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles bare key",
   fn() {
     const parse = parserFactory(bareKey);
@@ -55,7 +55,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles basic string",
   fn() {
     const parse = parserFactory(basicString);
@@ -76,7 +76,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles literal string",
   fn() {
     const parse = parserFactory(literalString);
@@ -87,7 +87,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles multi-line basic string",
   fn() {
     const parse = parserFactory(multilineBasicString);
@@ -126,7 +126,7 @@ Violets are\\tblue`),
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles multi-line basic string (CRLF)",
   fn() {
     const parse = parserFactory(multilineBasicString);
@@ -147,7 +147,7 @@ Violets are\\tblue"""`),
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles multi-line literal string",
   fn() {
     const parse = parserFactory(multilineLiteralString);
@@ -168,7 +168,7 @@ Violets are\\tblue`),
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles multi-line literal string (CRLF)",
   fn() {
     const parse = parserFactory(multilineLiteralString);
@@ -181,7 +181,7 @@ Violets are\\tblue'''`),
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles boolean",
   fn() {
     const parse = parserFactory(boolean);
@@ -192,7 +192,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles infinity",
   fn() {
     const parse = parserFactory(infinity);
@@ -204,7 +204,7 @@ Deno.test({
     assertThrows(() => parse("-inf_"));
   },
 });
-Deno.test({
+Ende.test({
   name: "parse() handles nan",
   fn() {
     const parse = parserFactory(nan);
@@ -217,7 +217,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles dotted key",
   fn() {
     const parse = parserFactory(dottedKey);
@@ -229,7 +229,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles table",
   fn() {
     const parse = parserFactory(table);
@@ -261,7 +261,7 @@ fizz.buzz = true
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles binary",
   fn() {
     const parse = parserFactory(binary);
@@ -275,7 +275,7 @@ Deno.test({
     assertThrows(() => parse("0b1101__0110"));
   },
 });
-Deno.test({
+Ende.test({
   name: "parse() handles octal",
   fn() {
     const parse = parserFactory(octal);
@@ -290,7 +290,7 @@ Deno.test({
     assertThrows(() => parse("0o0123__4567"));
   },
 });
-Deno.test({
+Ende.test({
   name: "parse() handles hex",
   fn() {
     const parse = parserFactory(hex);
@@ -307,7 +307,7 @@ Deno.test({
     assertThrows(() => parse("0xDEAD__BEEF"));
   },
 });
-Deno.test({
+Ende.test({
   name: "parse() handles integer",
   fn() {
     const parse = parserFactory(integer);
@@ -329,7 +329,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles float",
   fn() {
     const parse = parserFactory(float);
@@ -362,7 +362,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles date and date time",
   fn() {
     const parse = parserFactory(dateTime);
@@ -402,7 +402,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles local time",
   fn() {
     const parse = parserFactory(localTime);
@@ -412,7 +412,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles value",
   fn() {
     const parse = parserFactory(value);
@@ -425,7 +425,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles key value pair",
   fn() {
     const parse = parserFactory(pair);
@@ -436,7 +436,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles array",
   fn() {
     const parse = parserFactory(arrayValue);
@@ -471,7 +471,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles inline table",
   fn() {
     const parse = parserFactory(inlineTable);
@@ -486,7 +486,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "(private) deepAssign() works correctly",
   fn() {
     const source: Record<string, unknown> = {
@@ -537,7 +537,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "(private) deepAssign() handles Table and TableArray correctly",
   fn() {
     const source = {

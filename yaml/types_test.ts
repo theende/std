@@ -3,13 +3,13 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { YamlSyntaxError } from "./types.ts";
 
-Deno.test("YamlSyntaxError() is a SyntaxError", () => {
+Ende.test("YamlSyntaxError() is a SyntaxError", () => {
   const error = new YamlSyntaxError("oops", { line: 1, column: 1, offset: 0 });
   assertInstanceOf(error, SyntaxError);
   assertEquals(error.name, "YamlSyntaxError");
 });
 
-Deno.test("YamlSyntaxError() exposes structured position info", () => {
+Ende.test("YamlSyntaxError() exposes structured position info", () => {
   const error = new YamlSyntaxError("oops", {
     line: 5,
     column: 10,
@@ -21,7 +21,7 @@ Deno.test("YamlSyntaxError() exposes structured position info", () => {
   assertEquals(error.snippet, undefined);
 });
 
-Deno.test("YamlSyntaxError() formats message without snippet", () => {
+Ende.test("YamlSyntaxError() formats message without snippet", () => {
   const error = new YamlSyntaxError("oops", {
     line: 5,
     column: 10,
@@ -30,7 +30,7 @@ Deno.test("YamlSyntaxError() formats message without snippet", () => {
   assertEquals(error.message, "oops at line 5, column 10");
 });
 
-Deno.test("YamlSyntaxError() formats message with snippet", () => {
+Ende.test("YamlSyntaxError() formats message with snippet", () => {
   const snippet = "    foo: bar\n         ^";
   const error = new YamlSyntaxError(
     "oops",

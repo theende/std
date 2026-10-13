@@ -40,7 +40,7 @@ function isBlankSpace(str: string) {
  * import { JsonParseStream } from "@std/json/parse-stream";
  * import { assertEquals } from "@std/assert";
  *
- * const file = await Deno.open("json/testdata/test.jsonl");
+ * const file = await Ende.open("json/testdata/test.jsonl");
  *
  * const readable = file.readable
  *   .pipeThrough(new TextDecoderStream())  // convert Uint8Array to string

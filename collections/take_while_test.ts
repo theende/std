@@ -3,28 +3,28 @@
 import { assertEquals } from "@std/assert";
 import { takeWhile } from "./take_while.ts";
 
-Deno.test("takeWhile() handles num array", () => {
+Ende.test("takeWhile() handles num array", () => {
   const arr = [1, 2, 3, 4, 5, 6];
   const actual = takeWhile(arr, (i) => i !== 4);
 
   assertEquals(actual, [1, 2, 3]);
 });
 
-Deno.test("takeWhile() adds two to each num in predicate", () => {
+Ende.test("takeWhile() adds two to each num in predicate", () => {
   const arr = [1, 2, 3, 4, 5, 6];
   const actual = takeWhile(arr, (i) => i + 2 !== 6);
 
   assertEquals(actual, [1, 2, 3]);
 });
 
-Deno.test("takeWhile() handles negatives", () => {
+Ende.test("takeWhile() handles negatives", () => {
   const arr = [-1, -2, -3, -4, -5, -6];
 
   const actual = takeWhile(arr, (i) => i > -4);
   assertEquals(actual, [-1, -2, -3]);
 });
 
-Deno.test("takeWhile() handles no mutation", () => {
+Ende.test("takeWhile() handles no mutation", () => {
   const arr = [-1, -2, -3, -4, -5, -6];
 
   const actual = takeWhile(arr, (i) => i > -4);
@@ -32,7 +32,7 @@ Deno.test("takeWhile() handles no mutation", () => {
   assertEquals(arr, [-1, -2, -3, -4, -5, -6]);
 });
 
-Deno.test("takeWhile() handles empty input array returns empty array", () => {
+Ende.test("takeWhile() handles empty input array returns empty array", () => {
   const arr: number[] = [];
 
   const actual = takeWhile(arr, (i) => i > 4);
@@ -40,7 +40,7 @@ Deno.test("takeWhile() handles empty input array returns empty array", () => {
   assertEquals(actual, []);
 });
 
-Deno.test("takeWhile() returns empty array when the first element doesn't match the predicate", () => {
+Ende.test("takeWhile() returns empty array when the first element doesn't match the predicate", () => {
   const arr = [1, 2, 3, 4];
 
   const actual = takeWhile(arr, (i) => i !== 1);
@@ -48,7 +48,7 @@ Deno.test("takeWhile() returns empty array when the first element doesn't match 
   assertEquals(actual, []);
 });
 
-Deno.test("takeWhile() returns the same array when all elements match the predicate", () => {
+Ende.test("takeWhile() returns the same array when all elements match the predicate", () => {
   const arr = [1, 2, 3, 4];
 
   const actual = takeWhile(arr, (i) => i !== 400);
@@ -56,7 +56,7 @@ Deno.test("takeWhile() returns the same array when all elements match the predic
   assertEquals(actual, [1, 2, 3, 4]);
 });
 
-Deno.test("takeWhile() handles a generator", () => {
+Ende.test("takeWhile() handles a generator", () => {
   function* infiniteCount() {
     let count = 0;
     while (true) {
@@ -68,13 +68,13 @@ Deno.test("takeWhile() handles a generator", () => {
   assertEquals(actual, [1, 2, 3]);
 });
 
-Deno.test("takeWhile() handles a Set", () => {
+Ende.test("takeWhile() handles a Set", () => {
   const set = new Set([1, 2, 3, 4, 5, 6]);
   const actual = takeWhile(set, (i) => i !== 4);
   assertEquals(actual, [1, 2, 3]);
 });
 
-Deno.test("takeWhile() handles a Map", () => {
+Ende.test("takeWhile() handles a Map", () => {
   const map = new Map([
     ["a", 1],
     ["b", 2],
@@ -91,7 +91,7 @@ Deno.test("takeWhile() handles a Map", () => {
   ]);
 });
 
-Deno.test("takeWhile() passes the index to the predicate", () => {
+Ende.test("takeWhile() passes the index to the predicate", () => {
   const arr = [1, 2, 3, 4];
 
   const actual = takeWhile(arr, (_, index) => index < 1);

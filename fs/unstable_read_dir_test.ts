@@ -7,7 +7,7 @@ import { NotFound } from "./unstable_errors.js";
 
 const testdataDir = resolve(fromFileUrl(import.meta.url), "../testdata");
 
-Deno.test("readDir() reads from the directory and its subdirectories", async () => {
+Ende.test("readDir() reads from the directory and its subdirectories", async () => {
   const files = [];
   for await (const e of readDir(testdataDir)) {
     files.push(e);
@@ -24,20 +24,20 @@ Deno.test("readDir() reads from the directory and its subdirectories", async () 
   assertEquals(counter, 1);
 });
 
-Deno.test("readDir() rejects when the path is not a directory", async () => {
+Ende.test("readDir() rejects when the path is not a directory", async () => {
   await assertRejects(async () => {
     const testFile = join(testdataDir, "0.ts");
     await readDir(testFile)[Symbol.asyncIterator]().next();
   }, Error);
 });
 
-Deno.test("readDir() rejects when the directory does not exist", async () => {
+Ende.test("readDir() rejects when the directory does not exist", async () => {
   await assertRejects(async () => {
     await readDir("non_existent_dir")[Symbol.asyncIterator]().next();
   }, NotFound);
 });
 
-Deno.test("readDirSync() reads from the directory and its subdirectories", () => {
+Ende.test("readDirSync() reads from the directory and its subdirectories", () => {
   const files = [];
   for (const e of readDirSync(testdataDir)) {
     files.push(e);
@@ -54,14 +54,14 @@ Deno.test("readDirSync() reads from the directory and its subdirectories", () =>
   assertEquals(counter, 1);
 });
 
-Deno.test("readDirSync() throws with Error when the path is not a directory", () => {
+Ende.test("readDirSync() throws with Error when the path is not a directory", () => {
   assertThrows(() => {
     const testFile = join(testdataDir, "0.ts");
     readDirSync(testFile)[Symbol.iterator]().next();
   }, Error);
 });
 
-Deno.test("readDirSync() throws with NotFound when a directory does not exist", () => {
+Ende.test("readDirSync() throws with NotFound when a directory does not exist", () => {
   assertThrows(() => {
     readDirSync("non_existent_dir")[Symbol.iterator]().next();
   }, NotFound);

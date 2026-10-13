@@ -2,7 +2,7 @@
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { generate, type GenerateOptions, validate } from "./unstable_v6.ts";
 
-Deno.test("validate() checks if a string is a valid v6 UUID", () => {
+Ende.test("validate() checks if a string is a valid v6 UUID", () => {
   const u = generate();
   const t = "1efed67d-d966-6490-8b9a-755015853480";
   const n = "1efed67d-d966-1490-8b9a-755015853480";
@@ -12,7 +12,7 @@ Deno.test("validate() checks if a string is a valid v6 UUID", () => {
   assert(!validate(n), `${n} should not be valid`);
 });
 
-Deno.test("generate() generates a non-empty string", () => {
+Ende.test("generate() generates a non-empty string", () => {
   const u1 = generate();
   const u2 = generate({
     msecs: new Date("2011-11-01").getTime(),
@@ -25,14 +25,14 @@ Deno.test("generate() generates a non-empty string", () => {
   assert(u2 !== "", "return string is not empty");
 });
 
-Deno.test("generate() generates UUIDs in version 6 format", () => {
+Ende.test("generate() generates UUIDs in version 6 format", () => {
   for (let i = 0; i < 10000; i++) {
     const u = generate() as string;
     assert(validate(u), `${u} is not a valid uuid v6`);
   }
 });
 
-Deno.test("generate() can generate a static v6 UUID", () => {
+Ende.test("generate() can generate a static v6 UUID", () => {
   const v6options = {
     node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
     clockseq: 0x385c,
@@ -43,7 +43,7 @@ Deno.test("generate() can generate a static v6 UUID", () => {
   assertEquals(u, "1e1122bd-9428-6892-b85c-0123456789ab");
 });
 
-Deno.test("generate() throws when node is passed with less than 6 numbers", () => {
+Ende.test("generate() throws when node is passed with less than 6 numbers", () => {
   assertThrows(
     () => {
       generate({ node: [0x01, 0x23, 0x45, 0x67, 0x89] });
@@ -53,7 +53,7 @@ Deno.test("generate() throws when node is passed with less than 6 numbers", () =
   );
 });
 
-Deno.test("generate() throws when node is passed with more than 6 numbers", () => {
+Ende.test("generate() throws when node is passed with more than 6 numbers", () => {
   assertThrows(
     () => {
       generate({ node: [0x01, 0x23, 0x45, 0x67, 0x89, 0x89, 0x89] });
@@ -63,7 +63,7 @@ Deno.test("generate() throws when node is passed with more than 6 numbers", () =
   );
 });
 
-Deno.test("generate() throws when create more than 10M uuids/sec", () => {
+Ende.test("generate() throws when create more than 10M uuids/sec", () => {
   assertThrows(
     () => {
       generate({ nsecs: 10001 });
@@ -73,7 +73,7 @@ Deno.test("generate() throws when create more than 10M uuids/sec", () => {
   );
 });
 
-Deno.test("generate() uses provided rng function", () => {
+Ende.test("generate() uses provided rng function", () => {
   const v6options: GenerateOptions = {
     msecs: new Date("2011-11-18T21:25:33.573+00:00").getTime(),
     nsecs: 5442,
@@ -83,7 +83,7 @@ Deno.test("generate() uses provided rng function", () => {
   assertEquals(u, "1e1122bd-9428-6892-adef-0123456789ab");
 });
 
-Deno.test("generate() uses provided random data", () => {
+Ende.test("generate() uses provided random data", () => {
   const v6options: GenerateOptions = {
     msecs: new Date("2011-11-18T21:25:33.573+00:00").getTime(),
     nsecs: 5442,
@@ -93,7 +93,7 @@ Deno.test("generate() uses provided random data", () => {
   assertEquals(u, "1e1122bd-9428-6892-adef-0123456789ab");
 });
 
-Deno.test("generate() defaults to random node and clock sequence", () => {
+Ende.test("generate() defaults to random node and clock sequence", () => {
   const numGenerate = 1_000;
   const v6options: GenerateOptions = {
     msecs: new Date("2011-11-18T21:25:33.573+00:00").getTime(),

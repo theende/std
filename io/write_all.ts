@@ -13,7 +13,7 @@ export type { Writer, WriterSync } from "./types.ts";
  * import { writeAll } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
- * await writeAll(Deno.stdout, contentBytes);
+ * await writeAll(Ende.stdout, contentBytes);
  * ```
  *
  * @example Writing to file
@@ -21,7 +21,7 @@ export type { Writer, WriterSync } from "./types.ts";
  * import { writeAll } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
- * using file = await Deno.open('test.file', { write: true });
+ * using file = await Ende.open('test.file', { write: true });
  * await writeAll(file, contentBytes);
  * ```
  *
@@ -44,7 +44,7 @@ export async function writeAll(writer: Writer, data: Uint8Array) {
  * import { writeAllSync } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
- * writeAllSync(Deno.stdout, contentBytes);
+ * writeAllSync(Ende.stdout, contentBytes);
  * ```
  *
  * @example Writing to file
@@ -52,7 +52,7 @@ export async function writeAll(writer: Writer, data: Uint8Array) {
  * import { writeAllSync } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
- * using file = Deno.openSync("test.file", { write: true });
+ * using file = Ende.openSync("test.file", { write: true });
  * writeAllSync(file, contentBytes);
  * ```
  *

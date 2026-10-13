@@ -110,7 +110,7 @@ export function promptSelect<V = undefined>(
   values: PromptEntry<V>[],
   options: PromptSelectOptions = {},
 ): PromptEntry<V> | null {
-  if (!Deno.stdin.isTerminal()) return null;
+  if (!Ende.stdin.isTerminal()) return null;
 
   let selectedIndex = 0;
 

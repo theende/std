@@ -4,7 +4,7 @@ import { assertEquals } from "@std/assert";
 import { accepts, acceptsEncodings, acceptsLanguages } from "./negotiation.ts";
 import { stub } from "@std/testing/mock";
 
-Deno.test({
+Ende.test({
   name: "accepts() handles no args",
   fn() {
     const req = new Request("https://example.com/", {
@@ -23,7 +23,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "accepts() handles args",
   fn() {
     const req = new Request("https://example.com/", {
@@ -36,7 +36,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "accepts() handles no match",
   fn() {
     const req = new Request("https://example.com/", {
@@ -48,7 +48,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "accepts() handles args and no header",
   fn() {
     const req = new Request("https://example.com/");
@@ -56,7 +56,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "accepts() handles no args and no header",
   fn() {
     const req = new Request("https://example.com/");
@@ -64,7 +64,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsEncodings() handles no args",
   fn() {
     const req = new Request("https://example.com/", {
@@ -74,7 +74,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsEncodings() handles args",
   fn() {
     const req = new Request("https://example.com/", {
@@ -84,7 +84,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsEncodings() handles no match",
   fn() {
     const req = new Request("https://example.com/", {
@@ -94,7 +94,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsEncodings() handles args and no header",
   fn() {
     const req = new Request("https://example.com/");
@@ -102,7 +102,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsEncodings() handles no args and no header",
   fn() {
     const req = new Request("https://example.com/");
@@ -110,7 +110,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsEncodings() is locale independent",
   fn() {
     const req = new Request("https://example.com/", {
@@ -140,7 +140,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsLanguages() handles no args",
   fn() {
     const req = new Request("https://example.com/", {
@@ -152,7 +152,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsLanguages() handles args",
   fn() {
     const req = new Request("https://example.com/", {
@@ -164,7 +164,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsLanguages() handles no match",
   fn() {
     const req = new Request("https://example.com/", {
@@ -174,7 +174,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsLanguages() handles args and no header",
   fn() {
     const req = new Request("https://example.com/");
@@ -182,7 +182,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "acceptsLanguages() handles no args and no header",
   fn() {
     const req = new Request("https://example.com/");

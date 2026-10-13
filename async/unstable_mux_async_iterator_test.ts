@@ -14,7 +14,7 @@ async function* gen456(): AsyncIterableIterator<number> {
   yield 6;
 }
 
-Deno.test("(unstable) MuxAsyncIterator() works with constructor iterables", async () => {
+Ende.test("(unstable) MuxAsyncIterator() works with constructor iterables", async () => {
   const mux = new MuxAsyncIterator(gen123(), gen456());
   const results = new Set(await Array.fromAsync(mux));
   assertEquals(results.size, 6);

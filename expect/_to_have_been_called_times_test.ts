@@ -4,7 +4,7 @@ import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toHaveBeenCalledTimes()", () => {
+Ende.test("expect().toHaveBeenCalledTimes()", () => {
   const mockFn = fn();
   mockFn();
   expect(mockFn).toHaveBeenCalledTimes(1);
@@ -20,7 +20,7 @@ Deno.test("expect().toHaveBeenCalledTimes()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toHaveBeenCalledTimes() with custom error message", () => {
+Ende.test("expect().toHaveBeenCalledTimes() with custom error message", () => {
   const msg = "toHaveBeenCalledTimes Custom Error";
   const mockFn = fn();
   mockFn();

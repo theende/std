@@ -2,7 +2,7 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { HttpError } from "./unstable_error.ts";
 
-Deno.test("new HttpError() defaults message to STATUS_TEXT[status]", () => {
+Ende.test("new HttpError() defaults message to STATUS_TEXT[status]", () => {
   const error = new HttpError(500);
   assertInstanceOf(error, Error);
   assertEquals(error.name, "HttpError");
@@ -14,7 +14,7 @@ Deno.test("new HttpError() defaults message to STATUS_TEXT[status]", () => {
   });
 });
 
-Deno.test("new HttpError() forwards properties from options", () => {
+Ende.test("new HttpError() forwards properties from options", () => {
   const error = new HttpError(401, "Unauthorized", {
     cause: new Error("Underlying error"),
     init: {

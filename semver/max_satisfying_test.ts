@@ -5,7 +5,7 @@ import { parse } from "./parse.ts";
 import { parseRange } from "./parse_range.ts";
 import { maxSatisfying } from "./max_satisfying.ts";
 
-Deno.test({
+Ende.test({
   name: "maxSatisfying()",
   fn: async (t) => {
     const versions: [string[], string, string][] = [

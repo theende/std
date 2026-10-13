@@ -19,7 +19,7 @@ export type { ParsedPath } from "./types.ts";
  * import { parse } from "@std/path/parse";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   const parsedPathObj = parse("C:\\path\\to\\script.ts");
  *   assertEquals(parsedPathObj.root, "C:\\");
  *   assertEquals(parsedPathObj.dir, "C:\\path\\to");

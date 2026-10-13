@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import type { ReadFileOptions } from "./unstable_types.ts";
 import { mapError } from "./_map_error.ts";
 
@@ -28,8 +28,8 @@ export async function readFile(
   path: string | URL,
   options?: ReadFileOptions,
 ): Promise<Uint8Array> {
-  if (isDeno) {
-    return Deno.readFile(path, { ...options });
+  if (isEnde) {
+    return Ende.readFile(path, { ...options });
   } else {
     const { signal } = options ?? {};
     try {
@@ -62,8 +62,8 @@ export async function readFile(
  * @returns A `Uint8Array` of bytes representing the file contents.
  */
 export function readFileSync(path: string | URL): Uint8Array {
-  if (isDeno) {
-    return Deno.readFileSync(path);
+  if (isEnde) {
+    return Ende.readFileSync(path);
   } else {
     try {
       const buf = getNodeFs().readFileSync(path);

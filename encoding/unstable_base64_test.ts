@@ -22,7 +22,7 @@ const inputOutput: [string | ArrayBuffer, string, string][] = [
   [new Uint8Array(4).fill(255).buffer, "/////w==", "_____w"],
 ];
 
-Deno.test("encodeBase64()", () => {
+Ende.test("encodeBase64()", () => {
   for (const [input, base64, base64url] of inputOutput) {
     assertEquals(
       encodeBase64(input.slice(0), { alphabet: "base64" }),
@@ -37,7 +37,7 @@ Deno.test("encodeBase64()", () => {
   }
 });
 
-Deno.test("encodeBase64() subarray", () => {
+Ende.test("encodeBase64() subarray", () => {
   for (const [input, base64, base64url] of inputOutput) {
     if (typeof input === "string") continue;
 
@@ -61,7 +61,7 @@ Deno.test("encodeBase64() subarray", () => {
   }
 });
 
-Deno.test("encodeBase64Into()", () => {
+Ende.test("encodeBase64Into()", () => {
   const prefix = new TextEncoder().encode("data:fake/url,");
   for (const [input, base64, base64url] of inputOutput) {
     if (typeof input === "string") continue;
@@ -87,7 +87,7 @@ Deno.test("encodeBase64Into()", () => {
   }
 });
 
-Deno.test("encodeBase64Into() with too small buffer", () => {
+Ende.test("encodeBase64Into() with too small buffer", () => {
   const prefix = new TextEncoder().encode("data:fake/url,");
   for (const [input] of inputOutput) {
     if (typeof input === "string" || input.byteLength === 0) continue;
@@ -113,7 +113,7 @@ Deno.test("encodeBase64Into() with too small buffer", () => {
   }
 });
 
-Deno.test("decodeBase64()", () => {
+Ende.test("decodeBase64()", () => {
   for (const [input, base64, base64url] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
     const output = new TextEncoder().encode(input);
@@ -131,7 +131,7 @@ Deno.test("decodeBase64()", () => {
   }
 });
 
-Deno.test("decodeBase64() invalid char after padding", () => {
+Ende.test("decodeBase64() invalid char after padding", () => {
   for (const [input, base64, base64url] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
     if (base64[base64.length - 2] !== "=") continue;
@@ -152,7 +152,7 @@ Deno.test("decodeBase64() invalid char after padding", () => {
   }
 });
 
-Deno.test("decodeBase64() invalid length", () => {
+Ende.test("decodeBase64() invalid length", () => {
   for (const [input, base64, _base64url] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
 
@@ -178,7 +178,7 @@ Deno.test("decodeBase64() invalid length", () => {
   }
 });
 
-Deno.test("decodeBase64() invalid char", () => {
+Ende.test("decodeBase64() invalid char", () => {
   for (const [input, base64, base64url] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
 
@@ -198,7 +198,7 @@ Deno.test("decodeBase64() invalid char", () => {
   }
 });
 
-Deno.test("decodeBase64() throws with invalid byte >= 128", () => {
+Ende.test("decodeBase64() throws with invalid byte >= 128", () => {
   const input = new TextDecoder().decode(new Uint8Array(4).fill(200));
   assertThrows(
     () => decodeBase64(input),

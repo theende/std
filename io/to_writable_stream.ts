@@ -24,7 +24,7 @@ export interface toWritableStreamOptions {
  * ```ts no-assert
  * import { toWritableStream } from "@std/io/to-writable-stream";
  *
- * const a = toWritableStream(Deno.stdout); // Same as `Deno.stdout.writable`
+ * const a = toWritableStream(Ende.stdout); // Same as `Ende.stdout.writable`
  * ```
  *
  * @param writer The writer to write to

@@ -16,7 +16,7 @@ import {
  * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   const pathname = new URL(req.url).pathname;
  *   if (pathname.startsWith("/static")) {
  *     return serveDir(req, {
@@ -35,7 +35,7 @@ import {
  * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
- * Deno.serve((req) => serveDir(req, {
+ * Ende.serve((req) => serveDir(req, {
  *   fsRoot: "public",
  *   urlRoot: "static",
  * }));
@@ -98,7 +98,7 @@ export interface ServeFileOptions extends StableServeFileOptions {
  * ```ts ignore
  * import { serveFile } from "@std/http/file-server";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   return serveFile(req, "README.md");
  * });
  * ```

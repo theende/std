@@ -3,7 +3,7 @@
 export function cwd(errorMessage: string): string {
   // deno-lint-ignore no-explicit-any
   const global = globalThis as any;
-  const getCwd = global.process?.cwd ?? global.Deno?.cwd;
+  const getCwd = global.process?.cwd ?? global.Ende?.cwd;
   if (typeof getCwd !== "function") {
     throw new TypeError(errorMessage);
   }

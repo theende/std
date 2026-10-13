@@ -52,14 +52,14 @@ function items(
 // Basic record emission
 // =============================================================================
 
-Deno.test("parseXmlRecords() yields records assembled from callbacks", async () => {
+Ende.test("parseXmlRecords() yields records assembled from callbacks", async () => {
   const xml =
     "<root><item><title>A</title></item><item><title>B</title></item></root>";
   const records = await collect(items(xml));
   assertEquals(records, [{ title: "A" }, { title: "B" }]);
 });
 
-Deno.test("parseXmlRecords() assembles records spanning chunk boundaries", async () => {
+Ende.test("parseXmlRecords() assembles records spanning chunk boundaries", async () => {
   const xml =
     "<root><item><title>Hello</title></item><item><title>World</title></item></root>";
   const chunks: string[] = [];
@@ -68,17 +68,17 @@ Deno.test("parseXmlRecords() assembles records spanning chunk boundaries", async
   assertEquals(records, [{ title: "Hello" }, { title: "World" }]);
 });
 
-Deno.test("parseXmlRecords() completes cleanly when no records are emitted", async () => {
+Ende.test("parseXmlRecords() completes cleanly when no records are emitted", async () => {
   const xml = "<root><other>x</other></root>";
   const records = await collect(items(xml));
   assertEquals(records, []);
 });
 
-Deno.test("parseXmlRecords() errors on truly empty input (no root element)", async () => {
+Ende.test("parseXmlRecords() errors on truly empty input (no root element)", async () => {
   await assertRejects(() => collect(items("")), XmlSyntaxError);
 });
 
-Deno.test("parseXmlRecords() preserves record order across many chunks", async () => {
+Ende.test("parseXmlRecords() preserves record order across many chunks", async () => {
   const n = 100;
   const xml = `<root>${
     Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")
@@ -89,7 +89,7 @@ Deno.test("parseXmlRecords() preserves record order across many chunks", async (
   assertEquals(records, Array.from({ length: n }, (_, i) => ({ id: `${i}` })));
 });
 
-Deno.test("parseXmlRecords() handles many records emitted in a single chunk", async () => {
+Ende.test("parseXmlRecords() handles many records emitted in a single chunk", async () => {
   const n = 5000;
   const xml = `<root>${
     Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")
@@ -104,7 +104,7 @@ Deno.test("parseXmlRecords() handles many records emitted in a single chunk", as
 // Parse option forwarding
 // =============================================================================
 
-Deno.test("parseXmlRecords() ignoreWhitespace suppresses whitespace-only text events", async () => {
+Ende.test("parseXmlRecords() ignoreWhitespace suppresses whitespace-only text events", async () => {
   const xml = "<root>\n  <item>A</item>\n</root>";
   const texts: string[] = [];
   await collect(
@@ -122,7 +122,7 @@ Deno.test("parseXmlRecords() ignoreWhitespace suppresses whitespace-only text ev
   assertEquals(texts, ["A"]);
 });
 
-Deno.test("parseXmlRecords() xmlVersion '1.1' enables XML 1.1 character rules", async () => {
+Ende.test("parseXmlRecords() xmlVersion '1.1' enables XML 1.1 character rules", async () => {
   const xml = "<root>&#x1;</root>";
   const records = await collect(
     parseXmlRecords<string>(
@@ -138,7 +138,7 @@ Deno.test("parseXmlRecords() xmlVersion '1.1' enables XML 1.1 character rules", 
   assertEquals(records, ["\x01"]);
 });
 
-Deno.test("parseXmlRecords() rejects DOCTYPE by default", async () => {
+Ende.test("parseXmlRecords() rejects DOCTYPE by default", async () => {
   const xml = '<!DOCTYPE root SYSTEM "x.dtd"><root/>';
   await assertRejects(
     () =>
@@ -152,7 +152,7 @@ Deno.test("parseXmlRecords() rejects DOCTYPE by default", async () => {
   );
 });
 
-Deno.test("parseXmlRecords() allows DOCTYPE when disallowDoctype is false", async () => {
+Ende.test("parseXmlRecords() allows DOCTYPE when disallowDoctype is false", async () => {
   const xml = "<!DOCTYPE root><root><item><id>1</id></item></root>";
   const records = await collect(
     parseXmlRecords<string>(
@@ -172,7 +172,7 @@ Deno.test("parseXmlRecords() allows DOCTYPE when disallowDoctype is false", asyn
 // createCallbacks lifecycle
 // =============================================================================
 
-Deno.test("parseXmlRecords() invokes createCallbacks exactly once per call", async () => {
+Ende.test("parseXmlRecords() invokes createCallbacks exactly once per call", async () => {
   let callCount = 0;
   const xml = "<root><item/><item/></root>";
   await collect(
@@ -195,7 +195,7 @@ Deno.test("parseXmlRecords() invokes createCallbacks exactly once per call", asy
 // Error semantics
 // =============================================================================
 
-Deno.test("parseXmlRecords() throws on malformed XML", async () => {
+Ende.test("parseXmlRecords() throws on malformed XML", async () => {
   const xml = "<root attr=value/>";
   await assertRejects(
     () =>
@@ -209,7 +209,7 @@ Deno.test("parseXmlRecords() throws on malformed XML", async () => {
   );
 });
 
-Deno.test("parseXmlRecords() propagates errors thrown from a callback", async () => {
+Ende.test("parseXmlRecords() propagates errors thrown from a callback", async () => {
   const xml = "<root><item/></root>";
   await assertRejects(
     () =>
@@ -228,7 +228,7 @@ Deno.test("parseXmlRecords() propagates errors thrown from a callback", async ()
   );
 });
 
-Deno.test("parseXmlRecords() propagates errors thrown from createCallbacks", async () => {
+Ende.test("parseXmlRecords() propagates errors thrown from createCallbacks", async () => {
   await assertRejects(
     () =>
       collect(
@@ -244,7 +244,7 @@ Deno.test("parseXmlRecords() propagates errors thrown from createCallbacks", asy
   );
 });
 
-Deno.test("parseXmlRecords() discards records buffered in a chunk that errors", async () => {
+Ende.test("parseXmlRecords() discards records buffered in a chunk that errors", async () => {
   const xml =
     "<root><item><id>1</id></item><item><id>2</id></item><item attr=value/></root>";
   const received: string[] = [];
@@ -257,7 +257,7 @@ Deno.test("parseXmlRecords() discards records buffered in a chunk that errors", 
   assertEquals(received, []);
 });
 
-Deno.test("parseXmlRecords() yields records from earlier chunks before failing on a later one", async () => {
+Ende.test("parseXmlRecords() yields records from earlier chunks before failing on a later one", async () => {
   // Splitting across chunk boundaries lets the first two items drain through
   // the iteration cleanly before the third (malformed) chunk is processed.
   const chunks = [
@@ -272,7 +272,7 @@ Deno.test("parseXmlRecords() yields records from earlier chunks before failing o
   assertEquals(received, ["1", "2"]);
 });
 
-Deno.test("parseXmlRecords() suppresses parse errors when the consumer breaks before the malformed chunk", async () => {
+Ende.test("parseXmlRecords() suppresses parse errors when the consumer breaks before the malformed chunk", async () => {
   // Iteration consumes one record then breaks. The break completes the
   // iteration cleanly; the malformed chunk is never processed because the
   // consumer asked to stop. This documents the iterator contract that
@@ -289,7 +289,7 @@ Deno.test("parseXmlRecords() suppresses parse errors when the consumer breaks be
   assertEquals(received, ["1"]);
 });
 
-Deno.test("parseXmlRecords() discards records buffered during a failing finalize", async () => {
+Ende.test("parseXmlRecords() discards records buffered during a failing finalize", async () => {
   const xml = "<root>hello";
   const received: string[] = [];
   const iter = parseXmlRecords<string>(
@@ -308,7 +308,7 @@ Deno.test("parseXmlRecords() discards records buffered during a failing finalize
   assertEquals(received, []);
 });
 
-Deno.test("parseXmlRecords() rejects with the user error when a callback throws", async () => {
+Ende.test("parseXmlRecords() rejects with the user error when a callback throws", async () => {
   const xml =
     "<root><item><id>1</id></item><item><id>2</id></item><item><id>3</id></item></root>";
   const iter = parseXmlRecords<string>(
@@ -386,7 +386,7 @@ function ids(xml: string | string[]): AsyncGenerator<string> {
   );
 }
 
-Deno.test("parseXmlRecords() yields records as the document is parsed (per-record backpressure)", async () => {
+Ende.test("parseXmlRecords() yields records as the document is parsed (per-record backpressure)", async () => {
   const n = 20;
   const xml = `<root>${
     Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")
@@ -401,7 +401,7 @@ Deno.test("parseXmlRecords() yields records as the document is parsed (per-recor
   assertEquals(received, Array.from({ length: n }, (_, i) => `${i}`));
 });
 
-Deno.test("parseXmlRecords() stops parsing further chunks when the consumer breaks", async () => {
+Ende.test("parseXmlRecords() stops parsing further chunks when the consumer breaks", async () => {
   const items = Array.from(
     { length: 10 },
     (_, i) => `<item><id>${i}</id></item>`,
@@ -457,7 +457,7 @@ Deno.test("parseXmlRecords() stops parsing further chunks when the consumer brea
   );
 });
 
-Deno.test("parseXmlRecordsFromBytes() decodes byte chunks and yields records", async () => {
+Ende.test("parseXmlRecordsFromBytes() decodes byte chunks and yields records", async () => {
   const xml = new TextEncoder().encode(
     "<feed><item>First</item><item>Second</item></feed>",
   );
@@ -490,7 +490,7 @@ Deno.test("parseXmlRecordsFromBytes() decodes byte chunks and yields records", a
   assertEquals(titles, ["First", "Second"]);
 });
 
-Deno.test("parseXmlRecordsFromBytes() handles multi-byte UTF-8 split across chunks", async () => {
+Ende.test("parseXmlRecordsFromBytes() handles multi-byte UTF-8 split across chunks", async () => {
   // "café" — the 'é' (U+00E9) is two UTF-8 bytes (0xC3 0xA9). We split the
   // input mid-character to verify the streaming TextDecoder reassembles it.
   const full = new TextEncoder().encode("<root><item>café</item></root>");

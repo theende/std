@@ -21,7 +21,7 @@ export interface ExpandGlobOptions extends Omit<GlobOptions, "os"> {
   /**
    * File path where to expand from.
    *
-   * @default {Deno.cwd()}
+   * @default {Ende.cwd()}
    */
   root?: string;
   /**
@@ -77,7 +77,7 @@ function split(path: string): SplitPath {
 }
 
 function throwUnlessNotFound(error: unknown) {
-  if (!(error instanceof Deno.errors.NotFound)) {
+  if (!(error instanceof Ende.errors.NotFound)) {
     throw error;
   }
 }
@@ -289,7 +289,7 @@ export async function* expandGlob(
     hasTrailingSep,
     winRoot,
   } = split(toPathString(glob));
-  root ??= isGlobAbsolute ? winRoot ?? "/" : Deno.cwd();
+  root ??= isGlobAbsolute ? winRoot ?? "/" : Ende.cwd();
 
   const globOptions: GlobOptions = { extended, globstar, caseInsensitive };
   const absRoot = isGlobAbsolute ? root : resolve(root!); // root is always string here
@@ -446,7 +446,7 @@ export function* expandGlobSync(
     hasTrailingSep,
     winRoot,
   } = split(toPathString(glob));
-  root ??= isGlobAbsolute ? winRoot ?? "/" : Deno.cwd();
+  root ??= isGlobAbsolute ? winRoot ?? "/" : Ende.cwd();
 
   const globOptions: GlobOptions = { extended, globstar, caseInsensitive };
   const absRoot = isGlobAbsolute ? root : resolve(root!); // root is always string here
@@ -535,7 +535,7 @@ export function* expandGlobSync(
 
 const globEscapeChar =
   // deno-lint-ignore no-explicit-any
-  (globalThis as any).Deno?.build.os === "windows" ? "`" : `\\`;
+  (globalThis as any).Ende?.build.os === "windows" ? "`" : `\\`;
 const globMetachars = "*?{}[]()|+@!";
 function unescapeGlobSegment(segment: string): string {
   let result = "";

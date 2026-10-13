@@ -4,7 +4,7 @@ import { escape, unescape } from "./entities.ts";
 import { assertEquals } from "@std/assert";
 import entityList from "./named_entity_list.json" with { type: "json" };
 
-Deno.test("escape()", async (t) => {
+Ende.test("escape()", async (t) => {
   await t.step('escapes &<>"', () => {
     assertEquals(escape("&<>'\""), "&amp;&lt;&gt;&#39;&quot;");
   });
@@ -22,7 +22,7 @@ Deno.test("escape()", async (t) => {
   );
 });
 
-Deno.test("unescape()", async (t) => {
+Ende.test("unescape()", async (t) => {
   await t.step("round-trips with escape", () => {
     const chars = "&<>'\"";
     assertEquals(unescape(escape(chars)), chars);

@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert/equals";
 import { consolidateCommon, truncateDiff } from "./truncate_build_message.ts";
 import type { CommonDiffResult } from "@std/internal/types";
 
-Deno.test("consolidateDiff()", () => {
+Ende.test("consolidateDiff()", () => {
   assertEquals(
     truncateDiff(
       [
@@ -31,7 +31,7 @@ Deno.test("consolidateDiff()", () => {
   );
 });
 
-Deno.test("consolidateCommon()", async (t) => {
+Ende.test("consolidateCommon()", async (t) => {
   const commons = [
     { type: "common", value: "[" },
     { type: "common", value: '  "bar-->",' },

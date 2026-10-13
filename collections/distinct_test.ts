@@ -12,14 +12,14 @@ function distinctTest<I>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "distinct() handles identities on empty array",
   fn() {
     distinctTest([], []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinct() removes duplicates and preserves order",
   fn() {
     distinctTest(
@@ -37,7 +37,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "distinct() does not check for deep equality",
   fn() {
     const objects = [{ foo: "bar" }, { foo: "bar" }];

@@ -3,21 +3,21 @@ import { assertEquals, assertExists, assertThrows } from "@std/assert";
 import { format } from "./duration.ts";
 import type { FormatOptions } from "./duration.ts";
 
-Deno.test({
+Ende.test({
   name: "format() handles duration since epoch",
   fn() {
     assertExists(format(Date.now()));
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles narrow duration",
   fn() {
     assertEquals(format(99674), "0d 0h 1m 39s 674ms 0µs 0ns");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles default style (narrow)",
   fn() {
     assertEquals(
@@ -28,7 +28,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles full duration",
   fn() {
     assertEquals(
@@ -38,7 +38,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles digital duration",
   fn() {
     assertEquals(
@@ -48,7 +48,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles negative duration",
   fn() {
     assertEquals(
@@ -58,7 +58,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles full duration ignore zero",
   fn() {
     assertEquals(
@@ -68,14 +68,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles narrow duration ignore zero",
   fn() {
     assertEquals(format(99674, { ignoreZero: true }), "1m 39s 674ms");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles digital style ignore zero",
   fn() {
     assertEquals(
@@ -85,14 +85,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() handles duration rounding error",
   fn() {
     assertEquals(format(16.342, { ignoreZero: true }), "16ms 342µs");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "format() throws on invalid style option",
   fn() {
     assertThrows(

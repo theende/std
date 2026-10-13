@@ -3,7 +3,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { BatchStream } from "./batch_stream.ts";
 
-Deno.test("BatchStream() emits at the configured size", async () => {
+Ende.test("BatchStream() emits at the configured size", async () => {
   const batches = await Array.fromAsync(
     ReadableStream.from([1, 2, 3, 4, 5, 6])
       .pipeThrough(new BatchStream(2)),
@@ -11,7 +11,7 @@ Deno.test("BatchStream() emits at the configured size", async () => {
   assertEquals(batches, [[1, 2], [3, 4], [5, 6]]);
 });
 
-Deno.test("BatchStream() flushes a final partial batch on close", async () => {
+Ende.test("BatchStream() flushes a final partial batch on close", async () => {
   const batches = await Array.fromAsync(
     ReadableStream.from([1, 2, 3, 4, 5])
       .pipeThrough(new BatchStream(2)),
@@ -19,7 +19,7 @@ Deno.test("BatchStream() flushes a final partial batch on close", async () => {
   assertEquals(batches, [[1, 2], [3, 4], [5]]);
 });
 
-Deno.test("BatchStream() does not emit an empty batch when input is empty", async () => {
+Ende.test("BatchStream() does not emit an empty batch when input is empty", async () => {
   const batches = await Array.fromAsync(
     ReadableStream.from<number>([])
       .pipeThrough(new BatchStream(3)),
@@ -27,7 +27,7 @@ Deno.test("BatchStream() does not emit an empty batch when input is empty", asyn
   assertEquals(batches, []);
 });
 
-Deno.test("BatchStream() does not emit an empty batch when input length is a multiple of size", async () => {
+Ende.test("BatchStream() does not emit an empty batch when input length is a multiple of size", async () => {
   const batches = await Array.fromAsync(
     ReadableStream.from([1, 2, 3, 4])
       .pipeThrough(new BatchStream(2)),
@@ -35,7 +35,7 @@ Deno.test("BatchStream() does not emit an empty batch when input length is a mul
   assertEquals(batches, [[1, 2], [3, 4]]);
 });
 
-Deno.test("BatchStream() with size 1 emits single-record batches", async () => {
+Ende.test("BatchStream() with size 1 emits single-record batches", async () => {
   const batches = await Array.fromAsync(
     ReadableStream.from(["a", "b", "c"])
       .pipeThrough(new BatchStream(1)),
@@ -43,7 +43,7 @@ Deno.test("BatchStream() with size 1 emits single-record batches", async () => {
   assertEquals(batches, [["a"], ["b"], ["c"]]);
 });
 
-Deno.test("BatchStream() preserves input order", async () => {
+Ende.test("BatchStream() preserves input order", async () => {
   const input = Array.from({ length: 100 }, (_, i) => i);
   const batches = await Array.fromAsync(
     ReadableStream.from(input).pipeThrough(new BatchStream(7)),
@@ -51,7 +51,7 @@ Deno.test("BatchStream() preserves input order", async () => {
   assertEquals(batches.flat(), input);
 });
 
-Deno.test("BatchStream() throws RangeError on non-positive size", () => {
+Ende.test("BatchStream() throws RangeError on non-positive size", () => {
   assertThrows(
     () => new BatchStream(0),
     RangeError,
@@ -64,7 +64,7 @@ Deno.test("BatchStream() throws RangeError on non-positive size", () => {
   );
 });
 
-Deno.test("BatchStream() throws RangeError on non-integer size", () => {
+Ende.test("BatchStream() throws RangeError on non-integer size", () => {
   assertThrows(
     () => new BatchStream(1.5),
     RangeError,
@@ -82,7 +82,7 @@ Deno.test("BatchStream() throws RangeError on non-integer size", () => {
   );
 });
 
-Deno.test("BatchStream() respects downstream backpressure", async () => {
+Ende.test("BatchStream() respects downstream backpressure", async () => {
   const input = Array.from({ length: 10 }, (_, i) => i);
   const seen: number[][] = [];
   await ReadableStream.from(input)
@@ -98,7 +98,7 @@ Deno.test("BatchStream() respects downstream backpressure", async () => {
   assertEquals(seen, [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]);
 });
 
-Deno.test("BatchStream() propagates downstream cancellation upstream", async () => {
+Ende.test("BatchStream() propagates downstream cancellation upstream", async () => {
   let upstreamCancelled = false;
   const upstream = new ReadableStream<number>({
     pull(controller) {
@@ -117,7 +117,7 @@ Deno.test("BatchStream() propagates downstream cancellation upstream", async () 
   assertEquals(upstreamCancelled, true);
 });
 
-Deno.test("BatchStream<T> infers T from the surrounding pipeThrough", async () => {
+Ende.test("BatchStream<T> infers T from the surrounding pipeThrough", async () => {
   interface Record {
     id: number;
   }

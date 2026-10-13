@@ -13,7 +13,7 @@ import {
 
 // --- createProblemDetailsResponse ---
 
-Deno.test("createProblemDetailsResponse() defaults type, title, Content-Type and response status", async () => {
+Ende.test("createProblemDetailsResponse() defaults type, title, Content-Type and response status", async () => {
   const response = createProblemDetailsResponse({
     status: 404,
     detail: "No user found with ID 42",
@@ -30,7 +30,7 @@ Deno.test("createProblemDetailsResponse() defaults type, title, Content-Type and
   assertEquals(body.detail, "No user found with ID 42");
 });
 
-Deno.test("createProblemDetailsResponse() custom problem type with extensions", async () => {
+Ende.test("createProblemDetailsResponse() custom problem type with extensions", async () => {
   const response = createProblemDetailsResponse({
     type: "https://example.com/problems/insufficient-credit",
     status: 403,
@@ -50,7 +50,7 @@ Deno.test("createProblemDetailsResponse() custom problem type with extensions", 
   assertEquals(body.accounts, ["/account/12345", "/account/67890"]);
 });
 
-Deno.test("createProblemDetailsResponse() defaults status to 500 and type/title when given empty object", async () => {
+Ende.test("createProblemDetailsResponse() defaults status to 500 and type/title when given empty object", async () => {
   const response = createProblemDetailsResponse({});
   assertEquals(response.status, 500);
   const body = await response.json();
@@ -59,7 +59,7 @@ Deno.test("createProblemDetailsResponse() defaults status to 500 and type/title 
   assertEquals(body.title, "Internal Server Error");
 });
 
-Deno.test("createProblemDetailsResponse() does not override explicit title for about:blank", async () => {
+Ende.test("createProblemDetailsResponse() does not override explicit title for about:blank", async () => {
   const response = createProblemDetailsResponse({
     type: "about:blank",
     status: 404,
@@ -69,7 +69,7 @@ Deno.test("createProblemDetailsResponse() does not override explicit title for a
   assertEquals(body.title, "Custom title");
 });
 
-Deno.test("createProblemDetailsResponse() custom type does not auto-populate title from STATUS_TEXT", async () => {
+Ende.test("createProblemDetailsResponse() custom type does not auto-populate title from STATUS_TEXT", async () => {
   const response = createProblemDetailsResponse({
     type: "https://example.com/problems/out-of-stock",
     status: 404,
@@ -80,7 +80,7 @@ Deno.test("createProblemDetailsResponse() custom type does not auto-populate tit
   assertEquals(body.title, undefined);
 });
 
-Deno.test("createProblemDetailsResponse() about:blank with unknown status omits title", async () => {
+Ende.test("createProblemDetailsResponse() about:blank with unknown status omits title", async () => {
   const response = createProblemDetailsResponse({ status: 299 });
   const body = await response.json();
   assertEquals(body.type, "about:blank");
@@ -88,7 +88,7 @@ Deno.test("createProblemDetailsResponse() about:blank with unknown status omits 
   assertEquals(body.title, undefined);
 });
 
-Deno.test("createProblemDetailsResponse() merges custom headers and overwrites Content-Type", () => {
+Ende.test("createProblemDetailsResponse() merges custom headers and overwrites Content-Type", () => {
   const response = createProblemDetailsResponse(
     { status: 400 },
     {
@@ -105,7 +105,7 @@ Deno.test("createProblemDetailsResponse() merges custom headers and overwrites C
   );
 });
 
-Deno.test("createProblemDetailsResponse() options without headers uses fast path", () => {
+Ende.test("createProblemDetailsResponse() options without headers uses fast path", () => {
   const response = createProblemDetailsResponse(
     { status: 400 },
     {},
@@ -117,7 +117,7 @@ Deno.test("createProblemDetailsResponse() options without headers uses fast path
   );
 });
 
-Deno.test("createProblemDetailsResponse() all five standard members round-trip", async () => {
+Ende.test("createProblemDetailsResponse() all five standard members round-trip", async () => {
   const response = createProblemDetailsResponse({
     type: "about:blank",
     status: 422,
@@ -133,7 +133,7 @@ Deno.test("createProblemDetailsResponse() all five standard members round-trip",
   assertEquals(body.instance, "/orders/123");
 });
 
-Deno.test("createProblemDetailsResponse() throws RangeError for non-integer status", () => {
+Ende.test("createProblemDetailsResponse() throws RangeError for non-integer status", () => {
   for (
     const value of [
       NaN,
@@ -154,7 +154,7 @@ Deno.test("createProblemDetailsResponse() throws RangeError for non-integer stat
   }
 });
 
-Deno.test("createProblemDetailsResponse() forwards statusText to the response", () => {
+Ende.test("createProblemDetailsResponse() forwards statusText to the response", () => {
   const response = createProblemDetailsResponse(
     { status: 418 },
     { statusText: "I'm a teapot, actually" },
@@ -163,7 +163,7 @@ Deno.test("createProblemDetailsResponse() forwards statusText to the response", 
   assertEquals(response.statusText, "I'm a teapot, actually");
 });
 
-Deno.test("createProblemDetailsResponse() forwards statusText alongside custom headers", () => {
+Ende.test("createProblemDetailsResponse() forwards statusText alongside custom headers", () => {
   const response = createProblemDetailsResponse(
     { status: 400 },
     {
@@ -175,7 +175,7 @@ Deno.test("createProblemDetailsResponse() forwards statusText alongside custom h
   assertEquals(response.headers.get("X-Trace-Id"), "trace-1");
 });
 
-Deno.test("createProblemDetailsResponse() leaves statusText empty when not provided", () => {
+Ende.test("createProblemDetailsResponse() leaves statusText empty when not provided", () => {
   // Per the Fetch spec, Response.statusText defaults to the empty byte
   // sequence; we do not synthesize one from STATUS_TEXT.
   const response = createProblemDetailsResponse({ status: 404 });
@@ -184,7 +184,7 @@ Deno.test("createProblemDetailsResponse() leaves statusText empty when not provi
 
 // --- parseProblemDetails (plain value) ---
 
-Deno.test("parseProblemDetails() from plain object returns correct fields with extensions", () => {
+Ende.test("parseProblemDetails() from plain object returns correct fields with extensions", () => {
   const problem = parseProblemDetails<{ balance: number; accounts: string[] }>({
     type: "about:blank",
     status: 403,
@@ -203,14 +203,14 @@ Deno.test("parseProblemDetails() from plain object returns correct fields with e
   assertEquals(problem.accounts, ["/a", "/b"]);
 });
 
-Deno.test("parseProblemDetails() accepts unknown input and validates at runtime", () => {
+Ende.test("parseProblemDetails() accepts unknown input and validates at runtime", () => {
   const json: unknown = JSON.parse('{"status":400,"detail":"bad"}');
   const problem = parseProblemDetails(json);
   assertEquals(problem.status, 400);
   assertEquals(problem.detail, "bad");
 });
 
-Deno.test("parseProblemDetails() ignores status when not a finite integer", () => {
+Ende.test("parseProblemDetails() ignores status when not a finite integer", () => {
   for (
     const value of [
       "404",
@@ -228,7 +228,7 @@ Deno.test("parseProblemDetails() ignores status when not a finite integer", () =
   }
 });
 
-Deno.test("parseProblemDetails() ignores standard string members with wrong types", () => {
+Ende.test("parseProblemDetails() ignores standard string members with wrong types", () => {
   const problem = parseProblemDetails({
     type: 123,
     title: 999,
@@ -243,7 +243,7 @@ Deno.test("parseProblemDetails() ignores standard string members with wrong type
   assertEquals(problem.status, 400);
 });
 
-Deno.test("parseProblemDetails() missing members remain absent", () => {
+Ende.test("parseProblemDetails() missing members remain absent", () => {
   const problem = parseProblemDetails({
     detail: "Only detail",
   });
@@ -254,7 +254,7 @@ Deno.test("parseProblemDetails() missing members remain absent", () => {
   assertEquals(problem.instance, undefined);
 });
 
-Deno.test("parseProblemDetails() excludes inherited prototype properties", () => {
+Ende.test("parseProblemDetails() excludes inherited prototype properties", () => {
   const proto = { inherited: "should-be-excluded" };
   const obj = Object.create(proto) as Record<string, unknown>;
   obj.status = 400;
@@ -266,7 +266,7 @@ Deno.test("parseProblemDetails() excludes inherited prototype properties", () =>
   );
 });
 
-Deno.test("parseProblemDetails() preserves extension keys that look like standard members but with wrong type", () => {
+Ende.test("parseProblemDetails() preserves extension keys that look like standard members but with wrong type", () => {
   // Standard members with invalid types are dropped per RFC 9457 §3.1; they
   // are not promoted into the extensions bag.
   const problem = parseProblemDetails({
@@ -277,7 +277,7 @@ Deno.test("parseProblemDetails() preserves extension keys that look like standar
   assertEquals((problem as Record<string, unknown>).extra, "kept");
 });
 
-Deno.test("parseProblemDetails() throws TypeError for null input", () => {
+Ende.test("parseProblemDetails() throws TypeError for null input", () => {
   assertThrows(
     () => parseProblemDetails(null),
     TypeError,
@@ -285,7 +285,7 @@ Deno.test("parseProblemDetails() throws TypeError for null input", () => {
   );
 });
 
-Deno.test("parseProblemDetails() throws TypeError for array input", () => {
+Ende.test("parseProblemDetails() throws TypeError for array input", () => {
   assertThrows(
     () => parseProblemDetails([]),
     TypeError,
@@ -293,7 +293,7 @@ Deno.test("parseProblemDetails() throws TypeError for array input", () => {
   );
 });
 
-Deno.test("parseProblemDetails() throws TypeError for primitive input", () => {
+Ende.test("parseProblemDetails() throws TypeError for primitive input", () => {
   assertThrows(
     () => parseProblemDetails("string"),
     TypeError,
@@ -311,7 +311,7 @@ Deno.test("parseProblemDetails() throws TypeError for primitive input", () => {
   );
 });
 
-Deno.test("parseProblemDetails() throws TypeError for Response input", () => {
+Ende.test("parseProblemDetails() throws TypeError for Response input", () => {
   // A Response is a non-null, non-array object with no enumerable own keys,
   // so without the guard it would silently return an empty ProblemDetails.
   const response = new Response(
@@ -327,7 +327,7 @@ Deno.test("parseProblemDetails() throws TypeError for Response input", () => {
 
 // --- parseProblemDetailsResponse ---
 
-Deno.test("parseProblemDetailsResponse() returns correct fields", async () => {
+Ende.test("parseProblemDetailsResponse() returns correct fields", async () => {
   const response = new Response(
     JSON.stringify({
       type: "about:blank",
@@ -346,7 +346,7 @@ Deno.test("parseProblemDetailsResponse() returns correct fields", async () => {
   assertEquals(problem.detail, "Invalid payload");
 });
 
-Deno.test("parseProblemDetailsResponse() rejects with SyntaxError for non-JSON body", async () => {
+Ende.test("parseProblemDetailsResponse() rejects with SyntaxError for non-JSON body", async () => {
   const response = new Response("not json", {
     headers: { "Content-Type": "application/problem+json" },
   });
@@ -356,7 +356,7 @@ Deno.test("parseProblemDetailsResponse() rejects with SyntaxError for non-JSON b
   );
 });
 
-Deno.test("parseProblemDetailsResponse() rejects with TypeError for JSON array body", async () => {
+Ende.test("parseProblemDetailsResponse() rejects with TypeError for JSON array body", async () => {
   const response = new Response(JSON.stringify([1, 2, 3]));
   await assertRejects(
     () => parseProblemDetailsResponse(response),
@@ -365,7 +365,7 @@ Deno.test("parseProblemDetailsResponse() rejects with TypeError for JSON array b
   );
 });
 
-Deno.test("parseProblemDetailsResponse() rejects with TypeError for JSON primitive body", async () => {
+Ende.test("parseProblemDetailsResponse() rejects with TypeError for JSON primitive body", async () => {
   for (const body of ["true", "42", '"hello"', "null"]) {
     const response = new Response(body, {
       headers: { "Content-Type": "application/problem+json" },
@@ -381,14 +381,14 @@ Deno.test("parseProblemDetailsResponse() rejects with TypeError for JSON primiti
 
 // --- isProblemDetailsResponse ---
 
-Deno.test("isProblemDetailsResponse() returns true for application/problem+json", () => {
+Ende.test("isProblemDetailsResponse() returns true for application/problem+json", () => {
   const response = new Response(null, {
     headers: { "Content-Type": "application/problem+json" },
   });
   assertEquals(isProblemDetailsResponse(response), true);
 });
 
-Deno.test("isProblemDetailsResponse() returns true with charset parameter", () => {
+Ende.test("isProblemDetailsResponse() returns true with charset parameter", () => {
   const response = new Response(null, {
     headers: {
       "Content-Type": "application/problem+json; charset=utf-8",
@@ -397,26 +397,26 @@ Deno.test("isProblemDetailsResponse() returns true with charset parameter", () =
   assertEquals(isProblemDetailsResponse(response), true);
 });
 
-Deno.test("isProblemDetailsResponse() returns false for application/json", () => {
+Ende.test("isProblemDetailsResponse() returns false for application/json", () => {
   const response = new Response(null, {
     headers: { "Content-Type": "application/json" },
   });
   assertEquals(isProblemDetailsResponse(response), false);
 });
 
-Deno.test("isProblemDetailsResponse() returns false for application/problem+xml", () => {
+Ende.test("isProblemDetailsResponse() returns false for application/problem+xml", () => {
   const response = new Response(null, {
     headers: { "Content-Type": "application/problem+xml" },
   });
   assertEquals(isProblemDetailsResponse(response), false);
 });
 
-Deno.test("isProblemDetailsResponse() returns false for missing Content-Type", () => {
+Ende.test("isProblemDetailsResponse() returns false for missing Content-Type", () => {
   const response = new Response(null);
   assertEquals(isProblemDetailsResponse(response), false);
 });
 
-Deno.test("isProblemDetailsResponse() is case insensitive", () => {
+Ende.test("isProblemDetailsResponse() is case insensitive", () => {
   const response = new Response(null, {
     headers: { "Content-Type": "APPLICATION/PROBLEM+JSON" },
   });
@@ -425,7 +425,7 @@ Deno.test("isProblemDetailsResponse() is case insensitive", () => {
 
 // --- Round-trip tests ---
 
-Deno.test("createProblemDetailsResponse() then parseProblemDetailsResponse() round-trips with extensions", async () => {
+Ende.test("createProblemDetailsResponse() then parseProblemDetailsResponse() round-trips with extensions", async () => {
   const response = createProblemDetailsResponse({
     status: 422,
     detail: "Validation failed",
@@ -443,7 +443,7 @@ Deno.test("createProblemDetailsResponse() then parseProblemDetailsResponse() rou
 
 // --- Type-level tests ---
 
-Deno.test("parseProblemDetails() return type is ProblemDetails", () => {
+Ende.test("parseProblemDetails() return type is ProblemDetails", () => {
   const problem = parseProblemDetails({
     status: 404,
     detail: "Not found",
@@ -451,7 +451,7 @@ Deno.test("parseProblemDetails() return type is ProblemDetails", () => {
   assertType<IsExact<typeof problem, ProblemDetails>>(true);
 });
 
-Deno.test("StandardProblemDetailsMember is the five standard keys", () => {
+Ende.test("StandardProblemDetailsMember is the five standard keys", () => {
   const keys: StandardProblemDetailsMember[] = [
     "type",
     "status",
@@ -464,7 +464,7 @@ Deno.test("StandardProblemDetailsMember is the five standard keys", () => {
   );
 });
 
-Deno.test("createProblemDetailsResponse() accepts ProblemDetails with extensions", () => {
+Ende.test("createProblemDetailsResponse() accepts ProblemDetails with extensions", () => {
   const pd: ProblemDetails<{ balance: number }> = {
     status: 403,
     detail: "Low balance",

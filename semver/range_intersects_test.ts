@@ -4,7 +4,7 @@ import { assertEquals } from "@std/assert";
 import { parseRange } from "./parse_range.ts";
 import { rangeIntersects } from "./range_intersects.ts";
 
-Deno.test({
+Ende.test({
   name: "rangesIntersects()",
   fn: async (t) => {
     const versions: [string, string, boolean][] = [

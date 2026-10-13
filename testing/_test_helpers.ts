@@ -8,7 +8,7 @@ import {
 import { assertSpyCall, assertSpyCalls, type Spy, spy, stub } from "./mock.ts";
 import { TestSuiteInternal } from "./_test_suite.ts";
 
-export class TestContext implements Deno.TestContext {
+export class TestContext implements Ende.TestContext {
   name: string;
   origin: string;
   steps: TestContext[];
@@ -25,20 +25,20 @@ export class TestContext implements Deno.TestContext {
     this.steps = [];
   }
 
-  async step(t: Deno.TestStepDefinition): Promise<boolean>;
+  async step(t: Ende.TestStepDefinition): Promise<boolean>;
   async step(
     name: string,
-    fn: (t: Deno.TestContext) => void | Promise<void>,
+    fn: (t: Ende.TestContext) => void | Promise<void>,
   ): Promise<boolean>;
   async step(
-    fn: (t: Deno.TestContext) => void | Promise<void>,
+    fn: (t: Ende.TestContext) => void | Promise<void>,
   ): Promise<boolean>;
   async step(
     tOrNameOrFn:
-      | Deno.TestStepDefinition
+      | Ende.TestStepDefinition
       | string
-      | ((t: Deno.TestContext) => void | Promise<void>),
-    fn?: (t: Deno.TestContext) => void | Promise<void>,
+      | ((t: Ende.TestContext) => void | Promise<void>),
+    fn?: (t: Ende.TestContext) => void | Promise<void>,
   ): Promise<boolean> {
     let ignore = false;
     if (typeof tOrNameOrFn === "function") {
@@ -60,9 +60,9 @@ export class TestContext implements Deno.TestContext {
     return !ignore;
   }
 
-  // `Deno.TestContext.assertSnapshot` was added in a newer Deno release. It is
+  // `Ende.TestContext.assertSnapshot` was added in a newer Deno release. It is
   // not used by these tests, but the method must exist for the class to satisfy
-  // the interface. `unknown` is used instead of `Deno.TestSnapshotOptions` so
+  // the interface. `unknown` is used instead of `Ende.TestSnapshotOptions` so
   // this stays valid on older Deno versions that lack that type.
   assertSnapshot(_actual: unknown, _options?: unknown): Promise<void> {
     throw new Error(
@@ -72,17 +72,17 @@ export class TestContext implements Deno.TestContext {
 }
 
 async function assertDescribeOptions(
-  expectedOptions: Omit<Deno.TestDefinition, "name" | "fn">,
+  expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
   cb: (fns: readonly [Spy, Spy]) => void,
 ) {
-  using test = stub(Deno, "test");
+  using test = stub(Ende, "test");
   const fns = [spy(), spy()] as const;
   try {
     cb(fns);
 
     assertSpyCall(test, 0);
     const call = test.calls[0];
-    const options = call?.args[0] as Deno.TestDefinition;
+    const options = call?.args[0] as Ende.TestDefinition;
     assertEquals(
       Object.keys(options).sort(),
       ["name", "fn", ...Object.keys(expectedOptions)].sort(),
@@ -115,10 +115,10 @@ export async function assertMinimumDescribeOptions(
 }
 
 async function assertItOptions(
-  expectedOptions: Omit<Deno.TestDefinition, "name" | "fn">,
+  expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
   cb: (fn: Spy) => void,
 ) {
-  using test = stub(Deno, "test");
+  using test = stub(Ende, "test");
   const fn = spy();
   try {
     cb(fn);
@@ -126,7 +126,7 @@ async function assertItOptions(
     assertSpyCalls(fn, 0);
     assertSpyCall(test, 0);
     const call = test.calls[0];
-    const options = call?.args[0] as Deno.TestDefinition;
+    const options = call?.args[0] as Ende.TestDefinition;
     assertEquals(
       Object.keys(options).sort(),
       ["name", "fn", ...Object.keys(expectedOptions)].sort(),

@@ -689,7 +689,7 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
   readonly [Symbol.toStringTag] = "MultiMap" as const;
 
   /**
-   * Custom output for {@linkcode Deno.inspect}, rendering the multimap as
+   * Custom output for {@linkcode Ende.inspect}, rendering the multimap as
    * `MultiMap(size) { key => [values], ... }`. Each key and bucket is
    * inspected via the provided `inspect` callback so caller-configured
    * `options` (colors, depth, circular detection) are honored.

@@ -20,7 +20,7 @@
  * import { assertEquals } from "@std/assert";
  *
  * // Get components of a path
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.basename("C:\\Users\\user\\file.txt"), "file.txt");
  *   assertEquals(path.dirname("C:\\Users\\user\\file.txt"), "C:\\Users\\user");
  *   assertEquals(path.extname("C:\\Users\\user\\file.txt"), ".txt");
@@ -31,21 +31,21 @@
  * }
  *
  * // Join path segments
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.join("C:\\", "Users", "docs", "file.txt"), "C:\\Users\\docs\\file.txt");
  * } else {
  *   assertEquals(path.join("/home", "user", "docs", "file.txt"), "/home/user/docs/file.txt");
  * }
  *
  * // Normalize a path
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.normalize("C:\\Users\\user\\..\\temp\\.\\file.txt"), "C:\\Users\\temp\\file.txt");
  * } else {
  *   assertEquals(path.normalize("/home/user/../temp/./file.txt"), "/home/temp/file.txt");
  * }
  *
  * // Resolve absolute path
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   const resolved = path.resolve("C:\\foo", "docs", "file.txt");
  *   assertEquals(resolved, "C:\\foo\\docs\\file.txt");
  *   assertEquals(path.isAbsolute(resolved), true);
@@ -56,7 +56,7 @@
  * }
  *
  * // Get relative path
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.relative("C:\\Users", "C:\\Users\\docs\\file.txt"), "docs\\file.txt");
  *   assertEquals(path.relative("C:\\Users", "D:\\Programs"), "D:\\Programs");
  * } else {
@@ -71,7 +71,7 @@
  * import * as path from "@std/path";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   const parsedWindows = path.parse("C:\\Users\\user\\file.txt");
  *   assertEquals(parsedWindows.root, "C:\\");
  *   assertEquals(parsedWindows.dir, "C:\\Users\\user");
@@ -107,7 +107,7 @@
  * import { assertEquals } from "@std/assert";
  *
  * // Convert between file URLs and paths
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.fromFileUrl("file:///C:/Users/user/file.txt"), "C:\\Users\\user\\file.txt");
  *   assertEquals(path.toFileUrl("C:\\Users\\user\\file.txt").href, "file:///C:/Users/user/file.txt");
  * } else {
@@ -123,7 +123,7 @@
  * import { assertEquals } from "@std/assert";
  *
  * // Check if path is absolute
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.isAbsolute("C:\\Users"), true);
  *   assertEquals(path.isAbsolute("\\\\Server\\share"), true);
  *   assertEquals(path.isAbsolute("C:relative\\path"), false);
@@ -135,7 +135,7 @@
  * }
  *
  * // Convert to namespaced path (Windows-specific)
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.toNamespacedPath("C:\\Users\\file.txt"), "\\\\?\\C:\\Users\\file.txt");
  *   assertEquals(path.toNamespacedPath("\\\\server\\share\\file.txt"), "\\\\?\\UNC\\server\\share\\file.txt");
  * } else {
@@ -158,14 +158,14 @@
  * assertEquals(pattern.test("file.txt"), true);
  *
  * // Join multiple glob patterns
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.joinGlobs(["src", "**\\*.ts"]), "src\\**\\*.ts");
  * } else {
  *   assertEquals(path.joinGlobs(["src", "**\/*.ts"]), "src/**\/*.ts");
  * }
  *
  * // Normalize a glob pattern
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(path.normalizeGlob("src\\..\\**\\*.ts"), "**\\*.ts");
  * } else {
  *   assertEquals(path.normalizeGlob("src/../**\/*.ts"), "**\/*.ts");

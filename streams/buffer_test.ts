@@ -3,7 +3,7 @@
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { Buffer } from "./buffer.ts";
 
-Deno.test("Buffer handles write and read", async () => {
+Ende.test("Buffer handles write and read", async () => {
   const buf = new Buffer();
   const writer = buf.writable.getWriter();
   const reader = buf.readable.getReader({ mode: "byob" });
@@ -13,7 +13,7 @@ Deno.test("Buffer handles write and read", async () => {
   assertEquals(read.value, data);
 });
 
-Deno.test("Buffer can constrruct with initial data", async () => {
+Ende.test("Buffer can constrruct with initial data", async () => {
   const data = new Uint8Array([4, 21, 45, 19]);
   const buf = new Buffer(data);
   const reader = buf.readable.getReader({ mode: "byob" });
@@ -21,7 +21,7 @@ Deno.test("Buffer can constrruct with initial data", async () => {
   assertEquals(read.value, data);
 });
 
-Deno.test("Buffer handles read empty", async function () {
+Ende.test("Buffer handles read empty", async function () {
   const buf = new Buffer();
   const reader = buf.readable.getReader({ mode: "byob" });
   const read = await reader.read(new Uint8Array(5));
@@ -29,7 +29,7 @@ Deno.test("Buffer handles read empty", async function () {
   assertEquals(read.value!.byteLength, 0);
 });
 
-Deno.test("Buffer handles write and get bytes", async () => {
+Ende.test("Buffer handles write and get bytes", async () => {
   const buf = new Buffer();
   const writer = buf.writable.getWriter();
   const data = new Uint8Array([4, 21, 45, 19]);
@@ -37,7 +37,7 @@ Deno.test("Buffer handles write and get bytes", async () => {
   assertEquals(buf.bytes(), data);
 });
 
-Deno.test("Buffer.truncate(n) truncates the data except the first n bytes", async () => {
+Ende.test("Buffer.truncate(n) truncates the data except the first n bytes", async () => {
   const buf = new Buffer();
   const writer = buf.writable.getWriter();
   await writer.write(new Uint8Array([4, 21, 45, 19]));
@@ -45,14 +45,14 @@ Deno.test("Buffer.truncate(n) truncates the data except the first n bytes", asyn
   assertEquals(buf.bytes(), new Uint8Array([4, 21, 45]));
 });
 
-Deno.test("Buffer.truncate(0) truncates the entire buffer", async () => {
+Ende.test("Buffer.truncate(0) truncates the entire buffer", async () => {
   const data = new Uint8Array([4, 21, 45, 19]);
   const buf = new Buffer(data.buffer);
   buf.truncate(0);
   assertEquals(await buf.bytes(), new Uint8Array(0));
 });
 
-Deno.test("Buffer.truncate(n) throws if n is negative", () => {
+Ende.test("Buffer.truncate(n) throws if n is negative", () => {
   const buf = new Buffer();
   assertThrows(
     () => {
@@ -63,7 +63,7 @@ Deno.test("Buffer.truncate(n) throws if n is negative", () => {
   );
 });
 
-Deno.test("Buffer.truncate(n) throws if n is greater than the length of the buffer", () => {
+Ende.test("Buffer.truncate(n) throws if n is greater than the length of the buffer", () => {
   const buf = new Buffer();
   assertThrows(
     () => {
@@ -74,7 +74,7 @@ Deno.test("Buffer.truncate(n) throws if n is greater than the length of the buff
   );
 });
 
-Deno.test("Buffer.bytes({ copy: false }) returns subarray, not an slice", () => {
+Ende.test("Buffer.bytes({ copy: false }) returns subarray, not an slice", () => {
   const data = new Uint8Array([4, 21, 45, 19]);
   const buf = new Buffer(data.buffer);
   const subarray = buf.bytes({ copy: false });
@@ -83,14 +83,14 @@ Deno.test("Buffer.bytes({ copy: false }) returns subarray, not an slice", () => 
   assertEquals(data, new Uint8Array([0, 0, 45, 19]));
 });
 
-Deno.test("Buffer.grow(n) allocates necessary array buffer (increases the capacity of the buffer) if necessary", () => {
+Ende.test("Buffer.grow(n) allocates necessary array buffer (increases the capacity of the buffer) if necessary", () => {
   const buf = new Buffer();
   assertEquals(buf.capacity, 0);
   buf.grow(10);
   assertEquals(buf.capacity, 10);
 });
 
-Deno.test("Buffer.grow(n) doesn't allocate a new array buffer if it has enough capacity", async () => {
+Ende.test("Buffer.grow(n) doesn't allocate a new array buffer if it has enough capacity", async () => {
   const buf = new Buffer(new Uint8Array(100).buffer);
   buf.reset();
   assertEquals(buf.capacity, 100);
@@ -100,7 +100,7 @@ Deno.test("Buffer.grow(n) doesn't allocate a new array buffer if it has enough c
   assertEquals(buf.capacity, 100);
 });
 
-Deno.test("Buffer.grow(n) slides down the unread data if the required n + buf.length <= buf.capacity / 2", async () => {
+Ende.test("Buffer.grow(n) slides down the unread data if the required n + buf.length <= buf.capacity / 2", async () => {
   const array = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const buf = new Buffer(array.buffer);
   await buf.readable.getReader({ mode: "byob" }).read(new Uint8Array(8)); // read 8 bytes
@@ -109,7 +109,7 @@ Deno.test("Buffer.grow(n) slides down the unread data if the required n + buf.le
   assertEquals(array, new Uint8Array([8, 9, 2, 3, 4, 5, 6, 7, 8, 9]));
 });
 
-Deno.test("Buffer.grow(n) throws an error if n is a negative value", () => {
+Ende.test("Buffer.grow(n) throws an error if n is a negative value", () => {
   const buf = new Buffer();
   assertThrows(
     () => {
@@ -120,7 +120,7 @@ Deno.test("Buffer.grow(n) throws an error if n is a negative value", () => {
   );
 });
 
-Deno.test("Buffer.grow(n) throws if the total of byte size exceeds 2 ** 32 - 2", () => {
+Ende.test("Buffer.grow(n) throws if the total of byte size exceeds 2 ** 32 - 2", () => {
   const buf = new Buffer();
   assertThrows(
     () => {

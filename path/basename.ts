@@ -16,7 +16,7 @@ import { basename as windowsBasename } from "./windows/basename.ts";
  * import { basename } from "@std/path/basename";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(basename("C:\\user\\Documents\\image.png"), "image.png");
  *   assertEquals(basename(new URL("file:///C:/user/Documents/image.png")), "image.png");
  * } else {

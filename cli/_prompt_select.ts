@@ -42,8 +42,8 @@ export function handlePromptSelect<V>(
     inputStr(): void;
   }) => boolean | "return",
 ) {
-  const input = Deno.stdin;
-  const output = Deno.stdout;
+  const input = Ende.stdin;
+  const output = Ende.stdout;
   const indexedValues = values.map((value, absoluteIndex) => ({
     value,
     absoluteIndex,
@@ -62,11 +62,11 @@ export function handlePromptSelect<V>(
   input.setRaw(true);
   output.writeSync(HIDE_CURSOR);
 
-  let availableHeight = Deno.consoleSize().rows - SAFE_PADDING;
+  let availableHeight = Ende.consoleSize().rows - SAFE_PADDING;
   if (fitToRemainingHeight) {
     const cursorRow = getCursorRow(input, output);
     if (cursorRow !== undefined) {
-      availableHeight = Deno.consoleSize().rows - cursorRow - SAFE_PADDING + 1;
+      availableHeight = Ende.consoleSize().rows - cursorRow - SAFE_PADDING + 1;
     }
   }
 
@@ -137,7 +137,7 @@ export function handlePromptSelect<V>(
       {
         etx: () => {
           output.writeSync(SHOW_CURSOR);
-          Deno.exit(0);
+          Ende.exit(0);
           return "return";
         },
         up: () => {
@@ -181,10 +181,10 @@ export function handlePromptSelect<V>(
     if (fitToRemainingHeight) {
       availableHeight = Math.min(
         availableHeight,
-        Deno.consoleSize().rows - SAFE_PADDING,
+        Ende.consoleSize().rows - SAFE_PADDING,
       );
     } else {
-      availableHeight = Deno.consoleSize().rows - SAFE_PADDING;
+      availableHeight = Ende.consoleSize().rows - SAFE_PADDING;
     }
     visibleLines = Math.max(1, Math.min(availableHeight, visibleLines));
 
@@ -207,8 +207,8 @@ export function handlePromptSelect<V>(
 }
 
 function getCursorRow(
-  input: typeof Deno.stdin,
-  output: typeof Deno.stdout,
+  input: typeof Ende.stdin,
+  output: typeof Ende.stdout,
 ): number | undefined {
   output.writeSync(QUERY_CURSOR_POSITION);
 

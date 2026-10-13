@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { parse } from "./parse.ts";
 import { compare } from "./compare.ts";
 
-Deno.test("compare() ignores build metadata", async (t) => {
+Ende.test("compare() ignores build metadata", async (t) => {
   // v+b > v
   const steps: [string, string, number][] = [
     ["1.0.0", "1.0.0+0", 0],
@@ -27,7 +27,7 @@ Deno.test("compare() ignores build metadata", async (t) => {
   }
 });
 
-Deno.test({
+Ende.test({
   name: "compare() handles prerelease",
   fn: async (t) => {
     const cases: [string, string, number][] = [
@@ -55,7 +55,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "compare() throws on NaN",
   fn: () => {
     assertThrows(
@@ -82,7 +82,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "compare() handles undefined in prerelease",
   fn: () => {
     assertEquals(

@@ -5,7 +5,7 @@ import { parse } from "./parse.ts";
 import { parseRange } from "./parse_range.ts";
 import { satisfies } from "./satisfies.ts";
 
-Deno.test("satisfies() returns true when the version is in the range", async (t) => {
+Ende.test("satisfies() returns true when the version is in the range", async (t) => {
   const versions: [string, string][] = [
     ["1.0.0 - 2.0.0", "1.2.3"],
     ["^1.2.3+build", "1.2.3"],
@@ -191,7 +191,7 @@ Deno.test("satisfies() returns true when the version is in the range", async (t)
   }
 });
 
-Deno.test({
+Ende.test({
   name: "satisfies() returns false when the version is not in the range",
   fn: async (t) => {
     const versions: [string, string][] = [
@@ -385,7 +385,7 @@ Deno.test({
   },
 });
 
-Deno.test("satisfies() works with negative unlocked pre-release range", function () {
+Ende.test("satisfies() works with negative unlocked pre-release range", function () {
   const versions: [string, string][] = [
     ["^1.0.0", "1.0.0-rc1"],
     ["^1.2.3-rc2", "2.0.0"],

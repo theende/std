@@ -9,7 +9,7 @@ import {
 
 // allKeyed tests
 
-Deno.test("allKeyed() resolves record of promises", async () => {
+Ende.test("allKeyed() resolves record of promises", async () => {
   const result = await allKeyed({
     a: Promise.resolve(1),
     b: Promise.resolve("two"),
@@ -19,7 +19,7 @@ Deno.test("allKeyed() resolves record of promises", async () => {
   assertEquals(result, { a: 1, b: "two", c: true });
 });
 
-Deno.test("allKeyed() handles mixed promises and plain values", async () => {
+Ende.test("allKeyed() handles mixed promises and plain values", async () => {
   const result = await allKeyed({
     promise: Promise.resolve(42),
     plain: "static",
@@ -33,12 +33,12 @@ Deno.test("allKeyed() handles mixed promises and plain values", async () => {
   });
 });
 
-Deno.test("allKeyed() handles empty record", async () => {
+Ende.test("allKeyed() handles empty record", async () => {
   const result = await allKeyed({});
   assertEquals(result, {});
 });
 
-Deno.test("allKeyed() rejects on first rejection", async () => {
+Ende.test("allKeyed() rejects on first rejection", async () => {
   const error = new Error("test error");
 
   await assertRejects(
@@ -53,7 +53,7 @@ Deno.test("allKeyed() rejects on first rejection", async () => {
   );
 });
 
-Deno.test("allKeyed() preserves symbol keys", async () => {
+Ende.test("allKeyed() preserves symbol keys", async () => {
   const sym = Symbol("test");
   const result = await allKeyed({
     [sym]: Promise.resolve("symbol value"),
@@ -64,7 +64,7 @@ Deno.test("allKeyed() preserves symbol keys", async () => {
   assertEquals(result.regular, "regular value");
 });
 
-Deno.test("allKeyed() ignores non-enumerable properties", async () => {
+Ende.test("allKeyed() ignores non-enumerable properties", async () => {
   const record = Object.create(null);
   Object.defineProperty(record, "enumerable", {
     value: Promise.resolve("visible"),
@@ -83,7 +83,7 @@ Deno.test("allKeyed() ignores non-enumerable properties", async () => {
 
 // allSettledKeyed tests
 
-Deno.test("allSettledKeyed() resolves all promises", async () => {
+Ende.test("allSettledKeyed() resolves all promises", async () => {
   const result = await allSettledKeyed({
     a: Promise.resolve(1),
     b: Promise.resolve("two"),
@@ -95,7 +95,7 @@ Deno.test("allSettledKeyed() resolves all promises", async () => {
   });
 });
 
-Deno.test("allSettledKeyed() handles mixed fulfilled and rejected", async () => {
+Ende.test("allSettledKeyed() handles mixed fulfilled and rejected", async () => {
   const error = new Error("rejection reason");
   const result = await allSettledKeyed({
     success: Promise.resolve("ok"),
@@ -107,7 +107,7 @@ Deno.test("allSettledKeyed() handles mixed fulfilled and rejected", async () => 
   assertEquals((result.failure as PromiseRejectedResult).reason, error);
 });
 
-Deno.test("allSettledKeyed() handles all rejections without throwing", async () => {
+Ende.test("allSettledKeyed() handles all rejections without throwing", async () => {
   const error1 = new Error("error 1");
   const error2 = new Error("error 2");
 
@@ -122,12 +122,12 @@ Deno.test("allSettledKeyed() handles all rejections without throwing", async () 
   assertEquals((result.b as PromiseRejectedResult).reason, error2);
 });
 
-Deno.test("allSettledKeyed() handles empty record", async () => {
+Ende.test("allSettledKeyed() handles empty record", async () => {
   const result = await allSettledKeyed({});
   assertEquals(result, {});
 });
 
-Deno.test("allSettledKeyed() preserves symbol keys", async () => {
+Ende.test("allSettledKeyed() preserves symbol keys", async () => {
   const sym = Symbol("test");
   const result = await allSettledKeyed({
     [sym]: Promise.resolve("symbol"),
@@ -138,7 +138,7 @@ Deno.test("allSettledKeyed() preserves symbol keys", async () => {
   assertEquals(result.regular.status, "rejected");
 });
 
-Deno.test("allKeyed() returns object with null prototype", async () => {
+Ende.test("allKeyed() returns object with null prototype", async () => {
   const result = await allKeyed({ a: Promise.resolve(1) });
 
   assertStrictEquals(Object.getPrototypeOf(result), null);
@@ -146,7 +146,7 @@ Deno.test("allKeyed() returns object with null prototype", async () => {
   assertFalse("toString" in result);
 });
 
-Deno.test("allSettledKeyed() returns object with null prototype", async () => {
+Ende.test("allSettledKeyed() returns object with null prototype", async () => {
   const result = await allSettledKeyed({ a: Promise.resolve(1) });
 
   assertStrictEquals(Object.getPrototypeOf(result), null);
@@ -154,7 +154,7 @@ Deno.test("allSettledKeyed() returns object with null prototype", async () => {
   assertFalse("toString" in result);
 });
 
-Deno.test("allKeyed() preserves numeric key order", async () => {
+Ende.test("allKeyed() preserves numeric key order", async () => {
   const result = await allKeyed({
     "2": Promise.resolve("two"),
     "1": Promise.resolve("one"),
@@ -167,7 +167,7 @@ Deno.test("allKeyed() preserves numeric key order", async () => {
   assertEquals(result["10"], "ten");
 });
 
-Deno.test("allKeyed() ignores inherited properties", async () => {
+Ende.test("allKeyed() ignores inherited properties", async () => {
   const proto = { inherited: Promise.resolve("from proto") };
   const record = Object.create(proto);
   record.own = Promise.resolve("own property");
@@ -178,7 +178,7 @@ Deno.test("allKeyed() ignores inherited properties", async () => {
   assertFalse("inherited" in result);
 });
 
-Deno.test("allKeyed() ignores non-enumerable symbol keys", async () => {
+Ende.test("allKeyed() ignores non-enumerable symbol keys", async () => {
   const sym = Symbol("hidden");
   const record: Record<PropertyKey, Promise<string>> = {};
   Object.defineProperty(record, sym, {
@@ -196,7 +196,7 @@ Deno.test("allKeyed() ignores non-enumerable symbol keys", async () => {
   assertFalse(sym in result);
 });
 
-Deno.test("allKeyed() resolves custom thenables", async () => {
+Ende.test("allKeyed() resolves custom thenables", async () => {
   const thenable = {
     then(resolve: (value: number) => void) {
       resolve(99);
@@ -207,7 +207,7 @@ Deno.test("allKeyed() resolves custom thenables", async () => {
   assertEquals(result.val, 99);
 });
 
-Deno.test("allSettledKeyed() resolves custom thenables", async () => {
+Ende.test("allSettledKeyed() resolves custom thenables", async () => {
   const thenable = {
     then(resolve: (value: string) => void) {
       resolve("from thenable");

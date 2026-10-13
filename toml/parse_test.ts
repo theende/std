@@ -2,7 +2,7 @@
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { parse } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "parse() handles error message",
   fn() {
     assertThrows(
@@ -18,7 +18,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles strings",
   fn() {
     const expected = {
@@ -116,7 +116,7 @@ withUnicodeChar2 = "Deno\\U01F995"
   },
 });
 
-Deno.test({
+Ende.test({
   name: "handles empty string",
   fn() {
     assertEquals(parse(""), {});
@@ -127,7 +127,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles CRLF",
   fn() {
     const expected = { boolean: { bool1: true, bool2: false } };
@@ -138,7 +138,7 @@ bool2 = false`);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles boolean",
   fn() {
     const expected = { boolean: { bool1: true, bool2: false, bool3: true } };
@@ -150,7 +150,7 @@ bool3 = true # I love comments`);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles integer",
   fn() {
     const expected = {
@@ -194,7 +194,7 @@ bin1 = 0b11010110`);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles float",
   fn() {
     const expected = {
@@ -242,7 +242,7 @@ sf6 = -nan # valid, actual encoding is implementation specific`);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles arrays",
   fn() {
     const expected = {
@@ -285,7 +285,7 @@ floats = [ 0.1, -1.25 ]`);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles table",
   fn() {
     const expected = {
@@ -342,7 +342,7 @@ type.name = "pug"
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles various keys",
   fn() {
     const expected = {
@@ -376,7 +376,7 @@ a . e = 1
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles simple",
   fn() {
     const expected = {
@@ -396,7 +396,7 @@ comment = "Comment inside # the comment" # Comment
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles datetime",
   fn() {
     const expected = {
@@ -425,7 +425,7 @@ lt2 = 00:32:00.999999 # Comment
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles inline table",
   fn() {
     const expected = {
@@ -500,7 +500,7 @@ empty = {}
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles array of tables",
   fn() {
     const expected = {
@@ -568,7 +568,7 @@ asdf = "asdf"`);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles cargo",
   fn() {
     const expected = {
@@ -671,7 +671,7 @@ winapi = "0.3.9"
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles comments",
   fn: () => {
     const expected = {
@@ -731,7 +731,7 @@ objectives = [ # Comment
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles inline array of inline table",
   fn() {
     const expected = {
@@ -761,7 +761,7 @@ points = [ { x = 1, y = 2, z = 3 }, # comment ]
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles parse malformed local time as string (#8433)",
   fn() {
     const expected = { sign: "2020-01-01x" };
@@ -770,7 +770,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles single-line string comment error",
   fn() {
     assertThrows(
@@ -785,7 +785,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles invalid string format",
   fn() {
     assertThrows(
@@ -800,7 +800,7 @@ foo = BAR
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles invalid whitespaces",
   fn() {
     assertThrows(
@@ -822,7 +822,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles empty inline table",
   fn() {
     const input = `[package.metadata.details]
@@ -835,7 +835,7 @@ readme = { }`;
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles NaN and inf",
   fn() {
     assertEquals(parse("value = nan").value, NaN);
@@ -857,7 +857,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles nested table arrays",
   fn() {
     const content = `
@@ -871,7 +871,7 @@ bar = "bar"`;
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() doesn't pollute prototype with __proto__",
   async fn() {
     const testCode = `
@@ -884,7 +884,7 @@ Deno.test({
       parse('[foo]\\n[foo.__proto__.bar]');
       assertEquals({}.bar, undefined, "Prototype pollution detected");
     `;
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       stdout: "inherit",
       stderr: "inherit",
       args: ["eval", "--no-lock", "--unstable-unsafe-proto", testCode],

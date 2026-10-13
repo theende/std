@@ -7,10 +7,10 @@ import { stubProperty } from "@std/testing/unstable-stub-property";
 // deno-lint-ignore no-explicit-any
 const global = globalThis as any;
 
-Deno.test("checkWindows() returns `true` on Windows on various runtimes", async (t) => {
-  await t.step("Deno", () => {
+Ende.test("checkWindows() returns `true` on Windows on various runtimes", async (t) => {
+  await t.step("Ende", () => {
     using stack = disposableStack();
-    stack.use(stubProperty(global, "Deno", { build: { os: "windows" } }));
+    stack.use(stubProperty(global, "Ende", { build: { os: "windows" } }));
     stack.use(stubProperty(global, "navigator", undefined));
     stack.use(stubProperty(global, "process", undefined));
 
@@ -19,7 +19,7 @@ Deno.test("checkWindows() returns `true` on Windows on various runtimes", async 
 
   await t.step("Browser etc.", () => {
     using stack = disposableStack();
-    stack.use(stubProperty(global, "Deno", undefined));
+    stack.use(stubProperty(global, "Ende", undefined));
     stack.use(stubProperty(global, "navigator", { platform: "Win32" }));
     stack.use(stubProperty(global, "process", undefined));
 
@@ -28,7 +28,7 @@ Deno.test("checkWindows() returns `true` on Windows on various runtimes", async 
 
   await t.step("NodeJS etc.", () => {
     using stack = disposableStack();
-    stack.use(stubProperty(global, "Deno", undefined));
+    stack.use(stubProperty(global, "Ende", undefined));
     stack.use(stubProperty(global, "navigator", undefined));
     stack.use(stubProperty(global, "process", { platform: "win32" }));
 
@@ -36,10 +36,10 @@ Deno.test("checkWindows() returns `true` on Windows on various runtimes", async 
   });
 });
 
-Deno.test("checkWindows() returns `false` on Linux on various runtimes", async (t) => {
-  await t.step("Deno", () => {
+Ende.test("checkWindows() returns `false` on Linux on various runtimes", async (t) => {
+  await t.step("Ende", () => {
     using stack = disposableStack();
-    stack.use(stubProperty(global, "Deno", { build: { os: "linux" } }));
+    stack.use(stubProperty(global, "Ende", { build: { os: "linux" } }));
     stack.use(stubProperty(global, "navigator", undefined));
     stack.use(stubProperty(global, "process", undefined));
 
@@ -48,7 +48,7 @@ Deno.test("checkWindows() returns `false` on Linux on various runtimes", async (
 
   await t.step("Browser etc.", () => {
     using stack = disposableStack();
-    stack.use(stubProperty(global, "Deno", undefined));
+    stack.use(stubProperty(global, "Ende", undefined));
     stack.use(stubProperty(global, "navigator", { platform: "Linux x86_64" }));
     stack.use(stubProperty(global, "process", undefined));
 
@@ -57,7 +57,7 @@ Deno.test("checkWindows() returns `false` on Linux on various runtimes", async (
 
   await t.step("NodeJS etc.", () => {
     using stack = disposableStack();
-    stack.use(stubProperty(global, "Deno", undefined));
+    stack.use(stubProperty(global, "Ende", undefined));
     stack.use(stubProperty(global, "navigator", undefined));
     stack.use(stubProperty(global, "process", { platform: "linux" }));
 

@@ -14,9 +14,9 @@ import type { Reader, Writer } from "./types.ts";
  * ```ts ignore
  * import { copy } from "@std/io/copy";
  *
- * const source = await Deno.open("my_file.txt");
- * const bytesCopied1 = await copy(source, Deno.stdout);
- * const destination = await Deno.create("my_file_2.txt");
+ * const source = await Ende.open("my_file.txt");
+ * const bytesCopied1 = await copy(source, Ende.stdout);
+ * const destination = await Ende.create("my_file_2.txt");
  * const bytesCopied2 = await copy(source, destination);
  * ```
  *

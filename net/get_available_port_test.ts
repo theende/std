@@ -6,7 +6,7 @@ import { stub } from "@std/testing/mock";
 
 /** Helper function to see if a port is indeed available for listening (race-y) */
 async function testWithPort(port: number) {
-  const server = Deno.serve({
+  const server = Ende.serve({
     port,
     async onListen() {
       const resp = await fetch(`http://localhost:${port}`);
@@ -19,22 +19,22 @@ async function testWithPort(port: number) {
   await server.finished;
 }
 
-Deno.test("getAvailablePort() gets an available port", async () => {
+Ende.test("getAvailablePort() gets an available port", async () => {
   const port = getAvailablePort();
   assertEquals(typeof port, "number");
   await testWithPort(port);
 });
 
-Deno.test("getAvailablePort() gets an available port with a preferred port", async () => {
+Ende.test("getAvailablePort() gets an available port with a preferred port", async () => {
   const preferredPort = 9563;
   const port = getAvailablePort({ preferredPort });
   assertEquals(port, preferredPort);
   await testWithPort(port);
 });
 
-Deno.test("getAvailablePort() falls back to another port if preferred port is in use", async () => {
+Ende.test("getAvailablePort() falls back to another port if preferred port is in use", async () => {
   const preferredPort = 9563;
-  const server = Deno.serve(
+  const server = Ende.serve(
     { port: preferredPort, onListen: () => {} },
     () => new Response("hello"),
   );
@@ -45,8 +45,8 @@ Deno.test("getAvailablePort() falls back to another port if preferred port is in
   await server.finished;
 });
 
-Deno.test("getAvailablePort() throws if error is not AddrInUse", () => {
-  using _ = stub(Deno, "listen", () => {
+Ende.test("getAvailablePort() throws if error is not AddrInUse", () => {
+  using _ = stub(Ende, "listen", () => {
     throw new Error();
   });
   const preferredPort = 9563;

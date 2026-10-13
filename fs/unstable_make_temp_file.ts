@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeOs, getNodePath, isDeno, randomId } from "./_utils.ts";
+import { getNodeOs, getNodePath, isEnde, randomId } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 import type { MakeTempOptions } from "./unstable_types.ts";
 import {
@@ -36,8 +36,8 @@ import {
  * @returns A Promise that resolves to a file path to the temporary file.
  */
 export async function makeTempFile(options?: MakeTempOptions): Promise<string> {
-  if (isDeno) {
-    return Deno.makeTempFile({ ...options });
+  if (isEnde) {
+    return Ende.makeTempFile({ ...options });
   } else {
     const {
       dir,
@@ -109,8 +109,8 @@ export async function makeTempFile(options?: MakeTempOptions): Promise<string> {
  * @returns The file path to the temporary file.
  */
 export function makeTempFileSync(options?: MakeTempOptions): string {
-  if (isDeno) {
-    return Deno.makeTempFileSync({ ...options });
+  if (isEnde) {
+    return Ende.makeTempFileSync({ ...options });
   } else {
     const {
       dir,

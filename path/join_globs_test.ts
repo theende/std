@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert";
 import * as windows from "./windows/mod.ts";
 import * as posix from "./posix/mod.ts";
 
-Deno.test("windows.joinGlobs() joins the glob patterns", function () {
+Ende.test("windows.joinGlobs() joins the glob patterns", function () {
   assertEquals(
     windows.joinGlobs(["foo", "*", "bar"]),
     `foo\\*\\bar`,
@@ -18,7 +18,7 @@ Deno.test("windows.joinGlobs() joins the glob patterns", function () {
   );
 });
 
-Deno.test("windows.joinGlobs() joins the glob patterns", function () {
+Ende.test("windows.joinGlobs() joins the glob patterns", function () {
   assertEquals(
     posix.joinGlobs(["foo", "*", "bar"]),
     `foo/*/bar`,

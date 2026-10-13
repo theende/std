@@ -7,7 +7,7 @@ import type {
 } from "./unstable_to_title_case.ts";
 import { stubIntlFunctions } from "./_test_util.ts";
 
-Deno.test("toTitleCase() converts a string to title case", async (t) => {
+Ende.test("toTitleCase() converts a string to title case", async (t) => {
   const input = "hello world";
   assertEquals(toTitleCase(input), "Hello World");
 
@@ -17,7 +17,7 @@ Deno.test("toTitleCase() converts a string to title case", async (t) => {
   });
 });
 
-Deno.test("toTitleCase() respects special title-case mappings", async (t) => {
+Ende.test("toTitleCase() respects special title-case mappings", async (t) => {
   await t.step("ligatures", () => {
     const input = "ﬆrange ﬂoating aﬃrmation";
     const expected = "Strange Floating Aﬃrmation";
@@ -31,18 +31,18 @@ Deno.test("toTitleCase() respects special title-case mappings", async (t) => {
   });
 });
 
-Deno.test("toTitleCase() works with punctuation", () => {
+Ende.test("toTitleCase() works with punctuation", () => {
   const input = "“hello, world!”";
   assertEquals(toTitleCase(input), "“Hello, World!”");
 });
 
-Deno.test("toTitleCase() works with non-BMP code points", () => {
+Ende.test("toTitleCase() works with non-BMP code points", () => {
   const input = "𐓷𐓘𐓻𐓘𐓻𐓟 𐓣𐓟";
   assertGreater(input.codePointAt(0)!, 0xffff);
   assertEquals(toTitleCase(input), "𐓏𐓘𐓻𐓘𐓻𐓟 𐒻𐓟");
 });
 
-Deno.test("toTitleCase() can be customized with options", async (t) => {
+Ende.test("toTitleCase() can be customized with options", async (t) => {
   await t.step("`trailingCase`", async (t) => {
     const input = "HELLO wOrLd";
 

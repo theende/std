@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toContain()", () => {
+Ende.test("expect().toContain()", () => {
   const arr = [1, 2, 3];
 
   expect(arr).toContain(2);
@@ -35,7 +35,7 @@ Deno.test("expect().toContain()", () => {
   );
 });
 
-Deno.test("expect().toContain() with custom error message", () => {
+Ende.test("expect().toContain() with custom error message", () => {
   const arr = [1, 2, 3];
   const msg = "toContain Custom Error";
 

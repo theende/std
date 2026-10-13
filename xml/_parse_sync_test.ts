@@ -8,14 +8,14 @@ import { XmlSyntaxError } from "./types.ts";
 // XML Declaration Variations
 // =============================================================================
 
-Deno.test("parseSync() handles declaration with single quotes", () => {
+Ende.test("parseSync() handles declaration with single quotes", () => {
   const doc = parseSync("<?xml version='1.0' encoding='UTF-8'?><root/>");
 
   assertEquals(doc.declaration?.version, "1.0");
   assertEquals(doc.declaration?.encoding, "UTF-8");
 });
 
-Deno.test("parseSync() handles declaration with standalone", () => {
+Ende.test("parseSync() handles declaration with standalone", () => {
   const doc = parseSync('<?xml version="1.0" standalone="yes"?><root/>');
 
   assertEquals(doc.declaration?.version, "1.0");
@@ -26,7 +26,7 @@ Deno.test("parseSync() handles declaration with standalone", () => {
 // DOCTYPE Handling
 // =============================================================================
 
-Deno.test("parseSync() rejects DOCTYPE by default", () => {
+Ende.test("parseSync() rejects DOCTYPE by default", () => {
   assertThrows(
     () => parseSync("<!DOCTYPE root><root/>"),
     XmlSyntaxError,
@@ -34,7 +34,7 @@ Deno.test("parseSync() rejects DOCTYPE by default", () => {
   );
 });
 
-Deno.test("parseSync() handles DOCTYPE with internal subset", () => {
+Ende.test("parseSync() handles DOCTYPE with internal subset", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ELEMENT root (#PCDATA)>
@@ -45,7 +45,7 @@ Deno.test("parseSync() handles DOCTYPE with internal subset", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles DOCTYPE with nested brackets in internal subset", () => {
+Ende.test("parseSync() handles DOCTYPE with nested brackets in internal subset", () => {
   // This tests the nested bracket depth tracking
   const doc = parseSync(
     `<!DOCTYPE root [
@@ -62,7 +62,7 @@ Deno.test("parseSync() handles DOCTYPE with nested brackets in internal subset",
 // Empty Text Node Handling
 // =============================================================================
 
-Deno.test("parseSync() handles adjacent tags without text between them", () => {
+Ende.test("parseSync() handles adjacent tags without text between them", () => {
   // This tests the empty text check
   const doc = parseSync("<root><a/><b/></root>");
 
@@ -79,7 +79,7 @@ Deno.test("parseSync() handles adjacent tags without text between them", () => {
 // Error Handling: End of Input
 // =============================================================================
 
-Deno.test("parseSync() throws on unexpected end after <", () => {
+Ende.test("parseSync() throws on unexpected end after <", () => {
   assertThrows(
     () => parseSync("<root><"),
     XmlSyntaxError,
@@ -87,7 +87,7 @@ Deno.test("parseSync() throws on unexpected end after <", () => {
   );
 });
 
-Deno.test("parseSync() throws on unexpected end in start tag", () => {
+Ende.test("parseSync() throws on unexpected end in start tag", () => {
   // Input ends after whitespace in tag, before any attribute or closing
   assertThrows(
     () => parseSync("<root "),
@@ -100,14 +100,14 @@ Deno.test("parseSync() throws on unexpected end in start tag", () => {
 // Error Handling: End Tags
 // =============================================================================
 
-Deno.test("parseSync() throws on missing > in end tag", () => {
+Ende.test("parseSync() throws on missing > in end tag", () => {
   assertThrows(
     () => parseSync("<root></root"),
     XmlSyntaxError,
   );
 });
 
-Deno.test("parseSync() throws on unexpected closing tag", () => {
+Ende.test("parseSync() throws on unexpected closing tag", () => {
   assertThrows(
     () => parseSync("</orphan>"),
     XmlSyntaxError,
@@ -115,7 +115,7 @@ Deno.test("parseSync() throws on unexpected closing tag", () => {
   );
 });
 
-Deno.test("parseSync() throws on mismatched closing tag", () => {
+Ende.test("parseSync() throws on mismatched closing tag", () => {
   assertThrows(
     () => parseSync("<root></wrong>"),
     XmlSyntaxError,
@@ -123,7 +123,7 @@ Deno.test("parseSync() throws on mismatched closing tag", () => {
   );
 });
 
-Deno.test("parseSync() throws on mismatched namespaced closing tag", () => {
+Ende.test("parseSync() throws on mismatched namespaced closing tag", () => {
   assertThrows(
     () => parseSync('<ns:root xmlns:ns="http://example.com"></ns:wrong>'),
     XmlSyntaxError,
@@ -135,7 +135,7 @@ Deno.test("parseSync() throws on mismatched namespaced closing tag", () => {
 // Namespace URI Resolution
 // =============================================================================
 
-Deno.test("parseSync() resolves namespace URI for prefixed element", () => {
+Ende.test("parseSync() resolves namespace URI for prefixed element", () => {
   const doc = parseSync(
     '<ns:root xmlns:ns="http://example.com"><ns:child/></ns:root>',
   );
@@ -151,21 +151,21 @@ Deno.test("parseSync() resolves namespace URI for prefixed element", () => {
   }
 });
 
-Deno.test("parseSync() resolves xml namespace URI implicitly", () => {
+Ende.test("parseSync() resolves xml namespace URI implicitly", () => {
   const doc = parseSync('<root xml:lang="en"/>');
 
   // The xml prefix is always bound to the XML namespace
   assertEquals(doc.root.name.uri, undefined); // root has no prefix
 });
 
-Deno.test("parseSync() does not assign URI to unprefixed elements", () => {
+Ende.test("parseSync() does not assign URI to unprefixed elements", () => {
   const doc = parseSync("<root><child/></root>");
 
   assertEquals(doc.root.name.prefix, undefined);
   assertEquals(doc.root.name.uri, undefined);
 });
 
-Deno.test("parseSync() handles multiple namespace prefixes", () => {
+Ende.test("parseSync() handles multiple namespace prefixes", () => {
   const doc = parseSync(`
     <root xmlns:a="http://a.example.com" xmlns:b="http://b.example.com">
       <a:elem1/>
@@ -191,7 +191,7 @@ Deno.test("parseSync() handles multiple namespace prefixes", () => {
 // Error Handling: Unclosed Elements
 // =============================================================================
 
-Deno.test("parseSync() throws on unclosed element", () => {
+Ende.test("parseSync() throws on unclosed element", () => {
   assertThrows(
     () => parseSync("<root><child>"),
     XmlSyntaxError,
@@ -199,7 +199,7 @@ Deno.test("parseSync() throws on unclosed element", () => {
   );
 });
 
-Deno.test("parseSync() throws on unclosed namespaced element", () => {
+Ende.test("parseSync() throws on unclosed namespaced element", () => {
   assertThrows(
     () => parseSync('<ns:root xmlns:ns="http://example.com">'),
     XmlSyntaxError,
@@ -211,7 +211,7 @@ Deno.test("parseSync() throws on unclosed namespaced element", () => {
 // Error Handling: Unterminated Constructs
 // =============================================================================
 
-Deno.test("parseSync() throws on unterminated comment", () => {
+Ende.test("parseSync() throws on unterminated comment", () => {
   assertThrows(
     () => parseSync("<root><!-- unterminated"),
     XmlSyntaxError,
@@ -219,7 +219,7 @@ Deno.test("parseSync() throws on unterminated comment", () => {
   );
 });
 
-Deno.test("parseSync() throws on -- inside comment", () => {
+Ende.test("parseSync() throws on -- inside comment", () => {
   assertThrows(
     () => parseSync("<root><!-- a--b --></root>"),
     XmlSyntaxError,
@@ -227,7 +227,7 @@ Deno.test("parseSync() throws on -- inside comment", () => {
   );
 });
 
-Deno.test("parseSync() throws on unterminated CDATA", () => {
+Ende.test("parseSync() throws on unterminated CDATA", () => {
   assertThrows(
     () => parseSync("<root><![CDATA[unterminated"),
     XmlSyntaxError,
@@ -235,7 +235,7 @@ Deno.test("parseSync() throws on unterminated CDATA", () => {
   );
 });
 
-Deno.test("parseSync() throws on unterminated processing instruction", () => {
+Ende.test("parseSync() throws on unterminated processing instruction", () => {
   assertThrows(
     () => parseSync("<?xml version='1.0'"),
     XmlSyntaxError,
@@ -247,7 +247,7 @@ Deno.test("parseSync() throws on unterminated processing instruction", () => {
 // Error Handling: Invalid Characters
 // =============================================================================
 
-Deno.test("parseSync() throws on unexpected character after <", () => {
+Ende.test("parseSync() throws on unexpected character after <", () => {
   assertThrows(
     () => parseSync("<root><@invalid/></root>"),
     XmlSyntaxError,
@@ -255,7 +255,7 @@ Deno.test("parseSync() throws on unexpected character after <", () => {
   );
 });
 
-Deno.test("parseSync() throws on unexpected character in start tag", () => {
+Ende.test("parseSync() throws on unexpected character in start tag", () => {
   assertThrows(
     () => parseSync("<root @/>"),
     XmlSyntaxError,
@@ -267,7 +267,7 @@ Deno.test("parseSync() throws on unexpected character in start tag", () => {
 // Error Handling: Attribute Errors
 // =============================================================================
 
-Deno.test("parseSync() throws on < in attribute value", () => {
+Ende.test("parseSync() throws on < in attribute value", () => {
   assertThrows(
     () => parseSync('<root attr="<"/>'),
     XmlSyntaxError,
@@ -275,7 +275,7 @@ Deno.test("parseSync() throws on < in attribute value", () => {
   );
 });
 
-Deno.test("parseSync() throws on unterminated attribute value", () => {
+Ende.test("parseSync() throws on unterminated attribute value", () => {
   assertThrows(
     () => parseSync('<root attr="unterminated'),
     XmlSyntaxError,
@@ -283,7 +283,7 @@ Deno.test("parseSync() throws on unterminated attribute value", () => {
   );
 });
 
-Deno.test("parseSync() throws on missing quote for attribute value", () => {
+Ende.test("parseSync() throws on missing quote for attribute value", () => {
   assertThrows(
     () => parseSync("<root attr=unquoted/>"),
     XmlSyntaxError,
@@ -291,7 +291,7 @@ Deno.test("parseSync() throws on missing quote for attribute value", () => {
   );
 });
 
-Deno.test("parseSync() throws on missing = after attribute name", () => {
+Ende.test("parseSync() throws on missing = after attribute name", () => {
   assertThrows(
     () => parseSync('<root attr "value"/>'),
     XmlSyntaxError,
@@ -303,7 +303,7 @@ Deno.test("parseSync() throws on missing = after attribute name", () => {
 // Error Handling: Self-Closing Tags
 // =============================================================================
 
-Deno.test("parseSync() throws on missing > after / in self-closing tag", () => {
+Ende.test("parseSync() throws on missing > after / in self-closing tag", () => {
   assertThrows(
     () => parseSync("<root/x"),
     XmlSyntaxError,
@@ -315,7 +315,7 @@ Deno.test("parseSync() throws on missing > after / in self-closing tag", () => {
 // Error Handling: Markup Declarations
 // =============================================================================
 
-Deno.test("parseSync() throws on unsupported markup declaration", () => {
+Ende.test("parseSync() throws on unsupported markup declaration", () => {
   assertThrows(
     () => parseSync("<root><!INVALID></root>"),
     XmlSyntaxError,
@@ -327,7 +327,7 @@ Deno.test("parseSync() throws on unsupported markup declaration", () => {
 // Comment with newlines (line position tracking)
 // =============================================================================
 
-Deno.test("parseSync() tracks line position in multi-line comments", () => {
+Ende.test("parseSync() tracks line position in multi-line comments", () => {
   // Tests newline tracking inside comments
   const doc = parseSync(`<root><!-- line1
 line2
@@ -344,7 +344,7 @@ line3 --><item/></root>`);
 // Multi-line CDATA position tracking
 // =============================================================================
 
-Deno.test("parseSync() tracks line position in multi-line CDATA", () => {
+Ende.test("parseSync() tracks line position in multi-line CDATA", () => {
   // Tests newline tracking inside CDATA
   const doc = parseSync(`<root><![CDATA[line1
 line2
@@ -356,7 +356,7 @@ line3]]></root>`);
   }
 });
 
-Deno.test("parseSync() tracks line position in multi-line processing instruction", () => {
+Ende.test("parseSync() tracks line position in multi-line processing instruction", () => {
   // Tests newline tracking inside PI content
   // PI content with newlines - should not throw
   const doc = parseSync(`<?xml version="1.0"?>
@@ -373,7 +373,7 @@ Deno.test("parseSync() tracks line position in multi-line processing instruction
 // Empty text fast path test
 // =============================================================================
 
-Deno.test("parseSync() handles adjacent elements with no text between", () => {
+Ende.test("parseSync() handles adjacent elements with no text between", () => {
   // Tests line 178: empty text fast path when text.length === 0
   const doc = parseSync("<root><a></a><b></b></root>");
   assertEquals(doc.root.children.length, 2);
@@ -388,19 +388,19 @@ Deno.test("parseSync() handles adjacent elements with no text between", () => {
 // Additional Coverage Tests
 // =============================================================================
 
-Deno.test("parseSync() handles CRLF line endings", () => {
+Ende.test("parseSync() handles CRLF line endings", () => {
   // Tests line ending normalization (CRLF -> LF)
   const doc = parseSync("<root>\r\n  <child/>\r\n</root>");
   assertEquals(doc.root.children.length, 3); // whitespace, child, whitespace
 });
 
-Deno.test("parseSync() handles CR line endings", () => {
+Ende.test("parseSync() handles CR line endings", () => {
   // Tests line ending normalization (CR -> LF)
   const doc = parseSync("<root>\r  <child/>\r</root>");
   assertEquals(doc.root.children.length, 3);
 });
 
-Deno.test("parseSync() with trackPosition false reports zero positions", () => {
+Ende.test("parseSync() with trackPosition false reports zero positions", () => {
   // Tests that position is 0,0,0 when trackPosition is false
   try {
     parseSync("<root><unclosed>", { trackPosition: false });
@@ -415,7 +415,7 @@ Deno.test("parseSync() with trackPosition false reports zero positions", () => {
   throw new Error("Expected XmlSyntaxError");
 });
 
-Deno.test("parseSync() with trackPosition false omits position from error message", () => {
+Ende.test("parseSync() with trackPosition false omits position from error message", () => {
   try {
     parseSync("<root><unclosed>", { trackPosition: false });
   } catch (e) {
@@ -427,18 +427,18 @@ Deno.test("parseSync() with trackPosition false omits position from error messag
   throw new Error("Expected XmlSyntaxError");
 });
 
-Deno.test("parseSync() extracts standalone yes from declaration", () => {
+Ende.test("parseSync() extracts standalone yes from declaration", () => {
   // Tests standalone attribute extraction
   const doc = parseSync('<?xml version="1.0" standalone="yes"?><root/>');
   assertEquals(doc.declaration?.standalone, "yes");
 });
 
-Deno.test("parseSync() extracts standalone no from declaration", () => {
+Ende.test("parseSync() extracts standalone no from declaration", () => {
   const doc = parseSync('<?xml version="1.0" standalone="no"?><root/>');
   assertEquals(doc.declaration?.standalone, "no");
 });
 
-Deno.test("parseSync() extracts standalone with single quotes", () => {
+Ende.test("parseSync() extracts standalone with single quotes", () => {
   const doc = parseSync("<?xml version='1.0' standalone='yes'?><root/>");
   assertEquals(doc.declaration?.standalone, "yes");
 });
@@ -447,7 +447,7 @@ Deno.test("parseSync() extracts standalone with single quotes", () => {
 // DTD ENTITY Declaration Tests
 // =============================================================================
 
-Deno.test("parseSync() handles ENTITY with SYSTEM identifier", () => {
+Ende.test("parseSync() handles ENTITY with SYSTEM identifier", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ENTITY external SYSTEM "http://example.com/entity.xml">
@@ -457,7 +457,7 @@ Deno.test("parseSync() handles ENTITY with SYSTEM identifier", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles ENTITY with PUBLIC identifier", () => {
+Ende.test("parseSync() handles ENTITY with PUBLIC identifier", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ENTITY external PUBLIC "-//Example//EN" "http://example.com/entity.xml">
@@ -467,7 +467,7 @@ Deno.test("parseSync() handles ENTITY with PUBLIC identifier", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles ENTITY with NDATA declaration", () => {
+Ende.test("parseSync() handles ENTITY with NDATA declaration", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ENTITY logo SYSTEM "logo.png" NDATA png>
@@ -477,7 +477,7 @@ Deno.test("parseSync() handles ENTITY with NDATA declaration", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles parameter entity declaration", () => {
+Ende.test("parseSync() handles parameter entity declaration", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ENTITY % common "INCLUDE">
@@ -487,7 +487,7 @@ Deno.test("parseSync() handles parameter entity declaration", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() throws on parameter entity with NDATA", () => {
+Ende.test("parseSync() throws on parameter entity with NDATA", () => {
   assertThrows(
     () =>
       parseSync(
@@ -501,7 +501,7 @@ Deno.test("parseSync() throws on parameter entity with NDATA", () => {
   );
 });
 
-Deno.test("parseSync() throws on lowercase system keyword", () => {
+Ende.test("parseSync() throws on lowercase system keyword", () => {
   assertThrows(
     () =>
       parseSync(
@@ -515,7 +515,7 @@ Deno.test("parseSync() throws on lowercase system keyword", () => {
   );
 });
 
-Deno.test("parseSync() throws on lowercase public keyword", () => {
+Ende.test("parseSync() throws on lowercase public keyword", () => {
   assertThrows(
     () =>
       parseSync(
@@ -533,7 +533,7 @@ Deno.test("parseSync() throws on lowercase public keyword", () => {
 // DTD Declaration Validation Tests
 // =============================================================================
 
-Deno.test("parseSync() handles ELEMENT declaration", () => {
+Ende.test("parseSync() handles ELEMENT declaration", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ELEMENT root (item*)>
@@ -543,7 +543,7 @@ Deno.test("parseSync() handles ELEMENT declaration", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles ATTLIST declaration", () => {
+Ende.test("parseSync() handles ATTLIST declaration", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!ATTLIST root id ID #IMPLIED>
@@ -553,7 +553,7 @@ Deno.test("parseSync() handles ATTLIST declaration", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles NOTATION declaration", () => {
+Ende.test("parseSync() handles NOTATION declaration", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!NOTATION png SYSTEM "image/png">
@@ -563,7 +563,7 @@ Deno.test("parseSync() handles NOTATION declaration", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles comment in internal subset", () => {
+Ende.test("parseSync() handles comment in internal subset", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <!-- This is a comment in the DTD -->
@@ -573,7 +573,7 @@ Deno.test("parseSync() handles comment in internal subset", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles PI in internal subset", () => {
+Ende.test("parseSync() handles PI in internal subset", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     <?target content?>
@@ -583,7 +583,7 @@ Deno.test("parseSync() handles PI in internal subset", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles parameter entity reference in internal subset", () => {
+Ende.test("parseSync() handles parameter entity reference in internal subset", () => {
   const doc = parseSync(
     `<!DOCTYPE root [
     %common;
@@ -593,7 +593,7 @@ Deno.test("parseSync() handles parameter entity reference in internal subset", (
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() throws on unknown DTD declaration type", () => {
+Ende.test("parseSync() throws on unknown DTD declaration type", () => {
   assertThrows(
     () =>
       parseSync(
@@ -607,7 +607,7 @@ Deno.test("parseSync() throws on unknown DTD declaration type", () => {
   );
 });
 
-Deno.test("parseSync() throws on conditional section in internal subset", () => {
+Ende.test("parseSync() throws on conditional section in internal subset", () => {
   // Conditional sections start with <![INCLUDE or <![IGNORE
   // The parser sees <![, expects CDATA[, but gets something else
   assertThrows(
@@ -630,7 +630,7 @@ Deno.test("parseSync() throws on conditional section in internal subset", () => 
 // Content Before/After Root Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on text before root element", () => {
+Ende.test("parseSync() throws on text before root element", () => {
   assertThrows(
     () => parseSync("text<root/>"),
     XmlSyntaxError,
@@ -638,7 +638,7 @@ Deno.test("parseSync() throws on text before root element", () => {
   );
 });
 
-Deno.test("parseSync() throws on text after root element", () => {
+Ende.test("parseSync() throws on text after root element", () => {
   assertThrows(
     () => parseSync("<root/>text"),
     XmlSyntaxError,
@@ -646,7 +646,7 @@ Deno.test("parseSync() throws on text after root element", () => {
   );
 });
 
-Deno.test("parseSync() throws on entity reference before root", () => {
+Ende.test("parseSync() throws on entity reference before root", () => {
   assertThrows(
     () => parseSync("&amp;<root/>"),
     XmlSyntaxError,
@@ -654,7 +654,7 @@ Deno.test("parseSync() throws on entity reference before root", () => {
   );
 });
 
-Deno.test("parseSync() throws on entity reference after root", () => {
+Ende.test("parseSync() throws on entity reference after root", () => {
   assertThrows(
     () => parseSync("<root/>&amp;"),
     XmlSyntaxError,
@@ -662,7 +662,7 @@ Deno.test("parseSync() throws on entity reference after root", () => {
   );
 });
 
-Deno.test("parseSync() throws on CDATA before root element", () => {
+Ende.test("parseSync() throws on CDATA before root element", () => {
   assertThrows(
     () => parseSync("<![CDATA[test]]><root/>"),
     XmlSyntaxError,
@@ -670,7 +670,7 @@ Deno.test("parseSync() throws on CDATA before root element", () => {
   );
 });
 
-Deno.test("parseSync() throws on CDATA after root element", () => {
+Ende.test("parseSync() throws on CDATA after root element", () => {
   assertThrows(
     () => parseSync("<root/><![CDATA[test]]>"),
     XmlSyntaxError,
@@ -678,7 +678,7 @@ Deno.test("parseSync() throws on CDATA after root element", () => {
   );
 });
 
-Deno.test("parseSync() throws on multiple root elements", () => {
+Ende.test("parseSync() throws on multiple root elements", () => {
   assertThrows(
     () => parseSync("<root1/><root2/>"),
     XmlSyntaxError,
@@ -690,7 +690,7 @@ Deno.test("parseSync() throws on multiple root elements", () => {
 // Namespace Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on unbound namespace prefix in element", () => {
+Ende.test("parseSync() throws on unbound namespace prefix in element", () => {
   assertThrows(
     () => parseSync("<ns:root/>"),
     XmlSyntaxError,
@@ -698,7 +698,7 @@ Deno.test("parseSync() throws on unbound namespace prefix in element", () => {
   );
 });
 
-Deno.test("parseSync() throws on unbound namespace prefix in attribute", () => {
+Ende.test("parseSync() throws on unbound namespace prefix in attribute", () => {
   assertThrows(
     () => parseSync("<root ns:attr='value'/>"),
     XmlSyntaxError,
@@ -706,7 +706,7 @@ Deno.test("parseSync() throws on unbound namespace prefix in attribute", () => {
   );
 });
 
-Deno.test("parseSync() throws on duplicate attribute", () => {
+Ende.test("parseSync() throws on duplicate attribute", () => {
   assertThrows(
     () => parseSync('<root attr="1" attr="2"/>'),
     XmlSyntaxError,
@@ -714,7 +714,7 @@ Deno.test("parseSync() throws on duplicate attribute", () => {
   );
 });
 
-Deno.test("parseSync() throws on duplicate expanded attribute names", () => {
+Ende.test("parseSync() throws on duplicate expanded attribute names", () => {
   assertThrows(
     () =>
       parseSync(
@@ -725,7 +725,7 @@ Deno.test("parseSync() throws on duplicate expanded attribute names", () => {
   );
 });
 
-Deno.test("parseSync() throws on element using xmlns prefix", () => {
+Ende.test("parseSync() throws on element using xmlns prefix", () => {
   assertThrows(
     () => parseSync('<xmlns:test xmlns:xmlns="http://example.com"/>'),
     XmlSyntaxError,
@@ -733,7 +733,7 @@ Deno.test("parseSync() throws on element using xmlns prefix", () => {
   );
 });
 
-Deno.test("parseSync() handles namespace scope restoration on element close", () => {
+Ende.test("parseSync() handles namespace scope restoration on element close", () => {
   // Tests that namespace bindings are properly restored when elements close
   const doc = parseSync(`
     <root xmlns:ns="http://outer.com">
@@ -765,7 +765,7 @@ Deno.test("parseSync() handles namespace scope restoration on element close", ()
 // QName Validation Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on QName starting with colon", () => {
+Ende.test("parseSync() throws on QName starting with colon", () => {
   assertThrows(
     () => parseSync('<:element xmlns=":""/>'),
     XmlSyntaxError,
@@ -773,7 +773,7 @@ Deno.test("parseSync() throws on QName starting with colon", () => {
   );
 });
 
-Deno.test("parseSync() throws on QName ending with colon", () => {
+Ende.test("parseSync() throws on QName ending with colon", () => {
   assertThrows(
     () => parseSync('<element: xmlns:element="http://example.com"/>'),
     XmlSyntaxError,
@@ -781,7 +781,7 @@ Deno.test("parseSync() throws on QName ending with colon", () => {
   );
 });
 
-Deno.test("parseSync() throws on QName with multiple colons", () => {
+Ende.test("parseSync() throws on QName with multiple colons", () => {
   assertThrows(
     () => parseSync('<a:b:c xmlns:a="http://a.com" xmlns:b="http://b.com"/>'),
     XmlSyntaxError,
@@ -789,7 +789,7 @@ Deno.test("parseSync() throws on QName with multiple colons", () => {
   );
 });
 
-Deno.test("parseSync() throws on attribute QName starting with colon", () => {
+Ende.test("parseSync() throws on attribute QName starting with colon", () => {
   assertThrows(
     () => parseSync('<root :attr="value"/>'),
     XmlSyntaxError,
@@ -801,7 +801,7 @@ Deno.test("parseSync() throws on attribute QName starting with colon", () => {
 // Processing Instruction Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on PI target containing colon", () => {
+Ende.test("parseSync() throws on PI target containing colon", () => {
   assertThrows(
     () => parseSync("<?ns:target content?><root/>"),
     XmlSyntaxError,
@@ -809,7 +809,7 @@ Deno.test("parseSync() throws on PI target containing colon", () => {
   );
 });
 
-Deno.test("parseSync() throws on XML declaration not at start", () => {
+Ende.test("parseSync() throws on XML declaration not at start", () => {
   assertThrows(
     () => parseSync('<!-- comment --><?xml version="1.0"?><root/>'),
     XmlSyntaxError,
@@ -817,7 +817,7 @@ Deno.test("parseSync() throws on XML declaration not at start", () => {
   );
 });
 
-Deno.test("parseSync() throws on BOM before root element", () => {
+Ende.test("parseSync() throws on BOM before root element", () => {
   // BOM (U+FEFF) is treated as content before root element which is invalid
   // XML 1.0 §2.8 only allows whitespace, comments, PIs, and DOCTYPE before root
   assertThrows(
@@ -831,7 +831,7 @@ Deno.test("parseSync() throws on BOM before root element", () => {
 // Comment Validation Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on dash immediately before --> in comment", () => {
+Ende.test("parseSync() throws on dash immediately before --> in comment", () => {
   assertThrows(
     () => parseSync("<root><!-- test---></root>"),
     XmlSyntaxError,
@@ -843,7 +843,7 @@ Deno.test("parseSync() throws on dash immediately before --> in comment", () => 
 // Text Content Validation Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on ]]> in text content", () => {
+Ende.test("parseSync() throws on ]]> in text content", () => {
   assertThrows(
     () => parseSync("<root>]]></root>"),
     XmlSyntaxError,
@@ -851,7 +851,7 @@ Deno.test("parseSync() throws on ]]> in text content", () => {
   );
 });
 
-Deno.test("parseSync() throws on illegal XML character in text", () => {
+Ende.test("parseSync() throws on illegal XML character in text", () => {
   assertThrows(
     () => parseSync("<root>\x00</root>"),
     XmlSyntaxError,
@@ -859,7 +859,7 @@ Deno.test("parseSync() throws on illegal XML character in text", () => {
   );
 });
 
-Deno.test("parseSync() throws on illegal XML character in comment", () => {
+Ende.test("parseSync() throws on illegal XML character in comment", () => {
   assertThrows(
     () => parseSync("<root><!-- \x01 --></root>"),
     XmlSyntaxError,
@@ -867,7 +867,7 @@ Deno.test("parseSync() throws on illegal XML character in comment", () => {
   );
 });
 
-Deno.test("parseSync() throws on illegal XML character in CDATA", () => {
+Ende.test("parseSync() throws on illegal XML character in CDATA", () => {
   assertThrows(
     () => parseSync("<root><![CDATA[\x02]]></root>"),
     XmlSyntaxError,
@@ -879,7 +879,7 @@ Deno.test("parseSync() throws on illegal XML character in CDATA", () => {
 // No Root Element Test
 // =============================================================================
 
-Deno.test("parseSync() throws on empty document", () => {
+Ende.test("parseSync() throws on empty document", () => {
   assertThrows(
     () => parseSync(""),
     XmlSyntaxError,
@@ -887,7 +887,7 @@ Deno.test("parseSync() throws on empty document", () => {
   );
 });
 
-Deno.test("parseSync() throws on document with only whitespace", () => {
+Ende.test("parseSync() throws on document with only whitespace", () => {
   assertThrows(
     () => parseSync("   \n   "),
     XmlSyntaxError,
@@ -895,7 +895,7 @@ Deno.test("parseSync() throws on document with only whitespace", () => {
   );
 });
 
-Deno.test("parseSync() throws on document with only declaration", () => {
+Ende.test("parseSync() throws on document with only declaration", () => {
   assertThrows(
     () => parseSync('<?xml version="1.0"?>'),
     XmlSyntaxError,
@@ -907,7 +907,7 @@ Deno.test("parseSync() throws on document with only declaration", () => {
 // Invalid Character in End Tag Tests
 // =============================================================================
 
-Deno.test("parseSync() throws on invalid character in end tag name", () => {
+Ende.test("parseSync() throws on invalid character in end tag name", () => {
   // The parser reads "r" then hits "@" which terminates the name
   // Then expects '>' but finds 'o'
   assertThrows(
@@ -921,7 +921,7 @@ Deno.test("parseSync() throws on invalid character in end tag name", () => {
 // Self-closing root element with namespace
 // =============================================================================
 
-Deno.test("parseSync() handles self-closing root with namespace bindings", () => {
+Ende.test("parseSync() handles self-closing root with namespace bindings", () => {
   const doc = parseSync('<ns:root xmlns:ns="http://example.com"/>');
   assertEquals(doc.root.name.prefix, "ns");
   assertEquals(doc.root.name.uri, "http://example.com");
@@ -931,7 +931,7 @@ Deno.test("parseSync() handles self-closing root with namespace bindings", () =>
 // Additional Coverage: DTD Internal Subset Edge Cases
 // =============================================================================
 
-Deno.test("parseSync() throws on unexpected end of input in DTD after <", () => {
+Ende.test("parseSync() throws on unexpected end of input in DTD after <", () => {
   assertThrows(
     () => parseSync("<!DOCTYPE root [<", { disallowDoctype: false }),
     XmlSyntaxError,
@@ -939,7 +939,7 @@ Deno.test("parseSync() throws on unexpected end of input in DTD after <", () => 
   );
 });
 
-Deno.test("parseSync() throws on unexpected character after < in DTD internal subset", () => {
+Ende.test("parseSync() throws on unexpected character after < in DTD internal subset", () => {
   assertThrows(
     () => parseSync("<!DOCTYPE root [<x]><root/>", { disallowDoctype: false }),
     XmlSyntaxError,
@@ -947,7 +947,7 @@ Deno.test("parseSync() throws on unexpected character after < in DTD internal su
   );
 });
 
-Deno.test("parseSync() throws on conditional section [ in internal subset", () => {
+Ende.test("parseSync() throws on conditional section [ in internal subset", () => {
   // A bare '[' character (not as part of <![) is not allowed
   assertThrows(
     () => parseSync("<!DOCTYPE root [ [ ]><root/>", { disallowDoctype: false }),
@@ -956,7 +956,7 @@ Deno.test("parseSync() throws on conditional section [ in internal subset", () =
   );
 });
 
-Deno.test("parseSync() throws on unexpected character in DTD internal subset", () => {
+Ende.test("parseSync() throws on unexpected character in DTD internal subset", () => {
   // Characters like '@' are not valid in the internal subset
   assertThrows(
     () => parseSync("<!DOCTYPE root [ @ ]><root/>", { disallowDoctype: false }),
@@ -965,7 +965,7 @@ Deno.test("parseSync() throws on unexpected character in DTD internal subset", (
   );
 });
 
-Deno.test("parseSync() throws on unterminated DTD internal subset", () => {
+Ende.test("parseSync() throws on unterminated DTD internal subset", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [ <!ELEMENT root (#PCDATA)>", {
@@ -980,7 +980,7 @@ Deno.test("parseSync() throws on unterminated DTD internal subset", () => {
 // Additional Coverage: DTD Comment Edge Cases
 // =============================================================================
 
-Deno.test("parseSync() throws on single dash starting comment in DTD", () => {
+Ende.test("parseSync() throws on single dash starting comment in DTD", () => {
   // <!- is not a valid comment start, must be <!--
   assertThrows(
     () =>
@@ -990,7 +990,7 @@ Deno.test("parseSync() throws on single dash starting comment in DTD", () => {
   );
 });
 
-Deno.test("parseSync() throws on -- not followed by > in DTD comment", () => {
+Ende.test("parseSync() throws on -- not followed by > in DTD comment", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [<!-- comment --x -->]><root/>", {
@@ -1001,7 +1001,7 @@ Deno.test("parseSync() throws on -- not followed by > in DTD comment", () => {
   );
 });
 
-Deno.test("parseSync() throws on unterminated comment in DTD", () => {
+Ende.test("parseSync() throws on unterminated comment in DTD", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [<!-- unterminated", {
@@ -1012,7 +1012,7 @@ Deno.test("parseSync() throws on unterminated comment in DTD", () => {
   );
 });
 
-Deno.test("parseSync() throws on unexpected end in DTD declaration", () => {
+Ende.test("parseSync() throws on unexpected end in DTD declaration", () => {
   assertThrows(
     () => parseSync("<!DOCTYPE root [<!", { disallowDoctype: false }),
     XmlSyntaxError,
@@ -1024,7 +1024,7 @@ Deno.test("parseSync() throws on unexpected end in DTD declaration", () => {
 // Additional Coverage: DTD Declaration Keyword Validation
 // =============================================================================
 
-Deno.test("parseSync() throws on missing whitespace after DTD declaration keyword", () => {
+Ende.test("parseSync() throws on missing whitespace after DTD declaration keyword", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [<!ELEMENT>]><root/>", {
@@ -1039,7 +1039,7 @@ Deno.test("parseSync() throws on missing whitespace after DTD declaration keywor
 // Additional Coverage: ENTITY Declaration Edge Cases
 // =============================================================================
 
-Deno.test("parseSync() throws on missing whitespace after % in parameter entity", () => {
+Ende.test("parseSync() throws on missing whitespace after % in parameter entity", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [<!ENTITY %name 'value'>]><root/>", {
@@ -1050,7 +1050,7 @@ Deno.test("parseSync() throws on missing whitespace after % in parameter entity"
   );
 });
 
-Deno.test("parseSync() throws on missing entity name in ENTITY declaration", () => {
+Ende.test("parseSync() throws on missing entity name in ENTITY declaration", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [<!ENTITY  'value'>]><root/>", {
@@ -1061,7 +1061,7 @@ Deno.test("parseSync() throws on missing entity name in ENTITY declaration", () 
   );
 });
 
-Deno.test("parseSync() throws on missing whitespace after entity name", () => {
+Ende.test("parseSync() throws on missing whitespace after entity name", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [<!ENTITY name'value'>]><root/>", {
@@ -1072,7 +1072,7 @@ Deno.test("parseSync() throws on missing whitespace after entity name", () => {
   );
 });
 
-Deno.test("parseSync() throws on SGML-style comment in entity value", () => {
+Ende.test("parseSync() throws on SGML-style comment in entity value", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1084,7 +1084,7 @@ Deno.test("parseSync() throws on SGML-style comment in entity value", () => {
   );
 });
 
-Deno.test("parseSync() throws on missing whitespace after SYSTEM in ENTITY", () => {
+Ende.test("parseSync() throws on missing whitespace after SYSTEM in ENTITY", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root [<!ENTITY ext SYSTEM"file.xml">]><root/>', {
@@ -1095,7 +1095,7 @@ Deno.test("parseSync() throws on missing whitespace after SYSTEM in ENTITY", () 
   );
 });
 
-Deno.test("parseSync() throws on missing whitespace after PUBLIC in ENTITY", () => {
+Ende.test("parseSync() throws on missing whitespace after PUBLIC in ENTITY", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1107,7 +1107,7 @@ Deno.test("parseSync() throws on missing whitespace after PUBLIC in ENTITY", () 
   );
 });
 
-Deno.test("parseSync() throws on PUBLIC missing system literal in ENTITY", () => {
+Ende.test("parseSync() throws on PUBLIC missing system literal in ENTITY", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1119,7 +1119,7 @@ Deno.test("parseSync() throws on PUBLIC missing system literal in ENTITY", () =>
   );
 });
 
-Deno.test("parseSync() throws on PUBLIC with non-quoted system literal", () => {
+Ende.test("parseSync() throws on PUBLIC with non-quoted system literal", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1131,7 +1131,7 @@ Deno.test("parseSync() throws on PUBLIC with non-quoted system literal", () => {
   );
 });
 
-Deno.test("parseSync() throws on invalid keyword in ENTITY declaration", () => {
+Ende.test("parseSync() throws on invalid keyword in ENTITY declaration", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1143,7 +1143,7 @@ Deno.test("parseSync() throws on invalid keyword in ENTITY declaration", () => {
   );
 });
 
-Deno.test("parseSync() throws on missing whitespace after NDATA keyword", () => {
+Ende.test("parseSync() throws on missing whitespace after NDATA keyword", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1155,7 +1155,7 @@ Deno.test("parseSync() throws on missing whitespace after NDATA keyword", () => 
   );
 });
 
-Deno.test("parseSync() throws on missing notation name after NDATA", () => {
+Ende.test("parseSync() throws on missing notation name after NDATA", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1167,7 +1167,7 @@ Deno.test("parseSync() throws on missing notation name after NDATA", () => {
   );
 });
 
-Deno.test("parseSync() throws on unexpected content in ENTITY declaration", () => {
+Ende.test("parseSync() throws on unexpected content in ENTITY declaration", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1179,7 +1179,7 @@ Deno.test("parseSync() throws on unexpected content in ENTITY declaration", () =
   );
 });
 
-Deno.test("parseSync() throws on unterminated ENTITY declaration", () => {
+Ende.test("parseSync() throws on unterminated ENTITY declaration", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root [<!ENTITY name "value"', {
@@ -1190,7 +1190,7 @@ Deno.test("parseSync() throws on unterminated ENTITY declaration", () => {
   );
 });
 
-Deno.test("parseSync() throws on unterminated quoted string in ENTITY", () => {
+Ende.test("parseSync() throws on unterminated quoted string in ENTITY", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root [<!ENTITY name "unterminated', {
@@ -1205,7 +1205,7 @@ Deno.test("parseSync() throws on unterminated quoted string in ENTITY", () => {
 // Additional Coverage: PubidLiteral Validation
 // =============================================================================
 
-Deno.test("parseSync() throws on invalid character in public ID literal", () => {
+Ende.test("parseSync() throws on invalid character in public ID literal", () => {
   // Control characters are not valid in PubidLiteral
   assertThrows(
     () =>
@@ -1218,7 +1218,7 @@ Deno.test("parseSync() throws on invalid character in public ID literal", () => 
   );
 });
 
-Deno.test("parseSync() throws on single quote in single-quoted public ID", () => {
+Ende.test("parseSync() throws on single quote in single-quoted public ID", () => {
   // Single quote inside single-quoted PubidLiteral is invalid
   assertThrows(
     () =>
@@ -1234,7 +1234,7 @@ Deno.test("parseSync() throws on single quote in single-quoted public ID", () =>
 // Additional Coverage: DOCTYPE External ID Edge Cases
 // =============================================================================
 
-Deno.test("parseSync() throws on missing whitespace after DOCTYPE", () => {
+Ende.test("parseSync() throws on missing whitespace after DOCTYPE", () => {
   assertThrows(
     () => parseSync("<!DOCTYPEroot><root/>", { disallowDoctype: false }),
     XmlSyntaxError,
@@ -1242,7 +1242,7 @@ Deno.test("parseSync() throws on missing whitespace after DOCTYPE", () => {
   );
 });
 
-Deno.test("parseSync() throws on missing name in DOCTYPE", () => {
+Ende.test("parseSync() throws on missing name in DOCTYPE", () => {
   assertThrows(
     () => parseSync("<!DOCTYPE ><root/>", { disallowDoctype: false }),
     XmlSyntaxError,
@@ -1250,14 +1250,14 @@ Deno.test("parseSync() throws on missing name in DOCTYPE", () => {
   );
 });
 
-Deno.test("parseSync() handles DOCTYPE with SYSTEM external ID", () => {
+Ende.test("parseSync() handles DOCTYPE with SYSTEM external ID", () => {
   const doc = parseSync('<!DOCTYPE root SYSTEM "root.dtd"><root/>', {
     disallowDoctype: false,
   });
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() handles DOCTYPE with PUBLIC external ID", () => {
+Ende.test("parseSync() handles DOCTYPE with PUBLIC external ID", () => {
   const doc = parseSync(
     '<!DOCTYPE root PUBLIC "-//Test//DTD Test//EN" "test.dtd"><root/>',
     { disallowDoctype: false },
@@ -1265,7 +1265,7 @@ Deno.test("parseSync() handles DOCTYPE with PUBLIC external ID", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() throws on quoted string in DOCTYPE without SYSTEM/PUBLIC", () => {
+Ende.test("parseSync() throws on quoted string in DOCTYPE without SYSTEM/PUBLIC", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root "unexpected.dtd"><root/>', {
@@ -1276,7 +1276,7 @@ Deno.test("parseSync() throws on quoted string in DOCTYPE without SYSTEM/PUBLIC"
   );
 });
 
-Deno.test("parseSync() throws on unterminated quoted string in DOCTYPE", () => {
+Ende.test("parseSync() throws on unterminated quoted string in DOCTYPE", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root SYSTEM "unterminated', {
@@ -1287,7 +1287,7 @@ Deno.test("parseSync() throws on unterminated quoted string in DOCTYPE", () => {
   );
 });
 
-Deno.test("parseSync() throws on lowercase public in DOCTYPE", () => {
+Ende.test("parseSync() throws on lowercase public in DOCTYPE", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root public "-//Test//EN" "test.dtd"><root/>', {
@@ -1298,7 +1298,7 @@ Deno.test("parseSync() throws on lowercase public in DOCTYPE", () => {
   );
 });
 
-Deno.test("parseSync() throws on lowercase system in DOCTYPE", () => {
+Ende.test("parseSync() throws on lowercase system in DOCTYPE", () => {
   assertThrows(
     () =>
       parseSync('<!DOCTYPE root system "test.dtd"><root/>', {
@@ -1313,7 +1313,7 @@ Deno.test("parseSync() throws on lowercase system in DOCTYPE", () => {
 // Additional Coverage: Processing Instruction Edge Cases
 // =============================================================================
 
-Deno.test("parseSync() throws on empty PI target", () => {
+Ende.test("parseSync() throws on empty PI target", () => {
   assertThrows(
     () => parseSync("<? content?><root/>"),
     XmlSyntaxError,
@@ -1321,7 +1321,7 @@ Deno.test("parseSync() throws on empty PI target", () => {
   );
 });
 
-Deno.test("parseSync() throws on invalid character after PI target", () => {
+Ende.test("parseSync() throws on invalid character after PI target", () => {
   // The '+' is not a valid NameChar, so target ends, then '+' is unexpected
   assertThrows(
     () => parseSync("<?target+ content?><root/>"),
@@ -1330,7 +1330,7 @@ Deno.test("parseSync() throws on invalid character after PI target", () => {
   );
 });
 
-Deno.test("parseSync() throws on illegal XML character in PI content", () => {
+Ende.test("parseSync() throws on illegal XML character in PI content", () => {
   assertThrows(
     () => parseSync("<?target \x00?><root/>"),
     XmlSyntaxError,
@@ -1338,7 +1338,7 @@ Deno.test("parseSync() throws on illegal XML character in PI content", () => {
   );
 });
 
-Deno.test("parseSync() throws on reserved PI target XML (uppercase)", () => {
+Ende.test("parseSync() throws on reserved PI target XML (uppercase)", () => {
   assertThrows(
     () => parseSync("<?XML version='1.0'?><root/>"),
     XmlSyntaxError,
@@ -1346,7 +1346,7 @@ Deno.test("parseSync() throws on reserved PI target XML (uppercase)", () => {
   );
 });
 
-Deno.test("parseSync() throws on reserved PI target Xml (mixed case)", () => {
+Ende.test("parseSync() throws on reserved PI target Xml (mixed case)", () => {
   assertThrows(
     () => parseSync("<?Xml version='1.0'?><root/>"),
     XmlSyntaxError,
@@ -1354,7 +1354,7 @@ Deno.test("parseSync() throws on reserved PI target Xml (mixed case)", () => {
   );
 });
 
-Deno.test("parseSync() throws on invalid XML declaration", () => {
+Ende.test("parseSync() throws on invalid XML declaration", () => {
   assertThrows(
     () => parseSync("<?xml invalid?><root/>"),
     XmlSyntaxError,
@@ -1365,7 +1365,7 @@ Deno.test("parseSync() throws on invalid XML declaration", () => {
 // Additional Coverage: Attribute and Element Edge Cases
 // =============================================================================
 
-Deno.test("parseSync() throws on missing whitespace between attributes", () => {
+Ende.test("parseSync() throws on missing whitespace between attributes", () => {
   assertThrows(
     () => parseSync('<root attr1="1"attr2="2"/>'),
     XmlSyntaxError,
@@ -1373,7 +1373,7 @@ Deno.test("parseSync() throws on missing whitespace between attributes", () => {
   );
 });
 
-Deno.test("parseSync() throws on invalid character in end tag name", () => {
+Ende.test("parseSync() throws on invalid character in end tag name", () => {
   // Empty name case - starts with invalid char
   assertThrows(
     () => parseSync("<root></@>"),
@@ -1386,7 +1386,7 @@ Deno.test("parseSync() throws on invalid character in end tag name", () => {
 // Additional Coverage: Namespace Binding Validation
 // =============================================================================
 
-Deno.test("parseSync() throws on invalid namespace binding", () => {
+Ende.test("parseSync() throws on invalid namespace binding", () => {
   // Empty namespace URI for non-default namespace is invalid
   assertThrows(
     () => parseSync('<root xmlns:ns=""/>'),
@@ -1394,7 +1394,7 @@ Deno.test("parseSync() throws on invalid namespace binding", () => {
   );
 });
 
-Deno.test("parseSync() handles element with default xmlns namespace", () => {
+Ende.test("parseSync() handles element with default xmlns namespace", () => {
   // Default xmlns should be skipped in namespace processing
   const doc = parseSync('<root xmlns="http://default.com"><child/></root>');
   assertEquals(doc.root.name.uri, undefined); // Default NS doesn't set URI on non-prefixed elements in this impl
@@ -1404,7 +1404,7 @@ Deno.test("parseSync() handles element with default xmlns namespace", () => {
 // Additional Coverage: xml Prefix Element URI
 // =============================================================================
 
-Deno.test("parseSync() resolves xml prefix on element to XML namespace", () => {
+Ende.test("parseSync() resolves xml prefix on element to XML namespace", () => {
   // The xml: prefix is always bound to the XML namespace
   // While unusual, xml:element should work
   const doc = parseSync(
@@ -1418,7 +1418,7 @@ Deno.test("parseSync() resolves xml prefix on element to XML namespace", () => {
 // Additional Coverage: Namespace Scope Restoration with Previous URI
 // =============================================================================
 
-Deno.test("parseSync() restores previous namespace URI on element close", () => {
+Ende.test("parseSync() restores previous namespace URI on element close", () => {
   // Tests the branch where previousUri is not undefined
   const doc = parseSync(`
     <root xmlns:ns="http://first.com">
@@ -1460,7 +1460,7 @@ Deno.test("parseSync() restores previous namespace URI on element close", () => 
 // Additional Coverage: Self-closing Element Namespace Restoration
 // =============================================================================
 
-Deno.test("parseSync() restores namespace for self-closing element with redefinition", () => {
+Ende.test("parseSync() restores namespace for self-closing element with redefinition", () => {
   // Tests the branch in self-closing element namespace restoration where previousUri exists
   const doc = parseSync(`
     <root xmlns:ns="http://outer.com">
@@ -1483,7 +1483,7 @@ Deno.test("parseSync() restores namespace for self-closing element with redefini
 // Additional Coverage: Parameter Entity Reference in DTD
 // =============================================================================
 
-Deno.test("parseSync() handles parameter entity reference with extended chars", () => {
+Ende.test("parseSync() handles parameter entity reference with extended chars", () => {
   // Tests the name character loop in parameter entity parsing
   const doc = parseSync(
     `<!DOCTYPE root [
@@ -1494,7 +1494,7 @@ Deno.test("parseSync() handles parameter entity reference with extended chars", 
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parseSync() throws on invalid character in parameter entity reference", () => {
+Ende.test("parseSync() throws on invalid character in parameter entity reference", () => {
   assertThrows(
     () =>
       parseSync("<!DOCTYPE root [%entity@name;]><root/>", {
@@ -1509,13 +1509,13 @@ Deno.test("parseSync() throws on invalid character in parameter entity reference
 // Additional Coverage: ignoreWhitespace Option
 // =============================================================================
 
-Deno.test("parseSync() ignores whitespace-only text nodes when ignoreWhitespace is true", () => {
+Ende.test("parseSync() ignores whitespace-only text nodes when ignoreWhitespace is true", () => {
   const doc = parseSync("<root>   \n   </root>", { ignoreWhitespace: true });
   // With ignoreWhitespace, whitespace-only text should not create nodes
   assertEquals(doc.root.children.length, 0);
 });
 
-Deno.test("parseSync() preserves non-whitespace text when ignoreWhitespace is true", () => {
+Ende.test("parseSync() preserves non-whitespace text when ignoreWhitespace is true", () => {
   const doc = parseSync("<root>  text  </root>", { ignoreWhitespace: true });
   assertEquals(doc.root.children.length, 1);
   if (doc.root.children[0]?.type === "text") {
@@ -1527,7 +1527,7 @@ Deno.test("parseSync() preserves non-whitespace text when ignoreWhitespace is tr
 // Resource Exhaustion Limits: maxDepth / maxAttributes
 // =============================================================================
 
-Deno.test("parseSync() throws when element nesting exceeds maxDepth", () => {
+Ende.test("parseSync() throws when element nesting exceeds maxDepth", () => {
   assertThrows(
     () => parseSync("<a><b><c></c></b></a>", { maxDepth: 2 }),
     XmlSyntaxError,
@@ -1535,12 +1535,12 @@ Deno.test("parseSync() throws when element nesting exceeds maxDepth", () => {
   );
 });
 
-Deno.test("parseSync() allows nesting within maxDepth", () => {
+Ende.test("parseSync() allows nesting within maxDepth", () => {
   const doc = parseSync("<a><b><c/></b></a>", { maxDepth: 3 });
   assertEquals(doc.root.name.local, "a");
 });
 
-Deno.test("parseSync() throws when attributes exceed maxAttributes", () => {
+Ende.test("parseSync() throws when attributes exceed maxAttributes", () => {
   assertThrows(
     () => parseSync('<root a="1" b="2" c="3"/>', { maxAttributes: 2 }),
     XmlSyntaxError,
@@ -1548,7 +1548,7 @@ Deno.test("parseSync() throws when attributes exceed maxAttributes", () => {
   );
 });
 
-Deno.test("parseSync() allows attributes within maxAttributes", () => {
+Ende.test("parseSync() allows attributes within maxAttributes", () => {
   const doc = parseSync('<root a="1" b="2"/>', { maxAttributes: 2 });
   assertEquals(doc.root.name.local, "root");
 });
@@ -1557,7 +1557,7 @@ Deno.test("parseSync() allows attributes within maxAttributes", () => {
 // Non-ASCII (Unicode) element and attribute names
 // =============================================================================
 
-Deno.test("parseSync() handles non-ASCII BMP element name", () => {
+Ende.test("parseSync() handles non-ASCII BMP element name", () => {
   const doc = parseSync("<café/>");
   assertEquals(doc.root.name.local, "café");
 });
@@ -1566,7 +1566,7 @@ Deno.test("parseSync() handles non-ASCII BMP element name", () => {
 // Namespace expanded-name: same local name, different URIs
 // =============================================================================
 
-Deno.test("parseSync() allows same local name with different namespace URIs", () => {
+Ende.test("parseSync() allows same local name with different namespace URIs", () => {
   const doc = parseSync(
     '<root xmlns:a="http://a.com" xmlns:b="http://b.com" a:x="1" b:x="2"/>',
   );
@@ -1579,7 +1579,7 @@ Deno.test("parseSync() allows same local name with different namespace URIs", ()
 // XML 1.1 Character Validation Tests
 // =============================================================================
 
-Deno.test("parseSync() xml11 rejects literal C0 control in text", () => {
+Ende.test("parseSync() xml11 rejects literal C0 control in text", () => {
   assertThrows(
     () => parseSync("<root>\x01</root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1587,7 +1587,7 @@ Deno.test("parseSync() xml11 rejects literal C0 control in text", () => {
   );
 });
 
-Deno.test("parseSync() xml11 rejects literal C1 control in text", () => {
+Ende.test("parseSync() xml11 rejects literal C1 control in text", () => {
   assertThrows(
     () => parseSync("<root>\x80</root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1600,7 +1600,7 @@ Deno.test("parseSync() xml11 rejects literal C1 control in text", () => {
   );
 });
 
-Deno.test("parseSync() xml11 rejects NULL in text", () => {
+Ende.test("parseSync() xml11 rejects NULL in text", () => {
   assertThrows(
     () => parseSync("<root>\x00</root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1608,12 +1608,12 @@ Deno.test("parseSync() xml11 rejects NULL in text", () => {
   );
 });
 
-Deno.test("parseSync() xml11 allows NEL after line-ending normalization", () => {
+Ende.test("parseSync() xml11 allows NEL after line-ending normalization", () => {
   const doc = parseSync("<root>a\x85b</root>", { xmlVersion: "1.1" });
   assertEquals(doc.root.children.length, 1);
 });
 
-Deno.test("parseSync() xml11 rejects literal C0 control in comment", () => {
+Ende.test("parseSync() xml11 rejects literal C0 control in comment", () => {
   assertThrows(
     () => parseSync("<root><!--\x01--></root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1621,7 +1621,7 @@ Deno.test("parseSync() xml11 rejects literal C0 control in comment", () => {
   );
 });
 
-Deno.test("parseSync() xml11 rejects literal C1 control in CDATA", () => {
+Ende.test("parseSync() xml11 rejects literal C1 control in CDATA", () => {
   assertThrows(
     () =>
       parseSync(
@@ -1633,7 +1633,7 @@ Deno.test("parseSync() xml11 rejects literal C1 control in CDATA", () => {
   );
 });
 
-Deno.test("parseSync() xml11 rejects literal C0 control in PI content", () => {
+Ende.test("parseSync() xml11 rejects literal C0 control in PI content", () => {
   assertThrows(
     () => parseSync("<root><?pi \x02?></root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1641,7 +1641,7 @@ Deno.test("parseSync() xml11 rejects literal C0 control in PI content", () => {
   );
 });
 
-Deno.test("parseSync() xml11 rejects noncharacter U+FFFE", () => {
+Ende.test("parseSync() xml11 rejects noncharacter U+FFFE", () => {
   assertThrows(
     () => parseSync("<root>\uFFFE</root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1649,7 +1649,7 @@ Deno.test("parseSync() xml11 rejects noncharacter U+FFFE", () => {
   );
 });
 
-Deno.test("parseSync() xml11 rejects noncharacter U+FFFF", () => {
+Ende.test("parseSync() xml11 rejects noncharacter U+FFFF", () => {
   assertThrows(
     () => parseSync("<root>\uFFFF</root>", { xmlVersion: "1.1" }),
     XmlSyntaxError,
@@ -1657,7 +1657,7 @@ Deno.test("parseSync() xml11 rejects noncharacter U+FFFF", () => {
   );
 });
 
-Deno.test("parseSync() xml11 allows C0 control via character reference", () => {
+Ende.test("parseSync() xml11 allows C0 control via character reference", () => {
   const doc = parseSync("<root>&#x1;</root>", { xmlVersion: "1.1" });
   const child = doc.root.children[0];
   assertEquals(child?.type, "text");
@@ -1666,7 +1666,7 @@ Deno.test("parseSync() xml11 allows C0 control via character reference", () => {
   }
 });
 
-Deno.test("parseSync() xml11 allows C1 control via character reference", () => {
+Ende.test("parseSync() xml11 allows C1 control via character reference", () => {
   const doc = parseSync("<root>&#x85;</root>", { xmlVersion: "1.1" });
   const child = doc.root.children[0];
   assertEquals(child?.type, "text");
@@ -1675,7 +1675,7 @@ Deno.test("parseSync() xml11 allows C1 control via character reference", () => {
   }
 });
 
-Deno.test("parseSync() xml11 normalizes NEL and LS line endings", () => {
+Ende.test("parseSync() xml11 normalizes NEL and LS line endings", () => {
   const doc = parseSync(
     "<root>a\x85b\u2028c</root>",
     { xmlVersion: "1.1" },

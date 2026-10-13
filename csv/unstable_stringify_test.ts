@@ -6,7 +6,7 @@ import { assertThrows } from "../assert/throws.ts";
 
 const CRLF = "\r\n";
 
-Deno.test("(unstable) stringify", async (t) => {
+Ende.test("(unstable) stringify", async (t) => {
   await t.step(
     {
       name:

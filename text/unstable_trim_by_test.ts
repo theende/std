@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { trimBy, trimEndBy, trimStartBy } from "./unstable_trim_by.ts";
 
-Deno.test("trim()", async (t) => {
+Ende.test("trim()", async (t) => {
   await t.step("empty patterns - no-op", () => {
     assertEquals(trimStartBy("abc", ""), "abc");
     assertEquals(trimStartBy("abc", []), "abc");
@@ -27,7 +27,7 @@ Deno.test("trim()", async (t) => {
   });
 });
 
-Deno.test("trimStart()", async (t) => {
+Ende.test("trimStart()", async (t) => {
   await t.step("trims a prefix", () => {
     assertEquals(trimStartBy("/pathname/", "/"), "pathname/");
     assertEquals(trimStartBy("/pathname/", ["/"]), "pathname/");
@@ -65,7 +65,7 @@ Deno.test("trimStart()", async (t) => {
   });
 });
 
-Deno.test("trimEnd()", async (t) => {
+Ende.test("trimEnd()", async (t) => {
   await t.step("trims a suffix", () => {
     assertEquals(trimEndBy("/pathname/", "/"), "/pathname");
     assertEquals(trimEndBy("/pathname/", ["/"]), "/pathname");

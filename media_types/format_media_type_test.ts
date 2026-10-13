@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { formatMediaType } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "formatMediaType()",
   fn() {
     const fixtures = [

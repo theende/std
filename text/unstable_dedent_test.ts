@@ -3,7 +3,7 @@ import { dedent } from "./unstable_dedent.ts";
 import { assertEquals } from "@std/assert";
 import { stub } from "@std/testing/mock";
 
-Deno.test("dedent() handles example 1", () => {
+Ende.test("dedent() handles example 1", () => {
   assertEquals(
     dedent(`
       {
@@ -14,7 +14,7 @@ Deno.test("dedent() handles example 1", () => {
   );
 });
 
-Deno.test("dedent() handles example 2", () => {
+Ende.test("dedent() handles example 2", () => {
   assertEquals(
     dedent`line 1
            line 2`,
@@ -23,7 +23,7 @@ Deno.test("dedent() handles example 2", () => {
 });
 
 // Test case for issue #6831
-Deno.test("dedent() only strips single trailing newline", () => {
+Ende.test("dedent() only strips single trailing newline", () => {
   const result = dedent`
       a
 
@@ -31,7 +31,7 @@ Deno.test("dedent() only strips single trailing newline", () => {
   assertEquals(result, "a\n");
 });
 
-Deno.test("dedent() handles empty lines", () => {
+Ende.test("dedent() handles empty lines", () => {
   assertEquals(
     dedent(`
       a
@@ -44,14 +44,14 @@ Deno.test("dedent() handles empty lines", () => {
   );
 });
 
-Deno.test("dedent() handles tabs", () => {
+Ende.test("dedent() handles tabs", () => {
   assertEquals(
     dedent("\ta\n\t\tb"),
     "a\n\tb",
   );
 });
 
-Deno.test("dedent() handles unindented second line", () => {
+Ende.test("dedent() handles unindented second line", () => {
   assertEquals(
     dedent(`
         a
@@ -61,7 +61,7 @@ b
   );
 });
 
-Deno.test("dedent() handles templates", () => {
+Ende.test("dedent() handles templates", () => {
   assertEquals(
     dedent`
       line 1
@@ -73,14 +73,14 @@ Deno.test("dedent() handles templates", () => {
   );
 });
 
-Deno.test("dedent() handles one line", () => {
+Ende.test("dedent() handles one line", () => {
   assertEquals(
     dedent`one line`,
     "one line",
   );
 });
 
-Deno.test("dedent() handles multiline substitution", () => {
+Ende.test("dedent() handles multiline substitution", () => {
   const outer = dedent`
     1
     ${"2\n3"}
@@ -89,7 +89,7 @@ Deno.test("dedent() handles multiline substitution", () => {
   assertEquals(outer, "1\n2\n3\n4");
 });
 
-Deno.test("dedent() handles mixed tabs and spaces", async (t) => {
+Ende.test("dedent() handles mixed tabs and spaces", async (t) => {
   // @ts-expect-error augmenting globalThis so we don't need to resort to bare `eval`
   using _ = stub(globalThis, "dedent", dedent);
 
@@ -108,7 +108,7 @@ Deno.test("dedent() handles mixed tabs and spaces", async (t) => {
   });
 });
 
-Deno.test("dedent() handles blank lines correctly", async (t) => {
+Ende.test("dedent() handles blank lines correctly", async (t) => {
   // @ts-expect-error augmenting globalThis so we don't need to resort to bare `eval`
   using _ = stub(globalThis, "dedent", dedent);
 

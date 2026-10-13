@@ -13,7 +13,7 @@ import { isAbsolute as windowsIsAbsolute } from "./windows/is_absolute.ts";
  * import { isAbsolute } from "@std/path/is-absolute";
  * import { assert, assertFalse } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assert(isAbsolute("C:\\home\\foo"));
  *   assertFalse(isAbsolute("home\\foo"));
  * } else {

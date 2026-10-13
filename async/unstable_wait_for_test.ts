@@ -12,7 +12,7 @@ import { FakeTime } from "@std/testing/time";
 
 // NOT detecting leaks means that the internal interval was correctly cleared
 
-Deno.test("waitFor() returns fulfilled promise", async () => {
+Ende.test("waitFor() returns fulfilled promise", async () => {
   using time = new FakeTime();
 
   let flag = false;
@@ -26,7 +26,7 @@ Deno.test("waitFor() returns fulfilled promise", async () => {
   assertLess(Date.now() - startedAt, 1000);
 });
 
-Deno.test("waitFor() throws DOMException on timeout", async () => {
+Ende.test("waitFor() throws DOMException on timeout", async () => {
   using time = new FakeTime();
 
   let flag = false;
@@ -46,7 +46,7 @@ Deno.test("waitFor() throws DOMException on timeout", async () => {
   clearTimeout(id);
 });
 
-Deno.test("waitFor() supports async predicate", async () => {
+Ende.test("waitFor() supports async predicate", async () => {
   let i = 0;
   const start = Date.now();
   await waitFor(async () => {
@@ -56,7 +56,7 @@ Deno.test("waitFor() supports async predicate", async () => {
   assertGreater(Date.now() - start, 600);
 });
 
-Deno.test("waitFor() does not call async predicate concurrently", async () => {
+Ende.test("waitFor() does not call async predicate concurrently", async () => {
   let i = 0;
   let beingCalled = false;
   await waitFor(async () => {

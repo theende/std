@@ -3,7 +3,7 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { assertEquals, assertThrows } from "@std/assert";
 
-Deno.test("posix.fromFileUrl()", function () {
+Ende.test("posix.fromFileUrl()", function () {
   assertEquals(posix.fromFileUrl(new URL("file:///home/foo")), "/home/foo");
   assertEquals(posix.fromFileUrl("file:///"), "/");
   assertEquals(posix.fromFileUrl("file:///home/foo"), "/home/foo");
@@ -26,7 +26,7 @@ Deno.test("posix.fromFileUrl()", function () {
   );
 });
 
-Deno.test("windows.fromFileUrl()", function () {
+Ende.test("windows.fromFileUrl()", function () {
   assertEquals(windows.fromFileUrl(new URL("file:///home/foo")), "\\home\\foo");
   assertEquals(windows.fromFileUrl("file:///"), "\\");
   assertEquals(windows.fromFileUrl("file:///home/foo"), "\\home\\foo");

@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { capitalizeWord, splitToWords } from "./_util.ts";
 
-Deno.test({
+Ende.test({
   name: "split() returns an empty array for an empty string",
   fn() {
     const result = splitToWords("");
@@ -11,7 +11,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "split() returns an empty array when input has no alphanumeric characters",
   fn() {
@@ -20,7 +20,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() ignores non-alphanumeric characters mixed with words",
   fn() {
     const result = splitToWords("🦕deno♥️wuv");
@@ -30,7 +30,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles whitespace",
   fn() {
     const result = splitToWords("deno Is AWESOME");
@@ -39,7 +39,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles whitespace at string end and start",
   fn() {
     const result = splitToWords("  deno Is AWESOME ");
@@ -48,7 +48,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles mixed delimiters",
   fn() {
     const result = splitToWords("I am up-to-date!");
@@ -57,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles a delimiter sequence",
   fn() {
     const result = splitToWords("I am   -> thirsty!");
@@ -66,7 +66,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles upper case delimiter",
   fn() {
     const result = splitToWords("denoIsAwesome");
@@ -75,7 +75,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles hyphen delimiter",
   fn() {
     const result = splitToWords("deno-is-awesome");
@@ -84,7 +84,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles casing",
   fn() {
     const result = splitToWords("denoIsAwesome");
@@ -93,7 +93,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles unicode",
   fn() {
     const result = splitToWords("шруберри IsAwesome");
@@ -102,7 +102,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles unicode casing",
   fn() {
     const result = splitToWords("шруберриШруберри");
@@ -111,7 +111,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles languages without casing",
   fn() {
     const result = splitToWords("אין_על דינו");
@@ -120,7 +120,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles screaming snake case",
   fn() {
     const result = splitToWords("DENO_IS_AWESOME");
@@ -129,7 +129,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles acronym followed by a capitalized word",
   fn() {
     const result = splitToWords("I Love HTMLDivElement");
@@ -138,7 +138,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles underscore delimiter",
   fn() {
     const result = splitToWords("deno_is_awesome");
@@ -147,7 +147,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "split() handles acronym followed by a capitalized word",
   fn() {
     const result = splitToWords("I Love HTMLDivElement");
@@ -156,42 +156,42 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "capitalizeWord() handles empty string",
   fn() {
     assertEquals(capitalizeWord(""), "");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "capitalizeWord() handles single char",
   fn() {
     assertEquals(capitalizeWord("a"), "A");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "capitalizeWord() handles multiple chars",
   fn() {
     assertEquals(capitalizeWord("aa"), "Aa");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "capitalizeWord() handles non-Latin text with letter case",
   fn() {
     assertEquals(capitalizeWord("γράφω"), "Γράφω");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "capitalizeWord() handles non-Latin text without letter case (no-op)",
   fn() {
     assertEquals(capitalizeWord("文字"), "文字");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "capitalizeWord() handles non-BMP text (no-op)",
   fn() {
     assertEquals(capitalizeWord("💩"), "💩");

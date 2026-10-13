@@ -7,14 +7,14 @@ import { parse } from "./parse.ts";
 // DOM Tree Structure (Unique to parse())
 // =============================================================================
 
-Deno.test("parse() stores attributes by full name", () => {
+Ende.test("parse() stores attributes by full name", () => {
   const doc = parse('<root xml:lang="en"/>');
 
   // Attribute is stored by full name (with namespace prefix)
   assertEquals(doc.root.attributes["xml:lang"], "en");
 });
 
-Deno.test("parse() parses mixed content into tree", () => {
+Ende.test("parse() parses mixed content into tree", () => {
   const doc = parse("<root>text<child/>more</root>");
 
   assertEquals(doc.root.children.length, 3);
@@ -23,7 +23,7 @@ Deno.test("parse() parses mixed content into tree", () => {
   assertEquals(doc.root.children[2]!.type, "text");
 });
 
-Deno.test("parse() handles document without declaration", () => {
+Ende.test("parse() handles document without declaration", () => {
   const doc = parse("<root/>");
 
   assertEquals(doc.declaration, undefined);
@@ -33,7 +33,7 @@ Deno.test("parse() handles document without declaration", () => {
 // Error Handling (Unique to parse())
 // =============================================================================
 
-Deno.test("parse() throws on empty document", () => {
+Ende.test("parse() throws on empty document", () => {
   assertThrows(
     () => parse(""),
     Error,
@@ -45,7 +45,7 @@ Deno.test("parse() throws on empty document", () => {
 // Complex Documents (Integration)
 // =============================================================================
 
-Deno.test("parse() handles complex document", () => {
+Ende.test("parse() handles complex document", () => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <catalog>
   <product id="1">
@@ -82,7 +82,7 @@ Deno.test("parse() handles complex document", () => {
   }
 });
 
-Deno.test("parse() handles RSS-like feed", () => {
+Ende.test("parse() handles RSS-like feed", () => {
   const xml = `<?xml version="1.0"?>
 <rss version="2.0">
   <channel>
@@ -123,7 +123,7 @@ Deno.test("parse() handles RSS-like feed", () => {
 // Additional coverage: CDATA in tree
 // =============================================================================
 
-Deno.test("parse() includes CDATA nodes in tree", () => {
+Ende.test("parse() includes CDATA nodes in tree", () => {
   const doc = parse("<root><![CDATA[<script>]]></root>");
 
   assertEquals(doc.root.children.length, 1);
@@ -137,7 +137,7 @@ Deno.test("parse() includes CDATA nodes in tree", () => {
 // Additional coverage: Comment in tree
 // =============================================================================
 
-Deno.test("parse() includes comment nodes in tree", () => {
+Ende.test("parse() includes comment nodes in tree", () => {
   const doc = parse("<root><!-- comment --></root>");
 
   assertEquals(doc.root.children.length, 1);
@@ -147,7 +147,7 @@ Deno.test("parse() includes comment nodes in tree", () => {
   }
 });
 
-Deno.test("parse() excludes comments when ignoreComments is true", () => {
+Ende.test("parse() excludes comments when ignoreComments is true", () => {
   const doc = parse("<root><!-- comment --><item/></root>", {
     ignoreComments: true,
   });
@@ -161,7 +161,7 @@ Deno.test("parse() excludes comments when ignoreComments is true", () => {
 // Additional coverage: Processing instructions not in tree
 // =============================================================================
 
-Deno.test("parse() excludes processing instructions from tree", () => {
+Ende.test("parse() excludes processing instructions from tree", () => {
   const doc = parse("<?pi content?><root><?another pi?></root>");
 
   // PIs are not included in the tree - root should have no children
@@ -172,7 +172,7 @@ Deno.test("parse() excludes processing instructions from tree", () => {
 // XML 1.1 Support
 // =============================================================================
 
-Deno.test("parse() xml11 accepts C0 control char refs", () => {
+Ende.test("parse() xml11 accepts C0 control char refs", () => {
   const doc = parse("<root>&#x1;&#x2;</root>", { xmlVersion: "1.1" });
   assertEquals(doc.root.children.length, 1);
   const text = doc.root.children[0]!;
@@ -182,7 +182,7 @@ Deno.test("parse() xml11 accepts C0 control char refs", () => {
   }
 });
 
-Deno.test("parse() xml10 rejects C0 control char refs", () => {
+Ende.test("parse() xml10 rejects C0 control char refs", () => {
   assertThrows(
     () => parse("<root>&#x2;</root>"),
     Error,
@@ -190,7 +190,7 @@ Deno.test("parse() xml10 rejects C0 control char refs", () => {
   );
 });
 
-Deno.test("parse() xml11 rejects NULL char ref", () => {
+Ende.test("parse() xml11 rejects NULL char ref", () => {
   assertThrows(
     () => parse("<root>&#x0;</root>", { xmlVersion: "1.1" }),
     Error,
@@ -198,7 +198,7 @@ Deno.test("parse() xml11 rejects NULL char ref", () => {
   );
 });
 
-Deno.test("parse() xml11 rejects literal C0 controls", () => {
+Ende.test("parse() xml11 rejects literal C0 controls", () => {
   assertThrows(
     () => parse("<root>\x01</root>", { xmlVersion: "1.1" }),
     SyntaxError,
@@ -206,7 +206,7 @@ Deno.test("parse() xml11 rejects literal C0 controls", () => {
   );
 });
 
-Deno.test("parse() xml11 rejects literal C1 controls", () => {
+Ende.test("parse() xml11 rejects literal C1 controls", () => {
   assertThrows(
     () => parse("<root>\x80</root>", { xmlVersion: "1.1" }),
     SyntaxError,
@@ -214,7 +214,7 @@ Deno.test("parse() xml11 rejects literal C1 controls", () => {
   );
 });
 
-Deno.test("parse() xml11 normalizes NEL line endings", () => {
+Ende.test("parse() xml11 normalizes NEL line endings", () => {
   const doc = parse("<root>line1\x85line2</root>", { xmlVersion: "1.1" });
   const text = doc.root.children[0]!;
   if (text.type === "text") {
@@ -222,7 +222,7 @@ Deno.test("parse() xml11 normalizes NEL line endings", () => {
   }
 });
 
-Deno.test("parse() xml11 normalizes LS (U+2028) line endings", () => {
+Ende.test("parse() xml11 normalizes LS (U+2028) line endings", () => {
   const doc = parse("<root>line1\u2028line2</root>", { xmlVersion: "1.1" });
   const text = doc.root.children[0]!;
   if (text.type === "text") {
@@ -230,7 +230,7 @@ Deno.test("parse() xml11 normalizes LS (U+2028) line endings", () => {
   }
 });
 
-Deno.test("parse() xml11 allows namespace prefix unbinding", () => {
+Ende.test("parse() xml11 allows namespace prefix unbinding", () => {
   const doc = parse(
     '<root xmlns:ns="http://example.com"><child xmlns:ns="" /></root>',
     { xmlVersion: "1.1" },
@@ -238,7 +238,7 @@ Deno.test("parse() xml11 allows namespace prefix unbinding", () => {
   assertEquals(doc.root.name.local, "root");
 });
 
-Deno.test("parse() xml10 rejects namespace prefix unbinding", () => {
+Ende.test("parse() xml10 rejects namespace prefix unbinding", () => {
   assertThrows(
     () =>
       parse(
@@ -249,12 +249,12 @@ Deno.test("parse() xml10 rejects namespace prefix unbinding", () => {
   );
 });
 
-Deno.test("parse() xml11 accepts C0 char refs in attributes", () => {
+Ende.test("parse() xml11 accepts C0 char refs in attributes", () => {
   const doc = parse('<root attr="&#x2;"/>', { xmlVersion: "1.1" });
   assertEquals(doc.root.attributes["attr"], "\x02");
 });
 
-Deno.test("parse() xml11 version declaration is reported", () => {
+Ende.test("parse() xml11 version declaration is reported", () => {
   const doc = parse(
     '<?xml version="1.1"?><root/>',
     { xmlVersion: "1.1" },

@@ -3,7 +3,7 @@
 import { assertEquals, assertRejects } from "@std/assert";
 import { LimitedBytesTransformStream } from "./limited_bytes_transform_stream.ts";
 
-Deno.test("LimitedBytesTransformStream - specified size is the boundary of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - specified size is the boundary of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -20,7 +20,7 @@ Deno.test("LimitedBytesTransformStream - specified size is the boundary of the c
   ]);
 });
 
-Deno.test("LimitedBytesTransformStream - specified size is not the boundary of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - specified size is not the boundary of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -37,7 +37,7 @@ Deno.test("LimitedBytesTransformStream - specified size is not the boundary of t
   ]);
 });
 
-Deno.test("LimitedBytesTransformStream - specified size is 0", async function () {
+Ende.test("LimitedBytesTransformStream - specified size is 0", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -51,7 +51,7 @@ Deno.test("LimitedBytesTransformStream - specified size is 0", async function ()
   assertEquals(chunks.length, 0);
 });
 
-Deno.test("LimitedBytesTransformStream - specified size is equal to the total size of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - specified size is equal to the total size of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -72,7 +72,7 @@ Deno.test("LimitedBytesTransformStream - specified size is equal to the total si
   ]);
 });
 
-Deno.test("LimitedBytesTransformStream - specified size is greater than the total size of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - specified size is greater than the total size of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -93,7 +93,7 @@ Deno.test("LimitedBytesTransformStream - specified size is greater than the tota
   ]);
 });
 
-Deno.test("LimitedBytesTransformStream - error is set to true and the specified size is 0", async function () {
+Ende.test("LimitedBytesTransformStream - error is set to true and the specified size is 0", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -106,7 +106,7 @@ Deno.test("LimitedBytesTransformStream - error is set to true and the specified 
   await assertRejects(async () => await Array.fromAsync(r), RangeError);
 });
 
-Deno.test("LimitedBytesTransformStream - error is set to true and the specified size is the boundary of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - error is set to true and the specified size is the boundary of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -119,7 +119,7 @@ Deno.test("LimitedBytesTransformStream - error is set to true and the specified 
   await assertRejects(async () => await Array.fromAsync(r), RangeError);
 });
 
-Deno.test("LimitedBytesTransformStream - error is set to true and the specified size is not the boundary of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - error is set to true and the specified size is not the boundary of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -132,7 +132,7 @@ Deno.test("LimitedBytesTransformStream - error is set to true and the specified 
   await assertRejects(async () => await Array.fromAsync(r), RangeError);
 });
 
-Deno.test("LimitedBytesTransformStream - error is set to true and specified size is equal to the total size of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - error is set to true and specified size is equal to the total size of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),
@@ -153,7 +153,7 @@ Deno.test("LimitedBytesTransformStream - error is set to true and specified size
   ]);
 });
 
-Deno.test("LimitedBytesTransformStream - error is set to true and specified size is greater than the total size of the chunks", async function () {
+Ende.test("LimitedBytesTransformStream - error is set to true and specified size is greater than the total size of the chunks", async function () {
   const r = ReadableStream.from([
     new Uint8Array([1, 2, 3]),
     new Uint8Array([4, 5, 6]),

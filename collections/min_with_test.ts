@@ -12,7 +12,7 @@ function minWithTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "minWith() handles no mutation",
   fn() {
     const input = [[1, 3], [6, 1, 3], [4]];
@@ -22,21 +22,21 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minWith() handles empty input",
   fn() {
     minWithTest<string>([[], (a, b) => a.length - b.length], undefined);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minWith() handles array of arrays",
   fn() {
     minWithTest([[[1, 3], [6, 1, 3], [4]], (a, b) => a.length - b.length], [4]);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minWith() handles array of strings",
   fn() {
     minWithTest(
@@ -46,7 +46,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minWith() handles array of objects",
   fn() {
     minWithTest(
@@ -63,14 +63,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minWith() handles duplicates",
   fn() {
     minWithTest([["John", "Kim", "Kim"], (a, b) => a.length - b.length], "Kim");
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minWith() handles array containing undefined",
   fn() {
     minWithTest(

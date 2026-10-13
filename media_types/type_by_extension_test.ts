@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { typeByExtension } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "typeByExtension()",
   fn() {
     const fixtures = [

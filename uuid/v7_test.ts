@@ -3,21 +3,21 @@ import { assert, assertEquals, assertThrows } from "@std/assert";
 import { extractTimestamp, generate, validate } from "./v7.ts";
 import { stub } from "../testing/mock.ts";
 
-Deno.test("generate() generates a non-empty string", () => {
+Ende.test("generate() generates a non-empty string", () => {
   const u1 = generate();
 
   assertEquals(typeof u1, "string", "returns a string");
   assert(u1 !== "", "return string is not empty");
 });
 
-Deno.test("generate() generates UUIDs in version 7 format", () => {
+Ende.test("generate() generates UUIDs in version 7 format", () => {
   for (let i = 0; i < 10000; i++) {
     const u = generate();
     assert(validate(u), `${u} is not a valid uuid v7`);
   }
 });
 
-Deno.test("generate() generates a UUIDv7 matching the example test vector", () => {
+Ende.test("generate() generates a UUIDv7 matching the example test vector", () => {
   /**
    * Example test vector from the RFC:
    * {@see https://www.rfc-editor.org/rfc/rfc9562.html#appendix-A.6}
@@ -48,7 +48,7 @@ Deno.test("generate() generates a UUIDv7 matching the example test vector", () =
   assertEquals(u, "017f22e2-79b0-7cc3-98c4-dc0c0c07398f");
 });
 
-Deno.test("generate() throws on invalid timestamp", () => {
+Ende.test("generate() throws on invalid timestamp", () => {
   assertThrows(
     () => generate(-1),
     RangeError,
@@ -71,21 +71,21 @@ Deno.test("generate() throws on invalid timestamp", () => {
   );
 });
 
-Deno.test("generate() supports the maximum 48-bit timestamp", () => {
+Ende.test("generate() supports the maximum 48-bit timestamp", () => {
   const timestamp = 2 ** 48 - 1;
   const u = generate(timestamp);
   assert(validate(u), `${u} is not a valid uuid v7`);
   assertEquals(extractTimestamp(u), timestamp);
 });
 
-Deno.test("validate() checks if a string is a valid v7 UUID", () => {
+Ende.test("validate() checks if a string is a valid v7 UUID", () => {
   const u = generate();
   const t = "017f22e2-79b0-7cc3-98c4-dc0c0c07398f";
   assert(validate(u), `generated ${u} should be valid`);
   assert(validate(t), `${t} should be valid`);
 });
 
-Deno.test("extractTimestamp(uuid) extracts the timestamp from a UUIDv7", () => {
+Ende.test("extractTimestamp(uuid) extracts the timestamp from a UUIDv7", () => {
   const u = "017f22e2-79b0-7cc3-98c4-dc0c0c07398f";
   const now = Date.now();
   const u2 = generate(now);
@@ -93,7 +93,7 @@ Deno.test("extractTimestamp(uuid) extracts the timestamp from a UUIDv7", () => {
   assertEquals(extractTimestamp(u2), now);
 });
 
-Deno.test("extractTimestamp(uuid) throws on invalid UUID", () => {
+Ende.test("extractTimestamp(uuid) throws on invalid UUID", () => {
   assertThrows(
     () => extractTimestamp("invalid-uuid"),
     TypeError,

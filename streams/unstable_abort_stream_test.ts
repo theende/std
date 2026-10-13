@@ -4,13 +4,13 @@ import { assertRejects } from "@std/assert";
 import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
 import { AbortStream } from "./unstable_abort_stream.ts";
 
-Deno.test("AbortStream", async () => {
+Ende.test("AbortStream", async () => {
   const controller = new AbortController();
 
   const file = "./ende.json";
-  const chunkSize = (await Deno.stat(file)).size / 4;
+  const chunkSize = (await Ende.stat(file)).size / 4;
   const promise = new Response(
-    (await Deno.open(file))
+    (await Ende.open(file))
       .readable
       .pipeThrough(new FixedChunkStream(chunkSize)) // To make sure we aren't only given 1 chunk of the entire contents.
       .pipeThrough( // To slow the process down for the controller.abort()

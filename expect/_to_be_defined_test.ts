@@ -4,7 +4,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeDefined()", () => {
+Ende.test("expect().toBeDefined()", () => {
   expect(1).toBeDefined();
   expect("a").toBeDefined();
 

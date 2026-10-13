@@ -4,7 +4,7 @@ import { common } from "./mod.ts";
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 
-Deno.test({
+Ende.test({
   name: "common() returns shared path",
   fn() {
     const actual = posix.common(
@@ -18,7 +18,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "common() returns empty string if no shared path is present",
   fn() {
     const actual = posix.common(
@@ -28,7 +28,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "common() checks windows separator",
   fn() {
     const actual = windows.common(
@@ -42,7 +42,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "common(['', '/'], '/') returns ''",
   fn() {
     const actual = posix.common(["", "/"]);
@@ -50,7 +50,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "common(['/', ''], '/') returns ''",
   fn() {
     const actual = posix.common([
@@ -61,7 +61,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "common() returns the first path unmodified when it's the only path",
   fn() {
     const actual = posix.common(["./deno/std/path/mod.ts"]);
@@ -69,7 +69,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "common() returns the first path unmodified if all paths are equal",
   fn() {
     const actual = common(
@@ -83,7 +83,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "posix.common() returns shared path",
   fn() {
     const actual = posix.common(

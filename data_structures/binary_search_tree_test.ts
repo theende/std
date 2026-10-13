@@ -9,7 +9,7 @@ import { BinarySearchTree } from "./binary_search_tree.ts";
 import { ascend, descend } from "./comparators.ts";
 import { type Container, MyMath } from "./_test_utils.ts";
 
-Deno.test("BinarySearchTree throws if compare is not a function", () => {
+Ende.test("BinarySearchTree throws if compare is not a function", () => {
   assertThrows(
     () => new BinarySearchTree({} as (a: number, b: number) => number),
     TypeError,
@@ -17,7 +17,7 @@ Deno.test("BinarySearchTree throws if compare is not a function", () => {
   );
 });
 
-Deno.test("BinarySearchTree handles default ascend comparator", () => {
+Ende.test("BinarySearchTree handles default ascend comparator", () => {
   const trees = [
     new BinarySearchTree(),
     new BinarySearchTree(),
@@ -137,7 +137,7 @@ Deno.test("BinarySearchTree handles default ascend comparator", () => {
   }
 });
 
-Deno.test("BinarySearchTree handles descend comparator", () => {
+Ende.test("BinarySearchTree handles descend comparator", () => {
   const trees = [
     new BinarySearchTree(descend),
     new BinarySearchTree(descend),
@@ -257,7 +257,7 @@ Deno.test("BinarySearchTree handles descend comparator", () => {
   }
 });
 
-Deno.test("BinarySearchTree contains objects", () => {
+Ende.test("BinarySearchTree contains objects", () => {
   const tree: BinarySearchTree<Container> = new BinarySearchTree((
     a: Container,
     b: Container,
@@ -317,27 +317,27 @@ Deno.test("BinarySearchTree contains objects", () => {
   assertEquals(tree.isEmpty(), true);
 });
 
-Deno.test("BinarySearchTree.from() handles empty array-like objects", () => {
+Ende.test("BinarySearchTree.from() handles empty array-like objects", () => {
   const tree = BinarySearchTree.from<number>({ length: 0 });
   assertEquals([...tree], []);
   assertEquals(tree.size, 0);
 });
 
-Deno.test("BinarySearchTree.from() handles array-like objects", () => {
+Ende.test("BinarySearchTree.from() handles array-like objects", () => {
   const values = { 0: 3, 1: 1, 2: 3, 3: 2, length: 4 };
   const tree = BinarySearchTree.from(values);
   assertEquals([...tree], [1, 2, 3]);
   assertEquals(tree.size, 3);
 });
 
-Deno.test("BinarySearchTree.from() handles array-like objects with a custom comparator", () => {
+Ende.test("BinarySearchTree.from() handles array-like objects with a custom comparator", () => {
   const values = { 0: 3, 1: 1, 2: 3, 3: 2, length: 4 };
   const tree = BinarySearchTree.from(values, { compare: descend });
   assertEquals([...tree], [3, 2, 1]);
   assertEquals(tree.size, 3);
 });
 
-Deno.test("BinarySearchTree.from() handles iterable", () => {
+Ende.test("BinarySearchTree.from() handles iterable", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const originalValues: number[] = Array.from(values);
   const expected: number[] = [-100, -10, -9, -1, 0, 1, 9, 10, 100];
@@ -394,7 +394,7 @@ Deno.test("BinarySearchTree.from() handles iterable", () => {
   assertEquals([...tree.lvlValues()], [-30, 27, -300, 300, -3, 30, 3, -27, 0]);
 });
 
-Deno.test("BinarySearchTree.from() handles default ascend comparator", () => {
+Ende.test("BinarySearchTree.from() handles default ascend comparator", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [-100, -10, -9, -1, 0, 1, 9, 10, 100];
   const originalTree: BinarySearchTree<number> = new BinarySearchTree();
@@ -446,7 +446,7 @@ Deno.test("BinarySearchTree.from() handles default ascend comparator", () => {
   assertEquals([...tree].reverse(), expected.map((v: number) => 3 * v));
 });
 
-Deno.test("BinarySearchTree.from() deep-copies nodes so mutating the copy leaves the original intact", () => {
+Ende.test("BinarySearchTree.from() deep-copies nodes so mutating the copy leaves the original intact", () => {
   const values = [3, 10, 13, 4, 6, 7, 1, 14];
   const original = BinarySearchTree.from(values);
   const copy = BinarySearchTree.from(original);
@@ -464,7 +464,7 @@ Deno.test("BinarySearchTree.from() deep-copies nodes so mutating the copy leaves
   assertEquals([...copy], [1, 3, 4, 6, 10, 13, 14]);
 });
 
-Deno.test("BinarySearchTree.from() handles descend comparator", () => {
+Ende.test("BinarySearchTree.from() handles descend comparator", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [100, 10, 9, 1, 0, -1, -9, -10, -100];
   const originalTree = new BinarySearchTree<number>(descend);
@@ -516,7 +516,7 @@ Deno.test("BinarySearchTree.from() handles descend comparator", () => {
   assertEquals([...tree].reverse(), expected.map((v: number) => 3 * v));
 });
 
-Deno.test("BinarySearchTree handles README example", () => {
+Ende.test("BinarySearchTree handles README example", () => {
   const values = [3, 10, 13, 4, 6, 7, 1, 14];
   const tree = new BinarySearchTree<number>();
   values.forEach((value) => tree.insert(value));
@@ -572,14 +572,14 @@ Deno.test("BinarySearchTree handles README example", () => {
   ]);
 });
 
-Deno.test("BinarySearchTree.max() handles null", () => {
+Ende.test("BinarySearchTree.max() handles null", () => {
   const tree = BinarySearchTree.from([1]);
   assert(!tree.isEmpty());
   tree.clear();
   assertEquals(tree.max(), null);
 });
 
-Deno.test("BinarySearchTree.clear()", () => {
+Ende.test("BinarySearchTree.clear()", () => {
   const tree = BinarySearchTree.from([1]);
   tree.clear();
   assert(tree.isEmpty());

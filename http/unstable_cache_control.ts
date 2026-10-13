@@ -13,7 +13,7 @@
  * import { formatCacheControl } from "@std/http/unstable-cache-control";
  * import { eTag } from "@std/http/etag";
  *
- * Deno.serve(async (_req) => {
+ * Ende.serve(async (_req) => {
  *   const body = "hello";
  *   const etag = await eTag(body);
  *   const headers = new Headers();
@@ -31,7 +31,7 @@
  * ```ts ignore
  * import { parseCacheControl } from "@std/http/unstable-cache-control";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   const cc = parseCacheControl(req.headers.get("cache-control"));
  *   if (cc.noStore) {
  *     return new Response(null, { status: 400 }); // client forbids storing

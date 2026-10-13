@@ -50,7 +50,7 @@ import {
 } from "./status.ts";
 import { ByteSliceStream } from "@std/streams/byte-slice-stream";
 import { parseArgs } from "@std/cli/parse-args";
-import denoConfig from "./ende.json" with { type: "json" };
+import endeConfig from "./ende.json" with { type: "json" };
 import { format as formatBytes } from "@std/fmt/bytes";
 import { getNetworkAddress } from "@std/net/unstable-get-network-address";
 import { escape } from "@std/html/entities";
@@ -65,22 +65,36 @@ interface EntryInfo {
   name: string;
 }
 
-const ENV_PERM_STATUS = typeof Deno !== "undefined"
-  ? Deno.permissions.querySync?.({
-    name: "env",
-    variable: "DENO_DEPLOYMENT_ID",
-  }).state ?? "granted"
-  : "granted"; // for deno deploy
-const NET_PERM_STATUS = typeof Deno !== "undefined"
-  ? Deno.permissions.querySync?.({ name: "sys", kind: "networkInterfaces" })
+function isEnvGranted(variable: string): boolean {
+  return (Ende.permissions.querySync?.({ name: "env", variable }).state ??
+    "granted") === "granted";
+}
+
+function getDeploymentId(): string | undefined {
+  if (typeof Ende === "undefined") return undefined; // for deno deploy
+  const endeId = isEnvGranted("ENDE_DEPLOYMENT_ID")
+    ? Ende.env.get("ENDE_DEPLOYMENT_ID")
+    : undefined;
+  if (endeId !== undefined) return endeId;
+  const denoId = isEnvGranted("DENO_DEPLOYMENT_ID")
+    ? Ende.env.get("DENO_DEPLOYMENT_ID")
+    : undefined;
+  if (denoId !== undefined) {
+    // deno-lint-ignore no-console
+    console.warn(
+      'Warning: "DENO_DEPLOYMENT_ID" is deprecated. Rename it to "ENDE_DEPLOYMENT_ID".',
+    );
+  }
+  return denoId;
+}
+
+const NET_PERM_STATUS = typeof Ende !== "undefined"
+  ? Ende.permissions.querySync?.({ name: "sys", kind: "networkInterfaces" })
     .state ?? "granted"
   : "granted"; // for deno deploy
-const DENO_DEPLOYMENT_ID =
-  ENV_PERM_STATUS === "granted" && typeof Deno !== "undefined"
-    ? Deno.env.get("DENO_DEPLOYMENT_ID")
-    : undefined;
-const HASHED_DENO_DEPLOYMENT_ID = DENO_DEPLOYMENT_ID
-  ? eTag(DENO_DEPLOYMENT_ID, { weak: true })
+const ENDE_DEPLOYMENT_ID = getDeploymentId();
+const HASHED_ENDE_DEPLOYMENT_ID = ENDE_DEPLOYMENT_ID
+  ? eTag(ENDE_DEPLOYMENT_ID, { weak: true })
   : undefined;
 
 function modeToString(isDir: boolean, maybeMode: number | null): string {
@@ -155,13 +169,13 @@ export interface ServeFileOptions {
    */
   etagAlgorithm?: AlgorithmIdentifier;
   /**
-   * An optional object returned by {@linkcode Deno.stat}. It is used for
+   * An optional object returned by {@linkcode Ende.stat}. It is used for
    * optimization purposes.
    *
-   * Defaults to the result of calling {@linkcode Deno.stat} with the provided
+   * Defaults to the result of calling {@linkcode Ende.stat} with the provided
    * `filePath`.
    */
-  fileInfo?: Deno.FileInfo;
+  fileInfo?: Ende.FileInfo;
 }
 
 /**
@@ -171,7 +185,7 @@ export interface ServeFileOptions {
  * ```ts ignore
  * import { serveFile } from "@std/http/file-server";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   return serveFile(req, "README.md");
  * });
  * ```
@@ -195,9 +209,9 @@ export async function serveFile(
   let { etagAlgorithm: algorithm = "SHA-256", fileInfo } = options ?? {};
 
   try {
-    fileInfo ??= await Deno.stat(filePath);
+    fileInfo ??= await Ende.stat(filePath);
   } catch (error) {
-    if (error instanceof Deno.errors.NotFound) {
+    if (error instanceof Ende.errors.NotFound) {
       return createStandardResponse(STATUS_CODE.NotFound);
     } else {
       throw error;
@@ -212,7 +226,7 @@ export async function serveFile(
 
   const etag = fileInfo.mtime
     ? await eTag(fileInfo, { algorithm })
-    : await HASHED_DENO_DEPLOYMENT_ID;
+    : await HASHED_ENDE_DEPLOYMENT_ID;
 
   // Set last modified header if last modification timestamp is available
   if (fileInfo.mtime) {
@@ -278,7 +292,7 @@ export async function serveFile(
       // Set content length
       headers.set(HEADER.ContentLength, `${fileSize}`);
 
-      const file = await Deno.open(filePath);
+      const file = await Ende.open(filePath);
       const status = STATUS_CODE.OK;
       return new Response(file.readable, {
         status,
@@ -314,8 +328,8 @@ export async function serveFile(
     headers.set(HEADER.ContentLength, `${contentLength}`);
 
     // Return 206 Partial Content
-    const file = await Deno.open(filePath);
-    await file.seek(start, Deno.SeekMode.Start);
+    const file = await Ende.open(filePath);
+    await file.seek(start, Ende.SeekMode.Start);
     const sliced = file.readable
       .pipeThrough(new ByteSliceStream(0, contentLength - 1));
     const status = STATUS_CODE.PartialContent;
@@ -329,7 +343,7 @@ export async function serveFile(
   // Set content length
   headers.set(HEADER.ContentLength, `${fileSize}`);
 
-  const file = await Deno.open(filePath);
+  const file = await Ende.open(filePath);
   const status = STATUS_CODE.OK;
   return new Response(file.readable, {
     status,
@@ -359,7 +373,7 @@ async function serveDirIndex(
   // if ".." makes sense
   if (dirUrl !== "/") {
     const prevPath = join(dirPath, "..");
-    const entryInfo = Deno.stat(prevPath).then((fileInfo): EntryInfo => ({
+    const entryInfo = Ende.stat(prevPath).then((fileInfo): EntryInfo => ({
       mode: modeToString(true, fileInfo.mode),
       size: "",
       name: "../",
@@ -369,7 +383,7 @@ async function serveDirIndex(
   }
 
   // Read fileInfo in parallel
-  for await (const entry of Deno.readDir(dirPath)) {
+  for await (const entry of Ende.readDir(dirPath)) {
     if (!showDotfiles && entry.name[0] === ".") {
       continue;
     }
@@ -379,7 +393,7 @@ async function serveDirIndex(
 
     listEntryPromise.push((async () => {
       try {
-        const fileInfo = await Deno.stat(filePath);
+        const fileInfo = await Ende.stat(filePath);
         return {
           mode: modeToString(entry.isDirectory, fileInfo.mode),
           size: entry.isFile ? formatBytes(fileInfo.size ?? 0) : "",
@@ -387,7 +401,7 @@ async function serveDirIndex(
           url: `./${fileUrl}${entry.isDirectory ? "/" : ""}`,
         };
       } catch (error) {
-        // Note: Deno.stat for windows system files may be rejected with os error 32.
+        // Note: Ende.stat for windows system files may be rejected with os error 32.
         if (!options.quiet) logError(error as Error);
         return {
           mode: "(unknown mode)",
@@ -622,7 +636,7 @@ export interface ServeDirOptions {
  * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   const pathname = new URL(req.url).pathname;
  *   if (pathname.startsWith("/static")) {
  *     return serveDir(req, {
@@ -641,7 +655,7 @@ export interface ServeDirOptions {
  * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
- * Deno.serve((req) => serveDir(req, {
+ * Ende.serve((req) => serveDir(req, {
  *   fsRoot: "public",
  *   urlRoot: "static",
  * }));
@@ -664,7 +678,7 @@ export async function serveDir(
     response = await createServeDirResponse(req, opts);
   } catch (error) {
     if (!opts.quiet) logError(error as Error);
-    response = error instanceof Deno.errors.NotFound
+    response = error instanceof Ende.errors.NotFound
       ? createStandardResponse(STATUS_CODE.NotFound)
       : createStandardResponse(STATUS_CODE.InternalServerError);
   }
@@ -768,7 +782,7 @@ async function createServeDirResponse(
     return createStandardResponse(STATUS_CODE.NotFound);
   }
 
-  const fileInfo = await Deno.stat(fsPath);
+  const fileInfo = await Ende.stat(fsPath);
 
   // For files, remove the trailing slash from the path.
   if (fileInfo.isFile && url.pathname.endsWith("/")) {
@@ -798,11 +812,11 @@ async function createServeDirResponse(
   if (showIndex) { // serve index.html
     const indexPath = join(fsPath, "index.html");
 
-    let indexFileInfo: Deno.FileInfo | undefined;
+    let indexFileInfo: Ende.FileInfo | undefined;
     try {
-      indexFileInfo = await Deno.lstat(indexPath);
+      indexFileInfo = await Ende.lstat(indexPath);
     } catch (error) {
-      if (!(error instanceof Deno.errors.NotFound)) {
+      if (!(error instanceof Ende.errors.NotFound)) {
         throw error;
       }
       // skip Not Found error
@@ -833,7 +847,7 @@ function logError(error: Error) {
 }
 
 function main() {
-  const serverArgs = parseArgs(Deno.args, {
+  const serverArgs = parseArgs(Ende.args, {
     string: ["port", "host", "cert", "key", "header"],
     boolean: ["help", "dir-listing", "dotfiles", "cors", "verbose", "version"],
     negatable: ["dir-listing", "dotfiles", "cors"],
@@ -867,13 +881,13 @@ function main() {
 
   if (serverArgs.help) {
     printUsage();
-    Deno.exit();
+    Ende.exit();
   }
 
   if (serverArgs.version) {
     // deno-lint-ignore no-console
-    console.log(`Deno File Server ${denoConfig.version}`);
-    Deno.exit();
+    console.log(`Deno File Server ${endeConfig.version}`);
+    Ende.exit();
   }
 
   if (keyFile || certFile) {
@@ -881,7 +895,7 @@ function main() {
       // deno-lint-ignore no-console
       console.log("--key and --cert are required for TLS");
       printUsage();
-      Deno.exit(1);
+      Ende.exit(1);
     }
   }
 
@@ -907,25 +921,25 @@ function main() {
       networkAddress = getNetworkAddress();
     }
     const protocol = useTls ? "https" : "http";
-    const host = (Deno.build.os === "windows" && hostname === "0.0.0.0")
+    const host = (Ende.build.os === "windows" && hostname === "0.0.0.0")
       ? "localhost"
       : hostname;
 
     const formattedHost = hostname.includes(":") ? `[${host}]` : host;
     let message =
       `Listening on:\n- Local: ${protocol}://${formattedHost}:${port}`;
-    if (networkAddress && !DENO_DEPLOYMENT_ID) {
+    if (networkAddress && !ENDE_DEPLOYMENT_ID) {
       message += `\n- Network: ${protocol}://${networkAddress}:${port}`;
     }
     // deno-lint-ignore no-console
     console.log(message);
   }
 
-  // TODO(petamoriken): Migrate `Deno.ServeTcpOptions | (Deno.ServeTcpOptions & Deno.TlsCertifiedKeyOptions)` in v2
+  // TODO(petamoriken): Migrate `Ende.ServeTcpOptions | (Ende.ServeTcpOptions & Ende.TlsCertifiedKeyOptions)` in v2
   const options: {
     port?: number;
     hostname?: string;
-    onListen?: (localAddr: Deno.NetAddr) => void;
+    onListen?: (localAddr: Ende.NetAddr) => void;
     cert?: string;
     key?: string;
   } = {
@@ -936,19 +950,19 @@ function main() {
     options.port = port;
   }
   if (useTls) {
-    options.cert = Deno.readTextFileSync(certFile);
-    options.key = Deno.readTextFileSync(keyFile);
+    options.cert = Ende.readTextFileSync(certFile);
+    options.key = Ende.readTextFileSync(keyFile);
   }
-  Deno.serve(options, handler);
+  Ende.serve(options, handler);
 }
 
 function printUsage() {
   // deno-lint-ignore no-console
-  console.log(`Deno File Server ${denoConfig.version}
+  console.log(`Deno File Server ${endeConfig.version}
   Serves a local directory in HTTP.
 
 INSTALL:
-  ende install --allow-net --allow-read --allow-sys jsr:@std/http@${denoConfig.version}/file-server
+  ende install --allow-net --allow-read --allow-sys jsr:@std/http@${endeConfig.version}/file-server
 
 USAGE:
   file_server [path] [options]

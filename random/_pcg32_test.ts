@@ -7,7 +7,7 @@ import { nextFloat64 } from "./next_float_64.ts";
 import { mockLittleEndian } from "./_test_utils.ts";
 import { platform } from "./_platform.ts";
 
-Deno.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
+Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
   await t.step("first 10 16-bit seeds are same as rand crate", async (t) => {
     /**
      * Expected results obtained by copying the Rust code from
@@ -104,7 +104,7 @@ Deno.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
   });
 });
 
-Deno.test("nextUint32() generates random 32-bit integers", () => {
+Ende.test("nextUint32() generates random 32-bit integers", () => {
   /**
    * ```rs
    * use rand_pcg::rand_core::{RngCore, SeedableRng};
@@ -135,7 +135,7 @@ Deno.test("nextUint32() generates random 32-bit integers", () => {
   }
 });
 
-Deno.test("getRandomValues() writes bytes", () => {
+Ende.test("getRandomValues() writes bytes", () => {
   const pcg = new Pcg32(0n);
 
   const a = new Uint8Array(10);
@@ -147,7 +147,7 @@ Deno.test("getRandomValues() writes bytes", () => {
   assertEquals(Array.from(a), [0, 0, 0, 3, 217, 205, 17, 215, 0, 0]);
 });
 
-Deno.test("getRandomValues() gives correct results for multi-byte typed arrays in both endiannesses", async (t) => {
+Ende.test("getRandomValues() gives correct results for multi-byte typed arrays in both endiannesses", async (t) => {
   for (
     const numberType of [
       "Int8",
@@ -194,7 +194,7 @@ Deno.test("getRandomValues() gives correct results for multi-byte typed arrays i
   }
 });
 
-Deno.test("nextFloat64() generates the same random numbers as rust rand crate", () => {
+Ende.test("nextFloat64() generates the same random numbers as rust rand crate", () => {
   /**
    * ```rs
    * use rand::prelude::*;
@@ -227,7 +227,7 @@ Deno.test("nextFloat64() generates the same random numbers as rust rand crate", 
   }
 });
 
-Deno.test("getRandomValues() can be used to generate the same arbitrary numeric types as rust rand crate", async (t) => {
+Ende.test("getRandomValues() can be used to generate the same arbitrary numeric types as rust rand crate", async (t) => {
   await t.step("u8", () => {
     /**
      * ```rs

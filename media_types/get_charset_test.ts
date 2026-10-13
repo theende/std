@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { getCharset } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "getCharset()",
   fn() {
     const fixtures = [

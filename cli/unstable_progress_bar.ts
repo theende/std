@@ -50,7 +50,7 @@ export interface ProgressBarFormatter {
 export interface ProgressBarOptions {
   /**
    * The {@link WritableStream} that will receive the progress bar reports.
-   * @default {Deno.stderr.writable}
+   * @default {Ende.stderr.writable}
    */
   writable?: WritableStream<Uint8Array>;
   /**
@@ -128,7 +128,7 @@ function clamp(value: number, min: number, max: number) {
  *     await delay(Math.random() * 200 | 0);
  *   }
  * }();
- * const writer = (await Deno.create("./_tmp/output.txt")).writable.getWriter();
+ * const writer = (await Ende.create("./_tmp/output.txt")).writable.getWriter();
  *
  * const bar = new ProgressBar({ max: 100_000 });
  *
@@ -213,7 +213,7 @@ export class ProgressBar {
     options: ProgressBarOptions,
   ) {
     const {
-      writable = Deno.stderr.writable,
+      writable = Ende.stderr.writable,
       value = 0,
       max,
       barLength = 50,

@@ -3,7 +3,7 @@
 import { assertEquals, assertNotStrictEquals } from "@std/assert";
 import { omit } from "./omit.ts";
 
-Deno.test({
+Ende.test({
   name: "omit() returns a new object from the provided object",
   fn() {
     const obj = { a: 5, b: 6, c: 7, d: 8 };
@@ -14,7 +14,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "omit() returns a new object from the provided object without the provided keys",
   fn() {
@@ -26,7 +26,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "omit() returns an empty object when the provided keys is empty",
   fn() {
     const obj = { a: 5, b: 6, c: 7, d: 8 };

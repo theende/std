@@ -10,7 +10,7 @@ import type { AssertTrue, IsExact } from "@std/testing/types";
 
 const BYTE_ORDER_MARK = "\ufeff";
 
-Deno.test({
+Ende.test({
   name: "parse() handles various inputs",
   async fn(t) {
     await t.step({
@@ -927,7 +927,7 @@ c"d,e`;
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() is correctly typed",
   fn() {
     // If no option is passed, defaults to string[][]

@@ -5,14 +5,14 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { SEPARATOR } from "./constants.ts";
 
-Deno.test("normalizeGlob() checks options.globstar", function () {
+Ende.test("normalizeGlob() checks options.globstar", function () {
   assertEquals(
     normalizeGlob(`**${SEPARATOR}..`, { globstar: true }),
     `**${SEPARATOR}..`,
   );
 });
 
-Deno.test("normalizeGlob() throws if it contains \\0 character", () => {
+Ende.test("normalizeGlob() throws if it contains \\0 character", () => {
   assertThrows(
     () => {
       posix.normalizeGlob("\0");
@@ -29,7 +29,7 @@ Deno.test("normalizeGlob() throws if it contains \\0 character", () => {
   );
 });
 
-Deno.test(
+Ende.test(
   "normalizeGlob() works as the same way as normalize if globstar option is false",
   () => {
     assertEquals(

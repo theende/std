@@ -3,7 +3,7 @@ import { assertEquals, assertRejects } from "@std/assert";
 import { delay } from "./delay.ts";
 import { deadline } from "./deadline.ts";
 
-Deno.test("deadline() returns fulfilled promise", async () => {
+Ende.test("deadline() returns fulfilled promise", async () => {
   const controller = new AbortController();
   const { signal } = controller;
   const p = delay(100, { signal })
@@ -14,7 +14,7 @@ Deno.test("deadline() returns fulfilled promise", async () => {
   controller.abort();
 });
 
-Deno.test("deadline() throws DOMException", async () => {
+Ende.test("deadline() throws DOMException", async () => {
   const controller = new AbortController();
   const { signal } = controller;
   const p = delay(1000, { signal })
@@ -28,7 +28,7 @@ Deno.test("deadline() throws DOMException", async () => {
   controller.abort();
 });
 
-Deno.test("deadline() throws when promise is rejected", async () => {
+Ende.test("deadline() throws when promise is rejected", async () => {
   const controller = new AbortController();
   const { signal } = controller;
   const p = delay(100, { signal })
@@ -44,7 +44,7 @@ Deno.test("deadline() throws when promise is rejected", async () => {
   controller.abort();
 });
 
-Deno.test("deadline() handles non-aborted signal", async () => {
+Ende.test("deadline() handles non-aborted signal", async () => {
   const controller = new AbortController();
   const { signal } = controller;
   const p = delay(100, { signal })
@@ -56,7 +56,7 @@ Deno.test("deadline() handles non-aborted signal", async () => {
   controller.abort();
 });
 
-Deno.test("deadline() handles aborted signal after delay", async () => {
+Ende.test("deadline() handles aborted signal after delay", async () => {
   const controller = new AbortController();
   const { signal } = controller;
   const p = delay(100, { signal })
@@ -73,7 +73,7 @@ Deno.test("deadline() handles aborted signal after delay", async () => {
   controller.abort();
 });
 
-Deno.test("deadline() handles already aborted signal", async () => {
+Ende.test("deadline() handles already aborted signal", async () => {
   const controller = new AbortController();
   const { signal } = controller;
   const p = delay(100, { signal })
@@ -89,7 +89,7 @@ Deno.test("deadline() handles already aborted signal", async () => {
   controller.abort();
 });
 
-Deno.test("deadline() supports numbers greater than Number.MAX_SAFE_INTEGER", async () => {
+Ende.test("deadline() supports numbers greater than Number.MAX_SAFE_INTEGER", async () => {
   const promise = await deadline(Promise.resolve("Hello"), Infinity);
   assertEquals(promise, "Hello");
 });

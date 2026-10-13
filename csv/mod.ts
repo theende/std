@@ -95,8 +95,8 @@
  * import { assertEquals } from "@std/assert";
  *
  * async function writeCsvToTempFile(): Promise<string> {
- *   const path = await Deno.makeTempFile();
- *   using file = await Deno.open(path, { write: true });
+ *   const path = await Ende.makeTempFile();
+ *   using file = await Ende.open(path, { write: true });
  *
  *   const readable = ReadableStream.from([
  *     { id: 1, name: "one" },
@@ -113,7 +113,7 @@
  * }
  *
  * const path = await writeCsvToTempFile();
- * const content = await Deno.readTextFile(path);
+ * const content = await Ende.readTextFile(path);
  * assertEquals(content, "id,name\r\n1,one\r\n2,two\r\n3,three\r\n");
  * ```
  *

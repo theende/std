@@ -4,7 +4,7 @@ import { assertThrows } from "../assert/throws.ts";
 import { extract } from "./toml.ts";
 import { assertEquals } from "@std/assert/equals";
 
-Deno.test("toml() extracts type error on invalid input", () => {
+Ende.test("toml() extracts type error on invalid input", () => {
   assertThrows(() => extract(""));
   assertThrows(() => extract("---"));
   assertThrows(() => extract(`---toml`));
@@ -15,7 +15,7 @@ Deno.test("toml() extracts type error on invalid input", () => {
   assertThrows(() => extract("---\nasdasdasd"));
 });
 
-Deno.test("toml() parses toml delineate by ---toml", () => {
+Ende.test("toml() parses toml delineate by ---toml", () => {
   const input = `---toml
 title = 'Three dashes followed by the format marks the spot'
 tags = ['toml', 'front-matter']
@@ -40,7 +40,7 @@ tags = ['toml', 'front-matter']
   assertEquals(actual, expected);
 });
 
-Deno.test("toml() parses toml delineate by +++", () => {
+Ende.test("toml() parses toml delineate by +++", () => {
   const input = `+++
 title = 'Three pluses followed by the format marks the spot'
 tags = ['toml', 'front-matter']
@@ -73,13 +73,13 @@ tags = ['toml', 'front-matter']
   );
 });
 
-Deno.test("extractToml() allows whitespaces after the header", () => {
+Ende.test("extractToml() allows whitespaces after the header", () => {
   assertEquals(extract("---toml  \nfoo = 0\n---\n").attrs, { foo: 0 });
   assertEquals(extract("+++  \nfoo = 0\n--- \n").attrs, { foo: 0 });
   assertEquals(extract("= toml =  \nfoo = 0\n---\n").attrs, { foo: 0 });
 });
 
-Deno.test("extractToml() handles empty frontMatter", () => {
+Ende.test("extractToml() handles empty frontMatter", () => {
   assertEquals(
     extract("---toml\n---"),
     { attrs: {}, body: "", frontMatter: "" },
@@ -94,7 +94,7 @@ Deno.test("extractToml() handles empty frontMatter", () => {
   );
 });
 
-Deno.test("extractToml() throws at missing newline before body", () => {
+Ende.test("extractToml() throws at missing newline before body", () => {
   assertThrows(
     () => extract('---toml\nfoo = "bar"\n---body'),
     TypeError,

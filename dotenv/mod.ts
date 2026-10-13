@@ -30,7 +30,7 @@
  * | `import "@std/dotenv/load"` | `ende run --env-file app.ts` |
  * | `load({ export: true })` / `loadSync({ export: true })` | `--env-file` |
  * | `load({ envPath: "./.env_prod" })` | `--env-file=.env_prod` |
- * | `load()` (read into an object, no export) | `parse(await Deno.readTextFile(".env"))` |
+ * | `load()` (read into an object, no export) | `parse(await Ende.readTextFile(".env"))` |
  *
  * Differences to be aware of:
  *
@@ -43,9 +43,9 @@
  *
  * let env: Record<string, string> = {};
  * try {
- *   env = parse(await Deno.readTextFile(".env"));
+ *   env = parse(await Ende.readTextFile(".env"));
  * } catch (e) {
- *   if (!(e instanceof Deno.errors.NotFound)) throw e;
+ *   if (!(e instanceof Ende.errors.NotFound)) throw e;
  * }
  * ```
  *
@@ -86,7 +86,7 @@ export interface LoadOptions {
 
   /**
    * Set to `true` to export all `.env` variables to the current processes
-   * environment. Variables are then accessible via `Deno.env.get(<key>)`.
+   * environment. Variables are then accessible via `Ende.env.get(<key>)`.
    *
    * @default {false}
    */
@@ -123,8 +123,8 @@ export function loadSync(
 
   if (_export) {
     for (const [key, value] of Object.entries(conf)) {
-      if (Deno.env.get(key) !== undefined) continue;
-      Deno.env.set(key, value);
+      if (Ende.env.get(key) !== undefined) continue;
+      Ende.env.set(key, value);
     }
   }
 
@@ -155,7 +155,7 @@ export function loadSync(
  * import { load } from "@std/dotenv";
  *
  * console.log(await load({ export: true })); // { GREETING: "hello world" }
- * console.log(Deno.env.get("GREETING")); // hello world
+ * console.log(Ende.env.get("GREETING")); // hello world
  * ```
  *
  * Run this with `ende run --allow-read --allow-env app.ts`.
@@ -172,7 +172,7 @@ export function loadSync(
  * // app.ts
  * import "@std/dotenv/load";
  *
- * console.log(Deno.env.get("GREETING")); // hello world
+ * console.log(Ende.env.get("GREETING")); // hello world
  * ```
  *
  * Run this with `ende run --allow-read --allow-env app.ts`.
@@ -193,7 +193,7 @@ export function loadSync(
  * |Option|Default|Description
  * |------|-------|-----------
  * |envPath|./.env|Path and filename of the `.env` file.  Use null to prevent the .env file from being loaded.
- * |export|false|When true, this will export all environment variables in the `.env` file to the process environment (e.g. for use by `Deno.env.get()`) but only if they are not already set.  If a variable is already in the process, the `.env` value is ignored.
+ * |export|false|When true, this will export all environment variables in the `.env` file to the process environment (e.g. for use by `Ende.env.get()`) but only if they are not already set.  If a variable is already in the process, the `.env` value is ignored.
  *
  * ### Example configuration
  *
@@ -277,8 +277,8 @@ export async function load(
 
   if (_export) {
     for (const [key, value] of Object.entries(conf)) {
-      if (Deno.env.get(key) !== undefined) continue;
-      Deno.env.set(key, value);
+      if (Ende.env.get(key) !== undefined) continue;
+      Ende.env.set(key, value);
     }
   }
 
@@ -289,9 +289,9 @@ function parseFileSync(
   filepath: string | URL,
 ): Record<string, string> {
   try {
-    return parse(Deno.readTextFileSync(filepath));
+    return parse(Ende.readTextFileSync(filepath));
   } catch (e) {
-    if (e instanceof Deno.errors.NotFound) return {};
+    if (e instanceof Ende.errors.NotFound) return {};
     throw e;
   }
 }
@@ -300,9 +300,9 @@ async function parseFile(
   filepath: string | URL,
 ): Promise<Record<string, string>> {
   try {
-    return parse(await Deno.readTextFile(filepath));
+    return parse(await Ende.readTextFile(filepath));
   } catch (e) {
-    if (e instanceof Deno.errors.NotFound) return {};
+    if (e instanceof Ende.errors.NotFound) return {};
     throw e;
   }
 }

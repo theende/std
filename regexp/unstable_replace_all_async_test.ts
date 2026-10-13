@@ -4,7 +4,7 @@ import { replaceAllAsync } from "./unstable_replace_all_async.ts";
 import { assertEquals } from "@std/assert";
 import { stub } from "@std/testing/mock";
 
-Deno.test("replaceAllAsync() replaces all occurrences of a pattern asynchronously", async () => {
+Ende.test("replaceAllAsync() replaces all occurrences of a pattern asynchronously", async () => {
   using _ = stub(
     globalThis,
     "fetch",

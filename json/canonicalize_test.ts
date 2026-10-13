@@ -5,7 +5,7 @@ import { canonicalize, canonicalizeToBytes } from "./canonicalize.ts";
 
 // RFC 8785 §3.2.2.1: Literals
 
-Deno.test("canonicalize() serializes literals", () => {
+Ende.test("canonicalize() serializes literals", () => {
   assertEquals(canonicalize(null), "null");
   assertEquals(canonicalize(true), "true");
   assertEquals(canonicalize(false), "false");
@@ -13,17 +13,17 @@ Deno.test("canonicalize() serializes literals", () => {
 
 // RFC 8785 §3.2.2.2: Strings
 
-Deno.test("canonicalize() serializes strings", () => {
+Ende.test("canonicalize() serializes strings", () => {
   assertEquals(canonicalize(""), '""');
   assertEquals(canonicalize("hello"), '"hello"');
 });
 
-Deno.test("canonicalize() escapes mandatory characters in strings", () => {
+Ende.test("canonicalize() escapes mandatory characters in strings", () => {
   assertEquals(canonicalize('a"b'), '"a\\"b"');
   assertEquals(canonicalize("a\\b"), '"a\\\\b"');
 });
 
-Deno.test("canonicalize() uses two-character escape sequences", () => {
+Ende.test("canonicalize() uses two-character escape sequences", () => {
   assertEquals(canonicalize("a\bb"), '"a\\bb"');
   assertEquals(canonicalize("a\fb"), '"a\\fb"');
   assertEquals(canonicalize("a\nb"), '"a\\nb"');
@@ -31,13 +31,13 @@ Deno.test("canonicalize() uses two-character escape sequences", () => {
   assertEquals(canonicalize("a\tb"), '"a\\tb"');
 });
 
-Deno.test("canonicalize() escapes other control characters as \\uXXXX", () => {
+Ende.test("canonicalize() escapes other control characters as \\uXXXX", () => {
   assertEquals(canonicalize("\x00"), '"\\u0000"');
   assertEquals(canonicalize("\x0f"), '"\\u000f"');
   assertEquals(canonicalize("\x1f"), '"\\u001f"');
 });
 
-Deno.test("canonicalize() does not escape forward slash", () => {
+Ende.test("canonicalize() does not escape forward slash", () => {
   assertEquals(canonicalize("a/b"), '"a/b"');
   assertEquals(
     canonicalize("https://example.com/path"),
@@ -45,7 +45,7 @@ Deno.test("canonicalize() does not escape forward slash", () => {
   );
 });
 
-Deno.test("canonicalize() preserves unicode characters without escaping", () => {
+Ende.test("canonicalize() preserves unicode characters without escaping", () => {
   assertEquals(canonicalize("こんにちは"), '"こんにちは"');
   assertEquals(canonicalize("€"), '"€"');
   assertEquals(canonicalize("🦕"), '"🦕"');
@@ -54,12 +54,12 @@ Deno.test("canonicalize() preserves unicode characters without escaping", () => 
 
 // RFC 8785 §3.2.2.3: Numbers
 
-Deno.test("canonicalize() serializes zero and negative zero", () => {
+Ende.test("canonicalize() serializes zero and negative zero", () => {
   assertEquals(canonicalize(0), "0");
   assertEquals(canonicalize(-0), "0"); // RFC 8785: -0 → "0"
 });
 
-Deno.test("canonicalize() serializes integers", () => {
+Ende.test("canonicalize() serializes integers", () => {
   assertEquals(canonicalize(1), "1");
   assertEquals(canonicalize(-1), "-1");
   assertEquals(canonicalize(123), "123");
@@ -68,7 +68,7 @@ Deno.test("canonicalize() serializes integers", () => {
   assertEquals(canonicalize(-9007199254740991), "-9007199254740991");
 });
 
-Deno.test("canonicalize() serializes decimals without trailing zeros", () => {
+Ende.test("canonicalize() serializes decimals without trailing zeros", () => {
   assertEquals(canonicalize(1.5), "1.5");
   assertEquals(canonicalize(-1.5), "-1.5");
   assertEquals(canonicalize(0.5), "0.5");
@@ -76,7 +76,7 @@ Deno.test("canonicalize() serializes decimals without trailing zeros", () => {
   assertEquals(canonicalize(10.0), "10");
 });
 
-Deno.test("canonicalize() uses ECMAScript number serialization (Appendix B)", () => {
+Ende.test("canonicalize() uses ECMAScript number serialization (Appendix B)", () => {
   // RFC 8785 Appendix B test vectors
   assertEquals(canonicalize(333333333.33333329), "333333333.3333333");
   assertEquals(canonicalize(1E30), "1e+30");
@@ -85,7 +85,7 @@ Deno.test("canonicalize() uses ECMAScript number serialization (Appendix B)", ()
   assertEquals(canonicalize(0.000000000000000000000000001), "1e-27");
 });
 
-Deno.test("canonicalize() uses exponential notation boundaries", () => {
+Ende.test("canonicalize() uses exponential notation boundaries", () => {
   assertEquals(canonicalize(1e20), "100000000000000000000");
   assertEquals(canonicalize(1e21), "1e+21");
   assertEquals(canonicalize(1e22), "1e+22");
@@ -94,7 +94,7 @@ Deno.test("canonicalize() uses exponential notation boundaries", () => {
   assertEquals(canonicalize(1e-10), "1e-10");
 });
 
-Deno.test("canonicalize() throws on non-finite numbers", () => {
+Ende.test("canonicalize() throws on non-finite numbers", () => {
   assertThrows(
     () => canonicalize(NaN),
     TypeError,
@@ -114,22 +114,22 @@ Deno.test("canonicalize() throws on non-finite numbers", () => {
 
 // RFC 8785 §3.2.3: Object Property Sorting
 
-Deno.test("canonicalize() handles empty object", () => {
+Ende.test("canonicalize() handles empty object", () => {
   assertEquals(canonicalize({}), "{}");
 });
 
-Deno.test("canonicalize() sorts object keys by UTF-16 code units", () => {
+Ende.test("canonicalize() sorts object keys by UTF-16 code units", () => {
   assertEquals(canonicalize({ z: 1, a: 2 }), '{"a":2,"z":1}');
   assertEquals(canonicalize({ c: 3, b: 2, a: 1 }), '{"a":1,"b":2,"c":3}');
   assertEquals(canonicalize({ a: 1, A: 2, "1": 3 }), '{"1":3,"A":2,"a":1}');
 });
 
-Deno.test("canonicalize() sorts unicode keys by UTF-16 code units", () => {
+Ende.test("canonicalize() sorts unicode keys by UTF-16 code units", () => {
   assertEquals(canonicalize({ "€": 1, "$": 2 }), '{"$":2,"€":1}');
   assertEquals(canonicalize({ "ö": 1, "o": 2 }), '{"o":2,"ö":1}');
 });
 
-Deno.test("canonicalize() sorts supplementary-plane keys by UTF-16 code units (RFC 8785 §3.2.3)", () => {
+Ende.test("canonicalize() sorts supplementary-plane keys by UTF-16 code units (RFC 8785 §3.2.3)", () => {
   // RFC 8785 §3.2.3 sorting vector: keys span ASCII, control chars, BMP, and
   // supplementary plane (surrogate pairs). Default sort matches UTF-16 order.
   const data = {
@@ -155,14 +155,14 @@ Deno.test("canonicalize() sorts supplementary-plane keys by UTF-16 code units (R
   );
 });
 
-Deno.test("canonicalize() orders BMP key before supplementary-plane key", () => {
+Ende.test("canonicalize() orders BMP key before supplementary-plane key", () => {
   assertEquals(
     canonicalize({ "\ud83d\ude00": 1, "a": 2 }),
     '{"a":2,"\ud83d\ude00":1}',
   );
 });
 
-Deno.test("canonicalize() handles keys requiring escaping", () => {
+Ende.test("canonicalize() handles keys requiring escaping", () => {
   assertEquals(
     canonicalize({ 'key"with"quotes': 1 }),
     '{"key\\"with\\"quotes":1}',
@@ -174,50 +174,50 @@ Deno.test("canonicalize() handles keys requiring escaping", () => {
   assertEquals(canonicalize({ "": 1 }), '{"":1}');
 });
 
-Deno.test("canonicalize() omits undefined properties", () => {
+Ende.test("canonicalize() omits undefined properties", () => {
   assertEquals(canonicalize({ a: 1, b: undefined, c: 3 }), '{"a":1,"c":3}');
 });
 
-Deno.test("canonicalize() handles object with all undefined properties", () => {
+Ende.test("canonicalize() handles object with all undefined properties", () => {
   assertEquals(
     canonicalize({ a: undefined, b: undefined, c: undefined }),
     "{}",
   );
 });
 
-Deno.test("canonicalize() recursively sorts nested objects", () => {
+Ende.test("canonicalize() recursively sorts nested objects", () => {
   const data = { b: { d: 4, c: 3 }, a: 1 };
   assertEquals(canonicalize(data), '{"a":1,"b":{"c":3,"d":4}}');
 });
 
 // Arrays
 
-Deno.test("canonicalize() handles empty array", () => {
+Ende.test("canonicalize() handles empty array", () => {
   assertEquals(canonicalize([]), "[]");
 });
 
-Deno.test("canonicalize() preserves array element order", () => {
+Ende.test("canonicalize() preserves array element order", () => {
   assertEquals(canonicalize([1, 2, 3]), "[1,2,3]");
   assertEquals(canonicalize([3, 1, 2]), "[3,1,2]");
   assertEquals(canonicalize(["a", "b", "c"]), '["a","b","c"]');
 });
 
-Deno.test("canonicalize() handles mixed type arrays", () => {
+Ende.test("canonicalize() handles mixed type arrays", () => {
   assertEquals(canonicalize([1, "two", true, null]), '[1,"two",true,null]');
 });
 
-Deno.test("canonicalize() handles nested arrays", () => {
+Ende.test("canonicalize() handles nested arrays", () => {
   assertEquals(canonicalize([[1, 2], [3, 4]]), "[[1,2],[3,4]]");
 });
 
-Deno.test("canonicalize() sorts objects within arrays", () => {
+Ende.test("canonicalize() sorts objects within arrays", () => {
   assertEquals(
     canonicalize([{ z: 1, a: 2 }, { y: 3, b: 4 }]),
     '[{"a":2,"z":1},{"b":4,"y":3}]',
   );
 });
 
-Deno.test("canonicalize() converts undefined array elements to null", () => {
+Ende.test("canonicalize() converts undefined array elements to null", () => {
   // deno-lint-ignore no-explicit-any
   assertEquals(canonicalize([1, undefined, 3] as any), "[1,null,3]");
   // deno-lint-ignore no-explicit-any
@@ -226,7 +226,7 @@ Deno.test("canonicalize() converts undefined array elements to null", () => {
   assertEquals(canonicalize([undefined, undefined] as any), "[null,null]");
 });
 
-Deno.test("canonicalize() handles sparse arrays", () => {
+Ende.test("canonicalize() handles sparse arrays", () => {
   const sparse = new Array(3);
   sparse[0] = 1;
   sparse[2] = 3;
@@ -234,7 +234,7 @@ Deno.test("canonicalize() handles sparse arrays", () => {
   assertEquals(canonicalize(sparse as any), "[1,null,3]");
 });
 
-Deno.test("canonicalize() handles nested undefined in arrays", () => {
+Ende.test("canonicalize() handles nested undefined in arrays", () => {
   // deno-lint-ignore no-explicit-any
   const nested = [{ a: 1 }, undefined, [undefined, 2]] as any;
   assertEquals(canonicalize(nested), '[{"a":1},null,[null,2]]');
@@ -242,7 +242,7 @@ Deno.test("canonicalize() handles nested undefined in arrays", () => {
 
 // RFC 8785 §3.2.1: No Whitespace
 
-Deno.test("canonicalize() produces output with no whitespace", () => {
+Ende.test("canonicalize() produces output with no whitespace", () => {
   const data = { array: [1, 2, 3], nested: { a: 1, b: 2 } };
   const result = canonicalize(data);
   assertEquals(result.includes(" "), false);
@@ -253,7 +253,7 @@ Deno.test("canonicalize() produces output with no whitespace", () => {
 
 // Circular Reference Detection
 
-Deno.test("canonicalize() throws on direct circular reference", () => {
+Ende.test("canonicalize() throws on direct circular reference", () => {
   // deno-lint-ignore no-explicit-any
   const obj: any = { a: 1 };
   obj.self = obj;
@@ -264,7 +264,7 @@ Deno.test("canonicalize() throws on direct circular reference", () => {
   );
 });
 
-Deno.test("canonicalize() throws on indirect circular reference", () => {
+Ende.test("canonicalize() throws on indirect circular reference", () => {
   // deno-lint-ignore no-explicit-any
   const a: any = { name: "a" };
   // deno-lint-ignore no-explicit-any
@@ -278,7 +278,7 @@ Deno.test("canonicalize() throws on indirect circular reference", () => {
   );
 });
 
-Deno.test("canonicalize() throws on deeply nested circular reference", () => {
+Ende.test("canonicalize() throws on deeply nested circular reference", () => {
   // deno-lint-ignore no-explicit-any
   const root: any = {
     level1: {
@@ -295,7 +295,7 @@ Deno.test("canonicalize() throws on deeply nested circular reference", () => {
   );
 });
 
-Deno.test("canonicalize() throws on circular reference in array", () => {
+Ende.test("canonicalize() throws on circular reference in array", () => {
   // deno-lint-ignore no-explicit-any
   const arr: any = [1, 2];
   arr.push(arr);
@@ -306,13 +306,13 @@ Deno.test("canonicalize() throws on circular reference in array", () => {
   );
 });
 
-Deno.test("canonicalize() allows sibling references (non-circular)", () => {
+Ende.test("canonicalize() allows sibling references (non-circular)", () => {
   const shared = { x: 1 };
   const result = canonicalize({ a: shared, b: shared });
   assertEquals(result, '{"a":{"x":1},"b":{"x":1}}');
 });
 
-Deno.test("canonicalize() allows same object in array siblings", () => {
+Ende.test("canonicalize() allows same object in array siblings", () => {
   const shared = { value: 42 };
   const result = canonicalize([shared, shared, shared]);
   assertEquals(result, '[{"value":42},{"value":42},{"value":42}]');
@@ -320,7 +320,7 @@ Deno.test("canonicalize() allows same object in array siblings", () => {
 
 // Complex Nested Structures
 
-Deno.test("canonicalize() handles deeply nested structures", () => {
+Ende.test("canonicalize() handles deeply nested structures", () => {
   const data = {
     z: {
       y: {
@@ -335,7 +335,7 @@ Deno.test("canonicalize() handles deeply nested structures", () => {
   );
 });
 
-Deno.test("canonicalize() handles very deep nesting", () => {
+Ende.test("canonicalize() handles very deep nesting", () => {
   type DeepObj = { value?: string; nested?: DeepObj };
   let deep: DeepObj = { value: "leaf" };
   for (let i = 0; i < 100; i++) {
@@ -348,7 +348,7 @@ Deno.test("canonicalize() handles very deep nesting", () => {
 
 // RFC 8785 Appendix E: Examples
 
-Deno.test("canonicalize() produces RFC 8785 Appendix E example output", () => {
+Ende.test("canonicalize() produces RFC 8785 Appendix E example output", () => {
   const input = {
     time: "2019-01-28T07:45:10Z",
     big: "055",
@@ -360,7 +360,7 @@ Deno.test("canonicalize() produces RFC 8785 Appendix E example output", () => {
   );
 });
 
-Deno.test("canonicalize() handles complex string with escaping", () => {
+Ende.test("canonicalize() handles complex string with escaping", () => {
   const input = "\u20ac$\u000F\u000aA''\u0042\"\\/";
   const result = canonicalize(input);
   assertEquals(result, '"€$\\u000f\\nA\'\'B\\"\\\\/"');
@@ -368,22 +368,22 @@ Deno.test("canonicalize() handles complex string with escaping", () => {
 
 // RFC 8785 §3.2.4: UTF-8 Generation
 
-Deno.test("canonicalizeToBytes() returns UTF-8 encoded bytes", () => {
+Ende.test("canonicalizeToBytes() returns UTF-8 encoded bytes", () => {
   const result = canonicalizeToBytes({ a: 1 });
   assertEquals(result, new TextEncoder().encode('{"a":1}'));
 });
 
-Deno.test("canonicalizeToBytes() handles unicode correctly", () => {
+Ende.test("canonicalizeToBytes() handles unicode correctly", () => {
   const result = canonicalizeToBytes({ emoji: "🦕" });
   assertEquals(result, new TextEncoder().encode('{"emoji":"🦕"}'));
 });
 
-Deno.test("canonicalizeToBytes() handles multi-byte characters", () => {
+Ende.test("canonicalizeToBytes() handles multi-byte characters", () => {
   const result = canonicalizeToBytes({ euro: "€", cjk: "日本語" });
   assertEquals(result, new TextEncoder().encode('{"cjk":"日本語","euro":"€"}'));
 });
 
-Deno.test("canonicalizeToBytes() throws on invalid input", () => {
+Ende.test("canonicalizeToBytes() throws on invalid input", () => {
   assertThrows(
     () => canonicalizeToBytes(NaN),
     TypeError,
@@ -393,7 +393,7 @@ Deno.test("canonicalizeToBytes() throws on invalid input", () => {
 
 // Determinism
 
-Deno.test("canonicalize() produces identical output regardless of key order", () => {
+Ende.test("canonicalize() produces identical output regardless of key order", () => {
   const obj1 = { action: "transfer", amount: 100, to: "alice" };
   const obj2 = { to: "alice", action: "transfer", amount: 100 };
   const obj3 = { amount: 100, to: "alice", action: "transfer" };

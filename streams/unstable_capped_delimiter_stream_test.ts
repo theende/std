@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { CappedDelimiterStream } from "./unstable_capped_delimiter_stream.ts";
 
-Deno.test("CappedDelimiterStream matching", async function () {
+Ende.test("CappedDelimiterStream matching", async function () {
   const input = Uint8Array.from(
     [0, 0, 1, 1, 1, 0, 0, 0, 0, 5, 5, 5, 5, 5, 2, 3, 3, 4, 6, 0, 0, 2, 3, 3],
   );
@@ -27,7 +27,7 @@ Deno.test("CappedDelimiterStream matching", async function () {
   assertEquals(actual, expected);
 });
 
-Deno.test("CappedDelimiterStream splitting", async function () {
+Ende.test("CappedDelimiterStream splitting", async function () {
   const input = Uint8Array.from(
     [1, 1, 1, 0, 0, 0, 0, 5, 5, 5, 5, 5, 2, 3, 3, 4, 6, 0, 0, 2, 0, 0, 0, 0],
   );

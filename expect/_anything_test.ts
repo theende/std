@@ -4,7 +4,7 @@ import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 import { fn } from "./fn.ts";
 
-Deno.test("expect.anything() as a parameter of toEqual()", () => {
+Ende.test("expect.anything() as a parameter of toEqual()", () => {
   expect(null).not.toEqual(expect.anything());
   expect(undefined).not.toEqual(expect.anything());
   expect(1).toEqual(expect.anything());
@@ -20,7 +20,7 @@ Deno.test("expect.anything() as a parameter of toEqual()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect.anything() as a parameter of toHaveBeenCalled()", () => {
+Ende.test("expect.anything() as a parameter of toHaveBeenCalled()", () => {
   const mockFn = fn();
   mockFn(3);
   expect(mockFn).toHaveBeenCalledWith(expect.anything());

@@ -12,7 +12,7 @@ function filterEntriesTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "filterEntries() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterEntries() handles empty input",
   fn() {
     filterEntriesTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterEntries() handles identity",
   fn() {
     filterEntriesTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterEntries() handles clean object",
   fn() {
     filterEntriesTest(
@@ -66,7 +66,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "filterEntries() handles filters",
   fn() {
     filterEntriesTest(

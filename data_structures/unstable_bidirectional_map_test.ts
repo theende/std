@@ -2,12 +2,12 @@
 import { assert, assertEquals } from "@std/assert";
 import { BidirectionalMap } from "./unstable_bidirectional_map.ts";
 
-Deno.test("BidirectionalMap is an instance of Map", () => {
+Ende.test("BidirectionalMap is an instance of Map", () => {
   const biMap = new BidirectionalMap();
   assert(biMap instanceof Map);
 });
 
-Deno.test("BidirectionalMap.set() removes values", () => {
+Ende.test("BidirectionalMap.set() removes values", () => {
   const map = new BidirectionalMap<number, string>();
   map.set(1, "one");
   map.set(2, "one");
@@ -18,7 +18,7 @@ Deno.test("BidirectionalMap.set() removes values", () => {
   assertEquals(map.getReverse("one"), 2);
 });
 
-Deno.test("BidirectionalMap.clear()", () => {
+Ende.test("BidirectionalMap.clear()", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -31,7 +31,7 @@ Deno.test("BidirectionalMap.clear()", () => {
   assertEquals(map.hasReverse(1), false);
 });
 
-Deno.test("BidirectionalMap.delete() removes the key-value pair", () => {
+Ende.test("BidirectionalMap.delete() removes the key-value pair", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -44,7 +44,7 @@ Deno.test("BidirectionalMap.delete() removes the key-value pair", () => {
   assertEquals(map.hasReverse(2), false);
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.delete() returns false if the key does not exist",
   () => {
     const map = new BidirectionalMap([
@@ -58,7 +58,7 @@ Deno.test(
   },
 );
 
-Deno.test("BidirectionalMap.deleteReverse() removes the value-key pair", () => {
+Ende.test("BidirectionalMap.deleteReverse() removes the value-key pair", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -71,7 +71,7 @@ Deno.test("BidirectionalMap.deleteReverse() removes the value-key pair", () => {
   assertEquals(map.hasReverse(2), false);
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.deleteReverse() returns false if the value does not exist",
   () => {
     const map = new BidirectionalMap([
@@ -85,7 +85,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.forEach() iterates over the key-value pairs",
   () => {
     const map = new BidirectionalMap([
@@ -106,7 +106,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.get() returns the value associated with the key",
   () => {
     const map = new BidirectionalMap([
@@ -121,7 +121,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.getReverse() returns the key associated with the value",
   () => {
     const map = new BidirectionalMap([
@@ -136,7 +136,7 @@ Deno.test(
   },
 );
 
-Deno.test("BidirectionalMap.has() returns true if the key exists", () => {
+Ende.test("BidirectionalMap.has() returns true if the key exists", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -149,7 +149,7 @@ Deno.test("BidirectionalMap.has() returns true if the key exists", () => {
   assertEquals(map.has("four"), false);
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.hasReverse() returns true if the value exists",
   () => {
     const map = new BidirectionalMap([
@@ -165,7 +165,7 @@ Deno.test(
   },
 );
 
-Deno.test("BidirectionalMap.set() adds a new key-value pair", () => {
+Ende.test("BidirectionalMap.set() adds a new key-value pair", () => {
   const map = new BidirectionalMap();
   map.set("one", 1);
   map.set("two", 2);
@@ -180,7 +180,7 @@ Deno.test("BidirectionalMap.set() adds a new key-value pair", () => {
   assertEquals(map.getReverse(3), "three");
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.set() updates the value if the key already exists",
   () => {
     const map = new BidirectionalMap();
@@ -193,7 +193,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.set() twice with the same key updates the value",
   () => {
     const map = new BidirectionalMap();
@@ -206,7 +206,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.set() returns the BidirectionalMap instance",
   () => {
     const map = new BidirectionalMap();
@@ -216,7 +216,7 @@ Deno.test(
   },
 );
 
-Deno.test("BidirectionalMap.size returns the number of key-value pairs", () => {
+Ende.test("BidirectionalMap.size returns the number of key-value pairs", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -227,7 +227,7 @@ Deno.test("BidirectionalMap.size returns the number of key-value pairs", () => {
   assertEquals(map.size, 4);
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.entries() returns an iterator of key-value pairs",
   () => {
     const map = new BidirectionalMap([
@@ -245,7 +245,7 @@ Deno.test(
   },
 );
 
-Deno.test("BidirectionalMap.keys() returns an iterator of keys", () => {
+Ende.test("BidirectionalMap.keys() returns an iterator of keys", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -256,7 +256,7 @@ Deno.test("BidirectionalMap.keys() returns an iterator of keys", () => {
   assertEquals(result, ["one", "two", "three"]);
 });
 
-Deno.test("BidirectionalMap.values() returns an iterator of values", () => {
+Ende.test("BidirectionalMap.values() returns an iterator of values", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
@@ -267,7 +267,7 @@ Deno.test("BidirectionalMap.values() returns an iterator of values", () => {
   assertEquals(result, [1, 2, 3]);
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap[Symbol.iterator]() returns an iterator of key-value pairs",
   () => {
     const map = new BidirectionalMap([
@@ -285,7 +285,7 @@ Deno.test(
   },
 );
 
-Deno.test("BidirectionalMap[Symbol.toStringTag] is 'BidirectionalMap'", () => {
+Ende.test("BidirectionalMap[Symbol.toStringTag] is 'BidirectionalMap'", () => {
   const map = new BidirectionalMap();
 
   assertEquals(map.toString(), "[object BidirectionalMap]");
@@ -295,7 +295,7 @@ Deno.test("BidirectionalMap[Symbol.toStringTag] is 'BidirectionalMap'", () => {
   );
 });
 
-Deno.test(
+Ende.test(
   "BidirectionalMap.get() have the same references as BidirectionalMap.getReverse()",
   () => {
     const key = { name: "Pīwakawaka" };
@@ -313,7 +313,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap constructor accepts iterables of key-value pairs",
   () => {
     const bidiFromArr = new BidirectionalMap([
@@ -324,7 +324,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "BidirectionalMap differentiates extant `undefined` from missing values, consistently with `Map`",
   async (t) => {
     let bidi: BidirectionalMap<number | undefined, number | undefined>;

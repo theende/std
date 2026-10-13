@@ -12,7 +12,7 @@ function unzipTest<T, U>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "unzip() handles no mutation",
   fn() {
     const zipped: Array<[number, boolean]> = [
@@ -30,7 +30,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "unzip() handles empty input",
   fn() {
     unzipTest(
@@ -40,7 +40,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "unzip() handles unzips",
   fn() {
     unzipTest(

@@ -10,8 +10,8 @@
  * ```ts ignore
  * import { toReadableStream, toWritableStream } from "@std/io";
  *
- * await toReadableStream(Deno.stdin)
- *   .pipeTo(toWritableStream(Deno.stdout));
+ * await toReadableStream(Ende.stdin)
+ *   .pipeTo(toWritableStream(Ende.stdout));
  * ```
  *
  * @module

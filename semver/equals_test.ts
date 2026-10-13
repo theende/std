@@ -3,7 +3,7 @@ import { assert, assertEquals } from "@std/assert";
 import { parse } from "./parse.ts";
 import { equals } from "./equals.ts";
 
-Deno.test({
+Ende.test({
   name: "equals()",
   fn: async (t) => {
     // [version1, version2]

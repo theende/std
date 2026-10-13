@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toBeTruthy()", () => {
+Ende.test("expect().toBeTruthy()", () => {
   expect(1).toBeTruthy();
   expect("hello").toBeTruthy();
   expect({}).toBeTruthy();
@@ -37,7 +37,7 @@ Deno.test("expect().toBeTruthy()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toBeTruthy() with custom error message message", () => {
+Ende.test("expect().toBeTruthy() with custom error message message", () => {
   const msg = "toBeTruthy Custom Error";
   expect(() => expect(0, msg).toBeTruthy()).toThrow(new RegExp(`^${msg}`));
   expect(() => expect({}, msg).not.toBeTruthy()).toThrow(new RegExp(`^${msg}`));

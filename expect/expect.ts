@@ -134,7 +134,7 @@ const matchers: Record<MatcherKey, Matcher> = {
  *  return "grapefruit";
  * }
  *
- * Deno.test("the best flavor is grapefruit", () => {
+ * Ende.test("the best flavor is grapefruit", () => {
  *  expect(bestLaCroixFlavor()).toBe("grapefruit");
  * });
  * ```
@@ -297,7 +297,7 @@ export function expect<T extends Expected = Expected>(
  *
  * expect.addEqualityTesters([areVolumesEqual]);
  *
- * Deno.test("are equal with different units", () => {
+ * Ende.test("are equal with different units", () => {
  *   expect(new Volume(1, "L")).toEqual(new Volume(1000, "mL"));
  * });
  * ```
@@ -370,7 +370,7 @@ expect.extend = setExtendMatchers as (newExtendMatchers: Matchers) => void;
  * ```ts
  * import { expect, fn } from "@std/expect";
  *
- * Deno.test("map calls its argument with a non-null argument", () => {
+ * Ende.test("map calls its argument with a non-null argument", () => {
  *   const mock = fn();
  *   [1].map((x) => mock(x));
  *   expect(mock).toHaveBeenCalledWith(expect.anything());
@@ -390,7 +390,7 @@ expect.anything = asymmetricMatchers.anything as () => ReturnType<
  * import { expect } from "@std/expect";
  *
  * class Cat {}
- * Deno.test("expect.any()", () => {
+ * Ende.test("expect.any()", () => {
  *   expect(new Cat()).toEqual(expect.any(Cat));
  *   expect("Hello").toEqual(expect.any(String));
  *   expect(1).toEqual(expect.any(Number));
@@ -419,7 +419,7 @@ expect.any = asymmetricMatchers.any as (
  * ```ts
  * import { expect } from "@std/expect";
  *
- * Deno.test("expect.arrayContaining() with array of numbers", () => {
+ * Ende.test("expect.arrayContaining() with array of numbers", () => {
  *   const arr = [1, 2, 3];
  *   expect([1, 2, 3, 4]).toEqual(expect.arrayContaining(arr));
  *   expect([4, 5, 6]).not.toEqual(expect.arrayContaining(arr));
@@ -444,7 +444,7 @@ expect.arrayContaining = asymmetricMatchers.arrayContaining as (
  * ```ts
  * import { expect } from "@std/expect";
  *
- * Deno.test("compare float in object properties", () => {
+ * Ende.test("compare float in object properties", () => {
  *   expect({
  *     title: "0.1 + 0.2",
  *     sum: 0.1 + 0.2,
@@ -467,7 +467,7 @@ expect.closeTo = asymmetricMatchers.closeTo as (
  * ```ts
  * import { expect } from "@std/expect";
  *
- * Deno.test("expect.stringContaining() with strings", () => {
+ * Ende.test("expect.stringContaining() with strings", () => {
  *   expect("https://deno.com/").toEqual(expect.stringContaining("deno"));
  *   expect("function").toEqual(expect.stringContaining("func"));
  *
@@ -493,7 +493,7 @@ expect.stringContaining = asymmetricMatchers.stringContaining as (
  * ```ts
  * import { expect } from "@std/expect";
  *
- * Deno.test("example", () => {
+ * Ende.test("example", () => {
  *   expect("deno_std").toEqual(expect.stringMatching(/std/));
  *   expect("0123456789").toEqual(expect.stringMatching(/\d+/));
  *   expect("e").not.toEqual(expect.stringMatching(/\s/));
@@ -552,7 +552,7 @@ expect.assertions = assertions as (num: number) => void;
  * ```ts
  * import { expect } from "@std/expect";
  *
- * Deno.test("example", () => {
+ * Ende.test("example", () => {
  *   expect({ bar: 'baz' }).toEqual(expect.objectContaining({ bar: 'baz'}));
  *   expect({ bar: 'baz' }).not.toEqual(expect.objectContaining({ foo: 'bar'}));
  * });
@@ -581,22 +581,22 @@ expect.objectContaining = asymmetricMatchers.objectContaining as (
  * ```ts
  * import { expect } from "@std/expect";
  *
- * Deno.test("expect.not.arrayContaining", () => {
+ * Ende.test("expect.not.arrayContaining", () => {
  *   const expected = ["Samantha"];
  *   expect(["Alice", "Bob", "Eve"]).toEqual(expect.not.arrayContaining(expected));
  * });
  *
- * Deno.test("expect.not.objectContaining", () => {
+ * Ende.test("expect.not.objectContaining", () => {
  *   const expected = { foo: "bar" };
  *   expect({ bar: "baz" }).toEqual(expect.not.objectContaining(expected));
  * });
  *
- * Deno.test("expect.not.stringContaining", () => {
+ * Ende.test("expect.not.stringContaining", () => {
  *   const expected = "Hello world!";
  *   expect("How are you?").toEqual(expect.not.stringContaining(expected));
  * });
  *
- * Deno.test("expect.not.stringMatching", () => {
+ * Ende.test("expect.not.stringMatching", () => {
  *   const expected = /Hello world!/;
  *   expect("How are you?").toEqual(expect.not.stringMatching(expected));
  * });
@@ -637,7 +637,7 @@ expect.addSnapshotSerializer = addSerializer as (
  * ```ts ignore
  * import { expect } from "@std/expect";
  *
- * Deno.test("my test", () => {
+ * Ende.test("my test", () => {
  *   expect.setState({
  *     currentTestName: "my test",
  *     testPath: import.meta.url,

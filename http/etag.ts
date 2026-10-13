@@ -17,7 +17,7 @@
 import { encodeBase64 as base64Encode } from "@std/encoding/base64";
 
 /**
- * Just the part of {@linkcode Deno.FileInfo} that is required to calculate an `ETag`,
+ * Just the part of {@linkcode Ende.FileInfo} that is required to calculate an `ETag`,
  * so partial or user generated file information can be passed.
  */
 export interface FileInfo {
@@ -130,12 +130,12 @@ export async function eTag(
  * import { eTag } from "@std/http/etag";
  * import { assert } from "@std/assert";
  *
- * const fileInfo = await Deno.stat("README.md");
+ * const fileInfo = await Ende.stat("README.md");
  *
  * const etag = await eTag(fileInfo);
  * assert(etag);
  *
- * using file = await Deno.open("README.md");
+ * using file = await Ende.open("README.md");
  *
  * const res = new Response(file.readable, { headers: { etag } });
  * ```
@@ -185,7 +185,7 @@ const COMMA_REGEXP = /\s*,\s*/;
  *
  * const body = "hello deno!";
  *
- * Deno.serve(async (req) => {
+ * Ende.serve(async (req) => {
  *   const ifMatchValue = req.headers.get("if-match");
  *   const etag = await eTag(body);
  *   assert(etag);
@@ -233,7 +233,7 @@ export function ifMatch(
  *
  * const body = "hello deno!";
  *
- * Deno.serve(async (req) => {
+ * Ende.serve(async (req) => {
  *   const ifNoneMatchValue = req.headers.get("if-none-match");
  *   const etag = await eTag(body);
  *   assert(etag);

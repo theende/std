@@ -5,7 +5,7 @@ import { parse } from "./parse.ts";
 import type { ReleaseType } from "./types.ts";
 import { difference } from "./difference.ts";
 
-Deno.test("difference()", async (t) => {
+Ende.test("difference()", async (t) => {
   const versions: [string, string, ReleaseType | undefined][] = [
     ["1.2.3", "0.2.3", "major"],
     ["1.4.5", "0.2.3", "major"],

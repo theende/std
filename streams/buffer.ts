@@ -96,7 +96,7 @@ export class Buffer {
    * import { Buffer } from "@std/streams/buffer";
    *
    * const buf = new Buffer();
-   * await buf.readable.pipeTo(Deno.stdout.writable);
+   * await buf.readable.pipeTo(Ende.stdout.writable);
    * ```
    */
   get readable(): ReadableStream<Uint8Array> {
@@ -120,7 +120,7 @@ export class Buffer {
    * import { Buffer } from "@std/streams/buffer";
    *
    * const buf = new Buffer();
-   * await Deno.stdin.readable.pipeTo(buf.writable);
+   * await Ende.stdin.readable.pipeTo(buf.writable);
    * ```
    */
   get writable(): WritableStream<Uint8Array> {
@@ -230,7 +230,7 @@ export class Buffer {
    * const buf = new Buffer(array.buffer);
    * assert(!buf.empty());
    * // Read the content out of the buffer
-   * await buf.readable.pipeTo(Deno.stdout.writable);
+   * await buf.readable.pipeTo(Ende.stdout.writable);
    * // The buffer is now empty
    * assert(buf.empty());
    * ```
@@ -263,7 +263,7 @@ export class Buffer {
    * const buf = new Buffer(array.buffer);
    * assertEquals(buf.length, 1);
    * // Read the content out of the buffer
-   * await buf.readable.pipeTo(Deno.stdout.writable);
+   * await buf.readable.pipeTo(Ende.stdout.writable);
    * // The length is now 0
    * assertEquals(buf.length, 0);
    * ```

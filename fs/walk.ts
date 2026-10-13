@@ -105,7 +105,7 @@ export type { WalkEntry };
  *
  * @param root The root directory to start the walk from, as a string or URL.
  * @param options The options for the walk.
- * @throws {Deno.errors.NotFound} If the root directory does not exist.
+ * @throws {Ende.errors.NotFound} If the root directory does not exist.
  *
  * @returns An async iterable iterator that yields the walk entry objects.
  *
@@ -475,7 +475,7 @@ export async function* walk(
   if (maxDepth < 1 || !include(root, undefined, undefined, skip)) {
     return;
   }
-  for await (const entry of Deno.readDir(root)) {
+  for await (const entry of Ende.readDir(root)) {
     let path = join(root, entry.name);
 
     let { isSymlink, isDirectory } = entry;
@@ -487,14 +487,14 @@ export async function* walk(
         }
         continue;
       }
-      const realPath = await Deno.realPath(path);
+      const realPath = await Ende.realPath(path);
       if (canonicalize) {
         path = realPath;
       }
       // Caveat emptor: don't assume |path| is not a symlink. realpath()
       // resolves symlinks but another process can replace the file system
       // entity with a different type of entity before we call lstat().
-      ({ isSymlink, isDirectory } = await Deno.lstat(realPath));
+      ({ isSymlink, isDirectory } = await Ende.lstat(realPath));
     }
 
     if (isSymlink || isDirectory) {
@@ -904,7 +904,7 @@ export function* walkSync(
   if (maxDepth < 1 || !include(root, undefined, undefined, skip)) {
     return;
   }
-  const entries = Deno.readDirSync(root);
+  const entries = Ende.readDirSync(root);
   for (const entry of entries) {
     let path = join(root, entry.name);
 
@@ -917,14 +917,14 @@ export function* walkSync(
         }
         continue;
       }
-      const realPath = Deno.realPathSync(path);
+      const realPath = Ende.realPathSync(path);
       if (canonicalize) {
         path = realPath;
       }
       // Caveat emptor: don't assume |path| is not a symlink. realpath()
       // resolves symlinks but another process can replace the file system
       // entity with a different type of entity before we call lstat().
-      ({ isSymlink, isDirectory } = Deno.lstatSync(realPath));
+      ({ isSymlink, isDirectory } = Ende.lstatSync(realPath));
     }
 
     if (isSymlink || isDirectory) {

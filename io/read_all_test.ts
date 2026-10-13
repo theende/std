@@ -6,7 +6,7 @@ import { Buffer } from "./buffer.ts";
 import { init } from "./_test_common.ts";
 import type { Reader, ReaderSync } from "./types.ts";
 
-Deno.test("readAll()", async () => {
+Ende.test("readAll()", async () => {
   const testBytes = init();
   assert(testBytes);
   const reader = new Buffer(testBytes.buffer);
@@ -14,7 +14,7 @@ Deno.test("readAll()", async () => {
   assertEquals(testBytes, actualBytes);
 });
 
-Deno.test("readAllSync()", () => {
+Ende.test("readAllSync()", () => {
   const testBytes = init();
   assert(testBytes);
   const reader = new Buffer(testBytes.buffer);
@@ -22,7 +22,7 @@ Deno.test("readAllSync()", () => {
   assertEquals(testBytes, actualBytes);
 });
 
-Deno.test("readAll() and readAllSync() can read slow buffer correctly", async () => {
+Ende.test("readAll() and readAllSync() can read slow buffer correctly", async () => {
   class SlowBuffer implements Reader, ReaderSync {
     #remaining: Uint8Array;
 

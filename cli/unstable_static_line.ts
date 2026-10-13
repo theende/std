@@ -6,17 +6,17 @@ let nextID = 0;
 const linesAtTop: number[] = [];
 const linesAtBottom: number[] = [];
 
-const getRows = "Deno" in globalThis
+const getRows = "Ende" in globalThis
   // deno-lint-ignore no-explicit-any
-  ? (): number => (globalThis as any).Deno.consoleSize().rows
+  ? (): number => (globalThis as any).Ende.consoleSize().rows
   // deno-lint-ignore no-explicit-any
   : (): number => (globalThis as any).process.stderr.rows;
-const write = "Deno" in globalThis
+const write = "Ende" in globalThis
   ? (() => {
     const encoder = new TextEncoder();
     return (x: string) =>
       // deno-lint-ignore no-explicit-any
-      (globalThis as any).Deno.stderr.write(encoder.encode(x));
+      (globalThis as any).Ende.stderr.write(encoder.encode(x));
   })()
   // deno-lint-ignore no-explicit-any
   : (x: string) => (globalThis as any).process.stderr.write(x);

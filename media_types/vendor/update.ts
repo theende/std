@@ -11,4 +11,4 @@ const result =
 // This module is browser compatible.
 
 export default ${db.slice(0, -1)} as const;`;
-await Deno.writeTextFile(new URL("./db.ts", import.meta.url), result);
+await Ende.writeTextFile(new URL("./db.ts", import.meta.url), result);

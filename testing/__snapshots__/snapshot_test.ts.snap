@@ -483,7 +483,7 @@ Snapshot Test ... FAILED (--ms)
 
  ERRORS 
 error: PermissionDenied: Missing write access to snapshot file (file://<path>). This is required because assertSnapshot was called in update mode. Please pass the --allow-write flag.
-        throw new Deno.errors.PermissionDenied(
+        throw new Ende.errors.PermissionDenied(
               ^
  FAILURES 
 

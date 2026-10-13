@@ -119,7 +119,7 @@ export const DOUBLE_WIDTH = "\x1b#6";
  *
  * console.log(
  *   Ansi.SAVE_CURSOR +
- *     Ansi.setCursorPosition(Deno.consoleSize().rows, 1) +
+ *     Ansi.setCursorPosition(Ende.consoleSize().rows, 1) +
  *     Ansi.ERASE_LINE +
  *     "Hello World!" +
  *     Ansi.RESTORE_CURSOR,
@@ -147,7 +147,7 @@ export const SAVE_CURSOR = "\x1b7";
  *
  * console.log(
  *   Ansi.SAVE_CURSOR +
- *     Ansi.setCursorPosition(Deno.consoleSize().rows) +
+ *     Ansi.setCursorPosition(Ende.consoleSize().rows) +
  *     Ansi.ERASE_LINE +
  *     "Hello World!" +
  *     Ansi.RESTORE_CURSOR,

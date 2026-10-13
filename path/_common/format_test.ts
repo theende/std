@@ -3,7 +3,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { _format, assertArg } from "./format.ts";
 
-Deno.test("_format()", () => {
+Ende.test("_format()", () => {
   assertEquals(_format("", {}), "");
   assertEquals(_format("", { root: "/" }), "/");
   assertEquals(_format("", { dir: "/foo/bar" }), "/foo/bar");
@@ -26,13 +26,13 @@ Deno.test("_format()", () => {
   );
 });
 
-Deno.test("assertArg()", () => {
+Ende.test("assertArg()", () => {
   assertEquals(assertArg({}), undefined);
   assertEquals(assertArg({ root: "/" }), undefined);
   assertEquals(assertArg({ dir: "/foo/bar" }), undefined);
 });
 
-Deno.test("assertArg() throws", () => {
+Ende.test("assertArg() throws", () => {
   assertThrows(
     // @ts-expect-error - testing invalid input
     () => assertArg(null),

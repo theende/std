@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { isDeno } from "./_utils.ts";
+import { isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 import { open, openSync } from "./unstable_open.ts";
 import type { FsFile } from "./unstable_types.ts";
@@ -23,8 +23,8 @@ import type { FsFile } from "./unstable_types.ts";
  * @returns A promise that resolves to a {@linkcode FsFile} instance.
  */
 export async function create(path: string | URL): Promise<FsFile> {
-  if (isDeno) {
-    return Deno.create(path);
+  if (isEnde) {
+    return Ende.create(path);
   } else {
     try {
       return await open(path, { create: true, write: true, truncate: true });
@@ -52,8 +52,8 @@ export async function create(path: string | URL): Promise<FsFile> {
  * @returns A {@linkcode FsFile} instance.
  */
 export function createSync(path: string | URL): FsFile {
-  if (isDeno) {
-    return Deno.createSync(path);
+  if (isEnde) {
+    return Ende.createSync(path);
   } else {
     try {
       return openSync(path, { create: true, write: true, truncate: true });

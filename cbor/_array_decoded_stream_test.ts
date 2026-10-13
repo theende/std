@@ -6,7 +6,7 @@ import { random } from "./_common_test.ts";
 import { encodeCbor } from "./encode_cbor.ts";
 import { CborSequenceDecoderStream } from "./sequence_decoder_stream.ts";
 
-Deno.test("CborArrayDecodedStream() being consumed", async () => {
+Ende.test("CborArrayDecodedStream() being consumed", async () => {
   const size = random(0, 24);
 
   const reader = ReadableStream.from([encodeCbor(new Array(size).fill(0))])
@@ -21,7 +21,7 @@ Deno.test("CborArrayDecodedStream() being consumed", async () => {
   reader.releaseLock();
 });
 
-Deno.test("CborArrayDecodedStream() being cancelled", async () => {
+Ende.test("CborArrayDecodedStream() being cancelled", async () => {
   const size = random(0, 24);
   const reader = ReadableStream.from([
     encodeCbor(new Array(size).fill(0)),

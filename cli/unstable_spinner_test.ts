@@ -6,7 +6,7 @@ import { FakeTime } from "@std/testing/time";
 
 const decoder = new TextDecoder();
 
-Deno.test("Spinner can start and stop", async () => {
+Ende.test("Spinner can start and stop", async () => {
   try {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m Loading...",
@@ -28,7 +28,7 @@ Deno.test("Spinner can start and stop", async () => {
     const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
     stub(
-      Deno.stdout,
+      Ende.stdout,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -48,7 +48,7 @@ Deno.test("Spinner can start and stop", async () => {
   }
 });
 
-Deno.test("Spinner constructor accepts spinner", async () => {
+Ende.test("Spinner constructor accepts spinner", async () => {
   try {
     const expectedOutput = [
       "\r\x1b[K0\x1b[0m ",
@@ -70,7 +70,7 @@ Deno.test("Spinner constructor accepts spinner", async () => {
     const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
     stub(
-      Deno.stdout,
+      Ende.stdout,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -92,7 +92,7 @@ Deno.test("Spinner constructor accepts spinner", async () => {
   }
 });
 
-Deno.test("Spinner constructor accepts message", async () => {
+Ende.test("Spinner constructor accepts message", async () => {
   try {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m Spinning with Deno 🦕",
@@ -107,7 +107,7 @@ Deno.test("Spinner constructor accepts message", async () => {
     const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
     stub(
-      Deno.stdout,
+      Ende.stdout,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -127,7 +127,7 @@ Deno.test("Spinner constructor accepts message", async () => {
   }
 });
 
-Deno.test("Spinner constructor accepts interval", async () => {
+Ende.test("Spinner constructor accepts interval", async () => {
   try {
     using time = new FakeTime();
     const expectedOutput = [
@@ -141,7 +141,7 @@ Deno.test("Spinner constructor accepts interval", async () => {
     const actualOutput: string[] = [];
 
     stub(
-      Deno.stdout,
+      Ende.stdout,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -160,7 +160,7 @@ Deno.test("Spinner constructor accepts interval", async () => {
   }
 });
 
-Deno.test("Spinner constructor accepts output", async () => {
+Ende.test("Spinner constructor accepts output", async () => {
   try {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m ",
@@ -182,7 +182,7 @@ Deno.test("Spinner constructor accepts output", async () => {
     const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
     stub(
-      Deno.stderr,
+      Ende.stderr,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -192,7 +192,7 @@ Deno.test("Spinner constructor accepts output", async () => {
       },
     );
 
-    const spinner = new Spinner({ output: Deno.stderr });
+    const spinner = new Spinner({ output: Ende.stderr });
     spinner.start();
     await promise;
     spinner.stop();
@@ -202,7 +202,7 @@ Deno.test("Spinner constructor accepts output", async () => {
   }
 });
 
-Deno.test("Spinner constructor accepts each color", async (t) => {
+Ende.test("Spinner constructor accepts each color", async (t) => {
   await t.step("black", async () => {
     try {
       const expectedOutput = [
@@ -217,7 +217,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -252,7 +252,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -287,7 +287,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -322,7 +322,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -357,7 +357,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -392,7 +392,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -427,7 +427,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -462,7 +462,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -497,7 +497,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
       const promise = new Promise<void>((resolve) => resolvePromise = resolve);
 
       stub(
-        Deno.stdout,
+        Ende.stdout,
         "writeSync",
         (data: Uint8Array) => {
           const output = decoder.decode(data);
@@ -520,7 +520,7 @@ Deno.test("Spinner constructor accepts each color", async (t) => {
   });
 });
 
-Deno.test("Spinner.color can set each color", async () => {
+Ende.test("Spinner.color can set each color", async () => {
   try {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m ",
@@ -536,7 +536,7 @@ Deno.test("Spinner.color can set each color", async () => {
     const spinner = new Spinner();
 
     stub(
-      Deno.stdout,
+      Ende.stdout,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -556,7 +556,7 @@ Deno.test("Spinner.color can set each color", async () => {
   }
 });
 
-Deno.test("Spinner.color can get each color", () => {
+Ende.test("Spinner.color can get each color", () => {
   const spinner = new Spinner();
 
   spinner.color = "black";
@@ -587,7 +587,7 @@ Deno.test("Spinner.color can get each color", () => {
   assertEquals(spinner.color, "\u001b[90m");
 });
 
-Deno.test("Spinner.message can be updated", async () => {
+Ende.test("Spinner.message can be updated", async () => {
   try {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m One dino 🦕",
@@ -603,7 +603,7 @@ Deno.test("Spinner.message can be updated", async () => {
     const spinner = new Spinner({ message: "One dino 🦕" });
 
     stub(
-      Deno.stdout,
+      Ende.stdout,
       "writeSync",
       (data: Uint8Array) => {
         const output = decoder.decode(data);
@@ -623,7 +623,7 @@ Deno.test("Spinner.message can be updated", async () => {
   }
 });
 
-Deno.test("Spinner handles multiple start() calls", () => {
+Ende.test("Spinner handles multiple start() calls", () => {
   const spinner = new Spinner();
 
   spinner.start();
@@ -631,7 +631,7 @@ Deno.test("Spinner handles multiple start() calls", () => {
   spinner.stop();
 });
 
-Deno.test("Spinner handles multiple stop() calls", () => {
+Ende.test("Spinner handles multiple stop() calls", () => {
   const spinner = new Spinner();
 
   spinner.start();

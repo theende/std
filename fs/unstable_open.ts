@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, getNodeUtil, isDeno } from "./_utils.ts";
+import { getNodeFs, getNodeUtil, isEnde } from "./_utils.ts";
 import { getOpenFsFlag } from "./_get_fs_flag.ts";
 import { mapError } from "./_map_error.ts";
 import type { FsFile } from "./unstable_types.ts";
@@ -104,8 +104,8 @@ export async function open(
   path: string | URL,
   options?: OpenOptions,
 ): Promise<FsFile> {
-  if (isDeno) {
-    return Deno.open(path, options);
+  if (isEnde) {
+    return Ende.open(path, options);
   } else {
     const {
       read = true,
@@ -170,8 +170,8 @@ export async function open(
  * @returns A {@linkcode FsFile} instance.
  */
 export function openSync(path: string | URL, options?: OpenOptions): FsFile {
-  if (isDeno) {
-    return Deno.openSync(path, options);
+  if (isEnde) {
+    return Ende.openSync(path, options);
   } else {
     const {
       read = true,

@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { sortBy } from "./sort_by.ts";
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles no mutation",
   fn() {
     const array = ["a", "abc", "ba"];
@@ -13,7 +13,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() calls the selector function once",
   fn() {
     let callCount = 0;
@@ -27,14 +27,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles empty input",
   fn() {
     assertEquals(sortBy([], () => 5), []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles single element",
   fn() {
     const single = [{ value: 42 }];
@@ -42,7 +42,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles two elements",
   fn() {
     assertEquals(sortBy([2, 1], (it) => it), [1, 2]);
@@ -50,14 +50,14 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles identity selector",
   fn() {
     assertEquals(sortBy([2, 3, 1], (it) => it), [1, 2, 3]);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles stable sort",
   fn() {
     assertEquals(
@@ -96,7 +96,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles special number values",
   fn() {
     assertEquals(
@@ -162,7 +162,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles invalid dates via getTime",
   fn() {
     // Use .getTime() to get numeric NaN which triggers proper NaN handling
@@ -179,7 +179,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles sortings",
   fn() {
     const testArray = [
@@ -231,7 +231,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles desc ordering",
   fn() {
     assertEquals(
@@ -255,7 +255,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles explicit asc ordering",
   fn() {
     assertEquals(
@@ -265,7 +265,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() works with iterators",
   fn() {
     const set = new Set([10, 312, 99, 5.45, 100, -3, 4.6]);
@@ -298,7 +298,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() works with generators",
   fn() {
     function* gen() {
@@ -314,7 +314,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() handles large arrays",
   fn() {
     const large = Array.from(
@@ -332,7 +332,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "sortBy() passes index to selector",
   fn() {
     assertEquals(sortBy([2, 3, 1], (_, index) => -index), [1, 3, 2]);

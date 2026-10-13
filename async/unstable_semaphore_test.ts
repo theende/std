@@ -23,24 +23,24 @@ async function assertBlocks(
   assertFalse(blocked);
 }
 
-Deno.test("Semaphore constructor throws for non-positive max", () => {
+Ende.test("Semaphore constructor throws for non-positive max", () => {
   assertThrows(() => new Semaphore(0), TypeError);
   assertThrows(() => new Semaphore(-1), TypeError);
 });
 
-Deno.test("Semaphore constructor throws for non-integer max", () => {
+Ende.test("Semaphore constructor throws for non-integer max", () => {
   assertThrows(() => new Semaphore(NaN), TypeError);
   assertThrows(() => new Semaphore(Infinity), TypeError);
   assertThrows(() => new Semaphore(1.5), TypeError);
 });
 
-Deno.test("Semaphore constructor defaults to 1", async () => {
+Ende.test("Semaphore constructor defaults to 1", async () => {
   const sem = new Semaphore();
   await sem.acquire();
   await assertBlocks(sem.acquire(), () => sem.release());
 });
 
-Deno.test("Semaphore.acquire() blocks when no permits available", async () => {
+Ende.test("Semaphore.acquire() blocks when no permits available", async () => {
   const sem = new Semaphore(2);
   await sem.acquire();
   await sem.acquire();
@@ -48,7 +48,7 @@ Deno.test("Semaphore.acquire() blocks when no permits available", async () => {
   await assertBlocks(sem.acquire(), () => sem.release());
 });
 
-Deno.test("Semaphore.acquire() resolves waiters in FIFO order", async () => {
+Ende.test("Semaphore.acquire() resolves waiters in FIFO order", async () => {
   const sem = new Semaphore(1);
   await sem.acquire();
   const order: number[] = [];
@@ -64,13 +64,13 @@ Deno.test("Semaphore.acquire() resolves waiters in FIFO order", async () => {
   assertEquals(order, [1, 2, 3]);
 });
 
-Deno.test("Semaphore.acquire() returns Disposable that releases on dispose", async () => {
+Ende.test("Semaphore.acquire() returns Disposable that releases on dispose", async () => {
   const sem = new Semaphore(1);
   const permit = await sem.acquire();
   await assertBlocks(sem.acquire(), () => permit[Symbol.dispose]());
 });
 
-Deno.test("Semaphore.tryAcquire() returns Disposable when permit available", async () => {
+Ende.test("Semaphore.tryAcquire() returns Disposable when permit available", async () => {
   const sem = new Semaphore(1);
   const permit = sem.tryAcquire();
   assertExists(permit);
@@ -78,14 +78,14 @@ Deno.test("Semaphore.tryAcquire() returns Disposable when permit available", asy
   await assertBlocks(sem.acquire(), () => permit[Symbol.dispose]());
 });
 
-Deno.test("Semaphore.tryAcquire() returns undefined when no permits available", async () => {
+Ende.test("Semaphore.tryAcquire() returns undefined when no permits available", async () => {
   const sem = new Semaphore(1);
   await sem.acquire();
   const permit = sem.tryAcquire();
   assertEquals(permit, undefined);
 });
 
-Deno.test("Semaphore.release() ignores extra releases beyond max", async () => {
+Ende.test("Semaphore.release() ignores extra releases beyond max", async () => {
   const sem = new Semaphore(2);
   // Release without acquire - should be ignored
   sem.release();

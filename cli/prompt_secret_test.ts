@@ -7,10 +7,10 @@ import { restore, stub } from "@std/testing/mock";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-Deno.test("promptSecret() handles CR", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles CR", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -22,7 +22,7 @@ Deno.test("promptSecret() handles CR", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -38,7 +38,7 @@ Deno.test("promptSecret() handles CR", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -54,10 +54,10 @@ Deno.test("promptSecret() handles CR", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles LF", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles LF", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -69,7 +69,7 @@ Deno.test("promptSecret() handles LF", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -85,7 +85,7 @@ Deno.test("promptSecret() handles LF", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -101,10 +101,10 @@ Deno.test("promptSecret() handles LF", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles input", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles input", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -124,7 +124,7 @@ Deno.test("promptSecret() handles input", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -144,7 +144,7 @@ Deno.test("promptSecret() handles input", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -161,10 +161,10 @@ Deno.test("promptSecret() handles input", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles DEL", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles DEL", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -188,7 +188,7 @@ Deno.test("promptSecret() handles DEL", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -210,7 +210,7 @@ Deno.test("promptSecret() handles DEL", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -227,10 +227,10 @@ Deno.test("promptSecret() handles DEL", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles BS", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles BS", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -254,7 +254,7 @@ Deno.test("promptSecret() handles BS", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -276,7 +276,7 @@ Deno.test("promptSecret() handles BS", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -293,10 +293,10 @@ Deno.test("promptSecret() handles BS", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles clear option", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles clear option", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -316,7 +316,7 @@ Deno.test("promptSecret() handles clear option", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -336,7 +336,7 @@ Deno.test("promptSecret() handles clear option", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -355,10 +355,10 @@ Deno.test("promptSecret() handles clear option", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles mask option", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles mask option", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -378,7 +378,7 @@ Deno.test("promptSecret() handles mask option", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -398,7 +398,7 @@ Deno.test("promptSecret() handles mask option", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -415,10 +415,10 @@ Deno.test("promptSecret() handles mask option", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles empty mask option", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles empty mask option", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -430,7 +430,7 @@ Deno.test("promptSecret() handles empty mask option", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -450,7 +450,7 @@ Deno.test("promptSecret() handles empty mask option", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -467,16 +467,16 @@ Deno.test("promptSecret() handles empty mask option", () => {
   restore();
 });
 
-Deno.test("promptSecret() returns null if Deno.stdin.isTerminal() is false", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => false);
+Ende.test("promptSecret() returns null if Ende.stdin.isTerminal() is false", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => false);
 
   const expectedOutput: string[] = [];
 
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -491,10 +491,10 @@ Deno.test("promptSecret() returns null if Deno.stdin.isTerminal() is false", () 
   restore();
 });
 
-Deno.test("promptSecret() handles null readSync", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles null readSync", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -506,7 +506,7 @@ Deno.test("promptSecret() handles null readSync", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -515,7 +515,7 @@ Deno.test("promptSecret() handles null readSync", () => {
     },
   );
 
-  stub(Deno.stdin, "readSync", () => null);
+  stub(Ende.stdin, "readSync", () => null);
 
   const password = promptSecret("Please provide the password:");
 
@@ -524,10 +524,10 @@ Deno.test("promptSecret() handles null readSync", () => {
   restore();
 });
 
-Deno.test("promptSecret() handles empty readSync", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() handles empty readSync", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 80, rows: 20 };
   });
 
@@ -539,7 +539,7 @@ Deno.test("promptSecret() handles empty readSync", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -548,7 +548,7 @@ Deno.test("promptSecret() handles empty readSync", () => {
     },
   );
 
-  stub(Deno.stdin, "readSync", () => 0);
+  stub(Ende.stdin, "readSync", () => 0);
 
   const password = promptSecret("Please provide the password:");
 
@@ -557,10 +557,10 @@ Deno.test("promptSecret() handles empty readSync", () => {
   restore();
 });
 
-Deno.test("promptSecret() wraps characters wider than console columns", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() wraps characters wider than console columns", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 5, rows: 20 };
   });
 
@@ -590,7 +590,7 @@ Deno.test("promptSecret() wraps characters wider than console columns", () => {
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -616,7 +616,7 @@ Deno.test("promptSecret() wraps characters wider than console columns", () => {
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];
@@ -633,10 +633,10 @@ Deno.test("promptSecret() wraps characters wider than console columns", () => {
   restore();
 });
 
-Deno.test("promptSecret() returns to previous line when deleting characters", () => {
-  stub(Deno.stdin, "setRaw");
-  stub(Deno.stdin, "isTerminal", () => true);
-  stub(Deno, "consoleSize", () => {
+Ende.test("promptSecret() returns to previous line when deleting characters", () => {
+  stub(Ende.stdin, "setRaw");
+  stub(Ende.stdin, "isTerminal", () => true);
+  stub(Ende, "consoleSize", () => {
     return { columns: 6, rows: 20 };
   });
 
@@ -692,7 +692,7 @@ Deno.test("promptSecret() returns to previous line when deleting characters", ()
   const actualOutput: string[] = [];
 
   stub(
-    Deno.stdout,
+    Ende.stdout,
     "writeSync",
     (data: Uint8Array) => {
       const output = decoder.decode(data);
@@ -730,7 +730,7 @@ Deno.test("promptSecret() returns to previous line when deleting characters", ()
   ];
 
   stub(
-    Deno.stdin,
+    Ende.stdin,
     "readSync",
     (data: Uint8Array) => {
       const input = inputs[readIndex++];

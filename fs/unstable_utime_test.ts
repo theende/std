@@ -8,7 +8,7 @@ import { statSync } from "node:fs";
 const now = new Date();
 const filePath = "fs/testdata/copy_file.txt";
 
-Deno.test("utime() change atime and mtime date", async () => {
+Ende.test("utime() change atime and mtime date", async () => {
   const fileBefore = statSync(filePath);
 
   await utime(filePath, now, now);
@@ -19,7 +19,7 @@ Deno.test("utime() change atime and mtime date", async () => {
   assert(fileBefore.mtime != fileAfter.mtime);
 });
 
-Deno.test("utime() fail on NotFound file", async () => {
+Ende.test("utime() fail on NotFound file", async () => {
   const randomFile = "foo.txt";
 
   await assertRejects(async () => {
@@ -27,7 +27,7 @@ Deno.test("utime() fail on NotFound file", async () => {
   }, NotFound);
 });
 
-Deno.test("utimeSync() change atime and mtime data", () => {
+Ende.test("utimeSync() change atime and mtime data", () => {
   const fileBefore = statSync(filePath);
 
   utimeSync(filePath, now, now);
@@ -38,7 +38,7 @@ Deno.test("utimeSync() change atime and mtime data", () => {
   assert(fileBefore.mtime != fileAfter.mtime);
 });
 
-Deno.test("utimeSync() fail on NotFound file", () => {
+Ende.test("utimeSync() fail on NotFound file", () => {
   const randomFile = "foo.txt";
 
   assertThrows(() => {

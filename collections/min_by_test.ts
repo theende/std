@@ -3,7 +3,7 @@
 import { assertEquals, assertStrictEquals } from "@std/assert";
 import { minBy } from "./min_by.ts";
 
-Deno.test("minBy() handles array input", () => {
+Ende.test("minBy() handles array input", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
@@ -15,7 +15,7 @@ Deno.test("minBy() handles array input", () => {
   assertEquals(min, { name: "Anna", age: 23 });
 });
 
-Deno.test("minBy() handles array input with mutation", () => {
+Ende.test("minBy() handles array input with mutation", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
@@ -27,7 +27,7 @@ Deno.test("minBy() handles array input with mutation", () => {
   assertEquals(min, { name: "Anna", age: 23 });
 });
 
-Deno.test("minBy() handles array input with multiple min", () => {
+Ende.test("minBy() handles array input with multiple min", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
@@ -40,11 +40,11 @@ Deno.test("minBy() handles array input with multiple min", () => {
   assertEquals(min, { name: "Anna", age: 23 });
 });
 
-Deno.test("minBy() handles single element array", () => {
+Ende.test("minBy() handles single element array", () => {
   assertEquals(minBy([42], (i) => i), 42);
 });
 
-Deno.test("minBy() handles array of positive numbers", () => {
+Ende.test("minBy() handles array of positive numbers", () => {
   const input = [2, 3, 5];
 
   const min = minBy(input, (i) => i);
@@ -52,7 +52,7 @@ Deno.test("minBy() handles array of positive numbers", () => {
   assertEquals(min, 2);
 });
 
-Deno.test("minBy() handles array of negative numbers", () => {
+Ende.test("minBy() handles array of negative numbers", () => {
   const input = [-2, -3, -5];
 
   const min = minBy(input, (i) => i);
@@ -60,7 +60,7 @@ Deno.test("minBy() handles array of negative numbers", () => {
   assertEquals(min, -5);
 });
 
-Deno.test("minBy() handles array of strings", () => {
+Ende.test("minBy() handles array of strings", () => {
   const input = ["Kyle", "John", "Anna"];
 
   const min = minBy(input, (i: string) => i);
@@ -68,7 +68,7 @@ Deno.test("minBy() handles array of strings", () => {
   assertEquals(min, "Anna");
 });
 
-Deno.test("minBy() handles of empty array", () => {
+Ende.test("minBy() handles of empty array", () => {
   const input: number[] = [];
 
   const min = minBy(input, (i) => i);
@@ -76,7 +76,7 @@ Deno.test("minBy() handles of empty array", () => {
   assertEquals(min, undefined);
 });
 
-Deno.test("minBy() handles empty input", () => {
+Ende.test("minBy() handles empty input", () => {
   const input: Array<{ age: number }> = [];
 
   const min = minBy(input, (i) => i.age);
@@ -84,12 +84,12 @@ Deno.test("minBy() handles empty input", () => {
   assertEquals(min, undefined);
 });
 
-Deno.test("minBy() handles empty generator", () => {
+Ende.test("minBy() handles empty generator", () => {
   function* gen(): Generator<number> {}
   assertEquals(minBy(gen(), (i) => i), undefined);
 });
 
-Deno.test("minBy() handles array of numbers with multiple min", () => {
+Ende.test("minBy() handles array of numbers with multiple min", () => {
   const input = [2, 3, 5, 5];
 
   const min = minBy(input, (i) => i);
@@ -97,7 +97,7 @@ Deno.test("minBy() handles array of numbers with multiple min", () => {
   assertEquals(min, 2);
 });
 
-Deno.test("minBy() handles array of numbers with infinity", () => {
+Ende.test("minBy() handles array of numbers with infinity", () => {
   const input = [2, 3, 5, -Infinity];
 
   const min = minBy(input, (i: number) => i);
@@ -105,7 +105,7 @@ Deno.test("minBy() handles array of numbers with infinity", () => {
   assertEquals(min, -Infinity);
 });
 
-Deno.test("minBy() handles array of numbers with NaN", () => {
+Ende.test("minBy() handles array of numbers with NaN", () => {
   const input = [2, 3, 5, NaN];
 
   const min = minBy(input, (i) => i);
@@ -113,13 +113,13 @@ Deno.test("minBy() handles array of numbers with NaN", () => {
   assertEquals(min, 2);
 });
 
-Deno.test("minBy() handles NaN at first position", () => {
+Ende.test("minBy() handles NaN at first position", () => {
   const input = [NaN, 2, 3];
   const min = minBy(input, (i) => i);
   assertEquals(min, NaN);
 });
 
-Deno.test("minBy() handles no mutation", () => {
+Ende.test("minBy() handles no mutation", () => {
   const input = [2, 3, 5, NaN];
 
   minBy(input, (i: number) => i);
@@ -127,14 +127,14 @@ Deno.test("minBy() handles no mutation", () => {
   assertEquals(input, [2, 3, 5, NaN]);
 });
 
-Deno.test("minBy() returns same object reference", () => {
+Ende.test("minBy() returns same object reference", () => {
   const anna = { name: "Anna", age: 23 };
   const input = [{ name: "Kyle", age: 34 }, anna, { name: "John", age: 42 }];
   const min = minBy(input, (i) => i.age);
   assertStrictEquals(min, anna);
 });
 
-Deno.test({
+Ende.test({
   name: "minBy() handles bigint",
   fn() {
     const input = [
@@ -147,7 +147,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "minBy() handles date",
   fn() {
     const input = [
@@ -160,7 +160,7 @@ Deno.test({
   },
 });
 
-Deno.test("minBy() handles generator input", () => {
+Ende.test("minBy() handles generator input", () => {
   function* gen() {
     yield { name: "Kyle", age: 34 };
     yield { name: "John", age: 42 };
@@ -170,20 +170,20 @@ Deno.test("minBy() handles generator input", () => {
   assertEquals(min, { name: "Anna", age: 23 });
 });
 
-Deno.test("minBy() handles single element generator", () => {
+Ende.test("minBy() handles single element generator", () => {
   function* gen() {
     yield 42;
   }
   assertEquals(minBy(gen(), (i) => i), 42);
 });
 
-Deno.test("minBy() handles Set input", () => {
+Ende.test("minBy() handles Set input", () => {
   const input = new Set([5, 2, 8, 1, 9]);
   const min = minBy(input, (i) => i);
   assertEquals(min, 1);
 });
 
-Deno.test("minBy() handles Map values", () => {
+Ende.test("minBy() handles Map values", () => {
   const input = new Map([
     ["a", { age: 34 }],
     ["b", { age: 23 }],
@@ -193,7 +193,7 @@ Deno.test("minBy() handles Map values", () => {
   assertEquals(min, { age: 23 });
 });
 
-Deno.test({
+Ende.test({
   name: "minBy() passes index to selector",
   fn() {
     const input = [4, 3, 2, 1];

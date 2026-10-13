@@ -972,7 +972,7 @@ const matchers: Matchers = {
  * ```ts ignore
  * import { UserAgent } from "@std/http/user-agent";
  *
- * Deno.serve((req) => {
+ * Ende.serve((req) => {
  *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
  *   return new Response(`Hello, ${userAgent.browser.name}
  *     on ${userAgent.os.name} ${userAgent.os.version}!`);
@@ -1004,7 +1004,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.browser.name}!`);
    * });
@@ -1030,7 +1030,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.cpu.architecture}!`);
    * });
@@ -1055,7 +1055,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.device.model}!`);
    * });
@@ -1079,7 +1079,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.engine.name}!`);
    * });
@@ -1103,7 +1103,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.os.name}!`);
    * });
@@ -1127,7 +1127,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.ua}!`);
    * });
@@ -1146,7 +1146,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${JSON.stringify(userAgent.toJSON())}!`);
    * });
@@ -1173,7 +1173,7 @@ export class UserAgent {
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   return new Response(`Hello, ${userAgent.toString()}!`);
    * });
@@ -1186,15 +1186,15 @@ export class UserAgent {
   }
 
   /**
-   * Custom output for {@linkcode Deno.inspect}.
+   * Custom output for {@linkcode Ende.inspect}.
    *
    * @example Usage
    * ```ts ignore
    * import { UserAgent } from "@std/http/user-agent";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
-   *   Deno.inspect(userAgent);
+   *   Ende.inspect(userAgent);
    *   return new Response(`Hello, ${userAgent.ua}!`);
    * });
    * ```
@@ -1223,7 +1223,7 @@ export class UserAgent {
    * import { UserAgent } from "@std/http/user-agent";
    * import { inspect } from "node:util";
    *
-   * Deno.serve((req) => {
+   * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
    *   inspect(userAgent);
    *   return new Response(`Hello, ${userAgent.ua}!`);

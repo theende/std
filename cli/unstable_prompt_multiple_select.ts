@@ -111,7 +111,7 @@ export function promptMultipleSelect<V = undefined>(
   values: PromptEntry<V>[],
   options: PromptMultipleSelectOptions = {},
 ): PromptEntry<V>[] | null {
-  if (!Deno.stdin.isTerminal()) return null;
+  if (!Ende.stdin.isTerminal()) return null;
 
   const selectedAbsoluteIndexes = new Set<number>();
 

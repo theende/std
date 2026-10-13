@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { difference } from "./difference.ts";
 
-Deno.test({
+Ende.test({
   name: "difference()",
   fn() {
     const denoInit = new Date("2018/5/14");

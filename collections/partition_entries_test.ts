@@ -12,7 +12,7 @@ function partitionEntriesTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "partitionEntries() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partitionEntries() handles empty input",
   fn() {
     partitionEntriesTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partitionEntries() handles identity",
   fn() {
     partitionEntriesTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partitionEntries() handles clean object",
   fn() {
     partitionEntriesTest(
@@ -66,7 +66,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "partitionEntries() handles filters",
   fn() {
     partitionEntriesTest(

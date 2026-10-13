@@ -2,7 +2,7 @@
 import { modulo } from "./modulo.ts";
 import { assert, assertEquals } from "@std/assert";
 
-Deno.test("modulo()", async (t) => {
+Ende.test("modulo()", async (t) => {
   await t.step("basic functionality", async (t) => {
     for (let n = -3; n <= 3; ++n) {
       const val = n * 12 + 5;
@@ -170,9 +170,9 @@ Deno.test("modulo()", async (t) => {
       const actual = modulo(a, b);
       assert(
         Object.is(actual, result),
-        `modulo(${Deno.inspect(a)}, ${Deno.inspect(b)}) == ${
-          Deno.inspect(result)
-        } (actual ${Deno.inspect(actual)})`,
+        `modulo(${Ende.inspect(a)}, ${Ende.inspect(b)}) == ${
+          Ende.inspect(result)
+        } (actual ${Ende.inspect(actual)})`,
       );
     }
   });

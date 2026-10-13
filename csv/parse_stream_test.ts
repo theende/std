@@ -9,13 +9,13 @@ import { delay } from "@std/async/delay";
 const testdataDir = join(fromFileUrl(import.meta.url), "../testdata");
 const encoder = new TextEncoder();
 
-Deno.test({
-  name: "CsvParseStream should work with Deno.FsFile's readable",
+Ende.test({
+  name: "CsvParseStream should work with Ende.FsFile's readable",
   permissions: {
     read: [testdataDir],
   },
   fn: async () => {
-    const file = await Deno.open(join(testdataDir, "simple.csv"));
+    const file = await Ende.open(join(testdataDir, "simple.csv"));
     const readable = file.readable
       .pipeThrough(new TextDecoderStream())
       .pipeThrough(new CsvParseStream());
@@ -28,7 +28,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "CsvParseStream throws at invalid csv line",
   fn: async () => {
     const readable = ReadableStream.from([
@@ -50,7 +50,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "CsvParseStream handles various inputs",
   permissions: "none",
   fn: async (t) => {
@@ -458,12 +458,12 @@ x,,,
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "CsvParseStream.cancel() does not leak file when called in the middle of iteration",
   permissions: { read: [testdataDir] },
   fn: async () => {
-    const file = await Deno.open(join(testdataDir, "large.csv"));
+    const file = await Ende.open(join(testdataDir, "large.csv"));
     const readable = file.readable
       .pipeThrough(new TextDecoderStream())
       .pipeThrough(new CsvParseStream());
@@ -475,7 +475,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "CsvParseStream is correctly typed",
   fn() {
     // If no option is passed, defaults to ReadableStream<string[]>.

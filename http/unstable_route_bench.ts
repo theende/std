@@ -171,7 +171,7 @@ const reqComplexInlineWildcard = new Request(
 // Benchmarks — static routes
 // ---------------------------------------------------------------------------
 
-Deno.bench({
+Ende.bench({
   group: "static route — first in small table",
   name: "linear",
   baseline: true,
@@ -180,7 +180,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — first in small table",
   name: "radix",
   async fn() {
@@ -188,7 +188,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — last in small table",
   name: "linear",
   baseline: true,
@@ -197,7 +197,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — last in small table",
   name: "radix",
   async fn() {
@@ -205,7 +205,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — last in large table",
   name: "linear",
   baseline: true,
@@ -214,7 +214,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — last in large table",
   name: "radix",
   async fn() {
@@ -222,7 +222,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — miss (small table)",
   name: "linear",
   baseline: true,
@@ -231,7 +231,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — miss (small table)",
   name: "radix",
   async fn() {
@@ -239,7 +239,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — miss (large table)",
   name: "linear",
   baseline: true,
@@ -248,7 +248,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "static route — miss (large table)",
   name: "radix",
   async fn() {
@@ -260,7 +260,7 @@ Deno.bench({
 // Benchmarks — parametric routes
 // ---------------------------------------------------------------------------
 
-Deno.bench({
+Ende.bench({
   group: "parametric route — single param",
   name: "linear",
   baseline: true,
@@ -269,7 +269,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "parametric route — single param",
   name: "radix",
   async fn() {
@@ -277,7 +277,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "parametric route — two params (nested)",
   name: "linear",
   baseline: true,
@@ -286,7 +286,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "parametric route — two params (nested)",
   name: "radix",
   async fn() {
@@ -294,7 +294,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "parametric route — method mismatch",
   name: "linear",
   baseline: true,
@@ -303,7 +303,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "parametric route — method mismatch",
   name: "radix",
   async fn() {
@@ -315,7 +315,7 @@ Deno.bench({
 // Benchmarks — wildcard routes
 // ---------------------------------------------------------------------------
 
-Deno.bench({
+Ende.bench({
   group: "wildcard route",
   name: "linear",
   baseline: true,
@@ -324,7 +324,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "wildcard route",
   name: "radix",
   async fn() {
@@ -336,7 +336,7 @@ Deno.bench({
 // Benchmarks — complex/fallback patterns
 // ---------------------------------------------------------------------------
 
-Deno.bench({
+Ende.bench({
   group: "complex — regex constraint",
   name: "linear",
   baseline: true,
@@ -345,7 +345,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "complex — regex constraint",
   name: "radix",
   async fn() {
@@ -353,7 +353,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "complex — optional group",
   name: "linear",
   baseline: true,
@@ -362,7 +362,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "complex — optional group",
   name: "radix",
   async fn() {
@@ -370,7 +370,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "complex — inline wildcard with suffix",
   name: "linear",
   baseline: true,
@@ -379,7 +379,7 @@ Deno.bench({
   },
 });
 
-Deno.bench({
+Ende.bench({
   group: "complex — inline wildcard with suffix",
   name: "radix",
   async fn() {

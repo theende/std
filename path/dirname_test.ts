@@ -71,7 +71,7 @@ const WINDOWS_TESTSUITE = [
   ["foo", "."],
 ] as const;
 
-Deno.test("posix.dirname()", function () {
+Ende.test("posix.dirname()", function () {
   for (const [name, expected] of COREUTILS_TESTSUITE) {
     assertEquals(dirname(name), expected);
   }
@@ -87,7 +87,7 @@ Deno.test("posix.dirname()", function () {
   assertEquals(posix.dirname("/foo/bar/baz\\"), "/foo/bar");
 });
 
-Deno.test("posix.dirname() works with file URLs", () => {
+Ende.test("posix.dirname() works with file URLs", () => {
   assertEquals(
     posix.dirname(new URL("file:///home/user/Documents/image.png")),
     "/home/user/Documents",
@@ -101,7 +101,7 @@ Deno.test("posix.dirname() works with file URLs", () => {
   );
 });
 
-Deno.test("windows.dirname()", function () {
+Ende.test("windows.dirname()", function () {
   for (const [name, expected] of WINDOWS_TESTSUITE) {
     assertEquals(windows.dirname(name), expected);
   }
@@ -116,7 +116,7 @@ Deno.test("windows.dirname()", function () {
   }
 });
 
-Deno.test("windows.dirname() works with file URLs", () => {
+Ende.test("windows.dirname() works with file URLs", () => {
   assertEquals(
     windows.dirname(new URL("file:///C:/home/user/Documents/image.png")),
     "C:\\home\\user\\Documents",

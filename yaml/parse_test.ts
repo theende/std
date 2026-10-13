@@ -14,7 +14,7 @@ import {
 } from "@std/assert";
 import { assertSpyCall, spy } from "@std/testing/mock";
 
-Deno.test({
+Ende.test({
   name: "parse() handles single document yaml string",
   fn() {
     const yaml = `
@@ -31,7 +31,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseAll() handles yaml string with multiple documents",
   fn() {
     const yaml = `
@@ -63,7 +63,7 @@ name: Eve
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() throws with `!!js/*` yaml types with default schemas",
   fn() {
     const yaml = `undefined: !!js/undefined ~`;
@@ -75,7 +75,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "parse() handles `!!js/*` yaml types with extended schema while parsing",
   fn() {
@@ -98,7 +98,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() throws with `!!js/function` yaml type with extended schema",
   fn() {
     const func = function foobar() {
@@ -114,7 +114,7 @@ ${func.toString().split("\n").map((line) => `  ${line}`).join("\n")}
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseAll() accepts parse options",
   fn() {
     const yaml = `
@@ -137,7 +137,7 @@ regexp: !!js/regexp bar
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseAll() throws SyntaxError on invalid YAML",
   fn() {
     assertThrows(() => parseAll(`"`), SyntaxError);
@@ -145,7 +145,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles __proto__",
   async fn() {
     // Tests if the value is set using `Object.defineProperty(target, key, {value})`
@@ -179,7 +179,7 @@ merge_test:
       parse(\`${yaml1}\`);
       parse(\`${yaml2}\`);
     `;
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       stdout: "inherit",
       stderr: "inherit",
       args: ["eval", "--no-lock", testCode],
@@ -189,7 +189,7 @@ merge_test:
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() returns `null` when yaml is empty or only comments",
   fn() {
     const expected = null;
@@ -203,7 +203,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles binary type",
   fn() {
     const yaml = `message: !!binary "SGVsbG8="`;
@@ -264,7 +264,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles boolean types",
   fn() {
     assertEquals(
@@ -324,7 +324,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles float types",
   fn() {
     const yaml = `
@@ -355,7 +355,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles integer types",
   fn() {
     assertEquals(
@@ -425,7 +425,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles timestamp types",
   fn() {
     assertEquals(
@@ -460,7 +460,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles omap type",
   fn() {
     const yaml = `--- !!omap
@@ -502,7 +502,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "unstableParse() handles custom types",
   fn() {
     const foo: ImplicitType = {
@@ -532,7 +532,7 @@ tags:
   },
 });
 
-Deno.test("parse() handles !!pairs type", () => {
+Ende.test("parse() handles !!pairs type", () => {
   assertEquals(
     parse(`!!pairs
 - Monday: 3
@@ -562,7 +562,7 @@ Deno.test("parse() handles !!pairs type", () => {
   );
 });
 
-Deno.test("parse() handles anchors and aliases", () => {
+Ende.test("parse() handles anchors and aliases", () => {
   assertEquals(
     parse(`- &anchor Foo
 - *anchor`),
@@ -613,7 +613,7 @@ Deno.test("parse() handles anchors and aliases", () => {
   );
 });
 
-Deno.test("parse() handles escaped strings in double quotes", () => {
+Ende.test("parse() handles escaped strings in double quotes", () => {
   assertEquals(parse('"\\"bar\\""'), '"bar"');
   assertEquals(parse('"\\x30\\x31"'), "01");
   assertEquals(parse('"\\\na"'), "a");
@@ -636,7 +636,7 @@ Deno.test("parse() handles escaped strings in double quotes", () => {
   );
 });
 
-Deno.test("parse() handles single quoted scalar", () => {
+Ende.test("parse() handles single quoted scalar", () => {
   assertEquals(parse("'bar'"), "bar");
   // escaped single quote
   assertEquals(parse("'''bar'''"), "'bar'");
@@ -658,7 +658,7 @@ Deno.test("parse() handles single quoted scalar", () => {
   );
 });
 
-Deno.test("parse() handles %YAML directive", () => {
+Ende.test("parse() handles %YAML directive", () => {
   assertEquals(
     parse(`%YAML 1.2
 ---
@@ -735,7 +735,7 @@ hello: world`,
   }
 });
 
-Deno.test("parse() handles %TAG directive", () => {
+Ende.test("parse() handles %TAG directive", () => {
   assertEquals(
     parse(`%TAG ! tag:example.com,2000:
 ---
@@ -781,7 +781,7 @@ hello: world`),
   );
 });
 
-Deno.test("parse() throws with invalid strings", () => {
+Ende.test("parse() throws with invalid strings", () => {
   assertThrows(() => parse(`"`), SyntaxError, "Unexpected end of the stream");
   assertThrows(
     () => parse(`"\x08"`),
@@ -796,7 +796,7 @@ Deno.test("parse() throws with invalid strings", () => {
   );
 });
 
-Deno.test("parse() handles merge (<<) types", () => {
+Ende.test("parse() handles merge (<<) types", () => {
   assertEquals(
     parse(`<<: { a: 1, b: 2 }
 c: 3`),
@@ -821,7 +821,7 @@ c: 3`),
 
 // 8.1. Block Scalar Styles
 // https://yaml.org/spec/1.2.2/#81-block-scalar-styles
-Deno.test("parse() handles block scalars", () => {
+Ende.test("parse() handles block scalars", () => {
   assertEquals(
     parse(`foo: |
   bar`),
@@ -904,12 +904,12 @@ bar: baz`),
   );
 });
 
-Deno.test("parse() handles BOM at the beginning of the yaml", () => {
+Ende.test("parse() handles BOM at the beginning of the yaml", () => {
   const yaml = "\uFEFFhello: world";
   assertEquals(parse(yaml), { hello: "world" });
 });
 
-Deno.test("parse() throws if there are more than one document in the yaml", () => {
+Ende.test("parse() throws if there are more than one document in the yaml", () => {
   assertThrows(
     () => parse("hello: world\n---\nfoo: bar"),
     SyntaxError,
@@ -917,7 +917,7 @@ Deno.test("parse() throws if there are more than one document in the yaml", () =
   );
 });
 
-Deno.test("parse() throws YamlSyntaxError with structured position info", () => {
+Ende.test("parse() throws YamlSyntaxError with structured position info", () => {
   const error = assertThrows(
     () => parse("foo: bar\n  baz: qux"),
     YamlSyntaxError,
@@ -932,7 +932,7 @@ Deno.test("parse() throws YamlSyntaxError with structured position info", () => 
   assertEquals(typeof error.snippet, "string");
 });
 
-Deno.test("parse() multi-document error points at the second document marker", () => {
+Ende.test("parse() multi-document error points at the second document marker", () => {
   const error = assertThrows(
     () => parse("hello: world\n---\nfoo: bar"),
     YamlSyntaxError,
@@ -942,7 +942,7 @@ Deno.test("parse() multi-document error points at the second document marker", (
   assertEquals(error.offset, 13);
 });
 
-Deno.test("parse() throws when the directive name is empty", () => {
+Ende.test("parse() throws when the directive name is empty", () => {
   assertThrows(
     () =>
       parse(`% 1.2
@@ -953,7 +953,7 @@ hello: world`),
   );
 });
 
-Deno.test("parse() ignores unknown directive", () => {
+Ende.test("parse() ignores unknown directive", () => {
   assertEquals(
     parse(`%FOOBAR 1.2
 ---
@@ -962,7 +962,7 @@ hello: world`),
   );
 });
 
-Deno.test("parse() handles document separator", () => {
+Ende.test("parse() handles document separator", () => {
   assertEquals(
     parse(`---
 hello: world
@@ -971,7 +971,7 @@ hello: world
   );
 });
 
-Deno.test("parse() show warning with non-ascii line breaks if YAML version is < 1.2", () => {
+Ende.test("parse() show warning with non-ascii line breaks if YAML version is < 1.2", () => {
   const warningSpy = spy();
   assertEquals(
     parse(
@@ -990,7 +990,7 @@ hello: world\r\nfoo: bar\x85`,
   );
 });
 
-Deno.test("parse() throws with directive only document", () => {
+Ende.test("parse() throws with directive only document", () => {
   assertThrows(
     () => parse(`%YAML 1.2`),
     SyntaxError,
@@ -998,7 +998,7 @@ Deno.test("parse() throws with directive only document", () => {
   );
 });
 
-Deno.test("parse() throws with \0 in the middle of the document", () => {
+Ende.test("parse() throws with \0 in the middle of the document", () => {
   assertThrows(
     () => parse("hello: \0 world"),
     SyntaxError,
@@ -1006,7 +1006,7 @@ Deno.test("parse() throws with \0 in the middle of the document", () => {
   );
 });
 
-Deno.test("parse() handles complex mapping key", () => {
+Ende.test("parse() handles complex mapping key", () => {
   assertEquals(
     parse(`? - Detroit Tigers
   - Chicago cubs
@@ -1048,7 +1048,7 @@ Deno.test("parse() handles complex mapping key", () => {
   );
 });
 
-Deno.test("parse() handles unordered set", () => {
+Ende.test("parse() handles unordered set", () => {
   assertEquals(
     parse(`--- !!set
 ? Mark McGwire
@@ -1059,7 +1059,7 @@ Deno.test("parse() handles unordered set", () => {
   assertEquals(parse(`--- !!set`), {});
 });
 
-Deno.test("parse() throws with empty mapping key", () => {
+Ende.test("parse() throws with empty mapping key", () => {
   assertThrows(
     () => parse(`? : 1`),
     SyntaxError,
@@ -1067,7 +1067,7 @@ Deno.test("parse() throws with empty mapping key", () => {
   );
 });
 
-Deno.test("parse() throws on duplicate keys", () => {
+Ende.test("parse() throws on duplicate keys", () => {
   assertThrows(
     () =>
       parse(
@@ -1080,7 +1080,7 @@ name: Jane Doe`,
   );
 });
 
-Deno.test("parse() allows duplicate keys when `allowDuplicateKeys` option is set to `true`", () => {
+Ende.test("parse() allows duplicate keys when `allowDuplicateKeys` option is set to `true`", () => {
   assertEquals(
     parse(
       `name: John Doe
@@ -1092,7 +1092,7 @@ name: Jane Doe`,
   );
 });
 
-Deno.test("parse() throws at reseverd characters '`' and '@'", () => {
+Ende.test("parse() throws at reseverd characters '`' and '@'", () => {
   assertThrows(
     () => parse("`"),
     SyntaxError,
@@ -1105,7 +1105,7 @@ Deno.test("parse() throws at reseverd characters '`' and '@'", () => {
   );
 });
 
-Deno.test("parse() does not pollute prototype with `__proto__` key", () => {
+Ende.test("parse() does not pollute prototype with `__proto__` key", () => {
   // A YAML key of `__proto__` must produce an own property on the result,
   // not mutate the result's prototype chain.
   const result = parse("__proto__:\n  polluted: true") as Record<
@@ -1128,7 +1128,7 @@ ok: 1`) as Record<string, unknown>;
   assertEquals(({} as { polluted?: unknown }).polluted, undefined);
 });
 
-Deno.test("parse() handles sequence", () => {
+Ende.test("parse() handles sequence", () => {
   assertEquals(parse("[]"), []);
   assertEquals(
     parse("[ Clark Evans, Ingy döt Net, Oren Ben-Kiki ]"),
@@ -1153,7 +1153,7 @@ Deno.test("parse() handles sequence", () => {
   );
 });
 
-Deno.test("parse() handles mapping", () => {
+Ende.test("parse() handles mapping", () => {
   assertEquals(parse("{}"), {});
   assertEquals(
     parse("{ Clark: Evans, Ingy: döt Net, Oren: Ben-Kiki }"),
@@ -1178,12 +1178,12 @@ Deno.test("parse() handles mapping", () => {
   );
 });
 
-Deno.test("parse() handles string", () => {
+Ende.test("parse() handles string", () => {
   assertEquals(parse("!!str"), "");
   assertEquals(parse("!!str 2002-04-28"), "2002-04-28");
 });
 
-Deno.test({
+Ende.test({
   name: "parse() handles regexp value with extended schema option",
   fn() {
     assertEquals(

@@ -13,11 +13,11 @@ const foo: SnapshotPlugin = {
   },
 };
 
-Deno.test("initial serializer", () => {
+Ende.test("initial serializer", () => {
   expect(getSerializer()).toHaveLength(0);
 });
 
-Deno.test("add serializer", () => {
+Ende.test("add serializer", () => {
   addSerializer(foo);
   expect(getSerializer()).toHaveLength(1);
 });

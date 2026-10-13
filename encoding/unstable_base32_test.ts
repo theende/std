@@ -56,7 +56,7 @@ const inputOutput: [string | ArrayBuffer, string, string, string][] = [
   ],
 ];
 
-Deno.test("encodeBase32()", () => {
+Ende.test("encodeBase32()", () => {
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     assertEquals(
       encodeBase32(input.slice(0), { alphabet: "base32" }),
@@ -76,7 +76,7 @@ Deno.test("encodeBase32()", () => {
   }
 });
 
-Deno.test("encodeBase32() subarray", () => {
+Ende.test("encodeBase32() subarray", () => {
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     if (typeof input === "string") continue;
 
@@ -108,7 +108,7 @@ Deno.test("encodeBase32() subarray", () => {
   }
 });
 
-Deno.test("encodeBase32Into()", () => {
+Ende.test("encodeBase32Into()", () => {
   const prefix = new TextEncoder().encode("data:fake/url,");
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     if (typeof input === "string") continue;
@@ -138,7 +138,7 @@ Deno.test("encodeBase32Into()", () => {
   }
 });
 
-Deno.test("encodeBase32Into() with too small buffer", () => {
+Ende.test("encodeBase32Into() with too small buffer", () => {
   const prefix = new TextEncoder().encode("data:fake/url,");
   for (const [input] of inputOutput) {
     if (typeof input === "string" || input.byteLength === 0) continue;
@@ -166,7 +166,7 @@ Deno.test("encodeBase32Into() with too small buffer", () => {
   }
 });
 
-Deno.test("decodeBase32()", () => {
+Ende.test("decodeBase32()", () => {
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
     const output = new TextEncoder().encode(input);
@@ -189,7 +189,7 @@ Deno.test("decodeBase32()", () => {
   }
 });
 
-Deno.test("decodeBase32() invalid char after padding", () => {
+Ende.test("decodeBase32() invalid char after padding", () => {
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
     if (base32[base32.length - 2] !== "=") continue;
@@ -211,7 +211,7 @@ Deno.test("decodeBase32() invalid char after padding", () => {
   }
 });
 
-Deno.test("decodeBase32() invalid length", () => {
+Ende.test("decodeBase32() invalid length", () => {
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
     if (input.length === 4 || input.length === 2) continue;
@@ -233,7 +233,7 @@ Deno.test("decodeBase32() invalid length", () => {
   }
 });
 
-Deno.test("decodeBase32() invalid char", () => {
+Ende.test("decodeBase32() invalid char", () => {
   for (const [input, base32, base32hex, base32crockford] of inputOutput) {
     if (input instanceof ArrayBuffer) continue;
 
@@ -254,7 +254,7 @@ Deno.test("decodeBase32() invalid char", () => {
   }
 });
 
-Deno.test("decodeBase32() throws with invalid byte >= 128", () => {
+Ende.test("decodeBase32() throws with invalid byte >= 128", () => {
   const input = new TextDecoder().decode(new Uint8Array(5).fill(200));
   assertThrows(
     () => decodeBase32(input),

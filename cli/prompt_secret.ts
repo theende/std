@@ -44,15 +44,15 @@ export function promptSecret(
   message = "Secret",
   options?: PromptSecretOptions,
 ): string | null {
-  const input = Deno.stdin;
-  const output = Deno.stdout;
+  const input = Ende.stdin;
+  const output = Ende.stdout;
   const { mask = "*", clear } = options ?? {};
 
   if (!input.isTerminal()) {
     return null;
   }
 
-  const { columns } = Deno.consoleSize();
+  const { columns } = Ende.consoleSize();
   let previousLength = 0;
   // Make the output consistent with the built-in prompt()
   message += " ";
@@ -111,7 +111,7 @@ function readLineFromStdinSync(callback?: (n: number) => void): string {
   const buf = [];
 
   while (true) {
-    const n = Deno.stdin.readSync(c);
+    const n = Ende.stdin.readSync(c);
     if (n === null || n === 0) {
       break;
     }

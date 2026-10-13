@@ -2,7 +2,7 @@
 
 import { mapError } from "./_map_error.ts";
 import type { ReadFileOptions } from "./unstable_types.ts";
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 
 /**
  * Asynchronously reads and returns the entire contents of a file as an UTF-8 decoded string.
@@ -31,8 +31,8 @@ export async function readTextFile(
   path: string | URL,
   options?: ReadFileOptions,
 ): Promise<string> {
-  if (isDeno) {
-    return Deno.readTextFile(path, { ...options });
+  if (isEnde) {
+    return Ende.readTextFile(path, { ...options });
   } else {
     const { signal } = options ?? {};
     try {
@@ -71,8 +71,8 @@ export async function readTextFile(
 export function readTextFileSync(
   path: string | URL,
 ): string {
-  if (isDeno) {
-    return Deno.readTextFileSync(path);
+  if (isEnde) {
+    return Ende.readTextFileSync(path);
   } else {
     try {
       return getNodeFs().readFileSync(path, "utf-8");

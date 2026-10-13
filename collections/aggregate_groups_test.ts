@@ -15,7 +15,7 @@ function aggregateGroupsTest<T, A>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "aggregateGroups() handles no mutation",
   fn() {
     const input = {
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "aggregateGroups() handles string building using all params",
   fn() {
     aggregateGroupsTest(
@@ -57,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "aggregateGroups() handles sum ignoring non reduce params",
   fn() {
     aggregateGroupsTest(
@@ -76,7 +76,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "aggregateGroups() handles empty input",
   fn() {
     aggregateGroupsTest([

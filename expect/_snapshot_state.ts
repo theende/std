@@ -84,9 +84,9 @@ export function getTestFileFromStack(): string | null {
 
 // --- Serialization ---
 
-/** Serializes a value for snapshot comparison using `Deno.inspect`. */
+/** Serializes a value for snapshot comparison using `Ende.inspect`. */
 export function serialize(actual: unknown): string {
-  return Deno.inspect(actual, {
+  return Ende.inspect(actual, {
     depth: Infinity,
     sorted: true,
     trailingComma: true,
@@ -140,7 +140,7 @@ let _isUpdate: boolean | undefined;
 export function getIsUpdate(): boolean {
   if (_isUpdate !== undefined) return _isUpdate;
   try {
-    _isUpdate = Deno.args.some((arg) => arg === "--update" || arg === "-u");
+    _isUpdate = Ende.args.some((arg) => arg === "--update" || arg === "-u");
   } catch {
     _isUpdate = false;
   }
@@ -274,19 +274,19 @@ function makeSnapshotUpdater(
 function applyInlineUpdates(): void {
   if (inlineUpdateRequests.length === 0) return;
 
-  // @ts-ignore Deno.lint may not exist in all versions
-  if (typeof Deno.lint?.runPlugin !== "function") {
+  // @ts-ignore Ende.lint may not exist in all versions
+  if (typeof Ende.lint?.runPlugin !== "function") {
     throw new Error(
-      "Deno versions before 2.2.0 do not support Deno.lint, which is required to update inline snapshots",
+      "Deno versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
     );
   }
 
   const pathsToUpdate = Map.groupBy(inlineUpdateRequests, (r) => r.fileName);
 
   for (const [path, requests] of pathsToUpdate) {
-    const file = Deno.readTextFileSync(path);
-    // @ts-ignore Deno.lint may not exist in all versions
-    const pluginRunResults = Deno.lint.runPlugin(
+    const file = Ende.readTextFileSync(path);
+    // @ts-ignore Ende.lint may not exist in all versions
+    const pluginRunResults = Ende.lint.runPlugin(
       makeSnapshotUpdater(requests),
       "dummy.ts",
       file,
@@ -308,12 +308,12 @@ function applyInlineUpdates(): void {
     }
     output += file.slice(lastIndex);
 
-    Deno.writeTextFileSync(path, output);
+    Ende.writeTextFileSync(path, output);
   }
 
-  const shouldFormat = !Deno.args.some((arg) => arg === "--no-format");
+  const shouldFormat = !Ende.args.some((arg) => arg === "--no-format");
   if (shouldFormat) {
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: ["fmt", ...pathsToUpdate.keys()],
     });
     command.outputSync();
@@ -379,10 +379,10 @@ export class SnapshotContext {
     if (this.#currentSnapshots) return this.#currentSnapshots;
 
     try {
-      const content = Deno.readTextFileSync(this.#snapshotFilePath);
+      const content = Ende.readTextFileSync(this.#snapshotFilePath);
       this.#currentSnapshots = parseSnapshotFile(content);
     } catch (e) {
-      if (e instanceof Deno.errors.NotFound) {
+      if (e instanceof Ende.errors.NotFound) {
         this.#currentSnapshots = new Map();
       } else {
         throw e;
@@ -462,12 +462,12 @@ export class SnapshotContext {
     // Ensure snapshot directory exists
     const snapshotDir = dirname(this.#snapshotFilePath);
     try {
-      Deno.mkdirSync(snapshotDir, { recursive: true });
+      Ende.mkdirSync(snapshotDir, { recursive: true });
     } catch {
       // directory already exists
     }
 
-    Deno.writeTextFileSync(this.#snapshotFilePath, buf.join("\n") + "\n");
+    Ende.writeTextFileSync(this.#snapshotFilePath, buf.join("\n") + "\n");
 
     const updated = this.#snapshotsUpdated.length;
     if (updated > 0) {

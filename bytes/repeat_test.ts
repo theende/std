@@ -2,7 +2,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { repeat } from "./repeat.ts";
 
-Deno.test("repeat()", () => {
+Ende.test("repeat()", () => {
   // input / output / count / error message
   const repeatTestCase = [
     ["", "", 0],

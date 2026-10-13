@@ -8,13 +8,13 @@ import {
 
 const DEFAULTS = resolveOptions();
 
-Deno.test("titleCaseSegment() default options are same as expected", () => {
+Ende.test("titleCaseSegment() default options are same as expected", () => {
   assertEquals(DEFAULTS.locale.toString(), "und");
   assertEquals(DEFAULTS.trailingCase, "lower");
 });
 
 // https://github.com/unicode-org/icu4x/blob/21b7e1c0df/components/casemap/tests/conversions.rs
-Deno.test("titleCaseSegment() passes ICU4X titlecase tests", () => {
+Ende.test("titleCaseSegment() passes ICU4X titlecase tests", () => {
   assertEquals(
     titleCaseSegment("I\u{307}", resolveOptions({ locale: "tr-TR" })),
     "I\u{307}",
@@ -114,7 +114,7 @@ Deno.test("titleCaseSegment() passes ICU4X titlecase tests", () => {
 });
 
 // https://unicode-org.github.io/icu-docs/apidoc/released/icu4j/com/ibm/icu/text/CaseMap.Title.html#adjustToCased--
-Deno.test("titleCaseSegment() adjusts the index for casing first char properly", () => {
+Ende.test("titleCaseSegment() adjusts the index for casing first char properly", () => {
   assertEquals(titleCaseSegment("49ers", DEFAULTS), "49ers");
   assertEquals(titleCaseSegment("丰(abc)", DEFAULTS), "丰(abc)");
 
@@ -130,7 +130,7 @@ Deno.test("titleCaseSegment() adjusts the index for casing first char properly",
   );
 });
 
-Deno.test("titleCaseSegment() handles lone U+0345 Combining Greek Ypogegrammeni", () => {
+Ende.test("titleCaseSegment() handles lone U+0345 Combining Greek Ypogegrammeni", () => {
   // The only char that matches `\p{Cased}` but not `[\p{Letter}\p{Number}\p{Symbol}\p{Private_Use}]`.
   // Not really clear whether it ought to return itself unchanged or be converted to uppercase Iota (ICU4X leaves it
   // unchanged in title case), but as it's an extreme edge case that doesn't occur alone in normal text, any
@@ -138,7 +138,7 @@ Deno.test("titleCaseSegment() handles lone U+0345 Combining Greek Ypogegrammeni"
   assertEquals(titleCaseSegment("\u{345}", DEFAULTS), "\u{345}");
 });
 
-Deno.test("titleCaseSegment() has a max cache size", () => {
+Ende.test("titleCaseSegment() has a max cache size", () => {
   const cache = new Map<string, string>();
   // "widest" possible options for cache key
   const opts = resolveOptions({

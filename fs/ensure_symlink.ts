@@ -17,7 +17,7 @@ function resolveSymlinkTarget(target: string | URL, linkName: string | URL) {
 
 function getSymlinkOption(
   type: PathType | undefined,
-): Deno.SymlinkOptions | undefined {
+): Ende.SymlinkOptions | undefined {
   return isWindows ? { type: type === "dir" ? "dir" : "file" } : undefined;
 }
 
@@ -62,10 +62,10 @@ export async function ensureSymlink(
   const targetRealPath = resolveSymlinkTarget(target, linkName);
   let srcStatInfo;
   try {
-    srcStatInfo = await Deno.lstat(targetRealPath);
+    srcStatInfo = await Ende.lstat(targetRealPath);
   } catch (error) {
-    if (error instanceof Deno.errors.NotFound) {
-      throw new Deno.errors.NotFound(
+    if (error instanceof Ende.errors.NotFound) {
+      throw new Ende.errors.NotFound(
         `Cannot ensure symlink as the target path does not exist: ${targetRealPath}`,
       );
     }
@@ -78,22 +78,22 @@ export async function ensureSymlink(
   const options = getSymlinkOption(srcFilePathType);
 
   try {
-    await Deno.symlink(target, linkName, options);
+    await Ende.symlink(target, linkName, options);
   } catch (error) {
-    if (!(error instanceof Deno.errors.AlreadyExists)) {
+    if (!(error instanceof Ende.errors.AlreadyExists)) {
       throw error;
     }
-    const linkStatInfo = await Deno.lstat(linkName);
+    const linkStatInfo = await Ende.lstat(linkName);
     if (!linkStatInfo.isSymlink) {
       const type = getFileInfoType(linkStatInfo);
-      throw new Deno.errors.AlreadyExists(
+      throw new Ende.errors.AlreadyExists(
         `A '${type}' already exists at the path: ${linkName}`,
       );
     }
-    const linkPath = await Deno.readLink(linkName);
+    const linkPath = await Ende.readLink(linkName);
     const linkRealPath = resolve(linkPath);
     if (linkRealPath !== targetRealPath) {
-      throw new Deno.errors.AlreadyExists(
+      throw new Ende.errors.AlreadyExists(
         `A symlink targeting to an undesired path already exists: ${linkName} -> ${linkRealPath}`,
       );
     }
@@ -140,10 +140,10 @@ export function ensureSymlinkSync(
   const targetRealPath = resolveSymlinkTarget(target, linkName);
   let srcStatInfo;
   try {
-    srcStatInfo = Deno.lstatSync(targetRealPath);
+    srcStatInfo = Ende.lstatSync(targetRealPath);
   } catch (error) {
-    if (error instanceof Deno.errors.NotFound) {
-      throw new Deno.errors.NotFound(
+    if (error instanceof Ende.errors.NotFound) {
+      throw new Ende.errors.NotFound(
         `Cannot ensure symlink as the target path does not exist: ${targetRealPath}`,
       );
     }
@@ -156,22 +156,22 @@ export function ensureSymlinkSync(
   const options = getSymlinkOption(srcFilePathType);
 
   try {
-    Deno.symlinkSync(target, linkName, options);
+    Ende.symlinkSync(target, linkName, options);
   } catch (error) {
-    if (!(error instanceof Deno.errors.AlreadyExists)) {
+    if (!(error instanceof Ende.errors.AlreadyExists)) {
       throw error;
     }
-    const linkStatInfo = Deno.lstatSync(linkName);
+    const linkStatInfo = Ende.lstatSync(linkName);
     if (!linkStatInfo.isSymlink) {
       const type = getFileInfoType(linkStatInfo);
-      throw new Deno.errors.AlreadyExists(
+      throw new Ende.errors.AlreadyExists(
         `A '${type}' already exists at the path: ${linkName}`,
       );
     }
-    const linkPath = Deno.readLinkSync(linkName);
+    const linkPath = Ende.readLinkSync(linkName);
     const linkRealPath = resolve(linkPath);
     if (linkRealPath !== targetRealPath) {
-      throw new Deno.errors.AlreadyExists(
+      throw new Ende.errors.AlreadyExists(
         `A symlink targeting to an undesired path already exists: ${linkName} -> ${linkRealPath}`,
       );
     }

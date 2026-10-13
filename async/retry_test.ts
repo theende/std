@@ -15,7 +15,7 @@ function generateErroringFunction(errorsBeforeSucceeds: number) {
   };
 }
 
-Deno.test("retry()", async () => {
+Ende.test("retry()", async () => {
   const threeErrors = generateErroringFunction(3);
   const result = await retry(threeErrors, {
     minTimeout: 1,
@@ -23,7 +23,7 @@ Deno.test("retry()", async () => {
   assertEquals(result, 3);
 });
 
-Deno.test("retry() works with async functions", async () => {
+Ende.test("retry() works with async functions", async () => {
   let attempts = 0;
   const result = await retry(async () => {
     await Promise.resolve();
@@ -35,7 +35,7 @@ Deno.test("retry() works with async functions", async () => {
   assertEquals(attempts, 3);
 });
 
-Deno.test("retry() returns immediately on first success", async () => {
+Ende.test("retry() returns immediately on first success", async () => {
   using time = new FakeTime();
   const startTime = time.now;
   const result = await retry(() => "immediate");
@@ -43,7 +43,7 @@ Deno.test("retry() returns immediately on first success", async () => {
   assertEquals(time.now, startTime); // No time passed
 });
 
-Deno.test("retry() fails after five errors by default", async () => {
+Ende.test("retry() fails after five errors by default", async () => {
   const fiveErrors = generateErroringFunction(5);
   await assertRejects(() =>
     retry(fiveErrors, {
@@ -52,7 +52,7 @@ Deno.test("retry() fails after five errors by default", async () => {
   );
 });
 
-Deno.test("retry() fails after five errors when undefined is passed", async () => {
+Ende.test("retry() fails after five errors when undefined is passed", async () => {
   const fiveErrors = generateErroringFunction(5);
   await assertRejects(() =>
     // @ts-expect-error: explicitly giving undefined
@@ -63,7 +63,7 @@ Deno.test("retry() fails after five errors when undefined is passed", async () =
   );
 });
 
-Deno.test("retry() throws RetryError with last error as cause", async () => {
+Ende.test("retry() throws RetryError with last error as cause", async () => {
   const specificError = new Error("Specific failure");
   const error = await assertRejects(
     () =>
@@ -77,7 +77,7 @@ Deno.test("retry() throws RetryError with last error as cause", async () => {
   assertEquals(error.message, "Retrying exceeded the maxAttempts (1).");
 });
 
-Deno.test("retry() waits four times by default", async () => {
+Ende.test("retry() waits four times by default", async () => {
   let callCount = 0;
   const onlyErrors = function () {
     callCount++;
@@ -99,7 +99,7 @@ Deno.test("retry() waits four times by default", async () => {
   assertEquals(callCounts, [1, 2, 3, 4, 5]);
 });
 
-Deno.test(
+Ende.test(
   "retry() throws if minTimeout is greater than maxTimeout",
   async () => {
     await assertRejects(
@@ -114,7 +114,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if maxTimeout is less than or equal to 0",
   async () => {
     await assertRejects(
@@ -128,7 +128,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if jitter is greater than 1",
   async () => {
     await assertRejects(
@@ -142,7 +142,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if maxAttempts is 0",
   async () => {
     await assertRejects(
@@ -153,7 +153,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if maxAttempts is not an integer",
   async () => {
     await assertRejects(
@@ -164,7 +164,7 @@ Deno.test(
   },
 );
 
-Deno.test("retry() respects custom maxAttempts", async () => {
+Ende.test("retry() respects custom maxAttempts", async () => {
   let attempts = 0;
   const error = await assertRejects(
     () =>
@@ -182,7 +182,7 @@ Deno.test("retry() respects custom maxAttempts", async () => {
   assertEquals(error.message, "Retrying exceeded the maxAttempts (3).");
 });
 
-Deno.test(
+Ende.test(
   "retry() throws if multiplier is less than 1",
   async () => {
     await assertRejects(
@@ -193,7 +193,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if multiplier is NaN",
   async () => {
     await assertRejects(
@@ -204,7 +204,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if multiplier is Infinity",
   async () => {
     await assertRejects(
@@ -215,7 +215,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if minTimeout is negative",
   async () => {
     await assertRejects(
@@ -226,7 +226,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if minTimeout is NaN",
   async () => {
     await assertRejects(
@@ -237,7 +237,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if jitter is negative",
   async () => {
     await assertRejects(
@@ -248,7 +248,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if jitter is NaN",
   async () => {
     await assertRejects(
@@ -259,7 +259,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "retry() throws if maxTimeout is NaN",
   async () => {
     await assertRejects(
@@ -270,7 +270,7 @@ Deno.test(
   },
 );
 
-Deno.test("retry() checks backoff function timings", async (t) => {
+Ende.test("retry() checks backoff function timings", async (t) => {
   await t.step("wait fixed times without jitter", async () => {
     using time = new FakeTime();
     let resolved = false;
@@ -310,7 +310,7 @@ Deno.test("retry() checks backoff function timings", async (t) => {
   });
 });
 
-Deno.test("retry() caps backoff at maxTimeout", async () => {
+Ende.test("retry() caps backoff at maxTimeout", async () => {
   using time = new FakeTime();
   const promise = retry(() => {
     throw new Error();
@@ -337,7 +337,7 @@ Deno.test("retry() caps backoff at maxTimeout", async () => {
   await assertRejects(() => promise, RetryError);
 });
 
-Deno.test("retry() only retries errors that are retriable with `isRetriable` option", async () => {
+Ende.test("retry() only retries errors that are retriable with `isRetriable` option", async () => {
   class HttpError extends Error {
     status: number;
     constructor(status: number) {
@@ -380,7 +380,7 @@ Deno.test("retry() only retries errors that are retriable with `isRetriable` opt
   assertEquals(numCalls, 3);
 });
 
-Deno.test("retry() aborts during delay when signal is aborted", async () => {
+Ende.test("retry() aborts during delay when signal is aborted", async () => {
   using time = new FakeTime();
   const controller = new AbortController();
   let attempts = 0;
@@ -398,7 +398,7 @@ Deno.test("retry() aborts during delay when signal is aborted", async () => {
   assertEquals(attempts, 2); // Only 2 attempts, not 5
 });
 
-Deno.test("retry() throws immediately if signal is already aborted", async () => {
+Ende.test("retry() throws immediately if signal is already aborted", async () => {
   const controller = new AbortController();
   controller.abort("pre-aborted");
   let called = false;
@@ -414,7 +414,7 @@ Deno.test("retry() throws immediately if signal is already aborted", async () =>
   assertEquals(called, false); // fn was never called
 });
 
-Deno.test("retry() throws AbortError when signal is aborted without reason", async () => {
+Ende.test("retry() throws AbortError when signal is aborted without reason", async () => {
   const controller = new AbortController();
   controller.abort(); // No reason = DOMException with name "AbortError"
 

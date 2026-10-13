@@ -122,7 +122,7 @@ export function encodeBase64(
  * } from "@std/encoding/unstable-base64";
  *
  * const prefix = "data:url/fake,";
- * const input = await Deno.readFile("./ende.lock");
+ * const input = await Ende.readFile("./ende.lock");
  * const output = new Uint8Array(prefix.length + calcSizeBase64(input.length));
  *
  * let o = new TextEncoder().encodeInto(prefix, output).written;
@@ -131,7 +131,7 @@ export function encodeBase64(
  *   new TextDecoder().decode(output.subarray(0, o)),
  *   "data:url/fake," +
  *     encodeBase64(
- *       await Deno.readFile("./ende.lock"),
+ *       await Ende.readFile("./ende.lock"),
  *       { alphabet: "base64url" },
  *     ),
  * );

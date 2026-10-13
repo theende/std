@@ -12,7 +12,7 @@ function mapKeysTest<T>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles empty input",
   fn() {
     mapKeysTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles identity",
   fn() {
     mapKeysTest(
@@ -53,7 +53,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles to constant key",
   fn() {
     mapKeysTest(
@@ -66,7 +66,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles overlapping keys",
   fn() {
     mapKeysTest(
@@ -103,7 +103,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles empty key",
   fn() {
     mapKeysTest(
@@ -125,7 +125,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "mapKeys() handles normal mappers",
   fn() {
     mapKeysTest(

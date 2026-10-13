@@ -11,7 +11,7 @@ import {
   isTSpecial,
 } from "./_util.ts";
 
-Deno.test({
+Ende.test({
   name: "consumeToken()",
   fn() {
     const fixtures = [
@@ -26,7 +26,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "consumeValue()",
   fn() {
     const fixtures = [
@@ -55,7 +55,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "consumeMediaParam()",
   fn() {
     const fixtures = [
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "decode2331Encoding()",
   fn() {
     const fixtures = [
@@ -103,7 +103,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isIterator()",
   fn() {
     const fixtures = [
@@ -120,7 +120,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isToken()",
   fn() {
     const fixtures = [
@@ -135,7 +135,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "isTSpecial()",
   fn() {
     const fixtues = [

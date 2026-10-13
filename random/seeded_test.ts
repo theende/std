@@ -4,7 +4,7 @@ import { nextFloat64 } from "./next_float_64.ts";
 import { type Prng, randomSeeded } from "./seeded.ts";
 import { assertAlmostEquals, assertEquals } from "@std/assert";
 
-Deno.test("randomSeeded() generates random numbers", () => {
+Ende.test("randomSeeded() generates random numbers", () => {
   const prng = randomSeeded(1n);
 
   assertEquals(prng(), 0.20176767697557807);
@@ -12,7 +12,7 @@ Deno.test("randomSeeded() generates random numbers", () => {
   assertEquals(prng(), 0.7924694607499987);
 });
 
-Deno.test("getRandomValuesSeeded() with nextFloat64() gives relatively uniform distribution of random numbers", async (t) => {
+Ende.test("getRandomValuesSeeded() with nextFloat64() gives relatively uniform distribution of random numbers", async (t) => {
   function randomSeeded53Bit(seed: bigint): Prng {
     const getRandomValues = getRandomValuesSeeded(seed);
     return () => nextFloat64(getRandomValues);
@@ -69,7 +69,7 @@ Deno.test("getRandomValuesSeeded() with nextFloat64() gives relatively uniform d
   );
 });
 
-Deno.test("getRandomValuesSeeded() generates bytes", () => {
+Ende.test("getRandomValuesSeeded() generates bytes", () => {
   const prng = getRandomValuesSeeded(1n);
   assertEquals(
     prng(new Uint8Array(5)),
@@ -77,7 +77,7 @@ Deno.test("getRandomValuesSeeded() generates bytes", () => {
   );
 });
 
-Deno.test("getRandomValuesSeeded() fixed results for some seeds https://github.com/denoland/std/issues/6688", () => {
+Ende.test("getRandomValuesSeeded() fixed results for some seeds https://github.com/denoland/std/issues/6688", () => {
   const seed = 6552010792480112863n;
   const prng = randomSeeded(seed);
 

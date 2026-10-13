@@ -15,7 +15,7 @@ const testCases = [
   ["foobar", "MZXW6YTBOI======"],
 ] as const;
 
-Deno.test({
+Ende.test({
   name: "encodeBase32()",
   fn() {
     for (const [bin, b32] of testCases) {
@@ -24,7 +24,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "decodeBase32()",
   fn() {
     for (const [bin, b32] of testCases) {
@@ -33,7 +33,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "decodeBase32() throws on bad length",
   fn() {
     assertThrows(
@@ -44,7 +44,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "decodeBase32() throws on bad padding",
   fn() {
     assertThrows(
@@ -55,7 +55,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "encodeBase32() encodes very long text",
   fn() {
     const data = "a".repeat(16400);

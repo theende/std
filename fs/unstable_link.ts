@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -20,8 +20,8 @@ import { mapError } from "./_map_error.ts";
  * @param newpath The path of the hard link.
  */
 export async function link(oldpath: string, newpath: string): Promise<void> {
-  if (isDeno) {
-    await Deno.link(oldpath, newpath);
+  if (isEnde) {
+    await Ende.link(oldpath, newpath);
   } else {
     try {
       await getNodeFs().promises.link(oldpath, newpath);
@@ -48,8 +48,8 @@ export async function link(oldpath: string, newpath: string): Promise<void> {
  * @param newpath The path of the hard link.
  */
 export function linkSync(oldpath: string, newpath: string): void {
-  if (isDeno) {
-    Deno.linkSync(oldpath, newpath);
+  if (isEnde) {
+    Ende.linkSync(oldpath, newpath);
   } else {
     try {
       getNodeFs().linkSync(oldpath, newpath);

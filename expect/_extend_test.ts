@@ -80,7 +80,7 @@ expect.extend({
   },
 });
 
-Deno.test("expect.extend() api test case", () => {
+Ende.test("expect.extend() api test case", () => {
   const book1a = new Book("Book 1", [
     new Author("Author 1"),
     new Author("Author 2"),
@@ -111,7 +111,7 @@ Deno.test("expect.extend() api test case", () => {
   );
 });
 
-Deno.test("expect.extend() example is valid", async () => {
+Ende.test("expect.extend() example is valid", async () => {
   // Extends the `Expected` interface with your new matchers signatures
   interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
     // Matcher that asserts value is a dinosaur

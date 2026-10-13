@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { mapError } from "./_map_error.ts";
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 
 /**
  * Copies the contents and permissions of one file to another specified path, by default creating a
@@ -26,8 +26,8 @@ export async function copyFile(
   from: string | URL,
   to: string | URL,
 ): Promise<void> {
-  if (isDeno) {
-    await Deno.copyFile(from, to);
+  if (isEnde) {
+    await Ende.copyFile(from, to);
   } else {
     try {
       await getNodeFs().promises.copyFile(from, to);
@@ -61,8 +61,8 @@ export function copyFileSync(
   from: string | URL,
   to: string | URL,
 ) {
-  if (isDeno) {
-    Deno.copyFileSync(from, to);
+  if (isEnde) {
+    Ende.copyFileSync(from, to);
   } else {
     try {
       getNodeFs().copyFileSync(from, to);

@@ -11,7 +11,7 @@ import {
 import { delay } from "./delay.ts";
 import { FakeTime } from "@std/testing/time";
 
-Deno.test("pooledMap() throws for invalid poolLimit", () => {
+Ende.test("pooledMap() throws for invalid poolLimit", () => {
   const noop = (i: number) => Promise.resolve(i);
   for (const poolLimit of [0, -1, 1.5, NaN, Infinity]) {
     assertThrows(
@@ -27,7 +27,7 @@ Deno.test("pooledMap() throws for invalid poolLimit", () => {
   }
 });
 
-Deno.test("pooledMap()", async () => {
+Ende.test("pooledMap()", async () => {
   using time = new FakeTime();
 
   const start = Date.now();
@@ -48,7 +48,7 @@ Deno.test("pooledMap()", async () => {
   assertLess(diff, 900);
 });
 
-Deno.test("pooledMap() with options form", async () => {
+Ende.test("pooledMap() with options form", async () => {
   using time = new FakeTime();
 
   const start = Date.now();
@@ -69,7 +69,7 @@ Deno.test("pooledMap() with options form", async () => {
   assertLess(diff, 900);
 });
 
-Deno.test("pooledMap() handles errors", async () => {
+Ende.test("pooledMap() handles errors", async () => {
   async function mapNumber(n: number): Promise<number> {
     if (n <= 2) {
       throw new Error(`Bad number: ${n}`);
@@ -93,7 +93,7 @@ Deno.test("pooledMap() handles errors", async () => {
   assertEquals(mappedNumbers, [3]);
 });
 
-Deno.test("pooledMap() returns ordered items", async () => {
+Ende.test("pooledMap() returns ordered items", async () => {
   const results = pooledMap(
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     (i) => new Promise<number>((r) => setTimeout(() => r(i), 100 / i)),
@@ -104,7 +104,7 @@ Deno.test("pooledMap() returns ordered items", async () => {
   assertEquals(returned, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 });
 
-Deno.test("pooledMap() checks browser compat", async () => {
+Ende.test("pooledMap() checks browser compat", async () => {
   const asyncIterFunc = ReadableStream.prototype[Symbol.asyncIterator];
   // deno-lint-ignore no-explicit-any
   delete (ReadableStream.prototype as any)[Symbol.asyncIterator];
@@ -121,7 +121,7 @@ Deno.test("pooledMap() checks browser compat", async () => {
   }
 });
 
-Deno.test("pooledMap() works normally without signal", async () => {
+Ende.test("pooledMap() works normally without signal", async () => {
   const results = pooledMap(
     [10, 20, 30],
     async (i) => {
@@ -135,7 +135,7 @@ Deno.test("pooledMap() works normally without signal", async () => {
   assertEquals(array, [20, 40, 60]);
 });
 
-Deno.test("pooledMap() rejects immediately with already-aborted signal", async () => {
+Ende.test("pooledMap() rejects immediately with already-aborted signal", async () => {
   const controller = new AbortController();
   controller.abort(new Error("already aborted"));
 
@@ -152,7 +152,7 @@ Deno.test("pooledMap() rejects immediately with already-aborted signal", async (
   );
 });
 
-Deno.test("pooledMap() stops processing when signal is aborted", async () => {
+Ende.test("pooledMap() stops processing when signal is aborted", async () => {
   const controller = new AbortController();
   const started: number[] = [];
 
@@ -182,7 +182,7 @@ Deno.test("pooledMap() stops processing when signal is aborted", async () => {
   assertLess(started.length, 5);
 });
 
-Deno.test("pooledMap() aborts during pool wait", async () => {
+Ende.test("pooledMap() aborts during pool wait", async () => {
   const controller = new AbortController();
 
   const results = pooledMap(
@@ -203,7 +203,7 @@ Deno.test("pooledMap() aborts during pool wait", async () => {
   );
 });
 
-Deno.test("pooledMap() rejects when aborted during the final drain", async () => {
+Ende.test("pooledMap() rejects when aborted during the final drain", async () => {
   const controller = new AbortController();
 
   // poolLimit exceeds the item count, so the source is exhausted and the
@@ -226,7 +226,7 @@ Deno.test("pooledMap() rejects when aborted during the final drain", async () =>
   );
 });
 
-Deno.test("pooledMap() rejects with DOMException AbortError on bare abort", async () => {
+Ende.test("pooledMap() rejects with DOMException AbortError on bare abort", async () => {
   const controller = new AbortController();
 
   const results = pooledMap(
@@ -247,7 +247,7 @@ Deno.test("pooledMap() rejects with DOMException AbortError on bare abort", asyn
   assertEquals(error.name, "AbortError");
 });
 
-Deno.test("pooledMap() preserves item errors when aborted", async () => {
+Ende.test("pooledMap() preserves item errors when aborted", async () => {
   const controller = new AbortController();
 
   const results = pooledMap(
@@ -272,7 +272,7 @@ Deno.test("pooledMap() preserves item errors when aborted", async () => {
   assertStringIncludes(error.errors[0].message, "item failed");
 });
 
-Deno.test("pooledMap() closes the source iterator on abort", async () => {
+Ende.test("pooledMap() closes the source iterator on abort", async () => {
   const controller = new AbortController();
   let closed = false;
 
@@ -306,7 +306,7 @@ Deno.test("pooledMap() closes the source iterator on abort", async () => {
   assertEquals(closed, true);
 });
 
-Deno.test("pooledMap() ignores abort after completion", async () => {
+Ende.test("pooledMap() ignores abort after completion", async () => {
   const controller = new AbortController();
 
   const results = pooledMap(
@@ -322,7 +322,7 @@ Deno.test("pooledMap() ignores abort after completion", async () => {
   controller.abort(new Error("late abort"));
 });
 
-Deno.test("pooledMap() does not retain abort listener on a long-lived signal", async () => {
+Ende.test("pooledMap() does not retain abort listener on a long-lived signal", async () => {
   const controller = new AbortController();
   const signal = controller.signal;
 
@@ -347,7 +347,7 @@ Deno.test("pooledMap() does not retain abort listener on a long-lived signal", a
   assertEquals(activeListeners, 0);
 });
 
-Deno.test({
+Ende.test({
   name: "pooledMap() reacts to abort while waiting on a slow source",
   async fn() {
     const controller = new AbortController();
@@ -378,7 +378,7 @@ Deno.test({
   sanitizeResources: false,
 });
 
-Deno.test({
+Ende.test({
   name: "pooledMap() reacts to abort with a stalled source",
   async fn() {
     const controller = new AbortController();

@@ -7,7 +7,7 @@ import {
   assertThrows,
 } from "./mod.ts";
 
-Deno.test("assertStringIncludes()", () => {
+Ende.test("assertStringIncludes()", () => {
   assertStringIncludes("Denosaurus", "saur");
   assertStringIncludes("Denosaurus", "Deno");
   assertStringIncludes("Denosaurus", "rus");
@@ -22,7 +22,7 @@ Deno.test("assertStringIncludes()", () => {
   assertEquals(didThrow, true);
 });
 
-Deno.test("assertStringIncludes() throws", () => {
+Ende.test("assertStringIncludes() throws", () => {
   assertThrows(
     () => assertStringIncludes("Denosaurus from Jurassic", "Raptor"),
     AssertionError,
@@ -30,7 +30,7 @@ Deno.test("assertStringIncludes() throws", () => {
   );
 });
 
-Deno.test("assertStringIncludes() with custom message", () => {
+Ende.test("assertStringIncludes() with custom message", () => {
   assertThrows(
     () =>
       assertStringIncludes(

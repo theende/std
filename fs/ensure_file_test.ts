@@ -6,8 +6,8 @@ import { ensureFile, ensureFileSync } from "./ensure_file.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Deno.test("ensureFile() creates file if it does not exist", async function () {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("ensureFile() creates file if it does not exist", async function () {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_ensure_file_",
   });
   const testDir = path.join(tempDirPath, "ensure_file_1");
@@ -17,14 +17,14 @@ Deno.test("ensureFile() creates file if it does not exist", async function () {
     await ensureFile(testFile);
 
     // test file should exists.
-    await Deno.stat(testFile);
+    await Ende.stat(testFile);
   } finally {
-    await Deno.remove(tempDirPath, { recursive: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("ensureFileSync() creates file if it does not exist", function () {
-  const tempDirPath = Deno.makeTempDirSync({
+Ende.test("ensureFileSync() creates file if it does not exist", function () {
+  const tempDirPath = Ende.makeTempDirSync({
     prefix: "deno_std_ensure_file_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_file_2");
@@ -34,60 +34,60 @@ Deno.test("ensureFileSync() creates file if it does not exist", function () {
     ensureFileSync(testFile);
 
     // test file should exists.
-    Deno.statSync(testFile);
+    Ende.statSync(testFile);
   } finally {
-    Deno.removeSync(tempDirPath, { recursive: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("ensureFile() ensures existing file exists", async function () {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("ensureFile() ensures existing file exists", async function () {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_ensure_file_",
   });
   const testDir = path.join(tempDirPath, "ensure_file_3");
   const testFile = path.join(testDir, "test.txt");
 
   try {
-    await Deno.mkdir(testDir, { recursive: true });
-    await Deno.writeFile(testFile, new Uint8Array());
+    await Ende.mkdir(testDir, { recursive: true });
+    await Ende.writeFile(testFile, new Uint8Array());
 
     await ensureFile(testFile);
 
     // test file should exists.
-    await Deno.stat(testFile);
+    await Ende.stat(testFile);
   } finally {
-    await Deno.remove(tempDirPath, { recursive: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("ensureFileSync() ensures existing file exists", function () {
-  const tempDirPath = Deno.makeTempDirSync({
+Ende.test("ensureFileSync() ensures existing file exists", function () {
+  const tempDirPath = Ende.makeTempDirSync({
     prefix: "deno_std_ensure_file_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_file_4");
   const testFile = path.join(testDir, "test.txt");
 
   try {
-    Deno.mkdirSync(testDir, { recursive: true });
-    Deno.writeFileSync(testFile, new Uint8Array());
+    Ende.mkdirSync(testDir, { recursive: true });
+    Ende.writeFileSync(testFile, new Uint8Array());
 
     ensureFileSync(testFile);
 
     // test file should exists.
-    Deno.statSync(testFile);
+    Ende.statSync(testFile);
   } finally {
-    Deno.removeSync(tempDirPath, { recursive: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("ensureFile() rejects if input is dir", async function () {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("ensureFile() rejects if input is dir", async function () {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_ensure_file_",
   });
   const testDir = path.join(tempDirPath, "ensure_file_5");
 
   try {
-    await Deno.mkdir(testDir, { recursive: true });
+    await Ende.mkdir(testDir, { recursive: true });
 
     await assertRejects(
       async () => {
@@ -97,18 +97,18 @@ Deno.test("ensureFile() rejects if input is dir", async function () {
       `Failed to ensure file exists: expected 'file', got 'dir'`,
     );
   } finally {
-    await Deno.remove(tempDirPath, { recursive: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("ensureFileSync() throws if input is dir", function () {
-  const tempDirPath = Deno.makeTempDirSync({
+Ende.test("ensureFileSync() throws if input is dir", function () {
+  const tempDirPath = Ende.makeTempDirSync({
     prefix: "deno_std_ensure_file_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_file_6");
 
   try {
-    Deno.mkdirSync(testDir, { recursive: true });
+    Ende.mkdirSync(testDir, { recursive: true });
 
     assertThrows(
       () => {
@@ -118,11 +118,11 @@ Deno.test("ensureFileSync() throws if input is dir", function () {
       `Failed to ensure file exists: expected 'file', got 'dir'`,
     );
   } finally {
-    Deno.removeSync(tempDirPath, { recursive: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test({
+Ende.test({
   name: "ensureFile() rejects permission fs write error",
   permissions: { read: true },
   async fn() {
@@ -134,12 +134,12 @@ Deno.test({
     await assertRejects(
       async () => await ensureFile(testFile),
       // deno-lint-ignore no-explicit-any
-      (Deno as any).errors.NotCapable ?? Deno.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
     );
   },
 });
 
-Deno.test({
+Ende.test({
   name: "ensureFileSync() throws permission fs write error",
   permissions: { read: true },
   fn() {
@@ -151,83 +151,83 @@ Deno.test({
     assertThrows(
       () => ensureFileSync(testFile),
       // deno-lint-ignore no-explicit-any
-      (Deno as any).errors.NotCapable ?? Deno.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
     );
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "ensureFile() can write file without write permissions on parent directory",
   permissions: {
     read: true,
     write: true,
-    run: [Deno.execPath()],
+    run: [Ende.execPath()],
   },
   async fn() {
-    const tempDirPath = await Deno.makeTempDir({
+    const tempDirPath = await Ende.makeTempDir({
       prefix: "deno_std_ensure_file_",
     });
     const testDir = path.join(tempDirPath, "ensure_file_9");
     const testFile = path.join(testDir, "test.txt");
 
     try {
-      await Deno.mkdir(testDir, { recursive: true });
-      await Deno.permissions.revoke({ name: "write", path: testDir });
+      await Ende.mkdir(testDir, { recursive: true });
+      await Ende.permissions.revoke({ name: "write", path: testDir });
 
       // should still work as the parent directory already exists
       await ensureFile(testFile);
 
       // test file should exist
-      await Deno.stat(testFile);
+      await Ende.stat(testFile);
     } finally {
       // it's dirty, but we can't remove the test output in the same process after dropping the write permission
-      await new Deno.Command(Deno.execPath(), {
+      await new Ende.Command(Ende.execPath(), {
         args: [
           "eval",
           "--no-lock",
-          `Deno.removeSync("${testDir}", { recursive: true });`,
+          `Ende.removeSync("${testDir}", { recursive: true });`,
         ],
       }).output();
-      await Deno.remove(tempDirPath, { recursive: true });
+      await Ende.remove(tempDirPath, { recursive: true });
     }
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "ensureFileSync() can write file without write permissions on parent directory",
   permissions: {
     read: true,
     write: true,
-    run: [Deno.execPath()],
+    run: [Ende.execPath()],
   },
   fn() {
-    const tempDirPath = Deno.makeTempDirSync({
+    const tempDirPath = Ende.makeTempDirSync({
       prefix: "deno_std_ensure_file_sync_",
     });
     const testDir = path.join(tempDirPath, "ensure_file_10");
     const testFile = path.join(testDir, "test.txt");
 
     try {
-      Deno.mkdirSync(testDir, { recursive: true });
-      Deno.permissions.revokeSync({ name: "write", path: testDir });
+      Ende.mkdirSync(testDir, { recursive: true });
+      Ende.permissions.revokeSync({ name: "write", path: testDir });
 
       // should still work as the parent directory already exists
       ensureFileSync(testFile);
 
       // test file should exist
-      Deno.statSync(testFile);
+      Ende.statSync(testFile);
     } finally {
       // it's dirty, but we can't remove the test output in the same process after dropping the write permission
-      new Deno.Command(Deno.execPath(), {
+      new Ende.Command(Ende.execPath(), {
         args: [
           "eval",
           "--no-lock",
-          `Deno.removeSync("${testDir}", { recursive: true });`,
+          `Ende.removeSync("${testDir}", { recursive: true });`,
         ],
       }).outputSync();
-      Deno.removeSync(tempDirPath, { recursive: true });
+      Ende.removeSync(tempDirPath, { recursive: true });
     }
   },
 });

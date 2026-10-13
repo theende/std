@@ -419,7 +419,7 @@ async function assertDocs(specifiers: string[]) {
 }
 
 export async function checkDocs(specifiers: string[]) {
-  const { success, stderr } = await new Deno.Command(Deno.execPath(), {
+  const { success, stderr } = await new Ende.Command(Ende.execPath(), {
     args: ["doc", "--lint", ...specifiers],
     stdin: "inherit",
     stdout: "inherit",
@@ -445,7 +445,7 @@ export async function checkDocs(specifiers: string[]) {
 
     // deno-lint-ignore no-console
     console.log(`%c${errors.length} errors found`, "color: red");
-    Deno.exit(1);
+    Ende.exit(1);
   }
 }
 

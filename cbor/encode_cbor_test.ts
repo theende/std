@@ -7,26 +7,26 @@ import { encodeCbor } from "./encode_cbor.ts";
 import { CborTag } from "./tag.ts";
 import type { CborType } from "./types.ts";
 
-Deno.test("encodeCbor() encoding undefined", () => {
+Ende.test("encodeCbor() encoding undefined", () => {
   assertEquals(
     encodeCbor(undefined),
     new Uint8Array([0b111_10111]),
   );
 });
 
-Deno.test("encodeCbor() encoding null", () => {
+Ende.test("encodeCbor() encoding null", () => {
   assertEquals(encodeCbor(null), new Uint8Array([0b111_10110]));
 });
 
-Deno.test("encodeCbor() encoding true", () => {
+Ende.test("encodeCbor() encoding true", () => {
   assertEquals(encodeCbor(true), new Uint8Array([0b111_10101]));
 });
 
-Deno.test("encodeCbor() encoding false", () => {
+Ende.test("encodeCbor() encoding false", () => {
   assertEquals(encodeCbor(false), new Uint8Array([0b111_10100]));
 });
 
-Deno.test("encodeCbor() encoding numbers as Uint", () => {
+Ende.test("encodeCbor() encoding numbers as Uint", () => {
   let num: number | bigint = random(0, 24);
   assertEquals(encodeCbor(num), new Uint8Array([0b000_00000 + num]));
 
@@ -71,7 +71,7 @@ Deno.test("encodeCbor() encoding numbers as Uint", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding numbers as Int", () => {
+Ende.test("encodeCbor() encoding numbers as Int", () => {
   const num = -random(1, 24); // -0 === 0
   assertEquals(
     encodeCbor(num),
@@ -79,7 +79,7 @@ Deno.test("encodeCbor() encoding numbers as Int", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding numbers as Float", () => {
+Ende.test("encodeCbor() encoding numbers as Float", () => {
   const num = Math.random() * 2 ** 32;
   const view = new DataView(new ArrayBuffer(8));
   view.setFloat64(0, num);
@@ -89,7 +89,7 @@ Deno.test("encodeCbor() encoding numbers as Float", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding bigints as Uint", () => {
+Ende.test("encodeCbor() encoding bigints as Uint", () => {
   let num = BigInt(random(0, 24));
   assertEquals(
     encodeCbor(num),
@@ -138,7 +138,7 @@ Deno.test("encodeCbor() encoding bigints as Uint", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding bigints as Int", () => {
+Ende.test("encodeCbor() encoding bigints as Int", () => {
   const num = -BigInt(random(1, 24)); // -0 === 0
   assertEquals(
     encodeCbor(num),
@@ -146,7 +146,7 @@ Deno.test("encodeCbor() encoding bigints as Int", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding strings", () => {
+Ende.test("encodeCbor() encoding strings", () => {
   const decoder = new TextDecoder();
 
   let bytes = new Uint8Array(random(0, 24)).map((_) => random(97, 123)); // Range: `a` - `z`
@@ -188,7 +188,7 @@ Deno.test("encodeCbor() encoding strings", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("encodeCbor() correctly preallocates enough space for strings", () => {
+Ende.test("encodeCbor() correctly preallocates enough space for strings", () => {
   const input = "\uD83D\uDCA9";
   const binary = new TextEncoder().encode(input);
   assert(input.length !== binary.length);
@@ -198,7 +198,7 @@ Deno.test("encodeCbor() correctly preallocates enough space for strings", () => 
   );
 });
 
-Deno.test("encodeCbor() encoding Uint8Arrays", () => {
+Ende.test("encodeCbor() encoding Uint8Arrays", () => {
   let bytes = new Uint8Array(random(0, 24));
   assertEquals(
     encodeCbor(bytes),
@@ -238,7 +238,7 @@ Deno.test("encodeCbor() encoding Uint8Arrays", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("encodeCbor() encoding Dates", () => {
+Ende.test("encodeCbor() encoding Dates", () => {
   const date = new Date();
   assertEquals(
     encodeCbor(date),
@@ -246,7 +246,7 @@ Deno.test("encodeCbor() encoding Dates", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding bignums as Uint byte string", () => {
+Ende.test("encodeCbor() encoding bignums as Uint byte string", () => {
   const num = 2n ** 64n;
   assertEquals(
     encodeCbor(num),
@@ -254,7 +254,7 @@ Deno.test("encodeCbor() encoding bignums as Uint byte string", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding bignums as Int byte string", () => {
+Ende.test("encodeCbor() encoding bignums as Int byte string", () => {
   const num = -(2n ** 64n) - 1n;
   assertEquals(
     encodeCbor(num),
@@ -262,7 +262,7 @@ Deno.test("encodeCbor() encoding bignums as Int byte string", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding Map<CborType, CborType>", () => {
+Ende.test("encodeCbor() encoding Map<CborType, CborType>", () => {
   const map = new Map<CborType, CborType>([[1, 2], ["3", 4], [[5], { a: 6 }]]);
   assertEquals(
     encodeCbor(map),
@@ -279,7 +279,7 @@ Deno.test("encodeCbor() encoding Map<CborType, CborType>", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding Maps", () => {
+Ende.test("encodeCbor() encoding Maps", () => {
   let pairs = random(0, 24);
   let entries: [number, number][] = new Array(pairs)
     .fill(0)
@@ -350,7 +350,7 @@ Deno.test("encodeCbor() encoding Maps", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("encodeCbor() encoding arrays", () => {
+Ende.test("encodeCbor() encoding arrays", () => {
   let array = new Array(random(0, 24)).fill(0);
   assertEquals(
     encodeCbor(array),
@@ -397,7 +397,7 @@ Deno.test("encodeCbor() encoding arrays", () => {
   // Can't test the next bracket up due to JavaScript limitations.
 });
 
-Deno.test("encodeCbor() encoding objects", () => {
+Ende.test("encodeCbor() encoding objects", () => {
   let pairs = random(0, 24);
   let entries: [string, number][] = new Array(pairs).fill(0).map((
     _,
@@ -440,7 +440,7 @@ Deno.test("encodeCbor() encoding objects", () => {
   // Can't test the next two bracket up due to JavaScript limitations.
 });
 
-Deno.test("encodeCbor() ignores inherited enumerable properties", () => {
+Ende.test("encodeCbor() ignores inherited enumerable properties", () => {
   const input: { [k: string]: CborType } = Object.assign(
     Object.create({ inherited: 1 }),
     { own: 2 },
@@ -455,7 +455,7 @@ Deno.test("encodeCbor() ignores inherited enumerable properties", () => {
   );
 });
 
-Deno.test("encodeCbor() sizes object keys with multi-byte characters", () => {
+Ende.test("encodeCbor() sizes object keys with multi-byte characters", () => {
   // https://github.com/denoland/std/issues/7255
   // calcEncodingSize() previously sized object keys as `y.length` bytes,
   // but encodeString() writes UTF-8, which needs up to 3 bytes per UTF-16
@@ -497,7 +497,7 @@ Deno.test("encodeCbor() sizes object keys with multi-byte characters", () => {
   );
 });
 
-Deno.test("encodeCbor() encoding CborTag()", () => {
+Ende.test("encodeCbor() encoding CborTag()", () => {
   const bytes = new Uint8Array(random(0, 24)).map((_) => random(0, 256));
   assertEquals(
     encodeCbor(new CborTag(2, bytes)),
@@ -505,7 +505,7 @@ Deno.test("encodeCbor() encoding CborTag()", () => {
   );
 });
 
-Deno.test("encodeCbor() rejecting numbers as Uint", () => {
+Ende.test("encodeCbor() rejecting numbers as Uint", () => {
   const num = 2 ** 65;
   assertThrows(
     () => {
@@ -516,7 +516,7 @@ Deno.test("encodeCbor() rejecting numbers as Uint", () => {
   );
 });
 
-Deno.test("encodeCbor() rejecting numbers as Int", () => {
+Ende.test("encodeCbor() rejecting numbers as Int", () => {
   const num = -(2 ** 65);
   assertThrows(
     () => {
@@ -527,7 +527,7 @@ Deno.test("encodeCbor() rejecting numbers as Int", () => {
   );
 });
 
-Deno.test("encodeCbor() rejecting CborTag()", () => {
+Ende.test("encodeCbor() rejecting CborTag()", () => {
   let num = -5;
   assertThrows(
     () => {

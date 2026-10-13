@@ -39,7 +39,7 @@
  *   return multiplyFn(value, value);
  * }
  *
- * Deno.test("square calls multiply and returns results", () => {
+ * Ende.test("square calls multiply and returns results", () => {
  *   const multiplySpy = spy(multiply);
  *
  *   assertEquals(square(multiplySpy, 5), 25);
@@ -84,7 +84,7 @@
  *
  * const _internals = { multiply };
  *
- * Deno.test("square calls multiply and returns results", () => {
+ * Ende.test("square calls multiply and returns results", () => {
  *   const multiplySpy = spy(_internals, "multiply");
  *
  *   try {
@@ -137,7 +137,7 @@
  *
  * const _internals = { multiply };
  *
- * Deno.test("square calls multiply and returns results", () => {
+ * Ende.test("square calls multiply and returns results", () => {
  *   using multiplySpy = spy(_internals, "multiply");
  *
  *   assertEquals(square(5), 25);
@@ -199,7 +199,7 @@
  *
  * const _internals = { randomInt };
  *
- * Deno.test("randomMultiple uses randomInt to generate random multiples between -10 and 10 times the value", () => {
+ * Ende.test("randomMultiple uses randomInt to generate random multiples between -10 and 10 times the value", () => {
  *   const randomIntStub = stub(_internals, "randomInt", returnsNext([-3, 3]));
  *
  *   try {
@@ -250,7 +250,7 @@
  *
  * const _internals = { randomInt };
  *
- * Deno.test("randomMultiple uses randomInt to generate random multiples between -10 and 10 times the value", () => {
+ * Ende.test("randomMultiple uses randomInt to generate random multiples between -10 and 10 times the value", () => {
  *   using randomIntStub = stub(_internals, "randomInt", returnsNext([-3, 3]));
  *
  *   assertEquals(randomMultiple(5), -15);
@@ -297,7 +297,7 @@
  *   return setInterval(cb, 1000);
  * }
  *
- * Deno.test("secondInterval calls callback every second and stops after being cleared", () => {
+ * Ende.test("secondInterval calls callback every second and stops after being cleared", () => {
  *   using time = new FakeTime();
  *
  *   const cb = spy();

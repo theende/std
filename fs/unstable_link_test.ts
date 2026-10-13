@@ -22,7 +22,7 @@ import {
 import { platform, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
-Deno.test("link() creates a hard link to a file and mutate through hard link", async () => {
+Ende.test("link() creates a hard link to a file and mutate through hard link", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "link_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const linkFile = join(tempDirPath, "testFile.txt.hardlink");
@@ -73,7 +73,7 @@ Deno.test("link() creates a hard link to a file and mutate through hard link", a
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("link() rejects with AlreadyExists when hard linking with an existing path", async () => {
+Ende.test("link() rejects with AlreadyExists when hard linking with an existing path", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "link_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const anotherFile = join(tempDirPath, "anotherFile.txt");
@@ -90,13 +90,13 @@ Deno.test("link() rejects with AlreadyExists when hard linking with an existing 
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("link() rejects with NotFound with a non-existent file", async () => {
+Ende.test("link() rejects with NotFound with a non-existent file", async () => {
   await assertRejects(async () => {
     await link("non-existent-file.txt", "non-existent-hard-link");
   }, NotFound);
 });
 
-Deno.test("linkSync() creates a hard link to a file and mutate through hard link", () => {
+Ende.test("linkSync() creates a hard link to a file and mutate through hard link", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "linkSync_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const linkFile = join(tempDirPath, "testFile.txt.hardlink");
@@ -147,7 +147,7 @@ Deno.test("linkSync() creates a hard link to a file and mutate through hard link
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("linkSync() throws with AlreadyExists when hard linking with an existing path", () => {
+Ende.test("linkSync() throws with AlreadyExists when hard linking with an existing path", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "link_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const anotherFile = join(tempDirPath, "anotherFile.txt");
@@ -164,7 +164,7 @@ Deno.test("linkSync() throws with AlreadyExists when hard linking with an existi
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("linkSync() throws with NotFound with a non-existent file", () => {
+Ende.test("linkSync() throws with NotFound with a non-existent file", () => {
   assertThrows(() => {
     linkSync("non-existent-file.txt", "non-existent-hard-link");
   }, NotFound);

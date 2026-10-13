@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { stringify } from "./stringify.ts";
 
 // https://github.com/denoland/std/issues/1067#issuecomment-907740319
-Deno.test({
+Ende.test({
   name: "stringify() handles object value contains '='",
   fn() {
     const src = {
@@ -19,7 +19,7 @@ helloooooooo = 1
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles key alignment",
   fn() {
     const src = {
@@ -40,7 +40,7 @@ aaaaa = 1
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles empty key",
   fn() {
     const src = {
@@ -57,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles empty object",
   fn() {
     const src = {
@@ -74,7 +74,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles special keys in inline object",
   fn() {
     const src = {
@@ -86,7 +86,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() throws on invalid value",
   fn() {
     assertThrows(
@@ -102,7 +102,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify()",
   fn() {
     const src = {
@@ -221,7 +221,7 @@ the = "array"
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles mixed array",
   fn() {
     const src = {
@@ -252,7 +252,7 @@ b = [1,{c = 2,d = [{e = 3},true]}]
   },
 });
 
-Deno.test({
+Ende.test({
   name: "stringify() handles string values",
   fn: () => {
     const src = {

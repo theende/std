@@ -105,7 +105,7 @@ const WIN_URL_TESTSUITE = [
   [[new URL("file://///"), undefined], "\\"],
 ] as const;
 
-Deno.test("posix.basename()", function () {
+Ende.test("posix.basename()", function () {
   for (const [[name, suffix], expected] of COREUTILS_TESTSUITE) {
     assertEquals(basename(name, suffix), expected);
   }
@@ -134,7 +134,7 @@ Deno.test("posix.basename()", function () {
   );
 });
 
-Deno.test("posix.basename() throws with non-file URL", () => {
+Ende.test("posix.basename() throws with non-file URL", () => {
   assertThrows(
     () => posix.basename(new URL("https://deno.land/")),
     TypeError,
@@ -145,7 +145,7 @@ Deno.test("posix.basename() throws with non-file URL", () => {
   }
 });
 
-Deno.test("windows.basename()", function () {
+Ende.test("windows.basename()", function () {
   for (const [[name, suffix], expected] of WIN_TESTSUITE) {
     // deno-lint-ignore no-explicit-any
     assertEquals(windows.basename(name as any, suffix), expected);
@@ -163,7 +163,7 @@ Deno.test("windows.basename()", function () {
   }
 });
 
-Deno.test("windows.basename() throws with non-file URL", () => {
+Ende.test("windows.basename() throws with non-file URL", () => {
   for (const [[name, suffix], expected] of WIN_URL_TESTSUITE) {
     assertEquals(windows.basename(name, suffix), expected);
   }

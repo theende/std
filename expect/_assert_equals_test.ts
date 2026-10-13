@@ -27,7 +27,7 @@ function removed(s: string): string {
   return red(bold(stripAnsiCode(s)));
 }
 
-Deno.test({
+Ende.test({
   name: "assertEquals() matches when values are equal",
   fn() {
     assertEquals({ a: 10 }, { a: 10 });
@@ -39,7 +39,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertEquals() throws when numbers are not equal",
   fn() {
     assertThrows(
@@ -56,7 +56,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertEquals() throws when types are not equal",
   fn() {
     assertThrows(
@@ -72,7 +72,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertEquals() throws when array elements are not equal",
   fn() {
     assertThrows(
@@ -89,7 +89,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertEquals() throws when object elements are not equal",
   fn() {
     assertThrows(
@@ -109,7 +109,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertEquals() throws when dates are not equal",
   fn() {
     assertThrows(
@@ -142,7 +142,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "assertEquals() throws with custom message",
   fn() {
     assertThrows(
@@ -159,7 +159,7 @@ Deno.test({
   },
 });
 
-Deno.test(
+Ende.test(
   "assertEquals() compares objects structurally if one object's constructor is undefined and the other is Object",
   () => {
     const a = Object.create(null);
@@ -173,7 +173,7 @@ Deno.test(
   },
 );
 
-Deno.test("assertEquals() orders diff for differently ordered objects", () => {
+Ende.test("assertEquals() orders diff for differently ordered objects", () => {
   assertThrows(
     () => {
       assertEquals(
@@ -200,7 +200,7 @@ Deno.test("assertEquals() orders diff for differently ordered objects", () => {
   );
 });
 
-Deno.test("assertEquals() matches same Set with object keys", () => {
+Ende.test("assertEquals() matches same Set with object keys", () => {
   const data = [
     {
       id: "_1p7ZED73OF98VbT1SzSkjn",

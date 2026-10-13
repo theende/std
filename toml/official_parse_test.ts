@@ -4,7 +4,7 @@ import { assertEquals, assertThrows } from "../assert/mod.ts";
 import { convertTestCase, type TestCase } from "./_test_utils.ts";
 import { parse } from "./parse.ts";
 
-const testCases = await Deno.readTextFile(
+const testCases = await Ende.readTextFile(
   new URL("./testdata/files-toml-1.0.0", import.meta.url),
 );
 
@@ -102,12 +102,12 @@ for (
     .filter((line) => line.endsWith(".toml"))
     .map((line) => line.slice(0, -5))
 ) {
-  const input = await Deno.readTextFile(
+  const input = await Ende.readTextFile(
     new URL(`./testdata/${testCase}.toml`, import.meta.url),
   );
 
   if (testCase.startsWith("invalid/")) {
-    Deno.test({
+    Ende.test({
       name: `[toml] parse ${testCase}`,
       ignore: isIgnored(testCase),
       fn() {
@@ -116,7 +116,7 @@ for (
     });
   } else {
     const json: Record<string, TestCase> = JSON.parse(
-      await Deno.readTextFile(
+      await Ende.readTextFile(
         new URL(`./testdata/${testCase}.json`, import.meta.url),
       ),
     );
@@ -125,7 +125,7 @@ for (
       expected[key] = convertTestCase(value);
     }
 
-    Deno.test({
+    Ende.test({
       name: `[toml] parse ${testCase}`,
       ignore: isIgnored(testCase),
       fn() {

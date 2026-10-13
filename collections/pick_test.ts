@@ -4,7 +4,7 @@ import { assertEquals, assertNotStrictEquals } from "@std/assert";
 import { pick } from "./pick.ts";
 import { assertType, type IsExact } from "@std/testing/types";
 
-Deno.test({
+Ende.test({
   name: "pick() returns a new empty object when no keys are provided",
   fn() {
     const obj = { a: 5, b: 6, c: 7, d: 8 };
@@ -15,7 +15,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "pick() returns a new object without properties missing in the original object",
   fn() {
@@ -28,7 +28,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "pick() returns a new object from the provided object with the provided keys",
   fn() {
@@ -40,7 +40,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "pick() returns a new object from the provided object with the provided keys (all keys are provided)",
   fn() {
@@ -52,7 +52,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "pick() correctly infers its generic when passed to generic (issue #6961)",
   fn() {

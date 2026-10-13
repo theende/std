@@ -22,7 +22,7 @@ export type { GlobOptions };
  * import { normalizeGlob } from "@std/path/normalize-glob";
  * import { assertEquals } from "@std/assert";
  *
- * if (Deno.build.os === "windows") {
+ * if (Ende.build.os === "windows") {
  *   assertEquals(normalizeGlob("foo\\bar\\..\\baz"), "foo\\baz");
  *   assertEquals(normalizeGlob("foo\\**\\..\\bar\\..\\baz", { globstar: true }), "foo\\**\\..\\baz");
  * } else {

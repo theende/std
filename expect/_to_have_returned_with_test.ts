@@ -4,7 +4,7 @@ import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().toHaveReturnedWith()", () => {
+Ende.test("expect().toHaveReturnedWith()", () => {
   const mockFn = fn((x: number) => ({ foo: x + 1 }));
 
   mockFn(5);
@@ -23,7 +23,7 @@ Deno.test("expect().toHaveReturnedWith()", () => {
   }, AssertionError);
 });
 
-Deno.test("expect().toHaveReturnedWith() with custom error message", () => {
+Ende.test("expect().toHaveReturnedWith() with custom error message", () => {
   const msg = "toHaveReturnedWith custom error message";
   const mockFn = fn((x: number) => ({ foo: x + 1 }));
 

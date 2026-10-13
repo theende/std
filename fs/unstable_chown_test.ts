@@ -64,7 +64,7 @@ async function getUidAndGid(): Promise<{ uid: number; gid: number }> {
   }
 }
 
-Deno.test({
+Ende.test({
   name: "chown() changes user and group ids",
   ignore: platform() === "win32" || isBun,
   fn: async () => {
@@ -78,7 +78,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chown() handles `null` id arguments",
   ignore: platform() === "win32" || isBun,
   fn: async () => {
@@ -91,7 +91,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chown() rejects with NotFound for a non-existent file",
   ignore: platform() === "win32",
   fn: async () => {
@@ -101,7 +101,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chown() rejects with Error when called without elevated privileges",
   ignore: platform() === "win32",
   fn: async () => {
@@ -115,7 +115,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chownSync() changes user and group ids",
   ignore: platform() === "win32" || isBun,
   fn: async () => {
@@ -130,7 +130,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chownSync() handles `null` id arguments",
   ignore: platform() === "win32" || isBun,
   fn: async () => {
@@ -143,7 +143,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chownSync() throws with NotFound for a non-existent file",
   ignore: platform() === "win32",
   fn: () => {
@@ -153,7 +153,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "chownSync() throws with Error when called without elevated privileges",
   ignore: platform() === "win32",
   fn: () => {

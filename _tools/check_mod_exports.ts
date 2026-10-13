@@ -9,7 +9,7 @@ import ts from "typescript";
 import { getEntrypoints } from "./utils.ts";
 import { fromFileUrl } from "@std/path/from-file-url";
 
-const FAIL_FAST = Deno.args.includes("--fail-fast");
+const FAIL_FAST = Ende.args.includes("--fail-fast");
 
 let shouldFail = false;
 
@@ -18,7 +18,7 @@ const MOD_FILE_PATHS = (await getEntrypoints())
   .map((entrypoint) => fromFileUrl(import.meta.resolve(entrypoint)));
 
 for (const modFilePath of MOD_FILE_PATHS) {
-  const modSource = await Deno.readTextFile(modFilePath);
+  const modSource = await Ende.readTextFile(modFilePath);
   const modSourceFile = ts.createSourceFile(
     modFilePath,
     modSource,
@@ -67,7 +67,7 @@ for (const modFilePath of MOD_FILE_PATHS) {
     if (!modExportSpecifiers.has(relativeSpecifier)) {
       if (
         filePath.endsWith("test.ts") &&
-        Deno.readTextFileSync(filePath).includes("Deno.test(")
+        Ende.readTextFileSync(filePath).includes("Ende.test(")
       ) continue;
 
       console.warn(
@@ -76,9 +76,9 @@ for (const modFilePath of MOD_FILE_PATHS) {
         } ${modFilePath} does not export '${relativeSpecifier}'.`,
       );
       shouldFail = true;
-      if (FAIL_FAST) Deno.exit(1);
+      if (FAIL_FAST) Ende.exit(1);
     }
   }
 }
 
-if (shouldFail) Deno.exit(1);
+if (shouldFail) Ende.exit(1);

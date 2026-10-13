@@ -4,8 +4,8 @@ import { expect } from "./expect.ts";
 import { serialize, SnapshotContext } from "./_snapshot_state.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test("toMatchSnapshot() update mode creates and reads snapshot files", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("toMatchSnapshot() update mode creates and reads snapshot files", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
   const snapshotDir = `${dir}/__snapshots__`;
   const snapshotFile = `${snapshotDir}/test.ts.snap`;
@@ -34,7 +34,7 @@ Deno.test("toMatchSnapshot() update mode creates and reads snapshot files", () =
     globalThis.dispatchEvent(new Event("unload"));
 
     // Verify the snapshot file was created
-    const content = Deno.readTextFileSync(snapshotFile);
+    const content = Ende.readTextFileSync(snapshotFile);
 
     // Check that the file contains both snapshots
     assertEquals(
@@ -63,12 +63,12 @@ Deno.test("toMatchSnapshot() update mode creates and reads snapshot files", () =
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("toMatchSnapshot() round-trips special characters through serialize/write/read", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("toMatchSnapshot() round-trips special characters through serialize/write/read", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
 
   try {
@@ -106,12 +106,12 @@ Deno.test("toMatchSnapshot() round-trips special characters through serialize/wr
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("toMatchSnapshot() with arrays", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("toMatchSnapshot() with arrays", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
 
   try {
@@ -130,12 +130,12 @@ Deno.test("toMatchSnapshot() with arrays", () => {
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });
 
-Deno.test("toMatchSnapshot() with nested objects", () => {
-  const dir = Deno.makeTempDirSync();
+Ende.test("toMatchSnapshot() with nested objects", () => {
+  const dir = Ende.makeTempDirSync();
   const testFile = `${dir}/test.ts`;
 
   try {
@@ -163,6 +163,6 @@ Deno.test("toMatchSnapshot() with nested objects", () => {
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
     SnapshotContext.contexts.clear();
-    Deno.removeSync(dir, { recursive: true });
+    Ende.removeSync(dir, { recursive: true });
   }
 });

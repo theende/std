@@ -19,9 +19,9 @@ import {
 } from "node:fs";
 
 // In Deno 2.2.2 or earlier, the `rename` function has an issue on Windows.
-const RENAME_HAS_ISSUE = Deno.version &&
-  parseSemver(Deno.version.deno).build?.length === 0 && // not canary
-  lessOrEqual(parseSemver(Deno.version.deno), parseSemver("2.2.2")) &&
+const RENAME_HAS_ISSUE = Ende.version &&
+  parseSemver(Ende.version.ende).build?.length === 0 && // not canary
+  lessOrEqual(parseSemver(Ende.version.ende), parseSemver("2.2.2")) &&
   platform() === "win32";
 
 /** Tests if the original file/directory is missing since the file is renamed.
@@ -43,7 +43,7 @@ function assertMissing(path: string) {
   assert(info === undefined);
 }
 
-Deno.test("rename() renames a regular file", async () => {
+Ende.test("rename() renames a regular file", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "rename_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const renameFile = join(tempDirPath, "renamedFile.txt");
@@ -59,7 +59,7 @@ Deno.test("rename() renames a regular file", async () => {
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("rename() rejects with Error when an existing regular file is renamed with an existing directory path", async () => {
+Ende.test("rename() rejects with Error when an existing regular file is renamed with an existing directory path", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "rename_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const testDir = join(tempDirPath, "testDir");
@@ -75,7 +75,7 @@ Deno.test("rename() rejects with Error when an existing regular file is renamed 
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("rename() rejects with Error when an existing directory is renamed with an existing directory containing a file", async () => {
+Ende.test("rename() rejects with Error when an existing directory is renamed with an existing directory containing a file", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "rename_"));
   const emptyDir = join(tempDirPath, "emptyDir");
   const fullDir = join(tempDirPath, "fullDir");
@@ -93,7 +93,7 @@ Deno.test("rename() rejects with Error when an existing directory is renamed wit
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "rename() succeeds when an existing directory is renamed with another directory path",
   { ignore: RENAME_HAS_ISSUE },
   async () => {
@@ -113,7 +113,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "rename() rejects with Error when an existing directory is renamed with an existing regular file path",
   // TODO(kt3k): This test should pass on Windows
   { ignore: platform() === "win32" || RENAME_HAS_ISSUE },
@@ -134,7 +134,7 @@ Deno.test(
   },
 );
 
-Deno.test({
+Ende.test({
   name:
     "rename() rejects with Error when renaming an existing directory with a valid symlink'd regular file path",
   ignore: platform() === "win32",
@@ -157,7 +157,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "rename() rejects with Error when renaming an existing directory with a valid symlink'd directory path",
   ignore: platform() === "win32",
@@ -179,7 +179,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "rename() rejects with Error when renaming an existing directory with a symlink'd file pointing to a non-existent file path",
   ignore: platform() === "win32",
@@ -199,13 +199,13 @@ Deno.test({
   },
 });
 
-Deno.test("rename() rejects with NotFound for renaming a non-existent file", async () => {
+Ende.test("rename() rejects with NotFound for renaming a non-existent file", async () => {
   await assertRejects(async () => {
     await rename("non-existent-file.txt", "new-name.txt");
   }, NotFound);
 });
 
-Deno.test("renameSync() renames a regular file", () => {
+Ende.test("renameSync() renames a regular file", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "renameSync_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const renameFile = join(tempDirPath, "renamedFile.txt");
@@ -221,7 +221,7 @@ Deno.test("renameSync() renames a regular file", () => {
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("renameSync() throws with Error when an existing regular file is renamed with an existing directory path", () => {
+Ende.test("renameSync() throws with Error when an existing regular file is renamed with an existing directory path", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "renameSync_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const testDir = join(tempDirPath, "testDir");
@@ -235,7 +235,7 @@ Deno.test("renameSync() throws with Error when an existing regular file is renam
   }, Error);
 });
 
-Deno.test("renameSync() throws with Error when an existing file path is renamed with an existing directory path", () => {
+Ende.test("renameSync() throws with Error when an existing file path is renamed with an existing directory path", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "renameSync_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const testDir = join(tempDirPath, "testDir");
@@ -251,7 +251,7 @@ Deno.test("renameSync() throws with Error when an existing file path is renamed 
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "renameSync() throws with Error when an existing directory is renamed with an existing directory containing a file",
   { ignore: RENAME_HAS_ISSUE },
   () => {
@@ -273,7 +273,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "renameSync() succeeds when an existing directory is renamed with another directory path",
   { ignore: RENAME_HAS_ISSUE },
   () => {
@@ -293,7 +293,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "renameSync() throws with Error when an existing directory is renamed with an existing regular file path",
   // TODO(kt3k): This test should pass on Windows
   { ignore: platform() === "win32" || RENAME_HAS_ISSUE },
@@ -314,7 +314,7 @@ Deno.test(
   },
 );
 
-Deno.test({
+Ende.test({
   name:
     "renameSync() throws with Error when renaming an existing directory with a valid symlink'd regular file path",
   ignore: platform() === "win32",
@@ -337,7 +337,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "renameSync() throws with Error when renaming an existing directory with a valid symlink'd directory path",
   ignore: platform() === "win32",
@@ -359,7 +359,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name:
     "rename() rejects with Error when renaming an existing directory with a symlink'd file pointing to a non-existent file path",
   ignore: platform() === "win32",
@@ -379,7 +379,7 @@ Deno.test({
   },
 });
 
-Deno.test("renameSync() throws with NotFound for renaming a non-existent file", () => {
+Ende.test("renameSync() throws with NotFound for renaming a non-existent file", () => {
   assertThrows(() => {
     renameSync("non-existent-file.txt", "new-name.txt");
   }, NotFound);

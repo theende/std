@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { weekOfYear } from "./week_of_year.ts";
 
-Deno.test({
+Ende.test({
   name: "weekOfYear()",
   fn: () => {
     assertEquals(weekOfYear(new Date("2020-01-05T03:00:00.000Z")), 1);

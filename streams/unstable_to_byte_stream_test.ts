@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { toByteStream } from "./unstable_to_byte_stream.ts";
 
-Deno.test(
+Ende.test(
   "toByteStream() consumable as BYOB with min property set",
   async () => {
     let size = 0;
@@ -31,7 +31,7 @@ Deno.test(
   },
 );
 
-Deno.test("toByteStream() consumable as BYOB", async () => {
+Ende.test("toByteStream() consumable as BYOB", async () => {
   const size = 100;
 
   const reader = toByteStream(
@@ -56,7 +56,7 @@ Deno.test("toByteStream() consumable as BYOB", async () => {
   assertEquals(count, size * 6 + 5 + 3);
 });
 
-Deno.test("toByteStream() consumable as default", async () => {
+Ende.test("toByteStream() consumable as default", async () => {
   const size = 100;
 
   const reader = toByteStream(
@@ -81,7 +81,7 @@ Deno.test("toByteStream() consumable as default", async () => {
   assertEquals(count, size * 6 + 5 + 3);
 });
 
-Deno.test("toByteStream() cancellable", async () => {
+Ende.test("toByteStream() cancellable", async () => {
   let receivedCancel = false;
 
   const readable = toByteStream(

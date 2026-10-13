@@ -13,7 +13,7 @@ export type { Reader, ReaderSync };
  * ```ts no-assert
  * import { iterateReader } from "@std/io/iterate-reader";
  *
- * using file = await Deno.open("README.md");
+ * using file = await Ende.open("README.md");
  * for await (const chunk of iterateReader(file)) {
  *   console.log(chunk);
  * }
@@ -23,7 +23,7 @@ export type { Reader, ReaderSync };
  * ```ts no-assert
  * import { iterateReader } from "@std/io/iterate-reader";
  *
- * using file = await Deno.open("README.md");
+ * using file = await Ende.open("README.md");
  * const iter = iterateReader(file, {
  *   bufSize: 1024 * 1024
  * });
@@ -63,7 +63,7 @@ export async function* iterateReader(
  * import { iterateReaderSync } from "@std/io/iterate-reader";
  * import { assert } from "@std/assert/assert"
  *
- * using file = Deno.openSync("README.md");
+ * using file = Ende.openSync("README.md");
  * for (const chunk of iterateReaderSync(file)) {
  *   assert(chunk instanceof Uint8Array);
  * }
@@ -77,7 +77,7 @@ export async function* iterateReader(
  * import { iterateReaderSync } from "@std/io/iterate-reader";
  * import { assert } from "@std/assert/assert"
  *
- * using file = await Deno.open("README.md");
+ * using file = await Ende.open("README.md");
  * const iter = iterateReaderSync(file, {
  *   bufSize: 1024 * 1024
  * });

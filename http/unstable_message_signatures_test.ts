@@ -93,7 +93,7 @@ function keys(
 // createSignatureBase — derived components
 // =============================================================================
 
-Deno.test("createSignatureBase() resolves all request-derived components", () => {
+Ende.test("createSignatureBase() resolves all request-derived components", () => {
   const request = new Request(
     "https://www.example.com/path?param=value",
     { method: "POST" },
@@ -128,7 +128,7 @@ Deno.test("createSignatureBase() resolves all request-derived components", () =>
   assertEquals(lines[7], '"@query-param";name="param": value');
 });
 
-Deno.test("createSignatureBase() normalizes empty path to / and absent query to ?", () => {
+Ende.test("createSignatureBase() normalizes empty path to / and absent query to ?", () => {
   const request = new Request("https://example.com");
   const base = createSignatureBase({
     message: request,
@@ -139,7 +139,7 @@ Deno.test("createSignatureBase() normalizes empty path to / and absent query to 
   assertEquals(lines[1], '"@query": ?');
 });
 
-Deno.test("createSignatureBase() resolves @status from response", () => {
+Ende.test("createSignatureBase() resolves @status from response", () => {
   const response = new Response(null, { status: 200 });
   const base = createSignatureBase({
     message: response,
@@ -152,7 +152,7 @@ Deno.test("createSignatureBase() resolves @status from response", () => {
 // createSignatureBase — field component parameters (;sf, ;key, ;bs)
 // =============================================================================
 
-Deno.test("createSignatureBase() resolves plain header, ;sf, ;key item, ;key inner-list, and ;bs", () => {
+Ende.test("createSignatureBase() resolves plain header, ;sf, ;key item, ;key inner-list, and ;bs", () => {
   const request = new Request("https://example.com/", {
     headers: {
       "Content-Type": "application/json",
@@ -232,7 +232,7 @@ Deno.test("createSignatureBase() resolves plain header, ;sf, ;key item, ;key inn
 // createSignatureBase — ;req parameter
 // =============================================================================
 
-Deno.test("createSignatureBase() resolves ;req from related request", () => {
+Ende.test("createSignatureBase() resolves ;req from related request", () => {
   const request = new Request("https://example.com/foo", { method: "POST" });
   const response = new Response(null, { status: 200 });
   const base = createSignatureBase({
@@ -255,7 +255,7 @@ Deno.test("createSignatureBase() resolves ;req from related request", () => {
 // createSignatureBase — full RFC 9421 section 2.5 example
 // =============================================================================
 
-Deno.test("createSignatureBase() builds correct base for RFC 9421 section 2.5 example", () => {
+Ende.test("createSignatureBase() builds correct base for RFC 9421 section 2.5 example", () => {
   const request = makeRequest();
   const base = createSignatureBase({
     message: request,
@@ -290,7 +290,7 @@ Deno.test("createSignatureBase() builds correct base for RFC 9421 section 2.5 ex
 // createSignatureBase — error paths
 // =============================================================================
 
-Deno.test("createSignatureBase() rejects invalid component configurations", () => {
+Ende.test("createSignatureBase() rejects invalid component configurations", () => {
   const request = new Request("https://example.com/", {
     headers: { "Example": "value", "Content-Type": "text/plain" },
   });
@@ -443,7 +443,7 @@ Deno.test("createSignatureBase() rejects invalid component configurations", () =
   );
 });
 
-Deno.test("createSignatureBase() rejects @query-param edge cases", () => {
+Ende.test("createSignatureBase() rejects @query-param edge cases", () => {
   // Missing name parameter
   assertThrows(
     () =>
@@ -486,7 +486,7 @@ Deno.test("createSignatureBase() rejects @query-param edge cases", () => {
   );
 });
 
-Deno.test("createSignatureBase() rejects ;sf and ;key errors", () => {
+Ende.test("createSignatureBase() rejects ;sf and ;key errors", () => {
   // ;sf with unparseable value
   assertThrows(
     () =>
@@ -549,7 +549,7 @@ for (
     "rsa-v1_5-sha256",
   ] as const
 ) {
-  Deno.test(`signMessage() and verifyMessage() round-trip with ${algorithm}`, async () => {
+  Ende.test(`signMessage() and verifyMessage() round-trip with ${algorithm}`, async () => {
     const keyOrPair = await KEY_GENERATORS[algorithm]!();
     const { privateKey, publicKey } = keys(keyOrPair);
     const request = new Request("https://example.com/", { method: "POST" });
@@ -575,7 +575,7 @@ for (
 // signMessage — behaviour and validation
 // =============================================================================
 
-Deno.test("signMessage() preserves headers, defaults label, and returns correct type", async () => {
+Ende.test("signMessage() preserves headers, defaults label, and returns correct type", async () => {
   const keyOrPair = await KEY_GENERATORS["ed25519"]!();
   const { privateKey, publicKey } = keys(keyOrPair);
 
@@ -617,7 +617,7 @@ Deno.test("signMessage() preserves headers, defaults label, and returns correct 
   assertEquals(results.length, 1);
 });
 
-Deno.test("signMessage() rejects invalid params", async () => {
+Ende.test("signMessage() rejects invalid params", async () => {
   const keyOrPair = await KEY_GENERATORS["ed25519"]!();
   const { privateKey } = keys(keyOrPair);
   const request = new Request("https://example.com/", { method: "GET" });
@@ -778,7 +778,7 @@ Deno.test("signMessage() rejects invalid params", async () => {
 // signMessage — metadata round-trip (nonce, tag, expires)
 // =============================================================================
 
-Deno.test("signMessage() and verifyMessage() round-trip preserves nonce, tag, and expires", async () => {
+Ende.test("signMessage() and verifyMessage() round-trip preserves nonce, tag, and expires", async () => {
   const keyOrPair = await KEY_GENERATORS["ed25519"]!();
   const { privateKey, publicKey } = keys(keyOrPair);
   const request = new Request("https://example.com/", { method: "GET" });
@@ -809,7 +809,7 @@ Deno.test("signMessage() and verifyMessage() round-trip preserves nonce, tag, an
 // signMessage — multiple signatures
 // =============================================================================
 
-Deno.test("signMessage() supports multiple signatures with different labels", async () => {
+Ende.test("signMessage() supports multiple signatures with different labels", async () => {
   const k1 = keys(await KEY_GENERATORS["ed25519"]!());
   const k2 = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", { method: "GET" });
@@ -846,7 +846,7 @@ Deno.test("signMessage() supports multiple signatures with different labels", as
   assertEquals(results.length, 2);
 });
 
-Deno.test("signMessage() rejects duplicate labels on already-signed messages", async () => {
+Ende.test("signMessage() rejects duplicate labels on already-signed messages", async () => {
   const { privateKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", { method: "GET" });
 
@@ -896,7 +896,7 @@ Deno.test("signMessage() rejects duplicate labels on already-signed messages", a
   );
 });
 
-Deno.test("signMessage() rejects messages with malformed Signature-Input header", async () => {
+Ende.test("signMessage() rejects messages with malformed Signature-Input header", async () => {
   const { privateKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
@@ -915,7 +915,7 @@ Deno.test("signMessage() rejects messages with malformed Signature-Input header"
   );
 });
 
-Deno.test("signMessage() rejects label collision in Signature header alone", async () => {
+Ende.test("signMessage() rejects label collision in Signature header alone", async () => {
   const { privateKey } = keys(await KEY_GENERATORS["ed25519"]!());
   // Construct a message where only the Signature header carries the label.
   // Such a message is already malformed per RFC 9421 section 4 (labels MUST
@@ -942,7 +942,7 @@ Deno.test("signMessage() rejects label collision in Signature header alone", asy
 // verifyMessage — tampering and wrong key
 // =============================================================================
 
-Deno.test("verifyMessage() rejects tampered message and wrong key", async () => {
+Ende.test("verifyMessage() rejects tampered message and wrong key", async () => {
   const k1 = keys(await KEY_GENERATORS["ed25519"]!());
   const k2 = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
@@ -984,7 +984,7 @@ Deno.test("verifyMessage() rejects tampered message and wrong key", async () => 
 // verifyMessage — constraint enforcement
 // =============================================================================
 
-Deno.test("verifyMessage() enforces maxAge, requiredComponents, labels, and expires", async () => {
+Ende.test("verifyMessage() enforces maxAge, requiredComponents, labels, and expires", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
 
   // maxAge exceeded
@@ -1068,7 +1068,7 @@ Deno.test("verifyMessage() enforces maxAge, requiredComponents, labels, and expi
 // verifyMessage — input validation and malformed headers
 // =============================================================================
 
-Deno.test("verifyMessage() rejects invalid inputs and malformed headers", async () => {
+Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async () => {
   const { privateKey } = keys(await KEY_GENERATORS["ed25519"]!());
 
   // Negative maxAge
@@ -1186,7 +1186,7 @@ Deno.test("verifyMessage() rejects invalid inputs and malformed headers", async 
 // verifyMessage — round-trip with component parameters (;sf, ;key, ;bs, ;name)
 // =============================================================================
 
-Deno.test("verifyMessage() round-trips with ;sf component parameter", async () => {
+Ende.test("verifyMessage() round-trips with ;sf component parameter", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
@@ -1213,7 +1213,7 @@ Deno.test("verifyMessage() round-trips with ;sf component parameter", async () =
   assertEquals(comp.parameters?.sf, true);
 });
 
-Deno.test("verifyMessage() round-trips with ;key component parameter", async () => {
+Ende.test("verifyMessage() round-trips with ;key component parameter", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
@@ -1239,7 +1239,7 @@ Deno.test("verifyMessage() round-trips with ;key component parameter", async () 
   assertEquals(comp.parameters?.key, "a");
 });
 
-Deno.test("verifyMessage() round-trips with ;bs component parameter", async () => {
+Ende.test("verifyMessage() round-trips with ;bs component parameter", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
@@ -1265,7 +1265,7 @@ Deno.test("verifyMessage() round-trips with ;bs component parameter", async () =
   assertEquals(comp.parameters?.bs, true);
 });
 
-Deno.test("verifyMessage() round-trips with ;name component parameter (@query-param)", async () => {
+Ende.test("verifyMessage() round-trips with ;name component parameter (@query-param)", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/path?foo=bar", {
     method: "GET",
@@ -1294,7 +1294,7 @@ Deno.test("verifyMessage() round-trips with ;name component parameter (@query-pa
 // verifyMessage — requiredComponents success path
 // =============================================================================
 
-Deno.test("verifyMessage() passes when all requiredComponents are covered", async () => {
+Ende.test("verifyMessage() passes when all requiredComponents are covered", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", { method: "GET" });
 
@@ -1318,7 +1318,7 @@ Deno.test("verifyMessage() passes when all requiredComponents are covered", asyn
 // verifyMessage — malformed Signature header values
 // =============================================================================
 
-Deno.test("verifyMessage() rejects Signature member that is not an Item", async () => {
+Ende.test("verifyMessage() rejects Signature member that is not an Item", async () => {
   await assertRejects(
     () =>
       verifyMessage(
@@ -1338,7 +1338,7 @@ Deno.test("verifyMessage() rejects Signature member that is not an Item", async 
   );
 });
 
-Deno.test("verifyMessage() rejects Signature member that is not a Byte Sequence", async () => {
+Ende.test("verifyMessage() rejects Signature member that is not a Byte Sequence", async () => {
   await assertRejects(
     () =>
       verifyMessage(
@@ -1358,7 +1358,7 @@ Deno.test("verifyMessage() rejects Signature member that is not a Byte Sequence"
   );
 });
 
-Deno.test("verifyMessage() parses ;tr parameter then rejects during base construction", async () => {
+Ende.test("verifyMessage() parses ;tr parameter then rejects during base construction", async () => {
   await assertRejects(
     () =>
       verifyMessage(
@@ -1380,7 +1380,7 @@ Deno.test("verifyMessage() parses ;tr parameter then rejects during base constru
   );
 });
 
-Deno.test("verifyMessage() rejects non-string component identifier in Signature-Input", async () => {
+Ende.test("verifyMessage() rejects non-string component identifier in Signature-Input", async () => {
   await assertRejects(
     () =>
       verifyMessage(
@@ -1404,7 +1404,7 @@ Deno.test("verifyMessage() rejects non-string component identifier in Signature-
 // Response signing with ;req components (end-to-end)
 // =============================================================================
 
-Deno.test("verifyMessage() verifies response signature with ;req components", async () => {
+Ende.test("verifyMessage() verifies response signature with ;req components", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/foo", { method: "POST" });
   const response = new Response('{"ok":true}', {

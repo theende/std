@@ -25,7 +25,7 @@ const runLengthTestCases: {
   },
 ];
 
-Deno.test("runLengthEncode()", async (t) => {
+Ende.test("runLengthEncode()", async (t) => {
   for (const { list, compressed, testName } of runLengthTestCases) {
     await t.step(`runLengthEncode() ${testName}`, () => {
       const encoded = runLengthEncode(list);
@@ -50,7 +50,7 @@ Deno.test("runLengthEncode()", async (t) => {
   );
 });
 
-Deno.test("runLengthDecode()", async (t) => {
+Ende.test("runLengthDecode()", async (t) => {
   for (const { list, compressed, testName } of runLengthTestCases) {
     await t.step(`runLengthDecode() ${testName}`, () => {
       const decoded = runLengthDecode(compressed);

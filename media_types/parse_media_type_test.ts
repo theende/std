@@ -3,7 +3,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { parseMediaType } from "./mod.ts";
 
-Deno.test({
+Ende.test({
   name: "parseMediaType()",
   fn() {
     const nameFoo = { "name": "foo" };
@@ -92,7 +92,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseMediaType() throws on invalid media type",
   fn() {
     const fixtures = [{ type: `form-data; foo`, invalid: "; foo" }, {
@@ -111,7 +111,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "parseMediaType() throws on duplicate keys",
   fn() {
     const fixtures = [

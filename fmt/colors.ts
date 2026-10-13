@@ -53,9 +53,9 @@
  */
 
 // deno-lint-ignore no-explicit-any
-const { Deno } = globalThis as any;
-const noColor = typeof Deno?.noColor === "boolean"
-  ? Deno.noColor as boolean
+const { Ende } = globalThis as any;
+const noColor = typeof Ende?.noColor === "boolean"
+  ? Ende.noColor as boolean
   : false;
 
 interface Code {
@@ -97,7 +97,7 @@ let enabled = !noColor;
  * @param value The boolean value to enable or disable text color
  */
 export function setColorEnabled(value: boolean) {
-  if (Deno?.noColor) {
+  if (Ende?.noColor) {
     return;
   }
 

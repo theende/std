@@ -3,7 +3,7 @@
 import { expect } from "./expect.ts";
 import { AssertionError, assertThrows } from "@std/assert";
 
-Deno.test("expect().not.toMatchInlineSnapshot() throws", () => {
+Ende.test("expect().not.toMatchInlineSnapshot() throws", () => {
   assertThrows(
     () => {
       expect("foo").not.toMatchInlineSnapshot(`"foo"`);
@@ -13,15 +13,15 @@ Deno.test("expect().not.toMatchInlineSnapshot() throws", () => {
   );
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches simple string", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches simple string", () => {
   expect("hello").toMatchInlineSnapshot(`"hello"`);
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches number", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches number", () => {
   expect(42).toMatchInlineSnapshot(`42`);
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches object", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches object", () => {
   expect({ foo: 1, bar: 2 }).toMatchInlineSnapshot(`
 {
   bar: 2,
@@ -30,7 +30,7 @@ Deno.test("expect().toMatchInlineSnapshot() matches object", () => {
 `);
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches array", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches array", () => {
   expect([1, 2, 3]).toMatchInlineSnapshot(`
 [
   1,
@@ -40,15 +40,15 @@ Deno.test("expect().toMatchInlineSnapshot() matches array", () => {
 `);
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches boolean", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches boolean", () => {
   expect(true).toMatchInlineSnapshot(`true`);
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches null", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches null", () => {
   expect(null).toMatchInlineSnapshot(`null`);
 });
 
-Deno.test("expect().toMatchInlineSnapshot() throws on mismatch", () => {
+Ende.test("expect().toMatchInlineSnapshot() throws on mismatch", () => {
   assertThrows(
     () => {
       expect("actual").toMatchInlineSnapshot(`"expected"`);
@@ -58,7 +58,7 @@ Deno.test("expect().toMatchInlineSnapshot() throws on mismatch", () => {
   );
 });
 
-Deno.test("expect().toMatchInlineSnapshot() throws when no snapshot in assert mode", () => {
+Ende.test("expect().toMatchInlineSnapshot() throws when no snapshot in assert mode", () => {
   assertThrows(
     () => {
       expect("foo").toMatchInlineSnapshot();
@@ -68,7 +68,7 @@ Deno.test("expect().toMatchInlineSnapshot() throws when no snapshot in assert mo
   );
 });
 
-Deno.test("expect().toMatchInlineSnapshot() with property matchers rejects non-object", () => {
+Ende.test("expect().toMatchInlineSnapshot() with property matchers rejects non-object", () => {
   assertThrows(
     () => {
       expect("string value").toMatchInlineSnapshot(
@@ -81,7 +81,7 @@ Deno.test("expect().toMatchInlineSnapshot() with property matchers rejects non-o
   );
 });
 
-Deno.test("expect().toMatchInlineSnapshot() with property matchers rejects mismatch", () => {
+Ende.test("expect().toMatchInlineSnapshot() with property matchers rejects mismatch", () => {
   assertThrows(
     () => {
       expect({ id: "not a number" }).toMatchInlineSnapshot(
@@ -94,7 +94,7 @@ Deno.test("expect().toMatchInlineSnapshot() with property matchers rejects misma
   );
 });
 
-Deno.test("expect().toMatchInlineSnapshot() matches nested objects", () => {
+Ende.test("expect().toMatchInlineSnapshot() matches nested objects", () => {
   expect({
     name: "Alice",
     profile: { age: 30 },

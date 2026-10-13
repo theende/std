@@ -4,7 +4,7 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { assertEquals } from "@std/assert";
 
-Deno.test("windows.toNamespacedPath() returns the namespaced path", () => {
+Ende.test("windows.toNamespacedPath() returns the namespaced path", () => {
   {
     const path = "C:\\path\\to\\file.txt";
     const namespacedPath = windows.toNamespacedPath(path);
@@ -26,7 +26,7 @@ Deno.test("windows.toNamespacedPath() returns the namespaced path", () => {
   }
 });
 
-Deno.test("posix.toNamespacedPath() return the input as is", () => {
+Ende.test("posix.toNamespacedPath() return the input as is", () => {
   const path = "/path/to/file.txt";
   const namespacedPath = posix.toNamespacedPath(path);
   assertEquals(namespacedPath, "/path/to/file.txt");

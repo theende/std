@@ -6,7 +6,7 @@ import {
   assertThrows,
 } from "./mod.ts";
 
-Deno.test("assertExists() matches values that are not null or undefined", () => {
+Ende.test("assertExists() matches values that are not null or undefined", () => {
   assertExists("Denosaurus");
   assertExists(false);
   assertExists(0);
@@ -20,7 +20,7 @@ Deno.test("assertExists() matches values that are not null or undefined", () => 
   assertEquals(value.length, 4);
 });
 
-Deno.test("assertExists() throws when value is null or undefined", () => {
+Ende.test("assertExists() throws when value is null or undefined", () => {
   assertThrows(
     () => assertExists(undefined),
     AssertionError,
@@ -33,7 +33,7 @@ Deno.test("assertExists() throws when value is null or undefined", () => {
   );
 });
 
-Deno.test("assertExists() throws with custom message", () => {
+Ende.test("assertExists() throws with custom message", () => {
   assertThrows(
     () => assertExists(undefined, "CUSTOM MESSAGE"),
     AssertionError,

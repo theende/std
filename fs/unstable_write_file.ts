@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { getWriteFsFlag } from "./_get_fs_flag.ts";
 import { mapError } from "./_map_error.ts";
 import type { WriteFileOptions } from "./unstable_types.ts";
@@ -17,10 +17,10 @@ import type { WriteFileOptions } from "./unstable_types.ts";
  * import { writeFile } from "@std/fs/unstable-write-file";
  * const encoder = new TextEncoder();
  * const data = encoder.encode("Hello world\n");
- * await Deno.writeFile("hello1.txt", data);  // overwrite "hello1.txt" or create it
- * await Deno.writeFile("hello2.txt", data, { create: false });  // only works if "hello2.txt" exists
- * await Deno.writeFile("hello3.txt", data, { mode: 0o777 });  // set permissions on new file
- * await Deno.writeFile("hello4.txt", data, { append: true });  // add data to the end of the file
+ * await Ende.writeFile("hello1.txt", data);  // overwrite "hello1.txt" or create it
+ * await Ende.writeFile("hello2.txt", data, { create: false });  // only works if "hello2.txt" exists
+ * await Ende.writeFile("hello3.txt", data, { mode: 0o777 });  // set permissions on new file
+ * await Ende.writeFile("hello4.txt", data, { append: true });  // add data to the end of the file
  * ```
  *
  * @tags allow-read, allow-write
@@ -34,8 +34,8 @@ export async function writeFile(
   data: Uint8Array | ReadableStream<Uint8Array>,
   options?: WriteFileOptions,
 ): Promise<void> {
-  if (isDeno) {
-    await Deno.writeFile(path, data, { ...options });
+  if (isEnde) {
+    await Ende.writeFile(path, data, { ...options });
   } else {
     const {
       append = false,
@@ -86,8 +86,8 @@ export function writeFileSync(
   data: Uint8Array,
   options?: WriteFileOptions,
 ): void {
-  if (isDeno) {
-    Deno.writeFileSync(path, data, { ...options });
+  if (isEnde) {
+    Ende.writeFileSync(path, data, { ...options });
   } else {
     const {
       append = false,

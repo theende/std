@@ -4,23 +4,23 @@ import { toSentenceCase } from "./unstable_to_sentence_case.ts";
 import { toTitleCase } from "./unstable_to_title_case.ts";
 import { stubIntlFunctions } from "./_test_util.ts";
 
-Deno.test("toSentenceCase() converts a string to title case", () => {
+Ende.test("toSentenceCase() converts a string to title case", () => {
   const input = "hello world";
   assertEquals(toSentenceCase(input), "Hello world");
 });
 
-Deno.test("toSentenceCase() respects special title-case mappings", () => {
+Ende.test("toSentenceCase() respects special title-case mappings", () => {
   const input = "ﬆrange ﬂoating aﬃrmation";
   const expected = "Strange ﬂoating aﬃrmation";
   assertEquals(toSentenceCase(input), expected);
 });
 
-Deno.test("toSentenceCase() works with punctuation", () => {
+Ende.test("toSentenceCase() works with punctuation", () => {
   const input = "“hello, world!”";
   assertEquals(toSentenceCase(input), "“Hello, world!”");
 });
 
-Deno.test("toSentenceCase() works the same as toTitleCase() filtering words on index == 0", () => {
+Ende.test("toSentenceCase() works the same as toTitleCase() filtering words on index == 0", () => {
   const str = "hello world";
 
   assertEquals(
@@ -29,7 +29,7 @@ Deno.test("toSentenceCase() works the same as toTitleCase() filtering words on i
   );
 });
 
-Deno.test("toSentenceCase() can be customized with options", async (t) => {
+Ende.test("toSentenceCase() can be customized with options", async (t) => {
   await t.step("`trailingCase`", async (t) => {
     const input = "HELLO wOrLd";
 
@@ -72,7 +72,7 @@ Deno.test("toSentenceCase() can be customized with options", async (t) => {
   });
 });
 
-Deno.test("toSentenceCase() leaves later words lower-case even if the first word is case-agnostic", () => {
+Ende.test("toSentenceCase() leaves later words lower-case even if the first word is case-agnostic", () => {
   const input = "文字 word";
   assertEquals(toSentenceCase(input), input);
 });

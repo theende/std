@@ -14,7 +14,7 @@ import { link, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
-Deno.test("readLink() can read through symlink", async () => {
+Ende.test("readLink() can read through symlink", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "readLink_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const symlinkFile = join(tempDirPath, "testFile.txt.link");
@@ -28,7 +28,7 @@ Deno.test("readLink() can read through symlink", async () => {
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("readLink() rejects with Error when reading from a hard link", async () => {
+Ende.test("readLink() rejects with Error when reading from a hard link", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "readLink_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const linkFile = join(tempDirPath, "testFile.txt.hlink");
@@ -43,13 +43,13 @@ Deno.test("readLink() rejects with Error when reading from a hard link", async (
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("readLink() rejects with NotFound when reading through a non-existent file", async () => {
+Ende.test("readLink() rejects with NotFound when reading through a non-existent file", async () => {
   await assertRejects(async () => {
     await readLink("non-existent-file.txt.link");
   }, NotFound);
 });
 
-Deno.test("readLinkSync() can read through symlink", () => {
+Ende.test("readLinkSync() can read through symlink", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "readLink_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const symlinkFile = join(tempDirPath, "testFile.txt.link");
@@ -63,7 +63,7 @@ Deno.test("readLinkSync() can read through symlink", () => {
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("readLinkSync() throws Error when reading from a hard link", () => {
+Ende.test("readLinkSync() throws Error when reading from a hard link", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "readLinkSync_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const linkFile = join(tempDirPath, "testFile.txt.hlink");
@@ -78,7 +78,7 @@ Deno.test("readLinkSync() throws Error when reading from a hard link", () => {
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("readLinkSync() throws NotFound when reading through a non-existent file", () => {
+Ende.test("readLinkSync() throws NotFound when reading through a non-existent file", () => {
   assertThrows(() => {
     readLinkSync("non-existent-file.txt.hlink");
   }, NotFound);

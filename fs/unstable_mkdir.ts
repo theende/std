@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isDeno } from "./_utils.ts";
+import { getNodeFs, isEnde } from "./_utils.ts";
 import { mapError } from "./_map_error.ts";
 
 /**
@@ -54,8 +54,8 @@ export async function mkdir(
   path: string | URL,
   options?: MkdirOptions,
 ): Promise<void> {
-  if (isDeno) {
-    await Deno.mkdir(path, { ...options });
+  if (isEnde) {
+    await Ende.mkdir(path, { ...options });
   } else {
     try {
       await getNodeFs().promises.mkdir(path, { ...options });
@@ -86,8 +86,8 @@ export async function mkdir(
  * @param options Options for creating directories.
  */
 export function mkdirSync(path: string | URL, options?: MkdirOptions) {
-  if (isDeno) {
-    Deno.mkdirSync(path, { ...options });
+  if (isEnde) {
+    Ende.mkdirSync(path, { ...options });
   } else {
     try {
       getNodeFs().mkdirSync(path, { ...options });

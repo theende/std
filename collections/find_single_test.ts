@@ -12,7 +12,7 @@ function findSingleTest<I>(
   assertEquals(actual, expected, message);
 }
 
-Deno.test({
+Ende.test({
   name: "findSingle() handles no mutation",
   fn() {
     const array = [1, 2, 3];
@@ -22,7 +22,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "findSingle() handles empty input",
   fn() {
     findSingleTest(
@@ -32,7 +32,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "findSingle() handles only one element",
   fn() {
     findSingleTest(
@@ -54,7 +54,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "findSingle() handles no matches",
   fn() {
     findSingleTest(
@@ -72,7 +72,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "findSingle() handles only match",
   fn() {
     findSingleTest(
@@ -90,7 +90,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "findSingle() handles multiple matches",
   fn() {
     findSingleTest(
@@ -104,7 +104,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "findSingle() passes index to predicate",
   fn() {
     const result = findSingle(

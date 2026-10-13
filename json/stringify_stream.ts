@@ -66,7 +66,7 @@ export interface StringifyStreamOptions {
  * import { JsonStringifyStream } from "@std/json/stringify-stream";
  *
  * // A server that streams one line of JSON every second
- * Deno.serve(() => {
+ * Ende.serve(() => {
  *   let intervalId: number | undefined;
  *   const readable = new ReadableStream({
  *     start(controller) {

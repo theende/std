@@ -3,7 +3,7 @@
 import { TextDelimiterStream } from "./text_delimiter_stream.ts";
 import { testTransformStream } from "./_test_utils.ts";
 
-Deno.test("TextDelimiterStream handles discard", async () => {
+Ende.test("TextDelimiterStream handles discard", async () => {
   const delimStream = new TextDelimiterStream("foo", {
     disposition: "discard",
   });
@@ -28,7 +28,7 @@ Deno.test("TextDelimiterStream handles discard", async () => {
   await testTransformStream(delimStream, inputs, outputs);
 });
 
-Deno.test("TextDelimiterStream handles suffix", async () => {
+Ende.test("TextDelimiterStream handles suffix", async () => {
   const delimStream = new TextDelimiterStream("foo", {
     disposition: "suffix",
   });
@@ -53,7 +53,7 @@ Deno.test("TextDelimiterStream handles suffix", async () => {
   await testTransformStream(delimStream, inputs, outputs);
 });
 
-Deno.test("TextDelimiterStream handles prefix", async () => {
+Ende.test("TextDelimiterStream handles prefix", async () => {
   const delimStream = new TextDelimiterStream("foo", {
     disposition: "prefix",
   });
@@ -78,7 +78,7 @@ Deno.test("TextDelimiterStream handles prefix", async () => {
   await testTransformStream(delimStream, inputs, outputs);
 });
 
-Deno.test("TextDelimiterStream handles JSONL with an empty line in the middle and trailing newline", async () => {
+Ende.test("TextDelimiterStream handles JSONL with an empty line in the middle and trailing newline", async () => {
   const delimStream = new TextDelimiterStream("\n");
 
   const inputs = [

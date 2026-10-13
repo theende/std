@@ -10,7 +10,7 @@ import { platform } from "node:os";
 import { join } from "node:path";
 import { umask } from "node:process";
 
-Deno.test("open() handles 'createNew' when opening a file", async () => {
+Ende.test("open() handles 'createNew' when opening a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -34,7 +34,7 @@ Deno.test("open() handles 'createNew' when opening a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("open() handles 'create' when opening a file", async () => {
+Ende.test("open() handles 'create' when opening a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_ " });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -74,7 +74,7 @@ Deno.test("open() handles 'create' when opening a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("open() handles 'append' when opening a file", async () => {
+Ende.test("open() handles 'append' when opening a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -114,7 +114,7 @@ Deno.test("open() handles 'append' when opening a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("open() handles 'truncate' when opening a file", async () => {
+Ende.test("open() handles 'truncate' when opening a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -142,7 +142,7 @@ Deno.test("open() handles 'truncate' when opening a file", async () => {
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test({
+Ende.test({
   name: "open() opens files with a user-defined mode prior to applying umask",
   ignore: platform() === "win32",
   fn: async () => {
@@ -169,13 +169,13 @@ Deno.test({
   },
 });
 
-Deno.test("open() rejects with Error when all options are false", async () => {
+Ende.test("open() rejects with Error when all options are false", async () => {
   await assertRejects(async () => {
     const _fh = await open("./notAFile.txt", { read: false });
   }, Error);
 });
 
-Deno.test("open() rejects with TypeError when trying to 'truncate' and 'append' opening a file", async () => {
+Ende.test("open() rejects with TypeError when trying to 'truncate' and 'append' opening a file", async () => {
   const tempFile = await makeTempFile({ prefix: "open_" });
 
   await assertRejects(async () => {
@@ -189,7 +189,7 @@ Deno.test("open() rejects with TypeError when trying to 'truncate' and 'append' 
   await remove(tempFile);
 });
 
-Deno.test("open() rejects with NotFound when opening to read a non-existent file", async () => {
+Ende.test("open() rejects with NotFound when opening to read a non-existent file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_" });
   const notAFile = join(tempDirPath, "non_existent.txt");
 
@@ -200,7 +200,7 @@ Deno.test("open() rejects with NotFound when opening to read a non-existent file
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("open() rejects with Error when opening a non-existent directory", async () => {
+Ende.test("open() rejects with Error when opening a non-existent directory", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_" });
   const testDir = join(tempDirPath, "testDir");
 
@@ -211,7 +211,7 @@ Deno.test("open() rejects with Error when opening a non-existent directory", asy
   await remove(tempDirPath, { recursive: true });
 });
 
-Deno.test("openSync() handles 'createNew' when opening a file", () => {
+Ende.test("openSync() handles 'createNew' when opening a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -235,7 +235,7 @@ Deno.test("openSync() handles 'createNew' when opening a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("openSync() handles 'create' when opening a file", () => {
+Ende.test("openSync() handles 'create' when opening a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -275,7 +275,7 @@ Deno.test("openSync() handles 'create' when opening a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("openSync() handles 'append' when opening a file", () => {
+Ende.test("openSync() handles 'append' when opening a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "openSync_ " });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -315,7 +315,7 @@ Deno.test("openSync() handles 'append' when opening a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("openSync() handles 'truncate' when opening a file", () => {
+Ende.test("openSync() handles 'truncate' when opening a file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
 
@@ -343,7 +343,7 @@ Deno.test("openSync() handles 'truncate' when opening a file", () => {
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test({
+Ende.test({
   name:
     "openSync() opens files with a user-defined mode prior to applying umask",
   ignore: platform() === "win32",
@@ -367,13 +367,13 @@ Deno.test({
   },
 });
 
-Deno.test("openSync() throws with Error when all options are false", () => {
+Ende.test("openSync() throws with Error when all options are false", () => {
   assertThrows(() => {
     const _fh = openSync("./notAFile.txt", { read: false });
   }, Error);
 });
 
-Deno.test("openSync() throws with TypeError when trying to 'truncate' and 'append' opening a file", () => {
+Ende.test("openSync() throws with TypeError when trying to 'truncate' and 'append' opening a file", () => {
   const tempFile = makeTempFileSync({ prefix: "open_" });
 
   assertThrows(() => {
@@ -387,7 +387,7 @@ Deno.test("openSync() throws with TypeError when trying to 'truncate' and 'appen
   removeSync(tempFile);
 });
 
-Deno.test("openSync() throws with NotFound when opening to read a non-existent file", () => {
+Ende.test("openSync() throws with NotFound when opening to read a non-existent file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
   const notAFile = join(tempDirPath, "non_existent.txt");
 
@@ -398,7 +398,7 @@ Deno.test("openSync() throws with NotFound when opening to read a non-existent f
   removeSync(tempDirPath, { recursive: true });
 });
 
-Deno.test("openSync() throws with Error when opening a non-existent directory", () => {
+Ende.test("openSync() throws with Error when opening a non-existent directory", () => {
   const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
   const testDir = join(tempDirPath, "testDir");
 

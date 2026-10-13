@@ -20,7 +20,7 @@ import { fileURLToPath } from "node:url";
 const moduleDir = dirname(fileURLToPath(import.meta.url));
 const testdataDir = resolve(moduleDir, "testdata");
 
-Deno.test("symlink() creates a link to a regular file", async () => {
+Ende.test("symlink() creates a link to a regular file", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "symlink_"));
   const testFile = join(tempDirPath, "testFile.txt");
   const symlinkPath = join(tempDirPath, "testFile.txt.link");
@@ -38,7 +38,7 @@ Deno.test("symlink() creates a link to a regular file", async () => {
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test("symlink() creates a link to a directory", async () => {
+Ende.test("symlink() creates a link to a directory", async () => {
   const tempDirPath = await mkdtemp(resolve(tmpdir(), "symlink_"));
   const testDir = join(tempDirPath, "testDir");
   const symlinkPath = join(tempDirPath, "testDir.link");
@@ -55,7 +55,7 @@ Deno.test("symlink() creates a link to a directory", async () => {
   await rm(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "symlink() rejects with AlreadyExists for creating the same link path to the same file path",
   async () => {
     const existingFile = join(testdataDir, "0.ts");
@@ -67,7 +67,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+Ende.test(
   "symlinkSync() creates a link to a regular file",
   () => {
     const tempDirPath = mkdtempSync(resolve(tmpdir(), "symlinkSync_"));
@@ -88,7 +88,7 @@ Deno.test(
   },
 );
 
-Deno.test("symlinkSync() creates a link to a directory", () => {
+Ende.test("symlinkSync() creates a link to a directory", () => {
   const tempDirPath = mkdtempSync(resolve(tmpdir(), "symlinkSync_"));
   const testDir = join(tempDirPath, "testDir");
   const symlinkPath = join(tempDirPath, "testDir.link");
@@ -105,7 +105,7 @@ Deno.test("symlinkSync() creates a link to a directory", () => {
   rmSync(tempDirPath, { recursive: true, force: true });
 });
 
-Deno.test(
+Ende.test(
   "symlinkSync() throws with AlreadyExists for creating the same link path to the same file path",
   () => {
     const existingFile = join(testdataDir, "0.ts");

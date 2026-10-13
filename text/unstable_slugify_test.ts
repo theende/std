@@ -8,21 +8,21 @@ import {
   slugify,
 } from "./unstable_slugify.ts";
 
-Deno.test("slugify() returns kebabcase", () => {
+Ende.test("slugify() returns kebabcase", () => {
   assertEquals(slugify("hello world"), "hello-world");
 });
-Deno.test("slugify() returns lowercase", () => {
+Ende.test("slugify() returns lowercase", () => {
   assertEquals(slugify("Hello World"), "hello-world");
 });
 
-Deno.test("slugify() handles whitespaces", () => {
+Ende.test("slugify() handles whitespaces", () => {
   assertEquals(slugify("  Hello   World  "), "hello-world");
   assertEquals(slugify("Hello\tWorld"), "hello-world");
   assertEquals(slugify("Hello\nWorld"), "hello-world");
   assertEquals(slugify("Hello\r\nWorld"), "hello-world");
 });
 
-Deno.test("slugify() normalizes diacritic characters to NFC form by default", () => {
+Ende.test("slugify() normalizes diacritic characters to NFC form by default", () => {
   assertEquals(slugify("déjà vu".normalize("NFD")), "déjà-vu".normalize("NFC"));
   assertEquals(slugify("Cliché".normalize("NFD")), "cliché".normalize("NFC"));
   assertEquals(slugify("façade".normalize("NFD")), "façade".normalize("NFC"));
@@ -33,7 +33,7 @@ Deno.test("slugify() normalizes diacritic characters to NFC form by default", ()
   );
 });
 
-Deno.test("slugify() strips all non-ASCII chars, including diacritics, if strip: NON_ASCII_REGEXP", () => {
+Ende.test("slugify() strips all non-ASCII chars, including diacritics, if strip: NON_ASCII_REGEXP", () => {
   assertEquals(
     slugify("déjà vu".normalize("NFC"), { strip: NON_ASCII_REGEXP }),
     "deja-vu",
@@ -45,7 +45,7 @@ Deno.test("slugify() strips all non-ASCII chars, including diacritics, if strip:
   assertEquals(slugify("Συστημάτων Γραφής", { strip: NON_ASCII_REGEXP }), "-");
 });
 
-Deno.test("slugify() strips all diacritics if strip: DIACRITICS_REGEXP", () => {
+Ende.test("slugify() strips all diacritics if strip: DIACRITICS_REGEXP", () => {
   assertEquals(
     slugify("déjà vu".normalize("NFC"), { strip: DIACRITICS_REGEXP }),
     "deja-vu",
@@ -60,7 +60,7 @@ Deno.test("slugify() strips all diacritics if strip: DIACRITICS_REGEXP", () => {
   );
 });
 
-Deno.test("slugify() strips ASCII diacritics (but not other diacritics) if strip: ASCII_DIACRITICS_REGEXP", () => {
+Ende.test("slugify() strips ASCII diacritics (but not other diacritics) if strip: ASCII_DIACRITICS_REGEXP", () => {
   assertEquals(
     slugify("déjà-vu".normalize("NFC"), { strip: ASCII_DIACRITICS_REGEXP }),
     "deja-vu",
@@ -75,19 +75,19 @@ Deno.test("slugify() strips ASCII diacritics (but not other diacritics) if strip
   );
 });
 
-Deno.test("slugify() handles dashes", () => {
+Ende.test("slugify() handles dashes", () => {
   assertEquals(slugify("-Hello-World-"), "hello-world");
   assertEquals(slugify("--Hello--World--"), "hello-world");
 });
 
-Deno.test("slugify() converts empty string to a single dash", () => {
+Ende.test("slugify() converts empty string to a single dash", () => {
   // Prevent any issues with zero-length slugs in URLs, e.g.
   // `/a//b` -> `/a/b`; `/a/` -> `/a`
   assertEquals(slugify(""), "-");
   assertEquals(slugify("abc", { strip: /./g }), "-");
 });
 
-Deno.test("slugify() replaces non-word characters with dashes", () => {
+Ende.test("slugify() replaces non-word characters with dashes", () => {
   assertEquals(slugify("Hello, world!"), "hello-world");
   assertEquals(slugify("hello ~ world"), "hello-world");
 
@@ -113,23 +113,23 @@ Deno.test("slugify() replaces non-word characters with dashes", () => {
   );
 });
 
-Deno.test("slugify() works with non-Latin alphabetic text", () => {
+Ende.test("slugify() works with non-Latin alphabetic text", () => {
   assertEquals(slugify("Συστημάτων Γραφής"), "συστημάτων-γραφής");
   assertEquals(slugify("三人行，必有我师"), "三人行-必有我师");
 });
 
-Deno.test("slugify() deletes non-matches when a custom strip regex is supplied", () => {
+Ende.test("slugify() deletes non-matches when a custom strip regex is supplied", () => {
   assertEquals(slugify("abcdef", { strip: /[ace]/g }), "bdf");
 });
 
-Deno.test("slugify() strips apostrophes within words", () => {
+Ende.test("slugify() strips apostrophes within words", () => {
   // curly apostrophe
   assertEquals(slugify("What’s up?"), "whats-up");
   // straight apostrophe
   assertEquals(slugify("What's up?"), "whats-up");
 });
 
-Deno.test("slugify() strips or replaces all non-alphanumeric ASCII chars except for `-`", () => {
+Ende.test("slugify() strips or replaces all non-alphanumeric ASCII chars except for `-`", () => {
   /**
    * Ensure that interpolation into all parts of a URL (path segment, search
    * params, hash, subdomain, etc.) is safe, i.e. doesn't allow path traversal
@@ -166,7 +166,7 @@ Deno.test("slugify() strips or replaces all non-alphanumeric ASCII chars except 
   }
 });
 
-Deno.test("slugify() `transliterate` option works alongside third-party transliteration libs", () => {
+Ende.test("slugify() `transliterate` option works alongside third-party transliteration libs", () => {
   /**
    * We just use a simple mock transliteration function to test basic
    * compatibility here. For actual transliteration libraries,

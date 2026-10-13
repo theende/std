@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import * as windows from "./windows/mod.ts";
 
-Deno.test("windows.parse() parses UNC root only path", () => {
+Ende.test("windows.parse() parses UNC root only path", () => {
   const parsed = windows.parse("\\\\server\\share");
   assertEquals<unknown>(parsed, {
     base: "\\",

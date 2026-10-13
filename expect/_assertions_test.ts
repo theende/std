@@ -4,13 +4,13 @@ import * as path from "@std/path";
 import { assertStringIncludes } from "@std/assert";
 import { stripAnsiCode } from "@std/internal/styles";
 
-Deno.test("expect.hasAssertions() API", async () => {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("expect.hasAssertions() API", async () => {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_has_assertions_",
   });
   try {
     const tempFilePath = path.join(tempDirPath, "has_assertions_test.ts");
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       tempFilePath,
       `import { describe, it, test } from "@std/testing/bdd";
 import { expect } from "@std/expect";
@@ -46,7 +46,7 @@ test("test suite should pass", () => {
 `,
     );
 
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: ["test", "--no-lock", tempDirPath],
     });
     const { stdout } = await command.output();
@@ -73,17 +73,17 @@ test("test suite should pass", () => {
       "error: AssertionError: Expected at least one assertion to be called but received none",
     );
   } finally {
-    await Deno.remove(tempDirPath, { recursive: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("expect.assertions() API", async () => {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("expect.assertions() API", async () => {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_has_assertions_",
   });
   try {
     const tempFilePath = path.join(tempDirPath, "has_assertions_test.ts");
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       tempFilePath,
       `import { describe, it, test } from "@std/testing/bdd";
 import { expect } from "@std/expect";
@@ -117,7 +117,7 @@ it("should throw an error", () => {
 `,
     );
 
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: ["test", "--no-lock", tempDirPath],
     });
     const { stdout } = await command.output();
@@ -141,17 +141,17 @@ it("should throw an error", () => {
       "error: AssertionError: Expected exactly 2 assertions to be called, but received 0",
     );
   } finally {
-    await Deno.remove(tempDirPath, { recursive: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Deno.test("expect assertions reset after errored tests", async () => {
-  const tempDirPath = await Deno.makeTempDir({
+Ende.test("expect assertions reset after errored tests", async () => {
+  const tempDirPath = await Ende.makeTempDir({
     prefix: "deno_std_assertions_reset_",
   });
   try {
     const tempFilePath = path.join(tempDirPath, "assertion_reset_test.ts");
-    await Deno.writeTextFile(
+    await Ende.writeTextFile(
       tempFilePath,
       `import { it } from "@std/testing/bdd";
 import { expect } from "@std/expect";
@@ -165,7 +165,7 @@ it("should pass", () => {
 `,
     );
 
-    const command = new Deno.Command(Deno.execPath(), {
+    const command = new Ende.Command(Ende.execPath(), {
       args: ["test", "--no-lock", tempDirPath],
     });
     const { stdout } = await command.output();
@@ -175,6 +175,6 @@ it("should pass", () => {
     // Previously "should fail" failing caused "should pass" to fail
     assertStringIncludes(errorMessage, "should pass ... ok");
   } finally {
-    await Deno.remove(tempDirPath, { recursive: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });

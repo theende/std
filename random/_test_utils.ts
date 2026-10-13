@@ -77,7 +77,7 @@ export function mockLittleEndian(littleEndian: boolean) {
         proxy[Symbol.for("nodejs.util.inspect.custom")] = (
           _: any,
           args: any,
-          inspect: typeof Deno.inspect,
+          inspect: typeof Ende.inspect,
         ) => {
           return `${
             littleEndian ? "LE" : "BE"

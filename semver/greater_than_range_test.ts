@@ -11,7 +11,7 @@ import {
 } from "./mod.ts";
 import type { Operator } from "./types.ts";
 
-Deno.test("greaterThanRange() checks if the semver is greater than the range", async (t) => {
+Ende.test("greaterThanRange() checks if the semver is greater than the range", async (t) => {
   // from https://github.com/npm/node-semver/blob/692451bd6f75b38a71a99f39da405c94a5954a22/test/fixtures/version-gt-range.js
   const versionGtRange = [
     ["~1.2.2", "1.3.0"],
@@ -170,7 +170,7 @@ Deno.test("greaterThanRange() checks if the semver is greater than the range", a
   }
 });
 
-Deno.test("greaterThanRange() handles equals operator", () => {
+Ende.test("greaterThanRange() handles equals operator", () => {
   const version = {
     major: 1,
     minor: 0,
@@ -189,7 +189,7 @@ Deno.test("greaterThanRange() handles equals operator", () => {
   assertEquals(greaterThanRange(version, range), false);
 });
 
-Deno.test("greaterThanRange() handles not equals operator", () => {
+Ende.test("greaterThanRange() handles not equals operator", () => {
   const version = {
     major: 1,
     minor: 0,

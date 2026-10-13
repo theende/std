@@ -31,7 +31,7 @@ import {
 } from "./mock.ts";
 import { Point, type PointWithExtra, stringifyPoint } from "./_test_utils.ts";
 
-Deno.test("spy()", () => {
+Ende.test("spy()", () => {
   const func = spy();
   assertSpyCalls(func, 0);
 
@@ -85,7 +85,7 @@ Deno.test("spy()", () => {
   assertEquals(func.restored, false);
 });
 
-Deno.test("spy() works on function", () => {
+Ende.test("spy() works on function", () => {
   const func = spy((value) => value);
   assertSpyCalls(func, 0);
 
@@ -149,7 +149,7 @@ Deno.test("spy() works on function", () => {
   });
 });
 
-Deno.test("spy() works on instance method", () => {
+Ende.test("spy() works on instance method", () => {
   const point = new Point(2, 3);
   const func = spy(point, "action");
   assertSpyCalls(func, 0);
@@ -245,7 +245,7 @@ Deno.test("spy() works on instance method", () => {
   assertEquals(func.restored, true);
 });
 
-Deno.test("spy() works on instance method symbol", () => {
+Ende.test("spy() works on instance method symbol", () => {
   const point = new Point(2, 3);
   const func = spy(point, Symbol.iterator);
   assertSpyCalls(func, 0);
@@ -283,7 +283,7 @@ Deno.test("spy() works on instance method symbol", () => {
   assertEquals(func.restored, true);
 });
 
-Deno.test("spy() works on instance method property descriptor", () => {
+Ende.test("spy() works on instance method property descriptor", () => {
   const point = new Point(2, 3);
   const actionDescriptor: PropertyDescriptor = {
     configurable: true,
@@ -348,7 +348,7 @@ Deno.test("spy() works on instance method property descriptor", () => {
   assertEquals(action.restored, true);
 });
 
-Deno.test("spy() supports explicit resource management", () => {
+Ende.test("spy() supports explicit resource management", () => {
   const point = new Point(2, 3);
   let funcRef: MethodSpy<Point> | null = null;
   {
@@ -451,7 +451,7 @@ Deno.test("spy() supports explicit resource management", () => {
   }
 });
 
-Deno.test("spy() works on constructor", () => {
+Ende.test("spy() works on constructor", () => {
   const PointSpy = spy(Point);
   assertSpyCalls(PointSpy, 0);
 
@@ -483,7 +483,7 @@ Deno.test("spy() works on constructor", () => {
   );
 });
 
-Deno.test("spy() works on constructor of child class", () => {
+Ende.test("spy() works on constructor of child class", () => {
   const PointSpy = spy(Point);
   const PointSpyChild = class extends PointSpy {
     override action() {
@@ -511,7 +511,7 @@ Deno.test("spy() works on constructor of child class", () => {
   assertSpyCalls(PointSpy, 1);
 });
 
-Deno.test("spy() works on constructor that throws an error", () => {
+Ende.test("spy() works on constructor that throws an error", () => {
   class Foo {
     constructor() {
       throw new Error("foo");
@@ -526,7 +526,7 @@ Deno.test("spy() works on constructor that throws an error", () => {
   });
 });
 
-Deno.test("spy() works with throwing method", () => {
+Ende.test("spy() works with throwing method", () => {
   const obj = {
     fn() {
       throw new Error("failed");
@@ -541,7 +541,7 @@ Deno.test("spy() works with throwing method", () => {
   });
 });
 
-Deno.test("spy() throws when try spying already spied method", () => {
+Ende.test("spy() throws when try spying already spied method", () => {
   const obj = { fn() {} };
   spy(obj, "fn");
   assertThrows(
@@ -551,7 +551,7 @@ Deno.test("spy() throws when try spying already spied method", () => {
   );
 });
 
-Deno.test("spy() throws when the property is not a method", () => {
+Ende.test("spy() throws when the property is not a method", () => {
   const obj = {};
   assertThrows(
     // deno-lint-ignore no-explicit-any
@@ -561,7 +561,7 @@ Deno.test("spy() throws when the property is not a method", () => {
   );
 });
 
-Deno.test("spy() throws when the property is not configurable", () => {
+Ende.test("spy() throws when the property is not configurable", () => {
   const obj = { fn() {} };
   Object.defineProperty(obj, "fn", { configurable: false });
   assertThrows(
@@ -571,7 +571,7 @@ Deno.test("spy() throws when the property is not configurable", () => {
   );
 });
 
-Deno.test("stub()", () => {
+Ende.test("stub()", () => {
   const point = new Point(2, 3);
   const func = stub(point, "action");
 
@@ -608,7 +608,7 @@ Deno.test("stub()", () => {
   assertEquals(func.restored, true);
 });
 
-Deno.test("stub() works on function", () => {
+Ende.test("stub() works on function", () => {
   const point = new Point(2, 3);
   const returns = [1, "b", 2, "d"];
   const func = stub(point, "action", () => returns.shift());
@@ -646,7 +646,7 @@ Deno.test("stub() works on function", () => {
   assertEquals(func.restored, true);
 });
 
-Deno.test("stub() supports explicit resource management", () => {
+Ende.test("stub() supports explicit resource management", () => {
   const point = new Point(2, 3);
   const returns = [1, "b", 2, "d"];
   let funcRef: Stub<Point> | null = null;
@@ -691,7 +691,7 @@ Deno.test("stub() supports explicit resource management", () => {
   }
 });
 
-Deno.test("stub() handles non existent function", () => {
+Ende.test("stub() handles non existent function", () => {
   const point = new Point(2, 3);
   const castPoint = point as PointWithExtra;
   let i = 0;
@@ -734,7 +734,7 @@ Deno.test("stub() handles non existent function", () => {
 });
 
 // This doesn't test any runtime code, only if the TypeScript types are correct.
-Deno.test("stub() correctly handles types", () => {
+Ende.test("stub() correctly handles types", () => {
   // @ts-expect-error Stubbing with incorrect argument types should cause a type error
   stub(new Point(2, 3), "explicitTypes", (_x: string, _y: number) => true);
 
@@ -775,7 +775,7 @@ Deno.test("stub() correctly handles types", () => {
   });
 });
 
-Deno.test("stub() works with throwing fake implementation", () => {
+Ende.test("stub() works with throwing fake implementation", () => {
   const obj = {
     fn() {
       throw new Error("failed");
@@ -792,7 +792,7 @@ Deno.test("stub() works with throwing fake implementation", () => {
   });
 });
 
-Deno.test("stub() throws when the property is not a method", () => {
+Ende.test("stub() throws when the property is not a method", () => {
   const obj = { fn: 1 };
   assertThrows(
     // deno-lint-ignore no-explicit-any
@@ -802,7 +802,7 @@ Deno.test("stub() throws when the property is not a method", () => {
   );
 });
 
-Deno.test("stub() throws when try stubbing already stubbed method", () => {
+Ende.test("stub() throws when try stubbing already stubbed method", () => {
   const obj = { fn() {} };
   stub(obj, "fn");
   assertThrows(
@@ -812,7 +812,7 @@ Deno.test("stub() throws when try stubbing already stubbed method", () => {
   );
 });
 
-Deno.test("stub() throws then the property is not configurable", () => {
+Ende.test("stub() throws then the property is not configurable", () => {
   const obj = { fn() {} };
   Object.defineProperty(obj, "fn", { configurable: false });
   assertThrows(
@@ -822,7 +822,7 @@ Deno.test("stub() throws then the property is not configurable", () => {
   );
 });
 
-Deno.test("mockSession() and mockSessionAsync()", async () => {
+Ende.test("mockSession() and mockSessionAsync()", async () => {
   const points = [
     new Point(2, 3),
     new Point(2, 3),
@@ -867,7 +867,7 @@ Deno.test("mockSession() and mockSessionAsync()", async () => {
   assertRestored(Array(6).fill(true));
 });
 
-Deno.test("mockSession() and restore current session", () => {
+Ende.test("mockSession() and restore current session", () => {
   const points = [
     new Point(2, 3),
     new Point(2, 3),
@@ -928,7 +928,7 @@ Deno.test("mockSession() and restore current session", () => {
   }
 });
 
-Deno.test("mockSession() and restore multiple sessions", () => {
+Ende.test("mockSession() and restore multiple sessions", () => {
   const points = [
     new Point(2, 3),
     new Point(2, 3),
@@ -969,7 +969,7 @@ Deno.test("mockSession() and restore multiple sessions", () => {
   }
 });
 
-Deno.test("assertSpyCalls()", () => {
+Ende.test("assertSpyCalls()", () => {
   const spyFunc = spy();
 
   assertSpyCalls(spyFunc, 0);
@@ -993,7 +993,7 @@ Deno.test("assertSpyCalls()", () => {
   );
 });
 
-Deno.test("assertSpyCall() works with function", () => {
+Ende.test("assertSpyCall() works with function", () => {
   const spyFunc = spy((multiplier?: number) => 5 * (multiplier ?? 1));
 
   assertThrows(
@@ -1068,7 +1068,7 @@ Deno.test("assertSpyCall() works with function", () => {
   );
 });
 
-Deno.test("assertSpyCall() works with method", () => {
+Ende.test("assertSpyCall() works with method", () => {
   const point = new Point(2, 3);
   const spyMethod = spy(point, "action");
 
@@ -1204,7 +1204,7 @@ Deno.test("assertSpyCall() works with method", () => {
 class ExampleError extends Error {}
 class OtherError extends Error {}
 
-Deno.test("assertSpyCall() works with error", () => {
+Ende.test("assertSpyCall() works with error", () => {
   const spyFunc = spy((_value?: number) => {
     throw new ExampleError("failed");
   });
@@ -1336,7 +1336,7 @@ Deno.test("assertSpyCall() works with error", () => {
   );
 });
 
-Deno.test("assertSpyCall() throws TypeError when returned and error are both provided", () => {
+Ende.test("assertSpyCall() throws TypeError when returned and error are both provided", () => {
   const spyFunc = spy(() => 5);
   spyFunc();
 
@@ -1351,7 +1351,7 @@ Deno.test("assertSpyCall() throws TypeError when returned and error are both pro
   );
 });
 
-Deno.test("assertSpyCallAsync() works with function", async () => {
+Ende.test("assertSpyCallAsync() works with function", async () => {
   const spyFunc = spy((multiplier?: number) =>
     Promise.resolve(5 * (multiplier ?? 1))
   );
@@ -1433,7 +1433,7 @@ Deno.test("assertSpyCallAsync() works with function", async () => {
   );
 });
 
-Deno.test("assertSpyCallAsync() works with method", async () => {
+Ende.test("assertSpyCallAsync() works with method", async () => {
   const point: Point = new Point(2, 3);
   const spyMethod = stub(
     point,
@@ -1594,7 +1594,7 @@ Deno.test("assertSpyCallAsync() works with method", async () => {
   );
 });
 
-Deno.test("assertSpyCallAsync() rejects on sync value", async () => {
+Ende.test("assertSpyCallAsync() rejects on sync value", async () => {
   const spyFunc = spy(() => 4 as unknown as Promise<number>);
 
   spyFunc();
@@ -1605,7 +1605,7 @@ Deno.test("assertSpyCallAsync() rejects on sync value", async () => {
   );
 });
 
-Deno.test("assertSpyCallAsync() rejects on sync error", async () => {
+Ende.test("assertSpyCallAsync() rejects on sync error", async () => {
   const spyFunc = spy(() => {
     throw new ExampleError("failed");
   });
@@ -1618,7 +1618,7 @@ Deno.test("assertSpyCallAsync() rejects on sync error", async () => {
   );
 });
 
-Deno.test("assertSpyCallAsync() works with error", async () => {
+Ende.test("assertSpyCallAsync() works with error", async () => {
   const spyFunc = spy((..._args: number[]): Promise<number> =>
     Promise.reject(new ExampleError("failed"))
   );
@@ -1769,7 +1769,7 @@ Deno.test("assertSpyCallAsync() works with error", async () => {
   );
 });
 
-Deno.test("assertSpyCallAsync() throws type error if expected return value is rejected", async () => {
+Ende.test("assertSpyCallAsync() throws type error if expected return value is rejected", async () => {
   const spyFunc = spy(() => Promise.resolve(5));
 
   spyFunc();
@@ -1783,7 +1783,7 @@ Deno.test("assertSpyCallAsync() throws type error if expected return value is re
   );
 });
 
-Deno.test("assertSpyCallArg()", () => {
+Ende.test("assertSpyCallArg()", () => {
   const spyFunc = spy();
 
   assertThrows(
@@ -1850,7 +1850,7 @@ Deno.test("assertSpyCallArg()", () => {
   );
 });
 
-Deno.test("assertSpyCallArgs() throws without range", () => {
+Ende.test("assertSpyCallArgs() throws without range", () => {
   const spyFunc = spy();
 
   assertThrows(
@@ -1922,7 +1922,7 @@ Deno.test("assertSpyCallArgs() throws without range", () => {
   );
 });
 
-Deno.test("assertSpyCallArgs() throws with start only", () => {
+Ende.test("assertSpyCallArgs() throws with start only", () => {
   const spyFunc = spy();
 
   assertThrows(
@@ -1994,7 +1994,7 @@ Deno.test("assertSpyCallArgs() throws with start only", () => {
   );
 });
 
-Deno.test("assertSpyCallArgs() throws with range", () => {
+Ende.test("assertSpyCallArgs() throws with range", () => {
   const spyFunc = spy();
 
   assertThrows(
@@ -2068,7 +2068,7 @@ Deno.test("assertSpyCallArgs() throws with range", () => {
   );
 });
 
-Deno.test("returnsThis()", () => {
+Ende.test("returnsThis()", () => {
   const callback = returnsThis();
   const obj = { callback, x: 1, y: 2 };
   const obj2 = { x: 2, y: 3 };
@@ -2077,7 +2077,7 @@ Deno.test("returnsThis()", () => {
   assertEquals(callback.apply(obj2, []), obj2);
 });
 
-Deno.test("returnsArg()", () => {
+Ende.test("returnsArg()", () => {
   let callback = returnsArg(0);
   assertEquals(callback(), undefined);
   assertEquals(callback("a"), "a");
@@ -2089,7 +2089,7 @@ Deno.test("returnsArg()", () => {
   assertEquals(callback("d", "e", "f"), "e");
 });
 
-Deno.test("returnsArgs()", () => {
+Ende.test("returnsArgs()", () => {
   let callback = returnsArgs();
   assertEquals(callback(), []);
   assertEquals(callback("a"), ["a"]);
@@ -2106,7 +2106,7 @@ Deno.test("returnsArgs()", () => {
   assertEquals(callback("d", "e", "f", "g"), ["e", "f"]);
 });
 
-Deno.test("returnsNext() works with array", () => {
+Ende.test("returnsNext() works with array", () => {
   let results = [1, 2, new Error("oops"), 3];
   let callback = returnsNext(results);
   assertEquals(callback(), 1);
@@ -2146,7 +2146,7 @@ Deno.test("returnsNext() works with array", () => {
   );
 });
 
-Deno.test("returnsNext() works with iterator", () => {
+Ende.test("returnsNext() works with iterator", () => {
   let results = [1, 2, new Error("oops"), 3];
   let callback = returnsNext(results.values());
   assertEquals(callback(), 1);
@@ -2186,7 +2186,7 @@ Deno.test("returnsNext() works with iterator", () => {
   );
 });
 
-Deno.test("returnsNext() works with generator", () => {
+Ende.test("returnsNext() works with generator", () => {
   let results = [1, 2, new Error("oops"), 3];
   const generator = function* () {
     yield* results;
@@ -2229,7 +2229,7 @@ Deno.test("returnsNext() works with generator", () => {
   );
 });
 
-Deno.test("resolvesNext() works with array", async () => {
+Ende.test("resolvesNext() works with array", async () => {
   let results = [
     1,
     new Error("oops"),
@@ -2285,7 +2285,7 @@ Deno.test("resolvesNext() works with array", async () => {
   );
 });
 
-Deno.test("resolvesNext() works with iterator", async () => {
+Ende.test("resolvesNext() works with iterator", async () => {
   let results = [
     1,
     new Error("oops"),
@@ -2341,7 +2341,7 @@ Deno.test("resolvesNext() works with iterator", async () => {
   );
 });
 
-Deno.test("resolvesNext() works with async generator", async () => {
+Ende.test("resolvesNext() works with async generator", async () => {
   let results = [
     1,
     new Error("oops"),

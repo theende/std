@@ -2,7 +2,7 @@
 import { clamp } from "./clamp.ts";
 import { assert, assertEquals, assertThrows } from "@std/assert";
 
-Deno.test("clamp()", async (t) => {
+Ende.test("clamp()", async (t) => {
   await t.step("basic functionality", () => {
     assertEquals(clamp(5, 1, 10), 5);
     assertEquals(clamp(-5, 1, 10), 1);

@@ -63,7 +63,7 @@ export interface FormDataInput {
  * const response = FormDataEncoderStream.from(ReadableStream.from([
  *   {
  *     name: "file",
- *     value: (await Deno.open("ende.json")).readable,
+ *     value: (await Ende.open("ende.json")).readable,
  *     contentType: "application/json",
  *   }
  * ]))
@@ -72,7 +72,7 @@ export interface FormDataInput {
  * const formData = await response.formData();
  * const file = formData.get("file");
  * assert(typeof file !== "string");
- * assertEquals(await file?.text(), await Deno.readTextFile("ende.json"));
+ * assertEquals(await file?.text(), await Ende.readTextFile("ende.json"));
  * ```
  */
 export class FormDataEncoderStream {
@@ -221,7 +221,7 @@ export class FormDataEncoderStream {
    * const response = FormDataEncoderStream.from(ReadableStream.from([
    *   {
    *     name: "file",
-   *     value: (await Deno.open("ende.json")).readable,
+   *     value: (await Ende.open("ende.json")).readable,
    *     contentType: "application/json",
    *   }
    * ]))
@@ -230,7 +230,7 @@ export class FormDataEncoderStream {
    * const formData = await response.formData();
    * const file = formData.get("file");
    * assert(typeof file !== "string");
-   * assertEquals(await file?.text(), await Deno.readTextFile("ende.json"));
+   * assertEquals(await file?.text(), await Ende.readTextFile("ende.json"));
    * ```
    */
   toResponse(init?: ResponseInit): Response {
@@ -254,7 +254,7 @@ export class FormDataEncoderStream {
    * const request = FormDataEncoderStream.from(ReadableStream.from([
    *   {
    *     name: "file",
-   *     value: (await Deno.open("ende.json")).readable,
+   *     value: (await Ende.open("ende.json")).readable,
    *     contentType: "application/json",
    *   }
    * ]))
@@ -263,7 +263,7 @@ export class FormDataEncoderStream {
    * const formData = await request.formData();
    * const file = formData.get("file");
    * assert(typeof file !== "string");
-   * assertEquals(await file?.text(), await Deno.readTextFile("ende.json"));
+   * assertEquals(await file?.text(), await Ende.readTextFile("ende.json"));
    * ```
    */
   toRequest(input: RequestInfo | URL, init?: RequestInit): Request {
@@ -289,7 +289,7 @@ export class FormDataEncoderStream {
    * const response = FormDataEncoderStream.from(ReadableStream.from([
    *   {
    *     name: "file",
-   *     value: (await Deno.open("ende.json")).readable,
+   *     value: (await Ende.open("ende.json")).readable,
    *     contentType: "application/json",
    *   }
    * ]))
@@ -298,7 +298,7 @@ export class FormDataEncoderStream {
    * const formData = await response.formData();
    * const file = formData.get("file");
    * assert(typeof file !== "string");
-   * assertEquals(await file?.text(), await Deno.readTextFile("ende.json"));
+   * assertEquals(await file?.text(), await Ende.readTextFile("ende.json"));
    * ```
    */
   static from(readable: ReadableStream<FormDataInput>): FormDataEncoderStream {
@@ -319,7 +319,7 @@ export class FormDataEncoderStream {
    * const encoder = FormDataEncoderStream.from(ReadableStream.from([
    *   {
    *     name: "file",
-   *     value: (await Deno.open("ende.json")).readable,
+   *     value: (await Ende.open("ende.json")).readable,
    *     contentType: "application/json",
    *   }
    * ]));
@@ -331,7 +331,7 @@ export class FormDataEncoderStream {
    * const formData = await response.formData();
    * const file = formData.get("file");
    * assert(typeof file !== "string");
-   * assertEquals(await file?.text(), await Deno.readTextFile("ende.json"));
+   * assertEquals(await file?.text(), await Ende.readTextFile("ende.json"));
    * ```
    */
   get contentType(): string {
@@ -351,7 +351,7 @@ export class FormDataEncoderStream {
    * const encoder = FormDataEncoderStream.from(ReadableStream.from([
    *   {
    *     name: "file",
-   *     value: (await Deno.open("ende.json")).readable,
+   *     value: (await Ende.open("ende.json")).readable,
    *     contentType: "application/json",
    *   }
    * ]));
@@ -363,7 +363,7 @@ export class FormDataEncoderStream {
    * const formData = await response.formData();
    * const file = formData.get("file");
    * assert(typeof file !== "string");
-   * assertEquals(await file?.text(), await Deno.readTextFile("ende.json"));
+   * assertEquals(await file?.text(), await Ende.readTextFile("ende.json"));
    * ```
    */
   get readable(): ReadableStream<Uint8Array> {

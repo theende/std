@@ -9,7 +9,7 @@ import { stub } from "@std/testing/mock";
 const parts = new Intl.NumberFormat().formatToParts(10000.1);
 const decimal = parts.find(({ type }) => type === "decimal")!.value;
 
-Deno.test("format() throws on invalid input", () => {
+Ende.test("format() throws on invalid input", () => {
   // deno-lint-ignore no-explicit-any
   assertThrows(() => format("" as any));
   // deno-lint-ignore no-explicit-any
@@ -23,7 +23,7 @@ Deno.test("format() throws on invalid input", () => {
   assertThrows(() => format(null as any));
 });
 
-Deno.test("format() converts bytes to human readable strings", () => {
+Ende.test("format() converts bytes to human readable strings", () => {
   assertEquals(format(0), "0 B");
   assertEquals(format(0.4), "0.4 B");
   assertEquals(format(0.7), "0.7 B");
@@ -36,7 +36,7 @@ Deno.test("format() converts bytes to human readable strings", () => {
   assertEquals(format(1e30), "1000000 YB");
 });
 
-Deno.test("format() supports negative number", () => {
+Ende.test("format() supports negative number", () => {
   assertEquals(format(-0.4), "-0.4 B");
   assertEquals(format(-0.7), "-0.7 B");
   assertEquals(format(-10.1), "-10.1 B");
@@ -44,7 +44,7 @@ Deno.test("format() supports negative number", () => {
   assertEquals(format(-1001), "-1 kB");
 });
 
-Deno.test("format() handles locale option", () => {
+Ende.test("format() handles locale option", () => {
   assertEquals(format(-0.4, { locale: "de" }), "-0,4 B");
   assertEquals(format(0.4, { locale: "de" }), "0,4 B");
   assertEquals(format(1001, { locale: "de" }), "1 kB");
@@ -101,7 +101,7 @@ Deno.test("format() handles locale option", () => {
   assertEquals(format(1e30, {}), "1000000 YB");
 });
 
-Deno.test("format() handles group separators", async (t) => {
+Ende.test("format() handles group separators", async (t) => {
   const tests: { locale: string; expected: string }[] = [
     { locale: "en-US", expected: "1,000,000 YB" },
     { locale: "es-ES", expected: "1.000.000 YB" },
@@ -136,13 +136,13 @@ Deno.test("format() handles group separators", async (t) => {
   }
 });
 
-Deno.test("format() handles signed option", () => {
+Ende.test("format() handles signed option", () => {
   assertEquals(format(42, { signed: true }), "+42 B");
   assertEquals(format(-13, { signed: true }), "-13 B");
   assertEquals(format(0, { signed: true }), " 0 B");
 });
 
-Deno.test("format() handles bits option", () => {
+Ende.test("format() handles bits option", () => {
   assertEquals(format(0, { bits: true }), "0 b");
   assertEquals(format(0.4, { bits: true }), "0.4 b");
   assertEquals(format(0.7, { bits: true }), "0.7 b");
@@ -155,7 +155,7 @@ Deno.test("format() handles bits option", () => {
   assertEquals(format(1e30, { bits: true }), "1000000 Ybit");
 });
 
-Deno.test("format() handles binary option", () => {
+Ende.test("format() handles binary option", () => {
   assertEquals(format(0, { binary: true }), "0 B");
   assertEquals(format(4, { binary: true }), "4 B");
   assertEquals(format(10, { binary: true }), "10 B");
@@ -167,7 +167,7 @@ Deno.test("format() handles binary option", () => {
   assertEquals(format(1e30, { binary: true }), "827000 YiB");
 });
 
-Deno.test("format() handles bits and binary option", () => {
+Ende.test("format() handles bits and binary option", () => {
   assertEquals(format(0, { bits: true, binary: true }), "0 b");
   assertEquals(format(4, { bits: true, binary: true }), "4 b");
   assertEquals(format(10, { bits: true, binary: true }), "10 b");
@@ -176,7 +176,7 @@ Deno.test("format() handles bits and binary option", () => {
   assertEquals(format(1e6, { bits: true, binary: true }), "977 kibit");
 });
 
-Deno.test("format() handles fractional digits options", () => {
+Ende.test("format() handles fractional digits options", () => {
   assertEquals(
     format(1900, { maximumFractionDigits: 1 }),
     `1${decimal}9 kB`,

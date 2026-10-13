@@ -23,9 +23,9 @@ export interface MoveOptions {
  * @param src The source file or directory as a string or URL.
  * @param dest The destination file or directory as a string or URL.
  * @param options Options for the move operation.
- * @throws {Deno.errors.AlreadyExists} If `dest` already exists and
+ * @throws {Ende.errors.AlreadyExists} If `dest` already exists and
  * `options.overwrite` is `false`.
- * @throws {Deno.errors.NotSupported} If `src` is a sub-directory of `dest`.
+ * @throws {Ende.errors.NotSupported} If `src` is a sub-directory of `dest`.
  *
  * @returns A void promise that resolves once the operation completes.
  *
@@ -56,13 +56,13 @@ export async function move(
 ): Promise<void> {
   const { overwrite = false } = options ?? {};
 
-  const srcStat = await Deno.stat(src);
+  const srcStat = await Ende.stat(src);
 
   if (
     srcStat.isDirectory &&
     (isSubdir(src, dest) || isSamePath(src, dest))
   ) {
-    throw new Deno.errors.NotSupported(
+    throw new Ende.errors.NotSupported(
       `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`,
     );
   }
@@ -70,23 +70,23 @@ export async function move(
   if (overwrite) {
     if (isSamePath(src, dest)) return;
     try {
-      await Deno.remove(dest, { recursive: true });
+      await Ende.remove(dest, { recursive: true });
     } catch (error) {
-      if (!(error instanceof Deno.errors.NotFound)) {
+      if (!(error instanceof Ende.errors.NotFound)) {
         throw error;
       }
     }
   } else {
-    const EXISTS_ERROR = new Deno.errors.AlreadyExists("dest already exists.");
+    const EXISTS_ERROR = new Ende.errors.AlreadyExists("dest already exists.");
     try {
-      await Deno.lstat(dest);
+      await Ende.lstat(dest);
       return Promise.reject(EXISTS_ERROR);
     } catch {
       // Do nothing...
     }
   }
 
-  await Deno.rename(src, dest);
+  await Ende.rename(src, dest);
 }
 
 /**
@@ -100,9 +100,9 @@ export async function move(
  * @param src The source file or directory as a string or URL.
  * @param dest The destination file or directory as a string or URL.
  * @param options Options for the move operation.
- * @throws {Deno.errors.AlreadyExists} If `dest` already exists and
+ * @throws {Ende.errors.AlreadyExists} If `dest` already exists and
  * `options.overwrite` is `false`.
- * @throws {Deno.errors.NotSupported} If `src` is a sub-directory of `dest`.
+ * @throws {Ende.errors.NotSupported} If `src` is a sub-directory of `dest`.
  *
  * @returns A void value that returns once the operation completes.
  *
@@ -133,13 +133,13 @@ export function moveSync(
 ): void {
   const { overwrite = false } = options ?? {};
 
-  const srcStat = Deno.statSync(src);
+  const srcStat = Ende.statSync(src);
 
   if (
     srcStat.isDirectory &&
     (isSubdir(src, dest) || isSamePath(src, dest))
   ) {
-    throw new Deno.errors.NotSupported(
+    throw new Ende.errors.NotSupported(
       `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`,
     );
   }
@@ -147,16 +147,16 @@ export function moveSync(
   if (overwrite) {
     if (isSamePath(src, dest)) return;
     try {
-      Deno.removeSync(dest, { recursive: true });
+      Ende.removeSync(dest, { recursive: true });
     } catch (error) {
-      if (!(error instanceof Deno.errors.NotFound)) {
+      if (!(error instanceof Ende.errors.NotFound)) {
         throw error;
       }
     }
   } else {
-    const EXISTS_ERROR = new Deno.errors.AlreadyExists("dest already exists.");
+    const EXISTS_ERROR = new Ende.errors.AlreadyExists("dest already exists.");
     try {
-      Deno.lstatSync(dest);
+      Ende.lstatSync(dest);
       throw EXISTS_ERROR;
     } catch (error) {
       if (error === EXISTS_ERROR) {
@@ -165,5 +165,5 @@ export function moveSync(
     }
   }
 
-  Deno.renameSync(src, dest);
+  Ende.renameSync(src, dest);
 }

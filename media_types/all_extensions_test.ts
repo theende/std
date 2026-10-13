@@ -3,7 +3,7 @@
 import { assertEquals } from "@std/assert";
 import { allExtensions } from "./all_extensions.ts";
 
-Deno.test({
+Ende.test({
   name: "extensionsByType()",
   fn() {
     const fixtures: [string, string[] | undefined][] = [

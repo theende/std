@@ -28,17 +28,17 @@ function assertDiffMessage(a: unknown, b: unknown, expected: string) {
   );
 }
 
-Deno.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_CONTEXT_LENGTH}" is set`, async (t) => {
+Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_CONTEXT_LENGTH}" is set`, async (t) => {
   using stack = disposableStack();
-  stack.use(stub(Deno.permissions, "querySync", (x) => {
-    if (x.name === "env") return { state: "granted" } as Deno.PermissionStatus;
+  stack.use(stub(Ende.permissions, "querySync", (x) => {
+    if (x.name === "env") return { state: "granted" } as Ende.PermissionStatus;
     throw new Error(`Unexpected permission descriptor: ${x.name}`);
   }));
-  stack.use(stub(Deno.env, "get", (key) => {
+  stack.use(stub(Ende.env, "get", (key) => {
     if (key === DIFF_CONTEXT_LENGTH) return (10).toString();
     // Return undefined rather than throwing for other keys: formatting the diff
     // can cause Deno to lazily initialize its `node:process` shim, which reads
-    // unrelated env vars (e.g. `NODE_OPTIONS`) through `Deno.env.get`.
+    // unrelated env vars (e.g. `NODE_OPTIONS`) through `Ende.env.get`.
     return undefined;
   }));
 

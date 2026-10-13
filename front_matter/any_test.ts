@@ -4,7 +4,7 @@ import { extract } from "@std/front-matter/any";
 import { assertEquals } from "../assert/equals.ts";
 import { assertThrows } from "../assert/throws.ts";
 
-Deno.test("extract() handles yaml data", () => {
+Ende.test("extract() handles yaml data", () => {
   const input = `---
   foo: bar
 ---
@@ -20,7 +20,7 @@ Hello, world!`;
   assertEquals(actual, expected);
 });
 
-Deno.test("extract() handles toml data", () => {
+Ende.test("extract() handles toml data", () => {
   const input = `+++
   foo = "bar"
 +++
@@ -36,7 +36,7 @@ Hello, world!`;
   assertEquals(actual, expected);
 });
 
-Deno.test("extract() handles json data", () => {
+Ende.test("extract() handles json data", () => {
   const input = `---json
 {
   "foo": "bar"
@@ -53,7 +53,7 @@ Hello, world!`;
   assertEquals(actual, expected);
 });
 
-Deno.test("extract() throws on unsupported format", () => {
+Ende.test("extract() throws on unsupported format", () => {
   const input = `---unsupported
   foo: bar
 ---
@@ -66,7 +66,7 @@ Hello, world!`;
   );
 });
 
-Deno.test("extract() handles bom when recognizing format", () => {
+Ende.test("extract() handles bom when recognizing format", () => {
   const actual = extract(
     `\ufeff---
   foo: bar

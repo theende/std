@@ -2,7 +2,7 @@
 import { assertEquals } from "@std/assert";
 import { dayOfYear, dayOfYearUtc } from "./day_of_year.ts";
 
-Deno.test({
+Ende.test({
   name: "dayOfYearUtc()",
   fn: () => {
     // from https://golang.org/src/time/time_test.go
@@ -186,7 +186,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "dayOfYear()",
   fn: () => {
     // from https://golang.org/src/time/time_test.go

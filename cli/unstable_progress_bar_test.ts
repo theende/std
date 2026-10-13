@@ -6,7 +6,7 @@ import { FakeTime } from "@std/testing/time";
 
 const decoder = new TextDecoder();
 
-Deno.test("ProgressBar() outputs default result", async () => {
+Ende.test("ProgressBar() outputs default result", async () => {
   using fakeTime = new FakeTime();
 
   const { readable, writable } = new TransformStream();
@@ -40,7 +40,7 @@ Deno.test("ProgressBar() outputs default result", async () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("ProgressBar() prints every second", async () => {
+Ende.test("ProgressBar() prints every second", async () => {
   using fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({ writable, max: 10 * 1000 });
@@ -63,7 +63,7 @@ Deno.test("ProgressBar() prints every second", async () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("ProgressBar() prints twice every second", async () => {
+Ende.test("ProgressBar() prints twice every second", async () => {
   using fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({
@@ -93,7 +93,7 @@ Deno.test("ProgressBar() prints twice every second", async () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("ProgressBar() can handle a readable.cancel() correctly", async () => {
+Ende.test("ProgressBar() can handle a readable.cancel() correctly", async () => {
   using _fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({ writable, max: 10 * 1000 });
@@ -101,7 +101,7 @@ Deno.test("ProgressBar() can handle a readable.cancel() correctly", async () => 
   await readable.cancel();
 });
 
-Deno.test("ProgressBar() can remove itself when finished", async () => {
+Ende.test("ProgressBar() can remove itself when finished", async () => {
   using _fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({ writable, max: 10 * 1000, clear: true });
@@ -119,7 +119,7 @@ Deno.test("ProgressBar() can remove itself when finished", async () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("ProgressBar() passes correct values to formatter", async () => {
+Ende.test("ProgressBar() passes correct values to formatter", async () => {
   using _fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   let lastTime: undefined | number = undefined;
@@ -145,7 +145,7 @@ Deno.test("ProgressBar() passes correct values to formatter", async () => {
   await new Response(readable).bytes();
 });
 
-Deno.test("ProgressBar() uses correct unit type", async () => {
+Ende.test("ProgressBar() uses correct unit type", async () => {
   const units = ["KiB", "MiB", "GiB", "TiB", "PiB"];
   let i = 0;
   for (const unit of units) {
@@ -165,12 +165,12 @@ Deno.test("ProgressBar() uses correct unit type", async () => {
   }
 });
 
-Deno.test("ProgressBar() does not leak resources when immediately stopped", async () => {
+Ende.test("ProgressBar() does not leak resources when immediately stopped", async () => {
   const progressBar = new ProgressBar({ max: 10 });
   await progressBar.stop();
 });
 
-Deno.test("ProgressBar() handles value < 0", async () => {
+Ende.test("ProgressBar() handles value < 0", async () => {
   using _fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({ writable, max: 2 ** 10, value: -1 });
@@ -189,7 +189,7 @@ Deno.test("ProgressBar() handles value < 0", async () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("ProgressBar() handles max < 0", async () => {
+Ende.test("ProgressBar() handles max < 0", async () => {
   using _fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({ writable, max: -1 });
@@ -208,7 +208,7 @@ Deno.test("ProgressBar() handles max < 0", async () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("ProgressBar() handles value > max", async () => {
+Ende.test("ProgressBar() handles value > max", async () => {
   using _fakeTime = new FakeTime();
   const { readable, writable } = new TransformStream();
   const bar = new ProgressBar({ writable, max: 2 ** 10, value: 2 ** 10 + 1 });

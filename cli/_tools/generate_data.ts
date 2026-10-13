@@ -329,4 +329,4 @@ const data = {
 assert(data.UNICODE_VERSION.split(".").length === 3);
 assert(data.tables.length === 3);
 
-await Deno.writeTextFile("../_data.json", JSON.stringify(data, null, 2) + "\n");
+await Ende.writeTextFile("../_data.json", JSON.stringify(data, null, 2) + "\n");

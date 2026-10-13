@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { assert, assertFalse, assertThrows, equal } from "./mod.ts";
 
-Deno.test("equal() different zero", () => {
+Ende.test("equal() different zero", () => {
   assert(equal(0, -0));
   assert(equal(0, +0));
   assert(equal(+0, -0));
@@ -13,7 +13,7 @@ Deno.test("equal() different zero", () => {
   assert(equal({ msg: "hello", array: [0] }, { msg: "hello", array: [-0] }));
 });
 
-Deno.test("equal()", () => {
+Ende.test("equal()", () => {
   assert(equal("world", "world"));
   assert(!equal("hello", "world"));
   assertFalse(equal("hello", "world"));
@@ -255,7 +255,7 @@ Deno.test("equal()", () => {
   );
 });
 
-Deno.test("equal() circular", () => {
+Ende.test("equal() circular", () => {
   const objA: { prop?: unknown } = {};
   objA.prop = objA;
   const objB: { prop?: unknown } = {};
@@ -269,7 +269,7 @@ Deno.test("equal() circular", () => {
   assert(equal(mapA, mapB));
 });
 
-Deno.test("equal() WeakMap, WeakRef and WeakSet", () => {
+Ende.test("equal() WeakMap, WeakRef and WeakSet", () => {
   assertThrows(() => equal(new WeakMap(), new WeakMap()));
   assertThrows(() => equal(new WeakSet(), new WeakSet()));
   assertFalse(equal(new WeakMap(), { constructor: WeakMap }));
@@ -277,7 +277,7 @@ Deno.test("equal() WeakMap, WeakRef and WeakSet", () => {
   assertFalse(equal(new WeakRef({}), { constructor: WeakRef }));
 });
 
-Deno.test("equal() fast path for primitive keyed collections", () => {
+Ende.test("equal() fast path for primitive keyed collections", () => {
   const arr = Array.from({ length: 10_000 }, (_, i) => i);
 
   const set1 = new Set(arr);
@@ -305,7 +305,7 @@ Deno.test("equal() fast path for primitive keyed collections", () => {
   assertFalse(equal(map5, map6));
 });
 
-Deno.test("equal() keyed collection edge cases", () => {
+Ende.test("equal() keyed collection edge cases", () => {
   assert(equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 2 }])));
   assertFalse(
     equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 3 }])),
@@ -345,7 +345,7 @@ Deno.test("equal() keyed collection edge cases", () => {
   ));
 });
 
-Deno.test("equal() with constructor and prototype", async (t) => {
+Ende.test("equal() with constructor and prototype", async (t) => {
   await t.step(
     "value-equal but reference-unequal property named `constructor`",
     () => {
@@ -383,7 +383,7 @@ Deno.test("equal() with constructor and prototype", async (t) => {
   });
 });
 
-Deno.test("equal() with dynamic properties defined on the prototype", async (t) => {
+Ende.test("equal() with dynamic properties defined on the prototype", async (t) => {
   await t.step("built-in web APIs", async (t) => {
     await t.step("URLPattern", () => {
       assert(equal(
@@ -450,7 +450,7 @@ Deno.test("equal() with dynamic properties defined on the prototype", async (t) 
   });
 });
 
-Deno.test("equal() with typed arrays", async (t) => {
+Ende.test("equal() with typed arrays", async (t) => {
   await t.step("Uint8Array", async (t) => {
     await t.step("equal", () => {
       assert(equal(
@@ -491,7 +491,7 @@ Deno.test("equal() with typed arrays", async (t) => {
   });
 });
 
-Deno.test("equal() with ArrayBuffer", async (t) => {
+Ende.test("equal() with ArrayBuffer", async (t) => {
   await t.step("ArrayBuffer", async (t) => {
     await t.step("equal", () => {
       assert(equal(

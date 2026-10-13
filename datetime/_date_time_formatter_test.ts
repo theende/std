@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { FakeTime } from "@std/testing/time";
 import { DateTimeFormatter } from "./_date_time_formatter.ts";
 
-Deno.test("dateTimeFormatter.format()", async (t) => {
+Ende.test("dateTimeFormatter.format()", async (t) => {
   await t.step("handles basic cases", () => {
     const cases: [string, Date, string][] = [
       ["yyyy-MM-dd HH:mm:ss a", new Date(2020, 0, 1), "2020-01-01 00:00:00 AM"],
@@ -140,7 +140,7 @@ Deno.test("dateTimeFormatter.format()", async (t) => {
   });
 });
 
-Deno.test("dateTimeFormatter.format() with empty format string returns empty string", () => {
+Ende.test("dateTimeFormatter.format() with empty format string returns empty string", () => {
   const format = "";
   const formatter = new DateTimeFormatter(format);
   assertEquals(
@@ -149,13 +149,13 @@ Deno.test("dateTimeFormatter.format() with empty format string returns empty str
   );
 });
 
-Deno.test("dateTimeFormatter.parse()", () => {
+Ende.test("dateTimeFormatter.parse()", () => {
   const format = "yyyy-MM-dd";
   const formatter = new DateTimeFormatter(format);
   assertEquals(formatter.parse("2020-01-01"), new Date(2020, 0, 1));
 });
 
-Deno.test("dateTimeFormatter.formatToParts()", async (t) => {
+Ende.test("dateTimeFormatter.formatToParts()", async (t) => {
   await t.step("handles basic", () => {
     const format = "yyyy-MM-dd";
     const formatter = new DateTimeFormatter(format);
@@ -418,7 +418,7 @@ Deno.test("dateTimeFormatter.formatToParts()", async (t) => {
   });
 });
 
-Deno.test("dateTimeFormatter.partsToDate()", () => {
+Ende.test("dateTimeFormatter.partsToDate()", () => {
   const date = new Date("2020-01-01T00:00:00.000Z");
   using _time = new FakeTime(date);
   const format = "yyyy-MM-dd HH:mm:ss.SSS a";
@@ -458,7 +458,7 @@ Deno.test("dateTimeFormatter.partsToDate()", () => {
     date,
   );
 });
-Deno.test("dateTimeFormatter.partsToDate() works with am dayPeriod", () => {
+Ende.test("dateTimeFormatter.partsToDate() works with am dayPeriod", () => {
   const date = new Date("2020-01-01T00:00:00.000Z");
   using _time = new FakeTime(date);
   const format = "HH a";
@@ -512,7 +512,7 @@ Deno.test("dateTimeFormatter.partsToDate() works with am dayPeriod", () => {
     date,
   );
 });
-Deno.test("dateTimeFormatter.partsToDate() works with pm dayPeriod", () => {
+Ende.test("dateTimeFormatter.partsToDate() works with pm dayPeriod", () => {
   const date = new Date("2020-01-01T13:00:00.000Z");
   using _time = new FakeTime(date);
   const format = "HH a";
@@ -567,7 +567,7 @@ Deno.test("dateTimeFormatter.partsToDate() works with pm dayPeriod", () => {
     date,
   );
 });
-Deno.test("dateTimeFormatter.partsToDate() throws with invalid dayPeriods", () => {
+Ende.test("dateTimeFormatter.partsToDate() throws with invalid dayPeriods", () => {
   const format = "HH a";
   const formatter = new DateTimeFormatter(format);
   assertThrows(
@@ -622,7 +622,7 @@ Deno.test("dateTimeFormatter.partsToDate() throws with invalid dayPeriods", () =
   );
 });
 
-Deno.test("dateTimeFormatter.partsToDate() sets utc", () => {
+Ende.test("dateTimeFormatter.partsToDate() sets utc", () => {
   const date = new Date("2020-01-01T00:00:00.000Z");
   using _time = new FakeTime(date);
   const cases = [

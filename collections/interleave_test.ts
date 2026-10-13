@@ -3,21 +3,21 @@
 import { assertEquals } from "@std/assert";
 import { interleave } from "./interleave.ts";
 
-Deno.test({
+Ende.test({
   name: "interleave() handles no arguments",
   fn() {
     assertEquals(interleave(), []);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles single array",
   fn() {
     assertEquals(interleave([1, 2, 3]), [1, 2, 3]);
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles two equal-length arrays",
   fn() {
     assertEquals(
@@ -27,7 +27,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles first array shorter",
   fn() {
     assertEquals(
@@ -37,7 +37,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles multiple unequal-length arrays",
   fn() {
     assertEquals(
@@ -47,7 +47,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles empty arrays in input",
   fn() {
     assertEquals(interleave([], [1, 2, 3]), [1, 2, 3]);
@@ -56,7 +56,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles no mutation",
   fn() {
     const a = [1, 2, 3];
@@ -68,7 +68,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles sparse arrays",
   fn() {
     // deno-lint-ignore no-sparse-arrays
@@ -80,7 +80,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles second array longer",
   fn() {
     assertEquals(
@@ -90,7 +90,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles three equal-length arrays",
   fn() {
     assertEquals(
@@ -100,7 +100,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles four equal-length arrays",
   fn() {
     assertEquals(
@@ -110,7 +110,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles non-array iterables",
   fn() {
     function* numbers() {
@@ -125,7 +125,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+Ende.test({
   name: "interleave() handles Set iterables",
   fn() {
     assertEquals(

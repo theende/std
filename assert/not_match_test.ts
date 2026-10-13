@@ -1,11 +1,11 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { AssertionError, assertNotMatch, assertThrows } from "./mod.ts";
 
-Deno.test("assertNotMatch()", () => {
+Ende.test("assertNotMatch()", () => {
   assertNotMatch("foobar.deno.com", RegExp(/[a-zA-Z]+@[a-zA-Z]+.com/));
 });
 
-Deno.test("assertNotMatch() throws", () => {
+Ende.test("assertNotMatch() throws", () => {
   assertThrows(
     () => assertNotMatch("Denosaurus from Jurassic", RegExp(/from/)),
     AssertionError,
@@ -13,7 +13,7 @@ Deno.test("assertNotMatch() throws", () => {
   );
 });
 
-Deno.test("assertNotMatch() throws with custom message", () => {
+Ende.test("assertNotMatch() throws with custom message", () => {
   assertThrows(
     () =>
       assertNotMatch(
