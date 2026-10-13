@@ -174,9 +174,9 @@ const SLASH_CODE_POINT = "/".charCodeAt(0);
  *   },
  *   {
  *     type: "file",
- *     path: 'deno.json',
- *     size: (await Deno.stat('deno.json')).size,
- *     readable: (await Deno.open('deno.json')).readable
+ *     path: 'ende.json',
+ *     size: (await Deno.stat('ende.json')).size,
+ *     readable: (await Deno.open('ende.json')).readable
  *   },
  *   {
  *     type: "file",
@@ -419,9 +419,9 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
    *   },
    *   {
    *     type: "file",
-   *     path: 'deno.json',
-   *     size: (await Deno.stat('deno.json')).size,
-   *     readable: (await Deno.open('deno.json')).readable
+   *     path: 'ende.json',
+   *     size: (await Deno.stat('ende.json')).size,
+   *     readable: (await Deno.open('ende.json')).readable
    *   },
    *   {
    *     type: "file",
@@ -455,9 +455,9 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
    *   },
    *   {
    *     type: "file",
-   *     path: 'deno.json',
-   *     size: (await Deno.stat('deno.json')).size,
-   *     readable: (await Deno.open('deno.json')).readable
+   *     path: 'ende.json',
+   *     size: (await Deno.stat('ende.json')).size,
+   *     readable: (await Deno.open('ende.json')).readable
    *   },
    *   {
    *     type: "file",

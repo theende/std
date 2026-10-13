@@ -338,14 +338,14 @@ export interface ParseOptions<
    *
    * @example Double dash option is false
    * ```ts
-   * // $ deno run example.ts -- a arg1
+   * // $ ende run example.ts -- a arg1
    * import { parseArgs } from "@std/cli/parse-args";
    * const args = parseArgs(Deno.args, { "--": false }); // args equals { _: [ "a", "arg1" ] }
    * ```
    *
    * @example Double dash option is true
    * ```ts
-   * // $ deno run example.ts -- a arg1
+   * // $ ende run example.ts -- a arg1
    * import { parseArgs } from "@std/cli/parse-args";
    * const args = parseArgs(Deno.args, { "--": true }); // args equals { _: [], --: [ "a", "arg1" ] }
    * ```

@@ -145,7 +145,7 @@ Deno.test("_serializeArgList() allows garbage collection for weak keys", async (
   // Triggering true garbage collection is only available with
   // `--v8-flags="--expose-gc"`, so we mock `FinalizationRegistry` with `using`
   // and some `Symbol.dispose` trickery if it's not available. Run this test
-  // with `deno test --v8-flags="--expose-gc"` to test actual gc behavior
+  // with `ende test --v8-flags="--expose-gc"` to test actual gc behavior
   // (however, even calling `globalThis.gc` doesn't _guarantee_ garbage
   // collection, so this may be flaky between v8 versions etc.)
   const gc = Reflect.get(globalThis, "gc") as (() => void) | undefined;

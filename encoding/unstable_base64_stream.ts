@@ -10,13 +10,13 @@
  * import { Base64EncoderStream } from "@std/encoding/unstable-base64-stream";
  * import { toText } from "@std/streams";
  *
- * const readable = (await Deno.open("./deno.lock"))
+ * const readable = (await Deno.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new Base64EncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeBase64(await Deno.readFile("./deno.lock"), { alphabet: "base64" }),
+ *   encodeBase64(await Deno.readFile("./ende.lock"), { alphabet: "base64" }),
  * );
  * ```
  *
@@ -57,13 +57,13 @@ const decoder = new TextDecoder();
  * import { Base64EncoderStream } from "@std/encoding/unstable-base64-stream";
  * import { toText } from "@std/streams";
  *
- * const readable = (await Deno.open("./deno.lock"))
+ * const readable = (await Deno.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new Base64EncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeBase64(await Deno.readFile("./deno.lock")),
+ *   encodeBase64(await Deno.readFile("./ende.lock")),
  * );
  * ```
  */
@@ -140,14 +140,14 @@ export class Base64EncoderStream<T extends "string" | "bytes">
  * } from "@std/encoding/unstable-base64-stream";
  * import { toBytes } from "@std/streams/to-bytes";
  *
- * const readable = (await Deno.open("./deno.lock"))
+ * const readable = (await Deno.open("./ende.lock"))
  *   .readable
  *   .pipeThrough(new Base64EncoderStream({ output: "string" }))
  *   .pipeThrough(new Base64DecoderStream({ input: "string" }));
  *
  * assertEquals(
  *   await toBytes(readable),
- *   await Deno.readFile("./deno.lock"),
+ *   await Deno.readFile("./ende.lock"),
  * );
  * ```
  */

@@ -21,7 +21,7 @@ import {
   SEPARATOR,
   toFileUrl,
 } from "@std/path";
-import denoConfig from "./deno.json" with { type: "json" };
+import denoConfig from "./ende.json" with { type: "json" };
 import { MINUTE } from "@std/datetime/constants";
 import { getAvailablePort } from "@std/net/get-available-port";
 import { concat } from "@std/bytes/concat";

@@ -12,14 +12,14 @@ import {
 
 Deno.test("Base32EncoderStream() with normal format", async () => {
   for (const alphabet of ["base32", "base32hex", "base32crockford"] as const) {
-    const readable = (await Deno.open("./deno.lock"))
+    const readable = (await Deno.open("./ende.lock"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "string" }));
 
     assertEquals(
       await toText(readable),
-      encodeBase32(await Deno.readFile("./deno.lock"), { alphabet }),
+      encodeBase32(await Deno.readFile("./ende.lock"), { alphabet }),
       alphabet,
     );
   }
@@ -33,7 +33,7 @@ Deno.test("Base32EncoderStream() with raw format", async () => {
       "base32crockford",
     ] as const
   ) {
-    const readable = (await Deno.open("./deno.lock"))
+    const readable = (await Deno.open("./ende.lock"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "bytes" }));
@@ -42,7 +42,7 @@ Deno.test("Base32EncoderStream() with raw format", async () => {
       await toBytes(readable),
       new TextEncoder().encode(
         encodeBase32(
-          await Deno.readFile("./deno.lock"),
+          await Deno.readFile("./ende.lock"),
           { alphabet },
         ),
       ),
@@ -53,7 +53,7 @@ Deno.test("Base32EncoderStream() with raw format", async () => {
 
 Deno.test("Base32DecoderStream() with normal format", async () => {
   for (const alphabet of ["base32", "base32hex", "base32crockford"] as const) {
-    const readable = (await Deno.open("./deno.lock"))
+    const readable = (await Deno.open("./ende.lock"))
       .readable
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "string" }))
       .pipeThrough(new TextEncoderStream())
@@ -63,7 +63,7 @@ Deno.test("Base32DecoderStream() with normal format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Deno.readFile("./deno.lock"),
+      await Deno.readFile("./ende.lock"),
     );
   }
 });
@@ -76,7 +76,7 @@ Deno.test("Base32DecoderStream() with raw format", async () => {
       "base32crockford",
     ] as const
   ) {
-    const readable = (await Deno.open("./deno.lock"))
+    const readable = (await Deno.open("./ende.lock"))
       .readable
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "bytes" }))
       .pipeThrough(new FixedChunkStream(1021))
@@ -84,7 +84,7 @@ Deno.test("Base32DecoderStream() with raw format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Deno.readFile("./deno.lock"),
+      await Deno.readFile("./ende.lock"),
     );
   }
 });

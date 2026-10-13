@@ -28,9 +28,9 @@ Deno.test("TarStream() outputs corrects length", async () => {
         }, // 1024
         {
           type: "file",
-          path: "./potato/deno.json",
-          size: (await Deno.stat("deno.json")).size,
-          readable: (await Deno.open("deno.json")).readable,
+          path: "./potato/ende.json",
+          size: (await Deno.stat("ende.json")).size,
+          readable: (await Deno.open("ende.json")).readable,
         }, // 512 + ceil(size / 512) * 512
       ]) // 1024
       .pipeThrough(new TarStream()),
@@ -41,7 +41,7 @@ Deno.test("TarStream() outputs corrects length", async () => {
     buffer.length,
     512 +
       1024 +
-      (512 + Math.ceil((await Deno.stat("deno.json")).size / 512) * 512) +
+      (512 + Math.ceil((await Deno.stat("ende.json")).size / 512) * 512) +
       1024,
   );
 });
@@ -60,9 +60,9 @@ Deno.test("TarStream() ends correctly", async () => {
         }, // 1024
         {
           type: "file",
-          path: "./potato/deno.json",
-          size: (await Deno.stat("deno.json")).size,
-          readable: (await Deno.open("deno.json")).readable,
+          path: "./potato/ende.json",
+          size: (await Deno.stat("ende.json")).size,
+          readable: (await Deno.open("ende.json")).readable,
         }, // 512 + ceil(size / 512) * 512
       ]) // 1024
       .pipeThrough(new TarStream()),
@@ -88,9 +88,9 @@ Deno.test("TarStream() supports byte streams", async () => {
         }, // 1024
         {
           type: "file",
-          path: "./potato/deno.json",
-          size: (await Deno.stat("deno.json")).size,
-          readable: (await Deno.open("deno.json")).readable,
+          path: "./potato/ende.json",
+          size: (await Deno.stat("ende.json")).size,
+          readable: (await Deno.open("ende.json")).readable,
           options: { mtime },
         }, // 512 + ceil(size / 512) * 512
       ]) // 1024

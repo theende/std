@@ -12,20 +12,20 @@ import { parse } from "../semver/parse.ts";
 /**
  * Checks for circular dependencies in the std packages.
  *
- * Usage: deno run -A _tools/check_circular_package_dependencies.ts
+ * Usage: ende run -A _tools/check_circular_package_dependencies.ts
  *
  * `--graph` option outputs graphviz diagram. You can convert the output to
  * a visual graph using tools like https://dreampuf.github.io/GraphvizOnline/
  *
- * $ deno run -A _tools/check_circular_package_dependencies.ts --graph
+ * $ ende run -A _tools/check_circular_package_dependencies.ts --graph
  *
  * `--table` option outputs a table of packages and their status.
  *
- * $ deno run -A _tools/check_circular_package_dependencies.ts --table
+ * $ ende run -A _tools/check_circular_package_dependencies.ts --table
  *
  * `--all-imports` option outputs script to import all packages.
  *
- * $ deno run -A _tools/check_circular_package_dependencies.ts --all-imports
+ * $ ende run -A _tools/check_circular_package_dependencies.ts --all-imports
  */
 
 type DepState = "Stable" | "Unstable";
@@ -49,7 +49,7 @@ function getPackageNameFromUrl(url: string): string {
 }
 
 async function getStability(pkg: string): Promise<DepState> {
-  const config = await import(`../${pkg}/deno.json`, {
+  const config = await import(`../${pkg}/ende.json`, {
     with: { type: "json" },
   });
   const version = parse(config.default.version);

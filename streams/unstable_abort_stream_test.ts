@@ -7,7 +7,7 @@ import { AbortStream } from "./unstable_abort_stream.ts";
 Deno.test("AbortStream", async () => {
   const controller = new AbortController();
 
-  const file = "./deno.json";
+  const file = "./ende.json";
   const chunkSize = (await Deno.stat(file)).size / 4;
   const promise = new Response(
     (await Deno.open(file))

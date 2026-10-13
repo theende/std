@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno bench
+#!/usr/bin/env -S ende bench
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { crypto as stdCrypto, type DIGEST_ALGORITHM_NAMES } from "../mod.ts";
 

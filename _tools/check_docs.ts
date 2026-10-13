@@ -275,7 +275,7 @@ function assertClassDocs(document: DocNodeWithJsDoc<DocNodeClass>) {
   }
 
   for (const property of document.classDef.properties) {
-    if (property.jsDoc === undefined) continue; // this is caught by `deno doc --lint`
+    if (property.jsDoc === undefined) continue; // this is caught by `ende doc --lint`
     assert(
       property.accessibility === undefined,
       "Do not use `public`, `protected`, or `private` fields in classes",
@@ -286,7 +286,7 @@ function assertClassDocs(document: DocNodeWithJsDoc<DocNodeClass>) {
     );
   }
   for (const method of document.classDef.methods) {
-    if (method.jsDoc === undefined) continue; // this is caught by `deno doc --lint`
+    if (method.jsDoc === undefined) continue; // this is caught by `ende doc --lint`
     assert(
       method.accessibility === undefined,
       "Do not use `public`, `protected`, or `private` methods in classes",
@@ -295,7 +295,7 @@ function assertClassDocs(document: DocNodeWithJsDoc<DocNodeClass>) {
     assertFunctionDocs(method as DocNodeWithJsDoc<ClassMethodDef>);
   }
   for (const constructor of document.classDef.constructors) {
-    if (constructor.jsDoc === undefined) continue; // this is caught by `deno doc --lint`
+    if (constructor.jsDoc === undefined) continue; // this is caught by `ende doc --lint`
     assert(
       constructor.accessibility === undefined,
       "Do not use `public`, `protected`, or `private` constructors in classes",

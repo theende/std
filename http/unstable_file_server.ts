@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-net --allow-read
+#!/usr/bin/env -S ende run --allow-net --allow-read
 // Copyright 2018-2026 the Deno authors. MIT license.
 import {
   serveDir as stableServeDir,

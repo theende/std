@@ -101,7 +101,7 @@ export function getSnapshotNotMatchMessage(
     : diff(actualSnapshot.split("\n"), expectedSnapshot.split("\n"));
   const diffMsg = buildMessage(diffResult, { stringDiff }).join("\n");
   const message =
-    `Snapshot does not match:\n${diffMsg}\nTo update snapshots, run\n    deno test --allow-read --allow-write [files]... -- --update\n`;
+    `Snapshot does not match:\n${diffMsg}\nTo update snapshots, run\n    ende test --allow-read --allow-write [files]... -- --update\n`;
   return getErrorMessage(message, options);
 }
 

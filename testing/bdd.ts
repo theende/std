@@ -6,7 +6,7 @@
  *
  * > [!WARNING]
  * > **Deprecated**: A BDD interface is available through the `node:test`
- * > module, which is supported first-class by `deno test`. Use `node:test`'s
+ * > module, which is supported first-class by `ende test`. Use `node:test`'s
  * > `describe()` and `it()`, or the flat `Deno.test()` style with the
  * > `Deno.test.beforeAll()`/`beforeEach()`/`afterEach()`/`afterAll()` hooks
  * > (Deno 2.5+), instead. This module will be removed in 2.0.0.

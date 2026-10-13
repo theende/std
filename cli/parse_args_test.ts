@@ -497,7 +497,7 @@ Deno.test("parseArgs() handles newlines in params", function () {
   // reproduce in bash:
   // VALUE="new
   // line"
-  // deno program.js --s="$VALUE"
+  // ende program.js --s="$VALUE"
   const args2 = parseArgs(["--s=X\nX"]);
   assertEquals(args2, { _: [], s: "X\nX" });
 });

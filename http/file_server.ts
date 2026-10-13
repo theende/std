@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-net --allow-read
+#!/usr/bin/env -S ende run --allow-net --allow-read
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 // This program serves files in the current directory over HTTP.
@@ -13,16 +13,16 @@
  *
  * ```shell
  * > # start server
- * > deno run --allow-net --allow-read --allow-sys jsr:@std/http/file-server
+ * > ende run --allow-net --allow-read --allow-sys jsr:@std/http/file-server
  * > # show help
- * > deno run jsr:@std/http/file-server --help
+ * > ende run jsr:@std/http/file-server --help
  * ```
  *
  * If you want to install and run:
  *
  * ```shell
  * > # install
- * > deno install --allow-net --allow-read --allow-sys --global jsr:@std/http/file-server
+ * > ende install --allow-net --allow-read --allow-sys --global jsr:@std/http/file-server
  * > # start server
  * > file-server
  * > # show help
@@ -50,7 +50,7 @@ import {
 } from "./status.ts";
 import { ByteSliceStream } from "@std/streams/byte-slice-stream";
 import { parseArgs } from "@std/cli/parse-args";
-import denoConfig from "./deno.json" with { type: "json" };
+import denoConfig from "./ende.json" with { type: "json" };
 import { format as formatBytes } from "@std/fmt/bytes";
 import { getNetworkAddress } from "@std/net/unstable-get-network-address";
 import { escape } from "@std/html/entities";
@@ -948,7 +948,7 @@ function printUsage() {
   Serves a local directory in HTTP.
 
 INSTALL:
-  deno install --allow-net --allow-read --allow-sys jsr:@std/http@${denoConfig.version}/file-server
+  ende install --allow-net --allow-read --allow-sys jsr:@std/http@${denoConfig.version}/file-server
 
 USAGE:
   file_server [path] [options]

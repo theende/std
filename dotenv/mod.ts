@@ -21,13 +21,13 @@
  * flag, which Node.js and Bun also support:
  *
  * ```sh
- * deno run --env-file app.ts
- * deno run --env-file=.env --env-file=.env.local app.ts
+ * ende run --env-file app.ts
+ * ende run --env-file=.env --env-file=.env.local app.ts
  * ```
  *
  * | Deprecated API | Replacement |
  * | -------------- | ----------- |
- * | `import "@std/dotenv/load"` | `deno run --env-file app.ts` |
+ * | `import "@std/dotenv/load"` | `ende run --env-file app.ts` |
  * | `load({ export: true })` / `loadSync({ export: true })` | `--env-file` |
  * | `load({ envPath: "./.env_prod" })` | `--env-file=.env_prod` |
  * | `load()` (read into an object, no export) | `parse(await Deno.readTextFile(".env"))` |
@@ -158,7 +158,7 @@ export function loadSync(
  * console.log(Deno.env.get("GREETING")); // hello world
  * ```
  *
- * Run this with `deno run --allow-read --allow-env app.ts`.
+ * Run this with `ende run --allow-read --allow-env app.ts`.
  *
  * .env files support blank lines, comments, multi-line values and more.
  * See Parsing Rules below for more detail.
@@ -175,7 +175,7 @@ export function loadSync(
  * console.log(Deno.env.get("GREETING")); // hello world
  * ```
  *
- * Run this with `deno run --allow-read --allow-env app.ts`.
+ * Run this with `ende run --allow-read --allow-env app.ts`.
  *
  * ## Files
  * Dotenv supports a number of different files, all of which are optional.
@@ -214,7 +214,7 @@ export function loadSync(
  * in your `.env` file, you will need the `--allow-env` permission.  E.g.
  *
  * ```sh
- * deno run --allow-read=.env --allow-env=ENV1,ENV2 app.ts
+ * ende run --allow-read=.env --allow-env=ENV1,ENV2 app.ts
  * ```
  *
  * ## Parsing Rules

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-net --allow-read --allow-write
+#!/usr/bin/env -S ende run --allow-net --allow-read --allow-write
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Ported from unicode_width rust crate, Copyright (c) 2015 The Rust Project Developers. MIT license.
 

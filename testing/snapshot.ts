@@ -27,7 +27,7 @@
  * });
  * ```
  *
- * Snapshots are updated with `deno test --update-snapshots` (or `-u`) instead
+ * Snapshots are updated with `ende test --update-snapshots` (or `-u`) instead
  * of passing `-- --update` to the test runner. The built-in also accepts
  * `serializer`, `name`, `dir`, `path`, and `mode` options, covering the
  * {@linkcode createAssertSnapshot} use cases.
@@ -97,14 +97,14 @@
  * When this flag is not passed, tests missing snapshots will fail.
  *
  * ```sh
- * deno test --allow-all -- --update
+ * ende test --allow-all -- --update
  * ```
  *
  * In addition, `assertInlineSnapshot` defaults to formatting the test file after
  * updating snapshots. To stop this, pass command `--no-format`:
  *
  * ```sh
- * deno test --allow-all -- --update --no-format
+ * ende test --allow-all -- --update --no-format
  * ```
  *
  * ## Permissions:

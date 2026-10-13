@@ -3,12 +3,12 @@
 
 /**
  * This script adds kebab case checking for export names found in each `@std`
- * package's `deno.json` `exports` property.
+ * package's `ende.json` `exports` property.
  *
- * Run using: deno run -A _tools/check_export_names.ts
+ * Run using: ende run -A _tools/check_export_names.ts
  */
 
-import denoJson from "../deno.json" with { type: "json" };
+import denoJson from "../ende.json" with { type: "json" };
 import { join, parse } from "@std/path";
 import { toKebabCase } from "@std/text";
 
@@ -93,7 +93,7 @@ function suggestKebabName(name: string): string {
 
 const denoJsonList = Promise.all(
   denoJson.workspace.map((w) =>
-    Deno.readTextFile(join(w, "deno.json")).then(JSON.parse)
+    Deno.readTextFile(join(w, "ende.json")).then(JSON.parse)
   ),
 );
 
@@ -110,7 +110,7 @@ for (const denoJson of await denoJsonList) {
       console.warn(
         `.${
           denoJson.name.slice(4)
-        }/deno.json: export name is not in kebab case or contains an invalid "ignore" word:\n\tFound export name: "${name}"\n\tSuggested export name: "${
+        }/ende.json: export name is not in kebab case or contains an invalid "ignore" word:\n\tFound export name: "${name}"\n\tSuggested export name: "${
           suggestKebabName(name)
         }"`,
       );

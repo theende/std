@@ -138,7 +138,7 @@ Deno.test("BatchStream<T> infers T from the surrounding pipeThrough", async () =
 });
 
 // The remaining checks below are compile-time only. They live inside a
-// never-called function so `deno test` type-checks them without executing the
+// never-called function so `ende test` type-checks them without executing the
 // resulting stream pipelines (which would leak timers across tests).
 function _typeChecks(): void {
   const numbers: ReadableStream<number> = ReadableStream.from([1, 2, 3]);

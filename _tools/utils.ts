@@ -11,9 +11,9 @@ async function importJson(path: string): Promise<DenoJson> {
 }
 
 export async function getPackagesDenoJsons(): Promise<DenoJson[]> {
-  const { workspace } = await importJson("../deno.json");
+  const { workspace } = await importJson("../ende.json");
   return Promise.all(
-    workspace!.map((path) => importJson(`../${path}/deno.json`)),
+    workspace!.map((path) => importJson(`../${path}/ende.json`)),
   );
 }
 

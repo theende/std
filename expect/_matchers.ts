@@ -1189,7 +1189,7 @@ export function toMatchSnapshot(
       throw new AssertionError(
         `Missing snapshot: ${key}\n` +
           "To create snapshots, run:\n" +
-          "    deno test --allow-read --allow-write [files]... -- --update\n",
+          "    ende test --allow-read --allow-write [files]... -- --update\n",
       );
     }
 
@@ -1199,7 +1199,7 @@ export function toMatchSnapshot(
         actualSnapshot,
         expectedSnapshot,
         "Snapshot",
-        "deno test --allow-read --allow-write [files]... -- --update",
+        "ende test --allow-read --allow-write [files]... -- --update",
       );
     }
   }
@@ -1249,7 +1249,7 @@ export function toMatchInlineSnapshot(
     if (!getIsUpdate()) {
       throw new AssertionError(
         "Missing inline snapshot argument. To create inline snapshots, run:\n" +
-          "    deno test --allow-read --allow-write [files]... -- --update\n",
+          "    ende test --allow-read --allow-write [files]... -- --update\n",
       );
     }
     const callSite = getInlineCallSite(toMatchInlineSnapshot);
@@ -1273,7 +1273,7 @@ export function toMatchInlineSnapshot(
         actualSnapshot,
         trimmedInlineSnapshot,
         "Inline snapshot",
-        "deno test --allow-read --allow-write [files]... -- --update",
+        "ende test --allow-read --allow-write [files]... -- --update",
       );
     }
   }

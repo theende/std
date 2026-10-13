@@ -11,7 +11,7 @@ and use them here in deno_std.
 ## How to Build
 
 ```sh
-deno task build:crypto
+ende task build:crypto
 ```
 
 This will regenerate the files in the `./lib/` folder from the Rust source.

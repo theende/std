@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-net --allow-read --allow-write
+#!/usr/bin/env -S ende run --allow-net --allow-read --allow-write
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 // JSON version of the full canonical list of named HTML entities

@@ -8,31 +8,31 @@ import { encodeHex } from "./unstable_hex.ts";
 import { HexDecoderStream, HexEncoderStream } from "./unstable_hex_stream.ts";
 
 Deno.test("HexEncoderStream() with normal format", async () => {
-  const readable = (await Deno.open("./deno.lock"))
+  const readable = (await Deno.open("./ende.lock"))
     .readable
     .pipeThrough(new FixedChunkStream(1021))
     .pipeThrough(new HexEncoderStream({ output: "string" }));
 
   assertEquals(
     await toText(readable),
-    encodeHex(await Deno.readFile("./deno.lock")),
+    encodeHex(await Deno.readFile("./ende.lock")),
   );
 });
 
 Deno.test("HexEncoderStream() with raw format", async () => {
-  const readable = (await Deno.open("./deno.lock"))
+  const readable = (await Deno.open("./ende.lock"))
     .readable
     .pipeThrough(new FixedChunkStream(1021))
     .pipeThrough(new HexEncoderStream({ output: "bytes" }));
 
   assertEquals(
     await toBytes(readable),
-    new TextEncoder().encode(encodeHex(await Deno.readFile("./deno.lock"))),
+    new TextEncoder().encode(encodeHex(await Deno.readFile("./ende.lock"))),
   );
 });
 
 Deno.test("HexDecoderStream() with normal format", async () => {
-  const readable = (await Deno.open("./deno.lock"))
+  const readable = (await Deno.open("./ende.lock"))
     .readable
     .pipeThrough(new HexEncoderStream({ output: "string" }))
     .pipeThrough(new TextEncoderStream())
@@ -42,12 +42,12 @@ Deno.test("HexDecoderStream() with normal format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    await Deno.readFile("./deno.lock"),
+    await Deno.readFile("./ende.lock"),
   );
 });
 
 Deno.test("HexDecoderStream() with raw format", async () => {
-  const readable = (await Deno.open("./deno.lock"))
+  const readable = (await Deno.open("./ende.lock"))
     .readable
     .pipeThrough(new HexEncoderStream({ output: "bytes" }))
     .pipeThrough(new FixedChunkStream(1021))
@@ -55,6 +55,6 @@ Deno.test("HexDecoderStream() with raw format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    await Deno.readFile("./deno.lock"),
+    await Deno.readFile("./ende.lock"),
   );
 });

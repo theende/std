@@ -4,7 +4,7 @@
  * This script adds a browser-compatible declaration to files that are
  * browser-compatible but do not have the declaration.
  *
- * Run using: deno run --allow-read --allow-run _tools/check_browser_compat.ts
+ * Run using: ende run --allow-read --allow-run _tools/check_browser_compat.ts
  */
 
 import { walk } from "../fs/walk.ts";

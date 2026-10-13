@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-// Run this test with `deno test --unstable-ffi -A compare_with_rust.ts`
+// Run this test with `ende test --unstable-ffi -A compare_with_rust.ts`
 
 import { unicodeWidth } from "../unicode_width.ts";
 import { fromFileUrl } from "../../path/mod.ts";

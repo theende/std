@@ -17,7 +17,7 @@ and [architecture guide](./ARCHITECTURE.md) before contributing.
 1. [Install the Deno CLI](https://docs.deno.com/runtime/manual/getting_started/installation).
 1. Fork and clone the repository.
 1. Create a new branch for your changes.
-1. Make your changes and ensure `deno task ok` passes successfully.
+1. Make your changes and ensure `ende task ok` passes successfully.
 1. Commit your changes with clear messages.
 1. Submit a pull request with the package in question, and a clear title and
    description, as follows:
@@ -145,10 +145,10 @@ See the source code within
 [`@std/bytes`](https://github.com/denoland/std/tree/main/bytes) for examples.
 
 The [documentation checker tool](../_tools/check_docs.ts) checks all entry
-points listed in the `exports` field of each package's `deno.json`, so ensure
+points listed in the `exports` field of each package's `ende.json`, so ensure
 new entry points are listed there.
 
-Once the documentation is written, run `deno task lint:docs` which checks that
+Once the documentation is written, run `ende task lint:docs` which checks that
 documentation is complete in the given entry points.
 
 ### Module documentation
@@ -175,7 +175,7 @@ Example code snippets must:
 1. Be reproducible as a copied and pasted script.
 1. Use an assertion from [`@std/assert`](https://jsr.io/@std/assert), when
    possible. Snippets are run using
-   [`deno eval`](https://docs.deno.com/runtime/manual/tools/eval) in the
+   [`ende eval`](https://docs.deno.com/runtime/manual/tools/eval) in the
    [documentation checker tool](../_tools/check_docs.ts) and are flagged when
    they throw an error.
 
@@ -193,7 +193,7 @@ delimiter. E.g.
 You can also write code snippets that are expected to fail either at compile
 time or at runtime by adding `expect-error`. However, if the fenced code is
 supposed to not pass type checking, you may also want to specify `ignore`
-directive, because we run `deno test --doc` command in CI, which does type
+directive, because we run `ende test --doc` command in CI, which does type
 checking against fenced code snippets except for those with `ignore` directive.
 So concrete examples are:
 

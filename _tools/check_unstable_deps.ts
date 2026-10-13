@@ -4,7 +4,7 @@
 /**
  * This script checks if the stable modules import the unstable modules.
  *
- * Usage: `deno run -A _tools/check_unstable_deps.ts`
+ * Usage: `ende run -A _tools/check_unstable_deps.ts`
  *
  * @module
  */

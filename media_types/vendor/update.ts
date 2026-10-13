@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-// `deno fmt` must be run after running this script.
+// `ende fmt` must be run after running this script.
 
 const response = await fetch(
   "https://raw.githubusercontent.com/jshttp/mime-db/master/db.json",

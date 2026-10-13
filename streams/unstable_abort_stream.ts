@@ -22,7 +22,7 @@
  * await assertRejects(
  *   async function () {
  *     await new Response(
- *       (await Deno.open("./deno.json"))
+ *       (await Deno.open("./ende.json"))
  *         .readable
  *         .pipeThrough(new AbortStream(controller.signal)),
  *     )
