@@ -13,7 +13,7 @@ import type { Reader } from "./types.ts";
  * import { copy } from "@std/io/copy";
  * import { readerFromStreamReader } from "@std/io/reader-from-stream-reader";
  *
- * const res = await fetch("https://deno.land");
+ * const res = await fetch("https://ende.sh");
  *
  * const reader = readerFromStreamReader(res.body!.getReader());
  * await copy(reader, Ende.stdout);

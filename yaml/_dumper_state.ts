@@ -565,7 +565,7 @@ export class DumperState {
         return `"${escapeString(string)}"`;
       default:
         throw new TypeError(
-          "Invalid scalar style should be unreachable: please file a bug report against Deno at https://github.com/denoland/std/issues",
+          "Invalid scalar style should be unreachable: please file a bug report against Ende at https://github.com/theende/std/issues",
         );
     }
   }

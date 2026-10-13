@@ -65,7 +65,7 @@ export function _serializeArgList<Return>(
         new WeakRef(arg as WeakKey);
       } catch {
         throw new Error(
-          "Should be unreachable: please open an issue at https://github.com/denoland/std/issues/new",
+          "Should be unreachable: please open an issue at https://github.com/theende/std/issues/new",
         );
       }
 

@@ -86,7 +86,7 @@ export class FormDataEncoderStream {
    * @param readable The readable stream of form data inputs.
    */
   constructor(readable: ReadableStream<FormDataInput>) {
-    const boundary = "--deno-std-" +
+    const boundary = "--ende-std-" +
       encodeBase64(crypto.getRandomValues(new Uint8Array(30))) +
       "\r\n";
     this.#encoder

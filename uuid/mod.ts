@@ -16,7 +16,7 @@
  * import { v5, NAMESPACE_DNS, NIL_UUID } from "@std/uuid";
  * import { assert, assertFalse } from "@std/assert";
  *
- * const data = new TextEncoder().encode("deno.land");
+ * const data = new TextEncoder().encode("ende.sh");
  * const uuid = await v5.generate(NAMESPACE_DNS, data);
  *
  * assert(v5.validate(uuid));
@@ -66,7 +66,7 @@ export const v1 = {
  * import { v3, NAMESPACE_DNS } from "@std/uuid";
  * import { assert } from "@std/assert";
  *
- * const data = new TextEncoder().encode("deno.land");
+ * const data = new TextEncoder().encode("ende.sh");
  * const uuid = await v3.generate(NAMESPACE_DNS, data);
  * assert(v3.validate(uuid));
  * ```
@@ -102,7 +102,7 @@ export const v4 = {
  * import { v5, NAMESPACE_DNS } from "@std/uuid";
  * import { assert } from "@std/assert";
  *
- * const data = new TextEncoder().encode("deno.land");
+ * const data = new TextEncoder().encode("ende.sh");
  * const uuid = await v5.generate(NAMESPACE_DNS, data);
  * assert(v5.validate(uuid));
  * ```

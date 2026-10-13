@@ -8,7 +8,7 @@ import type { FileInfo } from "./unstable_types.ts";
 /**
  * Resolves to a {@linkcode FileInfo} for the specified `path`. If `path` is a symlink, information for the symlink will be returned instead of what it points to.
  *
- * Requires `allow-read` permission in Deno.
+ * Requires `allow-read` permission in Ende.
  *
  * @example Usage
  * ```ts
@@ -40,7 +40,7 @@ export async function lstat(path: string | URL): Promise<FileInfo> {
  * `path`. If `path` is a symlink, information for the symlink will be
  * returned instead of what it points to.
  *
- * Requires `allow-read` permission in Deno.
+ * Requires `allow-read` permission in Ende.
  *
  * @example Usage
  *

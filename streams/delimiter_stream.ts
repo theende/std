@@ -181,7 +181,7 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
               : inspectIndex;
           } else {
             throw new Error(
-              "This should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues",
+              "This should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
             );
           }
         }
@@ -276,7 +276,7 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
           controller.enqueue(result);
         } else {
           throw new Error(
-            "This should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues",
+            "This should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
           );
         }
       } else {

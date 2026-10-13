@@ -2,7 +2,7 @@
 
 import { describeTextureFormat } from "./describe_texture_format.ts";
 
-// From GPUTextureFormat webidl definition in https://github.com/denoland/deno/blob/main/ext/webgpu/01_webgpu.js
+// From GPUTextureFormat webidl definition in https://github.com/theende/ende/blob/main/ext/webgpu/01_webgpu.js
 const FORMATS: GPUTextureFormat[] = [
   "r8unorm",
   "r8snorm",

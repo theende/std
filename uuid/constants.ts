@@ -9,7 +9,7 @@
  * import { NAMESPACE_DNS } from "@std/uuid/constants";
  * import { generate } from "@std/uuid/v5";
  *
- * await generate(NAMESPACE_DNS, new TextEncoder().encode("deno.land"));
+ * await generate(NAMESPACE_DNS, new TextEncoder().encode("ende.sh"));
  * ```
  */
 export const NAMESPACE_DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
@@ -21,7 +21,7 @@ export const NAMESPACE_DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
  * import { NAMESPACE_URL } from "@std/uuid/constants";
  * import { generate } from "@std/uuid/v3";
  *
- * await generate(NAMESPACE_URL, new TextEncoder().encode("https://deno.land"));
+ * await generate(NAMESPACE_URL, new TextEncoder().encode("https://ende.sh"));
  * ```
  */
 export const NAMESPACE_URL = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";

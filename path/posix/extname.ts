@@ -36,10 +36,10 @@ import { fromFileUrl } from "./from_file_url.ts";
  * import { extname } from "@std/path/posix/extname";
  * import { assertEquals } from "@std/assert";
  *
- * assertEquals(extname("https://deno.land/std/path/mod.ts"), ".ts");
- * assertEquals(extname("https://deno.land/std/path/mod.ts?a=b"), ".ts?a=b");
- * assertEquals(extname("https://deno.land/std/path/mod.ts#header"), ".ts#header");
- * assertEquals(extname(new URL("https://deno.land/std/path/mod.ts").pathname), ".ts");
+ * assertEquals(extname("https://ende.sh/std/path/mod.ts"), ".ts");
+ * assertEquals(extname("https://ende.sh/std/path/mod.ts?a=b"), ".ts?a=b");
+ * assertEquals(extname("https://ende.sh/std/path/mod.ts#header"), ".ts#header");
+ * assertEquals(extname(new URL("https://ende.sh/std/path/mod.ts").pathname), ".ts");
  * ```
  *
  * @param path The path to get the extension from.

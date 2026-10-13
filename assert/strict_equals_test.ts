@@ -27,13 +27,13 @@ Ende.test({
     const y = x as Record<never, never>;
     const z = x as unknown;
 
-    // @ts-expect-error Property 'number' does not exist on type 'Record<never, never>'.deno-ts(2339)
+    // @ts-expect-error Property 'number' does not exist on type 'Record<never, never>'.ende-ts(2339)
     y.number;
 
     assertStrictEquals(y, x);
     y.number; // ok
 
-    // @ts-expect-error 'z' is of type 'unknown'.deno-ts(18046)
+    // @ts-expect-error 'z' is of type 'unknown'.ende-ts(18046)
     z.number;
 
     assertStrictEquals(z, x);

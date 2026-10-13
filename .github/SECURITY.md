@@ -3,7 +3,7 @@
 ## Reporting a Vulnerability
 
 - Please
-  [report a vulnerability](https://github.com/denoland/std/security/advisories/new)
+  [report a vulnerability](https://github.com/theende/std/security/advisories/new)
   with sufficient information to reproduce the problem as quickly as possible,
   such as reproduction steps and `ende --version` output.
 - Please do not take advantage of the vulnerability or problem you have
@@ -24,5 +24,5 @@
 
 ## Further Reading
 
-See the Security Policy for the Deno CLI
-[here](https://github.com/denoland/deno/blob/main/.github/SECURITY.md).
+See the Security Policy for the Ende CLI
+[here](https://github.com/theende/ende/blob/main/.github/SECURITY.md).

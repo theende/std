@@ -98,8 +98,8 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  *
  * Requires `--allow-read` permission.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param glob The glob pattern to expand.
  * @param options Additional options for the expansion.
@@ -386,8 +386,8 @@ export async function* expandGlob(
  *
  * Requires the `--allow-read` flag.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param glob The glob pattern to expand.
  * @param options Additional options for the expansion.

@@ -54,7 +54,7 @@ Ende.test({
     });
     const { stderr } = await command.output();
     const errorMessage = stripAnsiCode(new TextDecoder().decode(stderr));
-    // TODO(WWRS): Test for the expected message when Deno displays it instead of "Uncaught null"
+    // TODO(WWRS): Test for the expected message when Ende displays it instead of "Uncaught null"
     assertStringIncludes(errorMessage, "error: Uncaught");
   },
 });

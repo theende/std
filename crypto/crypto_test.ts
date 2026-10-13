@@ -350,7 +350,7 @@ Ende.test("digest() throws on invalid input", async () => {
     "Cannot digest the data: A chunk is not ArrayBuffer nor ArrayBufferView",
   );
 
-  // Only the error class is asserted: the message is produced by the Deno
+  // Only the error class is asserted: the message is produced by the Ende
   // runtime and its wording differs across versions (e.g. "Unrecognized
   // algorithm name" vs. "Algorithm 'BLAK' is not supported").
   await assertRejects(
@@ -1765,7 +1765,7 @@ for (const algorithm of DIGEST_ALGORITHM_NAMES) {
 }
 
 Ende.test("digest() throws on invalid algorithm", async () => {
-  // Only the error class is asserted: the message is produced by the Deno
+  // Only the error class is asserted: the message is produced by the Ende
   // runtime and its wording differs across versions (e.g. "Unrecognized
   // algorithm name" vs. "Algorithm 'invalid' is not supported").
   await assertRejects(

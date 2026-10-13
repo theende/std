@@ -55,7 +55,7 @@ function makeSnapshotUpdater(
       "update-snapshot": {
         create(context) {
           const src = context.sourceCode.text;
-          // TODO(WWRS): Add \u2028 and \u2029 once Deno counts them as line breaks
+          // TODO(WWRS): Add \u2028 and \u2029 once Ende counts them as line breaks
           const lineBreaks = [...src.matchAll(/\n|\r\n?/g)]
             .map((m) => m.index);
           const locationToSnapshot: Record<number, string> = {};
@@ -97,7 +97,7 @@ function updateSnapshots() {
 
   if (!LINT_SUPPORTED) {
     throw new Error(
-      "Deno versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
+      "Ende versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
     );
   }
 

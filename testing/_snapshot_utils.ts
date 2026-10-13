@@ -23,8 +23,8 @@ export function getErrorMessage(message: string, options: SnapshotOptions) {
  * @returns The serialized string
  *
  * @deprecated This will be removed in 2.0.0. The built-in
- * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) uses the same serialization by default; for custom
+ * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) uses the same serialization by default; for custom
  * serialization, call `Ende.inspect()` directly.
  */
 export function serialize(actual: unknown): string {

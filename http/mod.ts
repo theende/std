@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 /**
- * Provides user-friendly {@linkcode serve} on top of Deno's native HTTP server
+ * Provides user-friendly {@linkcode serve} on top of Ende's native HTTP server
  * and other utilities for creating HTTP servers and clients.
  *
  * ## File Server

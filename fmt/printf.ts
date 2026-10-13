@@ -248,7 +248,7 @@ class Printf {
           break;
         default:
           throw new Error(
-            `State ${this.state} should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues`,
+            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`,
           );
       }
     }
@@ -332,7 +332,7 @@ class Printf {
           }
         default:
           throw new Error(
-            `State ${this.state} should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues`,
+            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`,
           );
       } // switch state
     }
@@ -419,7 +419,7 @@ class Printf {
         }
         default:
           throw new Error(
-            `State ${this.state} should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues`,
+            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`,
           );
       } // switch state
     }
@@ -430,7 +430,7 @@ class Printf {
     if (this.format[this.i] !== "[") {
       // sanity only
       throw new Error(
-        "Should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues",
+        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
       );
     }
     let positional = 0;
@@ -718,7 +718,7 @@ class Printf {
     const m = n.toExponential().match(FLOAT_REGEXP);
     if (!m) {
       throw new Error(
-        "Should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues",
+        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
       );
     }
     const precision = this.flags.precision !== -1
@@ -838,7 +838,7 @@ class Printf {
     const m = n.toExponential().match(FLOAT_REGEXP);
     if (!m) {
       throw new Error(
-        "Should be unreachable, please file a bug report against Deno at https://github.com/denoland/std/issues",
+        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
       );
     }
 
@@ -957,7 +957,7 @@ class Printf {
  *
  * See the module documentation for the available format strings.
  *
- * `%v`, `%i`, and `%I` are only supported in Deno runtime. Other formats are supported in
+ * `%v`, `%i`, and `%I` are only supported in Ende runtime. Other formats are supported in
  * other major runtimes.
  *
  * @example Usage
@@ -990,7 +990,7 @@ export function sprintf(format: string, ...args: unknown[]): string {
  *
  * See the module documentation for the available format strings.
  *
- * This API only supports Deno runtime.
+ * This API only supports Ende runtime.
  *
  * @example Usage
  * ```ts no-assert

@@ -1,8 +1,8 @@
 # Frequently Asked Questions
 
-## What is the Deno Standard Library?
+## What is the Ende Standard Library?
 
-The Deno Standard Library is a library of packages that aim to provide a robust,
+The Ende Standard Library is a library of packages that aim to provide a robust,
 secure, and modern foundation for building JavaScript and TypeScript
 applications.
 
@@ -11,14 +11,14 @@ applications.
 The Standard Library aims to compliment the
 [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference),
 [Web](https://developer.mozilla.org/en-US/docs/Web/API) and
-[Deno runtime](https://deno.land/api) APIs.
+[Ende runtime](https://ende.sh/api) APIs.
 
 ## Which runtimes are compatible with the Standard Library?
 
 By virtue of the APIs it supports, the Standard Library primarily aims to work
 with:
 
-1. [Deno](https://deno.com/) (latest stable version and canary)
+1. [Ende](https://ende.sh/) (latest stable version and canary)
 1. [Deno Deploy](https://deno.com/deploy)
 1. Web browsers (i.e. [Google Chrome](https://www.google.com.au/chrome/),
    [Mozilla Firefox](https://www.mozilla.org/firefox/),
@@ -31,17 +31,17 @@ support the same APIs that the Standard Library targets. These runtimes include:
 1. [Cloudflare Workers](https://workers.cloudflare.com/)
 1. [Bun](https://bun.sh/)
 
-## Why is the Standard Library versioned differently to the Deno runtime?
+## Why is the Standard Library versioned differently to the Ende runtime?
 
-Deno is not the only runtime that the Standard Library is designed to work with
-(see above section). Hence, there's no reason to have Deno and the Standard
+Ende is not the only runtime that the Standard Library is designed to work with
+(see above section). Hence, there's no reason to have Ende and the Standard
 Library to be versioned the same. Also, having both projects versioned
 independently allows them to progress asynchronously.
 
-## Which versions of Deno is the Standard Library guaranteed to work with?
+## Which versions of Ende is the Standard Library guaranteed to work with?
 
 The Standard Library is designed to work with the latest stable and canary
-versions of Deno. This is checked-for with all PRs in CI.
+versions of Ende. This is checked-for with all PRs in CI.
 
 ## How is the Standard Library distributed?
 
@@ -111,11 +111,11 @@ This is possible thanks to JSR being immutable. For more information, see JSR's
 
 It's most likely API has been moved, removed or renamed. These changes are
 always noted in, and most easily found in the
-[release notes](https://github.com/denoland/std/releases). To find how an API's
+[release notes](https://github.com/theende/std/releases). To find how an API's
 been modified, search for your API in the **Find a release** search bar.
 
 If you still cannot find the API you're looking for, please
-[open an issue](https://github.com/denoland/std/issues/new?assignees=&labels=bug%2C+needs+triage&projects=&template=bug_report.md&title=).
+[open an issue](https://github.com/theende/std/issues/new?assignees=&labels=bug%2C+needs+triage&projects=&template=bug_report.md&title=).
 
 ## How can I contribute to the Standard Library?
 

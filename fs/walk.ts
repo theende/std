@@ -100,8 +100,8 @@ export type { WalkEntry };
  *
  * Requires `--allow-read` permission.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param root The root directory to start the walk from, as a string or URL.
  * @param options The options for the walk.
@@ -530,8 +530,8 @@ export async function* walk(
  *
  * Requires `--allow-read` permission.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param root The root directory to start the walk from, as a string or URL.
  * @param options The options for the walk.

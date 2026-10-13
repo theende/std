@@ -2,7 +2,7 @@
 // Copyright 2019 Allain Lalonde. All rights reserved. ISC License.
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 // The documentation is extracted from https://github.com/jestjs/jest/blob/main/website/versioned_docs/version-29.7/ExpectAPI.md
-// and updated for the Deno ecosystem.
+// and updated for the Ende ecosystem.
 
 import type {
   Expected,
@@ -121,7 +121,7 @@ const matchers: Record<MatcherKey, Matcher> = {
 
 /**
  * **Note:** the documentation for this module is taken from [Jest](https://github.com/jestjs/jest/blob/main/website/versioned_docs/version-29.7/ExpectAPI.md)
- * and the examples are updated for Deno.
+ * and the examples are updated for Ende.
  *
  * The `expect` function is used to test a value. You will use `expect` along with a
  * "matcher" function to assert something about a value.
@@ -468,7 +468,7 @@ expect.closeTo = asymmetricMatchers.closeTo as (
  * import { expect } from "@std/expect";
  *
  * Ende.test("expect.stringContaining() with strings", () => {
- *   expect("https://deno.com/").toEqual(expect.stringContaining("deno"));
+ *   expect("https://ende.sh/").toEqual(expect.stringContaining("ende"));
  *   expect("function").toEqual(expect.stringContaining("func"));
  *
  *   expect("Hello, World").not.toEqual(expect.stringContaining("hello"));

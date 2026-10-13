@@ -6,7 +6,7 @@ import { stripAnsiCode } from "@std/internal/styles";
 
 Ende.test("expect.hasAssertions() API", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_has_assertions_",
+    prefix: "ende_std_has_assertions_",
   });
   try {
     const tempFilePath = path.join(tempDirPath, "has_assertions_test.ts");
@@ -79,7 +79,7 @@ test("test suite should pass", () => {
 
 Ende.test("expect.assertions() API", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_has_assertions_",
+    prefix: "ende_std_has_assertions_",
   });
   try {
     const tempFilePath = path.join(tempDirPath, "has_assertions_test.ts");
@@ -147,7 +147,7 @@ it("should throw an error", () => {
 
 Ende.test("expect assertions reset after errored tests", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_assertions_reset_",
+    prefix: "ende_std_assertions_reset_",
   });
   try {
     const tempFilePath = path.join(tempDirPath, "assertion_reset_test.ts");

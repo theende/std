@@ -1,10 +1,10 @@
-# Deno Standard Library
+# Ende Standard Library
 
 [![JSR @std](https://jsr.io/badges/@std)](https://jsr.io/@std)
 [![codecov](https://codecov.io/gh/denoland/std/branch/main/graph/badge.svg?token=w6s3ODtULz)](https://codecov.io/gh/denoland/std)
-[![ci](https://github.com/denoland/std/actions/workflows/ci.yml/badge.svg)](https://github.com/denoland/std/actions/workflows/ci.yml)
+[![ci](https://github.com/theende/std/actions/workflows/ci.yml/badge.svg)](https://github.com/theende/std/actions/workflows/ci.yml)
 
-High-quality APIs for [Deno](https://deno.com/) and the web. Use fearlessly.
+High-quality APIs for [Ende](https://ende.sh/) and the web. Use fearlessly.
 
 > [!IMPORTANT]
 > Newer versions of the Standard Library are now hosted on
@@ -31,7 +31,7 @@ package versions <1.0.0 follow
 > Previously, this repo hosted the badge SVG file. Now, the badge is retrieved
 > directly from [Shields.io](https://shields.io/).
 
-[![Built with the Deno Standard Library](https://img.shields.io/badge/Built_with_std-black?logo=deno)](https://jsr.io/@std)
+[![Built with the Ende Standard Library](https://img.shields.io/badge/Built_with_std-black?logo=deno)](https://jsr.io/@std)
 
 ```html
 <a href="https://jsr.io/@std">
@@ -39,11 +39,11 @@ package versions <1.0.0 follow
     width="135"
     height="20"
     src="https://img.shields.io/badge/Built_with_std-black?logo=deno"
-    alt="Built with the Deno Standard Library"
+    alt="Built with the Ende Standard Library"
   />
 </a>
 ```
 
 ```md
-[![Built with the Deno Standard Library](https://img.shields.io/badge/Built_with_std-black?logo=deno)](https://jsr.io/@std)
+[![Built with the Ende Standard Library](https://img.shields.io/badge/Built_with_std-black?logo=deno)](https://jsr.io/@std)
 ```

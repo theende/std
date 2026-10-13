@@ -36,7 +36,7 @@ import { mapValues } from "./map_values.ts";
  * });
  * ```
  */
-// deno-lint-ignore deno-style-guide/exported-function-args-maximum
+// deno-lint-ignore ende-style-guide/exported-function-args-maximum
 export function reduceGroups<T, A>(
   record: Readonly<Record<string, ReadonlyArray<T>>>,
   reducer: (accumulator: A, current: T) => A,

@@ -6,7 +6,7 @@ directly.
 
 This folder contains Rust code that we use via Wasm. It allows us to take
 advantage of existing Rust implementations of crypto algorithms such as SHA-1
-and use them here in deno_std.
+and use them here in ende_std.
 
 ## How to Build
 

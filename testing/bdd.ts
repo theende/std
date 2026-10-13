@@ -9,7 +9,7 @@
  * > module, which is supported first-class by `ende test`. Use `node:test`'s
  * > `describe()` and `it()`, or the flat `Ende.test()` style with the
  * > `Ende.test.beforeAll()`/`beforeEach()`/`afterEach()`/`afterAll()` hooks
- * > (Deno 2.5+), instead. This module will be removed in 2.0.0.
+ * > (Ende 2.5+), instead. This module will be removed in 2.0.0.
  *
  * Migration is mostly a matter of changing the import:
  *
@@ -97,7 +97,7 @@
  * That's because internally those tests are registered with `t.step` which does
  * not support the permissions option.
  *
- * ## Comparing to Deno\.test
+ * ## Comparing to Ende\.test
  *
  * The default way of writing tests is using `Ende.test` and `t.step`. The
  * `describe` and `it` functions have similar call signatures to `Ende.test`,
@@ -563,7 +563,7 @@ function itDefinition<T>(...args: ItArgs<T>): ItDefinition<T> {
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `it()` or
  * `Ende.test()` instead.
  */
-// deno-lint-ignore deno-style-guide/naming-convention
+// deno-lint-ignore ende-style-guide/naming-convention
 export interface it {
   <T>(...args: ItArgs<T>): void;
 
@@ -908,7 +908,7 @@ function addHook<T>(
  * @param fn The function to implement the setup behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `before()` or
- * `Ende.test.beforeAll()` (Deno 2.5+) instead.
+ * `Ende.test.beforeAll()` (Ende 2.5+) instead.
  */
 export function beforeAll<T>(
   fn: (this: T) => void | Promise<void>,
@@ -942,7 +942,7 @@ export function beforeAll<T>(
  * @param fn The function to implement the setup behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `before()` or
- * `Ende.test.beforeAll()` (Deno 2.5+) instead.
+ * `Ende.test.beforeAll()` (Ende 2.5+) instead.
  */
 export function before<T>(
   fn: (this: T) => void | Promise<void>,
@@ -974,7 +974,7 @@ export function before<T>(
  * @param fn The function to implement the teardown behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `after()` or
- * `Ende.test.afterAll()` (Deno 2.5+) instead.
+ * `Ende.test.afterAll()` (Ende 2.5+) instead.
  */
 export function afterAll<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1008,7 +1008,7 @@ export function afterAll<T>(
  * @param fn The function to implement the teardown behavior.
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `after()` or
- * `Ende.test.afterAll()` (Deno 2.5+) instead.
+ * `Ende.test.afterAll()` (Ende 2.5+) instead.
  */
 export function after<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1040,7 +1040,7 @@ export function after<T>(
  * @param fn The function to implement the shared setup behavior
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `beforeEach()`
- * or `Ende.test.beforeEach()` (Deno 2.5+) instead.
+ * or `Ende.test.beforeEach()` (Ende 2.5+) instead.
  */
 export function beforeEach<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1072,7 +1072,7 @@ export function beforeEach<T>(
  * @param fn The function to implement the shared teardown behavior
  *
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `afterEach()`
- * or `Ende.test.afterEach()` (Deno 2.5+) instead.
+ * or `Ende.test.afterEach()` (Ende 2.5+) instead.
  */
 export function afterEach<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1217,7 +1217,7 @@ function describeDefinition<T>(
  * @deprecated This will be removed in 2.0.0. Use `node:test`'s `describe()`
  * instead.
  */
-// deno-lint-ignore deno-style-guide/naming-convention
+// deno-lint-ignore ende-style-guide/naming-convention
 export interface describe {
   <T>(...args: DescribeArgs<T>): TestSuite<T>;
 

@@ -66,7 +66,7 @@ function charWidth(char: string) {
  *
  * assertEquals(unicodeWidth(stripAnsiCode("\x1b[36mголубой\x1b[39m")), 7);
  * assertEquals(unicodeWidth(stripAnsiCode("\x1b[31m紅色\x1b[39m")), 4);
- * assertEquals(unicodeWidth(stripAnsiCode("\x1B]8;;https://deno.land\x07🦕\x1B]8;;\x07")), 2);
+ * assertEquals(unicodeWidth(stripAnsiCode("\x1B]8;;https://ende.sh\x07🦕\x1B]8;;\x07")), 2);
  * ```
  *
  * Use

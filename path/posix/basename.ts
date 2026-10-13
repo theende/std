@@ -40,11 +40,11 @@ import { isPosixPathSeparator } from "./_util.ts";
  * import { basename } from "@std/path/posix/basename";
  * import { assertEquals } from "@std/assert";
  *
- * assertEquals(basename("https://deno.land/std/path/mod.ts"), "mod.ts");
- * assertEquals(basename("https://deno.land/std/path/mod.ts", ".ts"), "mod");
- * assertEquals(basename("https://deno.land/std/path/mod.ts?a=b"), "mod.ts?a=b");
- * assertEquals(basename("https://deno.land/std/path/mod.ts#header"), "mod.ts#header");
- * assertEquals(basename(new URL("https://deno.land/std/path/mod.ts").pathname), "mod.ts");
+ * assertEquals(basename("https://ende.sh/std/path/mod.ts"), "mod.ts");
+ * assertEquals(basename("https://ende.sh/std/path/mod.ts", ".ts"), "mod");
+ * assertEquals(basename("https://ende.sh/std/path/mod.ts?a=b"), "mod.ts?a=b");
+ * assertEquals(basename("https://ende.sh/std/path/mod.ts#header"), "mod.ts#header");
+ * assertEquals(basename(new URL("https://ende.sh/std/path/mod.ts").pathname), "mod.ts");
  * ```
  *
  * @param path The path to extract the name from.

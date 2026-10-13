@@ -40,7 +40,7 @@ const serveDirOptions: ServeDirOptions = {
 };
 const endeVersion = parseSemver(Ende.version.ende);
 const isCanary = endeVersion.build ? endeVersion.build.length > 0 : false;
-// FileInfo.mode is not available on Windows before Deno 2.1.0
+// FileInfo.mode is not available on Windows before Ende 2.1.0
 const fsModeUnavailable = Ende.build.os === "windows" &&
   lessThan(endeVersion, parseSemver("2.1.0")) && !isCanary;
 
@@ -399,7 +399,7 @@ Ende.test("serveDir() script prints help", async () => {
   });
   const { stdout } = await command.output();
   const output = new TextDecoder().decode(stdout);
-  assert(output.includes(`Deno File Server ${endeConfig.version}`));
+  assert(output.includes(`Ende File Server ${endeConfig.version}`));
 });
 
 Ende.test("serveDir() script prints version", async () => {
@@ -415,7 +415,7 @@ Ende.test("serveDir() script prints version", async () => {
   });
   const { stdout } = await command.output();
   const output = new TextDecoder().decode(stdout);
-  assert(output.includes(`Deno File Server ${endeConfig.version}`));
+  assert(output.includes(`Ende File Server ${endeConfig.version}`));
 });
 
 Ende.test("serveDir() ignores query params", async () => {
@@ -1195,7 +1195,7 @@ for (
   });
 }
 
-/** Spawn deno child process with the options convenient for testing */
+/** Spawn ende child process with the options convenient for testing */
 function spawnEnde(args: string[], opts?: Ende.CommandOptions) {
   const cmd = new Ende.Command(Ende.execPath(), {
     args: [

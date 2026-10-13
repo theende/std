@@ -15,7 +15,7 @@ export class BadResource extends Error {}
  * Raised when trying to write to a resource and a broken pipe error occurs.
  * This can happen when trying to write directly to `stdout` or `stderr`
  * and the operating system is unable to pipe the output for a reason
- * external to the Deno runtime.
+ * external to the Ende runtime.
  */
 export class BrokenPipe extends Error {}
 /**
@@ -31,7 +31,7 @@ export class InvalidData extends Error {}
 /**
  * Raised when the underlying operating system reports an `EINTR` error. In
  * many cases, this underlying IO error will be handled internally within
- * Deno, or result in an {@linkcode BadResource} error instead.
+ * Ende, or result in an {@linkcode BadResource} error instead.
  */
 export class Interrupted extends Error {}
 /**
@@ -41,7 +41,7 @@ export class Interrupted extends Error {}
 export class NotFound extends Error {}
 /**
  * Raised when the underlying operating system indicates the current user
- * which the Deno process is running under does not have the appropriate
+ * which the Ende process is running under does not have the appropriate
  * permissions to a file or resource.
  */
 export class PermissionDenied extends Error {}

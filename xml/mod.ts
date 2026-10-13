@@ -2,7 +2,7 @@
 // This module is browser compatible.
 
 /**
- * XML parsing and serialization for Deno.
+ * XML parsing and serialization for Ende.
  *
  * This module implements a non-validating parser for
  * {@link https://www.w3.org/TR/xml/ | XML 1.0 (Fifth Edition)}, with opt-in

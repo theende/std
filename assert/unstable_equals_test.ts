@@ -37,7 +37,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
   stack.use(stub(Ende.env, "get", (key) => {
     if (key === DIFF_CONTEXT_LENGTH) return (10).toString();
     // Return undefined rather than throwing for other keys: formatting the diff
-    // can cause Deno to lazily initialize its `node:process` shim, which reads
+    // can cause Ende to lazily initialize its `node:process` shim, which reads
     // unrelated env vars (e.g. `NODE_OPTIONS`) through `Ende.env.get`.
     return undefined;
   }));

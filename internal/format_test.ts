@@ -170,6 +170,6 @@ Ende.test("format() has fallback if Ende.inspect is not available", async (t) =>
 
 Ende.test("InspectFn has type conforming to Ende.inspect", () => {
   // Type checking can only be done in test file, as production types need to work with browser TS libs,
-  // where `Deno` is unavailable.
+  // where `Ende` is unavailable.
   const _: Parameters<InspectFn>[1] = {} as Required<Ende.InspectOptions>;
 });

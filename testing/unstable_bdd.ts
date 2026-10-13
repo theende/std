@@ -78,7 +78,7 @@ const it = it_ as typeof it_ & it;
 const test = test_ as typeof test_ & test;
 
 /** Registers a test suite. */
-// deno-lint-ignore deno-style-guide/naming-convention
+// deno-lint-ignore ende-style-guide/naming-convention
 interface describe {
   /**
    * Register a test case that is not yet implemented. Alias of `.ignore()`.
@@ -87,7 +87,7 @@ interface describe {
 }
 
 /** Registers an individual test case. */
-// deno-lint-ignore deno-style-guide/naming-convention
+// deno-lint-ignore ende-style-guide/naming-convention
 interface it {
   /**
    * Register a test case that is not yet implemented. Alias of `.ignore()`.
@@ -96,7 +96,7 @@ interface it {
 }
 
 /** Registers an individual test case. */
-// deno-lint-ignore deno-style-guide/naming-convention
+// deno-lint-ignore ende-style-guide/naming-convention
 interface test {
   /**
    * Register a test case that is not yet implemented. Alias of `.ignore()`.

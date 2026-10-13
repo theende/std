@@ -147,7 +147,7 @@ Ende.test("UserAgent.toJSON() returns the object { browser, cpu, device, engine,
   });
 });
 
-Ende.test("UserAgent supports custom inspect in Deno", () => {
+Ende.test("UserAgent supports custom inspect in Ende", () => {
   const ua = new UserAgent(
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
   );

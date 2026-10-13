@@ -9,7 +9,7 @@ const testdataDir = path.resolve(moduleDir, "testdata");
 
 Ende.test("ensureLink() rejects if src and dest do not exist", async function () {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_ensure_link_",
+    prefix: "ende_std_ensure_link_",
   });
   const srcDir = path.join(testdataDir, "ensure_link_1");
   const destDir = path.join(tempDirPath, "ensure_link_1_2");
@@ -27,7 +27,7 @@ Ende.test("ensureLink() rejects if src and dest do not exist", async function ()
 
 Ende.test("ensureLinkSync() throws if src and dest do not exist", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_ensure_link_sync_",
+    prefix: "ende_std_ensure_link_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_2");
   const testFile = path.join(testDir, "test.txt");
@@ -42,7 +42,7 @@ Ende.test("ensureLinkSync() throws if src and dest do not exist", function () {
 
 Ende.test("ensureLink() ensures dest links to the src", async function () {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_ensure_link_",
+    prefix: "ende_std_ensure_link_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_3");
   const testFile = path.join(testDir, "test.txt");
@@ -84,7 +84,7 @@ Ende.test("ensureLink() ensures dest links to the src", async function () {
 
 Ende.test("ensureLinkSync() ensures dest links to the src", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_ensure_link_sync_",
+    prefix: "ende_std_ensure_link_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_4");
   const testFile = path.join(testDir, "test.txt");
@@ -135,7 +135,7 @@ Ende.test("ensureLinkSync() ensures dest links to the src", function () {
 
 Ende.test("ensureLink() rejects if link does not exist", async function () {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_ensure_link_",
+    prefix: "ende_std_ensure_link_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_origin_3");
   const linkDir = path.join(tempDirPath, "ensure_link_link_3");
@@ -157,7 +157,7 @@ Ende.test("ensureLink() rejects if link does not exist", async function () {
 
 Ende.test("ensureLinkSync() throws if link does not exist", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_ensure_link_sync_",
+    prefix: "ende_std_ensure_link_sync_",
   });
   const testDir = path.join(tempDirPath, "ensure_link_origin_3");
   const linkDir = path.join(tempDirPath, "ensure_link_link_3");

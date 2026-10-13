@@ -3,7 +3,7 @@
 ## Code of Conduct, Style Guide and Architecture Guide
 
 Please read our [code of conduct](./CODE_OF_CONDUCT.md),
-[style guide](https://docs.deno.com/runtime/manual/references/contributing/style_guide)
+[style guide](https://docs.ende.sh/runtime/manual/references/contributing/style_guide)
 and [architecture guide](./ARCHITECTURE.md) before contributing.
 
 ## Issues
@@ -14,7 +14,7 @@ and [architecture guide](./ARCHITECTURE.md) before contributing.
 
 ## Pull Requests
 
-1. [Install the Deno CLI](https://docs.deno.com/runtime/manual/getting_started/installation).
+1. [Install the Ende CLI](https://docs.ende.sh/runtime/manual/getting_started/installation).
 1. Fork and clone the repository.
 1. Create a new branch for your changes.
 1. Make your changes and ensure `ende task ok` passes successfully.
@@ -126,7 +126,7 @@ plain language, as follows:
 
 Symbols and modules are documented using the [JSDoc](https://jsdoc.app/) syntax.
 These guidelines follow the recommendations in the blog post,
-[How to document your JavaScript package](https://deno.com/blog/document-javascript-package).
+[How to document your JavaScript package](https://ende.sh/blog/document-javascript-package).
 
 ### Public symbols
 
@@ -142,7 +142,7 @@ Where applicable, documentation for public symbols should contain, in order:
    [Example code snippets](#example-code-snippets) below for further guidance.
 
 See the source code within
-[`@std/bytes`](https://github.com/denoland/std/tree/main/bytes) for examples.
+[`@std/bytes`](https://github.com/theende/std/tree/main/bytes) for examples.
 
 The [documentation checker tool](../_tools/check_docs.ts) checks all entry
 points listed in the `exports` field of each package's `ende.json`, so ensure
@@ -163,7 +163,7 @@ Module files, or `mod.ts` files, should have the following:
    documentation.
 
 See the source code for
-[`@std/bytes/mod.ts`](https://github.com/denoland/std/blob/main/bytes/mod.ts) as
+[`@std/bytes/mod.ts`](https://github.com/theende/std/blob/main/bytes/mod.ts) as
 an example.
 
 ### Example code snippets
@@ -175,7 +175,7 @@ Example code snippets must:
 1. Be reproducible as a copied and pasted script.
 1. Use an assertion from [`@std/assert`](https://jsr.io/@std/assert), when
    possible. Snippets are run using
-   [`ende eval`](https://docs.deno.com/runtime/manual/tools/eval) in the
+   [`ende eval`](https://docs.ende.sh/runtime/manual/tools/eval) in the
    [documentation checker tool](../_tools/check_docs.ts) and are flagged when
    they throw an error.
 

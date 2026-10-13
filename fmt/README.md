@@ -19,4 +19,4 @@ console.log(red(format(1337))); // Prints "1.34 kB"
 [duration](https://jsr.io/@std/fmt/doc/duration/~) supports all major runtimes.
 [printf](https://jsr.io/@std/fmt/doc/printf/~) is mostly compatible with major
 runtimes, however some of features, such as `%v`, `%i` and `%I` format
-specifiers, are only available in Deno. See the API docs for details.
+specifiers, are only available in Ende. See the API docs for details.

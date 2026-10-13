@@ -90,7 +90,7 @@ function defaultLocale() {
     // Bun [currently doesn't support `navigator.language`](https://github.com/oven-sh/bun/issues/3168),
     // so we read from `NumberFormat#resolvedOptions` as a backup.
     new Intl.NumberFormat().resolvedOptions().locale)
-    // Per spec, can't contain a `-u-` extension sequence (Deno's default `navigator.language` is `en-US-u-va-posix`).
+    // Per spec, can't contain a `-u-` extension sequence (Ende's default `navigator.language` is `en-US-u-va-posix`).
     .replace(/-u-.+/, "");
 }
 

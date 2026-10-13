@@ -22,12 +22,12 @@ import { normalize } from "./normalize.ts";
  * import { join } from "@std/path/posix/join";
  * import { assertEquals } from "@std/assert";
  *
- * const url = new URL("https://deno.land");
+ * const url = new URL("https://ende.sh");
  * url.pathname = join("std", "path", "mod.ts");
- * assertEquals(url.href, "https://deno.land/std/path/mod.ts");
+ * assertEquals(url.href, "https://ende.sh/std/path/mod.ts");
  *
  * url.pathname = join("//std", "path/", "/mod.ts");
- * assertEquals(url.href, "https://deno.land/std/path/mod.ts");
+ * assertEquals(url.href, "https://ende.sh/std/path/mod.ts");
  * ```
  *
  * @param path The path to join. This can be string or file URL.

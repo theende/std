@@ -56,14 +56,14 @@ abstract class Prng32 {
  */
 export class Pcg32 extends Prng32 {
   /** Multiplier for the PCG32 algorithm. */
-  // deno-lint-ignore deno-style-guide/naming-convention
+  // deno-lint-ignore ende-style-guide/naming-convention
   static readonly MULTIPLIER = 6364136223846793005n;
   // Constants are for 64-bit state, 32-bit output
-  // deno-lint-ignore deno-style-guide/naming-convention
+  // deno-lint-ignore ende-style-guide/naming-convention
   static readonly ROTATE = 59n; // 64 - 5
-  // deno-lint-ignore deno-style-guide/naming-convention
+  // deno-lint-ignore ende-style-guide/naming-convention
   static readonly XSHIFT = 18n; // (5 + 32) / 2
-  // deno-lint-ignore deno-style-guide/naming-convention
+  // deno-lint-ignore ende-style-guide/naming-convention
   static readonly SPARE = 27n; // 64 - 32 - 5
 
   #state = new BigUint64Array(2);

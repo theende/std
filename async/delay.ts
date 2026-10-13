@@ -71,7 +71,7 @@ export function delay(ms: number, options: DelayOptions = {}): Promise<void> {
           throw error;
         }
         // deno-lint-ignore no-console
-        console.error("`persistent` option is only available in Deno");
+        console.error("`persistent` option is only available in Ende");
       }
     }
   });

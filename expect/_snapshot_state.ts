@@ -277,7 +277,7 @@ function applyInlineUpdates(): void {
   // @ts-ignore Ende.lint may not exist in all versions
   if (typeof Ende.lint?.runPlugin !== "function") {
     throw new Error(
-      "Deno versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
+      "Ende versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
     );
   }
 

@@ -9,7 +9,7 @@ import type { FileInfo } from "./unstable_types.ts";
  * Resolves to a {@linkcode FileInfo} for the specified `path`. Will
  * always follow symlinks.
  *
- * Requires `allow-read` permission in Deno.
+ * Requires `allow-read` permission in Ende.
  *
  * @example Usage
  * ```ts
@@ -40,7 +40,7 @@ export async function stat(path: string | URL): Promise<FileInfo> {
  * Synchronously returns a {@linkcode FileInfo} for the specified
  * `path`. Will always follow symlinks.
  *
- * Requires `allow-read` permission in Deno.
+ * Requires `allow-read` permission in Ende.
  *
  * @example Usage
  * ```ts

@@ -448,7 +448,7 @@ function serverLog(req: Request, status: number) {
 
 function createBaseHeaders(): Headers {
   return new Headers({
-    server: "deno",
+    server: "ende",
     // Set "accept-ranges" so that the client knows it can make range requests on future requests
     [HEADER.AcceptRanges]: "bytes",
   });
@@ -465,7 +465,7 @@ function dirViewerTemplate(dirname: string, entries: EntryInfo[]): string {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Deno File Server</title>
+        <title>Ende File Server</title>
         <style>
         :root {
           --background-color: #fafafa;
@@ -886,7 +886,7 @@ function main() {
 
   if (serverArgs.version) {
     // deno-lint-ignore no-console
-    console.log(`Deno File Server ${endeConfig.version}`);
+    console.log(`Ende File Server ${endeConfig.version}`);
     Ende.exit();
   }
 
@@ -958,7 +958,7 @@ function main() {
 
 function printUsage() {
   // deno-lint-ignore no-console
-  console.log(`Deno File Server ${endeConfig.version}
+  console.log(`Ende File Server ${endeConfig.version}
   Serves a local directory in HTTP.
 
 INSTALL:

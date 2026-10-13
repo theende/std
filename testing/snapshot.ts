@@ -3,9 +3,9 @@
 /** A snapshotting library.
  *
  * > [!WARNING]
- * > **Deprecated**: Snapshot testing is built into the Deno test runner as of
- * > Deno 2.9 and into the `node:test` module. Use the built-in
- * > [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/) or
+ * > **Deprecated**: Snapshot testing is built into the Ende test runner as of
+ * > Ende 2.9 and into the `node:test` module. Use the built-in
+ * > [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/) or
  * > `node:test`'s `t.assert.snapshot()` instead. This module will be removed
  * > in 2.0.0.
  *
@@ -21,7 +21,7 @@
  *   await assertSnapshot(t, { hello: "world!" });
  * });
  *
- * // After (Deno 2.9+, no import needed)
+ * // After (Ende 2.9+, no import needed)
  * Ende.test("snapshot", async (t) => {
  *   await t.assertSnapshot({ hello: "world!" });
  * });
@@ -203,8 +203,8 @@
  * snapshots locally.
  *
  * @deprecated This will be removed in 2.0.0. Use the built-in
- * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
+ * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
  *
  * @module
  */
@@ -235,8 +235,8 @@ const SNAPSHOT_EXT = "snap";
  * The mode of snapshot testing.
  *
  * @deprecated This will be removed in 2.0.0. Use the `mode` option of the
- * built-in [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) instead.
+ * built-in [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) instead.
  */
 export type SnapshotMode = "assert" | "update";
 
@@ -244,8 +244,8 @@ export type SnapshotMode = "assert" | "update";
  * The options for {@linkcode assertSnapshot}.
  *
  * @deprecated This will be removed in 2.0.0. Use the options of the built-in
- * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) instead.
+ * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) instead.
  */
 export type SnapshotOptions<T = unknown> = {
   /**
@@ -566,8 +566,8 @@ class AssertSnapshotContext {
  * @param options The options
  *
  * @deprecated This will be removed in 2.0.0. Use the built-in
- * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
+ * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
  */
 export async function assertSnapshot<T>(
   context: Ende.TestContext,
@@ -595,8 +595,8 @@ export async function assertSnapshot<T>(
  * @param message The optional assertion message
  *
  * @deprecated This will be removed in 2.0.0. Use the built-in
- * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
+ * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
  */
 export async function assertSnapshot<T>(
   context: Ende.TestContext,
@@ -689,8 +689,8 @@ export async function assertSnapshot(
  * @returns {@linkcode assertSnapshot} function with the given default options.
  *
  * @deprecated This will be removed in 2.0.0. Pass options to the built-in
- * [`t.assertSnapshot()`](https://docs.deno.com/runtime/test/snapshots/)
- * (Deno 2.9+) instead.
+ * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * (Ende 2.9+) instead.
  */
 export function createAssertSnapshot<T>(
   options: SnapshotOptions<T>,

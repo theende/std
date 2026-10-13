@@ -11,7 +11,7 @@
  * ```
  *
  * @deprecated This will be removed in 0.227.0. Use the
- * {@link https://docs.deno.com/runtime/reference/env_variables/ | --env-file}
+ * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag instead. See the
  * {@link https://jsr.io/@std/dotenv | module documentation} for migration
  * notes.

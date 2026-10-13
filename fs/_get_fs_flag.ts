@@ -64,7 +64,7 @@ export function getOpenFsFlag(opt: OpenBooleanOptions): number {
     );
   }
 
-  // This error is added to match the Deno runtime. Deno throws a `TypeError`
+  // This error is added to match the Ende runtime. Ende throws a `TypeError`
   // (os error 22) for this OpenOption combo. Under Node.js, the bitmask
   // combinations of (O_RDWR | O_TRUNC | O_APPEND) and
   // (O_WRONLY | O_TRUNC | O_APPEND) to open files are valid.

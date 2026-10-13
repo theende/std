@@ -3,7 +3,7 @@
 
 /**
  * Lint plugin that enforces the
- * {@link https://docs.deno.com/runtime/contributing/style_guide/ | Deno Style Guide}
+ * {@link https://docs.ende.sh/runtime/contributing/style_guide/ | Ende Style Guide}
  */
 
 import { toCamelCase, toPascalCase } from "@std/text";
@@ -34,9 +34,9 @@ export const COPYRIGHT_NOTICE = `Copyright 2018-${
 } the Deno authors. MIT license.`;
 
 export default {
-  name: "deno-style-guide",
+  name: "ende-style-guide",
   rules: {
-    // https://docs.deno.com/runtime/contributing/style_guide/#prefer-%23-over-private-keyword
+    // https://docs.ende.sh/runtime/contributing/style_guide/#prefer-%23-over-private-keyword
     "prefer-private-field": {
       create(context) {
         return {
@@ -65,7 +65,7 @@ export default {
         };
       },
     },
-    // https://docs.deno.com/runtime/contributing/style_guide/#top-level-functions-should-not-use-arrow-syntax
+    // https://docs.ende.sh/runtime/contributing/style_guide/#top-level-functions-should-not-use-arrow-syntax
     "no-top-level-arrow-syntax": {
       create(context) {
         return {
@@ -89,7 +89,7 @@ export default {
         };
       },
     },
-    // https://docs.deno.com/runtime/contributing/style_guide/#do-not-depend-on-external-code.
+    // https://docs.ende.sh/runtime/contributing/style_guide/#do-not-depend-on-external-code.
     "no-external-code": {
       create(context) {
         if (context.filename.includes("_tools")) {
@@ -112,13 +112,13 @@ export default {
               range: node.source.range,
               message: "External imports are not allowed outside of tools",
               hint:
-                'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://deno.land/x/foo/mod.ts"`.',
+                'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
             });
           },
         };
       },
     },
-    // https://docs.deno.com/runtime/contributing/style_guide/#naming-convention/
+    // https://docs.ende.sh/runtime/contributing/style_guide/#naming-convention/
     "naming-convention": {
       create(context) {
         return {
@@ -281,7 +281,7 @@ export default {
         };
       },
     },
-    // https://docs.deno.com/runtime/contributing/style_guide/#error-messages
+    // https://docs.ende.sh/runtime/contributing/style_guide/#error-messages
     "error-message": {
       create(context) {
         if (context.filename.endsWith("test.ts")) {
@@ -303,7 +303,7 @@ export default {
                 node: argument,
                 message: "Error message starts with a lowercase.",
                 hint:
-                  "Capitalize the error message. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
+                  "Capitalize the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
                 fix(fixer) {
                   const newValue = argument.raw.at(0) +
                     char.toUpperCase() +
@@ -320,7 +320,7 @@ export default {
                   node: argument,
                   message: "Error message ends with a period.",
                   hint:
-                    "Remove the period at the end of the error message. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
+                    "Remove the period at the end of the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
                   fix(fixer) {
                     const newValue = argument.raw.at(0) +
                       value.slice(0, -1) +
@@ -334,7 +334,7 @@ export default {
                   node: argument,
                   message: "Error message contains periods.",
                   hint:
-                    "Remove periods in error message and use a colon for addition information. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
+                    "Remove periods in error message and use a colon for addition information. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
                 });
               }
             }
@@ -343,14 +343,14 @@ export default {
                 node: argument,
                 message: "Error message uses contractions.",
                 hint:
-                  "Use the full form in error message. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
+                  "Use the full form in error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
               });
             }
           },
         };
       },
     },
-    // https://docs.deno.com/runtime/contributing/style_guide/#exported-functions%3A-max-2-args%2C-put-the-rest-into-an-options-object
+    // https://docs.ende.sh/runtime/contributing/style_guide/#exported-functions%3A-max-2-args%2C-put-the-rest-into-an-options-object
     "exported-function-args-maximum": {
       create(context) {
         const url = toFileUrl(resolve(context.filename));
@@ -419,7 +419,7 @@ export default {
         };
       },
     },
-    // https://docs.deno.com/runtime/contributing/style_guide/#copyright-headers
+    // https://docs.ende.sh/runtime/contributing/style_guide/#copyright-headers
     "copyright": {
       create(context) {
         // Skip checking this rule in the ignore_comments.ts file to avoid

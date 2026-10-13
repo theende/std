@@ -41,7 +41,7 @@ function assertWalkSyncPaths(
 
 Ende.test("walk() returns current dir for empty dir", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_walk_",
+    prefix: "ende_std_walk_",
   });
   const emptyDir = resolve(tempDirPath, "empty_dir");
   await Ende.mkdir(emptyDir);
@@ -51,7 +51,7 @@ Ende.test("walk() returns current dir for empty dir", async () => {
 
 Ende.test("walkSync() returns current dir for empty dir", () => {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_walk_sync_",
+    prefix: "ende_std_walk_sync_",
   });
   const emptyDir = resolve(tempDirPath, "empty_dir");
   Ende.mkdirSync(emptyDir);
@@ -251,7 +251,7 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   async fn() {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "deno_std_walk_",
+      prefix: "ende_std_walk_",
     });
     // Copy contents from "walk/socket" into temporary directory.
     await copy(resolve(testdataDir, "socket"), resolve(tempDirPath, "socket"));
@@ -277,7 +277,7 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   fn() {
     const tempDirPath = Ende.makeTempDirSync({
-      prefix: "deno_std_walk_sync_",
+      prefix: "ende_std_walk_sync_",
     });
     // Copy contents from "walk/socket" into temporary directory.
     copySync(resolve(testdataDir, "socket"), resolve(tempDirPath, "socket"));
@@ -303,7 +303,7 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   async fn() {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "deno_std_walk_",
+      prefix: "ende_std_walk_",
     });
     // Copy contents from "walk/fifo" into temporary directory.
     await copy(resolve(testdataDir, "fifo"), resolve(tempDirPath, "fifo"));
@@ -323,7 +323,7 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   fn() {
     const tempDirPath = Ende.makeTempDirSync({
-      prefix: "deno_std_walk_sync_",
+      prefix: "ende_std_walk_sync_",
     });
     // Copy contents from "walk/fifo" into temporary directory.
     copySync(resolve(testdataDir, "fifo"), resolve(tempDirPath, "fifo"));
@@ -340,7 +340,7 @@ Ende.test({
 
 Ende.test("walk() rejects with `Ende.errors.NotFound` when root is removed during execution", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_walk_",
+    prefix: "ende_std_walk_",
   });
   const root = resolve(tempDirPath, "error");
   await Ende.mkdir(root);

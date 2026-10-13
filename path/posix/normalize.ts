@@ -30,12 +30,12 @@ import { fromFileUrl } from "./from_file_url.ts";
  * import { normalize } from "@std/path/posix/normalize";
  * import { assertEquals } from "@std/assert";
  *
- * const url = new URL("https://deno.land");
+ * const url = new URL("https://ende.sh");
  * url.pathname = normalize("//std//assert//.//mod.ts");
- * assertEquals(url.href, "https://deno.land/std/assert/mod.ts");
+ * assertEquals(url.href, "https://ende.sh/std/assert/mod.ts");
  *
  * url.pathname = normalize("std/assert/../async/retry.ts");
- * assertEquals(url.href, "https://deno.land/std/async/retry.ts");
+ * assertEquals(url.href, "https://ende.sh/std/async/retry.ts");
  * ```
  *
  * @param path The path to normalize.

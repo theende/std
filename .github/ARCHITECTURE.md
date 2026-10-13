@@ -45,7 +45,7 @@ the tests for the APIs within the source file. For example, the source file,
 ### `ende.json`
 
 This is the
-[configuration file](https://docs.deno.com/runtime/manual/getting_started/configuration_file)
+[configuration file](https://docs.ende.sh/runtime/manual/getting_started/configuration_file)
 for this codebase. It contains settings and tasks that apply to the codebase as
 a whole.
 

@@ -8,7 +8,7 @@ function assertLintPluginDiagnostics(
   source: string,
   // Note: if empty, means no lint errors
   expectedDiagnostics: Ende.lint.Diagnostic[],
-  // Set to false when wanting to check comments (i.e. testing of `deno-style-guide/copyright-notice` lint rule)
+  // Set to false when wanting to check comments (i.e. testing of `ende-style-guide/copyright-notice` lint rule)
   ignoreComments = true,
 ) {
   const actualDiagnostics = Ende.lint.runPlugin(
@@ -19,7 +19,7 @@ function assertLintPluginDiagnostics(
   assertEquals(actualDiagnostics, expectedDiagnostics);
 }
 
-Ende.test("deno-style-guide/prefer-private-field", {
+Ende.test("ende-style-guide/prefer-private-field", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
@@ -41,14 +41,14 @@ class MyClass {
   private bar() {}
 }`,
     [{
-      id: "deno-style-guide/prefer-private-field",
+      id: "ende-style-guide/prefer-private-field",
       fix: [],
       range: [19, 35],
       message: "Property uses `private` keyword",
       hint:
         "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo` instead of `private foo`.",
     }, {
-      id: "deno-style-guide/prefer-private-field",
+      id: "ende-style-guide/prefer-private-field",
       range: [38, 54],
       fix: [],
       message: "Method uses `private` keyword",
@@ -58,7 +58,7 @@ class MyClass {
   );
 });
 
-Ende.test("deno-style-guide/no-top-level-arrow-syntax", {
+Ende.test("ende-style-guide/no-top-level-arrow-syntax", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Bad
@@ -69,7 +69,7 @@ export const bar = () => "foo";
     `,
     [
       {
-        id: "deno-style-guide/no-top-level-arrow-syntax",
+        id: "ende-style-guide/no-top-level-arrow-syntax",
         range: [13, 24],
         fix: [],
         message: "Top-level functions should not use arrow syntax",
@@ -77,7 +77,7 @@ export const bar = () => "foo";
           "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`.",
       },
       {
-        id: "deno-style-guide/no-top-level-arrow-syntax",
+        id: "ende-style-guide/no-top-level-arrow-syntax",
         range: [45, 56],
         fix: [],
         message: "Top-level functions should not use arrow syntax",
@@ -99,7 +99,7 @@ function foo() {
   );
 });
 
-Ende.test("deno-style-guide/no-external-code", {
+Ende.test("ende-style-guide/no-external-code", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
@@ -112,24 +112,24 @@ import { bad } from "https://deno.land/malicious-muffin/bad.ts";
 import { bad } from "jsr:@malicious-muffin/bad";
     `,
     [{
-      id: "deno-style-guide/no-external-code",
+      id: "ende-style-guide/no-external-code",
       fix: [],
       range: [1, 65],
       message: "External imports are not allowed outside of tools",
       hint:
-        'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://deno.land/x/foo/mod.ts"`.',
+        'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
     }, {
-      id: "deno-style-guide/no-external-code",
+      id: "ende-style-guide/no-external-code",
       fix: [],
       range: [66, 114],
       message: "External imports are not allowed outside of tools",
       hint:
-        'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://deno.land/x/foo/mod.ts"`.',
+        'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
     }],
   );
 });
 
-Ende.test("deno-style-guide/naming-convention", {
+Ende.test("ende-style-guide/naming-convention", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
@@ -200,7 +200,7 @@ enum enumName {
       {
         fix: [],
         hint: undefined,
-        id: "deno-style-guide/naming-convention",
+        id: "ende-style-guide/naming-convention",
         message:
           "Variable name 'CONSTANT_name' is not camelCase, PascalCase, or CONSTANT_CASE.",
         range: [7, 20],
@@ -208,35 +208,35 @@ enum enumName {
       {
         fix: [{ range: [40, 52], text: "functionName" }],
         hint: undefined,
-        id: "deno-style-guide/naming-convention",
+        id: "ende-style-guide/naming-convention",
         message: "Function name 'FunctionName' is not camelCase.",
         range: [40, 52],
       },
       {
         fix: [{ range: [123, 132], text: "ClassName" }],
         hint: undefined,
-        id: "deno-style-guide/naming-convention",
+        id: "ende-style-guide/naming-convention",
         message: "Class name 'className' is not PascalCase.",
         range: [123, 132],
       },
       {
         fix: [{ range: [142, 150], text: "TypeName" }],
         hint: undefined,
-        id: "deno-style-guide/naming-convention",
+        id: "ende-style-guide/naming-convention",
         message: "Type name 'typeName' is not PascalCase.",
         range: [142, 150],
       },
       {
         fix: [{ range: [244, 246], text: "Db" }],
         hint: undefined,
-        id: "deno-style-guide/naming-convention",
+        id: "ende-style-guide/naming-convention",
         message: "Type name 'DB' is not PascalCase.",
         range: [244, 246],
       },
       {
         fix: [{ range: [264, 277], text: "InterfaceName" }],
         hint: undefined,
-        id: "deno-style-guide/naming-convention",
+        id: "ende-style-guide/naming-convention",
         message: "Interface name 'interfaceName' is not PascalCase.",
         range: [264, 277],
       },
@@ -244,7 +244,7 @@ enum enumName {
   );
 });
 
-Ende.test("deno-style-guide/error-message", {
+Ende.test("ende-style-guide/error-message", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
@@ -280,32 +280,32 @@ new CustomError("Can't parse input");
       {
         fix: [{ range: [11, 31], text: '"Cannot parse input"' }],
         hint:
-          "Capitalize the error message. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
-        id: "deno-style-guide/error-message",
+          "Capitalize the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        id: "ende-style-guide/error-message",
         message: "Error message starts with a lowercase.",
         range: [11, 31],
       },
       {
         fix: [{ range: [48, 69], text: '"Cannot parse input"' }],
         hint:
-          "Remove the period at the end of the error message. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
-        id: "deno-style-guide/error-message",
+          "Remove the period at the end of the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        id: "ende-style-guide/error-message",
         message: "Error message ends with a period.",
         range: [48, 69],
       },
       {
         fix: [],
         hint:
-          "Remove periods in error message and use a colon for addition information. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
-        id: "deno-style-guide/error-message",
+          "Remove periods in error message and use a colon for addition information. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        id: "ende-style-guide/error-message",
         message: "Error message contains periods.",
         range: [123, 161],
       },
       {
         fix: [],
         hint:
-          "Use the full form in error message. See https://docs.deno.com/runtime/contributing/style_guide/#error-messages for more details.",
-        id: "deno-style-guide/error-message",
+          "Use the full form in error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        id: "ende-style-guide/error-message",
         message: "Error message uses contractions.",
         range: [179, 198],
       },
@@ -313,7 +313,7 @@ new CustomError("Can't parse input");
   );
 });
 
-Ende.test("deno-style-guide/exported-function-args-maximum", {
+Ende.test("ende-style-guide/exported-function-args-maximum", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
@@ -360,7 +360,7 @@ export function foo(bar: unknown, baz: unknown, bat: unknown, options: Record<st
         fix: [],
         hint:
           "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
-        id: "deno-style-guide/exported-function-args-maximum",
+        id: "ende-style-guide/exported-function-args-maximum",
         message:
           "Third argument of export function is not an options object or function.",
         range: [17, 20],
@@ -369,7 +369,7 @@ export function foo(bar: unknown, baz: unknown, bat: unknown, options: Record<st
         fix: [],
         hint:
           "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
-        id: "deno-style-guide/exported-function-args-maximum",
+        id: "ende-style-guide/exported-function-args-maximum",
         message: "Exported function has more than three arguments.",
         range: [83, 86],
       },
@@ -377,7 +377,7 @@ export function foo(bar: unknown, baz: unknown, bat: unknown, options: Record<st
   );
 });
 
-Ende.test("deno-style-guide/copyright-notice", {
+Ende.test("ende-style-guide/copyright-notice", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
@@ -399,7 +399,7 @@ Ende.test("deno-style-guide/copyright-notice", {
         fix: [],
         hint:
           `Add a copyright notice at the top of the file: // ${COPYRIGHT_NOTICE}`,
-        id: "deno-style-guide/copyright",
+        id: "ende-style-guide/copyright",
         message: "Missing copyright notice.",
         range: [0, 0],
       },

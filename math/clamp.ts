@@ -18,7 +18,7 @@
  * assertEquals(clamp(15, 1, 10), 10);
  * ```
  */
-// deno-lint-ignore deno-style-guide/exported-function-args-maximum
+// deno-lint-ignore ende-style-guide/exported-function-args-maximum
 export function clamp(num: number, min: number, max: number): number {
   if (min > max) {
     throw new RangeError("`min` must be less than or equal to `max`");

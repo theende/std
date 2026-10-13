@@ -31,8 +31,8 @@ function getSymlinkOption(
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param target The source file path as a string or URL. If it is a relative path string, it have to be relative to the link path.
  * @param linkName The destination link path as a string or URL.
@@ -110,8 +110,8 @@ export async function ensureSymlink(
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param target The source file path as a string or URL. If it is a relative path string, it have to be relative to the link path.
  * @param linkName The destination link path as a string or URL.

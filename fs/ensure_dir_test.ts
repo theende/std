@@ -9,7 +9,7 @@ const testdataDir = path.resolve(moduleDir, "testdata", "ensure_dir");
 
 Ende.test("ensureDir() creates dir if it does not exist", async function () {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_ensure_dir_",
+    prefix: "ende_std_ensure_dir_",
   });
   const baseDir = path.join(tempDirPath, "not_exist");
   const testDir = path.join(baseDir, "test");
@@ -26,7 +26,7 @@ Ende.test("ensureDir() creates dir if it does not exist", async function () {
 
 Ende.test("ensureDirSync() creates dir if it does not exist", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_ensure_dir_sync_",
+    prefix: "ende_std_ensure_dir_sync_",
   });
   const baseDir = path.join(tempDirPath, "sync_not_exist");
   const testDir = path.join(baseDir, "test");
@@ -43,7 +43,7 @@ Ende.test("ensureDirSync() creates dir if it does not exist", function () {
 
 Ende.test("ensureDir() ensures existing dir exists", async function () {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_ensure_dir_",
+    prefix: "ende_std_ensure_dir_",
   });
   const baseDir = path.join(tempDirPath, "exist");
   const testDir = path.join(baseDir, "test");
@@ -63,7 +63,7 @@ Ende.test("ensureDir() ensures existing dir exists", async function () {
 
 Ende.test("ensureDirSync() ensures existing dir exists", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_ensure_dir_sync_",
+    prefix: "ende_std_ensure_dir_sync_",
   });
   const baseDir = path.join(tempDirPath, "sync_exist");
   const testDir = path.join(baseDir, "test");
@@ -107,7 +107,7 @@ Ende.test("ensureDirSync() accepts links to dirs", function () {
 
 Ende.test("ensureDir() rejects if input is a file", async function () {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "deno_std_ensure_dir_",
+    prefix: "ende_std_ensure_dir_",
   });
   const baseDir = path.join(tempDirPath, "exist_file");
   const testFile = path.join(baseDir, "test");
@@ -129,7 +129,7 @@ Ende.test("ensureDir() rejects if input is a file", async function () {
 
 Ende.test("ensureDirSync() throws if input is a file", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_ensure_dir_sync_",
+    prefix: "ende_std_ensure_dir_sync_",
   });
   const baseDir = path.join(tempDirPath, "exist_file_sync");
   const testFile = path.join(baseDir, "test");

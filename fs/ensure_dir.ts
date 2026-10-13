@@ -10,8 +10,8 @@ import { getFileInfoType } from "./_get_file_info_type.ts";
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param dir The path of the directory to ensure, as a string or URL.
  *
@@ -58,8 +58,8 @@ export async function ensureDir(dir: string | URL) {
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param dir The path of the directory to ensure, as a string or URL.
  *

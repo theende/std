@@ -2,9 +2,9 @@
 // This module is browser compatible.
 
 /**
- * Utilities for working with Deno's readers, writers, and web streams.
+ * Utilities for working with Ende's readers, writers, and web streams.
  *
- * `Reader` and `Writer` interfaces are deprecated in Deno, and so many of these
+ * `Reader` and `Writer` interfaces are deprecated in Ende, and so many of these
  * utilities are also deprecated. Consider using web streams instead.
  *
  * ```ts ignore

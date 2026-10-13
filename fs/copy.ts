@@ -264,8 +264,8 @@ function copyDirSync(
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param src The source file/directory path as a string or URL.
  * @param dest The destination file/directory path as a string or URL.
@@ -340,8 +340,8 @@ export async function copy(
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param src The source file/directory path as a string or URL.
  * @param dest The destination file/directory path as a string or URL.

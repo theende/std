@@ -60,10 +60,10 @@ export class TestContext implements Ende.TestContext {
     return !ignore;
   }
 
-  // `Ende.TestContext.assertSnapshot` was added in a newer Deno release. It is
+  // `Ende.TestContext.assertSnapshot` was added in a newer Ende release. It is
   // not used by these tests, but the method must exist for the class to satisfy
   // the interface. `unknown` is used instead of `Ende.TestSnapshotOptions` so
-  // this stays valid on older Deno versions that lack that type.
+  // this stays valid on older Ende versions that lack that type.
   assertSnapshot(_actual: unknown, _options?: unknown): Promise<void> {
     throw new Error(
       "Mock TestContext does not implement assertSnapshot",

@@ -31,5 +31,5 @@ Example
 <!-- please complete the following information -->
 
 - OS: [e.g. Ubuntu 20.04, MacOS 11]
-- deno version:
+- ende version:
 - std version:

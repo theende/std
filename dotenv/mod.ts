@@ -17,7 +17,7 @@
  *
  * {@linkcode load}, {@linkcode loadSync} and the `@std/dotenv/load` side-effect
  * module are deprecated in favor of the runtime's
- * {@link https://docs.deno.com/runtime/reference/env_variables/ | --env-file}
+ * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag, which Node.js and Bun also support:
  *
  * ```sh
@@ -70,7 +70,7 @@ export * from "./parse.ts";
  * Options for {@linkcode load} and {@linkcode loadSync}.
  *
  * @deprecated This will be removed in 0.227.0. Use the
- * {@link https://docs.deno.com/runtime/reference/env_variables/ | --env-file}
+ * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag or {@linkcode parse} instead. See the
  * {@link https://jsr.io/@std/dotenv | module documentation} for migration
  * notes.
@@ -107,7 +107,7 @@ export interface LoadOptions {
  * @returns The parsed environment variables.
  *
  * @deprecated This will be removed in 0.227.0. Use the
- * {@link https://docs.deno.com/runtime/reference/env_variables/ | --env-file}
+ * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag or {@linkcode parse} instead. See the
  * {@link https://jsr.io/@std/dotenv | module documentation} for migration
  * notes.
@@ -261,7 +261,7 @@ export function loadSync(
  * @returns The parsed environment variables
  *
  * @deprecated This will be removed in 0.227.0. Use the
- * {@link https://docs.deno.com/runtime/reference/env_variables/ | --env-file}
+ * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag or {@linkcode parse} instead. See the
  * {@link https://jsr.io/@std/dotenv | module documentation} for migration
  * notes.

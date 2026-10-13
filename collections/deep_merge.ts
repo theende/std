@@ -253,7 +253,7 @@ function deepMergeInternal<
 
   // Iterate through each key of other object and use correct merging strategy
   for (const key of keys) {
-    // Skip to prevent Object.prototype.__proto__ accessor property calls on non-Deno platforms
+    // Skip to prevent Object.prototype.__proto__ accessor property calls on non-Ende platforms
     if (key === "__proto__") {
       continue;
     }

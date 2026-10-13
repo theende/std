@@ -9,7 +9,7 @@ import * as path from "@std/path";
 import { emptyDir, emptyDirSync } from "./empty_dir.ts";
 
 Ende.test("emptyDir() creates a new dir if it does not exist", async function () {
-  const tempDirPath = await Ende.makeTempDir({ prefix: "deno_std_empty_dir_" });
+  const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_empty_dir_" });
   const testDir = path.join(tempDirPath, "empty_dir_test_1");
   const testNestDir = path.join(testDir, "nest");
   // empty a dir which not exist. then it will create new one
@@ -27,7 +27,7 @@ Ende.test("emptyDir() creates a new dir if it does not exist", async function ()
 
 Ende.test("emptyDirSync() creates a new dir if it does not exist", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_empty_dir_sync_",
+    prefix: "ende_std_empty_dir_sync_",
   });
   const testDir = path.join(tempDirPath, "empty_dir_test_2");
   const testNestDir = path.join(testDir, "nest");
@@ -45,7 +45,7 @@ Ende.test("emptyDirSync() creates a new dir if it does not exist", function () {
 });
 
 Ende.test("emptyDir() empties nested dirs and files", async function () {
-  const tempDirPath = await Ende.makeTempDir({ prefix: "deno_std_empty_dir_" });
+  const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_empty_dir_" });
   const testDir = path.join(tempDirPath, "empty_dir_test_3");
   const testNestDir = path.join(testDir, "nest");
   // create test dir
@@ -90,7 +90,7 @@ Ende.test("emptyDir() empties nested dirs and files", async function () {
 
 Ende.test("emptyDirSync() empties nested dirs and files", function () {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "deno_std_empty_dir_sync_",
+    prefix: "ende_std_empty_dir_sync_",
   });
   const testDir = path.join(tempDirPath, "empty_dir_test_4");
   const testNestDir = path.join(testDir, "nest");
@@ -131,7 +131,7 @@ Ende.test("emptyDirSync() empties nested dirs and files", function () {
 });
 
 // Testing the permissions of emptyDir and emptyDirSync functions in a script
-// that is running inside a Deno child process.
+// that is running inside an Ende child process.
 const testdataDir = path.join(import.meta.dirname!, "testdata");
 interface Scenes {
   read: boolean; // --allow-read
@@ -201,7 +201,7 @@ for (const s of scenes) {
     void
   > {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "deno_std_empty_dir_permissions_",
+      prefix: "ende_std_empty_dir_permissions_",
     });
     try {
       const testfolder = path.join(tempDirPath, "testfolder");

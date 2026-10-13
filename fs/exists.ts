@@ -39,8 +39,8 @@ export interface ExistsOptions {
  * Requires `--allow-read` permissions, and in some cases, `--allow-sys`
  * permissions if `options.isReadable` is `true`.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param path The path to the file or directory, as a string or URL.
  * @param options Additional options for the check.
@@ -179,8 +179,8 @@ export async function exists(
  * Requires `--allow-read` permissions, and in some cases, `--allow-sys`
  * permissions if `options.isReadable` is `true`.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param path The path to the file or directory, as a string or URL.
  * @param options Additional options for the check.

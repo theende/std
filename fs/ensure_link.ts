@@ -10,8 +10,8 @@ import { toPathString } from "./_to_path_string.ts";
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param src The source file path as a string or URL. Directory hard links are
  * not allowed.
@@ -40,8 +40,8 @@ export async function ensureLink(src: string | URL, dest: string | URL) {
  *
  * Requires `--allow-read` and `--allow-write` permissions.
  *
- * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
- * for more information on Deno's permissions system.
+ * @see {@link https://docs.ende.sh/runtime/manual/basics/permissions#file-system-access}
+ * for more information on Ende's permissions system.
  *
  * @param src The source file path as a string or URL. Directory hard links are
  * not allowed.

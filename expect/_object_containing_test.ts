@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { Buffer } from "node:buffer";
-import { Buffer as DenoBuffer } from "@std/io/buffer";
+import { Buffer as EndeBuffer } from "@std/io/buffer";
 import { expect } from "./expect.ts";
 
 Ende.test("expect.objectContaining()", () => {
@@ -43,9 +43,9 @@ Ende.test("expect.objectContaining() with Node Buffer", () => {
   );
 });
 
-Ende.test("expect.objectContaining() with Deno Buffer", () => {
-  expect({ foo: new DenoBuffer([1, 2, 3]) }).toEqual(
-    expect.objectContaining({ foo: new DenoBuffer([1, 2, 3]) }),
+Ende.test("expect.objectContaining() with Ende Buffer", () => {
+  expect({ foo: new EndeBuffer([1, 2, 3]) }).toEqual(
+    expect.objectContaining({ foo: new EndeBuffer([1, 2, 3]) }),
   );
 });
 

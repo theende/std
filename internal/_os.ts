@@ -4,7 +4,7 @@ export function checkWindows(): boolean {
   // deno-lint-ignore no-explicit-any
   const global = globalThis as any;
 
-  // Check Node/Bun/Deno via `process.platform`, then the Deno global, then the browser
+  // Check Node/Bun/Ende via `process.platform`, then the Ende global, then the browser
   const platform = global.process?.platform;
   if (typeof platform === "string") return platform.startsWith("win");
   const os = global.Ende?.build?.os;

@@ -19,7 +19,7 @@ function testCopy(
     name,
     async fn() {
       const tempDir = await Ende.makeTempDir({
-        prefix: "deno_std_copy_async_test_",
+        prefix: "ende_std_copy_async_test_",
       });
       await cb(tempDir);
       await Ende.remove(tempDir, { recursive: true });
@@ -33,7 +33,7 @@ function testCopySync(name: string, cb: (tempDir: string) => void) {
     name,
     fn: () => {
       const tempDir = Ende.makeTempDirSync({
-        prefix: "deno_std_copy_sync_test_",
+        prefix: "ende_std_copy_sync_test_",
       });
       cb(tempDir);
       Ende.removeSync(tempDir, { recursive: true });

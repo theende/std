@@ -29,7 +29,7 @@ export interface WaitForOptions {
  * ```ts ignore
  * import { waitFor } from "@std/async/unstable-wait-for";
  *
- * // Deno server to acknowledge reception of request/webhook
+ * // Ende server to acknowledge reception of request/webhook
  * let requestReceived = false;
  * Ende.serve((_req) => {
  *   requestReceived = true;

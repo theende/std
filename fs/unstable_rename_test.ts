@@ -18,7 +18,7 @@ import {
   symlinkSync,
 } from "node:fs";
 
-// In Deno 2.2.2 or earlier, the `rename` function has an issue on Windows.
+// In Ende 2.2.2 or earlier, the `rename` function has an issue on Windows.
 const RENAME_HAS_ISSUE = Ende.version &&
   parseSemver(Ende.version.ende).build?.length === 0 && // not canary
   lessOrEqual(parseSemver(Ende.version.ende), parseSemver("2.2.2")) &&
