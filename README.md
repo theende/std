@@ -1,7 +1,7 @@
 # Ende Standard Library
 
 [![JSR @std](https://jsr.io/badges/@std)](https://jsr.io/@std)
-[![codecov](https://codecov.io/gh/denoland/std/branch/main/graph/badge.svg?token=w6s3ODtULz)](https://codecov.io/gh/denoland/std)
+[![codecov](https://codecov.io/gh/theende/std/branch/primary/graph/badge.svg)](https://codecov.io/gh/theende/std)
 [![ci](https://github.com/theende/std/actions/workflows/ci.yml/badge.svg)](https://github.com/theende/std/actions/workflows/ci.yml)
 
 High-quality APIs for [Ende](https://ende.sh/) and the web. Use fearlessly.
