@@ -135,22 +135,22 @@ Ende.test("walkSync() accepts ext option as strings (excluding period prefix)", 
 
 Ende.test("walk() accepts ext option as regExps", async () =>
   await assertWalkPaths(testdataDir, "match", ["x", "y"], {
-    match: [/x/, /y/],
+    match: [/x$/, /y$/],
   }));
 
 Ende.test("walkSync() accepts ext option as regExps", () =>
   assertWalkSyncPaths(testdataDir, "match", ["x", "y"], {
-    match: [/x/, /y/],
+    match: [/x$/, /y$/],
   }));
 
 Ende.test("walk() accepts skip option as regExps", async () =>
   await assertWalkPaths(testdataDir, "match", [".", "z"], {
-    skip: [/x/, /y/],
+    skip: [/x$/, /y$/],
   }));
 
 Ende.test("walkSync() accepts skip option as regExps", () =>
   assertWalkSyncPaths(testdataDir, "match", [".", "z"], {
-    skip: [/x/, /y/],
+    skip: [/x$/, /y$/],
   }));
 
 // https://github.com/denoland/std/issues/1358
