@@ -48,7 +48,7 @@ export function assertStrictEquals<T>(
   if (actualString === expectedString) {
     const withOffset = actualString
       .split("\n")
-      .map((l: any) => `    ${l}`)
+      .map(l => `    ${l}`)
       .join("\n");
     message = `Values have the same structure but are not reference-equal${msgSuffix}\n\n${red(withOffset)}\n`;
   } else {

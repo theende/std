@@ -28,8 +28,8 @@ Ende.test({
         .from([
           [1, "foo"],
           [2, "bar"]
-          // @ts-expect-error `columns` option is not allowed
         ])
+        // @ts-expect-error `columns` option is not allowed
         .pipeThrough(new CsvStringifyStream({ columns: ["id", "name"] }));
       await assertRejects(
         async () => await Array.fromAsync(readable),
@@ -69,8 +69,8 @@ Ende.test({
       const readable = ReadableStream
         .from([
           ["one", "two", "three"]
-          // deno-lint-ignore no-explicit-any
         ])
+        // deno-lint-ignore no-explicit-any
         .pipeThrough(new CsvStringifyStream({ columns: { length: 1 } as any }));
       await assertRejects(
         async () => await Array.fromAsync(readable),
@@ -102,8 +102,8 @@ Ende.test({
           { id: 1, name: "foo" },
           { id: 2, name: "bar" },
           { id: 3, name: "baz" }
-          // @ts-expect-error `columns` option is required
         ])
+        // @ts-expect-error `columns` option is required
         .pipeThrough(new CsvStringifyStream());
       await assertRejects(
         async () => await Array.fromAsync(readable),
