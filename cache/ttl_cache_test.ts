@@ -9,7 +9,7 @@ const UNSET = Symbol("UNSET");
 // check `has()`, `get()`, `forEach()`
 function assertEntries<K, V>(
   cache: TtlCache<K, V>,
-  entries: [key: K, value: V | typeof UNSET][],
+  entries: [key: K, value: V | typeof UNSET][]
 ) {
   for (const [key, value] of entries) {
     assertEquals(cache.has(key), value !== UNSET);
@@ -19,14 +19,14 @@ function assertEntries<K, V>(
   cache.forEach((v, k) => assertEquals(v, entries.find(([x]) => x === k)![1]));
   assertContentfulEntries(
     cache as TtlCache<K, V | typeof UNSET>,
-    entries.filter(([, v]) => v !== UNSET),
+    entries.filter(([, v]) => v !== UNSET)
   );
 }
 
 // check `size`, `entries()`, `keys()`, `values()`, `[Symbol.iterator]()`
 function assertContentfulEntries<K, V>(
   cache: TtlCache<K, V>,
-  entries: [key: K, value: V][],
+  entries: [key: K, value: V][]
 ) {
   const keys = entries.map(([key]) => key);
   const values = entries.map(([, value]) => value);
@@ -39,7 +39,7 @@ function assertContentfulEntries<K, V>(
   assertEquals([...cache], entries);
 }
 
-Ende.test("TtlCache deletes entries", async (t) => {
+Ende.test("TtlCache deletes entries", async t => {
   await t.step("after the default TTL, passed in constructor", () => {
     using time = new FakeTime(0);
 
@@ -108,7 +108,7 @@ Ende.test("TtlCache deletes entries", async (t) => {
   });
 });
 
-Ende.test("TtlCache onEject()", async (t) => {
+Ende.test("TtlCache onEject()", async t => {
   await t.step("calls onEject on delete and TTL expiry", () => {
     using time = new FakeTime(0);
     let called = 0;
@@ -129,7 +129,7 @@ Ende.test("TtlCache onEject()", async (t) => {
   await t.step("calls onEject for falsy values", () => {
     const ejected: [number, unknown][] = [];
     using cache = new TtlCache<number, unknown>(1000, {
-      onEject: (k, v) => ejected.push([k, v]),
+      onEject: (k, v) => ejected.push([k, v])
     });
 
     cache.set(1, 0);
@@ -148,7 +148,7 @@ Ende.test("TtlCache onEject()", async (t) => {
   await t.step("calls onEject on clear()", () => {
     const ejected: [number, string][] = [];
     using cache = new TtlCache<number, string>(1000, {
-      onEject: (k, v) => ejected.push([k, v]),
+      onEject: (k, v) => ejected.push([k, v])
     });
 
     cache.set(1, "one");
@@ -163,7 +163,7 @@ Ende.test("TtlCache onEject()", async (t) => {
     const ejected: [number, string][] = [];
     {
       using cache = new TtlCache<number, string>(1000, {
-        onEject: (k, v) => ejected.push([k, v]),
+        onEject: (k, v) => ejected.push([k, v])
       });
       cache.set(1, "one");
       cache.set(2, "two");
@@ -175,7 +175,7 @@ Ende.test("TtlCache onEject()", async (t) => {
   await t.step("does not call onEject when overwriting a key", () => {
     const ejected: [string, number][] = [];
     using cache = new TtlCache<string, number>(1000, {
-      onEject: (k, v) => ejected.push([k, v]),
+      onEject: (k, v) => ejected.push([k, v])
     });
 
     cache.set("a", 1);
@@ -189,10 +189,10 @@ Ende.test("TtlCache onEject()", async (t) => {
     let sizeInCallback = -1;
     let hasInCallback = true;
     using cache = new TtlCache<string, number>(1000, {
-      onEject: (k) => {
+      onEject: k => {
         sizeInCallback = cache.size;
         hasInCallback = cache.has(k);
-      },
+      }
     });
 
     cache.set("a", 1);
@@ -203,12 +203,12 @@ Ende.test("TtlCache onEject()", async (t) => {
   });
 });
 
-Ende.test("TtlCache validates TTL", async (t) => {
+Ende.test("TtlCache validates TTL", async t => {
   await t.step("constructor rejects negative defaultTtl", () => {
     assertThrows(
       () => new TtlCache(-1),
       RangeError,
-      "defaultTtl must be a finite, non-negative number",
+      "defaultTtl must be a finite, non-negative number"
     );
   });
 
@@ -216,7 +216,7 @@ Ende.test("TtlCache validates TTL", async (t) => {
     assertThrows(
       () => new TtlCache(NaN),
       RangeError,
-      "defaultTtl must be a finite, non-negative number",
+      "defaultTtl must be a finite, non-negative number"
     );
   });
 
@@ -224,7 +224,7 @@ Ende.test("TtlCache validates TTL", async (t) => {
     assertThrows(
       () => new TtlCache(Infinity),
       RangeError,
-      "defaultTtl must be a finite, non-negative number",
+      "defaultTtl must be a finite, non-negative number"
     );
   });
 
@@ -237,7 +237,7 @@ Ende.test("TtlCache validates TTL", async (t) => {
     assertThrows(
       () => cache.set("a", 1, { ttl: -1 }),
       RangeError,
-      "ttl must be a finite, non-negative number",
+      "ttl must be a finite, non-negative number"
     );
   });
 
@@ -246,7 +246,7 @@ Ende.test("TtlCache validates TTL", async (t) => {
     assertThrows(
       () => cache.set("a", 1, { ttl: NaN }),
       RangeError,
-      "ttl must be a finite, non-negative number",
+      "ttl must be a finite, non-negative number"
     );
   });
 
@@ -255,7 +255,7 @@ Ende.test("TtlCache validates TTL", async (t) => {
     assertThrows(
       () => cache.set("a", 1, { ttl: Infinity }),
       RangeError,
-      "ttl must be a finite, non-negative number",
+      "ttl must be a finite, non-negative number"
     );
   });
 
@@ -266,11 +266,11 @@ Ende.test("TtlCache validates TTL", async (t) => {
   });
 });
 
-Ende.test("TtlCache peek()", async (t) => {
+Ende.test("TtlCache peek()", async t => {
   await t.step("returns value without resetting sliding TTL", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
 
     cache.set("a", 1);
@@ -304,16 +304,16 @@ Ende.test("TtlCache peek()", async (t) => {
 
 Ende.test("TtlCache get() returns undefined for missing key with sliding expiration", () => {
   using cache = new TtlCache<string, number>(100, {
-    slidingExpiration: true,
+    slidingExpiration: true
   });
   assertEquals(cache.get("missing"), undefined);
 });
 
-Ende.test("TtlCache sliding expiration", async (t) => {
+Ende.test("TtlCache sliding expiration", async t => {
   await t.step("get() resets TTL", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
 
     cache.set("a", 1);
@@ -336,7 +336,7 @@ Ende.test("TtlCache sliding expiration", async (t) => {
   await t.step("has() does not reset TTL", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
 
     cache.set("a", 1);
@@ -365,7 +365,7 @@ Ende.test("TtlCache sliding expiration", async (t) => {
   await t.step("absoluteExpiration caps sliding extension", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
 
     cache.set("a", 1, { absoluteExpiration: 150 });
@@ -386,14 +386,14 @@ Ende.test("TtlCache sliding expiration", async (t) => {
     assertThrows(
       () => cache.set("a", 1, { absoluteExpiration: 50 }),
       TypeError,
-      "absoluteExpiration requires slidingExpiration to be enabled",
+      "absoluteExpiration requires slidingExpiration to be enabled"
     );
   });
 
   await t.step("per-entry TTL works with sliding expiration", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
 
     cache.set("a", 1, { ttl: 50 });
@@ -415,7 +415,7 @@ Ende.test("TtlCache sliding expiration", async (t) => {
     const ejected: [string, number][] = [];
     const cache = new TtlCache<string, number>(100, {
       slidingExpiration: true,
-      onEject: (k, v) => ejected.push([k, v]),
+      onEject: (k, v) => ejected.push([k, v])
     });
 
     cache.set("a", 1);
@@ -430,7 +430,7 @@ Ende.test("TtlCache sliding expiration", async (t) => {
   await t.step("overwriting entry resets sliding metadata", () => {
     using time = new FakeTime(0);
     const cache = new TtlCache<string, number>(100, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
 
     cache.set("a", 1, { ttl: 50, absoluteExpiration: 200 });
@@ -451,23 +451,23 @@ Ende.test("TtlCache sliding expiration", async (t) => {
 
   await t.step("set() rejects negative absoluteExpiration", () => {
     using cache = new TtlCache<string, number>(1000, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
     assertThrows(
       () => cache.set("a", 1, { absoluteExpiration: -1 }),
       RangeError,
-      "absoluteExpiration must be a finite, non-negative number",
+      "absoluteExpiration must be a finite, non-negative number"
     );
   });
 
   await t.step("set() rejects NaN absoluteExpiration", () => {
     using cache = new TtlCache<string, number>(1000, {
-      slidingExpiration: true,
+      slidingExpiration: true
     });
     assertThrows(
       () => cache.set("a", 1, { absoluteExpiration: NaN }),
       RangeError,
-      "absoluteExpiration must be a finite, non-negative number",
+      "absoluteExpiration must be a finite, non-negative number"
     );
   });
 });
@@ -475,10 +475,11 @@ Ende.test("TtlCache sliding expiration", async (t) => {
 Ende.test("TtlCache clear() calls all onEject callbacks even if one throws", () => {
   const ejected: string[] = [];
   using cache = new TtlCache<string, number>(1000, {
-    onEject: (k) => {
+    onEject: k => {
       ejected.push(k);
-      if (k === "a") throw new Error("boom");
-    },
+      if (k === "a")
+        throw new Error("boom");
+    }
   });
 
   cache.set("a", 1);

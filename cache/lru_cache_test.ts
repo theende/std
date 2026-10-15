@@ -29,12 +29,12 @@ Ende.test("LruCache.maxSize is readonly", () => {
   assertEquals(cache.maxSize, 100);
 });
 
-Ende.test("LruCache validates maxSize", async (t) => {
+Ende.test("LruCache validates maxSize", async t => {
   await t.step("rejects 0", () => {
     assertThrows(
       () => new LruCache(0),
       RangeError,
-      "maxSize must be a positive integer",
+      "maxSize must be a positive integer"
     );
   });
 
@@ -42,7 +42,7 @@ Ende.test("LruCache validates maxSize", async (t) => {
     assertThrows(
       () => new LruCache(-1),
       RangeError,
-      "maxSize must be a positive integer",
+      "maxSize must be a positive integer"
     );
   });
 
@@ -50,7 +50,7 @@ Ende.test("LruCache validates maxSize", async (t) => {
     assertThrows(
       () => new LruCache(NaN),
       RangeError,
-      "maxSize must be a positive integer",
+      "maxSize must be a positive integer"
     );
   });
 
@@ -58,7 +58,7 @@ Ende.test("LruCache validates maxSize", async (t) => {
     assertThrows(
       () => new LruCache(Infinity),
       RangeError,
-      "maxSize must be a positive integer",
+      "maxSize must be a positive integer"
     );
   });
 
@@ -66,7 +66,7 @@ Ende.test("LruCache validates maxSize", async (t) => {
     assertThrows(
       () => new LruCache(1.5),
       RangeError,
-      "maxSize must be a positive integer",
+      "maxSize must be a positive integer"
     );
   });
 
@@ -79,11 +79,11 @@ Ende.test("LruCache validates maxSize", async (t) => {
   });
 });
 
-Ende.test("LruCache onEject()", async (t) => {
+Ende.test("LruCache onEject()", async t => {
   await t.step("calls onEject on delete and eviction", () => {
     const reasons: LruCacheEjectionReason[] = [];
     const cache = new LruCache<number, string>(3, {
-      onEject: (_k, _v, reason) => reasons.push(reason),
+      onEject: (_k, _v, reason) => reasons.push(reason)
     });
 
     cache.set(1, "!");
@@ -104,7 +104,7 @@ Ende.test("LruCache onEject()", async (t) => {
   await t.step("calls onEject for falsy values", () => {
     const ejected: [number, unknown, LruCacheEjectionReason][] = [];
     const cache = new LruCache<number, unknown>(10, {
-      onEject: (k, v, reason) => ejected.push([k, v, reason]),
+      onEject: (k, v, reason) => ejected.push([k, v, reason])
     });
 
     cache.set(1, 0);
@@ -121,14 +121,14 @@ Ende.test("LruCache onEject()", async (t) => {
       [1, 0, "deleted"],
       [2, "", "deleted"],
       [3, false, "deleted"],
-      [4, null, "deleted"],
+      [4, null, "deleted"]
     ]);
   });
 
   await t.step("calls onEject on clear()", () => {
     const ejected: [string, number, LruCacheEjectionReason][] = [];
     const cache = new LruCache<string, number>(10, {
-      onEject: (k, v, reason) => ejected.push([k, v, reason]),
+      onEject: (k, v, reason) => ejected.push([k, v, reason])
     });
 
     cache.set("a", 1);
@@ -139,7 +139,7 @@ Ende.test("LruCache onEject()", async (t) => {
     assertEquals(ejected, [
       ["a", 1, "cleared"],
       ["b", 2, "cleared"],
-      ["c", 3, "cleared"],
+      ["c", 3, "cleared"]
     ]);
     assertEquals(cache.size, 0);
   });
@@ -147,7 +147,7 @@ Ende.test("LruCache onEject()", async (t) => {
   await t.step("does not call onEject when overwriting a key", () => {
     const ejected: [string, number, LruCacheEjectionReason][] = [];
     const cache = new LruCache<string, number>(10, {
-      onEject: (k, v, reason) => ejected.push([k, v, reason]),
+      onEject: (k, v, reason) => ejected.push([k, v, reason])
     });
 
     cache.set("a", 1);
@@ -161,10 +161,10 @@ Ende.test("LruCache onEject()", async (t) => {
     let sizeInCallback = -1;
     let hasInCallback = true;
     const cache = new LruCache<string, number>(10, {
-      onEject: (k) => {
+      onEject: k => {
         sizeInCallback = cache.size;
         hasInCallback = cache.has(k);
-      },
+      }
     });
 
     cache.set("a", 1);
@@ -183,10 +183,11 @@ Ende.test("LruCache delete() returns false for non-existent key", () => {
 Ende.test("LruCache clear() calls all onEject callbacks even if one throws", () => {
   const ejected: string[] = [];
   const cache = new LruCache<string, number>(10, {
-    onEject: (k) => {
+    onEject: k => {
       ejected.push(k);
-      if (k === "a") throw new Error("boom");
-    },
+      if (k === "a")
+        throw new Error("boom");
+    }
   });
 
   cache.set("a", 1);
@@ -237,7 +238,7 @@ Ende.test("LruCache set() throws if onEject throws during eviction", () => {
   const cache = new LruCache<string, number>(2, {
     onEject: () => {
       throw new Error("boom");
-    },
+    }
   });
 
   cache.set("a", 1);
@@ -249,12 +250,12 @@ Ende.test("LruCache set() throws if onEject throws during eviction", () => {
   assertEquals(cache.get("c"), 3);
 });
 
-Ende.test("LruCache onEject is not re-entrant", async (t) => {
+Ende.test("LruCache onEject is not re-entrant", async t => {
   await t.step("set() inside onEject throws", () => {
     const cache = new LruCache<string, number>(2, {
       onEject: () => {
         cache.set("x", 99);
-      },
+      }
     });
 
     cache.set("a", 1);
@@ -262,7 +263,7 @@ Ende.test("LruCache onEject is not re-entrant", async (t) => {
     assertThrows(
       () => cache.set("c", 3),
       TypeError,
-      "cache is not re-entrant during onEject callbacks",
+      "cache is not re-entrant during onEject callbacks"
     );
   });
 
@@ -270,7 +271,7 @@ Ende.test("LruCache onEject is not re-entrant", async (t) => {
     const cache = new LruCache<string, number>(2, {
       onEject: () => {
         cache.delete("b");
-      },
+      }
     });
 
     cache.set("a", 1);
@@ -278,7 +279,7 @@ Ende.test("LruCache onEject is not re-entrant", async (t) => {
     assertThrows(
       () => cache.delete("a"),
       TypeError,
-      "cache is not re-entrant during onEject callbacks",
+      "cache is not re-entrant during onEject callbacks"
     );
   });
 
@@ -286,14 +287,14 @@ Ende.test("LruCache onEject is not re-entrant", async (t) => {
     const cache = new LruCache<string, number>(10, {
       onEject: () => {
         cache.clear();
-      },
+      }
     });
 
     cache.set("a", 1);
     assertThrows(
       () => cache.delete("a"),
       TypeError,
-      "cache is not re-entrant during onEject callbacks",
+      "cache is not re-entrant during onEject callbacks"
     );
   });
 });
@@ -308,10 +309,10 @@ Ende.test("LruCache set() returns this for chaining", () => {
 Ende.test("LruCache clear() rethrows the first error when multiple onEject callbacks throw", () => {
   const ejected: string[] = [];
   const cache = new LruCache<string, number>(10, {
-    onEject: (k) => {
+    onEject: k => {
       ejected.push(k);
       throw new Error(`boom-${k}`);
-    },
+    }
   });
 
   cache.set("a", 1);

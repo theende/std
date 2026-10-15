@@ -34,7 +34,7 @@ export interface toWritableStreamOptions {
  */
 export function toWritableStream(
   writer: Writer,
-  options?: toWritableStreamOptions,
+  options?: toWritableStreamOptions
 ): WritableStream<Uint8Array> {
   const { autoClose = true } = options ?? {};
 
@@ -58,6 +58,6 @@ export function toWritableStream(
       if (isCloser(writer) && autoClose) {
         writer.close();
       }
-    },
+    }
   });
 }

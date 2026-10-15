@@ -29,8 +29,8 @@ export interface PromptMultipleSelectOptions {
  *
  * @typeParam V The value of the underlying Entry, if any.
  */
-export type PromptEntry<V = undefined> = V extends undefined ? string
-  : PromptEntryWithValue<V>;
+export type PromptEntry<V = undefined> = V extends undefined ? string :
+  PromptEntryWithValue<V>;
 
 /**
  * A {@linkcode PromptEntry} with an underlying value.
@@ -110,9 +110,10 @@ const UNCHECKED = "◯";
 export function promptMultipleSelect<V = undefined>(
   message: string,
   values: PromptEntry<V>[],
-  options: PromptMultipleSelectOptions = {},
+  options: PromptMultipleSelectOptions = {}
 ): PromptEntry<V>[] | null {
-  if (!Ende.stdin.isTerminal()) return null;
+  if (!Ende.stdin.isTerminal())
+    return null;
 
   const selectedAbsoluteIndexes = new Set<number>();
 
@@ -132,7 +133,7 @@ export function promptMultipleSelect<V = undefined>(
       up,
       down,
       remove,
-      inputStr,
+      inputStr
     }) => {
       switch (str) {
         case ETX:
@@ -164,8 +165,8 @@ export function promptMultipleSelect<V = undefined>(
       }
 
       return false;
-    },
+    }
   );
 
-  return [...selectedAbsoluteIndexes].map((it) => values[it]!);
+  return [...selectedAbsoluteIndexes].map(it => values[it]!);
 }

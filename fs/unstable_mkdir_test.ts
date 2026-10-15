@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertExists,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { AlreadyExists } from "./unstable_errors.js";
 import { mkdir, mkdirSync } from "./unstable_mkdir.ts";
@@ -91,8 +91,7 @@ Ende.test("mkdir() rejects with AlreadyExists when creating a directory that is 
 });
 
 Ende.test({
-  name:
-    "mkdir() rejects with AlreadyExists when creating a directory on symlinks",
+  name: "mkdir() rejects with AlreadyExists when creating a directory on symlinks",
   ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await makeTempDir({ prefix: "mkdir_" });
@@ -114,7 +113,7 @@ Ende.test({
     }, AlreadyExists);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("mkdirSync() creates a directory with the default mode", () => {
@@ -186,8 +185,7 @@ Ende.test("mkdirSync() throws with AlreadyExists when creating a directory that 
 });
 
 Ende.test({
-  name:
-    "mkdir() throws with AlreadyExists when creating a directory on symlinks",
+  name: "mkdir() throws with AlreadyExists when creating a directory on symlinks",
   ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = makeTempDirSync({ prefix: "mkdirSync_" });
@@ -209,5 +207,5 @@ Ende.test({
     }, AlreadyExists);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });

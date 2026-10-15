@@ -12,19 +12,18 @@ Ende.test({
 
     assertEquals(omitted, { a: 5, b: 6, c: 7, d: 8 });
     assertNotStrictEquals(omitted, obj);
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "omit() returns a new object from the provided object without the provided keys",
+  name: "omit() returns a new object from the provided object without the provided keys",
   fn() {
     const obj = { a: 5, b: 6, c: 7, d: 8 };
     const omitted = omit(obj, ["a", "c"]);
 
     assertEquals(omitted, { b: 6, d: 8 });
     assertNotStrictEquals(omitted, obj);
-  },
+  }
 });
 
 Ende.test({
@@ -35,5 +34,5 @@ Ende.test({
 
     assertEquals(omitted, {});
     assertNotStrictEquals(omitted, obj);
-  },
+  }
 });

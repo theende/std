@@ -23,7 +23,7 @@
  * ```
  */
 export async function toBlob(
-  stream: ReadableStream<Uint8Array>,
+  stream: ReadableStream<Uint8Array>
 ): Promise<Blob> {
   return await new Response(stream).blob();
 }

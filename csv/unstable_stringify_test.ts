@@ -7,17 +7,16 @@ import { assertThrows } from "../assert/throws.ts";
 
 const CRLF = "\r\n";
 
-Ende.test("(unstable) stringify", async (t) => {
+Ende.test("(unstable) stringify", async t => {
   await t.step(
     {
-      name:
-        "Object array with no columns, should infer columns from the first array element",
+      name: "Object array with no columns, should infer columns from the first array element",
       fn() {
         const data = [{ a: 1 }, { a: 2 }, { b: 3 }];
         const output = `a${CRLF}1${CRLF}2${CRLF}${CRLF}`;
         assertEquals(stringify(data), output);
-      },
-    },
+      }
+    }
   );
   await t.step(
     {
@@ -27,8 +26,8 @@ Ende.test("(unstable) stringify", async (t) => {
         const columns = ["a"];
         const output = `a${CRLF}1${CRLF}2${CRLF}${CRLF}`;
         assertEquals(stringify(data, { columns }), output);
-      },
-    },
+      }
+    }
   );
 
   await t.step(
@@ -40,10 +39,10 @@ Ende.test("(unstable) stringify", async (t) => {
         assertThrows(
           // @ts-expect-error: for test
           () => stringify(data, options),
-          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined",
+          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined"
         );
-      },
-    },
+      }
+    }
   );
 
   await t.step(
@@ -55,10 +54,10 @@ Ende.test("(unstable) stringify", async (t) => {
         assertThrows(
           // @ts-expect-error: for test
           () => stringify(data, options),
-          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined",
+          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined"
         );
-      },
-    },
+      }
+    }
   );
 
   await t.step(
@@ -70,10 +69,10 @@ Ende.test("(unstable) stringify", async (t) => {
         assertThrows(
           // @ts-expect-error: for test
           () => stringify(data, options),
-          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined",
+          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined"
         );
-      },
-    },
+      }
+    }
   );
 
   await t.step(
@@ -85,9 +84,9 @@ Ende.test("(unstable) stringify", async (t) => {
         assertThrows(
           // @ts-expect-error: for test
           () => stringify(data, options),
-          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined",
+          "Cannot stringify data as the columns option is invalid: columns must be an array or undefined"
         );
-      },
-    },
+      }
+    }
   );
 });

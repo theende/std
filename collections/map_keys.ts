@@ -35,7 +35,7 @@
  */
 export function mapKeys<T>(
   record: Readonly<Record<string, T>>,
-  transformer: (key: string) => string,
+  transformer: (key: string) => string
 ): Record<string, T> {
   const result: Record<string, T> = {};
 

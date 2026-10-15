@@ -23,7 +23,7 @@ Ende.test("BidirectionalMap.clear()", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
-    ["three", 3],
+    ["three", 3]
   ]);
   map.clear();
 
@@ -36,7 +36,7 @@ Ende.test("BidirectionalMap.delete() removes the key-value pair", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
-    ["three", 3],
+    ["three", 3]
   ]);
 
   assertEquals(map.delete("two"), true);
@@ -51,19 +51,19 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
 
     assertEquals(map.delete("four"), false);
     assertEquals(map.size, 3);
-  },
+  }
 );
 
 Ende.test("BidirectionalMap.deleteReverse() removes the value-key pair", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
-    ["three", 3],
+    ["three", 3]
   ]);
 
   assertEquals(map.deleteReverse(2), true);
@@ -78,12 +78,12 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
 
     assertEquals(map.deleteReverse(4), false);
     assertEquals(map.size, 3);
-  },
+  }
 );
 
 Ende.test(
@@ -92,7 +92,7 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
     const result: [string, number][] = [];
     map.forEach((value, key) => {
@@ -102,9 +102,9 @@ Ende.test(
     assertEquals(result, [
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
-  },
+  }
 );
 
 Ende.test(
@@ -113,13 +113,13 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
 
     assertEquals(map.get("one"), 1);
     assertEquals(map.get("two"), 2);
     assertEquals(map.get("three"), 3);
-  },
+  }
 );
 
 Ende.test(
@@ -128,20 +128,20 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
 
     assertEquals(map.getReverse(1), "one");
     assertEquals(map.getReverse(2), "two");
     assertEquals(map.getReverse(3), "three");
-  },
+  }
 );
 
 Ende.test("BidirectionalMap.has() returns true if the key exists", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
-    ["three", 3],
+    ["three", 3]
   ]);
 
   assertEquals(map.has("one"), true);
@@ -156,14 +156,14 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
 
     assertEquals(map.hasReverse(1), true);
     assertEquals(map.hasReverse(2), true);
     assertEquals(map.hasReverse(3), true);
     assertEquals(map.hasReverse(4), false);
-  },
+  }
 );
 
 Ende.test("BidirectionalMap.set() adds a new key-value pair", () => {
@@ -191,7 +191,7 @@ Ende.test(
     assertEquals(map.size, 1);
     assertEquals(map.get("one"), 2);
     assertEquals(map.getReverse(2), "one");
-  },
+  }
 );
 
 Ende.test(
@@ -204,7 +204,7 @@ Ende.test(
     assertEquals(map.get("key"), "secondValue");
     assertEquals(map.getReverse("value"), undefined);
     assertEquals(map.getReverse("secondValue"), "key");
-  },
+  }
 );
 
 Ende.test(
@@ -214,7 +214,7 @@ Ende.test(
     const result = map.set(1, "one");
 
     assertEquals(result, map);
-  },
+  }
 );
 
 Ende.test("BidirectionalMap.size returns the number of key-value pairs", () => {
@@ -222,7 +222,7 @@ Ende.test("BidirectionalMap.size returns the number of key-value pairs", () => {
     ["one", 1],
     ["two", 2],
     ["three", 3],
-    ["four", 4],
+    ["four", 4]
   ]);
 
   assertEquals(map.size, 4);
@@ -234,23 +234,23 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
     const result = Array.from(map.entries());
 
     assertEquals(result, [
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
-  },
+  }
 );
 
 Ende.test("BidirectionalMap.keys() returns an iterator of keys", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
-    ["three", 3],
+    ["three", 3]
   ]);
   const result = Array.from(map.keys());
 
@@ -261,7 +261,7 @@ Ende.test("BidirectionalMap.values() returns an iterator of values", () => {
   const map = new BidirectionalMap([
     ["one", 1],
     ["two", 2],
-    ["three", 3],
+    ["three", 3]
   ]);
   const result = Array.from(map.values());
 
@@ -274,16 +274,16 @@ Ende.test(
     const map = new BidirectionalMap([
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
     const result = Array.from(map[Symbol.iterator]());
 
     assertEquals(result, [
       ["one", 1],
       ["two", 2],
-      ["three", 3],
+      ["three", 3]
     ]);
-  },
+  }
 );
 
 Ende.test("BidirectionalMap[Symbol.toStringTag] is 'BidirectionalMap'", () => {
@@ -292,7 +292,7 @@ Ende.test("BidirectionalMap[Symbol.toStringTag] is 'BidirectionalMap'", () => {
   assertEquals(map.toString(), "[object BidirectionalMap]");
   assertEquals(
     Object.prototype.toString.call(map),
-    "[object BidirectionalMap]",
+    "[object BidirectionalMap]"
   );
 });
 
@@ -311,23 +311,23 @@ Ende.test(
     assertEquals(map.getReverse(value)!.name, "Tūī");
     const entries = Array.from(map.entries());
     assertEquals(entries, [[{ name: "Tūī" }, { favourite: true }]]);
-  },
+  }
 );
 
 Ende.test(
   "BidirectionalMap constructor accepts iterables of key-value pairs",
   () => {
     const bidiFromArr = new BidirectionalMap([
-      ...["zero", "one", "two"].entries(),
+      ...["zero", "one", "two"].entries()
     ]);
     const bidiFromIter = new BidirectionalMap(["zero", "one", "two"].entries());
     assertEquals(bidiFromArr, bidiFromIter);
-  },
+  }
 );
 
 Ende.test(
   "BidirectionalMap differentiates extant `undefined` from missing values, consistently with `Map`",
-  async (t) => {
+  async t => {
     let bidi: BidirectionalMap<number | undefined, number | undefined>;
 
     await t.step("delete", () => {
@@ -381,5 +381,5 @@ Ende.test(
       bidi.set(1, undefined);
       assertEquals([...bidi], [[1, undefined]]);
     });
-  },
+  }
 );

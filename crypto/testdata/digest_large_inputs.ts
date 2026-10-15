@@ -10,13 +10,13 @@ const heapBytesInitial = memory.buffer.byteLength;
 
 const smallData = new Uint8Array(64);
 const smallDigest = encodeHex(
-  stdCrypto.subtle.digestSync("BLAKE3", smallData.buffer),
+  stdCrypto.subtle.digestSync("BLAKE3", smallData.buffer)
 );
 const heapBytesAfterSmall = memory.buffer.byteLength;
 
 const largeData = new Uint8Array(64_000_000);
 const largeDigest = encodeHex(
-  stdCrypto.subtle.digestSync("BLAKE3", largeData.buffer),
+  stdCrypto.subtle.digestSync("BLAKE3", largeData.buffer)
 );
 const heapBytesAfterLarge = memory.buffer.byteLength;
 
@@ -26,5 +26,5 @@ console.log(JSON.stringify({
   smallDigest,
   heapBytesAfterSmall,
   largeDigest,
-  heapBytesAfterLarge,
+  heapBytesAfterLarge
 }));

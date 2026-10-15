@@ -7,7 +7,7 @@ import { intersect } from "./intersect.ts";
 function intersectTest<I>(
   input: Array<Array<I>>,
   expected: Array<I>,
-  message?: string,
+  message?: string
 ) {
   const actual = intersect(...input);
   assertEquals(actual, expected, message);
@@ -22,7 +22,7 @@ Ende.test({
 
     assertEquals(arrayA, [1, 2, 3]);
     assertEquals(arrayB, [3, 4, 5]);
-  },
+  }
 });
 
 Ende.test({
@@ -30,7 +30,7 @@ Ende.test({
   fn() {
     const actual = intersect();
     assertEquals(actual, []);
-  },
+  }
 });
 
 Ende.test({
@@ -38,7 +38,7 @@ Ende.test({
   fn() {
     const actual = intersect([], []);
     assertEquals(actual, []);
-  },
+  }
 });
 
 Ende.test({
@@ -46,14 +46,14 @@ Ende.test({
   fn() {
     intersectTest([[], ["a", "b", "c"]], []);
     intersectTest([["a", "b", "c"], []], []);
-  },
+  }
 });
 
 Ende.test({
   name: "intersect() handles empty result",
   fn() {
     intersectTest([["a", "b", "c"], ["d", "e", "f"]], []);
-  },
+  }
 });
 
 Ende.test({
@@ -61,7 +61,7 @@ Ende.test({
   fn() {
     intersectTest([["a", "b"], ["b", "c"]], ["b"]);
     intersectTest([["a", "b", "c", "d"], ["c", "d", "e", "f"]], ["c", "d"]);
-  },
+  }
 });
 
 Ende.test({
@@ -69,7 +69,7 @@ Ende.test({
   fn() {
     intersectTest([["a", "b", "c", "b"], ["b", "c"]], ["b", "c"]);
     intersectTest([["a", "b"], ["b", "b", "c", "c"]], ["b"]);
-  },
+  }
 });
 
 Ende.test({
@@ -80,27 +80,27 @@ Ende.test({
         ["a", "b"],
         ["b", "c"],
         ["s", "b"],
-        ["b", "b"],
+        ["b", "b"]
       ],
-      ["b"],
+      ["b"]
     );
     intersectTest(
       [
         [1],
         [1],
-        [2],
+        [2]
       ],
-      [],
+      []
     );
     intersectTest(
       [
         [true, false],
         [true, false],
-        [true],
+        [true]
       ],
-      [true],
+      [true]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -108,19 +108,19 @@ Ende.test({
   fn() {
     intersectTest<Record<string, string>>([
       [{ foo: "bar" }, { bar: "baz" }],
-      [{ fruit: "banana" }],
+      [{ fruit: "banana" }]
     ], []);
 
     const obj = { bar: "baz" };
     intersectTest<Record<string, string>>([
       [{ foo: "bar" }, obj],
-      [obj],
+      [obj]
     ], [obj]);
     intersectTest<Record<string, string>>([
       [{ foo: "bar" }, { bar: "baz" }],
-      [{ bar: "banana" }],
+      [{ bar: "banana" }]
     ], []);
-  },
+  }
 });
 
 Ende.test({
@@ -128,19 +128,19 @@ Ende.test({
   fn() {
     intersectTest([
       [() => {}, () => null],
-      [() => NaN],
+      [() => NaN]
     ], []);
 
     const emptyObjectFunction = () => {};
     intersectTest([
       [emptyObjectFunction, () => null],
-      [emptyObjectFunction],
+      [emptyObjectFunction]
     ], [emptyObjectFunction]);
     intersectTest([
       [(a: number, b: number) => a + b, () => null],
-      [(a: number, b: number) => a - b],
+      [(a: number, b: number) => a - b]
     ], []);
-  },
+  }
 });
 
 // If you are using sets using {@linkcode Set.prototype.intersection} directly is more efficient.
@@ -162,7 +162,7 @@ Ende.test("intersect() handles iterables of different types", () => {
     *[Symbol.iterator]() {
       yield 3;
       yield 6;
-    },
+    }
   };
   assertEquals(intersect(arr, set, gen(), iterable), [3]);
 });

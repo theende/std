@@ -53,7 +53,7 @@ Ende.test(
     await assertRejects(async () => {
       await symlink(existingFile, existingSymlink);
     }, AlreadyExists);
-  },
+  }
 );
 
 Ende.test(
@@ -74,7 +74,7 @@ Ende.test(
 
     tempFd.close();
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test("symlinkSync() creates a link to a directory", () => {
@@ -103,5 +103,5 @@ Ende.test(
     assertThrows(() => {
       symlinkSync(existingFile, existingSymlink);
     }, AlreadyExists);
-  },
+  }
 );

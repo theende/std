@@ -2,7 +2,7 @@
 // Copyright 2026 the Ende authors. MIT license.
 
 import { assertEquals, assertThrows } from "@ende/assert";
-import { type XmlTokenCallbacks, XmlTokenizer } from "./_tokenizer.ts";
+import { XmlTokenizer, type XmlTokenCallbacks } from "./_tokenizer.ts";
 import { XmlSyntaxError } from "./types.ts";
 
 /** Token type for testing - recreates the old token structure for assertions. */
@@ -18,7 +18,7 @@ interface XmlToken {
   publicId?: string;
   systemId?: string;
   selfClosing?: boolean;
-  position?: { line: number; column: number; offset: number };
+  position?: { line: number; column: number; offset: number; };
 }
 
 /** Creates callbacks that collect tokens into an array. */
@@ -32,7 +32,7 @@ function createCollector(): {
       tokens.push({
         type: "start_tag_open",
         name,
-        position: { line, column, offset },
+        position: { line, column, offset }
       });
     },
     onAttribute(name, value) {
@@ -45,28 +45,28 @@ function createCollector(): {
       tokens.push({
         type: "end_tag",
         name,
-        position: { line, column, offset },
+        position: { line, column, offset }
       });
     },
     onText(content, line, column, offset) {
       tokens.push({
         type: "text",
         content,
-        position: { line, column, offset },
+        position: { line, column, offset }
       });
     },
     onCData(content, line, column, offset) {
       tokens.push({
         type: "cdata",
         content,
-        position: { line, column, offset },
+        position: { line, column, offset }
       });
     },
     onComment(content, line, column, offset) {
       tokens.push({
         type: "comment",
         content,
-        position: { line, column, offset },
+        position: { line, column, offset }
       });
     },
     onProcessingInstruction(target, content, line, column, offset) {
@@ -74,7 +74,7 @@ function createCollector(): {
         type: "processing_instruction",
         target,
         content,
-        position: { line, column, offset },
+        position: { line, column, offset }
       });
     },
     onDeclaration(version, encoding, standalone, line, column, offset) {
@@ -83,7 +83,7 @@ function createCollector(): {
         version,
         ...(encoding !== undefined ? { encoding } : {}),
         ...(standalone !== undefined ? { standalone } : {}),
-        position: { line, column, offset },
+        position: { line, column, offset }
       } as XmlToken);
     },
     onDoctype(name, publicId, systemId, line, column, offset) {
@@ -92,9 +92,9 @@ function createCollector(): {
         name,
         ...(publicId !== undefined ? { publicId } : {}),
         ...(systemId !== undefined ? { systemId } : {}),
-        position: { line, column, offset },
+        position: { line, column, offset }
       } as XmlToken);
-    },
+    }
   };
   return { tokens, callbacks };
 }
@@ -121,9 +121,9 @@ function collectChunkedTokens(...chunks: string[]): XmlToken[] {
 
 /** Type predicate for filtering tokens by type. */
 function isTokenType<T extends string>(
-  type: T,
-): (token: XmlToken) => token is XmlToken & { type: T } {
-  return (token): token is XmlToken & { type: T } => token.type === type;
+  type: T
+): (token: XmlToken) => token is XmlToken & { type: T; } {
+  return (token): token is XmlToken & { type: T; } => token.type === type;
 }
 
 // =============================================================================
@@ -171,7 +171,7 @@ Ende.test("XmlTokenizer.process() handles nested elements", () => {
 // =============================================================================
 
 Ende.test("XmlTokenizer.process() handles single attribute", () => {
-  const tokens = collectTokens('<item id="123"/>');
+  const tokens = collectTokens("<item id=\"123\"/>");
   assertEquals(tokens.length, 3);
   assertEquals(tokens[1]?.type, "attribute");
   assertEquals(tokens[1]?.name, "id");
@@ -179,7 +179,7 @@ Ende.test("XmlTokenizer.process() handles single attribute", () => {
 });
 
 Ende.test("XmlTokenizer.process() handles multiple attributes", () => {
-  const tokens = collectTokens('<item id="1" name="test"/>');
+  const tokens = collectTokens("<item id=\"1\" name=\"test\"/>");
   const attrs = tokens.filter(isTokenType("attribute"));
   assertEquals(attrs.length, 2);
   assertEquals(attrs[0]?.name, "id");
@@ -188,20 +188,20 @@ Ende.test("XmlTokenizer.process() handles multiple attributes", () => {
 
 Ende.test("XmlTokenizer.process() handles single-quoted attributes", () => {
   const tokens = collectTokens("<item id='123'/>");
-  const attr = tokens.find((t) => t.type === "attribute");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.value, "123");
 });
 
 Ende.test("XmlTokenizer.process() handles attributes with entities", () => {
-  const tokens = collectTokens('<item value="a&lt;b"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<item value=\"a&lt;b\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   // Tokenizer does NOT decode entities - that's the parser's job
   assertEquals(attr?.value, "a&lt;b");
 });
 
 Ende.test("XmlTokenizer.process() handles namespaced attributes", () => {
-  const tokens = collectTokens('<item xml:lang="en"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<item xml:lang=\"en\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.name, "xml:lang");
 });
 
@@ -211,13 +211,13 @@ Ende.test("XmlTokenizer.process() handles namespaced attributes", () => {
 
 Ende.test("XmlTokenizer.process() handles text content", () => {
   const tokens = collectTokens("<root>Hello World</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "Hello World");
 });
 
 Ende.test("XmlTokenizer.process() handles text with entities", () => {
   const tokens = collectTokens("<root>&lt;test&gt;</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   // Tokenizer does NOT decode entities
   assertEquals(text?.content, "&lt;test&gt;");
 });
@@ -236,19 +236,19 @@ Ende.test("XmlTokenizer.process() handles multiple text nodes", () => {
 
 Ende.test("XmlTokenizer.process() handles CDATA section", () => {
   const tokens = collectTokens("<root><![CDATA[<script>]]></root>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "<script>");
 });
 
 Ende.test("XmlTokenizer.process() handles CDATA with special chars", () => {
   const tokens = collectTokens("<r><![CDATA[a & b < c]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a & b < c");
 });
 
 Ende.test("XmlTokenizer.process() handles CDATA with ]] inside", () => {
   const tokens = collectTokens("<r><![CDATA[a]]b]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a]]b");
 });
 
@@ -258,19 +258,19 @@ Ende.test("XmlTokenizer.process() handles CDATA with ]] inside", () => {
 
 Ende.test("XmlTokenizer.process() handles comment", () => {
   const tokens = collectTokens("<root><!-- comment --></root>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, " comment ");
 });
 
 Ende.test("XmlTokenizer.process() handles empty comment", () => {
   const tokens = collectTokens("<root><!----></root>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "");
 });
 
 Ende.test("XmlTokenizer.process() handles comment with dashes", () => {
   const tokens = collectTokens("<root><!-- a-b-c --></root>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, " a-b-c ");
 });
 
@@ -280,14 +280,14 @@ Ende.test("XmlTokenizer.process() handles comment with dashes", () => {
 
 Ende.test("XmlTokenizer.process() handles processing instruction", () => {
   const tokens = collectTokens("<?php echo 'hi'; ?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "php");
   assertEquals(pi?.content, "echo 'hi';");
 });
 
 Ende.test("XmlTokenizer.process() handles empty processing instruction", () => {
   const tokens = collectTokens("<?target?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "target");
   assertEquals(pi?.content, "");
 });
@@ -297,33 +297,33 @@ Ende.test("XmlTokenizer.process() handles empty processing instruction", () => {
 // =============================================================================
 
 Ende.test("XmlTokenizer.process() handles XML declaration", () => {
-  const tokens = collectTokens('<?xml version="1.0"?><root/>');
-  const decl = tokens.find((t) => t.type === "declaration");
+  const tokens = collectTokens("<?xml version=\"1.0\"?><root/>");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
 });
 
 Ende.test("XmlTokenizer.process() handles XML declaration with encoding", () => {
   const tokens = collectTokens(
-    '<?xml version="1.0" encoding="UTF-8"?><root/>',
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>"
   );
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
   assertEquals(decl?.encoding, "UTF-8");
 });
 
 Ende.test("XmlTokenizer.process() handles XML declaration with standalone", () => {
   const tokens = collectTokens(
-    '<?xml version="1.0" standalone="yes"?><root/>',
+    "<?xml version=\"1.0\" standalone=\"yes\"?><root/>"
   );
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.standalone, "yes");
 });
 
 Ende.test("XmlTokenizer.process() handles full XML declaration", () => {
   const tokens = collectTokens(
-    '<?xml version="1.0" encoding="UTF-8" standalone="no"?><root/>',
+    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><root/>"
   );
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
   assertEquals(decl?.encoding, "UTF-8");
   assertEquals(decl?.standalone, "no");
@@ -335,13 +335,13 @@ Ende.test("XmlTokenizer.process() handles full XML declaration", () => {
 
 Ende.test("XmlTokenizer.process() normalizes CRLF to LF", () => {
   const tokens = collectTokens("<root>a\r\nb</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "a\nb");
 });
 
 Ende.test("XmlTokenizer.process() normalizes CR to LF", () => {
   const tokens = collectTokens("<root>a\rb</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "a\nb");
 });
 
@@ -352,7 +352,7 @@ Ende.test("XmlTokenizer.process() normalizes CR to LF", () => {
 Ende.test("XmlTokenizer.process() tracks position correctly", () => {
   const tokens = collectTokens("<root>\n  <item/>\n</root>");
   const item = tokens.find(
-    (t) => t.type === "start_tag_open" && t.name === "item",
+    t => t.type === "start_tag_open" && t.name === "item"
   );
   assertEquals(item?.position?.line, 2);
   assertEquals(item?.position?.column, 3);
@@ -365,7 +365,7 @@ Ende.test("XmlTokenizer.process() tracks position correctly", () => {
 Ende.test("XmlTokenizer.process() throws on unexpected character in tag", () => {
   assertThrows(
     () => collectTokens("<root<>"),
-    XmlSyntaxError,
+    XmlSyntaxError
   );
 });
 
@@ -373,15 +373,15 @@ Ende.test("XmlTokenizer.process() throws on unclosed tag", () => {
   assertThrows(
     () => collectTokens("<root"),
     XmlSyntaxError,
-    "Unexpected end of input",
+    "Unexpected end of input"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on < in attribute value", () => {
   assertThrows(
-    () => collectTokens('<root attr="<">'),
+    () => collectTokens("<root attr=\"<\">"),
     XmlSyntaxError,
-    "Cannot use '<' in attribute value",
+    "Cannot use '<' in attribute value"
   );
 });
 
@@ -401,13 +401,13 @@ Ende.test("XmlTokenizer.process() handles namespaced element", () => {
 
 Ende.test("XmlTokenizer.process() preserves whitespace in text", () => {
   const tokens = collectTokens("<root>  spaced  </root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "  spaced  ");
 });
 
 Ende.test("XmlTokenizer.process() handles whitespace-only text", () => {
   const tokens = collectTokens("<root>   </root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "   ");
 });
 
@@ -417,15 +417,15 @@ Ende.test("XmlTokenizer.process() handles whitespace-only text", () => {
 
 Ende.test("XmlTokenizer.process() handles Unicode in element names", () => {
   const tokens = collectTokens("<日本語></日本語>");
-  const open = tokens.find((t) => t.type === "start_tag_open");
-  const end = tokens.find((t) => t.type === "end_tag");
+  const open = tokens.find(t => t.type === "start_tag_open");
+  const end = tokens.find(t => t.type === "end_tag");
   assertEquals(open?.name, "日本語");
   assertEquals(end?.name, "日本語");
 });
 
 Ende.test("XmlTokenizer.process() handles Unicode in attribute values", () => {
-  const tokens = collectTokens('<item name="日本語"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<item name=\"日本語\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.value, "日本語");
 });
 
@@ -445,25 +445,25 @@ Ende.test("XmlTokenizer.process() handles deeply nested elements", () => {
 
 Ende.test("XmlTokenizer.process() handles chunk boundary in tag name", () => {
   const tokens = collectChunkedTokens("<ro", "ot/>");
-  const open = tokens.find((t) => t.type === "start_tag_open");
+  const open = tokens.find(t => t.type === "start_tag_open");
   assertEquals(open?.name, "root");
 });
 
 Ende.test("XmlTokenizer.process() handles chunk boundary in attribute value", () => {
-  const tokens = collectChunkedTokens('<item attr="val', 'ue"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectChunkedTokens("<item attr=\"val", "ue\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.value, "value");
 });
 
 Ende.test("XmlTokenizer.process() handles chunk boundary in CDATA", () => {
   const tokens = collectChunkedTokens("<r><![CDA", "TA[content]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "content");
 });
 
 Ende.test("XmlTokenizer.process() handles chunk boundary in comment", () => {
   const tokens = collectChunkedTokens("<r><!--com", "ment--></r>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "comment");
 });
 
@@ -479,20 +479,20 @@ Ende.test("XmlTokenizer.process() handles simple DOCTYPE", () => {
 
 Ende.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC identifier", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html></html>',
+    "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html></html>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.name, "html");
   assertEquals(tokens[0]?.publicId, "-//W3C//DTD XHTML 1.0 Strict//EN");
   assertEquals(
     tokens[0]?.systemId,
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd",
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
   );
 });
 
 Ende.test("XmlTokenizer.process() handles DOCTYPE with SYSTEM identifier", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE greeting SYSTEM "hello.dtd"><greeting></greeting>',
+    "<!DOCTYPE greeting SYSTEM \"hello.dtd\"><greeting></greeting>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.name, "greeting");
@@ -502,7 +502,7 @@ Ende.test("XmlTokenizer.process() handles DOCTYPE with SYSTEM identifier", () =>
 
 Ende.test("XmlTokenizer.process() handles DOCTYPE with internal subset", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE root [<!ELEMENT root (#PCDATA)><!ENTITY greeting "Hello">]><root></root>',
+    "<!DOCTYPE root [<!ELEMENT root (#PCDATA)><!ENTITY greeting \"Hello\">]><root></root>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.name, "root");
@@ -528,7 +528,7 @@ Ende.test("XmlTokenizer.process() handles self-closing tag with / and > in separ
 
 Ende.test("XmlTokenizer.process() handles comment ending -- and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<r><!-- hello --", "></r>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, " hello ");
 });
 
@@ -536,7 +536,7 @@ Ende.test("XmlTokenizer.process() throws on -- inside comment", () => {
   assertThrows(
     () => collectTokens("<r><!-- a--b --></r>"),
     XmlSyntaxError,
-    "Cannot use '--' within comments",
+    "Cannot use '--' within comments"
   );
 });
 
@@ -548,7 +548,7 @@ Ende.test("XmlTokenizer.process() throws on unclosed comment", () => {
   assertThrows(
     () => collectTokens("<root><!-- unclosed"),
     XmlSyntaxError,
-    "Unterminated comment",
+    "Unterminated comment"
   );
 });
 
@@ -556,15 +556,15 @@ Ende.test("XmlTokenizer.process() throws on unclosed CDATA", () => {
   assertThrows(
     () => collectTokens("<root><![CDATA[unclosed"),
     XmlSyntaxError,
-    "Unterminated CDATA",
+    "Unterminated CDATA"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on unclosed attribute value", () => {
   assertThrows(
-    () => collectTokens('<root attr="unclosed'),
+    () => collectTokens("<root attr=\"unclosed"),
     XmlSyntaxError,
-    "Unterminated attribute value",
+    "Unterminated attribute value"
   );
 });
 
@@ -574,21 +574,21 @@ Ende.test("XmlTokenizer.process() throws on unclosed attribute value", () => {
 
 Ende.test("XmlTokenizer.process() handles XML declaration with single quotes", () => {
   const tokens = collectTokens("<?xml version='1.0'?><root/>");
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
 });
 
 Ende.test("XmlTokenizer.process() rejects reserved PI target case variants (XML 1.0 §2.6)", () => {
   // XML 1.0 §2.6: "xml" target must be lowercase; case variants are reserved
   assertThrows(
-    () => collectTokens('<?XML version="1.0"?><root/>'),
+    () => collectTokens("<?XML version=\"1.0\"?><root/>"),
     XmlSyntaxError,
-    "'XML' is reserved; 'xml' must be lowercase",
+    "'XML' is reserved; 'xml' must be lowercase"
   );
   assertThrows(
-    () => collectTokens('<?xMl version="1.0"?><root/>'),
+    () => collectTokens("<?xMl version=\"1.0\"?><root/>"),
     XmlSyntaxError,
-    "'xMl' is reserved; 'xml' must be lowercase",
+    "'xMl' is reserved; 'xml' must be lowercase"
   );
 });
 
@@ -599,7 +599,7 @@ Ende.test("XmlTokenizer.process() rejects reserved PI target case variants (XML 
 Ende.test("XmlTokenizer.process() tracks position correctly with CRLF", () => {
   const tokens = collectTokens("<root>\r\n  <item/>\r\n</root>");
   const item = tokens.find(
-    (t) => t.type === "start_tag_open" && t.name === "item",
+    t => t.type === "start_tag_open" && t.name === "item"
   );
   assertEquals(item?.position?.line, 2);
   assertEquals(item?.position?.column, 3);
@@ -608,7 +608,7 @@ Ende.test("XmlTokenizer.process() tracks position correctly with CRLF", () => {
 Ende.test("XmlTokenizer.process() tracks offset correctly", () => {
   const tokens = collectTokens("<a><b/></a>");
   const b = tokens.find(
-    (t) => t.type === "start_tag_open" && t.name === "b",
+    t => t.type === "start_tag_open" && t.name === "b"
   );
   assertEquals(b?.position?.offset, 3);
 });
@@ -619,13 +619,13 @@ Ende.test("XmlTokenizer.process() tracks offset correctly", () => {
 
 Ende.test("XmlTokenizer.process() handles CDATA with ] and ]> in separate chunks", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[foo]", "]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "foo");
 });
 
 Ende.test("XmlTokenizer.process() handles CDATA with ]] and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[bar]]", "></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "bar");
 });
 
@@ -635,17 +635,17 @@ Ende.test("XmlTokenizer.process() handles CDATA with ]] and > in separate chunks
 
 Ende.test("XmlTokenizer.process() handles PI with ? and > in separate chunks", () => {
   const tokens = collectChunkedTokens("<?php echo 'hi'; ?", "><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "php");
   assertEquals(pi?.content, "echo 'hi';");
 });
 
 Ende.test("XmlTokenizer.process() handles XML declaration with ? and > in separate chunks", () => {
   const tokens = collectChunkedTokens(
-    '<?xml version="1.0" encoding="UTF-8"?',
-    "><root/>",
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?",
+    "><root/>"
   );
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
   assertEquals(decl?.encoding, "UTF-8");
 });
@@ -661,7 +661,7 @@ Ende.test("XmlTokenizer.finalize() throws for input ending with <", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unexpected end of input after '<'",
+    "Unexpected end of input after '<'"
   );
 });
 
@@ -672,7 +672,7 @@ Ende.test("XmlTokenizer.finalize() throws for unclosed PI content", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated processing instruction",
+    "Unterminated processing instruction"
   );
 });
 
@@ -683,7 +683,7 @@ Ende.test("XmlTokenizer.finalize() throws for unclosed DOCTYPE", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated DOCTYPE",
+    "Unterminated DOCTYPE"
   );
 });
 
@@ -708,15 +708,15 @@ Ende.test("XmlTokenizer.process() handles end tag with multiple whitespace befor
 // =============================================================================
 
 Ende.test("XmlTokenizer.process() handles whitespace around attribute =", () => {
-  const tokens = collectTokens('<item attr = "value"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<item attr = \"value\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.name, "attr");
   assertEquals(attr?.value, "value");
 });
 
 Ende.test("XmlTokenizer.process() handles whitespace before attribute value", () => {
-  const tokens = collectTokens('<item attr=  "value"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<item attr=  \"value\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.value, "value");
 });
 
@@ -726,14 +726,14 @@ Ende.test("XmlTokenizer.process() handles whitespace before attribute value", ()
 
 Ende.test("XmlTokenizer.process() handles PI target split across chunks", () => {
   const tokens = collectChunkedTokens("<?tar", "get content?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "target");
   assertEquals(pi?.content, "content");
 });
 
 Ende.test("XmlTokenizer.process() handles PI content split across chunks", () => {
   const tokens = collectChunkedTokens("<?php echo ", "'hello';?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "php");
   assertEquals(pi?.content, "echo 'hello';");
 });
@@ -750,12 +750,8 @@ Ende.test("XmlTokenizer with trackPosition: false uses default positions", () =>
 
   // When tracking is disabled, all tokens receive default positions (1, 1, 0)
   // regardless of their actual location in the document
-  const root = tokens.find((t) =>
-    t.type === "start_tag_open" && t.name === "root"
-  );
-  const item = tokens.find((t) =>
-    t.type === "start_tag_open" && t.name === "item"
-  );
+  const root = tokens.find(t => t.type === "start_tag_open" && t.name === "root");
+  const item = tokens.find(t => t.type === "start_tag_open" && t.name === "item");
   assertEquals(root?.position?.line, 1);
   assertEquals(item?.position?.line, 1); // Would be 2 with tracking enabled
   assertEquals(item?.position?.column, 1); // Would be 3 with tracking enabled
@@ -769,7 +765,7 @@ Ende.test("XmlTokenizer.process() throws on < in single-quoted attribute value",
   assertThrows(
     () => collectTokens("<root attr='<'/>"),
     XmlSyntaxError,
-    "Cannot use '<' in attribute value",
+    "Cannot use '<' in attribute value"
   );
 });
 
@@ -777,7 +773,7 @@ Ende.test("XmlTokenizer.process() throws on invalid character in end tag", () =>
   assertThrows(
     () => collectTokens("<root></@>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -785,7 +781,7 @@ Ende.test("XmlTokenizer.process() throws on expected > after / in self-closing",
   assertThrows(
     () => collectTokens("<item/ >"),
     XmlSyntaxError,
-    "Expected '>' after '/'",
+    "Expected '>' after '/'"
   );
 });
 
@@ -797,7 +793,7 @@ Ende.test("XmlTokenizer.process() throws on -- not followed by > in comment", ()
   assertThrows(
     () => collectTokens("<r><!--a--b--></r>"),
     XmlSyntaxError,
-    "Cannot use '--' within comments",
+    "Cannot use '--' within comments"
   );
 });
 
@@ -805,7 +801,7 @@ Ende.test("XmlTokenizer.process() throws on -- at chunk boundary in comment", ()
   assertThrows(
     () => collectChunkedTokens("<r><!--a-", "-b--></r>"),
     XmlSyntaxError,
-    "Cannot use '--' within comments",
+    "Cannot use '--' within comments"
   );
 });
 
@@ -815,7 +811,7 @@ Ende.test("XmlTokenizer.process() rejects single - before --> in comment", () =>
   assertThrows(
     () => collectChunkedTokens("<r><!--test-", "--></r>"),
     XmlSyntaxError,
-    "Cannot use '-' immediately before '-->'",
+    "Cannot use '-' immediately before '-->'"
   );
 });
 
@@ -825,25 +821,25 @@ Ende.test("XmlTokenizer.process() rejects single - before --> in comment", () =>
 
 Ende.test("XmlTokenizer.process() handles ] not followed by ]> in CDATA", () => {
   const tokens = collectTokens("<r><![CDATA[a]b]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a]b");
 });
 
 Ende.test("XmlTokenizer.process() handles ]] not followed by > in CDATA", () => {
   const tokens = collectTokens("<r><![CDATA[a]]b]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a]]b");
 });
 
 Ende.test("XmlTokenizer.process() handles ] at chunk boundary in CDATA", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[a]", "b]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a]b");
 });
 
 Ende.test("XmlTokenizer.process() handles ]] at chunk boundary not followed by >", () => {
   const tokens = collectChunkedTokens("<r><![CDATA[a]]", "b]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a]]b");
 });
 
@@ -853,26 +849,26 @@ Ende.test("XmlTokenizer.process() handles ]] at chunk boundary not followed by >
 
 Ende.test("XmlTokenizer.process() handles ? not followed by > in PI", () => {
   const tokens = collectTokens("<?php echo '?'; ?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "echo '?';");
 });
 
 Ende.test("XmlTokenizer.process() handles multiple ? in PI content", () => {
   const tokens = collectTokens("<?php ??? ?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "???");
 });
 
 Ende.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
   const tokens = collectChunkedTokens("<?php test?", " more?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "test? more");
 });
 
 Ende.test("XmlTokenizer.process() handles empty PI target with immediate ?>", () => {
   // This tests the PI_AFTER_TARGET state with immediate close
   const tokens = collectTokens("<?x?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "x");
   assertEquals(pi?.content, "");
 });
@@ -883,7 +879,7 @@ Ende.test("XmlTokenizer.process() handles empty PI target with immediate ?>", ()
 
 Ende.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC ID only (no SYSTEM)", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>',
+    "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"><html></html>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.publicId, "-//W3C//DTD HTML 4.01//EN");
@@ -892,7 +888,7 @@ Ende.test("XmlTokenizer.process() handles DOCTYPE with PUBLIC ID only (no SYSTEM
 
 Ende.test("XmlTokenizer.process() handles DOCTYPE with internal subset bracket", () => {
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ENTITY test 'value'>]><root/>",
+    "<!DOCTYPE root [<!ENTITY test 'value'>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.name, "root");
@@ -906,7 +902,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char after tag name", () 
   assertThrows(
     () => collectTokens("<root@/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -914,7 +910,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in attribute name", 
   assertThrows(
     () => collectTokens("<root attr@='val'/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -922,7 +918,7 @@ Ende.test("XmlTokenizer.process() throws on invalid DOCTYPE spelling", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPO root><root/>"),
     XmlSyntaxError,
-    "Expected DOCTYPE",
+    "Expected DOCTYPE"
   );
 });
 
@@ -930,7 +926,7 @@ Ende.test("XmlTokenizer.process() throws on invalid CDATA start", () => {
   assertThrows(
     () => collectTokens("<root><![CDATX[test]]></root>"),
     XmlSyntaxError,
-    "Expected 'CDATA['",
+    "Expected 'CDATA['"
   );
 });
 
@@ -938,7 +934,7 @@ Ende.test("XmlTokenizer.process() throws on missing second - to start comment", 
   assertThrows(
     () => collectTokens("<root><!-x></root>"),
     XmlSyntaxError,
-    "Expected '-' to start comment",
+    "Expected '-' to start comment"
   );
 });
 
@@ -946,16 +942,16 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in end tag after whi
   assertThrows(
     () => collectTokens("<root></root @>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on invalid PUBLIC spelling", () => {
   // "PUBLIX" doesn't start with "PUBLIC" after 5 chars
   assertThrows(
-    () => collectTokens('<!DOCTYPE html PUBLIX "-//W3C//"><html/>'),
+    () => collectTokens("<!DOCTYPE html PUBLIX \"-//W3C//\"><html/>"),
     XmlSyntaxError,
-    "Expected PUBLIC",
+    "Expected PUBLIC"
   );
 });
 
@@ -963,7 +959,7 @@ Ende.test("XmlTokenizer.process() throws on invalid char in PI target", () => {
   assertThrows(
     () => collectTokens("<?tar@get ?><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -972,7 +968,7 @@ Ende.test("XmlTokenizer.process() throws on expected > after ? in PI target", ()
   assertThrows(
     () => collectTokens("<?x?y><root/>"),
     XmlSyntaxError,
-    "Expected '>' after '?'",
+    "Expected '>' after '?'"
   );
 });
 
@@ -985,21 +981,21 @@ Ende.test("XmlTokenizer.process() rejects XML declaration without version", () =
   assertThrows(
     () => collectTokens("<?xml?><root/>"),
     XmlSyntaxError,
-    "Missing required 'version' attribute",
+    "Missing required 'version' attribute"
   );
 });
 
 Ende.test("XmlTokenizer.process() handles ]]] sequence in CDATA", () => {
   // Tests CDATA with consecutive ] characters where one starts new close attempt
   const tokens = collectTokens("<r><![CDATA[a]]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "a]");
 });
 
 Ende.test("XmlTokenizer.process() handles PI with ?? followed by >", () => {
   // Tests consecutive ? in PI content
   const tokens = collectTokens("<?php test??><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "test?");
 });
 
@@ -1007,7 +1003,7 @@ Ende.test("XmlTokenizer.process() throws on unsupported markup <!ENTITY", () => 
   assertThrows(
     () => collectTokens("<root><!ENTITY test 'value'></root>"),
     XmlSyntaxError,
-    "Unsupported markup declaration",
+    "Unsupported markup declaration"
   );
 });
 
@@ -1021,26 +1017,26 @@ Ende.test("XmlTokenizer.process() handles DOCTYPE with direct internal subset", 
 Ende.test("XmlTokenizer.process() handles comment - at chunk boundary followed by non-dash", () => {
   // Single - at chunk boundary, next char is not -
   const tokens = collectChunkedTokens("<r><!-", "- test --></r>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, " test ");
 });
 
 Ende.test("XmlTokenizer.process() handles multiline comment for position tracking", () => {
   // Multi-line content to hit #updatePositionForRegion newline tracking
   const tokens = collectTokens("<r><!--\nline2\nline3--></r>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "\nline2\nline3");
 });
 
 Ende.test("XmlTokenizer.process() handles multiline CDATA for position tracking", () => {
   const tokens = collectTokens("<r><![CDATA[\nline2\nline3]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "\nline2\nline3");
 });
 
 Ende.test("XmlTokenizer.process() handles multiline PI for position tracking", () => {
   const tokens = collectTokens("<?php\nline2\nline3?><root/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "line2\nline3");
 });
 
@@ -1050,8 +1046,8 @@ Ende.test("XmlTokenizer.process() handles multiline PI for position tracking", (
 
 Ende.test("XmlTokenizer.process() handles attribute name split across chunks", () => {
   // Tests partial attribute name handling at buffer boundary
-  const tokens = collectChunkedTokens("<root attr", 'ibute="value"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectChunkedTokens("<root attr", "ibute=\"value\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.name, "attribute");
   assertEquals(attr?.value, "value");
 });
@@ -1059,30 +1055,30 @@ Ende.test("XmlTokenizer.process() handles attribute name split across chunks", (
 Ende.test("XmlTokenizer.process() handles single dash in comment content", () => {
   // Tests COMMENT state handling single dash followed by non-dash
   const tokens = collectTokens("<root><!-- a-b-c --></root>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, " a-b-c ");
 });
 
 Ende.test("XmlTokenizer.process() handles dash at end of comment content chunk", () => {
   // Tests COMMENT_DASH state: dash followed by non-dash char
   const tokens = collectChunkedTokens("<root><!--test-", "x--></root>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "test-x");
 });
 
 Ende.test("XmlTokenizer.process() handles declaration with single-quoted standalone", () => {
   // Tests single quote variants in declaration parsing
   const tokens = collectTokens("<?xml version='1.0' standalone='yes'?><root/>");
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.version, "1.0");
   assertEquals(decl?.standalone, "yes");
 });
 
 Ende.test("XmlTokenizer.process() handles declaration with single-quoted encoding", () => {
   const tokens = collectTokens(
-    "<?xml version='1.0' encoding='ISO-8859-1'?><root/>",
+    "<?xml version='1.0' encoding='ISO-8859-1'?><root/>"
   );
-  const decl = tokens.find((t) => t.type === "declaration");
+  const decl = tokens.find(t => t.type === "declaration");
   assertEquals(decl?.encoding, "ISO-8859-1");
 });
 
@@ -1095,7 +1091,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in end tag", () => {
   assertThrows(
     () => collectTokens("<root></root@>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -1104,7 +1100,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char after tag name", () 
   assertThrows(
     () => collectTokens("<root @/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -1113,7 +1109,7 @@ Ende.test("XmlTokenizer.process() throws on invalid char after attribute name wh
   assertThrows(
     () => collectTokens("<root attr @/>"),
     XmlSyntaxError,
-    "Expected '=' after attribute name",
+    "Expected '=' after attribute name"
   );
 });
 
@@ -1122,7 +1118,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char after <", () => {
   assertThrows(
     () => collectTokens("<root><@invalid/></root>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -1133,14 +1129,14 @@ Ende.test("XmlTokenizer.process() throws on unexpected char after <", () => {
 Ende.test("XmlTokenizer.process() handles ] at chunk boundary in CDATA", () => {
   // Tests CDATA state handling single ] followed by non-] character
   const tokens = collectChunkedTokens("<r><![CDATA[test]", "x]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "test]x");
 });
 
 Ende.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
   // Tests PI_CONTENT state handling ? followed by non-> character
   const tokens = collectChunkedTokens("<?php test?", "x?><r/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "test?x");
 });
 
@@ -1151,7 +1147,7 @@ Ende.test("XmlTokenizer.process() handles ? at chunk boundary in PI", () => {
 Ende.test("XmlTokenizer.process() handles comment inside DOCTYPE internal subset", () => {
   // Tests DTD_COMMENT_START, DTD_COMMENT, DTD_COMMENT_DASH, DTD_COMMENT_DASH_DASH states
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!-- DTD comment -->]><root/>",
+    "<!DOCTYPE root [<!-- DTD comment -->]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[1]?.type, "start_tag_open");
@@ -1160,7 +1156,7 @@ Ende.test("XmlTokenizer.process() handles comment inside DOCTYPE internal subset
 Ende.test("XmlTokenizer.process() handles comment with dashes inside DOCTYPE internal subset", () => {
   // Tests DTD_COMMENT_DASH state (dash followed by non-dash)
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!-- a-b-c -->]><root/>",
+    "<!DOCTYPE root [<!-- a-b-c -->]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1171,7 +1167,7 @@ Ende.test("XmlTokenizer.process() throws on multiple trailing dashes in DOCTYPE 
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!------>]><root/>"),
     XmlSyntaxError,
-    "Cannot use '--' within XML comments",
+    "Cannot use '--' within XML comments"
   );
 });
 
@@ -1180,7 +1176,7 @@ Ende.test("XmlTokenizer.process() throws on -- in comment inside DOCTYPE", () =>
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!-- a--b -->]><root/>"),
     XmlSyntaxError,
-    "Cannot use '--' within XML comments",
+    "Cannot use '--' within XML comments"
   );
 });
 
@@ -1191,7 +1187,7 @@ Ende.test("XmlTokenizer.finalize() throws on unterminated comment in DOCTYPE", (
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated comment in DOCTYPE",
+    "Unterminated comment in DOCTYPE"
   );
 });
 
@@ -1202,7 +1198,7 @@ Ende.test("XmlTokenizer.finalize() throws on unterminated comment in DOCTYPE", (
 Ende.test("XmlTokenizer.process() handles PI inside DOCTYPE internal subset", () => {
   // Tests DTD_PI and DTD_PI_QUESTION states
   const tokens = collectTokens(
-    "<!DOCTYPE root [<?target content?>]><root/>",
+    "<!DOCTYPE root [<?target content?>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[1]?.type, "start_tag_open");
@@ -1211,7 +1207,7 @@ Ende.test("XmlTokenizer.process() handles PI inside DOCTYPE internal subset", ()
 Ende.test("XmlTokenizer.process() handles PI with ? inside DOCTYPE internal subset", () => {
   // Tests DTD_PI_QUESTION with ? followed by non->
   const tokens = collectTokens(
-    "<!DOCTYPE root [<?target test?content?>]><root/>",
+    "<!DOCTYPE root [<?target test?content?>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1219,7 +1215,7 @@ Ende.test("XmlTokenizer.process() handles PI with ? inside DOCTYPE internal subs
 Ende.test("XmlTokenizer.process() handles PI with multiple ? in DOCTYPE internal subset", () => {
   // Tests DTD_PI_QUESTION staying in state for consecutive ?
   const tokens = collectTokens(
-    "<!DOCTYPE root [<?target ????>]><root/>",
+    "<!DOCTYPE root [<?target ????>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1231,7 +1227,7 @@ Ende.test("XmlTokenizer.finalize() throws on unterminated PI in DOCTYPE", () => 
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated processing instruction in DOCTYPE",
+    "Unterminated processing instruction in DOCTYPE"
   );
 });
 
@@ -1242,7 +1238,7 @@ Ende.test("XmlTokenizer.finalize() throws on unterminated PI in DOCTYPE", () => 
 Ende.test("XmlTokenizer.process() handles parameter entity reference in DOCTYPE", () => {
   // Tests DTD_PE_REF state
   const tokens = collectTokens(
-    "<!DOCTYPE root [%entity;]><root/>",
+    "<!DOCTYPE root [%entity;]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[1]?.type, "start_tag_open");
@@ -1251,7 +1247,7 @@ Ende.test("XmlTokenizer.process() handles parameter entity reference in DOCTYPE"
 Ende.test("XmlTokenizer.process() handles parameter entity with long name in DOCTYPE", () => {
   // Tests DTD_PE_REF state with multiple name characters
   const tokens = collectTokens(
-    "<!DOCTYPE root [%longEntityName123;]><root/>",
+    "<!DOCTYPE root [%longEntityName123;]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1260,7 +1256,7 @@ Ende.test("XmlTokenizer.process() throws on invalid char in parameter entity ref
   assertThrows(
     () => collectTokens("<!DOCTYPE root [%entity@;]><root/>"),
     XmlSyntaxError,
-    "Invalid character in parameter entity reference",
+    "Invalid character in parameter entity reference"
   );
 });
 
@@ -1271,7 +1267,7 @@ Ende.test("XmlTokenizer.finalize() throws on unterminated parameter entity refer
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated parameter entity reference in DOCTYPE",
+    "Unterminated parameter entity reference in DOCTYPE"
   );
 });
 
@@ -1282,7 +1278,7 @@ Ende.test("XmlTokenizer.finalize() throws on unterminated parameter entity refer
 Ende.test("XmlTokenizer.process() handles comment across chunks in DOCTYPE", () => {
   const tokens = collectChunkedTokens(
     "<!DOCTYPE root [<!-",
-    "- comment -->]><root/>",
+    "- comment -->]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1290,7 +1286,7 @@ Ende.test("XmlTokenizer.process() handles comment across chunks in DOCTYPE", () 
 Ende.test("XmlTokenizer.process() handles PI across chunks in DOCTYPE", () => {
   const tokens = collectChunkedTokens(
     "<!DOCTYPE root [<?tar",
-    "get content?>]><root/>",
+    "get content?>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1299,11 +1295,11 @@ Ende.test("XmlTokenizer.process() throws on DOCTYPE quoted string spanning chunk
   assertThrows(
     () =>
       collectChunkedTokens(
-        '<!DOCTYPE root SYSTEM "long-system-',
-        'id.dtd"><root/>',
+        "<!DOCTYPE root SYSTEM \"long-system-",
+        "id.dtd\"><root/>"
       ),
     XmlSyntaxError,
-    "Unterminated quoted string in DOCTYPE declaration",
+    "Unterminated quoted string in DOCTYPE declaration"
   );
 });
 
@@ -1315,7 +1311,7 @@ Ende.test("XmlTokenizer.process() throws on NUL character in text content", () =
   assertThrows(
     () => collectTokens("<root>test\x00value</root>"),
     XmlSyntaxError,
-    "Illegal XML character U+0000",
+    "Illegal XML character U+0000"
   );
 });
 
@@ -1324,7 +1320,7 @@ Ende.test("XmlTokenizer.process() throws on control character in text content", 
   assertThrows(
     () => collectTokens("<root>test\x01value</root>"),
     XmlSyntaxError,
-    "Illegal XML character U+0001",
+    "Illegal XML character U+0001"
   );
 });
 
@@ -1332,7 +1328,7 @@ Ende.test("XmlTokenizer.process() throws on illegal character in CDATA section",
   assertThrows(
     () => collectTokens("<r><![CDATA[test\x02value]]></r>"),
     XmlSyntaxError,
-    "Illegal XML character U+0002",
+    "Illegal XML character U+0002"
   );
 });
 
@@ -1340,7 +1336,7 @@ Ende.test("XmlTokenizer.process() throws on illegal character in comment", () =>
   assertThrows(
     () => collectTokens("<r><!--test\x03value--></r>"),
     XmlSyntaxError,
-    "Illegal XML character U+0003",
+    "Illegal XML character U+0003"
   );
 });
 
@@ -1348,14 +1344,14 @@ Ende.test("XmlTokenizer.process() throws on illegal character in PI content", ()
   assertThrows(
     () => collectTokens("<?php test\x04value?><r/>"),
     XmlSyntaxError,
-    "Illegal XML character U+0004",
+    "Illegal XML character U+0004"
   );
 });
 
 Ende.test("XmlTokenizer.process() allows TAB, LF, CR in text content", () => {
   // These are the only valid C0 control characters
   const tokens = collectTokens("<root>tab:\there\nline\rend</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   // CR is normalized to LF
   assertEquals(text?.content, "tab:\there\nline\nend");
 });
@@ -1368,20 +1364,20 @@ Ende.test("XmlTokenizer.process() throws on ]]> in text content", () => {
   assertThrows(
     () => collectTokens("<root>invalid ]]> here</root>"),
     XmlSyntaxError,
-    "Cannot use ']]>' in text content",
+    "Cannot use ']]>' in text content"
   );
 });
 
 Ende.test("XmlTokenizer.process() allows ]] followed by non-> in text", () => {
   // ]] followed by non-> character is fine
   const tokens = collectTokens("<root>test ]] here</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "test ]] here");
 });
 
 Ende.test("XmlTokenizer.process() allows ] and ] separately in text", () => {
   const tokens = collectTokens("<root>brackets ] and ] here</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "brackets ] and ] here");
 });
 
@@ -1391,14 +1387,14 @@ Ende.test("XmlTokenizer.process() allows ] and ] separately in text", () => {
 
 Ende.test("XmlTokenizer.process() throws on missing whitespace between attributes", () => {
   assertThrows(
-    () => collectTokens('<root a="1"b="2"/>'),
+    () => collectTokens("<root a=\"1\"b=\"2\"/>"),
     XmlSyntaxError,
-    "Missing whitespace between attributes",
+    "Missing whitespace between attributes"
   );
 });
 
 Ende.test("XmlTokenizer.process() handles multiple attributes with proper whitespace", () => {
-  const tokens = collectTokens('<root a="1" b="2" c="3"/>');
+  const tokens = collectTokens("<root a=\"1\" b=\"2\" c=\"3\"/>");
   const attrs = tokens.filter(isTokenType("attribute"));
   assertEquals(attrs.length, 3);
   assertEquals(attrs[0]?.value, "1");
@@ -1412,65 +1408,65 @@ Ende.test("XmlTokenizer.process() handles multiple attributes with proper whites
 
 Ende.test("XmlTokenizer.process() throws on uppercase VERSION in declaration", () => {
   assertThrows(
-    () => collectTokens('<?xml VERSION="1.0"?><root/>'),
+    () => collectTokens("<?xml VERSION=\"1.0\"?><root/>"),
     XmlSyntaxError,
-    "'VERSION' must be lowercase",
+    "'VERSION' must be lowercase"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on uppercase ENCODING in declaration", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0" ENCODING="UTF-8"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\" ENCODING=\"UTF-8\"?><root/>"),
     XmlSyntaxError,
-    "'ENCODING' must be lowercase",
+    "'ENCODING' must be lowercase"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on uppercase STANDALONE in declaration", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0" STANDALONE="yes"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\" STANDALONE=\"yes\"?><root/>"),
     XmlSyntaxError,
-    "'STANDALONE' must be lowercase",
+    "'STANDALONE' must be lowercase"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on invalid version number", () => {
   assertThrows(
-    () => collectTokens('<?xml version="2.0"?><root/>'),
+    () => collectTokens("<?xml version=\"2.0\"?><root/>"),
     XmlSyntaxError,
-    "Invalid version",
+    "Invalid version"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on version not starting with 1.", () => {
   assertThrows(
-    () => collectTokens('<?xml version="0.9"?><root/>'),
+    () => collectTokens("<?xml version=\"0.9\"?><root/>"),
     XmlSyntaxError,
-    "Invalid version",
+    "Invalid version"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on invalid encoding name starting with digit", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0" encoding="8859-1"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\" encoding=\"8859-1\"?><root/>"),
     XmlSyntaxError,
-    "Invalid encoding name",
+    "Invalid encoding name"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on invalid standalone value", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0" standalone="true"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\" standalone=\"true\"?><root/>"),
     XmlSyntaxError,
-    "Invalid standalone value",
+    "Invalid standalone value"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on duplicate version attribute", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0" version="1.1"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\" version=\"1.1\"?><root/>"),
     XmlSyntaxError,
-    "Duplicate 'version' attribute",
+    "Duplicate 'version' attribute"
   );
 });
 
@@ -1478,43 +1474,43 @@ Ende.test("XmlTokenizer.process() throws on standalone before encoding", () => {
   assertThrows(
     () =>
       collectTokens(
-        '<?xml version="1.0" standalone="yes" encoding="UTF-8"?><root/>',
+        "<?xml version=\"1.0\" standalone=\"yes\" encoding=\"UTF-8\"?><root/>"
       ),
     XmlSyntaxError,
-    "'encoding' must come before 'standalone'",
+    "'encoding' must come before 'standalone'"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on XML declaration after content", () => {
   // Text before XML declaration
   assertThrows(
-    () => collectTokens('  <?xml version="1.0"?><root/>'),
+    () => collectTokens("  <?xml version=\"1.0\"?><root/>"),
     XmlSyntaxError,
-    "XML declaration must appear at the start",
+    "XML declaration must appear at the start"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on XML declaration after comment", () => {
   assertThrows(
-    () => collectTokens('<!-- comment --><?xml version="1.0"?><root/>'),
+    () => collectTokens("<!-- comment --><?xml version=\"1.0\"?><root/>"),
     XmlSyntaxError,
-    "XML declaration must appear at the start",
+    "XML declaration must appear at the start"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on unknown attribute in declaration", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0" foo="bar"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\" foo=\"bar\"?><root/>"),
     XmlSyntaxError,
-    "Unknown attribute 'foo'",
+    "Unknown attribute 'foo'"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on missing whitespace between declaration attrs", () => {
   assertThrows(
-    () => collectTokens('<?xml version="1.0"encoding="UTF-8"?><root/>'),
+    () => collectTokens("<?xml version=\"1.0\"encoding=\"UTF-8\"?><root/>"),
     XmlSyntaxError,
-    "Missing whitespace between attributes",
+    "Missing whitespace between attributes"
   );
 });
 
@@ -1524,25 +1520,25 @@ Ende.test("XmlTokenizer.process() throws on missing whitespace between declarati
 
 Ende.test("XmlTokenizer.process() throws on lowercase 'public' in DOCTYPE", () => {
   assertThrows(
-    () => collectTokens('<!DOCTYPE html public "-//W3C//"><html/>'),
+    () => collectTokens("<!DOCTYPE html public \"-//W3C//\"><html/>"),
     XmlSyntaxError,
-    "must be uppercase 'PUBLIC'",
+    "must be uppercase 'PUBLIC'"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on lowercase 'system' in DOCTYPE", () => {
   assertThrows(
-    () => collectTokens('<!DOCTYPE html system "test.dtd"><html/>'),
+    () => collectTokens("<!DOCTYPE html system \"test.dtd\"><html/>"),
     XmlSyntaxError,
-    "must be uppercase 'SYSTEM'",
+    "must be uppercase 'SYSTEM'"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on invalid SYSTEM keyword spelling", () => {
   assertThrows(
-    () => collectTokens('<!DOCTYPE html SYSTEX "test.dtd"><html/>'),
+    () => collectTokens("<!DOCTYPE html SYSTEX \"test.dtd\"><html/>"),
     XmlSyntaxError,
-    "Expected SYSTEM",
+    "Expected SYSTEM"
   );
 });
 
@@ -1555,17 +1551,17 @@ Ende.test("XmlTokenizer.process() throws on invalid character in PUBLIC ID", () 
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE html PUBLIC "invalid<char" "http://example.com/"><html/>',
+        "<!DOCTYPE html PUBLIC \"invalid<char\" \"http://example.com/\"><html/>"
       ),
     XmlSyntaxError,
-    "Invalid character",
+    "Invalid character"
   );
 });
 
 Ende.test("XmlTokenizer.process() allows valid PubidChar characters", () => {
   // Valid: a-zA-Z0-9 and special chars -'()+,./:=?;!*#@$_%
   const tokens = collectTokens(
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html/>',
+    "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.publicId, "-//W3C//DTD HTML 4.01//EN");
@@ -1580,27 +1576,27 @@ Ende.test("XmlTokenizer.process() throws on conditional sections in internal sub
   assertThrows(
     () => collectTokens("<!DOCTYPE root [ [ ]><root/>"),
     XmlSyntaxError,
-    "Conditional sections",
+    "Conditional sections"
   );
 });
 
 Ende.test("XmlTokenizer.process() handles DTD ELEMENT declaration", () => {
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ELEMENT root (#PCDATA)>]><root/>",
+    "<!DOCTYPE root [<!ELEMENT root (#PCDATA)>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
 Ende.test("XmlTokenizer.process() handles DTD ATTLIST declaration", () => {
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ATTLIST root id ID #IMPLIED>]><root/>",
+    "<!DOCTYPE root [<!ATTLIST root id ID #IMPLIED>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
 Ende.test("XmlTokenizer.process() handles DTD NOTATION declaration", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE root [<!NOTATION gif SYSTEM "image/gif">]><root/>',
+    "<!DOCTYPE root [<!NOTATION gif SYSTEM \"image/gif\">]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1609,7 +1605,7 @@ Ende.test("XmlTokenizer.process() throws on unknown DTD declaration", () => {
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!UNKNOWN test>]><root/>"),
     XmlSyntaxError,
-    "Unknown declaration type",
+    "Unknown declaration type"
   );
 });
 
@@ -1622,10 +1618,10 @@ Ende.test("XmlTokenizer.process() throws on parameter entity with NDATA", () => 
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root [<!ENTITY % pe SYSTEM "file.txt" NDATA notation>]><root/>',
+        "<!DOCTYPE root [<!ENTITY % pe SYSTEM \"file.txt\" NDATA notation>]><root/>"
       ),
     XmlSyntaxError,
-    "Parameter entities cannot have NDATA",
+    "Parameter entities cannot have NDATA"
   );
 });
 
@@ -1633,19 +1629,18 @@ Ende.test("XmlTokenizer.process() throws on duplicate SYSTEM keyword", () => {
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root [<!ENTITY e SYSTEM "a.txt" SYSTEM "b.txt">]><root/>',
+        "<!DOCTYPE root [<!ENTITY e SYSTEM \"a.txt\" SYSTEM \"b.txt\">]><root/>"
       ),
     XmlSyntaxError,
-    "Duplicate external ID keyword",
+    "Duplicate external ID keyword"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on lowercase 'system' in ENTITY", () => {
   assertThrows(
-    () =>
-      collectTokens('<!DOCTYPE root [<!ENTITY e system "file.txt">]><root/>'),
+    () => collectTokens("<!DOCTYPE root [<!ENTITY e system \"file.txt\">]><root/>"),
     XmlSyntaxError,
-    "must be uppercase 'SYSTEM'",
+    "must be uppercase 'SYSTEM'"
   );
 });
 
@@ -1653,10 +1648,10 @@ Ende.test("XmlTokenizer.process() throws on lowercase 'public' in ENTITY", () =>
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root [<!ENTITY e public "-//W3C//" "file.dtd">]><root/>',
+        "<!DOCTYPE root [<!ENTITY e public \"-//W3C//\" \"file.dtd\">]><root/>"
       ),
     XmlSyntaxError,
-    "must be uppercase 'PUBLIC'",
+    "must be uppercase 'PUBLIC'"
   );
 });
 
@@ -1664,19 +1659,18 @@ Ende.test("XmlTokenizer.process() throws on lowercase 'ndata' in ENTITY", () => 
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root [<!ENTITY e SYSTEM "file.bin" ndata notation>]><root/>',
+        "<!DOCTYPE root [<!ENTITY e SYSTEM \"file.bin\" ndata notation>]><root/>"
       ),
     XmlSyntaxError,
-    "must be uppercase 'NDATA'",
+    "must be uppercase 'NDATA'"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on PUBLIC without system ID", () => {
   assertThrows(
-    () =>
-      collectTokens('<!DOCTYPE root [<!ENTITY e PUBLIC "-//W3C//">]><root/>'),
+    () => collectTokens("<!DOCTYPE root [<!ENTITY e PUBLIC \"-//W3C//\">]><root/>"),
     XmlSyntaxError,
-    "PUBLIC identifier requires both public ID and system ID",
+    "PUBLIC identifier requires both public ID and system ID"
   );
 });
 
@@ -1688,7 +1682,7 @@ Ende.test("XmlTokenizer.process() throws on empty PI target", () => {
   assertThrows(
     () => collectTokens("<? ?><root/>"),
     XmlSyntaxError,
-    "Missing processing instruction target",
+    "Missing processing instruction target"
   );
 });
 
@@ -1696,7 +1690,7 @@ Ende.test("XmlTokenizer.process() throws on PI target starting with invalid char
   assertThrows(
     () => collectTokens("<?123target?><root/>"),
     XmlSyntaxError,
-    "Invalid character",
+    "Invalid character"
   );
 });
 
@@ -1707,13 +1701,13 @@ Ende.test("XmlTokenizer.process() throws on PI target starting with invalid char
 Ende.test("XmlTokenizer.process() handles astral plane characters in element content", () => {
   // U+1F600 (😀) encoded as surrogate pair \uD83D\uDE00
   const tokens = collectTokens("<root>Hello \u{1F600} World</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "Hello 😀 World");
 });
 
 Ende.test("XmlTokenizer.process() handles astral plane character in attribute value", () => {
-  const tokens = collectTokens('<root attr="test \u{1F600} value"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<root attr=\"test \u{1F600} value\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.value, "test 😀 value");
 });
 
@@ -1735,7 +1729,7 @@ Ende.test("XmlTokenizer.finalize() throws for markup declaration without type", 
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unexpected end of input in markup declaration",
+    "Unexpected end of input in markup declaration"
   );
 });
 
@@ -1746,7 +1740,7 @@ Ende.test("XmlTokenizer.finalize() throws for unclosed end tag", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unexpected end of input in end tag",
+    "Unexpected end of input in end tag"
   );
 });
 
@@ -1757,18 +1751,18 @@ Ende.test("XmlTokenizer.finalize() throws for DTD declaration keyword", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated DOCTYPE",
+    "Unterminated DOCTYPE"
   );
 });
 
 Ende.test("XmlTokenizer.finalize() throws for DTD string literal", () => {
   const tokenizer = new XmlTokenizer();
   const { callbacks } = createCollector();
-  tokenizer.process('<!DOCTYPE root [<!ENTITY e "unterminated', callbacks);
+  tokenizer.process("<!DOCTYPE root [<!ENTITY e \"unterminated", callbacks);
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated DOCTYPE",
+    "Unterminated DOCTYPE"
   );
 });
 
@@ -1779,21 +1773,21 @@ Ende.test("XmlTokenizer.finalize() throws for DTD string literal", () => {
 Ende.test("XmlTokenizer.process() handles ELEMENT declaration with content model operators", () => {
   // Test *, +, ? operators in content model
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ELEMENT root (a, b*, c+, d?)>]><root/>",
+    "<!DOCTYPE root [<!ELEMENT root (a, b*, c+, d?)>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
 Ende.test("XmlTokenizer.process() handles ELEMENT declaration with nested parentheses", () => {
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ELEMENT root ((a|b), (c|d))>]><root/>",
+    "<!DOCTYPE root [<!ELEMENT root ((a|b), (c|d))>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
 
 Ende.test("XmlTokenizer.process() handles ATTLIST with #FIXED value", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE root [<!ATTLIST root type CDATA #FIXED "default">]><root/>',
+    "<!DOCTYPE root [<!ATTLIST root type CDATA #FIXED \"default\">]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1801,7 +1795,7 @@ Ende.test("XmlTokenizer.process() handles ATTLIST with #FIXED value", () => {
 Ende.test("XmlTokenizer.process() handles ENTITY with external identifier", () => {
   // ENTITY declaration with SYSTEM external identifier
   const tokens = collectTokens(
-    '<!DOCTYPE root [<!ENTITY logo SYSTEM "images/logo.gif">]><root/>',
+    "<!DOCTYPE root [<!ENTITY logo SYSTEM \"images/logo.gif\">]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1812,8 +1806,8 @@ Ende.test("XmlTokenizer.process() handles ENTITY with external identifier", () =
 
 Ende.test("XmlTokenizer.process() handles ENTITY value across chunks", () => {
   const tokens = collectChunkedTokens(
-    '<!DOCTYPE root [<!ENTITY greeting "Hel',
-    'lo World">]><root/>',
+    "<!DOCTYPE root [<!ENTITY greeting \"Hel",
+    "lo World\">]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1821,7 +1815,7 @@ Ende.test("XmlTokenizer.process() handles ENTITY value across chunks", () => {
 Ende.test("XmlTokenizer.process() handles DTD declaration keyword across chunks", () => {
   const tokens = collectChunkedTokens(
     "<!DOCTYPE root [<!ELE",
-    "MENT root (#PCDATA)>]><root/>",
+    "MENT root (#PCDATA)>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -1848,13 +1842,13 @@ Ende.test("XmlTokenizer.process() handles end tag with whitespace across chunks"
 
 Ende.test("XmlTokenizer.process() handles double quote inside single-quoted attr", () => {
   const tokens = collectTokens("<root attr='say \"hello\"'/>");
-  const attr = tokens.find((t) => t.type === "attribute");
-  assertEquals(attr?.value, 'say "hello"');
+  const attr = tokens.find(t => t.type === "attribute");
+  assertEquals(attr?.value, "say \"hello\"");
 });
 
 Ende.test("XmlTokenizer.process() handles single quote inside double-quoted attr", () => {
-  const tokens = collectTokens('<root attr="it\'s working"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<root attr=\"it's working\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.value, "it's working");
 });
 
@@ -1871,7 +1865,7 @@ Ende.test("XmlTokenizer with trackPosition: false still reports errors", () => {
       tokenizer.process("<root>test\x00value</root>", callbacks);
     },
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -1883,7 +1877,7 @@ Ende.test("XmlTokenizer with trackPosition: false handles ]]> in text", () => {
       tokenizer.process("<root>test]]>value</root>", callbacks);
     },
     XmlSyntaxError,
-    "Cannot use ']]>' in text content",
+    "Cannot use ']]>' in text content"
   );
 });
 
@@ -1893,7 +1887,7 @@ Ende.test("XmlTokenizer with trackPosition: false handles ]]> in text", () => {
 
 Ende.test("XmlTokenizer.process() handles text content split across multiple chunks", () => {
   const tokens = collectChunkedTokens("<root>Hello ", "Wor", "ld</root>");
-  const text = tokens.find((t) => t.type === "text");
+  const text = tokens.find(t => t.type === "text");
   assertEquals(text?.content, "Hello World");
 });
 
@@ -1901,7 +1895,7 @@ Ende.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (]] th
   assertThrows(
     () => collectChunkedTokens("<root>test]]", ">more</root>"),
     XmlSyntaxError,
-    "Cannot use ']]>' in text content",
+    "Cannot use ']]>' in text content"
   );
 });
 
@@ -1909,7 +1903,7 @@ Ende.test("XmlTokenizer.process() throws on ]]> straddling chunk boundary (] the
   assertThrows(
     () => collectChunkedTokens("<root>test]", "]>more</root>"),
     XmlSyntaxError,
-    "Cannot use ']]>' in text content",
+    "Cannot use ']]>' in text content"
   );
 });
 
@@ -1917,7 +1911,7 @@ Ende.test("XmlTokenizer.process() throws on ]]> straddling three chunks", () => 
   assertThrows(
     () => collectChunkedTokens("<root>test]", "]", ">more</root>"),
     XmlSyntaxError,
-    "Cannot use ']]>' in text content",
+    "Cannot use ']]>' in text content"
   );
 });
 
@@ -1930,7 +1924,7 @@ Ende.test("XmlTokenizer.process() throws on -- at chunk boundary forming double 
   assertThrows(
     () => collectChunkedTokens("<r><!--abc-", "-def--></r>"),
     XmlSyntaxError,
-    "Cannot use '--' within comments",
+    "Cannot use '--' within comments"
   );
 });
 
@@ -1939,7 +1933,7 @@ Ende.test("XmlTokenizer.process() throws on trailing dash in batch comment captu
   assertThrows(
     () => collectTokens("<r><!--test---></r>"),
     XmlSyntaxError,
-    "Cannot use '-' immediately before '-->'",
+    "Cannot use '-' immediately before '-->'"
   );
 });
 
@@ -1947,7 +1941,7 @@ Ende.test("XmlTokenizer.process() handles long comment for batch capture", () =>
   // Long comment triggers batch capture path
   const longContent = "a".repeat(1000);
   const tokens = collectTokens(`<r><!--${longContent}--></r>`);
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, longContent);
 });
 
@@ -1957,7 +1951,7 @@ Ende.test("XmlTokenizer.process() throws on -- in long comment batch capture", (
   assertThrows(
     () => collectTokens(`<r><!--${prefix}--${prefix}--></r>`),
     XmlSyntaxError,
-    "Cannot use '--' within comments",
+    "Cannot use '--' within comments"
   );
 });
 
@@ -1967,7 +1961,7 @@ Ende.test("XmlTokenizer.process() throws on illegal char in batch comment captur
   assertThrows(
     () => collectTokens(`<r><!--${prefix}\x05${prefix}--></r>`),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -1980,7 +1974,7 @@ Ende.test("XmlTokenizer.process() throws on illegal char in batch PI capture", (
   assertThrows(
     () => collectTokens(`<?php ${prefix}\x06${prefix}?><r/>`),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -1992,15 +1986,15 @@ Ende.test("XmlTokenizer.process() throws on missing quote for SYSTEM ID", () => 
   assertThrows(
     () => collectTokens("<!DOCTYPE root SYSTEM test.dtd><root/>"),
     XmlSyntaxError,
-    "Expected quote to start system ID",
+    "Expected quote to start system ID"
   );
 });
 
 Ende.test("XmlTokenizer.process() throws on unexpected char after PUBLIC ID", () => {
   assertThrows(
-    () => collectTokens('<!DOCTYPE root PUBLIC "-//W3C//" @><root/>'),
+    () => collectTokens("<!DOCTYPE root PUBLIC \"-//W3C//\" @><root/>"),
     XmlSyntaxError,
-    "Expected system ID or '>' after public ID",
+    "Expected system ID or '>' after public ID"
   );
 });
 
@@ -2008,7 +2002,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in DOCTYPE internal 
   assertThrows(
     () => collectTokens("<!DOCTYPE root [@]><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -2016,7 +2010,7 @@ Ende.test("XmlTokenizer.process() throws on expected ! or ? after < in DTD", () 
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<x]><root/>"),
     XmlSyntaxError,
-    "Expected '!' or '?'",
+    "Expected '!' or '?'"
   );
 });
 
@@ -2024,7 +2018,7 @@ Ende.test("XmlTokenizer.process() throws on incomplete comment start in DTD", ()
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!-x]><root/>"),
     XmlSyntaxError,
-    "Expected '-' after '<!-'",
+    "Expected '-' after '<!-'"
   );
 });
 
@@ -2032,7 +2026,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in declaration keywo
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ENT@ITY x 'y'>]><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -2042,9 +2036,9 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in declaration keywo
 
 Ende.test("XmlTokenizer.process() throws on missing whitespace before quote in DTD", () => {
   assertThrows(
-    () => collectTokens('<!DOCTYPE root [<!ENTITY e"value">]><root/>'),
+    () => collectTokens("<!DOCTYPE root [<!ENTITY e\"value\">]><root/>"),
     XmlSyntaxError,
-    "Missing whitespace before quoted string",
+    "Missing whitespace before quoted string"
   );
 });
 
@@ -2052,7 +2046,7 @@ Ende.test("XmlTokenizer.process() throws on missing whitespace before paren in D
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ELEMENT root(#PCDATA)>]><root/>"),
     XmlSyntaxError,
-    "Missing whitespace before '('",
+    "Missing whitespace before '('"
   );
 });
 
@@ -2060,14 +2054,14 @@ Ende.test("XmlTokenizer.process() throws on unmatched closing paren in DTD", () 
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ELEMENT root )>]><root/>"),
     XmlSyntaxError,
-    "Unexpected ')'",
+    "Unexpected ')'"
   );
 });
 
 Ende.test("XmlTokenizer.process() handles brackets in DTD declaration", () => {
   // Square brackets are used in ATTLIST for enumerated types
   const tokens = collectTokens(
-    '<!DOCTYPE root [<!ATTLIST root type (a|b) "a">]><root/>',
+    "<!DOCTYPE root [<!ATTLIST root type (a|b) \"a\">]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -2075,7 +2069,7 @@ Ende.test("XmlTokenizer.process() handles brackets in DTD declaration", () => {
 Ende.test("XmlTokenizer.process() handles pipe in DTD declaration", () => {
   // Pipe is used in content models for choice
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ELEMENT root (a|b|c)>]><root/>",
+    "<!DOCTYPE root [<!ELEMENT root (a|b|c)>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -2083,7 +2077,7 @@ Ende.test("XmlTokenizer.process() handles pipe in DTD declaration", () => {
 Ende.test("XmlTokenizer.process() handles semicolon in DTD declaration", () => {
   // Semicolon ends entity references
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ENTITY e '%other;'>]><root/>",
+    "<!DOCTYPE root [<!ENTITY e '%other;'>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -2091,7 +2085,7 @@ Ende.test("XmlTokenizer.process() handles semicolon in DTD declaration", () => {
 Ende.test("XmlTokenizer.process() handles hash in DTD declaration", () => {
   // Hash is used for #PCDATA, #IMPLIED, etc.
   const tokens = collectTokens(
-    "<!DOCTYPE root [<!ATTLIST root attr CDATA #IMPLIED>]><root/>",
+    "<!DOCTYPE root [<!ATTLIST root attr CDATA #IMPLIED>]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -2100,7 +2094,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in DTD declaration",
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ENTITY e ~value>]><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -2110,7 +2104,7 @@ Ende.test("XmlTokenizer.process() throws on unexpected char in DTD declaration",
 
 Ende.test("XmlTokenizer.process() handles ENTITY with PUBLIC external ID", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE root [<!ENTITY logo PUBLIC "-//W3C//" "http://example.com/logo.gif">]><root/>',
+    "<!DOCTYPE root [<!ENTITY logo PUBLIC \"-//W3C//\" \"http://example.com/logo.gif\">]><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
 });
@@ -2119,10 +2113,10 @@ Ende.test("XmlTokenizer.process() throws on duplicate PUBLIC keyword in ENTITY",
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root [<!ENTITY e PUBLIC "-//W3C//" PUBLIC "-//Other//">]><root/>',
+        "<!DOCTYPE root [<!ENTITY e PUBLIC \"-//W3C//\" PUBLIC \"-//Other//\">]><root/>"
       ),
     XmlSyntaxError,
-    "Duplicate external ID keyword",
+    "Duplicate external ID keyword"
   );
 });
 
@@ -2130,10 +2124,10 @@ Ende.test("XmlTokenizer.process() throws on NDATA without external ID", () => {
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root [<!ENTITY e "value" NDATA notation>]><root/>',
+        "<!DOCTYPE root [<!ENTITY e \"value\" NDATA notation>]><root/>"
       ),
     XmlSyntaxError,
-    "NDATA can only follow SYSTEM or PUBLIC",
+    "NDATA can only follow SYSTEM or PUBLIC"
   );
 });
 
@@ -2148,7 +2142,7 @@ Ende.test("XmlTokenizer.finalize() throws for PI target only", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated processing instruction",
+    "Unterminated processing instruction"
   );
 });
 
@@ -2159,7 +2153,7 @@ Ende.test("XmlTokenizer.finalize() throws for PI target with ?", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated processing instruction",
+    "Unterminated processing instruction"
   );
 });
 
@@ -2170,7 +2164,7 @@ Ende.test("XmlTokenizer.finalize() throws for DOCTYPE name only", () => {
   assertThrows(
     () => tokenizer.finalize(callbacks),
     XmlSyntaxError,
-    "Unterminated DOCTYPE",
+    "Unterminated DOCTYPE"
   );
 });
 
@@ -2202,7 +2196,7 @@ Ende.test("XmlTokenizer with trackPosition: false handles astral plane names", (
 Ende.test("XmlTokenizer.process() allows all valid PubidChar in PUBLIC ID", () => {
   // Test various valid PubidChar: space, CR, LF, letters, digits, special chars
   const tokens = collectTokens(
-    '<!DOCTYPE root PUBLIC "-//W3C//DTD (Test+1.0)/EN;!*#@$_%" "test.dtd"><root/>',
+    "<!DOCTYPE root PUBLIC \"-//W3C//DTD (Test+1.0)/EN;!*#@$_%\" \"test.dtd\"><root/>"
   );
   assertEquals(tokens[0]?.type, "doctype");
   assertEquals(tokens[0]?.publicId, "-//W3C//DTD (Test+1.0)/EN;!*#@$_%");
@@ -2210,7 +2204,7 @@ Ende.test("XmlTokenizer.process() allows all valid PubidChar in PUBLIC ID", () =
 
 Ende.test("XmlTokenizer.process() allows single quote in double-quoted PUBLIC ID", () => {
   const tokens = collectTokens(
-    '<!DOCTYPE root PUBLIC "-//W3C//It\'s a Test//EN" "test.dtd"><root/>',
+    "<!DOCTYPE root PUBLIC \"-//W3C//It's a Test//EN\" \"test.dtd\"><root/>"
   );
   assertEquals(tokens[0]?.publicId, "-//W3C//It's a Test//EN");
 });
@@ -2222,7 +2216,7 @@ Ende.test("XmlTokenizer.process() allows single quote in double-quoted PUBLIC ID
 Ende.test("XmlTokenizer.process() handles comment where partial ends with dash", () => {
   // Chunk boundary splits comment so partial ends with - and new starts with non-dash
   const tokens = collectChunkedTokens("<r><!--test-", "abc--></r>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "test-abc");
 });
 
@@ -2231,7 +2225,7 @@ Ende.test("XmlTokenizer.process() handles trailing dash before --> across chunks
   assertThrows(
     () => collectChunkedTokens("<r><!--test-", "--></r>"),
     XmlSyntaxError,
-    "Cannot use '-' immediately before '-->'",
+    "Cannot use '-' immediately before '-->'"
   );
 });
 
@@ -2242,14 +2236,14 @@ Ende.test("XmlTokenizer.process() handles trailing dash before --> across chunks
 Ende.test("XmlTokenizer.process() handles CDATA with multiple ] in sequence", () => {
   // Tests CDATA_BRACKET_BRACKET with additional ] (line 1794-1798)
   const tokens = collectTokens("<r><![CDATA[test]]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "test]");
 });
 
 Ende.test("XmlTokenizer.process() handles CDATA char-by-char fallback for non-]", () => {
   // After batch capture, remaining char is not ] - tests line 1623-1625
   const tokens = collectChunkedTokens("<r><![CDATA[ab", "c]]></r>");
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "abc");
 });
 
@@ -2260,14 +2254,14 @@ Ende.test("XmlTokenizer.process() handles CDATA char-by-char fallback for non-]"
 Ende.test("XmlTokenizer.process() handles multiple ? in PI_QUESTION state", () => {
   // Tests line 1901-1904: consecutive ? in PI content
   const tokens = collectTokens("<?php echo ??? stuff?><r/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "echo ??? stuff");
 });
 
 Ende.test("XmlTokenizer.process() handles PI char-by-char fallback for non-?", () => {
   // After batch capture, remaining char is not ? - tests line 1657-1659
   const tokens = collectChunkedTokens("<?php ab", "c?><r/>");
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.content, "abc");
 });
 
@@ -2278,7 +2272,7 @@ Ende.test("XmlTokenizer.process() handles PI char-by-char fallback for non-?", (
 Ende.test("XmlTokenizer.process() handles comment char-by-char fallback for non-dash", () => {
   // After batch capture, remaining char is not - : tests line 1597-1599
   const tokens = collectChunkedTokens("<r><!--ab", "c--></r>");
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "abc");
 });
 
@@ -2288,7 +2282,7 @@ Ende.test("XmlTokenizer.process() handles comment char-by-char fallback for non-
 
 Ende.test("XmlTokenizer.process() handles > immediately after attribute value", () => {
   // Tests AFTER_TAG_NAME with > (line 1395-1399)
-  const tokens = collectTokens('<root attr="value">content</root>');
+  const tokens = collectTokens("<root attr=\"value\">content</root>");
   assertEquals(tokens[0]?.type, "start_tag_open");
   assertEquals(tokens[1]?.type, "attribute");
   assertEquals(tokens[2]?.type, "start_tag_close");
@@ -2297,7 +2291,7 @@ Ende.test("XmlTokenizer.process() handles > immediately after attribute value", 
 
 Ende.test("XmlTokenizer.process() handles / immediately after attribute value", () => {
   // Tests AFTER_TAG_NAME with / (line 1400-1403) and self-closing
-  const tokens = collectTokens('<root attr="value"/>');
+  const tokens = collectTokens("<root attr=\"value\"/>");
   assertEquals(tokens[2]?.type, "start_tag_close");
   assertEquals(tokens[2]?.selfClosing, true);
 });
@@ -2311,14 +2305,14 @@ Ende.test("XmlTokenizer.process() throws on missing quote for attribute value", 
   assertThrows(
     () => collectTokens("<root attr=value/>"),
     XmlSyntaxError,
-    "Expected quote to start attribute value",
+    "Expected quote to start attribute value"
   );
 });
 
 Ende.test("XmlTokenizer.process() handles whitespace after attribute name before =", () => {
   // Tests AFTER_ATTRIBUTE_NAME whitespace handling (line 1514-1516)
-  const tokens = collectTokens('<root attr  =  "value"/>');
-  const attr = tokens.find((t) => t.type === "attribute");
+  const tokens = collectTokens("<root attr  =  \"value\"/>");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.name, "attr");
   assertEquals(attr?.value, "value");
 });
@@ -2332,7 +2326,7 @@ Ende.test("XmlTokenizer.process() throws on invalid char in DOCTYPE name", () =>
   assertThrows(
     () => collectTokens("<!DOCTYPE root@name><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -2341,7 +2335,7 @@ Ende.test("XmlTokenizer.process() throws on missing quote for PUBLIC ID", () => 
   assertThrows(
     () => collectTokens("<!DOCTYPE root PUBLIC -//W3C//><root/>"),
     XmlSyntaxError,
-    "Expected quote to start public ID",
+    "Expected quote to start public ID"
   );
 });
 
@@ -2354,7 +2348,7 @@ Ende.test("XmlTokenizer.process() throws on dash after partial declaration keywo
   assertThrows(
     () => collectTokens("<!DOCTYPE root [<!ENTI-TY x 'y'>]><root/>"),
     XmlSyntaxError,
-    "Unexpected '-' in declaration keyword",
+    "Unexpected '-' in declaration keyword"
   );
 });
 
@@ -2368,7 +2362,7 @@ Ende.test("XmlTokenizer.process() throws on < in long attribute value", () => {
   assertThrows(
     () => collectTokens(`<root attr="${prefix}<${prefix}"/>`),
     XmlSyntaxError,
-    "Cannot use '<' in attribute value",
+    "Cannot use '<' in attribute value"
   );
 });
 
@@ -2382,7 +2376,7 @@ Ende.test("XmlTokenizer.process() throws on illegal char in CDATA safe region", 
   assertThrows(
     () => collectTokens(`<r><![CDATA[${prefix}\x07${prefix}]]></r>`),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2396,9 +2390,9 @@ Ende.test("XmlTokenizer.process() handles comment split at dash boundary", () =>
   // (lines 1642-1652) and transitions to COMMENT_DASH across chunks
   const tokens = collectChunkedTokens(
     "<r><!--abc-",
-    "-></r>",
+    "-></r>"
   );
-  const comment = tokens.find((t) => t.type === "comment");
+  const comment = tokens.find(t => t.type === "comment");
   assertEquals(comment?.content, "abc");
 });
 
@@ -2407,9 +2401,9 @@ Ende.test("XmlTokenizer.process() handles CDATA split at bracket boundary", () =
   // then the switch CDATA case hits the bracket fallback (lines 1668-1678)
   const tokens = collectChunkedTokens(
     "<r><![CDATA[abc]",
-    "]></r>",
+    "]></r>"
   );
-  const cdata = tokens.find((t) => t.type === "cdata");
+  const cdata = tokens.find(t => t.type === "cdata");
   assertEquals(cdata?.content, "abc");
 });
 
@@ -2418,9 +2412,9 @@ Ende.test("XmlTokenizer.process() handles PI split at question mark boundary", (
   // then the switch PI_CONTENT case hits the question fallback (lines 1702-1712)
   const tokens = collectChunkedTokens(
     "<r><?target abc?",
-    "></r>",
+    "></r>"
   );
-  const pi = tokens.find((t) => t.type === "processing_instruction");
+  const pi = tokens.find(t => t.type === "processing_instruction");
   assertEquals(pi?.target, "target");
   assertEquals(pi?.content, "abc");
 });
@@ -2429,10 +2423,10 @@ Ende.test("XmlTokenizer.process() handles attribute value split across chunks", 
   // Chunk ends mid-attribute-value with no closing quote →
   // exercises attribute batch capture incomplete path (lines 1216-1219)
   const tokens = collectChunkedTokens(
-    '<r attr="hello ',
-    'world"/></r>',
+    "<r attr=\"hello ",
+    "world\"/></r>"
   );
-  const attr = tokens.find((t) => t.type === "attribute");
+  const attr = tokens.find(t => t.type === "attribute");
   assertEquals(attr?.name, "attr");
   assertEquals(attr?.value, "hello world");
 });
@@ -2441,29 +2435,29 @@ Ende.test("XmlTokenizer.process() throws on lowercase public/system in DOCTYPE",
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root public "pubid" "sysid"><root/>',
+        "<!DOCTYPE root public \"pubid\" \"sysid\"><root/>"
       ),
     XmlSyntaxError,
-    "must be uppercase 'PUBLIC'",
+    "must be uppercase 'PUBLIC'"
   );
   assertThrows(
     () =>
       collectTokens(
-        '<!DOCTYPE root system "sysid"><root/>',
+        "<!DOCTYPE root system \"sysid\"><root/>"
       ),
     XmlSyntaxError,
-    "must be uppercase 'SYSTEM'",
+    "must be uppercase 'SYSTEM'"
   );
   // Lone 'p' or 's' that doesn't form 'public'/'system' → generic error
   assertThrows(
     () => collectTokens("<!DOCTYPE root pxyz><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
   assertThrows(
     () => collectTokens("<!DOCTYPE root sxyz><root/>"),
     XmlSyntaxError,
-    "Unexpected character",
+    "Unexpected character"
   );
 });
 
@@ -2483,7 +2477,7 @@ Ende.test("XmlTokenizer xml11 rejects literal C0 control in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\x01</root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2491,12 +2485,12 @@ Ende.test("XmlTokenizer xml11 rejects literal C1 control in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\x80</root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
   assertThrows(
     () => collectTokensXml11("<root>\x9F</root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2504,13 +2498,13 @@ Ende.test("XmlTokenizer xml11 rejects NULL in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\x00</root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
 Ende.test("XmlTokenizer xml11 allows NEL (U+0085) after line-ending normalization", () => {
   const tokens = collectTokensXml11("<root>a\x85b</root>");
-  const textToken = tokens.find((t) => t.type === "text");
+  const textToken = tokens.find(t => t.type === "text");
   assertEquals(textToken?.content, "a\nb");
 });
 
@@ -2518,7 +2512,7 @@ Ende.test("XmlTokenizer xml11 rejects literal C0 control in comment", () => {
   assertThrows(
     () => collectTokensXml11("<root><!--\x01--></root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2526,7 +2520,7 @@ Ende.test("XmlTokenizer xml11 rejects literal C1 control in comment", () => {
   assertThrows(
     () => collectTokensXml11("<root><!--\x80--></root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2534,7 +2528,7 @@ Ende.test("XmlTokenizer xml11 rejects literal C0 control in PI content", () => {
   assertThrows(
     () => collectTokensXml11("<root><?pi \x02?></root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2542,7 +2536,7 @@ Ende.test("XmlTokenizer xml11 rejects literal C1 control in CDATA", () => {
   assertThrows(
     () => collectTokensXml11("<root><![CDATA[\x80]]></root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2550,7 +2544,7 @@ Ende.test("XmlTokenizer xml11 rejects noncharacter U+FFFE in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\uFFFE</root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2558,13 +2552,13 @@ Ende.test("XmlTokenizer xml11 rejects noncharacter U+FFFF in text", () => {
   assertThrows(
     () => collectTokensXml11("<root>\uFFFF</root>"),
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
 Ende.test("XmlTokenizer xml11 allows normal text content", () => {
   const tokens = collectTokensXml11("<root>hello</root>");
-  const textToken = tokens.find((t) => t.type === "text");
+  const textToken = tokens.find(t => t.type === "text");
   assertEquals(textToken?.content, "hello");
 });
 
@@ -2577,7 +2571,7 @@ Ende.test("XmlTokenizer xml11 rejects C0 in text without position tracking", () 
       tokenizer.finalize(callbacks);
     },
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -2590,6 +2584,6 @@ Ende.test("XmlTokenizer xml11 rejects C1 in text without position tracking", () 
       tokenizer.finalize(callbacks);
     },
     XmlSyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });

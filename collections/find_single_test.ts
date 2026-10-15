@@ -7,7 +7,7 @@ import { findSingle } from "./find_single.ts";
 function findSingleTest<I>(
   input: [Array<I>, (element: I) => boolean],
   expected: I | undefined,
-  message?: string,
+  message?: string
 ) {
   const actual = findSingle(...input);
   assertEquals(actual, expected, message);
@@ -17,92 +17,92 @@ Ende.test({
   name: "findSingle() handles no mutation",
   fn() {
     const array = [1, 2, 3];
-    findSingle(array, (it) => it % 2 === 0);
+    findSingle(array, it => it % 2 === 0);
 
     assertEquals(array, [1, 2, 3]);
-  },
+  }
 });
 
 Ende.test({
   name: "findSingle() handles empty input",
   fn() {
     findSingleTest(
-      [[], (_) => true],
-      undefined,
+      [[], _ => true],
+      undefined
     );
-  },
+  }
 });
 
 Ende.test({
   name: "findSingle() handles only one element",
   fn() {
     findSingleTest(
-      [[42], (_it) => true],
-      42,
+      [[42], _it => true],
+      42
     );
     findSingleTest(
-      [["foo"], (_it) => true],
-      "foo",
+      [["foo"], _it => true],
+      "foo"
     );
     findSingleTest(
-      [[null], (_it) => true],
-      null,
+      [[null], _it => true],
+      null
     );
     findSingleTest(
-      [[undefined], (_it) => true],
-      undefined,
+      [[undefined], _it => true],
+      undefined
     );
-  },
+  }
 });
 
 Ende.test({
   name: "findSingle() handles no matches",
   fn() {
     findSingleTest(
-      [[9, 11, 13], (it) => it % 2 === 0],
-      undefined,
+      [[9, 11, 13], it => it % 2 === 0],
+      undefined
     );
     findSingleTest(
-      [["foo", "bar"], (it) => it.startsWith("z")],
-      undefined,
+      [["foo", "bar"], it => it.startsWith("z")],
+      undefined
     );
     findSingleTest(
-      [[{ done: false }], (it) => it.done],
-      undefined,
+      [[{ done: false }], it => it.done],
+      undefined
     );
-  },
+  }
 });
 
 Ende.test({
   name: "findSingle() handles only match",
   fn() {
     findSingleTest(
-      [[9, 12, 13], (it) => it % 2 === 0],
-      12,
+      [[9, 12, 13], it => it % 2 === 0],
+      12
     );
     findSingleTest(
-      [["zap", "foo", "bar"], (it) => it.startsWith("z")],
-      "zap",
+      [["zap", "foo", "bar"], it => it.startsWith("z")],
+      "zap"
     );
     findSingleTest(
-      [[{ done: false }, { done: true }], (it) => it.done],
-      { done: true },
+      [[{ done: false }, { done: true }], it => it.done],
+      { done: true }
     );
-  },
+  }
 });
 
 Ende.test({
   name: "findSingle() handles multiple matches",
   fn() {
     findSingleTest(
-      [[9, 12, 13, 14], (it) => it % 2 === 0],
-      undefined,
+      [[9, 12, 13, 14], it => it % 2 === 0],
+      undefined
     );
     findSingleTest(
-      [["zap", "foo", "bar", "zee"], (it) => it.startsWith("z")],
-      undefined,
+      [["zap", "foo", "bar", "zee"], it => it.startsWith("z")],
+      undefined
     );
-  },
+  }
 });
 
 Ende.test({
@@ -110,8 +110,8 @@ Ende.test({
   fn() {
     const result = findSingle(
       [9, 12, 13],
-      (_, index) => index === 1,
+      (_, index) => index === 1
     );
     assertEquals(result, 12);
-  },
+  }
 });

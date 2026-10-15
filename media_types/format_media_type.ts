@@ -37,7 +37,7 @@ import { isIterator, isToken, needsEncoding } from "./_util.ts";
  */
 export function formatMediaType(
   type: string,
-  param?: Record<string, string> | Iterable<[string, string]>,
+  param?: Record<string, string> | Iterable<[string, string]>
 ): string {
   let serializedMediaType = "";
   const [major = "", sub] = type.split("/");
@@ -80,7 +80,7 @@ export function formatMediaType(
         serializedMediaType += value;
         continue;
       }
-      serializedMediaType += `"${value.replace(/["\\]/gi, (m) => `\\${m}`)}"`;
+      serializedMediaType += `"${value.replace(/["\\]/gi, m => `\\${m}`)}"`;
     }
   }
   return serializedMediaType;

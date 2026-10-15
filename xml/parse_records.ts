@@ -85,10 +85,10 @@ import { decodeAsyncIterable } from "./_decode.ts";
 export async function* parseXmlRecords<T>(
   source: AsyncIterable<string>,
   createCallbacks: (emit: (record: T) => void) => XmlEventCallbacks,
-  options: ParseStreamOptions = {},
+  options: ParseStreamOptions = {}
 ): AsyncGenerator<T> {
   const buffer: T[] = [];
-  const callbacks = createCallbacks((record) => buffer.push(record));
+  const callbacks = createCallbacks(record => buffer.push(record));
   const { tokenizer, parser } = createXmlPipeline(options, callbacks);
 
   // Fail-fast contract: a drain-then-throw approach interacts poorly with
@@ -96,12 +96,14 @@ export async function* parseXmlRecords<T>(
   // pending records.
   for await (const chunk of source) {
     tokenizer.process(chunk, parser);
-    for (let i = 0; i < buffer.length; i++) yield buffer[i]!;
+    for (let i = 0; i < buffer.length; i++)
+      yield buffer[i]!;
     buffer.length = 0;
   }
   tokenizer.finalize(parser);
   parser.finalize();
-  for (let i = 0; i < buffer.length; i++) yield buffer[i]!;
+  for (let i = 0; i < buffer.length; i++)
+    yield buffer[i]!;
 }
 
 /**
@@ -170,11 +172,11 @@ export async function* parseXmlRecords<T>(
 export function parseXmlRecordsFromBytes<T>(
   source: AsyncIterable<Uint8Array>,
   createCallbacks: (emit: (record: T) => void) => XmlEventCallbacks,
-  options: ParseStreamOptions = {},
+  options: ParseStreamOptions = {}
 ): AsyncGenerator<T> {
   return parseXmlRecords(
     decodeAsyncIterable(source),
     createCallbacks,
-    options,
+    options
   );
 }

@@ -29,15 +29,15 @@ import type { Uint8Array_ } from "./_types.ts";
 export type { Uint8Array_ };
 import {
   alphabet,
-  type Base64Alphabet,
-  type Base64Options,
   calcSizeBase64,
   decode,
   encode,
   padding,
   rAlphabet,
+  type Base64Alphabet,
+  type Base64Options
 } from "./_common64.ts";
-export { type Base64Alphabet, type Base64Options, calcSizeBase64 };
+export { calcSizeBase64, type Base64Alphabet, type Base64Options };
 import { detach } from "./_common_detach.ts";
 
 /**
@@ -82,7 +82,7 @@ import { detach } from "./_common_detach.ts";
  */
 export function encodeBase64(
   input: string | Uint8Array_ | ArrayBuffer,
-  options: Base64Options = {},
+  options: Base64Options = {}
 ): string {
   options.alphabet ??= "base64";
   if (typeof input === "string") {
@@ -92,12 +92,13 @@ export function encodeBase64(
   }
   let [output, i] = detach(
     input as Uint8Array_,
-    calcSizeBase64((input as Uint8Array_).length),
+    calcSizeBase64((input as Uint8Array_).length)
   );
   let o = encode(output, i, 0, alphabet[options.alphabet], padding);
   if (options.alphabet === "base64url") {
     o = output.indexOf(padding, o - 2);
-    if (o > 0) output = output.subarray(0, o);
+    if (o > 0)
+      output = output.subarray(0, o);
   }
   return new TextDecoder().decode(output);
 }
@@ -141,7 +142,7 @@ export function encodeBase64(
 export function encodeIntoBase64(
   input: string | Uint8Array_ | ArrayBuffer,
   output: Uint8Array_,
-  options: Base64Options = {},
+  options: Base64Options = {}
 ): number {
   options.alphabet ??= "base64";
   if (typeof input === "string") {
@@ -159,7 +160,8 @@ export function encodeIntoBase64(
   const o = encode(output, i, 0, alphabet[options.alphabet], padding);
   if (options.alphabet === "base64url") {
     const i = output.indexOf(padding, o - 2);
-    if (i > 0) return i;
+    if (i > 0)
+      return i;
   }
   return o;
 }
@@ -192,7 +194,7 @@ export function encodeIntoBase64(
  */
 export function decodeBase64(
   input: string | Uint8Array_,
-  options: Base64Options = {},
+  options: Base64Options = {}
 ): Uint8Array_ {
   options.alphabet ??= "base64";
   if (typeof input === "string") {
@@ -200,6 +202,6 @@ export function decodeBase64(
   }
   return input.subarray(
     0,
-    decode(input, 0, 0, rAlphabet[options.alphabet], padding),
+    decode(input, 0, 0, rAlphabet[options.alphabet], padding)
   );
 }

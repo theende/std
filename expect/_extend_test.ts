@@ -42,11 +42,11 @@ function areAuthorsEqual(a: unknown, b: unknown) {
   }
 }
 
-const areBooksEqual: Tester = function (
+const areBooksEqual: Tester = function(
   this: MatcherContext,
   a: unknown,
   b: unknown,
-  customTesters: Tester[],
+  customTesters: Tester[]
 ) {
   const isABook = a instanceof Book;
   const isBBook = b instanceof Book;
@@ -63,36 +63,35 @@ const areBooksEqual: Tester = function (
 
 expect.addEqualityTesters([
   areAuthorsEqual,
-  areBooksEqual,
+  areBooksEqual
 ]);
 
 expect.extend({
   toEqualBook(context, expected) {
     const actual = context.value as Book;
     const result = context.equal(expected, actual, {
-      customTesters: context.customTesters,
+      customTesters: context.customTesters
     });
 
     return {
-      message: () =>
-        `Expected Book object: ${expected.name}. Actual Book object: ${actual.name}`,
-      pass: result,
+      message: () => `Expected Book object: ${expected.name}. Actual Book object: ${actual.name}`,
+      pass: result
     };
-  },
+  }
 });
 
 Ende.test("expect.extend() api test case", () => {
   const book1a = new Book("Book 1", [
     new Author("Author 1"),
-    new Author("Author 2"),
+    new Author("Author 2")
   ]);
   const book1b = new Book("Book 1", [
     new Author("Author 1"),
-    new Author("Author 2"),
+    new Author("Author 2")
   ]);
   const book2 = new Book("Book 2", [
     new Author("Author 1"),
-    new Author("Author 2"),
+    new Author("Author 2")
   ]);
 
   expect(book1a).toEqualBook(book1b);
@@ -103,12 +102,12 @@ Ende.test("expect.extend() api test case", () => {
   assertThrows(
     () => expect(book1a).toEqualBook(book2),
     AssertionError,
-    "Expected Book object: Book 2. Actual Book object: Book 1",
+    "Expected Book object: Book 2. Actual Book object: Book 1"
   );
   assertThrows(
     () => expect(book1a).not.toEqualBook(book1b),
     AssertionError,
-    "Expected Book object: Book 1. Actual Book object: Book 1",
+    "Expected Book object: Book 1. Actual Book object: Book 1"
   );
 });
 
@@ -116,11 +115,11 @@ Ende.test("expect.extend() example is valid", async () => {
   // Extends the `Expected` interface with your new matchers signatures
   interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
     // Matcher that asserts value is a dinosaur
-    toBeDinosaur: (options?: { includeTrexs?: boolean }) => unknown;
+    toBeDinosaur: (options?: { includeTrexs?: boolean; }) => unknown;
 
     // NOTE: You also need to overrides the following typings to allow modifiers to correctly infer typing
-    not: IsAsync extends true ? Async<ExtendedExpected<true>>
-      : ExtendedExpected<false>;
+    not: IsAsync extends true ? Async<ExtendedExpected<true>> :
+      ExtendedExpected<false>;
     resolves: Async<ExtendedExpected<true>>;
     rejects: Async<ExtendedExpected<true>>;
   }
@@ -138,11 +137,11 @@ Ende.test("expect.extend() example is valid", async () => {
         // Note: when `context.isNot` is set, the test is considered successful when `pass` is false
         return {
           message: () => `Expected "${dino}" to NOT be a dinosaur`,
-          pass,
+          pass
         };
       }
       return { message: () => `Expected "${dino}" to be a dinosaur`, pass };
-    },
+    }
   });
 
   // Alias expect to avoid having to pass the generic typing argument each time

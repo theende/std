@@ -7,9 +7,12 @@ const CHAR_9 = 0x39;
 
 /** Hex digit value of a char code, or -1 if it is not a hex digit. */
 function hexValue(code: number): number {
-  if (code >= CHAR_0 && code <= CHAR_9) return code - CHAR_0;
-  if (code >= 0x61 && code <= 0x66) return code - 0x61 + 10; // a-f
-  if (code >= 0x41 && code <= 0x46) return code - 0x41 + 10; // A-F
+  if (code >= CHAR_0 && code <= CHAR_9)
+    return code - CHAR_0;
+  if (code >= 0x61 && code <= 0x66)
+    return code - 0x61 + 10; // a-f
+  if (code >= 0x41 && code <= 0x46)
+    return code - 0x41 + 10; // A-F
   return -1;
 }
 
@@ -43,23 +46,28 @@ function isDigit(code: number): boolean {
  */
 export function parseIPv4(addr: string): Uint8Array | undefined {
   const parts = addr.split(".");
-  if (parts.length !== 4) return undefined;
+  if (parts.length !== 4)
+    return undefined;
 
   const bytes = new Uint8Array(4);
   for (let i = 0; i < 4; i++) {
     const part = parts[i]!;
     // "Shortest possible" rules out leading zeros, so each octet value has
     // exactly one spelling and `010` cannot be read as octal.
-    if (part.length === 0 || part.length > 3) return undefined;
-    if (part.length > 1 && part.charCodeAt(0) === CHAR_0) return undefined;
+    if (part.length === 0 || part.length > 3)
+      return undefined;
+    if (part.length > 1 && part.charCodeAt(0) === CHAR_0)
+      return undefined;
 
     let value = 0;
     for (let j = 0; j < part.length; j++) {
       const code = part.charCodeAt(j);
-      if (!isDigit(code)) return undefined;
+      if (!isDigit(code))
+        return undefined;
       value = value * 10 + (code - CHAR_0);
     }
-    if (value > 255) return undefined;
+    if (value > 255)
+      return undefined;
     bytes[i] = value;
   }
   return bytes;
@@ -125,17 +133,20 @@ export function parseIPv6(addr: string): Uint8Array | undefined {
   let pointer = 0;
 
   if (addr.charCodeAt(pointer) === 0x3a) { // ":"
-    if (addr.charCodeAt(pointer + 1) !== 0x3a) return undefined;
+    if (addr.charCodeAt(pointer + 1) !== 0x3a)
+      return undefined;
     pointer += 2;
     pieceIndex += 1;
     compress = pieceIndex;
   }
 
   while (pointer < addr.length) {
-    if (pieceIndex === 8) return undefined;
+    if (pieceIndex === 8)
+      return undefined;
 
     if (addr.charCodeAt(pointer) === 0x3a) {
-      if (compress !== -1) return undefined;
+      if (compress !== -1)
+        return undefined;
       pointer += 1;
       pieceIndex += 1;
       compress = pieceIndex;
@@ -146,17 +157,20 @@ export function parseIPv6(addr: string): Uint8Array | undefined {
     let length = 0;
     while (length < 4) {
       const digit = hexValue(addr.charCodeAt(pointer));
-      if (digit === -1) break;
+      if (digit === -1)
+        break;
       value = value * 0x10 + digit;
       pointer += 1;
       length += 1;
     }
 
     if (addr.charCodeAt(pointer) === 0x2e) { // "."
-      if (length === 0) return undefined;
+      if (length === 0)
+        return undefined;
       // Rewind: what looked like a hextet is the first octet of an IPv4 tail.
       pointer -= length;
-      if (pieceIndex > 6) return undefined;
+      if (pieceIndex > 6)
+        return undefined;
 
       let numbersSeen = 0;
       while (pointer < addr.length) {
@@ -164,26 +178,35 @@ export function parseIPv6(addr: string): Uint8Array | undefined {
         if (numbersSeen > 0) {
           if (addr.charCodeAt(pointer) === 0x2e && numbersSeen < 4) {
             pointer += 1;
-          } else return undefined;
+          } else
+            return undefined;
         }
-        if (!isDigit(addr.charCodeAt(pointer))) return undefined;
+        if (!isDigit(addr.charCodeAt(pointer)))
+          return undefined;
         while (isDigit(addr.charCodeAt(pointer))) {
           const number = addr.charCodeAt(pointer) - CHAR_0;
-          if (ipv4Piece === -1) ipv4Piece = number;
-          else if (ipv4Piece === 0) return undefined;
-          else ipv4Piece = ipv4Piece * 10 + number;
-          if (ipv4Piece > 255) return undefined;
+          if (ipv4Piece === -1)
+            ipv4Piece = number;
+          else if (ipv4Piece === 0)
+            return undefined;
+          else
+            ipv4Piece = ipv4Piece * 10 + number;
+          if (ipv4Piece > 255)
+            return undefined;
           pointer += 1;
         }
         pieces[pieceIndex] = pieces[pieceIndex]! * 0x100 + ipv4Piece;
         numbersSeen += 1;
-        if (numbersSeen === 2 || numbersSeen === 4) pieceIndex += 1;
+        if (numbersSeen === 2 || numbersSeen === 4)
+          pieceIndex += 1;
       }
-      if (numbersSeen !== 4) return undefined;
+      if (numbersSeen !== 4)
+        return undefined;
       break;
     } else if (addr.charCodeAt(pointer) === 0x3a) {
       pointer += 1;
-      if (pointer >= addr.length) return undefined;
+      if (pointer >= addr.length)
+        return undefined;
     } else if (pointer < addr.length) {
       return undefined;
     }
@@ -203,7 +226,8 @@ export function parseIPv6(addr: string): Uint8Array | undefined {
       pieceIndex -= 1;
       swaps -= 1;
     }
-  } else if (pieceIndex !== 8) return undefined;
+  } else if (pieceIndex !== 8)
+    return undefined;
 
   const bytes = new Uint8Array(16);
   for (let i = 0; i < 8; i++) {
@@ -262,18 +286,21 @@ export function isIPv6(addr: string): boolean {
  */
 export function matchSubnets(addr: string, subnetOrIps: string[]): boolean {
   const isV4 = isIPv4(addr);
-  if (!isV4 && !isIPv6(addr)) return false;
+  if (!isV4 && !isIPv6(addr))
+    return false;
 
   for (const subnetOrIp of subnetOrIps) {
     // Without a "/" the entry is a specific address, compared verbatim.
     if (!subnetOrIp.includes("/")) {
-      if (addr === subnetOrIp) return true;
+      if (addr === subnetOrIp)
+        return true;
       continue;
     }
-    const matched = isV4
-      ? matchIPv4Subnet(addr, subnetOrIp)
-      : matchIPv6Subnet(addr, subnetOrIp);
-    if (matched) return true;
+    const matched = isV4 ?
+      matchIPv4Subnet(addr, subnetOrIp) :
+      matchIPv6Subnet(addr, subnetOrIp);
+    if (matched)
+      return true;
   }
 
   return false;
@@ -286,16 +313,19 @@ export function matchSubnets(addr: string, subnetOrIps: string[]): boolean {
  */
 function parsePrefixLength(
   prefix: string,
-  maxLength: number,
+  maxLength: number
 ): number | undefined {
-  if (prefix.length === 0) return undefined;
+  if (prefix.length === 0)
+    return undefined;
 
   let value = 0;
   for (let i = 0; i < prefix.length; i++) {
     const code = prefix.charCodeAt(i);
-    if (!isDigit(code)) return undefined;
+    if (!isDigit(code))
+      return undefined;
     value = value * 10 + (code - CHAR_0);
-    if (value > maxLength) return undefined;
+    if (value > maxLength)
+      return undefined;
   }
   return value;
 }
@@ -304,16 +334,19 @@ function parsePrefixLength(
 function parseSubnet(
   subnet: string,
   parse: (addr: string) => Uint8Array | undefined,
-  maxLength: number,
+  maxLength: number
 ): [Uint8Array, number] | undefined {
   const slash = subnet.indexOf("/");
-  if (slash === -1) return undefined;
+  if (slash === -1)
+    return undefined;
 
   const bytes = parse(subnet.slice(0, slash));
-  if (bytes === undefined) return undefined;
+  if (bytes === undefined)
+    return undefined;
 
   const prefixLength = parsePrefixLength(subnet.slice(slash + 1), maxLength);
-  if (prefixLength === undefined) return undefined;
+  if (prefixLength === undefined)
+    return undefined;
 
   return [bytes, prefixLength];
 }
@@ -322,15 +355,17 @@ function parseSubnet(
 function matchPrefix(
   addr: Uint8Array,
   subnet: Uint8Array,
-  prefixLength: number,
+  prefixLength: number
 ): boolean {
   const fullBytes = prefixLength >> 3;
   for (let i = 0; i < fullBytes; i++) {
-    if (addr[i] !== subnet[i]) return false;
+    if (addr[i] !== subnet[i])
+      return false;
   }
 
   const remainingBits = prefixLength & 7;
-  if (remainingBits === 0) return true;
+  if (remainingBits === 0)
+    return true;
 
   const mask = (0xff << (8 - remainingBits)) & 0xff;
   return (addr[fullBytes]! & mask) === (subnet[fullBytes]! & mask);
@@ -356,10 +391,12 @@ function matchPrefix(
  */
 export function matchIPv4Subnet(addr: string, subnet: string): boolean {
   const addrBytes = parseIPv4(addr);
-  if (addrBytes === undefined) return false;
+  if (addrBytes === undefined)
+    return false;
 
   const parsed = parseSubnet(subnet, parseIPv4, 32);
-  if (parsed === undefined) return false;
+  if (parsed === undefined)
+    return false;
 
   return matchPrefix(addrBytes, parsed[0], parsed[1]);
 }
@@ -384,10 +421,12 @@ export function matchIPv4Subnet(addr: string, subnet: string): boolean {
  */
 export function matchIPv6Subnet(addr: string, subnet: string): boolean {
   const addrBytes = parseIPv6(addr);
-  if (addrBytes === undefined) return false;
+  if (addrBytes === undefined)
+    return false;
 
   const parsed = parseSubnet(subnet, parseIPv6, 128);
-  if (parsed === undefined) return false;
+  if (parsed === undefined)
+    return false;
 
   return matchPrefix(addrBytes, parsed[0], parsed[1]);
 }

@@ -3,6 +3,7 @@
 // This module is browser compatible.
 
 type KeyedCollection = Set<unknown> | Map<unknown, unknown>;
+
 function isKeyedCollection(x: unknown): x is KeyedCollection {
   return x instanceof Set || x instanceof Map;
 }
@@ -10,6 +11,7 @@ function isKeyedCollection(x: unknown): x is KeyedCollection {
 function prototypesEqual(a: object, b: object) {
   const pa = Object.getPrototypeOf(a);
   const pb = Object.getPrototypeOf(b);
+
   return pa === pb ||
     pa === Object.prototype && pb === null ||
     pa === null && pb === Object.prototype;
@@ -17,15 +19,14 @@ function prototypesEqual(a: object, b: object) {
 
 function isBasicObjectOrArray(obj: object) {
   const proto = Object.getPrototypeOf(obj);
-  return proto === null || proto === Object.prototype ||
-    proto === Array.prototype;
+  return proto === null || proto === Object.prototype || proto === Array.prototype;
 }
 
 // Slightly faster than Reflect.ownKeys in V8 as of 12.9.202.13-rusty (2024-10-28)
 function ownKeys(obj: object) {
   return [
     ...Object.getOwnPropertyNames(obj),
-    ...Object.getOwnPropertySymbols(obj),
+    ...Object.getOwnPropertySymbols(obj)
   ];
 }
 
@@ -36,6 +37,7 @@ function getKeysDeep(obj: object) {
     for (const key of ownKeys(obj)) {
       keys.add(key);
     }
+
     obj = Object.getPrototypeOf(obj);
   }
 
@@ -59,8 +61,10 @@ const stringComparablePrototypes = new Set<unknown>(
     Temporal.PlainMonthDay,
     Temporal.ZonedDateTime,
     URL,
-    URLSearchParams,
-  ].filter((x) => x != null).map((x) => x.prototype),
+    URLSearchParams
+  ]
+    .filter(x => x != null)
+    .map(x => x.prototype)
 );
 
 function isPrimitive(x: unknown) {
@@ -74,11 +78,16 @@ function isPrimitive(x: unknown) {
 
 type TypedArray = Pick<Uint8Array | BigUint64Array, "length" | number>;
 const TypedArray = Object.getPrototypeOf(Uint8Array);
+
 function compareTypedArrays(a: TypedArray, b: TypedArray) {
-  if (a.length !== b.length) return false;
+  if (a.length !== b.length)
+    return false;
+
   for (let i = 0; i < b.length; i++) {
-    if (!sameValueZero(a[i], b[i])) return false;
+    if (!sameValueZero(a[i], b[i]))
+      return false;
   }
+
   return true;
 }
 
@@ -112,56 +121,61 @@ function sameValueZero(a: unknown, b: unknown) {
  */
 export function equal(a: unknown, b: unknown): boolean {
   const seen = new Map<unknown, unknown>();
-  return (function compare(a: unknown, b: unknown): boolean {
-    if (sameValueZero(a, b)) return true;
-    if (isPrimitive(a) || isPrimitive(b)) return false;
 
-    if (a instanceof Date && b instanceof Date) {
+  return (function compare(a: unknown, b: unknown): boolean {
+    if (sameValueZero(a, b))
+      return true;
+
+    if (isPrimitive(a) || isPrimitive(b))
+      return false;
+
+    if (a instanceof Date && b instanceof Date)
       return Object.is(a.getTime(), b.getTime());
-    }
+
     if (a && typeof a === "object" && b && typeof b === "object") {
-      if (!prototypesEqual(a, b)) {
+      if (!prototypesEqual(a, b))
         return false;
-      }
-      if (a instanceof TypedArray) {
+
+      if (a instanceof TypedArray)
         return compareTypedArrays(a as TypedArray, b as TypedArray);
-      }
+
       if (
         a instanceof ArrayBuffer ||
         (globalThis.SharedArrayBuffer && a instanceof SharedArrayBuffer)
       ) {
         return compareTypedArrays(
           new Uint8Array(a),
-          new Uint8Array(b as ArrayBuffer | SharedArrayBuffer),
+          new Uint8Array(b as ArrayBuffer | SharedArrayBuffer)
         );
       }
-      if (a instanceof WeakMap) {
+
+      if (a instanceof WeakMap)
         throw new TypeError("Cannot compare WeakMap instances");
-      }
-      if (a instanceof WeakSet) {
+
+      if (a instanceof WeakSet)
         throw new TypeError("Cannot compare WeakSet instances");
-      }
-      if (a instanceof WeakRef) {
+
+      if (a instanceof WeakRef)
         return compare(a.deref(), (b as WeakRef<WeakKey>).deref());
-      }
-      if (seen.get(a) === b) {
+
+      if (seen.get(a) === b)
         return true;
-      }
-      if (Object.keys(a).length !== Object.keys(b).length) {
+
+      if (Object.keys(a).length !== Object.keys(b).length)
         return false;
-      }
+
       seen.set(a, b);
+
       if (isKeyedCollection(a) && isKeyedCollection(b)) {
-        if (a.size !== b.size) {
+        if (a.size !== b.size)
           return false;
-        }
 
         const aKeys = [...a.keys()];
         const primitiveKeysFastPath = aKeys.every(isPrimitive);
+
         if (primitiveKeysFastPath) {
-          if (a instanceof Set) {
+          if (a instanceof Set)
             return a.symmetricDifference(b).size === 0;
-          }
 
           for (const key of aKeys) {
             if (
@@ -171,6 +185,7 @@ export function equal(a: unknown, b: unknown): boolean {
               return false;
             }
           }
+
           return true;
         }
 
@@ -181,7 +196,8 @@ export function equal(a: unknown, b: unknown): boolean {
             /* Given that Map keys can be references, we need
              * to ensure that they are also deeply equal */
 
-            if (!compare(aKey, bKey)) continue;
+            if (!compare(aKey, bKey))
+              continue;
 
             if (
               (aKey === aValue && bKey === bValue) ||
@@ -211,15 +227,17 @@ export function equal(a: unknown, b: unknown): boolean {
 
       for (const key of keys) {
         type Key = keyof typeof a;
-        if (!compare(a[key as Key], b[key as Key])) {
+
+        if (!compare(a[key as Key], b[key as Key]))
           return false;
-        }
-        if (((key in a) && (!(key in b))) || ((key in b) && (!(key in a)))) {
+
+        if (((key in a) && (!(key in b))) || ((key in b) && (!(key in a))))
           return false;
-        }
       }
+
       return true;
     }
+
     return false;
   })(a, b);
 }

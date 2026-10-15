@@ -8,7 +8,7 @@ function withoutAllTest<I>(
   input: Array<I>,
   excluded: Array<I>,
   expected: Array<I>,
-  message?: string,
+  message?: string
 ) {
   const actual = withoutAll(input, excluded);
   assertEquals(actual, expected, message);
@@ -20,21 +20,21 @@ Ende.test({
     const array = [1, 2, 3, 4];
     withoutAll(array, [2, 3]);
     assertEquals(array, [1, 2, 3, 4]);
-  },
+  }
 });
 
 Ende.test({
   name: "withoutAll() handles empty input",
   fn() {
     withoutAllTest([], [], []);
-  },
+  }
 });
 
 Ende.test({
   name: "withoutAll() handles no matches",
   fn() {
     withoutAllTest([1, 2, 3, 4], [0, 7, 9], [1, 2, 3, 4]);
-  },
+  }
 });
 
 Ende.test({
@@ -42,7 +42,7 @@ Ende.test({
   fn() {
     withoutAllTest([1, 2, 3, 4], [1], [2, 3, 4]);
     withoutAllTest([1, 2, 3, 2], [2], [1, 3]);
-  },
+  }
 });
 
 Ende.test({
@@ -50,7 +50,7 @@ Ende.test({
   fn() {
     withoutAllTest([1, 2, 3, 4, 6, 3], [1, 2], [3, 4, 6, 3]);
     withoutAllTest([7, 2, 9, 8, 7, 6, 5, 7], [7, 9], [2, 8, 6, 5]);
-  },
+  }
 });
 
 Ende.test({
@@ -59,9 +59,9 @@ Ende.test({
     withoutAllTest(
       Array.from({ length: 110 }, () => 3),
       [1],
-      Array.from({ length: 110 }, () => 3),
+      Array.from({ length: 110 }, () => 3)
     );
-  },
+  }
 });
 
 Ende.test("withoutAll() handles generators", () => {

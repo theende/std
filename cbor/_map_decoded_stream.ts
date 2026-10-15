@@ -49,7 +49,7 @@ export class CborMapDecodedStream extends ReadableStream<CborMapStreamOutput> {
    */
   constructor(
     gen: AsyncGenerator<CborMapStreamOutput>,
-    releaseLock: ReleaseLock,
+    releaseLock: ReleaseLock
   ) {
     super({
       async pull(controller) {
@@ -57,13 +57,15 @@ export class CborMapDecodedStream extends ReadableStream<CborMapStreamOutput> {
         if (done) {
           releaseLock();
           controller.close();
-        } else controller.enqueue(value);
+        } else
+          controller.enqueue(value);
       },
       async cancel() {
         // deno-lint-ignore no-empty
-        for await (const _ of gen) {}
+        for await (const _ of gen) {
+        }
         releaseLock();
-      },
+      }
     });
   }
 }

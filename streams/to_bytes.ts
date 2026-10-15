@@ -23,7 +23,7 @@
  * ```
  */
 export function toBytes(
-  stream: ReadableStream<Uint8Array>,
+  stream: ReadableStream<Uint8Array>
 ): Promise<Uint8Array> {
   return new Response(stream).bytes();
 }

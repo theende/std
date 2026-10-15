@@ -64,17 +64,19 @@
  * ```
  */
 export function zip<T extends unknown[]>(
-  ...iterables: { [K in keyof T]: Iterable<T[K]> }
+  ...iterables: { [K in keyof T]: Iterable<T[K]>; }
 ): T[] {
   const arrayCount = iterables.length;
-  if (arrayCount === 0) return [];
+  if (arrayCount === 0)
+    return [];
 
-  const arrays = iterables.map((it) => Array.isArray(it) ? it : Array.from(it));
+  const arrays = iterables.map(it => Array.isArray(it) ? it : Array.from(it));
 
   let minLength = arrays[0]!.length;
   for (let i = 1; i < arrayCount; ++i) {
     const len = arrays[i]!.length;
-    if (len < minLength) minLength = len;
+    if (len < minLength)
+      minLength = len;
   }
 
   const result: T[] = new Array(minLength);

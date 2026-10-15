@@ -6,7 +6,7 @@ import { configureGlobalSanitizers } from "@ende/testing/unstable-bdd";
 
 configureGlobalSanitizers({
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });
 
 it("leaks ops", () => {

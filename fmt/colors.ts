@@ -55,9 +55,9 @@
 
 // deno-lint-ignore no-explicit-any
 const { Ende } = globalThis as any;
-const noColor = typeof Ende?.noColor === "boolean"
-  ? Ende.noColor as boolean
-  : false;
+const noColor = typeof Ende?.noColor === "boolean" ?
+  Ende.noColor as boolean :
+  false;
 
 interface Code {
   open: string;
@@ -129,7 +129,7 @@ function code(open: number[], close: number): Code {
   return {
     open: `\x1b[${open.join(";")}m`,
     close: `\x1b[${close}m`,
-    regexp: new RegExp(`\\x1b\\[${close}m`, "g"),
+    regexp: new RegExp(`\\x1b\\[${close}m`, "g")
   };
 }
 
@@ -139,9 +139,9 @@ function code(open: number[], close: number): Code {
  * @param code The color code to apply
  */
 function run(str: string, code: Code): string {
-  return enabled
-    ? `${code.open}${str.replace(code.regexp, code.open)}${code.close}`
-    : str;
+  return enabled ?
+    `${code.open}${str.replace(code.regexp, code.open)}${code.close}` :
+    str;
 }
 
 /**
@@ -916,8 +916,8 @@ export function rgb24(str: string, color: number | Rgb): string {
       str,
       code(
         [38, 2, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff],
-        39,
-      ),
+        39
+      )
     );
   }
   return run(
@@ -928,10 +928,10 @@ export function rgb24(str: string, color: number | Rgb): string {
         2,
         clampAndTruncate(color.r),
         clampAndTruncate(color.g),
-        clampAndTruncate(color.b),
+        clampAndTruncate(color.b)
       ],
-      39,
-    ),
+      39
+    )
   );
 }
 
@@ -957,8 +957,8 @@ export function bgRgb24(str: string, color: number | Rgb): string {
       str,
       code(
         [48, 2, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff],
-        49,
-      ),
+        49
+      )
     );
   }
   return run(
@@ -969,10 +969,10 @@ export function bgRgb24(str: string, color: number | Rgb): string {
         2,
         clampAndTruncate(color.r),
         clampAndTruncate(color.g),
-        clampAndTruncate(color.b),
+        clampAndTruncate(color.b)
       ],
-      49,
-    ),
+      49
+    )
   );
 }
 
@@ -980,9 +980,10 @@ export function bgRgb24(str: string, color: number | Rgb): string {
 const ANSI_REGEXP = new RegExp(
   [
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
-    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TXZcf-nq-uy=><~]))",
-  ].join("|"),
-  "g",
+    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TXZcf-nq-uy=><~]))"
+  ]
+    .join("|"),
+  "g"
 );
 
 /**

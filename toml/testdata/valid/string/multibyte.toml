@@ -1,7 +1,7 @@
 # Test each multibyte length: 2, 3, and 4 bytes:
 # ɑ € 𐫱
 
-basic    = "ɑ € 𐫱 ɑ€𐫱"
-raw      = 'ɑ € 𐫱 ɑ€𐫱'
+basic = "ɑ € 𐫱 ɑ€𐫱"
+raw = 'ɑ € 𐫱 ɑ€𐫱'
 ml-basic = """ɑ € 𐫱 ɑ€𐫱"""
-ml-raw   = '''ɑ € 𐫱 ɑ€𐫱'''
+ml-raw = '''ɑ € 𐫱 ɑ€𐫱'''

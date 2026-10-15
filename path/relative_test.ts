@@ -33,7 +33,7 @@ const relativeTests = {
     ["\\\\foo\\baz-quux", "\\\\foo\\baz", "..\\baz"],
     ["\\\\foo\\baz", "\\\\foo\\baz-quux", "..\\baz-quux"],
     ["C:\\baz", "\\\\foo\\bar\\baz", "\\\\foo\\bar\\baz"],
-    ["\\\\foo\\bar\\baz", "C:\\baz", "C:\\baz"],
+    ["\\\\foo\\bar\\baz", "C:\\baz", "C:\\baz"]
   ] as const,
   // arguments          result
   posix: [
@@ -48,27 +48,27 @@ const relativeTests = {
     ["/foo/bar/baz-quux", "/foo/bar/baz", "../baz"],
     ["/foo/bar/baz", "/foo/bar/baz-quux", "../baz-quux"],
     ["/baz-quux", "/baz", "../baz"],
-    ["/baz", "/baz-quux", "../baz-quux"],
-  ] as const,
+    ["/baz", "/baz-quux", "../baz-quux"]
+  ] as const
 };
 
-Ende.test("posix.relative()", function () {
-  relativeTests.posix.forEach(function (p) {
+Ende.test("posix.relative()", function() {
+  relativeTests.posix.forEach(function(p) {
     const expected = p[2];
     const actual = posix.relative(p[0], p[1]);
     assertEquals(actual, expected);
   });
 });
 
-Ende.test("windows.relative()", function () {
-  relativeTests.windows.forEach(function (p) {
+Ende.test("windows.relative()", function() {
+  relativeTests.windows.forEach(function(p) {
     const expected = p[2];
     const actual = windows.relative(p[0], p[1]);
     assertEquals(actual, expected);
   });
 });
 
-Ende.test("relative() returns current working directory if input is empty", function () {
+Ende.test("relative() returns current working directory if input is empty", function() {
   const pwd = Ende.cwd();
   assertEquals(relative("", pwd), "");
   assertEquals(relative(pwd, ""), "");

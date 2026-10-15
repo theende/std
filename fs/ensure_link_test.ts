@@ -8,9 +8,9 @@ import { ensureLink, ensureLinkSync } from "./ensure_link.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Ende.test("ensureLink() rejects if src and dest do not exist", async function () {
+Ende.test("ensureLink() rejects if src and dest do not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_link_",
+    prefix: "ende_std_ensure_link_"
   });
   const srcDir = path.join(testdataDir, "ensure_link_1");
   const destDir = path.join(tempDirPath, "ensure_link_1_2");
@@ -20,15 +20,15 @@ Ende.test("ensureLink() rejects if src and dest do not exist", async function ()
   await assertRejects(
     async () => {
       await ensureLink(testFile, linkFile);
-    },
+    }
   );
 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureLinkSync() throws if src and dest do not exist", function () {
+Ende.test("ensureLinkSync() throws if src and dest do not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_link_sync_",
+    prefix: "ende_std_ensure_link_sync_"
   });
   const testDir = path.join(tempDirPath, "ensure_link_2");
   const testFile = path.join(testDir, "test.txt");
@@ -41,9 +41,9 @@ Ende.test("ensureLinkSync() throws if src and dest do not exist", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureLink() ensures dest links to the src", async function () {
+Ende.test("ensureLink() ensures dest links to the src", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_link_",
+    prefix: "ende_std_ensure_link_"
   });
   const testDir = path.join(tempDirPath, "ensure_link_3");
   const testFile = path.join(testDir, "test.txt");
@@ -83,9 +83,9 @@ Ende.test("ensureLink() ensures dest links to the src", async function () {
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureLinkSync() ensures dest links to the src", function () {
+Ende.test("ensureLinkSync() ensures dest links to the src", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_link_sync_",
+    prefix: "ende_std_ensure_link_sync_"
   });
   const testDir = path.join(tempDirPath, "ensure_link_4");
   const testFile = path.join(testDir, "test.txt");
@@ -109,10 +109,10 @@ Ende.test("ensureLinkSync() ensures dest links to the src", function () {
   Ende.writeFileSync(testFile, new TextEncoder().encode("123"));
 
   const testFileContent1 = new TextDecoder().decode(
-    Ende.readFileSync(testFile),
+    Ende.readFileSync(testFile)
   );
   const linkFileContent1 = new TextDecoder().decode(
-    Ende.readFileSync(testFile),
+    Ende.readFileSync(testFile)
   );
 
   assertEquals(testFileContent1, "123");
@@ -122,10 +122,10 @@ Ende.test("ensureLinkSync() ensures dest links to the src", function () {
   Ende.writeFileSync(testFile, new TextEncoder().encode("abc"));
 
   const testFileContent2 = new TextDecoder().decode(
-    Ende.readFileSync(testFile),
+    Ende.readFileSync(testFile)
   );
   const linkFileContent2 = new TextDecoder().decode(
-    Ende.readFileSync(testFile),
+    Ende.readFileSync(testFile)
   );
 
   assertEquals(testFileContent2, "abc");
@@ -134,9 +134,9 @@ Ende.test("ensureLinkSync() ensures dest links to the src", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureLink() rejects if link does not exist", async function () {
+Ende.test("ensureLink() rejects if link does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_link_",
+    prefix: "ende_std_ensure_link_"
   });
   const testDir = path.join(tempDirPath, "ensure_link_origin_3");
   const linkDir = path.join(tempDirPath, "ensure_link_link_3");
@@ -148,7 +148,7 @@ Ende.test("ensureLink() rejects if link does not exist", async function () {
   await assertRejects(
     async () => {
       await ensureLink(testDir, linkDir);
-    },
+    }
     // "Operation not permitted (os error 1)" // throw an local matching test
     // "Access is denied. (os error 5)" // throw in CI
   );
@@ -156,9 +156,9 @@ Ende.test("ensureLink() rejects if link does not exist", async function () {
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureLinkSync() throws if link does not exist", function () {
+Ende.test("ensureLinkSync() throws if link does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_link_sync_",
+    prefix: "ende_std_ensure_link_sync_"
   });
   const testDir = path.join(tempDirPath, "ensure_link_origin_3");
   const linkDir = path.join(tempDirPath, "ensure_link_link_3");
@@ -170,7 +170,7 @@ Ende.test("ensureLinkSync() throws if link does not exist", function () {
   assertThrows(
     () => {
       ensureLinkSync(testDir, linkDir);
-    },
+    }
     // "Operation not permitted (os error 1)" // throw an local matching test
     // "Access is denied. (os error 5)" // throw in CI
   );

@@ -15,42 +15,42 @@ Ende.test("canonicalize() serializes literals", () => {
 // RFC 8785 §3.2.2.2: Strings
 
 Ende.test("canonicalize() serializes strings", () => {
-  assertEquals(canonicalize(""), '""');
-  assertEquals(canonicalize("hello"), '"hello"');
+  assertEquals(canonicalize(""), "\"\"");
+  assertEquals(canonicalize("hello"), "\"hello\"");
 });
 
 Ende.test("canonicalize() escapes mandatory characters in strings", () => {
-  assertEquals(canonicalize('a"b'), '"a\\"b"');
-  assertEquals(canonicalize("a\\b"), '"a\\\\b"');
+  assertEquals(canonicalize("a\"b"), "\"a\\\"b\"");
+  assertEquals(canonicalize("a\\b"), "\"a\\\\b\"");
 });
 
 Ende.test("canonicalize() uses two-character escape sequences", () => {
-  assertEquals(canonicalize("a\bb"), '"a\\bb"');
-  assertEquals(canonicalize("a\fb"), '"a\\fb"');
-  assertEquals(canonicalize("a\nb"), '"a\\nb"');
-  assertEquals(canonicalize("a\rb"), '"a\\rb"');
-  assertEquals(canonicalize("a\tb"), '"a\\tb"');
+  assertEquals(canonicalize("a\bb"), "\"a\\bb\"");
+  assertEquals(canonicalize("a\fb"), "\"a\\fb\"");
+  assertEquals(canonicalize("a\nb"), "\"a\\nb\"");
+  assertEquals(canonicalize("a\rb"), "\"a\\rb\"");
+  assertEquals(canonicalize("a\tb"), "\"a\\tb\"");
 });
 
 Ende.test("canonicalize() escapes other control characters as \\uXXXX", () => {
-  assertEquals(canonicalize("\x00"), '"\\u0000"');
-  assertEquals(canonicalize("\x0f"), '"\\u000f"');
-  assertEquals(canonicalize("\x1f"), '"\\u001f"');
+  assertEquals(canonicalize("\x00"), "\"\\u0000\"");
+  assertEquals(canonicalize("\x0f"), "\"\\u000f\"");
+  assertEquals(canonicalize("\x1f"), "\"\\u001f\"");
 });
 
 Ende.test("canonicalize() does not escape forward slash", () => {
-  assertEquals(canonicalize("a/b"), '"a/b"');
+  assertEquals(canonicalize("a/b"), "\"a/b\"");
   assertEquals(
     canonicalize("https://example.com/path"),
-    '"https://example.com/path"',
+    "\"https://example.com/path\""
   );
 });
 
 Ende.test("canonicalize() preserves unicode characters without escaping", () => {
-  assertEquals(canonicalize("こんにちは"), '"こんにちは"');
-  assertEquals(canonicalize("€"), '"€"');
-  assertEquals(canonicalize("🦕"), '"🦕"');
-  assertEquals(canonicalize("emoji: 👪"), '"emoji: 👪"');
+  assertEquals(canonicalize("こんにちは"), "\"こんにちは\"");
+  assertEquals(canonicalize("€"), "\"€\"");
+  assertEquals(canonicalize("🦕"), "\"🦕\"");
+  assertEquals(canonicalize("emoji: 👪"), "\"emoji: 👪\"");
 });
 
 // RFC 8785 §3.2.2.3: Numbers
@@ -99,17 +99,17 @@ Ende.test("canonicalize() throws on non-finite numbers", () => {
   assertThrows(
     () => canonicalize(NaN),
     TypeError,
-    "Cannot canonicalize non-finite number",
+    "Cannot canonicalize non-finite number"
   );
   assertThrows(
     () => canonicalize(Infinity),
     TypeError,
-    "Cannot canonicalize non-finite number",
+    "Cannot canonicalize non-finite number"
   );
   assertThrows(
     () => canonicalize(-Infinity),
     TypeError,
-    "Cannot canonicalize non-finite number",
+    "Cannot canonicalize non-finite number"
   );
 });
 
@@ -120,14 +120,14 @@ Ende.test("canonicalize() handles empty object", () => {
 });
 
 Ende.test("canonicalize() sorts object keys by UTF-16 code units", () => {
-  assertEquals(canonicalize({ z: 1, a: 2 }), '{"a":2,"z":1}');
-  assertEquals(canonicalize({ c: 3, b: 2, a: 1 }), '{"a":1,"b":2,"c":3}');
-  assertEquals(canonicalize({ a: 1, A: 2, "1": 3 }), '{"1":3,"A":2,"a":1}');
+  assertEquals(canonicalize({ z: 1, a: 2 }), "{\"a\":2,\"z\":1}");
+  assertEquals(canonicalize({ c: 3, b: 2, a: 1 }), "{\"a\":1,\"b\":2,\"c\":3}");
+  assertEquals(canonicalize({ a: 1, A: 2, "1": 3 }), "{\"1\":3,\"A\":2,\"a\":1}");
 });
 
 Ende.test("canonicalize() sorts unicode keys by UTF-16 code units", () => {
-  assertEquals(canonicalize({ "€": 1, "$": 2 }), '{"$":2,"€":1}');
-  assertEquals(canonicalize({ "ö": 1, "o": 2 }), '{"o":2,"ö":1}');
+  assertEquals(canonicalize({ "€": 1, $: 2 }), "{\"$\":2,\"€\":1}");
+  assertEquals(canonicalize({ ö: 1, o: 2 }), "{\"o\":2,\"ö\":1}");
 });
 
 Ende.test("canonicalize() sorts supplementary-plane keys by UTF-16 code units (RFC 8785 §3.2.3)", () => {
@@ -136,59 +136,59 @@ Ende.test("canonicalize() sorts supplementary-plane keys by UTF-16 code units (R
   const data = {
     "\u20ac": "Euro Sign",
     "\r": "Carriage Return",
-    "\ufb33": "Hebrew Letter Dalet With Dagesh",
+    דּ: "Hebrew Letter Dalet With Dagesh",
     "1": "One",
     "\ud83d\ude00": "Emoji: Grinning Face",
     "\u0080": "Control",
-    "\u00f8": "Latin Small Letter O With Stroke",
+    ø: "Latin Small Letter O With Stroke"
   };
   // Verify the canonical key order directly (not via JSON.parse, which
   // reorders integer-like keys per V8 property ordering rules).
   assertEquals(
     canonicalize(data),
-    '{"\\r":"Carriage Return",' +
-      '"1":"One",' +
-      '"\u0080":"Control",' +
-      '"\u00f8":"Latin Small Letter O With Stroke",' +
-      '"\u20ac":"Euro Sign",' +
-      '"\ud83d\ude00":"Emoji: Grinning Face",' +
-      '"\ufb33":"Hebrew Letter Dalet With Dagesh"}',
+    "{\"\\r\":\"Carriage Return\"," +
+      "\"1\":\"One\"," +
+      "\"\u0080\":\"Control\"," +
+      "\"\u00f8\":\"Latin Small Letter O With Stroke\"," +
+      "\"\u20ac\":\"Euro Sign\"," +
+      "\"\ud83d\ude00\":\"Emoji: Grinning Face\"," +
+      "\"\ufb33\":\"Hebrew Letter Dalet With Dagesh\"}"
   );
 });
 
 Ende.test("canonicalize() orders BMP key before supplementary-plane key", () => {
   assertEquals(
-    canonicalize({ "\ud83d\ude00": 1, "a": 2 }),
-    '{"a":2,"\ud83d\ude00":1}',
+    canonicalize({ "\ud83d\ude00": 1, a: 2 }),
+    "{\"a\":2,\"\ud83d\ude00\":1}"
   );
 });
 
 Ende.test("canonicalize() handles keys requiring escaping", () => {
   assertEquals(
-    canonicalize({ 'key"with"quotes': 1 }),
-    '{"key\\"with\\"quotes":1}',
+    canonicalize({ "key\"with\"quotes": 1 }),
+    "{\"key\\\"with\\\"quotes\":1}"
   );
   assertEquals(
     canonicalize({ "key\nwith\nnewlines": 1 }),
-    '{"key\\nwith\\nnewlines":1}',
+    "{\"key\\nwith\\nnewlines\":1}"
   );
-  assertEquals(canonicalize({ "": 1 }), '{"":1}');
+  assertEquals(canonicalize({ "": 1 }), "{\"\":1}");
 });
 
 Ende.test("canonicalize() omits undefined properties", () => {
-  assertEquals(canonicalize({ a: 1, b: undefined, c: 3 }), '{"a":1,"c":3}');
+  assertEquals(canonicalize({ a: 1, b: undefined, c: 3 }), "{\"a\":1,\"c\":3}");
 });
 
 Ende.test("canonicalize() handles object with all undefined properties", () => {
   assertEquals(
     canonicalize({ a: undefined, b: undefined, c: undefined }),
-    "{}",
+    "{}"
   );
 });
 
 Ende.test("canonicalize() recursively sorts nested objects", () => {
   const data = { b: { d: 4, c: 3 }, a: 1 };
-  assertEquals(canonicalize(data), '{"a":1,"b":{"c":3,"d":4}}');
+  assertEquals(canonicalize(data), "{\"a\":1,\"b\":{\"c\":3,\"d\":4}}");
 });
 
 // Arrays
@@ -200,11 +200,11 @@ Ende.test("canonicalize() handles empty array", () => {
 Ende.test("canonicalize() preserves array element order", () => {
   assertEquals(canonicalize([1, 2, 3]), "[1,2,3]");
   assertEquals(canonicalize([3, 1, 2]), "[3,1,2]");
-  assertEquals(canonicalize(["a", "b", "c"]), '["a","b","c"]');
+  assertEquals(canonicalize(["a", "b", "c"]), "[\"a\",\"b\",\"c\"]");
 });
 
 Ende.test("canonicalize() handles mixed type arrays", () => {
-  assertEquals(canonicalize([1, "two", true, null]), '[1,"two",true,null]');
+  assertEquals(canonicalize([1, "two", true, null]), "[1,\"two\",true,null]");
 });
 
 Ende.test("canonicalize() handles nested arrays", () => {
@@ -214,7 +214,7 @@ Ende.test("canonicalize() handles nested arrays", () => {
 Ende.test("canonicalize() sorts objects within arrays", () => {
   assertEquals(
     canonicalize([{ z: 1, a: 2 }, { y: 3, b: 4 }]),
-    '[{"a":2,"z":1},{"b":4,"y":3}]',
+    "[{\"a\":2,\"z\":1},{\"b\":4,\"y\":3}]"
   );
 });
 
@@ -238,7 +238,7 @@ Ende.test("canonicalize() handles sparse arrays", () => {
 Ende.test("canonicalize() handles nested undefined in arrays", () => {
   // deno-lint-ignore no-explicit-any
   const nested = [{ a: 1 }, undefined, [undefined, 2]] as any;
-  assertEquals(canonicalize(nested), '[{"a":1},null,[null,2]]');
+  assertEquals(canonicalize(nested), "[{\"a\":1},null,[null,2]]");
 });
 
 // RFC 8785 §3.2.1: No Whitespace
@@ -261,7 +261,7 @@ Ende.test("canonicalize() throws on direct circular reference", () => {
   assertThrows(
     () => canonicalize(obj),
     TypeError,
-    "Converting circular structure to JSON",
+    "Converting circular structure to JSON"
   );
 });
 
@@ -275,7 +275,7 @@ Ende.test("canonicalize() throws on indirect circular reference", () => {
   assertThrows(
     () => canonicalize(a),
     TypeError,
-    "Converting circular structure to JSON",
+    "Converting circular structure to JSON"
   );
 });
 
@@ -284,15 +284,15 @@ Ende.test("canonicalize() throws on deeply nested circular reference", () => {
   const root: any = {
     level1: {
       level2: {
-        level3: {},
-      },
-    },
+        level3: {}
+      }
+    }
   };
   root.level1.level2.level3.backToRoot = root;
   assertThrows(
     () => canonicalize(root),
     TypeError,
-    "Converting circular structure to JSON",
+    "Converting circular structure to JSON"
   );
 });
 
@@ -303,20 +303,20 @@ Ende.test("canonicalize() throws on circular reference in array", () => {
   assertThrows(
     () => canonicalize(arr),
     TypeError,
-    "Converting circular structure to JSON",
+    "Converting circular structure to JSON"
   );
 });
 
 Ende.test("canonicalize() allows sibling references (non-circular)", () => {
   const shared = { x: 1 };
   const result = canonicalize({ a: shared, b: shared });
-  assertEquals(result, '{"a":{"x":1},"b":{"x":1}}');
+  assertEquals(result, "{\"a\":{\"x\":1},\"b\":{\"x\":1}}");
 });
 
 Ende.test("canonicalize() allows same object in array siblings", () => {
   const shared = { value: 42 };
   const result = canonicalize([shared, shared, shared]);
-  assertEquals(result, '[{"value":42},{"value":42},{"value":42}]');
+  assertEquals(result, "[{\"value\":42},{\"value\":42},{\"value\":42}]");
 });
 
 // Complex Nested Structures
@@ -325,26 +325,26 @@ Ende.test("canonicalize() handles deeply nested structures", () => {
   const data = {
     z: {
       y: {
-        x: [1, { w: 2, v: 3 }],
-      },
+        x: [1, { w: 2, v: 3 }]
+      }
     },
-    a: "first",
+    a: "first"
   };
   assertEquals(
     canonicalize(data),
-    '{"a":"first","z":{"y":{"x":[1,{"v":3,"w":2}]}}}',
+    "{\"a\":\"first\",\"z\":{\"y\":{\"x\":[1,{\"v\":3,\"w\":2}]}}}"
   );
 });
 
 Ende.test("canonicalize() handles very deep nesting", () => {
-  type DeepObj = { value?: string; nested?: DeepObj };
+  type DeepObj = { value?: string; nested?: DeepObj; };
   let deep: DeepObj = { value: "leaf" };
   for (let i = 0; i < 100; i++) {
     deep = { nested: deep };
   }
   const result = canonicalize(deep);
-  assertEquals(result.startsWith('{"nested":'), true);
-  assertEquals(result.endsWith('{"value":"leaf"}' + "}".repeat(100)), true);
+  assertEquals(result.startsWith("{\"nested\":"), true);
+  assertEquals(result.endsWith("{\"value\":\"leaf\"}" + "}".repeat(100)), true);
 });
 
 // RFC 8785 Appendix E: Examples
@@ -353,42 +353,42 @@ Ende.test("canonicalize() produces RFC 8785 Appendix E example output", () => {
   const input = {
     time: "2019-01-28T07:45:10Z",
     big: "055",
-    val: 3.5,
+    val: 3.5
   };
   assertEquals(
     canonicalize(input),
-    '{"big":"055","time":"2019-01-28T07:45:10Z","val":3.5}',
+    "{\"big\":\"055\",\"time\":\"2019-01-28T07:45:10Z\",\"val\":3.5}"
   );
 });
 
 Ende.test("canonicalize() handles complex string with escaping", () => {
   const input = "\u20ac$\u000F\u000aA''\u0042\"\\/";
   const result = canonicalize(input);
-  assertEquals(result, '"€$\\u000f\\nA\'\'B\\"\\\\/"');
+  assertEquals(result, "\"€$\\u000f\\nA''B\\\"\\\\/\"");
 });
 
 // RFC 8785 §3.2.4: UTF-8 Generation
 
 Ende.test("canonicalizeToBytes() returns UTF-8 encoded bytes", () => {
   const result = canonicalizeToBytes({ a: 1 });
-  assertEquals(result, new TextEncoder().encode('{"a":1}'));
+  assertEquals(result, new TextEncoder().encode("{\"a\":1}"));
 });
 
 Ende.test("canonicalizeToBytes() handles unicode correctly", () => {
   const result = canonicalizeToBytes({ emoji: "🦕" });
-  assertEquals(result, new TextEncoder().encode('{"emoji":"🦕"}'));
+  assertEquals(result, new TextEncoder().encode("{\"emoji\":\"🦕\"}"));
 });
 
 Ende.test("canonicalizeToBytes() handles multi-byte characters", () => {
   const result = canonicalizeToBytes({ euro: "€", cjk: "日本語" });
-  assertEquals(result, new TextEncoder().encode('{"cjk":"日本語","euro":"€"}'));
+  assertEquals(result, new TextEncoder().encode("{\"cjk\":\"日本語\",\"euro\":\"€\"}"));
 });
 
 Ende.test("canonicalizeToBytes() throws on invalid input", () => {
   assertThrows(
     () => canonicalizeToBytes(NaN),
     TypeError,
-    "Cannot canonicalize non-finite number",
+    "Cannot canonicalize non-finite number"
   );
 });
 
@@ -405,5 +405,5 @@ Ende.test("canonicalize() produces identical output regardless of key order", ()
 
   assertEquals(result1, result2);
   assertEquals(result2, result3);
-  assertEquals(result1, '{"action":"transfer","amount":100,"to":"alice"}');
+  assertEquals(result1, "{\"action\":\"transfer\",\"amount\":100,\"to\":\"alice\"}");
 });

@@ -11,7 +11,7 @@ const foo: SnapshotPlugin = {
   },
   test() {
     return false;
-  },
+  }
 };
 
 Ende.test("initial serializer", () => {

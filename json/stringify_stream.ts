@@ -101,8 +101,8 @@ export class JsonStringifyStream extends TransformStream<unknown, string> {
       {
         transform(chunk, controller) {
           controller.enqueue(`${prefix}${JSON.stringify(chunk)}${suffix}`);
-        },
-      },
+        }
+      }
     );
   }
 }

@@ -20,5 +20,5 @@ export const undefinedType: Type<"scalar", undefined> = {
   },
   represent() {
     return "";
-  },
+  }
 };

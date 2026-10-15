@@ -16,7 +16,7 @@ const YAML_FLOAT_REGEXP = new RegExp(
     // .inf
     "|[-+]?\\.(?:inf|Inf|INF)" +
     // .nan
-    "|\\.(?:nan|NaN|NAN))$",
+    "|\\.(?:nan|NaN|NAN))$"
 );
 
 function resolveYamlFloat(data: string): boolean {
@@ -54,7 +54,7 @@ const SCIENTIFIC_WITHOUT_DOT_REGEXP = /^[-+]?[0-9]+e/;
 function representYamlFloat(
   // deno-lint-ignore ban-types
   object: number | Number,
-  style?: StyleVariant,
+  style?: StyleVariant
 ): string {
   const value = object instanceof Number ? object.valueOf() : object;
   if (isNaN(value)) {
@@ -97,7 +97,8 @@ function representYamlFloat(
 }
 
 function isFloat(object: unknown): object is number {
-  if (object instanceof Number) object = object.valueOf();
+  if (object instanceof Number)
+    object = object.valueOf();
   return typeof object === "number" &&
     (object % 1 !== 0 || isNegativeZero(object));
 }
@@ -109,5 +110,5 @@ export const float: Type<"scalar", number> = {
   kind: "scalar",
   predicate: isFloat,
   represent: representYamlFloat,
-  resolve: resolveYamlFloat,
+  resolve: resolveYamlFloat
 };

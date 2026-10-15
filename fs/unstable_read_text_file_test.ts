@@ -5,7 +5,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { NotFound } from "./unstable_errors.js";
 import { readTextFile, readTextFileSync } from "./unstable_read_text_file.ts";
@@ -58,7 +58,7 @@ Ende.test(
     }, Error);
 
     assertEquals(error, ac.signal.reason);
-  },
+  }
 );
 
 Ende.test("readTextFileSync() reads content from txt file", () => {

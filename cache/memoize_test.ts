@@ -4,12 +4,12 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
-import { type MemoizationCacheResult, memoize } from "./memoize.ts";
+import { memoize, type MemoizationCacheResult } from "./memoize.ts";
 import { LruCache } from "./lru_cache.ts";
 
-Ende.test("memoize() memoizes nullary function (lazy/singleton)", async (t) => {
+Ende.test("memoize() memoizes nullary function (lazy/singleton)", async t => {
   await t.step("async function", async () => {
     let calls = 0;
 
@@ -17,7 +17,7 @@ Ende.test("memoize() memoizes nullary function (lazy/singleton)", async (t) => {
       connect() {
         ++calls;
         return Promise.resolve({});
-      },
+      }
     };
 
     const getConn = memoize(async () => await db.connect());
@@ -100,11 +100,11 @@ Ende.test("memoize() allows ...spread primitive args", () => {
 });
 
 Ende.test("memoize() preserves `this` binding for function and getKey", () => {
-  type Obj = { b: number; c: number; memoized: (a: number) => number };
+  type Obj = { b: number; c: number; memoized: (a: number) => number; };
 
   let calls = 0;
 
-  const fn = function (this: Obj, a: number) {
+  const fn = function(this: Obj, a: number) {
     ++calls;
     return a + this.b + this.c;
   };
@@ -112,7 +112,7 @@ Ende.test("memoize() preserves `this` binding for function and getKey", () => {
   const memoized = memoize(fn, {
     getKey(this: Obj, a: number) {
       return JSON.stringify([a, this.b, this.c]);
-    },
+    }
   });
 
   const obj: Obj = { memoized, b: 2, c: 3 };
@@ -164,7 +164,7 @@ Ende.test("memoize() caches by reference identity for non-primitive args", () =>
 });
 
 Ende.test("memoize() uses custom `getKey` to derive cache key", () => {
-  const fn = memoize(({ value }: { cacheKey: number; value: number }) => {
+  const fn = memoize(({ value }: { cacheKey: number; value: number; }) => {
     return value;
   }, { getKey: ({ cacheKey }) => cacheKey });
 
@@ -182,7 +182,7 @@ Ende.test("memoize() `getKey` can collapse distinct args to same key", () => {
     } catch {
       return arg;
     }
-  }, { getKey: (arg) => String(arg) });
+  }, { getKey: arg => String(arg) });
 
   assertEquals(fn("true"), true);
   assertEquals(fn(true), true);
@@ -215,7 +215,8 @@ Ende.test("memoize() does not cache rejected promises by default", async () => {
     await Promise.resolve();
     const shouldReject = rejectNext;
     rejectNext = !rejectNext;
-    if (shouldReject) throw new Error();
+    if (shouldReject)
+      throw new Error();
     return 0 - n;
   });
 
@@ -235,7 +236,7 @@ Ende.test("memoize() returns same promise for parallel calls with same args", as
     return 0 - n;
   });
 
-  const promises = [42, 42, 888, 888].map((x) => fn(x));
+  const promises = [42, 42, 888, 888].map(x => fn(x));
   const results = await Promise.allSettled(promises);
 
   assert(promises[0] === promises[1]);
@@ -266,7 +267,7 @@ Ende.test("memoize() works with custom cache implementing MemoizationCache", () 
     has: () => false,
     get: () => undefined,
     set: () => {},
-    delete: () => {},
+    delete: () => {}
   };
 
   const fn = memoize((n: number) => {
@@ -366,7 +367,7 @@ Ende.test("memoize() preserves function length and name", () => {
   assertEquals(memoize(obj["!"]).name, "!");
 });
 
-Ende.test("memoize() respects `errorIsCacheable` option", async (t) => {
+Ende.test("memoize() respects `errorIsCacheable` option", async t => {
   type ErrKind = "retriable" | "persistent";
   const errorIsCacheable = (err: unknown) => (err as ErrKind) === "persistent";
 
@@ -416,10 +417,10 @@ Ende.test("memoize() respects `errorIsCacheable` option", async (t) => {
   });
 });
 
-Ende.test("memoize() preserves TypeScript types", async (t) => {
+Ende.test("memoize() preserves TypeScript types", async t => {
   await t.step("preserves parameter, return, and this types", () => {
     void (() => {
-      const fn: (this: number, x: number) => number = (_) => 1;
+      const fn: (this: number, x: number) => number = _ => 1;
       const memoized = memoize(fn);
 
       const _fn2: typeof fn = memoized;

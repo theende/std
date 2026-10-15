@@ -25,7 +25,7 @@ export function toFileUrl(path: string): URL {
     throw new TypeError(`Path must be absolute: received "${path}"`);
   }
   const [, hostname, pathname] = path.match(
-    /^(?:[/\\]{2}([^/\\]+)(?=[/\\](?:[^/\\]|$)))?(.*)/,
+    /^(?:[/\\]{2}([^/\\]+)(?=[/\\](?:[^/\\]|$)))?(.*)/
   )!;
   const url = new URL("file:///");
   url.pathname = encodeWhitespace(pathname!.replace(/%/g, "%25"));

@@ -31,7 +31,7 @@
  */
 export function maxWith<T>(
   array: Iterable<T>,
-  comparator: (a: T, b: T) => number,
+  comparator: (a: T, b: T) => number
 ): T | undefined {
   let max: T | undefined;
   let isFirst = true;

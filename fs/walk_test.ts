@@ -1,11 +1,11 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
-import { walk, type WalkOptions, walkSync } from "./walk.ts";
+import { walk, walkSync, type WalkOptions } from "./walk.ts";
 import {
   assertArrayIncludes,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { copy, copySync } from "./copy.ts";
 import { fromFileUrl, resolve } from "@ende/path";
@@ -16,12 +16,12 @@ async function assertWalkPaths(
   parentDir: string,
   rootPath: string,
   expectedPaths: string[],
-  options?: WalkOptions,
+  options?: WalkOptions
 ) {
   const root = resolve(parentDir, rootPath);
   const entries = await Array.fromAsync(walk(root, options));
 
-  const expected = expectedPaths.map((path) => resolve(root, path));
+  const expected = expectedPaths.map(path => resolve(root, path));
   assertEquals(entries.length, expected.length);
   assertArrayIncludes(entries.map(({ path }) => path), expected);
 }
@@ -30,19 +30,19 @@ function assertWalkSyncPaths(
   parentDir: string,
   rootPath: string,
   expectedPaths: string[],
-  options?: WalkOptions,
+  options?: WalkOptions
 ) {
   const root = resolve(parentDir, rootPath);
   const entriesSync = Array.from(walkSync(root, options));
 
-  const expected = expectedPaths.map((path) => resolve(root, path));
+  const expected = expectedPaths.map(path => resolve(root, path));
   assertEquals(entriesSync.length, expected.length);
   assertArrayIncludes(entriesSync.map(({ path }) => path), expected);
 }
 
 Ende.test("walk() returns current dir for empty dir", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_walk_",
+    prefix: "ende_std_walk_"
   });
   const emptyDir = resolve(tempDirPath, "empty_dir");
   await Ende.mkdir(emptyDir);
@@ -52,7 +52,7 @@ Ende.test("walk() returns current dir for empty dir", async () => {
 
 Ende.test("walkSync() returns current dir for empty dir", () => {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_walk_sync_",
+    prefix: "ende_std_walk_sync_"
   });
   const emptyDir = resolve(tempDirPath, "empty_dir");
   Ende.mkdirSync(emptyDir);
@@ -60,36 +60,32 @@ Ende.test("walkSync() returns current dir for empty dir", () => {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("walk() returns current dir and single file", async () =>
-  await assertWalkPaths(testdataDir, "single_file", [".", "x"]));
+Ende.test("walk() returns current dir and single file", async () => await assertWalkPaths(testdataDir, "single_file", [".", "x"]));
 
-Ende.test("walkSync() returns current dir and single file", () =>
-  assertWalkSyncPaths(testdataDir, "single_file", [".", "x"]));
+Ende.test("walkSync() returns current dir and single file", () => assertWalkSyncPaths(testdataDir, "single_file", [".", "x"]));
 
-Ende.test("walk() returns current dir, subdir, and nested file", async () =>
-  await assertWalkPaths(testdataDir, "nested_single_file", [".", "a", "a/x"]));
+Ende.test("walk() returns current dir, subdir, and nested file", async () => await assertWalkPaths(testdataDir, "nested_single_file", [".", "a", "a/x"]));
 
-Ende.test("walkSync() returns current dir, subdir, and nested file", () =>
-  assertWalkSyncPaths(testdataDir, "nested_single_file", [".", "a", "a/x"]));
+Ende.test("walkSync() returns current dir, subdir, and nested file", () => assertWalkSyncPaths(testdataDir, "nested_single_file", [".", "a", "a/x"]));
 
 Ende.test("walk() accepts maxDepth option", async () =>
   await assertWalkPaths(testdataDir, "depth", [".", "a", "a/b", "a/b/c"], {
-    maxDepth: 3,
+    maxDepth: 3
   }));
 
 Ende.test("walkSync() accepts maxDepth option", () =>
   assertWalkSyncPaths(testdataDir, "depth", [".", "a", "a/b", "a/b/c"], {
-    maxDepth: 3,
+    maxDepth: 3
   }));
 
 Ende.test("walk() accepts includeDirs option set to false", async () =>
   await assertWalkPaths(testdataDir, "depth", ["a/b/c/d/x"], {
-    includeDirs: false,
+    includeDirs: false
   }));
 
 Ende.test("walkSync() accepts includeDirs option set to false", () =>
   assertWalkSyncPaths(testdataDir, "depth", ["a/b/c/d/x"], {
-    includeDirs: false,
+    includeDirs: false
   }));
 
 Ende.test("walk() accepts includeFiles option set to false", async () =>
@@ -98,9 +94,9 @@ Ende.test("walk() accepts includeFiles option set to false", async () =>
     "a",
     "a/b",
     "a/b/c",
-    "a/b/c/d",
+    "a/b/c/d"
   ], {
-    includeFiles: false,
+    includeFiles: false
   }));
 
 Ende.test("walkSync() accepts includeFiles option set to false", () =>
@@ -109,49 +105,49 @@ Ende.test("walkSync() accepts includeFiles option set to false", () =>
     "a",
     "a/b",
     "a/b/c",
-    "a/b/c/d",
+    "a/b/c/d"
   ], {
-    includeFiles: false,
+    includeFiles: false
   }));
 
 Ende.test("walk() accepts ext option as strings", async () =>
   await assertWalkPaths(testdataDir, "ext", ["y.rs", "x.ts"], {
-    exts: [".rs", ".ts"],
+    exts: [".rs", ".ts"]
   }));
 
 Ende.test("walk() accepts ext option as strings (excluding period prefix)", async () =>
   await assertWalkPaths(testdataDir, "ext", ["y.rs", "x.ts"], {
-    exts: ["rs", "ts"],
+    exts: ["rs", "ts"]
   }));
 
 Ende.test("walkSync() accepts ext option as strings", () =>
   assertWalkSyncPaths(testdataDir, "ext", ["y.rs", "x.ts"], {
-    exts: [".rs", ".ts"],
+    exts: [".rs", ".ts"]
   }));
 
 Ende.test("walkSync() accepts ext option as strings (excluding period prefix)", () =>
   assertWalkSyncPaths(testdataDir, "ext", ["y.rs", "x.ts"], {
-    exts: [".rs", ".ts"],
+    exts: [".rs", ".ts"]
   }));
 
 Ende.test("walk() accepts ext option as regExps", async () =>
   await assertWalkPaths(testdataDir, "match", ["x", "y"], {
-    match: [/x$/, /y$/],
+    match: [/x$/, /y$/]
   }));
 
 Ende.test("walkSync() accepts ext option as regExps", () =>
   assertWalkSyncPaths(testdataDir, "match", ["x", "y"], {
-    match: [/x$/, /y$/],
+    match: [/x$/, /y$/]
   }));
 
 Ende.test("walk() accepts skip option as regExps", async () =>
   await assertWalkPaths(testdataDir, "match", [".", "z"], {
-    skip: [/x$/, /y$/],
+    skip: [/x$/, /y$/]
   }));
 
 Ende.test("walkSync() accepts skip option as regExps", () =>
   assertWalkSyncPaths(testdataDir, "match", [".", "z"], {
-    skip: [/x$/, /y$/],
+    skip: [/x$/, /y$/]
   }));
 
 // https://github.com/denoland/std/issues/1358
@@ -163,9 +159,9 @@ Ende.test("walk() accepts followSymlinks option set to true", async () =>
     "a",
     "a/z",
     "x",
-    "x",
+    "x"
   ], {
-    followSymlinks: true,
+    followSymlinks: true
   }));
 
 Ende.test("walkSync() accepts followSymlinks option set to true", () =>
@@ -176,9 +172,9 @@ Ende.test("walkSync() accepts followSymlinks option set to true", () =>
     "a",
     "a/z",
     "x",
-    "x",
+    "x"
   ], {
-    followSymlinks: true,
+    followSymlinks: true
   }));
 
 Ende.test("walk() accepts followSymlinks option set to true with canonicalize option set to false", async () =>
@@ -189,10 +185,10 @@ Ende.test("walk() accepts followSymlinks option set to true with canonicalize op
     "b",
     "b/z",
     "x",
-    "y",
+    "y"
   ], {
     followSymlinks: true,
-    canonicalize: false,
+    canonicalize: false
   }));
 
 Ende.test("walkSync() accepts followSymlinks option set to true with canonicalize option set to false", () =>
@@ -203,10 +199,10 @@ Ende.test("walkSync() accepts followSymlinks option set to true with canonicaliz
     "b",
     "b/z",
     "x",
-    "y",
+    "y"
   ], {
     followSymlinks: true,
-    canonicalize: false,
+    canonicalize: false
   }));
 
 Ende.test("walk() accepts followSymlinks option set to false", async () => {
@@ -216,9 +212,9 @@ Ende.test("walk() accepts followSymlinks option set to false", async () => {
     "a/z",
     "b",
     "x",
-    "y",
+    "y"
   ], {
-    followSymlinks: false,
+    followSymlinks: false
   });
 });
 
@@ -228,8 +224,8 @@ Ende.test("walkSync() accepts followSymlinks option set to false", () => {
     "symlink",
     [".", "a", "a/z", "b", "x", "y"],
     {
-      followSymlinks: false,
-    },
+      followSymlinks: false
+    }
   );
 });
 
@@ -237,7 +233,7 @@ Ende.test("walk() rejects Ende.errors.NotFound for non-existent root", async () 
   const root = resolve(testdataDir, "non_existent");
   await assertRejects(
     async () => await Array.fromAsync(walk(root)),
-    Ende.errors.NotFound,
+    Ende.errors.NotFound
   );
 });
 
@@ -252,7 +248,7 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   async fn() {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "ende_std_walk_",
+      prefix: "ende_std_walk_"
     });
     // Copy contents from "walk/socket" into temporary directory.
     await copy(resolve(testdataDir, "socket"), resolve(tempDirPath, "socket"));
@@ -262,14 +258,14 @@ Ende.test({
       await assertWalkPaths(tempDirPath, "socket", [
         ".",
         "a.sock",
-        ".gitignore",
+        ".gitignore"
       ], {
-        followSymlinks: true,
+        followSymlinks: true
       });
     } finally {
       await Ende.remove(tempDirPath, { recursive: true });
     }
-  },
+  }
 });
 
 // https://github.com/denoland/std/issues/1789
@@ -278,7 +274,7 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   fn() {
     const tempDirPath = Ende.makeTempDirSync({
-      prefix: "ende_std_walk_sync_",
+      prefix: "ende_std_walk_sync_"
     });
     // Copy contents from "walk/socket" into temporary directory.
     copySync(resolve(testdataDir, "socket"), resolve(tempDirPath, "socket"));
@@ -290,13 +286,13 @@ Ende.test({
         "socket",
         [".", "a.sock", ".gitignore"],
         {
-          followSymlinks: true,
-        },
+          followSymlinks: true
+        }
       );
     } finally {
       Ende.removeSync(tempDirPath, { recursive: true });
     }
-  },
+  }
 });
 
 Ende.test({
@@ -304,19 +300,19 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   async fn() {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "ende_std_walk_",
+      prefix: "ende_std_walk_"
     });
     // Copy contents from "walk/fifo" into temporary directory.
     await copy(resolve(testdataDir, "fifo"), resolve(tempDirPath, "fifo"));
     const command = new Ende.Command("mkfifo", {
-      args: [resolve(tempDirPath, "fifo", "fifo")],
+      args: [resolve(tempDirPath, "fifo", "fifo")]
     });
     await command.output();
     await assertWalkPaths(tempDirPath, "fifo", [".", "fifo", ".gitignore"], {
-      followSymlinks: true,
+      followSymlinks: true
     });
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
@@ -324,24 +320,24 @@ Ende.test({
   ignore: Ende.build.os === "windows",
   fn() {
     const tempDirPath = Ende.makeTempDirSync({
-      prefix: "ende_std_walk_sync_",
+      prefix: "ende_std_walk_sync_"
     });
     // Copy contents from "walk/fifo" into temporary directory.
     copySync(resolve(testdataDir, "fifo"), resolve(tempDirPath, "fifo"));
     const command = new Ende.Command("mkfifo", {
-      args: [resolve(tempDirPath, "fifo", "fifo")],
+      args: [resolve(tempDirPath, "fifo", "fifo")]
     });
     command.outputSync();
     assertWalkSyncPaths(tempDirPath, "fifo", [".", "fifo", ".gitignore"], {
-      followSymlinks: true,
+      followSymlinks: true
     });
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("walk() rejects with `Ende.errors.NotFound` when root is removed during execution", async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_walk_",
+    prefix: "ende_std_walk_"
   });
   const root = resolve(tempDirPath, "error");
   await Ende.mkdir(root);
@@ -350,10 +346,10 @@ Ende.test("walk() rejects with `Ende.errors.NotFound` when root is removed durin
       async () => {
         await Array.fromAsync(
           walk(root),
-          async () => await Ende.remove(root, { recursive: true }),
+          async () => await Ende.remove(root, { recursive: true })
         );
       },
-      Ende.errors.NotFound,
+      Ende.errors.NotFound
     );
   } catch (err) {
     await Ende.remove(root, { recursive: true });

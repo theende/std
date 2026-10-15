@@ -5,7 +5,7 @@ import { assertEquals, assertThrows } from "@ende/assert";
 import {
   decodeEntities,
   encodeAttributeValue,
-  encodeEntities,
+  encodeEntities
 } from "./_entities.ts";
 
 // =============================================================================
@@ -17,13 +17,13 @@ Ende.test("decodeEntities() decodes predefined entities", () => {
   assertEquals(decodeEntities("&gt;", false), ">");
   assertEquals(decodeEntities("&amp;", false), "&");
   assertEquals(decodeEntities("&apos;", false), "'");
-  assertEquals(decodeEntities("&quot;", false), '"');
+  assertEquals(decodeEntities("&quot;", false), "\"");
 });
 
 Ende.test("decodeEntities() decodes multiple entities in a string", () => {
   assertEquals(
     decodeEntities("&lt;hello&gt; &amp; &quot;world&quot;", false),
-    '<hello> & "world"',
+    "<hello> & \"world\""
   );
 });
 
@@ -32,7 +32,7 @@ Ende.test("decodeEntities() decodes decimal character references", () => {
   assertEquals(decodeEntities("&#62;", false), ">");
   assertEquals(decodeEntities("&#38;", false), "&");
   assertEquals(decodeEntities("&#39;", false), "'");
-  assertEquals(decodeEntities("&#34;", false), '"');
+  assertEquals(decodeEntities("&#34;", false), "\"");
   assertEquals(decodeEntities("&#65;", false), "A");
   assertEquals(decodeEntities("&#8364;", false), "€");
 });
@@ -43,7 +43,7 @@ Ende.test("decodeEntities() decodes hexadecimal character references", () => {
   assertEquals(decodeEntities("&#x3E;", false), ">");
   assertEquals(decodeEntities("&#x26;", false), "&");
   assertEquals(decodeEntities("&#x27;", false), "'");
-  assertEquals(decodeEntities("&#x22;", false), '"');
+  assertEquals(decodeEntities("&#x22;", false), "\"");
   assertEquals(decodeEntities("&#x41;", false), "A");
   assertEquals(decodeEntities("&#x20AC;", false), "€");
 });
@@ -52,12 +52,12 @@ Ende.test("decodeEntities() throws on unknown entities", () => {
   assertThrows(
     () => decodeEntities("&unknown;", false),
     Error,
-    "Unknown entity '&unknown;'",
+    "Unknown entity '&unknown;'"
   );
   assertThrows(
     () => decodeEntities("&nbsp;", false),
     Error,
-    "Unknown entity '&nbsp;'",
+    "Unknown entity '&nbsp;'"
   );
 });
 
@@ -70,17 +70,17 @@ Ende.test("decodeEntities() throws on incomplete entity-like patterns", () => {
   assertThrows(
     () => decodeEntities("a & b", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
   assertThrows(
     () => decodeEntities("foo &bar", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
   assertThrows(
     () => decodeEntities("&;", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
 });
 
@@ -89,17 +89,17 @@ Ende.test("decodeEntities() throws on invalid code points", () => {
   assertThrows(
     () => decodeEntities("&#x110000;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#1114112;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#999999999;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -129,7 +129,7 @@ Ende.test("decodeEntities() throws on bare &", () => {
   assertThrows(
     () => decodeEntities("foo&bar", false),
     Error,
-    "Invalid bare '&' at position 3",
+    "Invalid bare '&' at position 3"
   );
 });
 
@@ -137,7 +137,7 @@ Ende.test("decodeEntities() throws on & at end", () => {
   assertThrows(
     () => decodeEntities("trailing&", false),
     Error,
-    "Invalid bare '&' at position 8",
+    "Invalid bare '&' at position 8"
   );
 });
 
@@ -145,7 +145,7 @@ Ende.test("decodeEntities() throws on & followed by space", () => {
   assertThrows(
     () => decodeEntities("a & b", false),
     Error,
-    "Invalid bare '&' at position 2",
+    "Invalid bare '&' at position 2"
   );
 });
 
@@ -153,7 +153,7 @@ Ende.test("decodeEntities() throws on & in URL query strings", () => {
   assertThrows(
     () => decodeEntities("http://example.com?a=1&b=2", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
 });
 
@@ -166,13 +166,13 @@ Ende.test("encodeEntities() encodes special characters", () => {
   assertEquals(encodeEntities(">"), "&gt;");
   assertEquals(encodeEntities("&"), "&amp;");
   assertEquals(encodeEntities("'"), "&apos;");
-  assertEquals(encodeEntities('"'), "&quot;");
+  assertEquals(encodeEntities("\""), "&quot;");
 });
 
 Ende.test("encodeEntities() encodes multiple special characters", () => {
   assertEquals(
-    encodeEntities('<hello> & "world"'),
-    "&lt;hello&gt; &amp; &quot;world&quot;",
+    encodeEntities("<hello> & \"world\""),
+    "&lt;hello&gt; &amp; &quot;world&quot;"
   );
 });
 
@@ -204,8 +204,8 @@ Ende.test("encodeAttributeValue() encodes whitespace per XML 1.0 §3.3.3", () =>
 
 Ende.test("encodeAttributeValue() handles combined cases", () => {
   assertEquals(
-    encodeAttributeValue('<value\nwith "special" chars>'),
-    "&lt;value&#10;with &quot;special&quot; chars&gt;",
+    encodeAttributeValue("<value\nwith \"special\" chars>"),
+    "&lt;value&#10;with &quot;special&quot; chars&gt;"
   );
 });
 
@@ -214,7 +214,7 @@ Ende.test("encodeAttributeValue() handles combined cases", () => {
 // =============================================================================
 
 Ende.test("decodeEntities and encodeEntities are inverse operations for basic entities", () => {
-  const original = '<hello> & "world"';
+  const original = "<hello> & \"world\"";
   const encoded = encodeEntities(original);
   const decoded = decodeEntities(encoded, false);
   assertEquals(decoded, original);
@@ -228,7 +228,7 @@ Ende.test("decodeEntities() throws on empty hex reference", () => {
   assertThrows(
     () => decodeEntities("&#x;", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
 });
 
@@ -236,12 +236,12 @@ Ende.test("decodeEntities() throws on invalid hex digits", () => {
   assertThrows(
     () => decodeEntities("&#xGG;", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
   assertThrows(
     () => decodeEntities("&#xZZ;", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
 });
 
@@ -249,7 +249,7 @@ Ende.test("decodeEntities() throws on empty decimal reference", () => {
   assertThrows(
     () => decodeEntities("&#;", false),
     Error,
-    "Invalid bare '&'",
+    "Invalid bare '&'"
   );
 });
 
@@ -258,28 +258,28 @@ Ende.test("decodeEntities() throws on surrogate code points", () => {
   assertThrows(
     () => decodeEntities("&#xD800;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xDFFF;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xDBFF;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   // Decimal surrogates (55296 = 0xD800, 57343 = 0xDFFF)
   assertThrows(
     () => decodeEntities("&#55296;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#57343;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -291,100 +291,100 @@ Ende.test("decodeEntities() throws on invalid XML characters per §2.2", () => {
   assertThrows(
     () => decodeEntities("&#0;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#x0;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 
   // Control characters #x1-#x8 are invalid
   assertThrows(
     () => decodeEntities("&#1;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#x1;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#8;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#x8;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 
   // #xB and #xC are invalid (but #x9, #xA, #xD are valid)
   assertThrows(
     () => decodeEntities("&#11;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xB;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#12;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xC;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 
   // Control characters #xE-#x1F are invalid
   assertThrows(
     () => decodeEntities("&#14;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xE;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#31;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#x1F;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 
   // #xFFFE and #xFFFF are invalid
   assertThrows(
     () => decodeEntities("&#xFFFE;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xFFFF;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#65534;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#65535;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -403,12 +403,12 @@ Ende.test("decodeEntities() throws on mixed valid and invalid references", () =>
   assertThrows(
     () => decodeEntities("&lt;&invalid;&gt;", false),
     Error,
-    "Unknown entity '&invalid;'",
+    "Unknown entity '&invalid;'"
   );
   assertThrows(
     () => decodeEntities("&amp;&#999999999;&amp;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -454,7 +454,7 @@ Ende.test("decodeEntities() xml11 still rejects NULL (&#x0;)", () => {
   assertThrows(
     () => decodeEntities("&#x0;", true),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -462,17 +462,17 @@ Ende.test("decodeEntities() xml10 rejects C0 control char refs", () => {
   assertThrows(
     () => decodeEntities("&#x1;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#x2;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#x8;", false),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -485,12 +485,12 @@ Ende.test("decodeEntities() xml11 rejects noncharacters U+FFFE and U+FFFF", () =
   assertThrows(
     () => decodeEntities("&#xFFFE;", true),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xFFFF;", true),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -498,12 +498,12 @@ Ende.test("decodeEntities() xml11 rejects surrogate code points", () => {
   assertThrows(
     () => decodeEntities("&#xD800;", true),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
   assertThrows(
     () => decodeEntities("&#xDFFF;", true),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 

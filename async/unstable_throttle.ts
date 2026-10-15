@@ -104,7 +104,7 @@ export interface ThrottledFunction<T extends Array<unknown>> {
 export function throttle<T extends Array<any>>(
   fn: (this: ThrottledFunction<T>, ...args: T) => void,
   timeframe: number | ((previousDuration: number) => number),
-  options?: ThrottleOptions,
+  options?: ThrottleOptions
 ): ThrottledFunction<T> {
   const ensureLast = Boolean(options?.ensureLastCall);
   let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -160,9 +160,9 @@ export function throttle<T extends Array<any>>(
 
   Object.defineProperties(throttled, {
     throttling: {
-      get: () => Date.now() - lastExecution <= tf || throttlingAsync,
+      get: () => Date.now() - lastExecution <= tf || throttlingAsync
     },
-    lastExecution: { get: () => lastExecution },
+    lastExecution: { get: () => lastExecution }
   });
 
   return throttled;

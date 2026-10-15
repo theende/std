@@ -123,17 +123,20 @@ export type StringifyOptions = {
   bom?: boolean;
 };
 
-const QUOTE = '"';
+const QUOTE = "\"";
 const LF = "\n";
 const CRLF = "\r\n";
 const BYTE_ORDER_MARK = "\ufeff";
 
 function getEscapedString(value: unknown, sep: string): string {
-  if (value === undefined || value === null) return "";
+  if (value === undefined || value === null)
+    return "";
   let str = "";
 
-  if (typeof value === "object") str = JSON.stringify(value);
-  else str = String(value);
+  if (typeof value === "object")
+    str = JSON.stringify(value);
+  else
+    str = String(value);
 
   // Is regex.test more performant here? If so, how to dynamically create?
   // https://stackoverflow.com/questions/3561493/
@@ -159,9 +162,9 @@ function normalizeColumn(column: Column): NormalizedColumn {
       prop = column;
     } else {
       prop = Array.isArray(column.prop) ? column.prop : [column.prop];
-      header = typeof column.header === "string"
-        ? column.header
-        : String(prop[prop.length - 1]);
+      header = typeof column.header === "string" ?
+        column.header :
+        String(prop[prop.length - 1]);
     }
   } else {
     header = String(column);
@@ -177,7 +180,7 @@ function normalizeColumn(column: Column): NormalizedColumn {
  */
 function getValuesFromItem(
   item: DataItem,
-  normalizedColumns: readonly NormalizedColumn[],
+  normalizedColumns: readonly NormalizedColumn[]
 ): unknown[] {
   const values: unknown[] = [];
 
@@ -190,14 +193,16 @@ function getValuesFromItem(
           continue;
         }
         if (Array.isArray(value)) {
-          if (typeof prop === "number") value = value[prop];
+          if (typeof prop === "number")
+            value = value[prop];
           else {
             throw new TypeError(
-              'Property accessor is not of type "number"',
+              "Property accessor is not of type \"number\""
             );
           }
         } // I think this assertion is safe. Confirm?
-        else value = (value as Record<string, unknown>)[prop];
+        else
+          value = (value as Record<string, unknown>)[prop];
       }
 
       values.push(value);
@@ -207,7 +212,7 @@ function getValuesFromItem(
       values.push(...item);
     } else if (typeof item === "object") {
       throw new TypeError(
-        "No property accessor function was provided for object",
+        "No property accessor function was provided for object"
       );
     } else {
       values.push(item);
@@ -428,17 +433,17 @@ function getValuesFromItem(
  */
 export function stringify(
   data: readonly DataItem[],
-  options?: StringifyOptions,
+  options?: StringifyOptions
 ): string {
-  const { headers = true, separator: sep = ",", columns = [], bom = false } =
-    options ?? {};
+  const { headers = true, separator: sep = ",", columns = [], bom = false } = options ?? {};
 
   if (sep.includes(QUOTE) || sep.includes(CRLF)) {
     const message = [
       "Separator cannot include the following strings:",
-      '  - U+0022: Quotation mark (")',
-      "  - U+000D U+000A: Carriage Return + Line Feed (\\r\\n)",
-    ].join("\n");
+      "  - U+0022: Quotation mark (\")",
+      "  - U+000D U+000A: Carriage Return + Line Feed (\\r\\n)"
+    ]
+      .join("\n");
     throw new TypeError(message);
   }
 
@@ -451,7 +456,7 @@ export function stringify(
 
   if (headers && normalizedColumns.length > 0) {
     output += normalizedColumns
-      .map((column) => getEscapedString(column.header, sep))
+      .map(column => getEscapedString(column.header, sep))
       .join(sep);
     output += CRLF;
   }
@@ -459,7 +464,7 @@ export function stringify(
   for (const item of data) {
     const values = getValuesFromItem(item, normalizedColumns);
     output += values
-      .map((value) => getEscapedString(value, sep))
+      .map(value => getEscapedString(value, sep))
       .join(sep);
     output += CRLF;
   }

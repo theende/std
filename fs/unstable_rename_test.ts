@@ -94,7 +94,7 @@ Ende.test(
     assert(anotherDirStat.isDirectory);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test(
@@ -115,12 +115,11 @@ Ende.test(
     }, Error);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test({
-  name:
-    "rename() rejects with Error when renaming an existing directory with a valid symlink'd regular file path",
+  name: "rename() rejects with Error when renaming an existing directory with a valid symlink'd regular file path",
   ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await Ende.makeTempDir({ prefix: "rename_" });
@@ -138,12 +137,11 @@ Ende.test({
     }, Error);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "rename() rejects with Error when renaming an existing directory with a valid symlink'd directory path",
+  name: "rename() rejects with Error when renaming an existing directory with a valid symlink'd directory path",
   ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await Ende.makeTempDir({ prefix: "rename_" });
@@ -160,12 +158,11 @@ Ende.test({
     }, Error);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "rename() rejects with Error when renaming an existing directory with a symlink'd file pointing to a non-existent file path",
+  name: "rename() rejects with Error when renaming an existing directory with a symlink'd file pointing to a non-existent file path",
   ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await Ende.makeTempDir({ prefix: "rename_" });
@@ -180,7 +177,7 @@ Ende.test({
     }, Error);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("rename() rejects with NotFound for renaming a non-existent file", async () => {
@@ -254,7 +251,7 @@ Ende.test(
     }, Error);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test(
@@ -274,7 +271,7 @@ Ende.test(
     assert(anotherDirStat.isDirectory);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test(
@@ -295,12 +292,11 @@ Ende.test(
     }, Error);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test({
-  name:
-    "renameSync() throws with Error when renaming an existing directory with a valid symlink'd regular file path",
+  name: "renameSync() throws with Error when renaming an existing directory with a valid symlink'd regular file path",
   ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = Ende.makeTempDirSync({ prefix: "renameSync_" });
@@ -318,12 +314,11 @@ Ende.test({
     }, Error);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "renameSync() throws with Error when renaming an existing directory with a valid symlink'd directory path",
+  name: "renameSync() throws with Error when renaming an existing directory with a valid symlink'd directory path",
   ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = Ende.makeTempDirSync({ prefix: "renameSync_" });
@@ -340,12 +335,11 @@ Ende.test({
     }, Error);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "rename() rejects with Error when renaming an existing directory with a symlink'd file pointing to a non-existent file path",
+  name: "rename() rejects with Error when renaming an existing directory with a symlink'd file pointing to a non-existent file path",
   ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = Ende.makeTempDirSync({ prefix: "renameSync_" });
@@ -360,7 +354,7 @@ Ende.test({
     }, Error);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("renameSync() throws with NotFound for renaming a non-existent file", () => {

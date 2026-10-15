@@ -22,15 +22,15 @@ Ende.test({
     assertEquals(texture.dimension, "2d");
     assertEquals(
       texture.usage,
-      GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC,
+      GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC
     );
 
     assertEquals(outputBuffer.size, 512);
     assertEquals(
       outputBuffer.usage,
-      GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
+      GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST
     );
 
     device.destroy();
-  },
+  }
 });

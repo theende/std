@@ -12,9 +12,10 @@ import { assert, assertEquals } from "@ende/assert";
 export async function testTransformStream<T, U>(
   transform: TransformStream<T, U>,
   inputs: Iterable<T> | AsyncIterable<T>,
-  outputs: Iterable<U> | AsyncIterable<U>,
+  outputs: Iterable<U> | AsyncIterable<U>
 ) {
-  const reader = ReadableStream.from(inputs)
+  const reader = ReadableStream
+    .from(inputs)
     .pipeThrough(transform)
     .getReader();
   for await (const output of outputs) {

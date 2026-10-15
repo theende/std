@@ -26,7 +26,7 @@ export type { IntegerTypedArray, RandomValueGenerator } from "./_types.ts";
  * ```
  */
 export function getRandomValuesSeeded(
-  seed: bigint,
+  seed: bigint
 ): RandomValueGenerator {
   const pcg = new Pcg32(seed);
   return pcg.getRandomValues.bind(pcg);

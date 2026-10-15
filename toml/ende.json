@@ -1,9 +1,9 @@
 {
-  "name": "@ende/toml",
-  "version": "1.0.11",
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
     "./stringify": "./stringify.ts"
-  }
+  },
+  "name": "@ende/toml",
+  "version": "2026.10.15"
 }

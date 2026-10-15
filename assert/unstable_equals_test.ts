@@ -25,18 +25,20 @@ function assertDiffMessage(a: unknown, b: unknown, expected: string) {
     // TODO(lionel-rowe): compare full messages without trimming once https://github.com/denoland/std/issues/6830 and
     // https://github.com/denoland/std/issues/6831 are fixed
     stripAnsiCode(err.message).trimEnd(),
-    fullExpectedMessage,
+    fullExpectedMessage
   );
 }
 
-Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_CONTEXT_LENGTH}" is set`, async (t) => {
+Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_CONTEXT_LENGTH}" is set`, async t => {
   using stack = disposableStack();
-  stack.use(stub(Ende.permissions, "querySync", (x) => {
-    if (x.name === "env") return { state: "granted" } as Ende.PermissionStatus;
+  stack.use(stub(Ende.permissions, "querySync", x => {
+    if (x.name === "env")
+      return { state: "granted" } as Ende.PermissionStatus;
     throw new Error(`Unexpected permission descriptor: ${x.name}`);
   }));
-  stack.use(stub(Ende.env, "get", (key) => {
-    if (key === DIFF_CONTEXT_LENGTH) return (10).toString();
+  stack.use(stub(Ende.env, "get", key => {
+    if (key === DIFF_CONTEXT_LENGTH)
+      return (10).toString();
     // Return undefined rather than throwing for other keys: formatting the diff
     // can cause Ende to lazily initialize its `node:process` shim, which reads
     // unrelated env vars (e.g. `NODE_OPTIONS`) through `Ende.env.get`.
@@ -78,7 +80,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
               510,
               ... 489 unchanged lines ...
             ]
-      `,
+      `
     );
   });
 
@@ -113,7 +115,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
               "51": 51,
               ... 542 unchanged lines ...
             }
-      `,
+      `
     );
   });
 
@@ -148,7 +150,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
             510\\n
             ... 488 unchanged lines ...
             999
-      `,
+      `
     );
   });
 
@@ -193,7 +195,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
               51,
               ... 542 unchanged lines ...
             }
-      `,
+      `
     );
   });
 
@@ -224,7 +226,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
               13,
               ... 986 unchanged lines ...
             ]
-      `,
+      `
     );
   });
 
@@ -255,7 +257,7 @@ Ende.test(`assertEquals() truncates unchanged lines of large diffs when "${DIFF_
               998,
               999,
             ]
-      `,
+      `
     );
   });
 });

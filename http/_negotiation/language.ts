@@ -42,7 +42,7 @@ const SIMPLE_LANGUAGE_REGEXP = /^\s*([^\s\-;]+)(?:-([^\s;]+))?\s*(?:;(.*))?$/;
 
 function parseLanguage(
   str: string,
-  i: number,
+  i: number
 ): LanguageSpecificity | undefined {
   const match = SIMPLE_LANGUAGE_REGEXP.exec(str);
   if (!match) {
@@ -87,7 +87,7 @@ function parseAcceptLanguage(accept: string): LanguageSpecificity[] {
 function specify(
   language: string,
   spec: LanguageSpecificity,
-  i: number,
+  i: number
 ): Specificity | undefined {
   const p = parseLanguage(language, i);
   if (!p) {
@@ -110,7 +110,7 @@ function specify(
 function getLanguagePriority(
   language: string,
   accepted: LanguageSpecificity[],
-  index: number,
+  index: number
 ): Specificity {
   let priority: Specificity = { i: -1, o: -1, q: 0, s: 0 };
   for (const accepts of accepted) {
@@ -128,7 +128,7 @@ function getLanguagePriority(
 
 export function preferredLanguages(
   accept = "*",
-  provided?: string[],
+  provided?: string[]
 ): string[] {
   const accepts = parseAcceptLanguage(accept);
 
@@ -136,7 +136,7 @@ export function preferredLanguages(
     return accepts
       .filter(isQuality)
       .sort(compareSpecs)
-      .map((spec) => spec.full);
+      .map(spec => spec.full);
   }
 
   const priorities = provided
@@ -145,5 +145,5 @@ export function preferredLanguages(
   return priorities
     .filter(isQuality)
     .sort(compareSpecs)
-    .map((priority) => provided[priorities.indexOf(priority)]!);
+    .map(priority => provided[priorities.indexOf(priority)]!);
 }

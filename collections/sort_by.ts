@@ -135,7 +135,7 @@ export function sortBy<T>(
     | ((el: T, index: number) => string)
     | ((el: T, index: number) => bigint)
     | ((el: T, index: number) => Date),
-  options?: SortByOptions,
+  options?: SortByOptions
 ): T[] {
   const array = Array.isArray(iterator) ? iterator : Array.from(iterator);
   const len = array.length;
@@ -153,8 +153,10 @@ export function sortBy<T>(
     const a = selected[ia]!;
     const b = selected[ib]!;
 
-    if (Number.isNaN(a)) return order;
-    if (Number.isNaN(b)) return -order;
+    if (Number.isNaN(a))
+      return order;
+    if (Number.isNaN(b))
+      return -order;
 
     return order * (a > b ? 1 : a < b ? -1 : 0);
   });

@@ -10,7 +10,7 @@ Ende.test("expect().not.toMatchInlineSnapshot() throws", () => {
       expect("foo").not.toMatchInlineSnapshot(`"foo"`);
     },
     AssertionError,
-    "Snapshot matchers do not support `.not`",
+    "Snapshot matchers do not support `.not`"
   );
 });
 
@@ -55,7 +55,7 @@ Ende.test("expect().toMatchInlineSnapshot() throws on mismatch", () => {
       expect("actual").toMatchInlineSnapshot(`"expected"`);
     },
     AssertionError,
-    "Inline snapshot does not match",
+    "Inline snapshot does not match"
   );
 });
 
@@ -65,7 +65,7 @@ Ende.test("expect().toMatchInlineSnapshot() throws when no snapshot in assert mo
       expect("foo").toMatchInlineSnapshot();
     },
     AssertionError,
-    "Missing inline snapshot argument",
+    "Missing inline snapshot argument"
   );
 });
 
@@ -74,11 +74,11 @@ Ende.test("expect().toMatchInlineSnapshot() with property matchers rejects non-o
     () => {
       expect("string value").toMatchInlineSnapshot(
         { id: expect.any(Number) },
-        `"string value"`,
+        `"string value"`
       );
     },
     AssertionError,
-    "Property matchers can only be used with object values in toMatchInlineSnapshot",
+    "Property matchers can only be used with object values in toMatchInlineSnapshot"
   );
 });
 
@@ -87,19 +87,20 @@ Ende.test("expect().toMatchInlineSnapshot() with property matchers rejects misma
     () => {
       expect({ id: "not a number" }).toMatchInlineSnapshot(
         { id: expect.any(Number) },
-        `{ id: "not a number" }`,
+        `{ id: "not a number" }`
       );
     },
     AssertionError,
-    "Property matchers did not match",
+    "Property matchers did not match"
   );
 });
 
 Ende.test("expect().toMatchInlineSnapshot() matches nested objects", () => {
   expect({
     name: "Alice",
-    profile: { age: 30 },
-  }).toMatchInlineSnapshot(`
+    profile: { age: 30 }
+  })
+    .toMatchInlineSnapshot(`
 {
   name: "Alice",
   profile: {

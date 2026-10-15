@@ -53,7 +53,7 @@ export function equal(c: unknown, d: unknown, options?: EqualOptions): boolean {
     if (customTesters?.length) {
       for (const customTester of customTesters) {
         const testContext = {
-          equal,
+          equal
         };
         const pass = customTester.call(testContext, a, b, customTesters);
         if (pass !== undefined) {
@@ -104,11 +104,13 @@ export function equal(c: unknown, d: unknown, options?: EqualOptions): boolean {
         return false;
       }
       if (a instanceof WeakMap || b instanceof WeakMap) {
-        if (!(a instanceof WeakMap && b instanceof WeakMap)) return false;
+        if (!(a instanceof WeakMap && b instanceof WeakMap))
+          return false;
         throw new TypeError("Cannot compare WeakMap instances");
       }
       if (a instanceof WeakSet || b instanceof WeakSet) {
-        if (!(a instanceof WeakSet && b instanceof WeakSet)) return false;
+        if (!(a instanceof WeakSet && b instanceof WeakSet))
+          return false;
         throw new TypeError("Cannot compare WeakSet instances");
       }
       if (seen.get(a) === b) {
@@ -157,7 +159,7 @@ export function equal(c: unknown, d: unknown, options?: EqualOptions): boolean {
         }
 
         const aKeys = [...a.keys()];
-        const primitiveKeysFastPath = aKeys.every((k) => {
+        const primitiveKeysFastPath = aKeys.every(k => {
           return typeof k === "string" ||
             typeof k === "number" ||
             typeof k === "boolean" ||
@@ -188,7 +190,8 @@ export function equal(c: unknown, d: unknown, options?: EqualOptions): boolean {
             /* Given that Map keys can be references, we need
              * to ensure that they are also deeply equal */
 
-            if (!compare(aKey, bKey)) continue;
+            if (!compare(aKey, bKey))
+              continue;
 
             if (
               (aKey === aValue && bKey === bValue) ||
@@ -206,7 +209,7 @@ export function equal(c: unknown, d: unknown, options?: EqualOptions): boolean {
       for (
         const key of [
           ...Object.getOwnPropertyNames(merged),
-          ...Object.getOwnPropertySymbols(merged),
+          ...Object.getOwnPropertySymbols(merged)
         ]
       ) {
         type Key = keyof typeof merged;
@@ -221,7 +224,8 @@ export function equal(c: unknown, d: unknown, options?: EqualOptions): boolean {
         }
       }
       if (a instanceof WeakRef || b instanceof WeakRef) {
-        if (!(a instanceof WeakRef && b instanceof WeakRef)) return false;
+        if (!(a instanceof WeakRef && b instanceof WeakRef))
+          return false;
         return compare(a.deref(), b.deref());
       }
       return true;

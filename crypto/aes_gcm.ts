@@ -80,14 +80,14 @@ export interface AesGcmOptions {
 export async function encryptAesGcm(
   key: CryptoKey,
   plaintext: BufferSource,
-  options?: AesGcmOptions,
+  options?: AesGcmOptions
 ): Promise<Uint8Array_> {
   const nonce = crypto.getRandomValues(new Uint8Array(NONCE_LENGTH));
 
   const params: AesGcmParams = {
     name: "AES-GCM",
     iv: nonce,
-    tagLength: TAG_LENGTH * 8,
+    tagLength: TAG_LENGTH * 8
   };
 
   if (options?.additionalData !== undefined) {
@@ -95,7 +95,7 @@ export async function encryptAesGcm(
   }
 
   const ciphertextAndTag = new Uint8Array(
-    await crypto.subtle.encrypt(params, key, plaintext),
+    await crypto.subtle.encrypt(params, key, plaintext)
   );
 
   const result = new Uint8Array(NONCE_LENGTH + ciphertextAndTag.byteLength);
@@ -137,15 +137,15 @@ export async function encryptAesGcm(
 export async function decryptAesGcm(
   key: CryptoKey,
   data: BufferSource,
-  options?: AesGcmOptions,
+  options?: AesGcmOptions
 ): Promise<Uint8Array_> {
-  const bytes = ArrayBuffer.isView(data)
-    ? new Uint8Array(data.buffer, data.byteOffset, data.byteLength)
-    : new Uint8Array(data);
+  const bytes = ArrayBuffer.isView(data) ?
+    new Uint8Array(data.buffer, data.byteOffset, data.byteLength) :
+    new Uint8Array(data);
 
   if (bytes.byteLength < OVERHEAD) {
     throw new RangeError(
-      `Data is too short: expected at least ${OVERHEAD} bytes, got ${bytes.byteLength}`,
+      `Data is too short: expected at least ${OVERHEAD} bytes, got ${bytes.byteLength}`
     );
   }
 
@@ -155,13 +155,13 @@ export async function decryptAesGcm(
   const params: AesGcmParams = {
     name: "AES-GCM",
     iv: nonce,
-    tagLength: TAG_LENGTH * 8,
+    tagLength: TAG_LENGTH * 8
   };
   if (options?.additionalData !== undefined) {
     params.additionalData = options.additionalData;
   }
 
   return new Uint8Array(
-    await crypto.subtle.decrypt(params, key, ciphertextAndTag),
+    await crypto.subtle.decrypt(params, key, ciphertextAndTag)
   );
 }

@@ -10,11 +10,14 @@ import { isPlainObject } from "../_utils.ts";
 function resolveYamlOmap(data: Record<string, unknown>[]): boolean {
   const objectKeys = new Set();
   for (const object of data) {
-    if (!isPlainObject(object)) return false;
+    if (!isPlainObject(object))
+      return false;
     const keys = Object.keys(object);
-    if (keys.length !== 1) return false;
+    if (keys.length !== 1)
+      return false;
     for (const key of keys) {
-      if (objectKeys.has(key)) return false;
+      if (objectKeys.has(key))
+        return false;
       objectKeys.add(key);
     }
   }
@@ -27,5 +30,5 @@ export const omap: Type<"sequence", Record<PropertyKey, unknown>[]> = {
   resolve: resolveYamlOmap,
   construct(data) {
     return data;
-  },
+  }
 };

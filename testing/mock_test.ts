@@ -6,7 +6,7 @@ import {
   AssertionError,
   assertNotEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import {
   assertSpyCall,
@@ -14,8 +14,6 @@ import {
   assertSpyCallArgs,
   assertSpyCallAsync,
   assertSpyCalls,
-  type ExpectedSpyCall,
-  type MethodSpy,
   MockError,
   mockSession,
   mockSessionAsync,
@@ -25,12 +23,14 @@ import {
   returnsArgs,
   returnsNext,
   returnsThis,
-  type Spy,
   spy,
-  type Stub,
   stub,
+  type ExpectedSpyCall,
+  type MethodSpy,
+  type Spy,
+  type Stub
 } from "./mock.ts";
-import { Point, type PointWithExtra, stringifyPoint } from "./_test_utils.ts";
+import { Point, stringifyPoint, type PointWithExtra } from "./_test_utils.ts";
 
 Ende.test("spy()", () => {
   const func = spy();
@@ -40,7 +40,7 @@ Ende.test("spy()", () => {
   assertSpyCall(func, 0, {
     self: undefined,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 1);
 
@@ -48,7 +48,7 @@ Ende.test("spy()", () => {
   assertSpyCall(func, 1, {
     self: undefined,
     args: ["x"],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 2);
 
@@ -56,7 +56,7 @@ Ende.test("spy()", () => {
   assertSpyCall(func, 2, {
     self: undefined,
     args: [{ x: 3 }],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 3);
 
@@ -64,7 +64,7 @@ Ende.test("spy()", () => {
   assertSpyCall(func, 3, {
     self: undefined,
     args: [3, 5, 7],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 4);
 
@@ -73,7 +73,7 @@ Ende.test("spy()", () => {
   assertSpyCall(func, 4, {
     self: undefined,
     args: [Point, stringifyPoint, point],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 5);
 
@@ -81,20 +81,20 @@ Ende.test("spy()", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: function cannot be restored",
+    "Cannot restore: function cannot be restored"
   );
   assertEquals(func.restored, false);
 });
 
 Ende.test("spy() works on function", () => {
-  const func = spy((value) => value);
+  const func = spy(value => value);
   assertSpyCalls(func, 0);
 
   assertEquals(func(undefined), undefined);
   assertSpyCall(func, 0, {
     self: undefined,
     args: [undefined],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 1);
 
@@ -102,7 +102,7 @@ Ende.test("spy() works on function", () => {
   assertSpyCall(func, 1, {
     self: undefined,
     args: ["x"],
-    returned: "x",
+    returned: "x"
   });
   assertSpyCalls(func, 2);
 
@@ -110,7 +110,7 @@ Ende.test("spy() works on function", () => {
   assertSpyCall(func, 2, {
     self: undefined,
     args: [{ x: 3 }],
-    returned: { x: 3 },
+    returned: { x: 3 }
   });
   assertSpyCalls(func, 3);
 
@@ -119,7 +119,7 @@ Ende.test("spy() works on function", () => {
   assertSpyCall(func, 3, {
     self: undefined,
     args: [point],
-    returned: point,
+    returned: point
   });
   assertSpyCalls(func, 4);
 
@@ -127,7 +127,7 @@ Ende.test("spy() works on function", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: function cannot be restored",
+    "Cannot restore: function cannot be restored"
   );
   assertEquals(func.restored, false);
 
@@ -138,7 +138,7 @@ Ende.test("spy() works on function", () => {
       // @ts-expect-error Test if passing incorrect argument types causes an error
       args: ["not a number", "string"],
       // @ts-expect-error Test if passing incorrect return type causes an error
-      returned: "not a boolean",
+      returned: "not a boolean"
     });
   });
 
@@ -146,7 +146,7 @@ Ende.test("spy() works on function", () => {
   point.explicitTypes(1, "hello");
   assertSpyCall(explicitTypesSpy, 0, {
     args: [1, "hello"],
-    returned: true,
+    returned: true
   });
 });
 
@@ -159,7 +159,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 0, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 1);
 
@@ -171,7 +171,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 2, {
     self: point,
     args: ["x"],
-    returned: "x",
+    returned: "x"
   });
   assertSpyCalls(func, 3);
 
@@ -179,7 +179,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 3, {
     self: point,
     args: ["x"],
-    returned: "x",
+    returned: "x"
   });
   assertSpyCalls(func, 4);
 
@@ -187,7 +187,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 4, {
     self: point,
     args: [{ x: 3 }],
-    returned: { x: 3 },
+    returned: { x: 3 }
   });
   assertSpyCalls(func, 5);
 
@@ -195,7 +195,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 5, {
     self: point,
     args: [{ x: 3 }],
-    returned: { x: 3 },
+    returned: { x: 3 }
   });
   assertSpyCalls(func, 6);
 
@@ -203,7 +203,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 6, {
     self: point,
     args: [3, 5, 7],
-    returned: 3,
+    returned: 3
   });
   assertSpyCalls(func, 7);
 
@@ -211,7 +211,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 7, {
     self: point,
     args: [3, 5, 7],
-    returned: 3,
+    returned: 3
   });
   assertSpyCalls(func, 8);
 
@@ -219,7 +219,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 8, {
     self: point,
     args: [Point, stringifyPoint, point],
-    returned: Point,
+    returned: Point
   });
   assertSpyCalls(func, 9);
 
@@ -227,7 +227,7 @@ Ende.test("spy() works on instance method", () => {
   assertSpyCall(func, 9, {
     self: point,
     args: [Point, stringifyPoint, point],
-    returned: Point,
+    returned: Point
   });
   assertSpyCalls(func, 10);
 
@@ -241,7 +241,7 @@ Ende.test("spy() works on instance method", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -257,7 +257,7 @@ Ende.test("spy() works on instance method symbol", () => {
   }
   assertSpyCall(func, 0, {
     self: point,
-    args: [],
+    args: []
   });
   assertSpyCalls(func, 1);
 
@@ -265,7 +265,7 @@ Ende.test("spy() works on instance method symbol", () => {
   assertEquals([...point], [2, 3]);
   assertSpyCall(func, 1, {
     self: point,
-    args: [],
+    args: []
   });
   assertSpyCalls(func, 2);
 
@@ -279,7 +279,7 @@ Ende.test("spy() works on instance method symbol", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -290,9 +290,9 @@ Ende.test("spy() works on instance method property descriptor", () => {
     configurable: true,
     enumerable: false,
     writable: false,
-    value: function (...args: unknown[]) {
+    value: function(...args: unknown[]) {
       return args[1];
-    },
+    }
   };
   Object.defineProperty(point, "action", actionDescriptor);
   const action = spy(point, "action");
@@ -302,7 +302,7 @@ Ende.test("spy() works on instance method property descriptor", () => {
   assertSpyCall(action, 0, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(action, 1);
 
@@ -310,7 +310,7 @@ Ende.test("spy() works on instance method property descriptor", () => {
   assertSpyCall(action, 1, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(action, 2);
 
@@ -318,7 +318,7 @@ Ende.test("spy() works on instance method property descriptor", () => {
   assertSpyCall(action, 2, {
     self: point,
     args: ["x", "y"],
-    returned: "y",
+    returned: "y"
   });
   assertSpyCalls(action, 3);
 
@@ -326,7 +326,7 @@ Ende.test("spy() works on instance method property descriptor", () => {
   assertSpyCall(action, 3, {
     self: point,
     args: ["x", "y"],
-    returned: "y",
+    returned: "y"
   });
   assertSpyCalls(action, 4);
 
@@ -339,12 +339,12 @@ Ende.test("spy() works on instance method property descriptor", () => {
   assertEquals(point.action, actionDescriptor.value);
   assertEquals(
     Object.getOwnPropertyDescriptor(point, "action"),
-    actionDescriptor,
+    actionDescriptor
   );
   assertThrows(
     () => action.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(action.restored, true);
 });
@@ -361,7 +361,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 0, {
       self: point,
       args: [],
-      returned: undefined,
+      returned: undefined
     });
     assertSpyCalls(func, 1);
 
@@ -373,7 +373,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 2, {
       self: point,
       args: ["x"],
-      returned: "x",
+      returned: "x"
     });
     assertSpyCalls(func, 3);
 
@@ -381,7 +381,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 3, {
       self: point,
       args: ["x"],
-      returned: "x",
+      returned: "x"
     });
     assertSpyCalls(func, 4);
 
@@ -389,7 +389,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 4, {
       self: point,
       args: [{ x: 3 }],
-      returned: { x: 3 },
+      returned: { x: 3 }
     });
     assertSpyCalls(func, 5);
 
@@ -397,7 +397,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 5, {
       self: point,
       args: [{ x: 3 }],
-      returned: { x: 3 },
+      returned: { x: 3 }
     });
     assertSpyCalls(func, 6);
 
@@ -405,7 +405,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 6, {
       self: point,
       args: [3, 5, 7],
-      returned: 3,
+      returned: 3
     });
     assertSpyCalls(func, 7);
 
@@ -413,7 +413,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 7, {
       self: point,
       args: [3, 5, 7],
-      returned: 3,
+      returned: 3
     });
     assertSpyCalls(func, 8);
 
@@ -421,7 +421,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 8, {
       self: point,
       args: [Point, stringifyPoint, point],
-      returned: Point,
+      returned: Point
     });
     assertSpyCalls(func, 9);
 
@@ -429,7 +429,7 @@ Ende.test("spy() supports explicit resource management", () => {
     assertSpyCall(func, 9, {
       self: point,
       args: [Point, stringifyPoint, point],
-      returned: Point,
+      returned: Point
     });
     assertSpyCalls(func, 10);
 
@@ -443,10 +443,11 @@ Ende.test("spy() supports explicit resource management", () => {
     assertEquals(point.action, Point.prototype.action);
     assertThrows(
       () => {
-        if (funcRef) funcRef.restore();
+        if (funcRef)
+          funcRef.restore();
       },
       MockError,
-      "Cannot restore: instance method already restored",
+      "Cannot restore: instance method already restored"
     );
     assertEquals(funcRef.restored, true);
   }
@@ -464,7 +465,7 @@ Ende.test("spy() works on constructor", () => {
   assertSpyCall(PointSpy, 0, {
     self: undefined,
     args: [2, 3],
-    returned: point,
+    returned: point
   });
   assertSpyCallArg(PointSpy, 0, 0, 2);
   assertSpyCallArgs(PointSpy, 0, 0, 1, [2]);
@@ -473,14 +474,14 @@ Ende.test("spy() works on constructor", () => {
   new PointSpy(3, 5);
   assertSpyCall(PointSpy, 1, {
     self: undefined,
-    args: [3, 5],
+    args: [3, 5]
   });
   assertSpyCalls(PointSpy, 2);
 
   assertThrows(
     () => PointSpy.restore(),
     MockError,
-    "Cannot restore: constructor cannot be restored",
+    "Cannot restore: constructor cannot be restored"
   );
 });
 
@@ -500,14 +501,14 @@ Ende.test("spy() works on constructor of child class", () => {
   assertSpyCall(PointSpyChild, 0, {
     self: undefined,
     args: [2, 3],
-    returned: point,
+    returned: point
   });
   assertSpyCalls(PointSpyChild, 1);
 
   assertSpyCall(PointSpy, 0, {
     self: undefined,
     args: [2, 3],
-    returned: point,
+    returned: point
   });
   assertSpyCalls(PointSpy, 1);
 });
@@ -523,7 +524,7 @@ Ende.test("spy() works on constructor that throws an error", () => {
   assertSpyCall(FooSpy, 0, {
     self: undefined,
     args: [],
-    error: { Class: Error, msgIncludes: "foo" },
+    error: { Class: Error, msgIncludes: "foo" }
   });
 });
 
@@ -531,14 +532,14 @@ Ende.test("spy() works with throwing method", () => {
   const obj = {
     fn() {
       throw new Error("failed");
-    },
+    }
   };
   const spyFn = spy(obj, "fn");
   assertThrows(() => obj.fn(), Error, "failed");
   assertSpyCall(spyFn, 0, {
     self: obj,
     args: [],
-    error: { Class: Error, msgIncludes: "failed" },
+    error: { Class: Error, msgIncludes: "failed" }
   });
 });
 
@@ -548,7 +549,7 @@ Ende.test("spy() throws when try spying already spied method", () => {
   assertThrows(
     () => spy(obj, "fn"),
     MockError,
-    "Cannot spy: already spying on instance method",
+    "Cannot spy: already spying on instance method"
   );
 });
 
@@ -558,7 +559,7 @@ Ende.test("spy() throws when the property is not a method", () => {
     // deno-lint-ignore no-explicit-any
     () => spy(obj as any, "fn"),
     MockError,
-    "Cannot spy: property is not an instance method",
+    "Cannot spy: property is not an instance method"
   );
 });
 
@@ -568,7 +569,7 @@ Ende.test("spy() throws when the property is not configurable", () => {
   assertThrows(
     () => spy(obj, "fn"),
     MockError,
-    "Cannot spy: non-configurable instance method",
+    "Cannot spy: non-configurable instance method"
   );
 });
 
@@ -582,7 +583,7 @@ Ende.test("stub()", () => {
   assertSpyCall(func, 0, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 1);
 
@@ -590,7 +591,7 @@ Ende.test("stub()", () => {
   assertSpyCall(func, 1, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 2);
 
@@ -604,7 +605,7 @@ Ende.test("stub()", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -620,7 +621,7 @@ Ende.test("stub() works on function", () => {
   assertSpyCall(func, 0, {
     self: point,
     args: [],
-    returned: 1,
+    returned: 1
   });
   assertSpyCalls(func, 1);
 
@@ -628,7 +629,7 @@ Ende.test("stub() works on function", () => {
   assertSpyCall(func, 1, {
     self: point,
     args: [],
-    returned: "b",
+    returned: "b"
   });
   assertSpyCalls(func, 2);
 
@@ -642,7 +643,7 @@ Ende.test("stub() works on function", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -661,7 +662,7 @@ Ende.test("stub() supports explicit resource management", () => {
     assertSpyCall(func, 0, {
       self: point,
       args: [],
-      returned: 1,
+      returned: 1
     });
     assertSpyCalls(func, 1);
 
@@ -669,7 +670,7 @@ Ende.test("stub() supports explicit resource management", () => {
     assertSpyCall(func, 1, {
       self: point,
       args: [],
-      returned: "b",
+      returned: "b"
     });
     assertSpyCalls(func, 2);
 
@@ -683,10 +684,11 @@ Ende.test("stub() supports explicit resource management", () => {
     assertEquals(point.action, Point.prototype.action);
     assertThrows(
       () => {
-        if (funcRef) funcRef.restore();
+        if (funcRef)
+          funcRef.restore();
       },
       MockError,
-      "Cannot restore: instance method already restored",
+      "Cannot restore: instance method already restored"
     );
     assertEquals(funcRef.restored, true);
   }
@@ -707,7 +709,7 @@ Ende.test("stub() handles non existent function", () => {
   assertSpyCall(func, 0, {
     self: castPoint,
     args: [],
-    returned: 1,
+    returned: 1
   });
   assertSpyCalls(func, 1);
 
@@ -715,7 +717,7 @@ Ende.test("stub() handles non existent function", () => {
   assertSpyCall(func, 1, {
     self: castPoint,
     args: [],
-    returned: 2,
+    returned: 2
   });
   assertSpyCalls(func, 2);
 
@@ -729,7 +731,7 @@ Ende.test("stub() handles non existent function", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -764,7 +766,7 @@ Ende.test("stub() correctly handles types", () => {
       // @ts-expect-error Test if passing incorrect argument types causes an error
       args: ["not a number", "string"],
       // @ts-expect-error Test if passing incorrect return type causes an error
-      returned: "not a boolean",
+      returned: "not a boolean"
     });
   });
 
@@ -772,7 +774,7 @@ Ende.test("stub() correctly handles types", () => {
   point2.explicitTypes(1, "hello");
   assertSpyCall(explicitTypesFunc, 0, {
     args: [1, "hello"],
-    returned: true,
+    returned: true
   });
 });
 
@@ -780,7 +782,7 @@ Ende.test("stub() works with throwing fake implementation", () => {
   const obj = {
     fn() {
       throw new Error("failed");
-    },
+    }
   };
   const stubFn = stub(obj, "fn", () => {
     throw new Error("failed");
@@ -789,7 +791,7 @@ Ende.test("stub() works with throwing fake implementation", () => {
   assertSpyCall(stubFn, 0, {
     self: obj,
     args: [],
-    error: { Class: Error, msgIncludes: "failed" },
+    error: { Class: Error, msgIncludes: "failed" }
   });
 });
 
@@ -799,7 +801,7 @@ Ende.test("stub() throws when the property is not a method", () => {
     // deno-lint-ignore no-explicit-any
     () => stub(obj as any, "fn"),
     MockError,
-    "Cannot stub: property is not an instance method",
+    "Cannot stub: property is not an instance method"
   );
 });
 
@@ -809,7 +811,7 @@ Ende.test("stub() throws when try stubbing already stubbed method", () => {
   assertThrows(
     () => stub(obj, "fn"),
     MockError,
-    "Cannot stub: already spying on instance method",
+    "Cannot stub: already spying on instance method"
   );
 });
 
@@ -819,7 +821,7 @@ Ende.test("stub() throws then the property is not configurable", () => {
   assertThrows(
     () => stub(obj, "fn"),
     MockError,
-    "Cannot stub: non-configurable instance method",
+    "Cannot stub: non-configurable instance method"
   );
 });
 
@@ -830,11 +832,11 @@ Ende.test("mockSession() and mockSessionAsync()", async () => {
     new Point(2, 3),
     new Point(2, 3),
     new Point(2, 3),
-    new Point(2, 3),
+    new Point(2, 3)
   ] as const;
   let actions: Spy<Point, unknown[], unknown>[] = [];
   function assertRestored(expected: boolean[]) {
-    assertEquals(actions.map((action) => action.restored), expected);
+    assertEquals(actions.map(action => action.restored), expected);
   }
   await mockSessionAsync(async () => {
     actions.push(spy(points[0], "action"));
@@ -860,7 +862,7 @@ Ende.test("mockSession() and mockSessionAsync()", async () => {
 
   actions = [];
   mockSession(() => {
-    actions = points.map((point) => spy(point, "action"));
+    actions = points.map(point => spy(point, "action"));
     assertRestored(Array(6).fill(false));
   })();
   assertRestored(Array(6).fill(true));
@@ -875,14 +877,14 @@ Ende.test("mockSession() and restore current session", () => {
     new Point(2, 3),
     new Point(2, 3),
     new Point(2, 3),
-    new Point(2, 3),
+    new Point(2, 3)
   ] as const;
   let actions: Spy<Point, unknown[], unknown>[];
   function assertRestored(expected: boolean[]) {
-    assertEquals(actions.map((action) => action.restored), expected);
+    assertEquals(actions.map(action => action.restored), expected);
   }
   try {
-    actions = points.map((point) => spy(point, "action"));
+    actions = points.map(point => spy(point, "action"));
 
     assertRestored(Array(6).fill(false));
     restore();
@@ -918,7 +920,7 @@ Ende.test("mockSession() and restore current session", () => {
     restore();
     assertRestored(Array(6).fill(true));
 
-    actions = points.map((point) => spy(point, "action"));
+    actions = points.map(point => spy(point, "action"));
     assertRestored(Array(6).fill(false));
     restore();
     assertRestored(Array(6).fill(true));
@@ -936,11 +938,11 @@ Ende.test("mockSession() and restore multiple sessions", () => {
     new Point(2, 3),
     new Point(2, 3),
     new Point(2, 3),
-    new Point(2, 3),
+    new Point(2, 3)
   ] as const;
   let actions: Spy<Point, unknown[], unknown>[];
   function assertRestored(expected: boolean[]) {
-    assertEquals(actions.map((action) => action.restored), expected);
+    assertEquals(actions.map(action => action.restored), expected);
   }
   try {
     actions = [];
@@ -977,7 +979,7 @@ Ende.test("assertSpyCalls()", () => {
   assertThrows(
     () => assertSpyCalls(spyFunc, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyFunc();
@@ -985,12 +987,12 @@ Ende.test("assertSpyCalls()", () => {
   assertThrows(
     () => assertSpyCalls(spyFunc, 0),
     AssertionError,
-    "Spy called more than expected",
+    "Spy called more than expected"
   );
   assertThrows(
     () => assertSpyCalls(spyFunc, 2),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1000,7 +1002,7 @@ Ende.test("assertSpyCall() works with function", () => {
   assertThrows(
     () => assertSpyCall(spyFunc, 0),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyFunc();
@@ -1008,16 +1010,16 @@ Ende.test("assertSpyCall() works with function", () => {
   assertSpyCall(spyFunc, 0, {
     args: [],
     self: undefined,
-    returned: 5,
+    returned: 5
   });
   assertSpyCall(spyFunc, 0, {
-    args: [],
+    args: []
   });
   assertSpyCall(spyFunc, 0, {
-    self: undefined,
+    self: undefined
   });
   assertSpyCall(spyFunc, 0, {
-    returned: 5,
+    returned: 5
   });
 
   assertThrows(
@@ -1025,47 +1027,47 @@ Ende.test("assertSpyCall() works with function", () => {
       assertSpyCall(spyFunc, 0, {
         args: [1],
         self: {},
-        returned: 2,
+        returned: 2
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        args: [1],
+        args: [1]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        self: {},
+        self: {}
       }),
     AssertionError,
-    "Spy not called as method on expected self",
+    "Spy not called as method on expected self"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        returned: 2,
+        returned: 2
       }),
     AssertionError,
-    "Spy call did not return expected value",
+    "Spy call did not return expected value"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        error: { msgIncludes: "x" },
+        error: { msgIncludes: "x" }
       }),
     AssertionError,
-    "Spy call did not throw an error, a value was returned.",
+    "Spy call did not throw an error, a value was returned."
   );
   assertThrows(
     () => assertSpyCall(spyFunc, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1076,7 +1078,7 @@ Ende.test("assertSpyCall() works with method", () => {
   assertThrows(
     () => assertSpyCall(spyMethod, 0),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   point.action(3, 7);
@@ -1084,16 +1086,16 @@ Ende.test("assertSpyCall() works with method", () => {
   assertSpyCall(spyMethod, 0, {
     args: [3, 7],
     self: point,
-    returned: 3,
+    returned: 3
   });
   assertSpyCall(spyMethod, 0, {
-    args: [3, 7],
+    args: [3, 7]
   });
   assertSpyCall(spyMethod, 0, {
-    self: point,
+    self: point
   });
   assertSpyCall(spyMethod, 0, {
-    returned: 3,
+    returned: 3
   });
 
   assertThrows(
@@ -1101,39 +1103,39 @@ Ende.test("assertSpyCall() works with method", () => {
       assertSpyCall(spyMethod, 0, {
         args: [7, 4],
         self: undefined,
-        returned: 7,
+        returned: 7
       } as ExpectedSpyCall),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 0, {
-        args: [7, 3],
+        args: [7, 3]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 0, {
-        self: undefined,
+        self: undefined
       } as ExpectedSpyCall),
     AssertionError,
-    "Spy not expected to be called as method on object",
+    "Spy not expected to be called as method on object"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 0, {
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy call did not return expected value",
+    "Spy call did not return expected value"
   );
   assertThrows(
     () => assertSpyCall(spyMethod, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyMethod.call(point, 9);
@@ -1141,16 +1143,16 @@ Ende.test("assertSpyCall() works with method", () => {
   assertSpyCall(spyMethod, 1, {
     args: [9],
     self: point,
-    returned: 9,
+    returned: 9
   });
   assertSpyCall(spyMethod, 1, {
-    args: [9],
+    args: [9]
   });
   assertSpyCall(spyMethod, 1, {
-    self: point,
+    self: point
   });
   assertSpyCall(spyMethod, 1, {
-    returned: 9,
+    returned: 9
   });
 
   assertThrows(
@@ -1158,47 +1160,47 @@ Ende.test("assertSpyCall() works with method", () => {
       assertSpyCall(spyMethod, 1, {
         args: [7, 4],
         self: point,
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 1, {
-        args: [7, 3],
+        args: [7, 3]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 1, {
-        self: new Point(1, 2),
+        self: new Point(1, 2)
       }),
     AssertionError,
-    "Spy not called as method on expected self",
+    "Spy not called as method on expected self"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 1, {
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy call did not return expected value",
+    "Spy call did not return expected value"
   );
   assertThrows(
     () =>
       assertSpyCall(spyMethod, 1, {
-        error: { msgIncludes: "x" },
+        error: { msgIncludes: "x" }
       }),
     AssertionError,
-    "Spy call did not throw an error, a value was returned.",
+    "Spy call did not throw an error, a value was returned."
   );
   assertThrows(
     () => assertSpyCall(spyMethod, 2),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1217,26 +1219,26 @@ Ende.test("assertSpyCall() works with error", () => {
     self: undefined,
     error: {
       Class: ExampleError,
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
   assertSpyCall(spyFunc, 0, {
-    args: [],
+    args: []
   });
   assertSpyCall(spyFunc, 0, {
-    self: undefined,
+    self: undefined
   });
   assertSpyCall(spyFunc, 0, {
     error: {
       Class: ExampleError,
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
   assertSpyCall(spyFunc, 0, {
     error: {
       Class: Error,
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
 
   assertThrows(
@@ -1246,94 +1248,94 @@ Ende.test("assertSpyCall() works with error", () => {
         self: {},
         error: {
           Class: OtherError,
-          msgIncludes: "fail",
-        },
+          msgIncludes: "fail"
+        }
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        args: [1],
+        args: [1]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        self: {},
+        self: {}
       }),
     AssertionError,
-    "Spy not called as method on expected self",
-  );
-  assertThrows(
-    () =>
-      assertSpyCall(spyFunc, 0, {
-        error: {
-          Class: OtherError,
-          msgIncludes: "fail",
-        },
-      }),
-    AssertionError,
-    'Expected error to be instance of "OtherError", but was "ExampleError".',
+    "Spy not called as method on expected self"
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
         error: {
           Class: OtherError,
-          msgIncludes: "x",
-        },
+          msgIncludes: "fail"
+        }
       }),
     AssertionError,
-    'Expected error to be instance of "OtherError", but was "ExampleError".',
+    "Expected error to be instance of \"OtherError\", but was \"ExampleError\"."
+  );
+  assertThrows(
+    () =>
+      assertSpyCall(spyFunc, 0, {
+        error: {
+          Class: OtherError,
+          msgIncludes: "x"
+        }
+      }),
+    AssertionError,
+    "Expected error to be instance of \"OtherError\", but was \"ExampleError\"."
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
         error: {
           Class: ExampleError,
-          msgIncludes: "x",
-        },
+          msgIncludes: "x"
+        }
       }),
     AssertionError,
-    'Expected error message to include "x", but got "failed".',
+    "Expected error message to include \"x\", but got \"failed\"."
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
         error: {
           Class: Error,
-          msgIncludes: "x",
-        },
+          msgIncludes: "x"
+        }
       }),
     AssertionError,
-    'Expected error message to include "x", but got "failed".',
+    "Expected error message to include \"x\", but got \"failed\"."
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
         error: {
-          msgIncludes: "x",
-        },
+          msgIncludes: "x"
+        }
       }),
     AssertionError,
-    'Expected error message to include "x", but got "failed".',
+    "Expected error message to include \"x\", but got \"failed\"."
   );
   assertThrows(
     () =>
       assertSpyCall(spyFunc, 0, {
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy call did not return expected value, an error was thrown.",
+    "Spy call did not return expected value, an error was thrown."
   );
   assertThrows(
     () => assertSpyCall(spyFunc, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1345,22 +1347,20 @@ Ende.test("assertSpyCall() throws TypeError when returned and error are both pro
     () =>
       assertSpyCall(spyFunc, 0, {
         returned: 5,
-        error: { msgIncludes: "x" },
+        error: { msgIncludes: "x" }
       }),
     TypeError,
-    "Do not expect error and return, only one should be expected",
+    "Do not expect error and return, only one should be expected"
   );
 });
 
 Ende.test("assertSpyCallAsync() works with function", async () => {
-  const spyFunc = spy((multiplier?: number) =>
-    Promise.resolve(5 * (multiplier ?? 1))
-  );
+  const spyFunc = spy((multiplier?: number) => Promise.resolve(5 * (multiplier ?? 1)));
 
   await assertRejects(
     () => assertSpyCallAsync(spyFunc, 0),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   await spyFunc();
@@ -1368,21 +1368,21 @@ Ende.test("assertSpyCallAsync() works with function", async () => {
   await assertSpyCallAsync(spyFunc, 0, {
     args: [],
     self: undefined,
-    returned: 5,
+    returned: 5
   });
   await assertSpyCallAsync(spyFunc, 0, {
     args: [],
     self: undefined,
-    returned: Promise.resolve(5),
+    returned: Promise.resolve(5)
   });
   await assertSpyCallAsync(spyFunc, 0, {
-    args: [],
+    args: []
   });
   await assertSpyCallAsync(spyFunc, 0, {
-    self: undefined,
+    self: undefined
   });
   await assertSpyCallAsync(spyFunc, 0, {
-    returned: Promise.resolve(5),
+    returned: Promise.resolve(5)
   });
 
   await assertRejects(
@@ -1390,47 +1390,47 @@ Ende.test("assertSpyCallAsync() works with function", async () => {
       assertSpyCallAsync(spyFunc, 0, {
         args: [1],
         self: {},
-        returned: 2,
+        returned: 2
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        args: [1],
+        args: [1]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        self: {},
+        self: {}
       }),
     AssertionError,
-    "Spy not called as method on expected self",
+    "Spy not called as method on expected self"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        returned: 2,
+        returned: 2
       }),
     AssertionError,
-    "Spy call did not resolve to expected value",
+    "Spy call did not resolve to expected value"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        returned: Promise.resolve(2),
+        returned: Promise.resolve(2)
       }),
     AssertionError,
-    "Spy call did not resolve to expected value",
+    "Spy call did not resolve to expected value"
   );
   await assertRejects(
     () => assertSpyCallAsync(spyFunc, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1439,13 +1439,13 @@ Ende.test("assertSpyCallAsync() works with method", async () => {
   const spyMethod = stub(
     point,
     "action",
-    (x?: number, _y?: number) => Promise.resolve(x),
+    (x?: number, _y?: number) => Promise.resolve(x)
   );
 
   await assertRejects(
     () => assertSpyCallAsync(spyMethod, 0),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   await point.action(3, 7);
@@ -1453,24 +1453,24 @@ Ende.test("assertSpyCallAsync() works with method", async () => {
   await assertSpyCallAsync(spyMethod, 0, {
     args: [3, 7],
     self: point,
-    returned: 3,
+    returned: 3
   });
   await assertSpyCallAsync(spyMethod, 0, {
     args: [3, 7],
     self: point,
-    returned: Promise.resolve(3),
+    returned: Promise.resolve(3)
   });
   await assertSpyCallAsync(spyMethod, 0, {
-    args: [3, 7],
+    args: [3, 7]
   });
   await assertSpyCallAsync(spyMethod, 0, {
-    self: point,
+    self: point
   });
   await assertSpyCallAsync(spyMethod, 0, {
-    returned: 3,
+    returned: 3
   });
   await assertSpyCallAsync(spyMethod, 0, {
-    returned: Promise.resolve(3),
+    returned: Promise.resolve(3)
   });
 
   await assertRejects(
@@ -1478,47 +1478,47 @@ Ende.test("assertSpyCallAsync() works with method", async () => {
       assertSpyCallAsync(spyMethod, 0, {
         args: [7, 4],
         self: undefined,
-        returned: 7,
+        returned: 7
       } as ExpectedSpyCall),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 0, {
-        args: [7, 3],
+        args: [7, 3]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 0, {
-        self: undefined,
+        self: undefined
       } as ExpectedSpyCall),
     AssertionError,
-    "Spy not expected to be called as method on object",
+    "Spy not expected to be called as method on object"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 0, {
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy call did not resolve to expected value",
+    "Spy call did not resolve to expected value"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 0, {
-        returned: Promise.resolve(7),
+        returned: Promise.resolve(7)
       }),
     AssertionError,
-    "Spy call did not resolve to expected value",
+    "Spy call did not resolve to expected value"
   );
   await assertRejects(
     () => assertSpyCallAsync(spyMethod, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   await spyMethod.call(point, 9);
@@ -1526,24 +1526,24 @@ Ende.test("assertSpyCallAsync() works with method", async () => {
   await assertSpyCallAsync(spyMethod, 1, {
     args: [9],
     self: point,
-    returned: 9,
+    returned: 9
   });
   await assertSpyCallAsync(spyMethod, 1, {
     args: [9],
     self: point,
-    returned: Promise.resolve(9),
+    returned: Promise.resolve(9)
   });
   await assertSpyCallAsync(spyMethod, 1, {
-    args: [9],
+    args: [9]
   });
   await assertSpyCallAsync(spyMethod, 1, {
-    self: point,
+    self: point
   });
   await assertSpyCallAsync(spyMethod, 1, {
-    returned: 9,
+    returned: 9
   });
   await assertSpyCallAsync(spyMethod, 1, {
-    returned: Promise.resolve(9),
+    returned: Promise.resolve(9)
   });
 
   await assertRejects(
@@ -1551,47 +1551,47 @@ Ende.test("assertSpyCallAsync() works with method", async () => {
       assertSpyCallAsync(spyMethod, 1, {
         args: [7, 4],
         self: point,
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 1, {
-        args: [7, 3],
+        args: [7, 3]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 1, {
-        self: new Point(1, 2),
+        self: new Point(1, 2)
       }),
     AssertionError,
-    "Spy not called as method on expected self",
+    "Spy not called as method on expected self"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 1, {
-        returned: 7,
+        returned: 7
       }),
     AssertionError,
-    "Spy call did not resolve to expected value",
+    "Spy call did not resolve to expected value"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyMethod, 1, {
-        returned: Promise.resolve(7),
+        returned: Promise.resolve(7)
       }),
     AssertionError,
-    "Spy call did not resolve to expected value",
+    "Spy call did not resolve to expected value"
   );
   await assertRejects(
     () => assertSpyCallAsync(spyMethod, 2),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1602,7 +1602,7 @@ Ende.test("assertSpyCallAsync() rejects on sync value", async () => {
   await assertRejects(
     () => assertSpyCallAsync(spyFunc, 0),
     AssertionError,
-    "Spy call did not return a promise, a value was returned.",
+    "Spy call did not return a promise, a value was returned."
   );
 });
 
@@ -1615,14 +1615,12 @@ Ende.test("assertSpyCallAsync() rejects on sync error", async () => {
   await assertRejects(
     () => assertSpyCallAsync(spyFunc, 0),
     AssertionError,
-    "Spy call did not return a promise, an error was thrown.",
+    "Spy call did not return a promise, an error was thrown."
   );
 });
 
 Ende.test("assertSpyCallAsync() works with error", async () => {
-  const spyFunc = spy((..._args: number[]): Promise<number> =>
-    Promise.reject(new ExampleError("failed"))
-  );
+  const spyFunc = spy((..._args: number[]): Promise<number> => Promise.reject(new ExampleError("failed")));
 
   await assertRejects(() => spyFunc(), ExampleError, "fail");
   await assertSpyCallAsync(spyFunc, 0);
@@ -1631,36 +1629,36 @@ Ende.test("assertSpyCallAsync() works with error", async () => {
     self: undefined,
     error: {
       Class: ExampleError,
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
   await assertSpyCallAsync(spyFunc, 0, {
-    args: [],
+    args: []
   });
   await assertSpyCallAsync(spyFunc, 0, {
-    self: undefined,
+    self: undefined
   });
   await assertSpyCallAsync(spyFunc, 0, {
     error: {
       Class: ExampleError,
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
   await assertSpyCallAsync(spyFunc, 0, {
     error: {
       Class: Error,
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
   await assertSpyCallAsync(spyFunc, 0, {
     error: {
-      msgIncludes: "fail",
-    },
+      msgIncludes: "fail"
+    }
   });
   await assertSpyCallAsync(spyFunc, 0, {
     error: {
-      Class: Error,
-    },
+      Class: Error
+    }
   });
 
   await assertRejects(
@@ -1670,103 +1668,103 @@ Ende.test("assertSpyCallAsync() works with error", async () => {
         self: {},
         error: {
           Class: OtherError,
-          msgIncludes: "fail",
-        },
+          msgIncludes: "fail"
+        }
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        args: [1],
+        args: [1]
       }),
     AssertionError,
-    "Spy not called with expected args",
+    "Spy not called with expected args"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        self: {},
+        self: {}
       }),
     AssertionError,
-    "Spy not called as method on expected self",
-  );
-  await assertRejects(
-    () =>
-      assertSpyCallAsync(spyFunc, 0, {
-        error: {
-          Class: OtherError,
-          msgIncludes: "fail",
-        },
-      }),
-    AssertionError,
-    'Expected error to be instance of "OtherError"',
+    "Spy not called as method on expected self"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
         error: {
           Class: OtherError,
-          msgIncludes: "x",
-        },
+          msgIncludes: "fail"
+        }
       }),
     AssertionError,
-    'Expected error to be instance of "OtherError"',
+    "Expected error to be instance of \"OtherError\""
+  );
+  await assertRejects(
+    () =>
+      assertSpyCallAsync(spyFunc, 0, {
+        error: {
+          Class: OtherError,
+          msgIncludes: "x"
+        }
+      }),
+    AssertionError,
+    "Expected error to be instance of \"OtherError\""
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
         error: {
           Class: ExampleError,
-          msgIncludes: "x",
-        },
+          msgIncludes: "x"
+        }
       }),
     AssertionError,
-    'Expected error message to include "x", but got "failed".',
+    "Expected error message to include \"x\", but got \"failed\"."
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
         error: {
           Class: Error,
-          msgIncludes: "x",
-        },
+          msgIncludes: "x"
+        }
       }),
     AssertionError,
-    'Expected error message to include "x", but got "failed".',
+    "Expected error message to include \"x\", but got \"failed\"."
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
         error: {
-          msgIncludes: "x",
-        },
+          msgIncludes: "x"
+        }
       }),
     AssertionError,
-    'Expected error message to include "x", but got "failed".',
+    "Expected error message to include \"x\", but got \"failed\"."
+  );
+  await assertRejects(
+    () =>
+      assertSpyCallAsync(spyFunc, 0, {
+        returned: Promise.resolve(7)
+      }),
+    AssertionError,
+    "Spy call returned promise was rejected"
   );
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
         returned: Promise.resolve(7),
-      }),
-    AssertionError,
-    "Spy call returned promise was rejected",
-  );
-  await assertRejects(
-    () =>
-      assertSpyCallAsync(spyFunc, 0, {
-        returned: Promise.resolve(7),
-        error: { msgIncludes: "x" },
+        error: { msgIncludes: "x" }
       }),
     TypeError,
-    "Do not expect error and return, only one should be expected",
+    "Do not expect error and return, only one should be expected"
   );
   await assertRejects(
     () => assertSpyCallAsync(spyFunc, 1),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 });
 
@@ -1777,10 +1775,10 @@ Ende.test("assertSpyCallAsync() throws type error if expected return value is re
   await assertRejects(
     () =>
       assertSpyCallAsync(spyFunc, 0, {
-        returned: Promise.reject(new Error("failed")),
+        returned: Promise.reject(new Error("failed"))
       }),
     TypeError,
-    "Do not expect rejected promise, expect error instead",
+    "Do not expect rejected promise, expect error instead"
   );
 });
 
@@ -1790,7 +1788,7 @@ Ende.test("assertSpyCallArg()", () => {
   assertThrows(
     () => assertSpyCallArg(spyFunc, 0, 0, undefined),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyFunc();
@@ -1806,7 +1804,7 @@ Ende.test("assertSpyCallArg()", () => {
 
 
 -   undefined
-+   2`,
++   2`
   );
 
   spyFunc(7, 9);
@@ -1823,7 +1821,7 @@ Ende.test("assertSpyCallArg()", () => {
 
 
 -   undefined
-+   9`,
++   9`
   );
   assertThrows(
     () => assertSpyCallArg(spyFunc, 0, 1, 7),
@@ -1835,7 +1833,7 @@ Ende.test("assertSpyCallArg()", () => {
 
 
 -   undefined
-+   7`,
++   7`
   );
   assertThrows(
     () => assertSpyCallArg(spyFunc, 0, 2, 7),
@@ -1847,7 +1845,7 @@ Ende.test("assertSpyCallArg()", () => {
 
 
 -   undefined
-+   7`,
++   7`
   );
 });
 
@@ -1857,7 +1855,7 @@ Ende.test("assertSpyCallArgs() throws without range", () => {
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 0, []),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyFunc();
@@ -1873,7 +1871,7 @@ Ende.test("assertSpyCallArgs() throws without range", () => {
 
 +   [
 +     undefined,
-+   ]`,
++   ]`
   );
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 0, [2]),
@@ -1886,7 +1884,7 @@ Ende.test("assertSpyCallArgs() throws without range", () => {
 
 +   [
 +     2,
-+   ]`,
++   ]`
   );
 
   spyFunc(7, 9);
@@ -1904,7 +1902,7 @@ Ende.test("assertSpyCallArgs() throws without range", () => {
       7,
       9,
 +     undefined,
-    ]`,
+    ]`
   );
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 1, [9, 7]),
@@ -1919,7 +1917,7 @@ Ende.test("assertSpyCallArgs() throws without range", () => {
 -     7,
       9,
 +     7,
-    ]`,
+    ]`
   );
 });
 
@@ -1929,7 +1927,7 @@ Ende.test("assertSpyCallArgs() throws with start only", () => {
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 0, 1, []),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyFunc();
@@ -1945,7 +1943,7 @@ Ende.test("assertSpyCallArgs() throws with start only", () => {
 
 +   [
 +     undefined,
-+   ]`,
++   ]`
   );
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 0, 1, [2]),
@@ -1958,7 +1956,7 @@ Ende.test("assertSpyCallArgs() throws with start only", () => {
 
 +   [
 +     2,
-+   ]`,
++   ]`
   );
 
   spyFunc(7, 9, 8);
@@ -1976,7 +1974,7 @@ Ende.test("assertSpyCallArgs() throws with start only", () => {
       9,
       8,
 +     undefined,
-    ]`,
+    ]`
   );
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 1, 1, [9, 7]),
@@ -1991,7 +1989,7 @@ Ende.test("assertSpyCallArgs() throws with start only", () => {
       9,
 -     8,
 +     7,
-    ]`,
+    ]`
   );
 });
 
@@ -2001,7 +1999,7 @@ Ende.test("assertSpyCallArgs() throws with range", () => {
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 0, 1, 3, []),
     AssertionError,
-    "Spy not called as much as expected",
+    "Spy not called as much as expected"
   );
 
   spyFunc();
@@ -2018,7 +2016,7 @@ Ende.test("assertSpyCallArgs() throws with range", () => {
 +   [
 +     undefined,
 +     undefined,
-+   ]`,
++   ]`
   );
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 0, 1, 3, [2, 4]),
@@ -2032,7 +2030,7 @@ Ende.test("assertSpyCallArgs() throws with range", () => {
 +   [
 +     2,
 +     4,
-+   ]`,
++   ]`
   );
 
   spyFunc(7, 9, 8, 5, 6);
@@ -2050,7 +2048,7 @@ Ende.test("assertSpyCallArgs() throws with range", () => {
       9,
       8,
 +     undefined,
-    ]`,
+    ]`
   );
   assertThrows(
     () => assertSpyCallArgs(spyFunc, 1, 1, 3, [9, 7]),
@@ -2065,7 +2063,7 @@ Ende.test("assertSpyCallArgs() throws with range", () => {
       9,
 -     8,
 +     7,
-    ]`,
+    ]`
   );
 });
 
@@ -2117,12 +2115,12 @@ Ende.test("returnsNext() works with array", () => {
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 4 time(s)",
+    "Not expected to be called more than 4 time(s)"
   );
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 4 time(s)",
+    "Not expected to be called more than 4 time(s)"
   );
 
   results = [];
@@ -2137,13 +2135,13 @@ Ende.test("returnsNext() works with array", () => {
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
   results.push(5);
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
 });
 
@@ -2157,12 +2155,12 @@ Ende.test("returnsNext() works with iterator", () => {
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 4 time(s)",
+    "Not expected to be called more than 4 time(s)"
   );
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 4 time(s)",
+    "Not expected to be called more than 4 time(s)"
   );
 
   results = [];
@@ -2177,19 +2175,19 @@ Ende.test("returnsNext() works with iterator", () => {
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
   results.push(5);
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
 });
 
 Ende.test("returnsNext() works with generator", () => {
   let results = [1, 2, new Error("oops"), 3];
-  const generator = function* () {
+  const generator = function*() {
     yield* results;
   };
   let callback = returnsNext(generator());
@@ -2200,12 +2198,12 @@ Ende.test("returnsNext() works with generator", () => {
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 4 time(s)",
+    "Not expected to be called more than 4 time(s)"
   );
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 4 time(s)",
+    "Not expected to be called more than 4 time(s)"
   );
 
   results = [];
@@ -2220,13 +2218,13 @@ Ende.test("returnsNext() works with generator", () => {
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
   results.push(5);
   assertThrows(
     () => callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
 });
 
@@ -2236,7 +2234,7 @@ Ende.test("resolvesNext() works with array", async () => {
     new Error("oops"),
     Promise.resolve(2),
     Promise.resolve(new Error("oops")),
-    3,
+    3
   ];
   let callback = resolvesNext(results);
   const value = callback();
@@ -2249,12 +2247,12 @@ Ende.test("resolvesNext() works with array", async () => {
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
 
   results = [];
@@ -2264,7 +2262,7 @@ Ende.test("resolvesNext() works with array", async () => {
     new Error("oops"),
     Promise.resolve(2),
     Promise.resolve(new Error("oops")),
-    3,
+    3
   );
   assertEquals(await callback(), 1);
   await assertRejects(() => callback(), Error, "oops");
@@ -2276,13 +2274,13 @@ Ende.test("resolvesNext() works with array", async () => {
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 6 time(s)",
+    "Not expected to be called more than 6 time(s)"
   );
   results.push(5);
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 6 time(s)",
+    "Not expected to be called more than 6 time(s)"
   );
 });
 
@@ -2292,7 +2290,7 @@ Ende.test("resolvesNext() works with iterator", async () => {
     new Error("oops"),
     Promise.resolve(2),
     Promise.resolve(new Error("oops")),
-    3,
+    3
   ];
   let callback = resolvesNext(results.values());
   const value = callback();
@@ -2305,12 +2303,12 @@ Ende.test("resolvesNext() works with iterator", async () => {
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
 
   results = [];
@@ -2320,7 +2318,7 @@ Ende.test("resolvesNext() works with iterator", async () => {
     new Error("oops"),
     Promise.resolve(2),
     Promise.resolve(new Error("oops")),
-    3,
+    3
   );
   assertEquals(await callback(), 1);
   await assertRejects(() => callback(), Error, "oops");
@@ -2332,13 +2330,13 @@ Ende.test("resolvesNext() works with iterator", async () => {
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 6 time(s)",
+    "Not expected to be called more than 6 time(s)"
   );
   results.push(5);
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 6 time(s)",
+    "Not expected to be called more than 6 time(s)"
   );
 });
 
@@ -2348,9 +2346,9 @@ Ende.test("resolvesNext() works with async generator", async () => {
     new Error("oops"),
     Promise.resolve(2),
     Promise.resolve(new Error("oops")),
-    3,
+    3
   ];
-  const asyncGenerator = async function* () {
+  const asyncGenerator = async function*() {
     await delay(0);
     yield* results;
   };
@@ -2365,12 +2363,12 @@ Ende.test("resolvesNext() works with async generator", async () => {
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 5 time(s)",
+    "Not expected to be called more than 5 time(s)"
   );
 
   results = [];
@@ -2380,7 +2378,7 @@ Ende.test("resolvesNext() works with async generator", async () => {
     new Error("oops"),
     Promise.resolve(2),
     Promise.resolve(new Error("oops")),
-    3,
+    3
   );
   assertEquals(await callback(), 1);
   await assertRejects(() => callback(), Error, "oops");
@@ -2392,12 +2390,12 @@ Ende.test("resolvesNext() works with async generator", async () => {
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 6 time(s)",
+    "Not expected to be called more than 6 time(s)"
   );
   results.push(5);
   await assertRejects(
     async () => await callback(),
     MockError,
-    "Not expected to be called more than 6 time(s)",
+    "Not expected to be called more than 6 time(s)"
   );
 });

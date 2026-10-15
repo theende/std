@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
-import { type GlobOptions, globToRegExp } from "@ende/path/glob-to-regexp";
+import { globToRegExp, type GlobOptions } from "@ende/path/glob-to-regexp";
 import { joinGlobs } from "@ende/path/join-globs";
 import { isGlob } from "@ende/path/is-glob";
 import { isAbsolute } from "@ende/path/is-absolute";
@@ -11,7 +11,7 @@ import { toPathString } from "./_to_path_string.ts";
 import {
   createWalkEntry,
   createWalkEntrySync,
-  type WalkEntry,
+  type WalkEntry
 } from "./_create_walk_entry.ts";
 import { isWindows } from "@ende/internal/os";
 
@@ -69,7 +69,7 @@ function split(path: string): SplitPath {
   const split: SplitPath = {
     segments,
     isAbsolute: isAbsolute_,
-    hasTrailingSep: path.match(new RegExp(`${s}$`)) !== null,
+    hasTrailingSep: path.match(new RegExp(`${s}$`)) !== null
   };
   if (isWindows && isAbsolute_) {
     split.winRoot = segments.shift()!;
@@ -84,8 +84,10 @@ function throwUnlessNotFound(error: unknown) {
 }
 
 function comparePath(a: WalkEntry, b: WalkEntry): number {
-  if (a.path < b.path) return -1;
-  if (a.path > b.path) return 1;
+  if (a.path < b.path)
+    return -1;
+  if (a.path > b.path)
+    return 1;
   return 0;
 }
 
@@ -271,7 +273,7 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  */
 export async function* expandGlob(
   glob: string | URL,
-  options?: ExpandGlobOptions,
+  options?: ExpandGlobOptions
 ): AsyncIterableIterator<WalkEntry> {
   let {
     root,
@@ -281,14 +283,14 @@ export async function* expandGlob(
     globstar = true,
     caseInsensitive = false,
     followSymlinks = false,
-    canonicalize = true,
+    canonicalize = true
   } = options ?? {};
 
   const {
     segments,
     isAbsolute: isGlobAbsolute,
     hasTrailingSep,
-    winRoot,
+    winRoot
   } = split(toPathString(glob));
   root ??= isGlobAbsolute ? winRoot ?? "/" : Ende.cwd();
 
@@ -298,8 +300,7 @@ export async function* expandGlob(
   const excludePatterns = exclude
     .map(resolveFromRoot)
     .map((s: string): RegExp => globToRegExp(s, globOptions));
-  const shouldInclude = (path: string) =>
-    !excludePatterns.some((p) => p.test(path));
+  const shouldInclude = (path: string) => !excludePatterns.some(p => p.test(path));
 
   let fixedRoot = isGlobAbsolute ? winRoot ?? "/" : absRoot;
   while (segments.length > 0 && !isGlob(segments[0]!)) {
@@ -316,7 +317,7 @@ export async function* expandGlob(
 
   async function* advanceMatch(
     walkInfo: WalkEntry,
-    globSegment: string,
+    globSegment: string
   ): AsyncIterableIterator<WalkEntry> {
     if (!walkInfo.isDirectory) {
       return;
@@ -331,7 +332,7 @@ export async function* expandGlob(
         skip: excludePatterns,
         maxDepth: globstar ? Infinity : 1,
         followSymlinks,
-        canonicalize,
+        canonicalize
       });
     }
     const globPattern = globToRegExp(globSegment, globOptions);
@@ -339,7 +340,7 @@ export async function* expandGlob(
       const walkEntry of walk(walkInfo.path, {
         maxDepth: 1,
         skip: excludePatterns,
-        followSymlinks,
+        followSymlinks
       })
     ) {
       if (
@@ -357,23 +358,23 @@ export async function* expandGlob(
     // pass everything through this Map.
     const nextMatchMap: Map<string, WalkEntry> = new Map();
     await Promise.all(
-      currentMatches.map(async (currentMatch) => {
+      currentMatches.map(async currentMatch => {
         for await (const nextMatch of advanceMatch(currentMatch, segment)) {
           nextMatchMap.set(nextMatch.path, nextMatch);
         }
-      }),
+      })
     );
     currentMatches = [...nextMatchMap.values()].sort(comparePath);
   }
 
   if (hasTrailingSep) {
     currentMatches = currentMatches.filter(
-      (entry: WalkEntry): boolean => entry.isDirectory,
+      (entry: WalkEntry): boolean => entry.isDirectory
     );
   }
   if (!includeDirs) {
     currentMatches = currentMatches.filter(
-      (entry: WalkEntry): boolean => !entry.isDirectory,
+      (entry: WalkEntry): boolean => !entry.isDirectory
     );
   }
   yield* currentMatches;
@@ -428,7 +429,7 @@ export async function* expandGlob(
  */
 export function* expandGlobSync(
   glob: string | URL,
-  options?: ExpandGlobOptions,
+  options?: ExpandGlobOptions
 ): IterableIterator<WalkEntry> {
   let {
     root,
@@ -438,14 +439,14 @@ export function* expandGlobSync(
     globstar = true,
     caseInsensitive = false,
     followSymlinks = false,
-    canonicalize = true,
+    canonicalize = true
   } = options ?? {};
 
   const {
     segments,
     isAbsolute: isGlobAbsolute,
     hasTrailingSep,
-    winRoot,
+    winRoot
   } = split(toPathString(glob));
   root ??= isGlobAbsolute ? winRoot ?? "/" : Ende.cwd();
 
@@ -455,8 +456,7 @@ export function* expandGlobSync(
   const excludePatterns = exclude
     .map(resolveFromRoot)
     .map((s: string): RegExp => globToRegExp(s, globOptions));
-  const shouldInclude = (path: string) =>
-    !excludePatterns.some((p) => p.test(path));
+  const shouldInclude = (path: string) => !excludePatterns.some(p => p.test(path));
 
   let fixedRoot = isGlobAbsolute ? winRoot ?? "/" : absRoot;
   while (segments.length > 0 && !isGlob(segments[0]!)) {
@@ -473,7 +473,7 @@ export function* expandGlobSync(
 
   function* advanceMatch(
     walkInfo: WalkEntry,
-    globSegment: string,
+    globSegment: string
   ): IterableIterator<WalkEntry> {
     if (!walkInfo.isDirectory) {
       return;
@@ -488,7 +488,7 @@ export function* expandGlobSync(
         skip: excludePatterns,
         maxDepth: globstar ? Infinity : 1,
         followSymlinks,
-        canonicalize,
+        canonicalize
       });
     }
     const globPattern = globToRegExp(globSegment, globOptions);
@@ -496,7 +496,7 @@ export function* expandGlobSync(
       const walkEntry of walkSync(walkInfo.path, {
         maxDepth: 1,
         skip: excludePatterns,
-        followSymlinks,
+        followSymlinks
       })
     ) {
       if (
@@ -523,12 +523,12 @@ export function* expandGlobSync(
 
   if (hasTrailingSep) {
     currentMatches = currentMatches.filter(
-      (entry: WalkEntry): boolean => entry.isDirectory,
+      (entry: WalkEntry): boolean => entry.isDirectory
     );
   }
   if (!includeDirs) {
     currentMatches = currentMatches.filter(
-      (entry: WalkEntry): boolean => !entry.isDirectory,
+      (entry: WalkEntry): boolean => !entry.isDirectory
     );
   }
   yield* currentMatches;

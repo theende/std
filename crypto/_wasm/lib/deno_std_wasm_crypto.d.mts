@@ -15,7 +15,7 @@
 export function digest(
   algorithm: string,
   data: Uint8Array,
-  length?: number | null,
+  length?: number | null
 ): Uint8Array;
 /**
  * A context for incrementally computing a digest using a given hash algorithm.

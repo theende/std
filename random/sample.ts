@@ -56,24 +56,25 @@ export type SampleOptions = RandomOptions & {
  */
 export function sample<T>(
   array: ArrayLike<T>,
-  options?: SampleOptions,
+  options?: SampleOptions
 ): T | undefined {
   const { weights } = { ...options };
 
   if (weights) {
     if (weights.length !== array.length) {
       throw new RangeError(
-        "Cannot sample an item: The length of the weights array must match the length of the input array",
+        "Cannot sample an item: The length of the weights array must match the length of the input array"
       );
     }
 
-    if (!array.length) return undefined;
+    if (!array.length)
+      return undefined;
 
     const total = Object.values(weights).reduce((sum, n) => sum + n, 0);
 
     if (total <= 0) {
       throw new RangeError(
-        "Cannot sample an item: Total weight must be greater than 0",
+        "Cannot sample an item: Total weight must be greater than 0"
       );
     }
 
@@ -92,7 +93,7 @@ export function sample<T>(
   }
 
   const length = array.length;
-  return length
-    ? array[randomIntegerBetween(0, length - 1, options)]
-    : undefined;
+  return length ?
+    array[randomIntegerBetween(0, length - 1, options)] :
+    undefined;
 }

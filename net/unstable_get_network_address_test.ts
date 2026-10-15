@@ -13,7 +13,7 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "255.0.0.0",
     scopeid: null,
     cidr: "127.0.0.1/8",
-    mac: "00:00:00:00:00:00",
+    mac: "00:00:00:00:00:00"
   },
   {
     family: "IPv4",
@@ -22,7 +22,7 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "255.255.255.255",
     scopeid: null,
     cidr: "10.255.255.254/32",
-    mac: "00:00:00:00:00:00", // The interface with MAC addreess 00:00:00:00:00:00 is skipped
+    mac: "00:00:00:00:00:00" // The interface with MAC addreess 00:00:00:00:00:00 is skipped
   },
   {
     family: "IPv6",
@@ -31,7 +31,7 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
     scopeid: 0,
     cidr: "::1/128",
-    mac: "00:00:00:00:00:00",
+    mac: "00:00:00:00:00:00"
   },
   {
     family: "IPv6",
@@ -40,7 +40,7 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "ffff:ffff:ffff:ffff::",
     scopeid: 1,
     cidr: "fe80::1/64",
-    mac: "00:00:00:00:00:00",
+    mac: "00:00:00:00:00:00"
   },
   {
     family: "IPv6",
@@ -49,7 +49,7 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "ffff:ffff:ffff:ffff::",
     scopeid: 17,
     cidr: "fe80::7c00:d02e:f1ae:3980/64",
-    mac: "00:00:00:00:00:00",
+    mac: "00:00:00:00:00:00"
   },
   // Network accessible
   {
@@ -59,7 +59,7 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "255.255.255.0",
     scopeid: null,
     cidr: "192.168.0.123/24",
-    mac: "11:11:11:11:11:11",
+    mac: "11:11:11:11:11:11"
   },
   {
     family: "IPv6",
@@ -68,15 +68,15 @@ const INTERFACES: Ende.NetworkInterfaceInfo[] = [
     netmask: "ffff:ffff:ffff:ffff::",
     scopeid: 0,
     cidr: "2001:0000:0000:0000:0000:0000:0000:1234/64",
-    mac: "11:11:11:11:11:11",
-  },
+    mac: "11:11:11:11:11:11"
+  }
 ] as const;
 
 Ende.test("getNetworkAddress() works with IPv4", () => {
   using _networkInterfaces = stub(
     Ende,
     "networkInterfaces",
-    () => INTERFACES,
+    () => INTERFACES
   );
   const hostname = getNetworkAddress();
   assertEquals(hostname, INTERFACES[5]!.address);
@@ -94,7 +94,7 @@ Ende.test("getNetworkAddress() works with IPv6", () => {
   using _networkInterfaces = stub(
     Ende,
     "networkInterfaces",
-    () => INTERFACES,
+    () => INTERFACES
   );
   const hostname = getNetworkAddress("IPv6");
   assertEquals(hostname, INTERFACES[6]!.address);

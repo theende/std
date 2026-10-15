@@ -115,7 +115,7 @@ export class D2Array<T> implements Iterable<T[]> {
   constructor(
     widthOrValue: number | (readonly T[][]),
     heightOrInitialValue: number | T,
-    initialValue?: T,
+    initialValue?: T
   ) {
     if (Array.isArray(widthOrValue)) {
       assert((widthOrValue.length) > 0, "Height must be greater than 0");
@@ -132,12 +132,12 @@ export class D2Array<T> implements Iterable<T[]> {
       assert((widthOrValue as number) > 0, "Width must be greater than 0");
       assert(
         (heightOrInitialValue as number) > 0,
-        "Height must be greater than 0",
+        "Height must be greater than 0"
       );
 
       this.raw = Array.from(
         { length: heightOrInitialValue as number },
-        () => Array(widthOrValue as number).fill(initialValue as number),
+        () => Array(widthOrValue as number).fill(initialValue as number)
       );
       this.initialValue = initialValue!;
     }
@@ -170,7 +170,7 @@ export class D2Array<T> implements Iterable<T[]> {
     x: number = 0,
     y: number = 0,
     width?: number,
-    height?: number,
+    height?: number
   ): D2Array<T> {
     const actualHeight = Math.min(height ?? Infinity, this.raw.length - y);
     const actualWidth = Math.min(width ?? Infinity, this.raw[0]!.length - x);
@@ -232,7 +232,7 @@ export class D2Array<T> implements Iterable<T[]> {
       } else {
         for (let i = 0; i < this.raw.length; i++) {
           this.raw[i]!.push(
-            ...Array(width - this.raw[i]!.length).fill(this.initialValue),
+            ...Array(width - this.raw[i]!.length).fill(this.initialValue)
           );
         }
       }
@@ -243,8 +243,8 @@ export class D2Array<T> implements Iterable<T[]> {
         this.raw.push(
           ...Array.from(
             { length: height - this.raw.length },
-            () => Array(this.raw[0]!.length).fill(this.initialValue),
-          ),
+            () => Array(this.raw[0]!.length).fill(this.initialValue)
+          )
         );
       }
     }

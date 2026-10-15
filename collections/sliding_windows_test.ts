@@ -7,7 +7,7 @@ import { slidingWindows } from "./sliding_windows.ts";
 function slidingWindowsTest<T>(
   input: Parameters<typeof slidingWindows>,
   expected: T[][],
-  message?: string,
+  message?: string
 ) {
   const actual = slidingWindows(...input);
   assertEquals(actual, expected, message);
@@ -16,11 +16,11 @@ function slidingWindowsThrowsTest<T>(
   input: [
     collection: T[],
     size: number,
-    config?: { step?: number; partial?: boolean },
+    config?: { step?: number; partial?: boolean; }
   ],
   ErrorClass: ErrorConstructor,
   msgIncludes?: string,
-  msg?: string | undefined,
+  msg?: string | undefined
 ) {
   assertThrows(
     () => {
@@ -28,7 +28,7 @@ function slidingWindowsThrowsTest<T>(
     },
     ErrorClass,
     msgIncludes,
-    msg,
+    msg
   );
 }
 
@@ -38,7 +38,7 @@ Ende.test({
     const numbers = [1, 2, 3, 4, 5];
     slidingWindows(numbers, 3);
     assertEquals(numbers, [1, 2, 3, 4, 5]);
-  },
+  }
 });
 
 Ende.test({
@@ -49,46 +49,46 @@ Ende.test({
     slidingWindowsTest([[], 3, { step: 2 }], []);
     slidingWindowsTest([[], 3, { partial: true }], []);
     slidingWindowsTest([[], 3, { step: 2, partial: true }], []);
-  },
+  }
 });
 
 Ende.test({
   name: "slidingWindows() handles default option",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 5], [
-      [1, 2, 3, 4, 5],
+      [1, 2, 3, 4, 5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 3], [
       [1, 2, 3],
       [2, 3, 4],
-      [3, 4, 5],
+      [3, 4, 5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 1], [
       [1],
       [2],
       [3],
       [4],
-      [5],
+      [5]
     ]);
-  },
+  }
 });
 
 Ende.test({
   name: "slidingWindows() handles step option",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 5, { step: 2 }], [
-      [1, 2, 3, 4, 5],
+      [1, 2, 3, 4, 5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 3, { step: 2 }], [
       [1, 2, 3],
-      [3, 4, 5],
+      [3, 4, 5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 1, { step: 2 }], [
       [1],
       [3],
-      [5],
+      [5]
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -99,23 +99,23 @@ Ende.test({
       [2, 3, 4, 5],
       [3, 4, 5],
       [4, 5],
-      [5],
+      [5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 3, { partial: true }], [
       [1, 2, 3],
       [2, 3, 4],
       [3, 4, 5],
       [4, 5],
-      [5],
+      [5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 1, { partial: true }], [
       [1],
       [2],
       [3],
       [4],
-      [5],
+      [5]
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -124,19 +124,19 @@ Ende.test({
     slidingWindowsTest([[1, 2, 3, 4, 5], 5, { step: 2, partial: true }], [
       [1, 2, 3, 4, 5],
       [3, 4, 5],
-      [5],
+      [5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 3, { step: 2, partial: true }], [
       [1, 2, 3],
       [3, 4, 5],
-      [5],
+      [5]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 1, { step: 2, partial: true }], [
       [1],
       [3],
-      [5],
+      [5]
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -145,26 +145,26 @@ Ende.test({
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], NaN],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is NaN",
+      "Cannot create sliding windows: size must be a positive integer, current value is NaN"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: NaN }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is NaN",
+      "Cannot create sliding windows: step must be a positive integer, current value is NaN"
     );
     slidingWindowsThrowsTest(
       // @ts-expect-error: for test
       [[1, 2, 3, 4, 5], "invalid"],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is invalid",
+      "Cannot create sliding windows: size must be a positive integer, current value is invalid"
     );
     slidingWindowsThrowsTest(
       // @ts-expect-error: for test
       [[1, 2, 3, 4, 5], 3, { step: "invalid" }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is invalid",
+      "Cannot create sliding windows: step must be a positive integer, current value is invalid"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -173,24 +173,24 @@ Ende.test({
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 0.5],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is 0.5",
+      "Cannot create sliding windows: size must be a positive integer, current value is 0.5"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: 0.5 }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is 0.5",
+      "Cannot create sliding windows: step must be a positive integer, current value is 0.5"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 1.5],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is 1.5",
+      "Cannot create sliding windows: size must be a positive integer, current value is 1.5"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: 1.5 }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is 1.5",
+      "Cannot create sliding windows: step must be a positive integer, current value is 1.5"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -199,24 +199,24 @@ Ende.test({
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 0],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is 0",
+      "Cannot create sliding windows: size must be a positive integer, current value is 0"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: 0 }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is 0",
+      "Cannot create sliding windows: step must be a positive integer, current value is 0"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], -1],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is -1",
+      "Cannot create sliding windows: size must be a positive integer, current value is -1"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: -1 }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is -1",
+      "Cannot create sliding windows: step must be a positive integer, current value is -1"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -225,24 +225,24 @@ Ende.test({
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], Number.NEGATIVE_INFINITY],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is -Infinity",
+      "Cannot create sliding windows: size must be a positive integer, current value is -Infinity"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: Number.NEGATIVE_INFINITY }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is -Infinity",
+      "Cannot create sliding windows: step must be a positive integer, current value is -Infinity"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], Number.POSITIVE_INFINITY],
       RangeError,
-      "Cannot create sliding windows: size must be a positive integer, current value is Infinity",
+      "Cannot create sliding windows: size must be a positive integer, current value is Infinity"
     );
     slidingWindowsThrowsTest(
       [[1, 2, 3, 4, 5], 3, { step: Number.POSITIVE_INFINITY }],
       RangeError,
-      "Cannot create sliding windows: step must be a positive integer, current value is Infinity",
+      "Cannot create sliding windows: step must be a positive integer, current value is Infinity"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -253,42 +253,42 @@ Ende.test({
     slidingWindowsTest([[1, 2, 3, 4, 5], 100, { step: 2, partial: true }], [
       [1, 2, 3, 4, 5],
       [3, 4, 5],
-      [5],
+      [5]
     ]);
-  },
+  }
 });
 
 Ende.test({
   name: "slidingWindows() handles large step",
   fn() {
     slidingWindowsTest([[1, 2, 3, 4, 5], 3, { step: 100 }], [
-      [1, 2, 3],
+      [1, 2, 3]
     ]);
     slidingWindowsTest([[1, 2, 3, 4, 5], 3, { step: 100, partial: true }], [
-      [1, 2, 3],
+      [1, 2, 3]
     ]);
-  },
+  }
 });
 
 Ende.test({
   name: "slidingWindows() handles empty Array",
   fn() {
     slidingWindowsTest([Array(5), 5], [
-      Array(5),
+      Array(5)
     ]);
     slidingWindowsTest([Array(5), 3], [
       Array(3),
       Array(3),
-      Array(3),
+      Array(3)
     ]);
     slidingWindowsTest([Array(5), 1], [
       Array(1),
       Array(1),
       Array(1),
       Array(1),
-      Array(1),
+      Array(1)
     ]);
-  },
+  }
 });
 
 Ende.test("slidingWindows() handles a generator", () => {
@@ -308,7 +308,7 @@ Ende.test("slidingWindows() handles a generator", () => {
     [2, 3, 4],
     [3, 4, 5],
     [4, 5],
-    [5],
+    [5]
   ]);
   slidingWindowsTest([gen(), 3, { step: 2 }], [[1, 2, 3], [3, 4, 5]]);
   slidingWindowsTest([gen(), 1, { step: 2, partial: true }], [[1], [3], [5]]);
@@ -322,7 +322,7 @@ Ende.test("slidingWindows() handles a string", () => {
   slidingWindowsTest([str, 3], [["1", "2", "3"], ["2", "3", "4"], [
     "3",
     "4",
-    "5",
+    "5"
   ]]);
   slidingWindowsTest([str, 1], [["1"], ["2"], ["3"], ["4"], ["5"]]);
 });
@@ -340,18 +340,18 @@ Ende.test("slidingWindows() handles a Map", () => {
     ["b", 2],
     ["c", 3],
     ["d", 4],
-    ["e", 5],
+    ["e", 5]
   ]);
   slidingWindowsTest([map, 3], [
     [["a", 1], ["b", 2], ["c", 3]],
     [["b", 2], ["c", 3], ["d", 4]],
-    [["c", 3], ["d", 4], ["e", 5]],
+    [["c", 3], ["d", 4], ["e", 5]]
   ]);
   slidingWindowsTest([map, 1], [
     [["a", 1]],
     [["b", 2]],
     [["c", 3]],
     [["d", 4]],
-    [["e", 5]],
+    [["e", 5]]
   ]);
 });

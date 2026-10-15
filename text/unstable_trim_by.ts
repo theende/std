@@ -52,7 +52,7 @@ export type TrimPattern =
  */
 export function trimBy(
   str: string,
-  pattern: TrimPattern,
+  pattern: TrimPattern
 ): string {
   return trimStartBy(trimEndBy(str, pattern), pattern);
 }
@@ -95,7 +95,7 @@ export function trimBy(
  */
 export function trimStartBy(
   str: string,
-  pattern: TrimPattern,
+  pattern: TrimPattern
 ): string {
   return trimUntilDone(str, regExpFromTrimPattern`^${pattern}`);
 }
@@ -138,7 +138,7 @@ export function trimStartBy(
  */
 export function trimEndBy(
   str: string,
-  pattern: TrimPattern,
+  pattern: TrimPattern
 ): string {
   return trimUntilDone(str, regExpFromTrimPattern`${pattern}$`);
 }
@@ -146,7 +146,8 @@ export function trimEndBy(
 function trimUntilDone(str: string, regex: RegExp): string {
   let current = str;
   let next;
-  while ((next = current.replace(regex, "")) !== current) current = next;
+  while ((next = current.replace(regex, "")) !== current)
+    current = next;
   return current;
 }
 
@@ -158,7 +159,7 @@ function regExpFromTrimPattern(t: TemplateStringsArray, pattern: TrimPattern) {
         .map(escape)
         .join("|")
     }`,
-    flags: "",
+    flags: ""
   };
 
   source = `${t[0]!}(?:${source})${t[1]!}`;

@@ -31,9 +31,9 @@ export type InvertResult<T extends Record<PropertyKey, PropertyKey>> = {
  * ```
  */
 export function invert<T extends Record<PropertyKey, PropertyKey>>(
-  record: Readonly<T>,
+  record: Readonly<T>
 ): InvertResult<T> {
   return Object.fromEntries(
-    Object.entries(record).map(([key, value]) => [value, key]),
+    Object.entries(record).map(([key, value]) => [value, key])
   );
 }

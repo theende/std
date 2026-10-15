@@ -10,5 +10,5 @@ export const seq: Type<"sequence", unknown[]> = {
   tag: "tag:yaml.org,2002:seq",
   kind: "sequence",
   resolve: (): boolean => true,
-  construct: (data: unknown[] | null): unknown[] => data !== null ? data : [],
+  construct: (data: unknown[] | null): unknown[] => data !== null ? data : []
 };

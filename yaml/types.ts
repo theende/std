@@ -114,14 +114,15 @@ export class YamlSyntaxError extends SyntaxError {
    * @param snippet Optional formatted snippet of the source around the error.
    */
   constructor(message: string, position: YamlPosition, snippet?: string) {
-    let fullMessage =
-      `${message} at line ${position.line}, column ${position.column}`;
-    if (snippet) fullMessage += `:\n${snippet}`;
+    let fullMessage = `${message} at line ${position.line}, column ${position.column}`;
+    if (snippet)
+      fullMessage += `:\n${snippet}`;
     super(fullMessage);
     this.name = "YamlSyntaxError";
     this.line = position.line;
     this.column = position.column;
     this.offset = position.offset;
-    if (snippet !== undefined) this.snippet = snippet;
+    if (snippet !== undefined)
+      this.snippet = snippet;
   }
 }

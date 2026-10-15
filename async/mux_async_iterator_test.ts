@@ -70,7 +70,7 @@ Ende.test("MuxAsyncIterator() throws when the source throws", async () => {
   await assertRejects(
     async () => await Array.fromAsync(mux),
     Error,
-    "something went wrong",
+    "something went wrong"
   );
 });
 
@@ -80,11 +80,11 @@ Ende.test("MuxAsyncIterator() doesn't clear iterables after throwing", async () 
   await assertRejects(
     async () => await Array.fromAsync(mux),
     Error,
-    "something went wrong",
+    "something went wrong"
   );
   await assertRejects(
     async () => await Array.fromAsync(mux),
     Error,
-    "something went wrong",
+    "something went wrong"
   );
 });

@@ -8,14 +8,14 @@
 // dependency, so it is imported directly rather than via the import map.
 // deno-lint-ignore no-import-prefix
 import entityList from "https://html.spec.whatwg.org/entities.json" with {
-  type: "json",
+  type: "json"
 };
 
 const data = Object.fromEntries(
-  Object.entries(entityList).map(([k, v]) => [k, v.characters]),
+  Object.entries(entityList).map(([k, v]) => [k, v.characters])
 );
 
 await Ende.writeTextFile(
   new URL(import.meta.resolve("../named_entity_list.json")),
-  JSON.stringify(data, null, 2) + "\n",
+  JSON.stringify(data, null, 2) + "\n"
 );

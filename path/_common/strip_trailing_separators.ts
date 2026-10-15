@@ -6,7 +6,7 @@
 
 export function stripTrailingSeparators(
   segment: string,
-  isSep: (char: number) => boolean,
+  isSep: (char: number) => boolean
 ): string {
   if (segment.length <= 1) {
     return segment;

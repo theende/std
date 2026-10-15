@@ -25,7 +25,7 @@ import {
   parserFactory,
   Scanner,
   table,
-  value,
+  value
 } from "./_parser.ts";
 
 Ende.test({
@@ -43,7 +43,7 @@ Ende.test({
     assertEquals(scanner.char(), "b");
     scanner.next();
     assertEquals(scanner.eof(), true);
-  },
+  }
 });
 
 Ende.test({
@@ -52,8 +52,8 @@ Ende.test({
     const parse = parserFactory(bareKey);
     assertEquals(parse("A-Za-z0-9_-"), "A-Za-z0-9_-");
     assertThrows(() => parse(""));
-    assertThrows(() => parse('"foo"'));
-  },
+    assertThrows(() => parse("\"foo\""));
+  }
 });
 
 Ende.test({
@@ -61,20 +61,20 @@ Ende.test({
   fn() {
     const parse = parserFactory(basicString);
     assertEquals(
-      parse('"a\\"\\n\\t\\b\\\\\\u3042\\U01F995"'),
-      'a"\n\t\b\\\あ🦕',
+      parse("\"a\\\"\\n\\t\\b\\\\\\u3042\\U01F995\""),
+      "a\"\n\t\b\\\あ🦕"
     );
-    assertEquals(parse('""'), "");
-    assertEquals(parse('"a\\n"'), "a\n");
+    assertEquals(parse("\"\""), "");
+    assertEquals(parse("\"a\\n\""), "a\n");
     assertThrows(
-      () => parse('"a\\0b\\?c"'),
+      () => parse("\"a\\0b\\?c\""),
       SyntaxError,
-      "Invalid escape sequence: \\0",
+      "Invalid escape sequence: \\0"
     );
     assertThrows(() => parse(""));
-    assertThrows(() => parse('"a'));
-    assertThrows(() => parse('"a\nb"'));
-  },
+    assertThrows(() => parse("\"a"));
+    assertThrows(() => parse("\"a\nb\""));
+  }
 });
 
 Ende.test({
@@ -85,7 +85,7 @@ Ende.test({
     assertThrows(() => parse(""));
     assertThrows(() => parse("'a"));
     assertThrows(() => parse("a\nb"));
-  },
+  }
 });
 
 Ende.test({
@@ -96,7 +96,7 @@ Ende.test({
       parse(`"""
 Roses are red
 Violets are\\tblue"""`),
-      "Roses are red\nViolets are\tblue",
+      "Roses are red\nViolets are\tblue"
     );
     assertEquals(
       parse(`"""\\
@@ -104,7 +104,7 @@ Violets are\\tblue"""`),
     fox jumps over \\
     the lazy dog.\\
     """`),
-      "The quick brown fox jumps over the lazy dog.",
+      "The quick brown fox jumps over the lazy dog."
     );
     assertThrows(
       () =>
@@ -114,7 +114,7 @@ Violets are\\tblue"""`),
     the lazy dog\\0.\\
     """`),
       SyntaxError,
-      "Invalid escape sequence: \\?",
+      "Invalid escape sequence: \\?"
     );
     assertThrows(
       () =>
@@ -122,9 +122,9 @@ Violets are\\tblue"""`),
 Roses are red
 Violets are\\tblue`),
       SyntaxError,
-      "not closed",
+      "not closed"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -135,7 +135,7 @@ Ende.test({
       parse(`"""\r
 Roses are red\r
 Violets are\\tblue"""`),
-      "Roses are red\r\nViolets are\tblue",
+      "Roses are red\r\nViolets are\tblue"
     );
     assertEquals(
       parse(`"""\\\r
@@ -143,9 +143,9 @@ Violets are\\tblue"""`),
     fox jumps over \\\r
     the lazy dog.\\\r
     """`),
-      "The quick brown fox jumps over the lazy dog.",
+      "The quick brown fox jumps over the lazy dog."
     );
-  },
+  }
 });
 
 Ende.test({
@@ -156,7 +156,7 @@ Ende.test({
       parse(`'''
 Roses are red
 Violets are\\tblue'''`),
-      "Roses are red\nViolets are\\tblue",
+      "Roses are red\nViolets are\\tblue"
     );
     assertThrows(
       () =>
@@ -164,9 +164,9 @@ Violets are\\tblue'''`),
 Roses are red
 Violets are\\tblue`),
       SyntaxError,
-      "not closed",
+      "not closed"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -177,9 +177,9 @@ Ende.test({
       parse(`'''\r
 Roses are red\r
 Violets are\\tblue'''`),
-      "Roses are red\r\nViolets are\\tblue",
+      "Roses are red\r\nViolets are\\tblue"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -190,7 +190,7 @@ Ende.test({
     assertEquals(parse("false"), false);
     assertThrows(() => parse("truetrue"));
     assertThrows(() => parse("false "));
-  },
+  }
 });
 
 Ende.test({
@@ -203,7 +203,7 @@ Ende.test({
     assertThrows(() => parse("infinf"));
     assertThrows(() => parse("+inf "));
     assertThrows(() => parse("-inf_"));
-  },
+  }
 });
 Ende.test({
   name: "parse() handles nan",
@@ -215,7 +215,7 @@ Ende.test({
     assertThrows(() => parse("nannan"));
     assertThrows(() => parse("+nan "));
     assertThrows(() => parse("-nan_"));
-  },
+  }
 });
 
 Ende.test({
@@ -227,7 +227,7 @@ Ende.test({
     assertThrows(() => parse(""));
     assertThrows(() => parse("a.b ."));
     assertThrows(() => parse("."));
-  },
+  }
 });
 
 Ende.test({
@@ -239,27 +239,28 @@ Ende.test({
 [foo.bar]
 baz = true
 fizz.buzz = true
-`.trim()),
+`
+        .trim()),
       {
         type: "Table",
         keys: ["foo", "bar"],
         value: {
           baz: true,
           fizz: {
-            buzz: true,
-          },
-        },
-      },
+            buzz: true
+          }
+        }
+      }
     );
     assertEquals(parse(`[only.header]`), {
       type: "Table",
       keys: ["only", "header"],
-      value: {},
+      value: {}
     });
     assertThrows(() => parse(""));
     assertThrows(() => parse("["));
     assertThrows(() => parse("[o"));
-  },
+  }
 });
 
 Ende.test({
@@ -274,7 +275,7 @@ Ende.test({
     assertThrows(() => parse("0b_11010110"));
     assertThrows(() => parse("0b11010110_"));
     assertThrows(() => parse("0b1101__0110"));
-  },
+  }
 });
 Ende.test({
   name: "parse() handles octal",
@@ -289,7 +290,7 @@ Ende.test({
     assertThrows(() => parse("0o_755"));
     assertThrows(() => parse("0o755_"));
     assertThrows(() => parse("0o0123__4567"));
-  },
+  }
 });
 Ende.test({
   name: "parse() handles hex",
@@ -306,7 +307,7 @@ Ende.test({
     assertThrows(() => parse("0x_DEADBEEF"));
     assertThrows(() => parse("0xDEADBEEF_"));
     assertThrows(() => parse("0xDEAD__BEEF"));
-  },
+  }
 });
 Ende.test({
   name: "parse() handles integer",
@@ -327,7 +328,7 @@ Ende.test({
     assertThrows(() => parse("00"));
     assertThrows(() => parse("-01"));
     assertThrows(() => parse("+0_2"));
-  },
+  }
 });
 
 Ende.test({
@@ -360,7 +361,7 @@ Ende.test({
     assertThrows(() => parse("03.14"));
     assertThrows(() => parse("+03.14"));
     assertThrows(() => parse("-03.14"));
-  },
+  }
 });
 
 Ende.test({
@@ -369,28 +370,28 @@ Ende.test({
     const parse = parserFactory(dateTime);
     assertEquals(
       parse("1979-05-27T07:32:00Z"),
-      new Date("1979-05-27T07:32:00Z"),
+      new Date("1979-05-27T07:32:00Z")
     );
     assertEquals(
       parse("1979-05-27T00:32:00-07:00"),
-      new Date("1979-05-27T07:32:00Z"),
+      new Date("1979-05-27T07:32:00Z")
     );
     assertEquals(
       parse("1979-05-27T14:32:00+07:00"),
-      new Date("1979-05-27T07:32:00Z"),
+      new Date("1979-05-27T07:32:00Z")
     );
     assertEquals(
       parse("1979-05-27T00:32:00.999999-07:00"),
-      new Date("1979-05-27T07:32:00.999Z"),
+      new Date("1979-05-27T07:32:00.999Z")
     );
     assertEquals(
       parse("1979-05-27 07:32:00Z"),
-      new Date("1979-05-27T07:32:00Z"),
+      new Date("1979-05-27T07:32:00Z")
     );
     assertEquals(parse("1979-05-27T07:32:00"), new Date("1979-05-27T07:32:00"));
     assertEquals(
       parse("1979-05-27T00:32:00.999999"),
-      new Date("1979-05-27T00:32:00.999999"),
+      new Date("1979-05-27T00:32:00.999999")
     );
     assertEquals(parse("1979-05-27"), new Date("1979-05-27"));
     assertThrows(() => parse(""));
@@ -400,7 +401,7 @@ Ende.test({
     assertThrows(() => parse("1988-02-30"));
     assertThrows(() => parse("1988-02-30T15:15:15Z"));
     assertThrows(() => parse("2100-02-29T15:15:15Z"));
-  },
+  }
 });
 
 Ende.test({
@@ -410,7 +411,7 @@ Ende.test({
     assertEquals(parse("07:32:00"), "07:32:00");
     assertEquals(parse("07:32:00.999"), "07:32:00.999");
     assertThrows(() => parse(""));
-  },
+  }
 });
 
 Ende.test({
@@ -423,7 +424,7 @@ Ende.test({
     assertEquals(parse("07:32:00"), "07:32:00");
     assertEquals(parse(`"foo.com"`), "foo.com");
     assertEquals(parse(`'foo.com'`), "foo.com");
-  },
+  }
 });
 
 Ende.test({
@@ -434,7 +435,7 @@ Ende.test({
     assertThrows(() => parse("key ="));
     assertThrows(() => parse("key = \n 'value'"));
     assertThrows(() => parse("key \n = 'value'"));
-  },
+  }
 });
 
 Ende.test({
@@ -446,12 +447,12 @@ Ende.test({
     assertEquals(parse(`[ "red", "yellow", "green" ]`), [
       "red",
       "yellow",
-      "green",
+      "green"
     ]);
     assertEquals(parse(`[ [ 1, 2 ], [3, 4, 5] ]`), [[1, 2], [3, 4, 5]]);
     assertEquals(parse(`[ [ 1, 2 ], ["a", "b", "c"] ]`), [
       [1, 2],
-      ["a", "b", "c"],
+      ["a", "b", "c"]
     ]);
     assertEquals(
       parse(`[
@@ -459,17 +460,17 @@ Ende.test({
       { x = 7, y = 8, z = 9 },
       { x = 2, y = 4, z = 8 }
     ]`),
-      [{ x: 1, y: 2, z: 3 }, { x: 7, y: 8, z: 9 }, { x: 2, y: 4, z: 8 }],
+      [{ x: 1, y: 2, z: 3 }, { x: 7, y: 8, z: 9 }, { x: 2, y: 4, z: 8 }]
     );
     assertEquals(
       parse(`[ # comment
         1, # comment
         2, # this is ok
       ]`),
-      [1, 2],
+      [1, 2]
     );
     assertThrows(() => parse("[1, 2, 3"), SyntaxError, "not closed");
-  },
+  }
 });
 
 Ende.test({
@@ -478,13 +479,13 @@ Ende.test({
     const parse = parserFactory(inlineTable);
     assertEquals(parse(`{ first = "Tom", last = "Preston-Werner" }`), {
       first: "Tom",
-      last: "Preston-Werner",
+      last: "Preston-Werner"
     });
     assertEquals(parse(`{ type.name = "pug" }`), { type: { name: "pug" } });
     assertThrows(() => parse(`{ x = 1`));
     assertThrows(() => parse(`{ x = 1,\n y = 2 }`));
     assertThrows(() => parse(`{ x = 1, }`));
-  },
+  }
 });
 
 Ende.test({
@@ -494,16 +495,16 @@ Ende.test({
       foo: {
         items: [
           {
-            id: "a",
+            id: "a"
           },
           {
             id: "b",
             profile: {
-              name: "b",
-            },
-          },
-        ],
-      },
+              name: "b"
+            }
+          }
+        ]
+      }
     };
 
     deepAssign(
@@ -511,8 +512,8 @@ Ende.test({
       {
         type: "Table",
         keys: ["foo", "items", "profile", "email", "x"],
-        value: { main: "mail@example.com" },
-      },
+        value: { main: "mail@example.com" }
+      }
     );
     assertEquals(
       source,
@@ -520,22 +521,22 @@ Ende.test({
         foo: {
           items: [
             {
-              id: "a",
+              id: "a"
             },
             {
               id: "b",
               profile: {
                 name: "b",
                 email: {
-                  x: { main: "mail@example.com" },
-                },
-              },
-            },
-          ],
-        },
-      },
+                  x: { main: "mail@example.com" }
+                }
+              }
+            }
+          ]
+        }
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -543,7 +544,7 @@ Ende.test({
   fn() {
     const source = {
       foo: {},
-      bar: null,
+      bar: null
     };
 
     deepAssign(
@@ -551,8 +552,8 @@ Ende.test({
       {
         type: "TableArray",
         keys: ["foo", "items"],
-        value: { email: "mail@example.com" },
-      },
+        value: { email: "mail@example.com" }
+      }
     );
     assertEquals(
       source,
@@ -560,20 +561,20 @@ Ende.test({
         foo: {
           items: [
             {
-              email: "mail@example.com",
-            },
-          ],
+              email: "mail@example.com"
+            }
+          ]
         },
-        bar: null,
-      },
+        bar: null
+      }
     );
     deepAssign(
       source,
       {
         type: "TableArray",
         keys: ["foo", "items"],
-        value: { email: "sub@example.com" },
-      },
+        value: { email: "sub@example.com" }
+      }
     );
     assertEquals(
       source,
@@ -581,15 +582,15 @@ Ende.test({
         foo: {
           items: [
             {
-              email: "mail@example.com",
+              email: "mail@example.com"
             },
             {
-              email: "sub@example.com",
-            },
-          ],
+              email: "sub@example.com"
+            }
+          ]
         },
-        bar: null,
-      },
+        bar: null
+      }
     );
 
     assertThrows(
@@ -599,11 +600,11 @@ Ende.test({
           {
             type: "TableArray",
             keys: [],
-            value: { email: "sub@example.com" },
-          },
+            value: { email: "sub@example.com" }
+          }
         ),
       Error,
-      "Cannot parse the TOML: key length is not a positive number",
+      "Cannot parse the TOML: key length is not a positive number"
     );
 
     assertThrows(
@@ -613,11 +614,11 @@ Ende.test({
           {
             type: "TableArray",
             keys: ["bar", "items"],
-            value: { email: "mail@example.com" },
-          },
+            value: { email: "mail@example.com" }
+          }
         ),
       Error,
-      "Unexpected assign",
+      "Unexpected assign"
     );
 
     assertThrows(
@@ -627,11 +628,11 @@ Ende.test({
           {
             type: "Table",
             keys: ["bar", "items"],
-            value: { email: "mail@example.com" },
-          },
+            value: { email: "mail@example.com" }
+          }
         ),
       Error,
-      "Unexpected assign",
+      "Unexpected assign"
     );
-  },
+  }
 });

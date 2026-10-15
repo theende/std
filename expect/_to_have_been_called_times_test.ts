@@ -27,10 +27,10 @@ Ende.test("expect().toHaveBeenCalledTimes() with custom error message", () => {
   mockFn();
 
   expect(() => expect(mockFn, msg).toHaveBeenCalledTimes(2)).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 
   expect(() => expect(mockFn, msg).not.toHaveBeenCalledTimes(1)).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 });

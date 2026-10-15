@@ -35,9 +35,11 @@ function testComparator(version: SemVer, comparator: Comparator): boolean {
 
 export function testComparatorSet(version: SemVer, set: Comparator[]): boolean {
   for (const comparator of set) {
-    if (!testComparator(version, comparator)) return false;
+    if (!testComparator(version, comparator))
+      return false;
   }
-  if (!version.prerelease?.length) return true;
+  if (!version.prerelease?.length)
+    return true;
 
   // Find the comparator that is allowed to have prereleases
   // For example, ^1.2.3-pr.1 desugars to >=1.2.3-pr.1 <2.0.0
@@ -45,8 +47,10 @@ export function testComparatorSet(version: SemVer, set: Comparator[]): boolean {
   // However, `1.2.4-alpha.notready` should NOT be allowed,
   // even though it's within the range set by the comparators.
   for (const comparator of set) {
-    if (isWildcardComparator(comparator)) continue;
-    if (!comparator.prerelease?.length) continue;
+    if (isWildcardComparator(comparator))
+      continue;
+    if (!comparator.prerelease?.length)
+      continue;
     const { major, minor, patch } = comparator;
     if (
       version.major === major &&

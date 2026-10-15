@@ -163,7 +163,7 @@ Ende.test("isNameStartChar() rejects control characters", () => {
     assertEquals(
       isNameStartChar(c),
       false,
-      `control char: U+${c.toString(16)}`,
+      `control char: U+${c.toString(16)}`
     );
   }
 });
@@ -186,7 +186,7 @@ Ende.test("isNameStartChar() validates Glagolitic and Extended Latin range", () 
   assertEquals(
     isNameStartChar(0x2FF0),
     false,
-    "after range - Ideographic Description",
+    "after range - Ideographic Description"
   );
 });
 
@@ -196,14 +196,14 @@ Ende.test("isNameStartChar() validates CJK Compatibility and Arabic Presentation
   assertEquals(
     isNameStartChar(0xFDCF),
     true,
-    "Arabic Presentation Forms-A end",
+    "Arabic Presentation Forms-A end"
   );
   assertEquals(isNameStartChar(0xFDD0), false, "non-character");
   assertEquals(isNameStartChar(0xFDEF), false, "non-character range");
   assertEquals(
     isNameStartChar(0xFDF0),
     true,
-    "Arabic Presentation Forms-A restart",
+    "Arabic Presentation Forms-A restart"
   );
   assertEquals(isNameStartChar(0xFFFD), true, "Replacement Character");
   assertEquals(isNameStartChar(0xFFFE), false, "non-character");
@@ -225,7 +225,7 @@ Ende.test("isNameChar() rejects characters not in any valid range", () => {
   assertEquals(
     isNameChar(0x2010),
     false,
-    "Hyphen (different from ASCII hyphen)",
+    "Hyphen (different from ASCII hyphen)"
   );
   assertEquals(isNameChar(0x2041), false, "after Character Tie");
   assertEquals(isNameChar(0x2050), false, "Close Up");

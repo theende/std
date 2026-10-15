@@ -25,11 +25,11 @@ export function runLengthEncode(arr: number[]) {
 
   return {
     d: btoa(String.fromCharCode(...data)),
-    r: btoa(String.fromCharCode(...runLengths)),
+    r: btoa(String.fromCharCode(...runLengths))
   };
 }
 
-export function runLengthDecode({ d, r }: { d: string; r: string }) {
+export function runLengthDecode({ d, r }: { d: string; r: string; }) {
   const data = atob(d);
   const runLengths = atob(r);
   let out = "";
@@ -38,5 +38,5 @@ export function runLengthDecode({ d, r }: { d: string; r: string }) {
     out += data[i]!.repeat(ch.codePointAt(0)!);
   }
 
-  return Uint8Array.from([...out].map((x) => x.codePointAt(0)!));
+  return Uint8Array.from([...out].map(x => x.codePointAt(0)!));
 }

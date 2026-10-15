@@ -7,6 +7,6 @@ Ende.test("unreachable()", () => {
   assertThrows(
     () => unreachable("custom message"),
     AssertionError,
-    "Unreachable: custom message",
+    "Unreachable: custom message"
   );
 });

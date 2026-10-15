@@ -3,7 +3,7 @@
 import { assertEquals } from "@ende/assert";
 import { canParse } from "./can_parse.ts";
 
-Ende.test("canParse()", async (t) => {
+Ende.test("canParse()", async t => {
   // deno-lint-ignore no-explicit-any
   const versions: [any, boolean][] = [
     ["1.2.3", true],
@@ -30,7 +30,7 @@ Ende.test("canParse()", async (t) => {
     ["NOT VALID", false],
     [1.2, false],
     [null, false],
-    ["Infinity.NaN.Infinity", false],
+    ["Infinity.NaN.Infinity", false]
   ];
 
   for (const [v, expected] of versions) {

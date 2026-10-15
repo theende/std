@@ -45,13 +45,13 @@ Ende.test("debounce() handles flush", () => {
 Ende.test("debounce() handles params and context", () => {
   const params: Array<string | number> = [];
   const d: DebouncedFunction<[string, number]> = debounce(
-    function (param1: string, param2: number) {
+    function(param1: string, param2: number) {
       assertEquals(d.pending, false);
       params.push(param1);
       params.push(param2);
       assertStrictEquals(d, this);
     },
-    100,
+    100
   );
   // @ts-expect-error Argument of type 'number' is not assignable to parameter of type 'string'.
   d(1, 1);
@@ -111,7 +111,7 @@ Ende.test("debounce() throws on invalid wait values", () => {
     assertThrows(
       () => debounce(fn, wait),
       RangeError,
-      "'wait' must be a positive integer",
+      "'wait' must be a positive integer"
     );
   }
 });
@@ -155,6 +155,6 @@ Ende.test("debounce() abort signal after flush does not interfere", () => {
 Ende.test("debounce() throws if signal is already aborted", () => {
   assertThrows(
     () => debounce(() => {}, 100, { signal: AbortSignal.abort() }),
-    DOMException,
+    DOMException
   );
 });

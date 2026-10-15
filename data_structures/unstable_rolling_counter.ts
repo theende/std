@@ -86,8 +86,7 @@ export type ReadonlyRollingCounter = Pick<
  * assertEquals([...counter], [3, 0, 0]);
  * ```
  */
-export class RollingCounter
-  implements Iterable<number>, ReadonlyRollingCounter {
+export class RollingCounter implements Iterable<number>, ReadonlyRollingCounter {
   #segments: number[];
   #cursor: number;
   #total: number;
@@ -104,7 +103,7 @@ export class RollingCounter
       !Number.isInteger(segmentCount) || segmentCount < 1
     ) {
       throw new RangeError(
-        `Cannot create RollingCounter: segmentCount must be a positive integer, got ${segmentCount}`,
+        `Cannot create RollingCounter: segmentCount must be a positive integer, got ${segmentCount}`
       );
     }
     this.#segments = new Array<number>(segmentCount).fill(0);
@@ -168,7 +167,7 @@ export class RollingCounter
    * ```
    */
   static from(
-    source: RollingCounter | RollingCounterSnapshot,
+    source: RollingCounter | RollingCounterSnapshot
   ): RollingCounter {
     if (source instanceof RollingCounter) {
       const counter = new RollingCounter(source.segmentCount);
@@ -178,20 +177,18 @@ export class RollingCounter
     }
     if (source === null || typeof source !== "object") {
       throw new TypeError(
-        `Cannot restore RollingCounter: "source" must be a RollingCounter or snapshot object, got ${
-          source === null ? "null" : typeof source
-        }`,
+        `Cannot restore RollingCounter: "source" must be a RollingCounter or snapshot object, got ${source === null ? "null" : typeof source}`
       );
     }
     const { segments } = source;
     if (!Array.isArray(segments)) {
       throw new TypeError(
-        `Cannot restore RollingCounter: "segments" must be an array, got ${typeof segments}`,
+        `Cannot restore RollingCounter: "segments" must be an array, got ${typeof segments}`
       );
     }
     if (segments.length < 1) {
       throw new RangeError(
-        'Cannot restore RollingCounter: "segments" must be a non-empty array',
+        "Cannot restore RollingCounter: \"segments\" must be a non-empty array"
       );
     }
     const counter = new RollingCounter(segments.length);
@@ -199,7 +196,7 @@ export class RollingCounter
       const v = segments[i]!;
       if (!Number.isInteger(v) || v < 0) {
         throw new RangeError(
-          `Cannot restore RollingCounter: segment[${i}] must be a non-negative integer, got ${v}`,
+          `Cannot restore RollingCounter: segment[${i}] must be a non-negative integer, got ${v}`
         );
       }
       counter.#segments[i] = v;
@@ -229,7 +226,7 @@ export class RollingCounter
   increment(n: number = 1): number {
     if (!Number.isInteger(n) || n < 0) {
       throw new RangeError(
-        `Cannot increment RollingCounter: n must be a non-negative integer, got ${n}`,
+        `Cannot increment RollingCounter: n must be a non-negative integer, got ${n}`
       );
     }
     this.#segments[this.#cursor]! += n;
@@ -277,7 +274,7 @@ export class RollingCounter
   rotate(steps: number = 1): number {
     if (!Number.isInteger(steps) || steps < 0) {
       throw new RangeError(
-        `Cannot rotate RollingCounter: steps must be a non-negative integer, got ${steps}`,
+        `Cannot rotate RollingCounter: steps must be a non-negative integer, got ${steps}`
       );
     }
     const len = this.#segments.length;
@@ -400,8 +397,10 @@ export class RollingCounter
    */
   at(index: number): number | undefined {
     const len = this.#segments.length;
-    if (index < 0) index += len;
-    if (index < 0 || index >= len) return undefined;
+    if (index < 0)
+      index += len;
+    if (index < 0 || index >= len)
+      return undefined;
     return this.#segments[(this.#cursor + 1 + index) % len]!;
   }
 
@@ -453,11 +452,14 @@ export class RollingCounter
     const segs = this.#segments;
     const len = segs.length;
     let start = this.#cursor + 1;
-    if (start >= len) start = 0;
+    if (start >= len)
+      start = 0;
     const result = new Array<number>(len);
     const firstLen = len - start;
-    for (let i = 0; i < firstLen; i++) result[i] = segs[start + i]!;
-    for (let i = 0; i < start; i++) result[firstLen + i] = segs[i]!;
+    for (let i = 0; i < firstLen; i++)
+      result[i] = segs[start + i]!;
+    for (let i = 0; i < start; i++)
+      result[firstLen + i] = segs[i]!;
     return result;
   }
 

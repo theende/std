@@ -5,7 +5,7 @@
 import {
   assertArgs,
   lastPathSegment,
-  stripSuffix,
+  stripSuffix
 } from "../_common/basename.ts";
 import { fromFileUrl } from "./from_file_url.ts";
 import { stripTrailingSeparators } from "../_common/strip_trailing_separators.ts";
@@ -62,7 +62,7 @@ export function basename(path: string | URL, suffix = ""): string {
   const lastSegment = lastPathSegment(path, isPosixPathSeparator);
   const strippedSegment = stripTrailingSeparators(
     lastSegment,
-    isPosixPathSeparator,
+    isPosixPathSeparator
   );
   return suffix ? stripSuffix(strippedSegment, suffix) : strippedSegment;
 }

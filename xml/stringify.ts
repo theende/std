@@ -13,7 +13,7 @@ import type {
   XmlDeclaration,
   XmlDocument,
   XmlElement,
-  XmlNode,
+  XmlNode
 } from "./types.ts";
 import { encodeAttributeValue, encodeEntities } from "./_entities.ts";
 
@@ -43,7 +43,7 @@ export type { StringifyOptions } from "./types.ts";
  */
 export function stringify(
   node: XmlDocument | XmlElement,
-  options?: StringifyOptions,
+  options?: StringifyOptions
 ): string {
   const { indent, declaration = true } = options ?? {};
 
@@ -66,12 +66,12 @@ export function stringify(
 
 /** Serializes an XML declaration to a string. */
 function serializeDeclaration(decl: XmlDeclaration): string {
-  const encoding = decl.encoding !== undefined
-    ? ` encoding="${decl.encoding}"`
-    : "";
-  const standalone = decl.standalone !== undefined
-    ? ` standalone="${decl.standalone}"`
-    : "";
+  const encoding = decl.encoding !== undefined ?
+    ` encoding="${decl.encoding}"` :
+    "";
+  const standalone = decl.standalone !== undefined ?
+    ` standalone="${decl.standalone}"` :
+    "";
   return `<?xml version="${decl.version}"${encoding}${standalone}?>`;
 }
 
@@ -79,9 +79,10 @@ function serializeDeclaration(decl: XmlDeclaration): string {
  * Creates a memoized indent getter to avoid recomputing indent.repeat(depth).
  */
 function createIndentCache(
-  indent: string | undefined,
+  indent: string | undefined
 ): (depth: number) => string {
-  if (indent === undefined) return () => "";
+  if (indent === undefined)
+    return () => "";
   const cache: string[] = [""];
   return (depth: number): string => (cache[depth] ??= indent.repeat(depth));
 }
@@ -93,7 +94,7 @@ function serializeElement(
   element: XmlElement,
   indent: string | undefined,
   depth: number,
-  getIndent?: (depth: number) => string,
+  getIndent?: (depth: number) => string
 ): string {
   // Initialize indent cache on first call
   const indentFn = getIndent ?? createIndentCache(indent);
@@ -101,9 +102,9 @@ function serializeElement(
   const newline = indent !== undefined ? "\n" : "";
 
   // Build tag name (with optional namespace prefix)
-  const tagName = element.name.prefix
-    ? `${element.name.prefix}:${element.name.local}`
-    : element.name.local;
+  const tagName = element.name.prefix ?
+    `${element.name.prefix}:${element.name.local}` :
+    element.name.local;
 
   // Build attributes string
   let attrsStr = "";
@@ -118,20 +119,22 @@ function serializeElement(
 
   // Check if all children are inline content (text or cdata only)
   const hasOnlyInlineContent = element.children.every(
-    (child) => child.type === "text" || child.type === "cdata",
+    child => child.type === "text" || child.type === "cdata"
   );
 
   if (hasOnlyInlineContent) {
     // Inline: <tag>content</tag> (no indentation for content)
-    const content = element.children
-      .map((child) => serializeNode(child, undefined, 0, indentFn))
+    const content = element
+      .children
+      .map(child => serializeNode(child, undefined, 0, indentFn))
       .join("");
     return `${prefix}<${tagName}${attrsStr}>${content}</${tagName}>`;
   }
 
   // Block: children on separate lines (when indenting)
-  const childContent = element.children
-    .map((child) => serializeNode(child, indent, depth + 1, indentFn))
+  const childContent = element
+    .children
+    .map(child => serializeNode(child, indent, depth + 1, indentFn))
     .join(newline);
 
   return `${prefix}<${tagName}${attrsStr}>${newline}${childContent}${newline}${prefix}</${tagName}>`;
@@ -144,7 +147,7 @@ function serializeNode(
   node: XmlNode,
   indent: string | undefined,
   depth: number,
-  getIndent: (depth: number) => string,
+  getIndent: (depth: number) => string
 ): string {
   switch (node.type) {
     case "element":
@@ -186,12 +189,12 @@ function serializeCData(text: string): string {
 function validateCommentText(text: string): string {
   if (text.includes("--")) {
     throw new TypeError(
-      `Cannot serialize comment: XML forbids "--" within comments`,
+      `Cannot serialize comment: XML forbids "--" within comments`
     );
   }
   if (text.endsWith("-")) {
     throw new TypeError(
-      `Cannot serialize comment: trailing "-" would produce invalid "--->"`,
+      `Cannot serialize comment: trailing "-" would produce invalid "--->"`
     );
   }
   return text;

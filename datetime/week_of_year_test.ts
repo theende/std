@@ -62,5 +62,5 @@ Ende.test({
     assertEquals(weekOfYear(new Date(2011, 0, 3)), 1);
     assertEquals(weekOfYear(new Date(2011, 0, 9)), 1);
     assertEquals(weekOfYear(new Date(2011, 0, 10)), 2);
-  },
+  }
 });

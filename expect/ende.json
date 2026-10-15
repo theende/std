@@ -1,9 +1,9 @@
 {
-  "name": "@ende/expect",
-  "version": "1.0.20",
   "exports": {
     ".": "./mod.ts",
     "./expect": "./expect.ts",
     "./fn": "./fn.ts"
-  }
+  },
+  "name": "@ende/expect",
+  "version": "2026.10.15"
 }

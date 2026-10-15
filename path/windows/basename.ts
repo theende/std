@@ -5,7 +5,7 @@
 import {
   assertArgs,
   lastPathSegment,
-  stripSuffix,
+  stripSuffix
 } from "../_common/basename.ts";
 import { CHAR_COLON } from "../_common/constants.ts";
 import { stripTrailingSeparators } from "../_common/strip_trailing_separators.ts";
@@ -46,7 +46,8 @@ export function basename(path: string | URL, suffix = ""): string {
   if (path.length >= 2) {
     const drive = path.charCodeAt(0);
     if (isWindowsDeviceRoot(drive)) {
-      if (path.charCodeAt(1) === CHAR_COLON) start = 2;
+      if (path.charCodeAt(1) === CHAR_COLON)
+        start = 2;
     }
   }
 

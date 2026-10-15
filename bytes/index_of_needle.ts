@@ -48,7 +48,7 @@
 export function indexOfNeedle(
   source: Uint8Array,
   needle: Uint8Array,
-  start = 0,
+  start = 0
 ): number {
   if (start < 0) {
     start = Math.max(0, source.length + start);
@@ -58,7 +58,8 @@ export function indexOfNeedle(
   }
   const s = needle[0];
   for (let i = start; i < source.length; i++) {
-    if (source[i] !== s) continue;
+    if (source[i] !== s)
+      continue;
     let matched = 1;
     let j = i + 1;
     while (matched < needle.length && source[j] === needle[j - i]) {

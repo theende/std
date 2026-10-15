@@ -12,15 +12,18 @@ export const regexp: Type<"scalar", RegExp> = {
   tag: "tag:yaml.org,2002:js/regexp",
   kind: "scalar",
   resolve(data: string | null): boolean {
-    if (data === null || !data.length) return false;
+    if (data === null || !data.length)
+      return false;
 
     if (data.charAt(0) === "/") {
       // Ensure regex is properly terminated
       const groups = data.match(REGEXP)?.groups;
-      if (!groups) return false;
+      if (!groups)
+        return false;
       // Check no duplicate modifiers
       const modifiers = groups.modifiers ?? "";
-      if (new Set(modifiers).size < modifiers.length) return false;
+      if (new Set(modifiers).size < modifiers.length)
+        return false;
     }
 
     return true;
@@ -30,5 +33,5 @@ export const regexp: Type<"scalar", RegExp> = {
     return new RegExp(regexp, modifiers);
   },
   predicate: (object: unknown): object is RegExp => object instanceof RegExp,
-  represent: (object: RegExp): string => object.toString(),
+  represent: (object: RegExp): string => object.toString()
 };

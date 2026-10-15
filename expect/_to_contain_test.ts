@@ -21,7 +21,7 @@ Ende.test("expect().toContain()", () => {
       expect("foobarbaz").toContain("qux");
     },
     AssertionError,
-    `The value "foobarbaz" doesn't contain the expected item "qux"`,
+    `The value "foobarbaz" doesn't contain the expected item "qux"`
   );
 
   assertThrows(() => {
@@ -32,7 +32,7 @@ Ende.test("expect().toContain()", () => {
       expect("foobarbaz").not.toContain("bar");
     },
     AssertionError,
-    'The value "foobarbaz" contains the expected item "bar"',
+    "The value \"foobarbaz\" contains the expected item \"bar\""
   );
 });
 
@@ -42,6 +42,6 @@ Ende.test("expect().toContain() with custom error message", () => {
 
   expect(() => expect(arr, msg).not.toContain(2)).toThrow(new RegExp(`${msg}`));
   expect(() => expect("foobarbaz", msg).not.toContain("bar")).toThrow(
-    new RegExp(`${msg}`),
+    new RegExp(`${msg}`)
   );
 });

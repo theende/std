@@ -14,5 +14,5 @@ export const map: Type<"mapping", unknown> = {
   construct(data) {
     return data !== null ? data : {};
   },
-  kind: "mapping",
+  kind: "mapping"
 };

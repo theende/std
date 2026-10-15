@@ -6,7 +6,7 @@ import { testTransformStream } from "./_test_utils.ts";
 
 Ende.test("TextDelimiterStream handles discard", async () => {
   const delimStream = new TextDelimiterStream("foo", {
-    disposition: "discard",
+    disposition: "discard"
   });
   const inputs = [
     "qwertzu", // no delimiter
@@ -14,7 +14,7 @@ Ende.test("TextDelimiterStream handles discard", async () => {
     "xylkjhfoogfdsapfoooiuzt", // two separate delimiters
     "euoifoofooaueiou", // two consecutive delimiters
     "rewq098765432fo", // split delimiter (1/2)
-    "o349012i491290", // split delimiter (2/2)
+    "o349012i491290" // split delimiter (2/2)
   ];
   const outputs = [
     "qwertzuiopasd",
@@ -23,7 +23,7 @@ Ende.test("TextDelimiterStream handles discard", async () => {
     "oiuzteuoi",
     "",
     "aueiourewq098765432",
-    "349012i491290",
+    "349012i491290"
   ];
 
   await testTransformStream(delimStream, inputs, outputs);
@@ -31,7 +31,7 @@ Ende.test("TextDelimiterStream handles discard", async () => {
 
 Ende.test("TextDelimiterStream handles suffix", async () => {
   const delimStream = new TextDelimiterStream("foo", {
-    disposition: "suffix",
+    disposition: "suffix"
   });
   const inputs = [
     "qwertzu", // no delimiter
@@ -39,7 +39,7 @@ Ende.test("TextDelimiterStream handles suffix", async () => {
     "xylkjhfoogfdsapfoooiuzt", // two separate delimiters
     "euoifoofooaueiou", // two consecutive delimiters
     "rewq098765432fo", // split delimiter (1/2)
-    "o349012i491290", // split delimiter (2/2)
+    "o349012i491290" // split delimiter (2/2)
   ];
   const outputs = [
     "qwertzuiopasdfoo",
@@ -48,7 +48,7 @@ Ende.test("TextDelimiterStream handles suffix", async () => {
     "oiuzteuoifoo",
     "foo",
     "aueiourewq098765432foo",
-    "349012i491290",
+    "349012i491290"
   ];
 
   await testTransformStream(delimStream, inputs, outputs);
@@ -56,7 +56,7 @@ Ende.test("TextDelimiterStream handles suffix", async () => {
 
 Ende.test("TextDelimiterStream handles prefix", async () => {
   const delimStream = new TextDelimiterStream("foo", {
-    disposition: "prefix",
+    disposition: "prefix"
   });
   const inputs = [
     "qwertzu", // no delimiter
@@ -64,7 +64,7 @@ Ende.test("TextDelimiterStream handles prefix", async () => {
     "xylkjhfoogfdsapfoooiuzt", // two separate delimiters
     "euoifoofooaueiou", // two consecutive delimiters
     "rewq098765432fo", // split delimiter (1/2)
-    "o349012i491290", // split delimiter (2/2)
+    "o349012i491290" // split delimiter (2/2)
   ];
   const outputs = [
     "qwertzuiopasd",
@@ -73,7 +73,7 @@ Ende.test("TextDelimiterStream handles prefix", async () => {
     "foooiuzteuoi",
     "foo",
     "fooaueiourewq098765432",
-    "foo349012i491290",
+    "foo349012i491290"
   ];
 
   await testTransformStream(delimStream, inputs, outputs);
@@ -83,15 +83,15 @@ Ende.test("TextDelimiterStream handles JSONL with an empty line in the middle an
   const delimStream = new TextDelimiterStream("\n");
 
   const inputs = [
-    '{"a": 1}\n',
-    '\n{"a',
-    '": 2, "b": true}\n',
+    "{\"a\": 1}\n",
+    "\n{\"a",
+    "\": 2, \"b\": true}\n"
   ];
   const outputs = [
-    '{"a": 1}',
+    "{\"a\": 1}",
     "",
-    '{"a": 2, "b": true}',
-    "",
+    "{\"a\": 2, \"b\": true}",
+    ""
   ];
 
   await testTransformStream(delimStream, inputs, outputs);

@@ -33,8 +33,9 @@ Ende.test("assertAlmostEquals() throws values outside higher precision range", (
     `Expected actual: "${
       (
         0.1 + 0.2
-      ).toExponential()
-    }" to be close to "${(0.3).toExponential()}"`,
+      )
+        .toExponential()
+    }" to be close to "${(0.3).toExponential()}"`
   );
 });
 
@@ -46,17 +47,17 @@ Ende.test("assertAlmostEquals() throws when special numbers do not match", () =>
   assertThrows(
     () => assertAlmostEquals(0, Infinity),
     AssertionError,
-    'Expected actual: "0" to be close to "Infinity"',
+    "Expected actual: \"0\" to be close to \"Infinity\""
   );
   assertThrows(
     () => assertAlmostEquals(-Infinity, +Infinity),
     AssertionError,
-    'Expected actual: "-Infinity" to be close to "Infinity"',
+    "Expected actual: \"-Infinity\" to be close to \"Infinity\""
   );
   assertThrows(
     () => assertAlmostEquals(Infinity, NaN),
     AssertionError,
-    'Expected actual: "Infinity" to be close to "NaN"',
+    "Expected actual: \"Infinity\" to be close to \"NaN\""
   );
 });
 
@@ -64,6 +65,6 @@ Ende.test("assertAlmostEquals() throws with custom message", () => {
   assertThrows(
     () => assertAlmostEquals(-Infinity, +Infinity, 1e-17, "CUSTOM MESSAGE"),
     AssertionError,
-    `Expected actual: "-Infinity" to be close to "Infinity": delta "Infinity" is greater than "1e-17": CUSTOM MESSAGE`,
+    `Expected actual: "-Infinity" to be close to "Infinity": delta "Infinity" is greater than "1e-17": CUSTOM MESSAGE`
   );
 });

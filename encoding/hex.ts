@@ -58,11 +58,13 @@ new TextEncoder()
 export function encodeHex(src: string | Uint8Array | ArrayBuffer): string {
   if (typeof src === "string") {
     src = new TextEncoder().encode(src) as Uint8Array_;
-  } else if (src instanceof ArrayBuffer) src = new Uint8Array(src).slice();
-  else src = src.slice();
+  } else if (src instanceof ArrayBuffer)
+    src = new Uint8Array(src).slice();
+  else
+    src = src.slice();
   const [output, i] = detach(
     src as Uint8Array_,
-    calcSizeHex((src as Uint8Array_).length),
+    calcSizeHex((src as Uint8Array_).length)
   );
   encode(output, i, 0, alphabet);
   return new TextDecoder().decode(output);

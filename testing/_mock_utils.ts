@@ -12,7 +12,7 @@ import type { Spy } from "./mock.ts";
  * @return `true` if the function is a spy, `false` otherwise.
  */
 export function isSpy<Self, Args extends unknown[], Return>(
-  func: ((this: Self, ...args: Args) => Return) | unknown,
+  func: ((this: Self, ...args: Args) => Return) | unknown
 ): func is Spy<Self, Args, Return> {
   const spy = func as Spy<Self, Args, Return>;
   return typeof spy === "function" &&
@@ -27,7 +27,8 @@ export const sessions: Set<Spy<any, any[], any>>[] = [];
 
 // deno-lint-ignore no-explicit-any
 function getSession(): Set<Spy<any, any[], any>> {
-  if (sessions.length === 0) sessions.push(new Set());
+  if (sessions.length === 0)
+    sessions.push(new Set());
   return sessions.at(-1)!;
 }
 

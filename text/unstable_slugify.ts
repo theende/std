@@ -54,8 +54,7 @@ export const DIACRITICS_REGEXP = /[^\p{L}\p{N}\-]+/gu;
  * assertEquals(slugify("Συστημάτων Γραφής", { strip: ASCII_DIACRITICS_REGEXP }), "συστημάτων-γραφής");
  * ```
  */
-export const ASCII_DIACRITICS_REGEXP =
-  /(?<=[a-zA-Z])\p{M}+|[^\p{L}\p{M}\p{N}\-]+/gu;
+export const ASCII_DIACRITICS_REGEXP = /(?<=[a-zA-Z])\p{M}+|[^\p{L}\p{M}\p{N}\-]+/gu;
 /**
  * A regular expression for stripping non-ASCII characters from slugs.
  *
@@ -103,7 +102,7 @@ export const NON_ASCII_REGEXP = /[^0-9a-zA-Z\-]/g;
  */
 export function slugify(
   input: string,
-  options?: Partial<SlugifyOptions>,
+  options?: Partial<SlugifyOptions>
 ): string {
   // clone with `new RegExp` in case `lastIndex` isn't zeroed
   const stripRe = new RegExp(options?.strip ?? NON_WORD_REGEXP);
@@ -111,7 +110,7 @@ export function slugify(
 
   for (
     const s of wordSegmenter.segment(
-      input.trim().normalize("NFD").toLowerCase(),
+      input.trim().normalize("NFD").toLowerCase()
     )
   ) {
     if (s.isWordLike) {
@@ -122,7 +121,7 @@ export function slugify(
   }
 
   return words
-    .map(options?.transliterate ?? ((x) => x))
+    .map(options?.transliterate ?? (x => x))
     .join(options?.transliterate ? "-" : "")
     .replaceAll(stripRe, "")
     .normalize("NFC")

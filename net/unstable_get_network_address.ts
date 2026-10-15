@@ -35,17 +35,18 @@
  * ```
  */
 export function getNetworkAddress(
-  family: Ende.NetworkInterfaceInfo["family"] = "IPv4",
+  family: Ende.NetworkInterfaceInfo["family"] = "IPv4"
 ): string | undefined {
-  return Ende.networkInterfaces()
-    .find((i) =>
+  return Ende
+    .networkInterfaces()
+    .find(i =>
       i.family === family &&
       i.mac !== "00:00:00:00:00:00" &&
-      (family === "IPv4"
+      (family === "IPv4" ?
         // Cannot lie within 127.0.0.0/8
-        ? !i.address.startsWith("127")
+        !i.address.startsWith("127") :
         // Cannot be loopback or link-local addresses
-        : !(i.address === "::1" || i.address === "fe80::1") && i.scopeid === 0)
+        !(i.address === "::1" || i.address === "fe80::1") && i.scopeid === 0)
     )
     ?.address;
 }

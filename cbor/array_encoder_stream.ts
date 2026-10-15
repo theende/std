@@ -35,8 +35,7 @@ import type { CborStreamInput } from "./types.ts";
  * }
  * ```
  */
-export class CborArrayEncoderStream
-  implements TransformStream<CborStreamInput, Uint8Array> {
+export class CborArrayEncoderStream implements TransformStream<CborStreamInput, Uint8Array> {
   #readable: ReadableStream<Uint8Array>;
   #writable: WritableStream<CborStreamInput>;
   /**
@@ -57,9 +56,9 @@ export class CborArrayEncoderStream
             },
             flush(controller) {
               controller.enqueue(new Uint8Array([0b111_11111]));
-            },
-          }),
-        ),
+            }
+          })
+        )
     );
     this.#writable = writable;
   }
@@ -99,7 +98,7 @@ export class CborArrayEncoderStream
    * @returns A {@link CborArrayEncoderStream} instance of the encoded data.
    */
   static from(
-    asyncIterable: AsyncIterable<CborStreamInput> | Iterable<CborStreamInput>,
+    asyncIterable: AsyncIterable<CborStreamInput> | Iterable<CborStreamInput>
   ): CborArrayEncoderStream {
     const encoder = new CborArrayEncoderStream();
     ReadableStream.from(asyncIterable).pipeTo(encoder.writable);

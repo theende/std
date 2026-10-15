@@ -5,85 +5,85 @@ import { assertEquals } from "@ende/assert";
 import { stringify } from "./stringify.ts";
 import { parse } from "./parse.ts";
 
-Ende.test("stringify()", async (t) => {
+Ende.test("stringify()", async t => {
   await t.step(
     "basic",
     () =>
       assertEquals(
-        stringify({ "BASIC": "basic" }),
-        `BASIC=basic`,
-      ),
+        stringify({ BASIC: "basic" }),
+        `BASIC=basic`
+      )
   );
   await t.step(
     "comment",
     () =>
       assertEquals(
         stringify({ "#COMMENT": "comment" }),
-        ``,
-      ),
+        ``
+      )
   );
   await t.step(
     "single quote",
     () =>
       assertEquals(
-        stringify({ "QUOTED_SINGLE": "single quoted" }),
-        `QUOTED_SINGLE='single quoted'`,
-      ),
+        stringify({ QUOTED_SINGLE: "single quoted" }),
+        `QUOTED_SINGLE='single quoted'`
+      )
   );
   await t.step(
     "multiline",
     () =>
       assertEquals(
-        stringify({ "MULTILINE": "hello\nworld" }),
-        `MULTILINE="hello\\nworld"`,
-      ),
+        stringify({ MULTILINE: "hello\nworld" }),
+        `MULTILINE="hello\\nworld"`
+      )
   );
   await t.step(
     "whitespace",
     () =>
       assertEquals(
-        stringify({ "WHITESPACE": "    whitespace   " }),
-        `WHITESPACE='    whitespace   '`,
-      ),
+        stringify({ WHITESPACE: "    whitespace   " }),
+        `WHITESPACE='    whitespace   '`
+      )
   );
   await t.step(
     "equals",
     () =>
       assertEquals(
-        stringify({ "EQUALS": "equ==als" }),
-        `EQUALS='equ==als'`,
-      ),
+        stringify({ EQUALS: "equ==als" }),
+        `EQUALS='equ==als'`
+      )
   );
   await t.step(
     "number",
     () =>
       assertEquals(
-        stringify({ "THE_ANSWER": "42" }),
-        `THE_ANSWER=42`,
-      ),
+        stringify({ THE_ANSWER: "42" }),
+        `THE_ANSWER=42`
+      )
   );
   await t.step(
     "undefined",
     () =>
       assertEquals(
         stringify(
-          { "UNDEFINED": undefined } as unknown as Record<string, string>,
+          { UNDEFINED: undefined } as unknown as Record<string, string>
         ),
-        `UNDEFINED=`,
-      ),
+        `UNDEFINED=`
+      )
   );
   await t.step(
     "null",
     () =>
       assertEquals(
-        stringify({ "NULL": null } as unknown as Record<string, string>),
-        `NULL=`,
-      ),
+        stringify({ NULL: null } as unknown as Record<string, string>),
+        `NULL=`
+      )
   );
   await t.step("handles single-quote characters", () =>
     assertEquals(
       stringify({ PARSE: "par'se" }),
-      `PARSE="par'se"`,
+      `PARSE="par'se"`
     ));
 });
 
@@ -94,7 +94,7 @@ Ende.test("stringify() round-trips through parse() for tricky values", () => {
   // losslessly.
   const trickyChars = [
     "'",
-    '"',
+    "\"",
     "\\",
     "\\n",
     "\\r",
@@ -106,16 +106,18 @@ Ende.test("stringify() round-trips through parse() for tricky values", () => {
     "{",
     "}",
     " ",
-    "=",
+    "="
   ];
 
   function combos<T>(arr: T[], k: number): T[][] {
-    if (k === 0) return [[]];
-    if (arr.length < k) return [];
+    if (k === 0)
+      return [[]];
+    if (arr.length < k)
+      return [];
     const [first, ...rest] = arr;
     return [
-      ...combos(rest, k - 1).map((c) => [first!, ...c]),
-      ...combos(rest, k),
+      ...combos(rest, k - 1).map(c => [first!, ...c]),
+      ...combos(rest, k)
     ];
   }
 
@@ -126,7 +128,7 @@ Ende.test("stringify() round-trips through parse() for tricky values", () => {
       assertEquals(
         roundTripped,
         value,
-        `round-trip mismatch for value ${JSON.stringify(value)}`,
+        `round-trip mismatch for value ${JSON.stringify(value)}`
       );
     }
   }
@@ -140,7 +142,7 @@ Ende.test("stringify() round-trips JSON-encoded payloads", () => {
     { apostrophe: "don't" },
     { mixed: `She said "don't"` },
     { path: "C:\\Users\\test" },
-    { literal: "value with \\n inside" },
+    { literal: "value with \\n inside" }
   ];
 
   for (const payload of payloads) {
@@ -149,7 +151,7 @@ Ende.test("stringify() round-trips JSON-encoded payloads", () => {
     assertEquals(
       roundTripped,
       encoded,
-      `JSON round-trip mismatch for ${encoded}`,
+      `JSON round-trip mismatch for ${encoded}`
     );
     assertEquals(JSON.parse(roundTripped!), payload);
   }

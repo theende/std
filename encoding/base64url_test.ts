@@ -13,19 +13,19 @@ const testsetString = [
   ["foob", "Zm9vYg"],
   ["fooba", "Zm9vYmE"],
   ["foobar", "Zm9vYmFy"],
-  [">?>d?ß", "Pj8-ZD_Dnw"],
+  [">?>d?ß", "Pj8-ZD_Dnw"]
 ];
 
 const testsetBinary = testsetString.map(([str, b64]) => [
   new TextEncoder().encode(str),
-  b64,
+  b64
 ]) as Array<[Uint8Array, string]>;
 
 const testsetInvalid = [
   "Pj8/ZD+Dnw",
   "PDw/Pz8+Pg",
   "Pj8/ZD+Dnw==",
-  "PDw/Pz8+Pg==",
+  "PDw/Pz8+Pg=="
 ];
 
 Ende.test("encodeBase64Url() encodes string", () => {
@@ -51,7 +51,7 @@ Ende.test("decodeBase64Url() throws on invalid input", () => {
     assertThrows(
       () => decodeBase64Url(invalidb64url),
       TypeError,
-      "Cannot decode input as base64: Invalid character",
+      "Cannot decode input as base64: Invalid character"
     );
   }
 });
@@ -61,14 +61,14 @@ Ende.test("decodeBase64Url() throws on illegal base64url string", () => {
     "w58De",
     "Zm9vYmFyy",
     "DPj8-ZD_DnwEg",
-    "SGVsbG8gV29ybGQ-_",
+    "SGVsbG8gV29ybGQ-_"
   ];
 
   for (const illegalBase64url of testsetIllegalBase64url) {
     assertThrows(
       () => decodeBase64Url(illegalBase64url),
       RangeError,
-      `Length (${illegalBase64url.length}), excluding padding, must not have a remainder of 1 when divided by 4`,
+      `Length (${illegalBase64url.length}), excluding padding, must not have a remainder of 1 when divided by 4`
     );
   }
 });

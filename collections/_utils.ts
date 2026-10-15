@@ -8,7 +8,7 @@
  */
 export function filterInPlace<T>(
   array: Array<T>,
-  predicate: (el: T) => boolean,
+  predicate: (el: T) => boolean
 ): Array<T> {
   let outputIndex = 0;
 

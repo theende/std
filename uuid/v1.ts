@@ -4,8 +4,7 @@
 
 import { bytesToUuid } from "./_common.ts";
 
-const UUID_REGEXP =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-1[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_REGEXP = /^[0-9a-f]{8}-[0-9a-f]{4}-1[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /**
  * Determines whether a string is a valid
@@ -114,7 +113,7 @@ export function generate(options: GenerateOptions = {}): string {
         seedBytes[2],
         seedBytes[3],
         seedBytes[4],
-        seedBytes[5],
+        seedBytes[5]
       ];
     }
 
@@ -141,7 +140,7 @@ export function generate(options: GenerateOptions = {}): string {
 
   if (node.length !== 6) {
     throw new Error(
-      "Cannot create UUID: the node option must be an array of 6 bytes",
+      "Cannot create UUID: the node option must be an array of 6 bytes"
     );
   }
 

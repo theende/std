@@ -14,8 +14,7 @@ export const bool: Type<"scalar", boolean> = {
   tag: "tag:yaml.org,2002:bool",
   kind: "scalar",
   defaultStyle: "lowercase",
-  predicate: (value: unknown): value is boolean =>
-    typeof value === "boolean" || value instanceof Boolean,
+  predicate: (value: unknown): value is boolean => typeof value === "boolean" || value instanceof Boolean,
   construct: (data: string): boolean => YAML_TRUE_BOOLEANS.includes(data),
   resolve: (data: string): boolean => YAML_BOOLEANS.includes(data),
   represent: {
@@ -33,6 +32,6 @@ export const bool: Type<"scalar", boolean> = {
     camelcase: (object: boolean | Boolean): string => {
       const value = object instanceof Boolean ? object.valueOf() : object;
       return value ? "True" : "False";
-    },
-  },
+    }
+  }
 };

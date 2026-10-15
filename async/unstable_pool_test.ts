@@ -7,7 +7,7 @@ import {
   assertLess,
   assertRejects,
   assertStringIncludes,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { delay } from "./delay.ts";
 import { FakeTime } from "@ende/testing/time";
@@ -18,12 +18,12 @@ Ende.test("pooledMap() throws for invalid poolLimit", () => {
     assertThrows(
       () => pooledMap([1], noop, poolLimit),
       RangeError,
-      "'poolLimit' must be a positive integer",
+      "'poolLimit' must be a positive integer"
     );
     assertThrows(
       () => pooledMap([1], noop, { poolLimit }),
       RangeError,
-      "'poolLimit' must be a positive integer",
+      "'poolLimit' must be a positive integer"
     );
   }
 });
@@ -34,8 +34,8 @@ Ende.test("pooledMap()", async () => {
   const start = Date.now();
   const results = pooledMap(
     [1, 2, 3],
-    (i) => new Promise<number>((r) => setTimeout(() => r(i), 300)),
-    2,
+    i => new Promise<number>(r => setTimeout(() => r(i), 300)),
+    2
   );
   for (const _ of Array(7)) {
     time.tick(100);
@@ -55,8 +55,8 @@ Ende.test("pooledMap() with options form", async () => {
   const start = Date.now();
   const results = pooledMap(
     [1, 2, 3],
-    (i) => new Promise<number>((r) => setTimeout(() => r(i), 300)),
-    { poolLimit: 2 },
+    i => new Promise<number>(r => setTimeout(() => r(i), 300)),
+    { poolLimit: 2 }
   );
   for (const _ of Array(7)) {
     time.tick(100);
@@ -86,7 +86,7 @@ Ende.test("pooledMap() handles errors", async () => {
       }
     },
     AggregateError,
-    "Cannot complete the mapping as an error was thrown from an item",
+    "Cannot complete the mapping as an error was thrown from an item"
   );
   assertEquals(error.errors.length, 2);
   assertStringIncludes(error.errors[0].stack, "Error: Bad number: 1");
@@ -97,8 +97,8 @@ Ende.test("pooledMap() handles errors", async () => {
 Ende.test("pooledMap() returns ordered items", async () => {
   const results = pooledMap(
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    (i) => new Promise<number>((r) => setTimeout(() => r(i), 100 / i)),
-    2,
+    i => new Promise<number>(r => setTimeout(() => r(i), 100 / i)),
+    2
   );
 
   const returned = await Array.fromAsync(results);
@@ -112,8 +112,8 @@ Ende.test("pooledMap() checks browser compat", async () => {
   try {
     const results = pooledMap(
       [1, 2, 3],
-      (i) => new Promise<number>((r) => setTimeout(() => r(i), 100)),
-      2,
+      i => new Promise<number>(r => setTimeout(() => r(i), 100)),
+      2
     );
     const array = await Array.fromAsync(results);
     assertEquals(array, [1, 2, 3]);
@@ -125,11 +125,11 @@ Ende.test("pooledMap() checks browser compat", async () => {
 Ende.test("pooledMap() works normally without signal", async () => {
   const results = pooledMap(
     [10, 20, 30],
-    async (i) => {
+    async i => {
       await delay(10);
       return i * 2;
     },
-    { poolLimit: 2 },
+    { poolLimit: 2 }
   );
 
   const array = await Array.fromAsync(results);
@@ -142,14 +142,14 @@ Ende.test("pooledMap() rejects immediately with already-aborted signal", async (
 
   const results = pooledMap(
     [1, 2, 3],
-    (i) => Promise.resolve(i),
-    { poolLimit: 2, signal: controller.signal },
+    i => Promise.resolve(i),
+    { poolLimit: 2, signal: controller.signal }
   );
 
   await assertRejects(
     () => Array.fromAsync(results),
     Error,
-    "already aborted",
+    "already aborted"
   );
 });
 
@@ -159,13 +159,14 @@ Ende.test("pooledMap() stops processing when signal is aborted", async () => {
 
   const results = pooledMap(
     [1, 2, 3, 4, 5],
-    async (i) => {
+    async i => {
       started.push(i);
       await delay(50);
-      if (i === 2) controller.abort(new Error("stop at 2"));
+      if (i === 2)
+        controller.abort(new Error("stop at 2"));
       return i;
     },
-    { poolLimit: 1, signal: controller.signal },
+    { poolLimit: 1, signal: controller.signal }
   );
 
   const collected: number[] = [];
@@ -176,7 +177,7 @@ Ende.test("pooledMap() stops processing when signal is aborted", async () => {
       }
     },
     Error,
-    "stop at 2",
+    "stop at 2"
   );
 
   assertGreaterOrEqual(started.length, 2);
@@ -188,11 +189,11 @@ Ende.test("pooledMap() aborts during pool wait", async () => {
 
   const results = pooledMap(
     [1, 2, 3, 4, 5, 6, 7, 8],
-    async (i) => {
+    async i => {
       await delay(200);
       return i;
     },
-    { poolLimit: 2, signal: controller.signal },
+    { poolLimit: 2, signal: controller.signal }
   );
 
   setTimeout(() => controller.abort(new Error("timed out")), 50);
@@ -200,7 +201,7 @@ Ende.test("pooledMap() aborts during pool wait", async () => {
   await assertRejects(
     () => Array.fromAsync(results),
     Error,
-    "timed out",
+    "timed out"
   );
 });
 
@@ -211,11 +212,11 @@ Ende.test("pooledMap() rejects when aborted during the final drain", async () =>
   // producer is awaiting the final drain when the signal fires.
   const results = pooledMap(
     [1, 2],
-    async (i) => {
+    async i => {
       await delay(100);
       return i;
     },
-    { poolLimit: 4, signal: controller.signal },
+    { poolLimit: 4, signal: controller.signal }
   );
 
   setTimeout(() => controller.abort(new Error("drain abort")), 20);
@@ -223,7 +224,7 @@ Ende.test("pooledMap() rejects when aborted during the final drain", async () =>
   await assertRejects(
     () => Array.fromAsync(results),
     Error,
-    "drain abort",
+    "drain abort"
   );
 });
 
@@ -232,18 +233,18 @@ Ende.test("pooledMap() rejects with DOMException AbortError on bare abort", asyn
 
   const results = pooledMap(
     [1, 2, 3, 4, 5],
-    async (i) => {
+    async i => {
       await delay(100);
       return i;
     },
-    { poolLimit: 2, signal: controller.signal },
+    { poolLimit: 2, signal: controller.signal }
   );
 
   setTimeout(() => controller.abort(), 10);
 
   const error = await assertRejects(
     () => Array.fromAsync(results),
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
 });
@@ -253,7 +254,7 @@ Ende.test("pooledMap() preserves item errors when aborted", async () => {
 
   const results = pooledMap(
     [1, 2, 3, 4],
-    async (i) => {
+    async i => {
       await delay(20);
       if (i === 2) {
         controller.abort(new Error("stop"));
@@ -261,13 +262,13 @@ Ende.test("pooledMap() preserves item errors when aborted", async () => {
       }
       return i;
     },
-    { poolLimit: 2, signal: controller.signal },
+    { poolLimit: 2, signal: controller.signal }
   );
 
   const error = await assertRejects(
     () => Array.fromAsync(results),
     AggregateError,
-    "Cannot complete the mapping as an error was thrown from an item",
+    "Cannot complete the mapping as an error was thrown from an item"
   );
   assertEquals(error.errors.length, 1);
   assertStringIncludes(error.errors[0].message, "item failed");
@@ -290,18 +291,19 @@ Ende.test("pooledMap() closes the source iterator on abort", async () => {
 
   const results = pooledMap(
     source(),
-    async (i) => {
+    async i => {
       await delay(20);
-      if (i === 2) controller.abort(new Error("stop"));
+      if (i === 2)
+        controller.abort(new Error("stop"));
       return i;
     },
-    { poolLimit: 1, signal: controller.signal },
+    { poolLimit: 1, signal: controller.signal }
   );
 
   await assertRejects(
     () => Array.fromAsync(results),
     Error,
-    "stop",
+    "stop"
   );
   await delay(10);
   assertEquals(closed, true);
@@ -312,8 +314,8 @@ Ende.test("pooledMap() ignores abort after completion", async () => {
 
   const results = pooledMap(
     [1, 2, 3],
-    (i) => Promise.resolve(i * 2),
-    { poolLimit: 2, signal: controller.signal },
+    i => Promise.resolve(i * 2),
+    { poolLimit: 2, signal: controller.signal }
   );
 
   const array = await Array.fromAsync(results);
@@ -342,7 +344,7 @@ Ende.test("pooledMap() does not retain abort listener on a long-lived signal", a
   };
 
   const array = await Array.fromAsync(
-    pooledMap([1, 2, 3], (i) => Promise.resolve(i), { poolLimit: 2, signal }),
+    pooledMap([1, 2, 3], i => Promise.resolve(i), { poolLimit: 2, signal })
   );
   assertEquals(array, [1, 2, 3]);
   assertEquals(activeListeners, 0);
@@ -355,7 +357,7 @@ Ende.test({
 
     async function* slowSource() {
       yield 1;
-      await new Promise((r) => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 1000));
       yield 2;
     }
 
@@ -365,18 +367,18 @@ Ende.test({
     await assertRejects(
       () =>
         Array.fromAsync(
-          pooledMap(slowSource(), (i) => Promise.resolve(i), {
+          pooledMap(slowSource(), i => Promise.resolve(i), {
             poolLimit: 1,
-            signal: controller.signal,
-          }),
+            signal: controller.signal
+          })
         ),
       Error,
-      "aborted",
+      "aborted"
     );
     assertLess(performance.now() - start, 200);
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });
 
 Ende.test({
@@ -396,16 +398,16 @@ Ende.test({
     await assertRejects(
       () =>
         Array.fromAsync(
-          pooledMap(stalledSource(), (i) => Promise.resolve(i), {
+          pooledMap(stalledSource(), i => Promise.resolve(i), {
             poolLimit: 1,
-            signal: controller.signal,
-          }),
+            signal: controller.signal
+          })
         ),
       Error,
-      "aborted",
+      "aborted"
     );
     assertLess(performance.now() - start, 200);
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });

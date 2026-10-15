@@ -29,16 +29,18 @@ export function getErrorMessage(message: string, options: SnapshotOptions) {
  * serialization, call `Ende.inspect()` directly.
  */
 export function serialize(actual: unknown): string {
-  return Ende.inspect(actual, {
-    depth: Infinity,
-    sorted: true,
-    trailingComma: true,
-    compact: false,
-    iterableLimit: Infinity,
-    strAbbreviateSize: Infinity,
-    breakLength: Infinity,
-    escapeSequences: false,
-  }).replaceAll("\r", "\\r");
+  return Ende
+    .inspect(actual, {
+      depth: Infinity,
+      sorted: true,
+      trailingComma: true,
+      compact: false,
+      iterableLimit: Infinity,
+      strAbbreviateSize: Infinity,
+      breakLength: Infinity,
+      escapeSequences: false
+    })
+    .replaceAll("\r", "\\r");
 }
 
 /**
@@ -65,9 +67,9 @@ export function getMode(options: SnapshotOptions) {
   } else if (_mode) {
     return _mode;
   } else {
-    _mode = Ende.args.some((arg) => arg === "--update" || arg === "-u")
-      ? "update"
-      : "assert";
+    _mode = Ende.args.some(arg => arg === "--update" || arg === "-u") ?
+      "update" :
+      "assert";
     return _mode;
   }
 }
@@ -80,9 +82,10 @@ export function getIsUpdate(options: SnapshotOptions) {
 }
 
 export function getOptions<T>(
-  msgOrOpts?: string | T,
+  msgOrOpts?: string | T
 ): T {
-  if (msgOrOpts === undefined) return {} as T;
+  if (msgOrOpts === undefined)
+    return {} as T;
 
   if (typeof msgOrOpts === "object" && msgOrOpts !== null) {
     return msgOrOpts;
@@ -94,15 +97,14 @@ export function getOptions<T>(
 export function getSnapshotNotMatchMessage(
   actualSnapshot: string,
   expectedSnapshot: string,
-  options: SnapshotOptions,
+  options: SnapshotOptions
 ) {
   const stringDiff = !actualSnapshot.includes("\n");
-  const diffResult = stringDiff
-    ? diffStr(actualSnapshot, expectedSnapshot)
-    : diff(actualSnapshot.split("\n"), expectedSnapshot.split("\n"));
+  const diffResult = stringDiff ?
+    diffStr(actualSnapshot, expectedSnapshot) :
+    diff(actualSnapshot.split("\n"), expectedSnapshot.split("\n"));
   const diffMsg = buildMessage(diffResult, { stringDiff }).join("\n");
-  const message =
-    `Snapshot does not match:\n${diffMsg}\nTo update snapshots, run\n    ende test --allow-read --allow-write [files]... -- --update\n`;
+  const message = `Snapshot does not match:\n${diffMsg}\nTo update snapshots, run\n    ende test --allow-read --allow-write [files]... -- --update\n`;
   return getErrorMessage(message, options);
 }
 

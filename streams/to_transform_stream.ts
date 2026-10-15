@@ -75,20 +75,19 @@
 export function toTransformStream<I, O>(
   transformer: (src: ReadableStream<I>) => Iterable<O> | AsyncIterable<O>,
   writableStrategy?: QueuingStrategy<I>,
-  readableStrategy?: QueuingStrategy<O>,
+  readableStrategy?: QueuingStrategy<O>
 ): TransformStream<I, O> {
   const {
     writable,
-    readable,
+    readable
   } = new TransformStream<I, I>(undefined, writableStrategy);
 
   const iterable = transformer(readable);
-  const iterator: Iterator<O> | AsyncIterator<O> | undefined =
-    (iterable as AsyncIterable<O> | null)?.[Symbol.asyncIterator]?.() ??
-      (iterable as Iterable<O> | null)?.[Symbol.iterator]?.();
+  const iterator: Iterator<O> | AsyncIterator<O> | undefined = (iterable as AsyncIterable<O> | null)?.[Symbol.asyncIterator]?.() ??
+    (iterable as Iterable<O> | null)?.[Symbol.iterator]?.();
   if (!iterator) {
     throw new TypeError(
-      "Transformer must return an iterable or async iterable",
+      "Transformer must return an iterable or async iterable"
     );
   }
   return {
@@ -121,7 +120,7 @@ export function toTransformStream<I, O>(
           }
         }
         await readable.cancel(reason);
-      },
-    }, readableStrategy),
+      }
+    }, readableStrategy)
   };
 }

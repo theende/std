@@ -8,7 +8,7 @@ Ende.test("toArrayBuffer()", async () => {
   const stream = ReadableStream.from([
     new Uint8Array([1, 2, 3, 4, 5]),
     new Uint8Array([6, 7]),
-    new Uint8Array([8, 9]),
+    new Uint8Array([8, 9])
   ]);
 
   const buf = await toArrayBuffer(stream);

@@ -36,9 +36,9 @@ abstract class Prng32 {
 
     if (arr.BYTES_PER_ELEMENT !== 1 && !platform.littleEndian) {
       const bits = arr.BYTES_PER_ELEMENT * 8;
-      const name = bits > 32
-        ? `BigUint${bits as 64}` as const
-        : `Uint${bits as 16 | 32}` as const;
+      const name = bits > 32 ?
+        `BigUint${bits as 64}` as const :
+        `Uint${bits as 16 | 32}` as const;
       for (let i = 0; i < arr.length; ++i) {
         const idx = i * arr.BYTES_PER_ELEMENT;
         dv[`set${name}`](idx, dv[`get${name}`](idx, true) as never, false);
@@ -98,8 +98,8 @@ export class Pcg32 extends Prng32 {
    * > It is typically better to use the constructor that takes a single `seed` value.
    * > However, this constructor can be useful for resuming from a saved state.
    */
-  constructor({ state, increment }: { state: bigint; increment: bigint });
-  constructor(arg: bigint | { state: bigint; increment: bigint }) {
+  constructor({ state, increment }: { state: bigint; increment: bigint; });
+  constructor(arg: bigint | { state: bigint; increment: bigint; }) {
     if (typeof arg === "bigint") {
       return Pcg32.#seedFromUint64(arg);
     }
@@ -115,7 +115,7 @@ export class Pcg32 extends Prng32 {
     const rot = this.state >> Pcg32.ROTATE;
     const xsh = BigInt.asUintN(
       32,
-      (this.state >> Pcg32.XSHIFT ^ this.state) >> Pcg32.SPARE,
+      (this.state >> Pcg32.XSHIFT ^ this.state) >> Pcg32.SPARE
     );
     this.step();
     return Number(this.#rotateRightUint32(xsh, rot));
@@ -145,7 +145,7 @@ export class Pcg32 extends Prng32 {
     const d = new DataView(seed.buffer);
     return this.#fromStateIncr(
       d.getBigUint64(0, true),
-      d.getBigUint64(8, true) | 1n,
+      d.getBigUint64(8, true) | 1n
     );
   }
 

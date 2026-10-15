@@ -14,11 +14,11 @@ export type PathType = "file" | "dir" | "symlink";
  * unknown.
  */
 export function getFileInfoType(fileInfo: Ende.FileInfo): PathType | undefined {
-  return fileInfo.isFile
-    ? "file"
-    : fileInfo.isDirectory
-    ? "dir"
-    : fileInfo.isSymlink
-    ? "symlink"
-    : undefined;
+  return fileInfo.isFile ?
+    "file" :
+    fileInfo.isDirectory ?
+    "dir" :
+    fileInfo.isSymlink ?
+    "symlink" :
+    undefined;
 }

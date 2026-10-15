@@ -22,63 +22,63 @@ Ende.test({
     assertEquals(dayOfYearUtc(new Date("2007-01-01T00:00:00.000Z")), 1);
     assertEquals(
       dayOfYearUtc(new Date("2007-02-01T00:00:00.000Z")),
-      31 + 1,
+      31 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-03-01T00:00:00.000Z")),
-      31 + 28 + 1,
+      31 + 28 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-03-24T00:00:00.000Z")),
-      31 + 28 + 24,
+      31 + 28 + 24
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-03-25T00:00:00.000Z")),
-      31 + 28 + 25,
+      31 + 28 + 25
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-04-01T00:00:00.000Z")),
-      31 + 28 + 31 + 1,
+      31 + 28 + 31 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-05-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-06-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-07-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-08-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-09-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-10-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-10-27T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 27,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 27
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-10-28T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 28,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 28
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-11-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 1
     );
     assertEquals(
       dayOfYearUtc(new Date("2007-12-01T00:00:00.000Z")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 1
     );
 
     // Leap-year tests
@@ -114,69 +114,69 @@ Ende.test({
     // Year minus one tests (non-leap)
     assertEquals(
       dayOfYearUtc(new Date("-000001-01-01T00:00:00.000Z")),
-      1,
+      1
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-01-15T00:00:00.000Z")),
-      15,
+      15
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-02-01T00:00:00.000Z")),
-      32,
+      32
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-02-15T00:00:00.000Z")),
-      46,
+      46
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-03-01T00:00:00.000Z")),
-      60,
+      60
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-03-15T00:00:00.000Z")),
-      74,
+      74
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-04-01T00:00:00.000Z")),
-      91,
+      91
     );
     assertEquals(
       dayOfYearUtc(new Date("-000001-12-31T00:00:00.000Z")),
-      365,
+      365
     );
 
     // 400 BC tests (leap-year)
     assertEquals(
       dayOfYearUtc(new Date("-000400-01-01T00:00:00.000Z")),
-      1,
+      1
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-01-15T00:00:00.000Z")),
-      15,
+      15
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-02-01T00:00:00.000Z")),
-      32,
+      32
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-02-15T00:00:00.000Z")),
-      46,
+      46
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-03-01T00:00:00.000Z")),
-      61,
+      61
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-03-15T00:00:00.000Z")),
-      75,
+      75
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-04-01T00:00:00.000Z")),
-      92,
+      92
     );
     assertEquals(
       dayOfYearUtc(new Date("-000400-12-31T00:00:00.000Z")),
-      366,
+      366
     );
 
     // Special Cases
@@ -184,7 +184,7 @@ Ende.test({
     // Gregorian calendar change (no effect)
     assertEquals(dayOfYearUtc(new Date("1582-10-04T03:24:00.000Z")), 277);
     assertEquals(dayOfYearUtc(new Date("1582-10-15T03:24:00.000Z")), 288);
-  },
+  }
 });
 
 Ende.test({
@@ -206,63 +206,63 @@ Ende.test({
     assertEquals(dayOfYear(new Date("2007-01-01T00:00:00.000")), 1);
     assertEquals(
       dayOfYear(new Date("2007-02-01T00:00:00.000")),
-      31 + 1,
+      31 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-03-01T00:00:00.000")),
-      31 + 28 + 1,
+      31 + 28 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-03-24T00:00:00.000")),
-      31 + 28 + 24,
+      31 + 28 + 24
     );
     assertEquals(
       dayOfYear(new Date("2007-03-25T00:00:00.000")),
-      31 + 28 + 25,
+      31 + 28 + 25
     );
     assertEquals(
       dayOfYear(new Date("2007-04-01T00:00:00.000")),
-      31 + 28 + 31 + 1,
+      31 + 28 + 31 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-05-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-06-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-07-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-08-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-09-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-10-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-10-27T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 27,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 27
     );
     assertEquals(
       dayOfYear(new Date("2007-10-28T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 28,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 28
     );
     assertEquals(
       dayOfYear(new Date("2007-11-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 1
     );
     assertEquals(
       dayOfYear(new Date("2007-12-01T00:00:00.000")),
-      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 1,
+      31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 1
     );
 
     // Leap-year tests
@@ -298,69 +298,69 @@ Ende.test({
     // Year minus one tests (non-leap)
     assertEquals(
       dayOfYear(new Date("-000001-01-01T00:00:00.000")),
-      1,
+      1
     );
     assertEquals(
       dayOfYear(new Date("-000001-01-15T00:00:00.000")),
-      15,
+      15
     );
     assertEquals(
       dayOfYear(new Date("-000001-02-01T00:00:00.000")),
-      32,
+      32
     );
     assertEquals(
       dayOfYear(new Date("-000001-02-15T00:00:00.000")),
-      46,
+      46
     );
     assertEquals(
       dayOfYear(new Date("-000001-03-01T00:00:00.000")),
-      60,
+      60
     );
     assertEquals(
       dayOfYear(new Date("-000001-03-15T00:00:00.000")),
-      74,
+      74
     );
     assertEquals(
       dayOfYear(new Date("-000001-04-01T00:00:00.000")),
-      91,
+      91
     );
     assertEquals(
       dayOfYear(new Date("-000001-12-31T00:00:00.000")),
-      365,
+      365
     );
 
     // 400 BC tests (leap-year)
     assertEquals(
       dayOfYear(new Date("-000400-01-01T00:00:00.000")),
-      1,
+      1
     );
     assertEquals(
       dayOfYear(new Date("-000400-01-15T00:00:00.000")),
-      15,
+      15
     );
     assertEquals(
       dayOfYear(new Date("-000400-02-01T00:00:00.000")),
-      32,
+      32
     );
     assertEquals(
       dayOfYear(new Date("-000400-02-15T00:00:00.000")),
-      46,
+      46
     );
     assertEquals(
       dayOfYear(new Date("-000400-03-01T00:00:00.000")),
-      61,
+      61
     );
     assertEquals(
       dayOfYear(new Date("-000400-03-15T00:00:00.000")),
-      75,
+      75
     );
     assertEquals(
       dayOfYear(new Date("-000400-04-01T00:00:00.000")),
-      92,
+      92
     );
     assertEquals(
       dayOfYear(new Date("-000400-12-31T00:00:00.000")),
-      366,
+      366
     );
 
     // Special Cases
@@ -368,5 +368,5 @@ Ende.test({
     // Gregorian calendar change (no effect)
     assertEquals(dayOfYear(new Date("1582-10-04T03:24:00.000")), 277);
     assertEquals(dayOfYear(new Date("1582-10-15T03:24:00.000")), 288);
-  },
+  }
 });

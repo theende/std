@@ -31,13 +31,14 @@ export async function copy(
   dst: Writer,
   options?: {
     bufSize?: number;
-  },
+  }
 ): Promise<number> {
   let n = 0;
   const b = new Uint8Array(options?.bufSize ?? DEFAULT_BUFFER_SIZE);
   while (true) {
     const result = await src.read(b);
-    if (result === null) break;
+    if (result === null)
+      break;
     await writeAll(dst, b.subarray(0, result));
     n += result;
   }

@@ -55,16 +55,18 @@ export function getTestFileFromStack(): string | null {
   const ErrorCtor = Error as any;
   const origPrepareStackTrace = ErrorCtor.prepareStackTrace;
   try {
-    const obj: { stack: string | null } = { stack: null };
+    const obj: { stack: string | null; } = { stack: null };
     ErrorCtor.prepareStackTrace = (
       _err: Error,
       // deno-lint-ignore no-explicit-any
-      stack: any[],
+      stack: any[]
     ): string | null => {
       for (const frame of stack) {
-        if (frame.isEval()) continue;
+        if (frame.isEval())
+          continue;
         const fileName: string | null = frame.getFileName();
-        if (fileName === null) continue;
+        if (fileName === null)
+          continue;
         // Skip expect module internal files
         if (
           fileName.includes("/expect/_") ||
@@ -87,16 +89,18 @@ export function getTestFileFromStack(): string | null {
 
 /** Serializes a value for snapshot comparison using `Ende.inspect`. */
 export function serialize(actual: unknown): string {
-  return Ende.inspect(actual, {
-    depth: Infinity,
-    sorted: true,
-    trailingComma: true,
-    compact: false,
-    iterableLimit: Infinity,
-    strAbbreviateSize: Infinity,
-    breakLength: Infinity,
-    escapeSequences: false,
-  }).replaceAll("\r", "\\r");
+  return Ende
+    .inspect(actual, {
+      depth: Infinity,
+      sorted: true,
+      trailingComma: true,
+      compact: false,
+      iterableLimit: Infinity,
+      strAbbreviateSize: Infinity,
+      breakLength: Infinity,
+      escapeSequences: false
+    })
+    .replaceAll("\r", "\\r");
 }
 
 // --- Snapshot string escaping ---
@@ -119,8 +123,7 @@ function unescapeStringForJs(str: string): string {
 
 function parseSnapshotFile(content: string): Map<string, string> {
   const snapshots = new Map<string, string>();
-  const regex =
-    /snapshot\[`((?:[^`\\]|\\.)*)`\]\s*=\s*`((?:[^`\\]|\\.)*)`\s*;/gs;
+  const regex = /snapshot\[`((?:[^`\\]|\\.)*)`\]\s*=\s*`((?:[^`\\]|\\.)*)`\s*;/gs;
   let match;
   while ((match = regex.exec(content)) !== null) {
     const name = unescapeStringForJs(match[1]!);
@@ -139,9 +142,10 @@ function parseSnapshotFile(content: string): Map<string, string> {
 let _isUpdate: boolean | undefined;
 
 export function getIsUpdate(): boolean {
-  if (_isUpdate !== undefined) return _isUpdate;
+  if (_isUpdate !== undefined)
+    return _isUpdate;
   try {
-    _isUpdate = Ende.args.some((arg) => arg === "--update" || arg === "-u");
+    _isUpdate = Ende.args.some(arg => arg === "--update" || arg === "-u");
   } catch {
     _isUpdate = false;
   }
@@ -165,22 +169,24 @@ const inlineUpdateRequests: InlineSnapshotUpdateRequest[] = [];
  */
 export function getInlineCallSite(
   // deno-lint-ignore no-explicit-any
-  captureTarget: (...args: any[]) => any,
+  captureTarget: (...args: any[]) => any
 ): InlineSnapshotUpdateRequest | null {
   // deno-lint-ignore no-explicit-any
   const ErrorCtor = Error as any;
   const origPrepareStackTrace = ErrorCtor.prepareStackTrace;
   try {
-    const obj: { stack: InlineSnapshotUpdateRequest | null } = { stack: null };
+    const obj: { stack: InlineSnapshotUpdateRequest | null; } = { stack: null };
     ErrorCtor.prepareStackTrace = (
       _err: Error,
       // deno-lint-ignore no-explicit-any
-      stack: any[],
+      stack: any[]
     ): InlineSnapshotUpdateRequest | null => {
       for (const frame of stack) {
-        if (frame.isEval()) continue;
+        if (frame.isEval())
+          continue;
         const fileName: string | null = frame.getFileName();
-        if (fileName === null) continue;
+        if (fileName === null)
+          continue;
         if (
           fileName.includes("/expect/_") ||
           fileName.includes("/expect/expect.ts")
@@ -189,7 +195,8 @@ export function getInlineCallSite(
         }
         const lineNumber: number | null = frame.getLineNumber();
         const columnNumber: number | null = frame.getColumnNumber();
-        if (lineNumber === null || columnNumber === null) continue;
+        if (lineNumber === null || columnNumber === null)
+          continue;
         return { fileName, lineNumber, columnNumber, actualSnapshot: "" };
       }
       return null;
@@ -217,7 +224,7 @@ export function clearInlineUpdateRequests(): void {
 }
 
 function makeSnapshotUpdater(
-  updateRequests: InlineSnapshotUpdateRequest[],
+  updateRequests: InlineSnapshotUpdateRequest[]
 ) {
   return {
     name: "snapshot-updater-plugin",
@@ -227,7 +234,7 @@ function makeSnapshotUpdater(
         create(context: any) {
           const src = context.sourceCode.text as string;
           const lineBreaks = [...src.matchAll(/\n|\r\n?/g)]
-            .map((m) => m.index);
+            .map(m => m.index);
           const locationToSnapshot: Record<number, string> = {};
           for (const req of updateRequests) {
             const { lineNumber, columnNumber, actualSnapshot } = req;
@@ -237,9 +244,10 @@ function makeSnapshotUpdater(
 
           return {
             // deno-lint-ignore no-explicit-any
-            "CallExpression"(node: any) {
+            CallExpression(node: any) {
               const snapshot = locationToSnapshot[node.range[0]];
-              if (snapshot === undefined) return;
+              if (snapshot === undefined)
+                return;
               const args = node.arguments;
               if (args.length === 0) {
                 context.report({
@@ -249,9 +257,9 @@ function makeSnapshotUpdater(
                   fix(fixer: any) {
                     return fixer.insertTextBeforeRange(
                       [node.range[1] - 1, node.range[1] - 1],
-                      snapshot,
+                      snapshot
                     );
-                  },
+                  }
                 });
               } else {
                 const lastArg = args[args.length - 1];
@@ -261,28 +269,29 @@ function makeSnapshotUpdater(
                   // deno-lint-ignore no-explicit-any
                   fix(fixer: any) {
                     return fixer.replaceText(lastArg, snapshot);
-                  },
+                  }
                 });
               }
-            },
+            }
           };
-        },
-      },
-    },
+        }
+      }
+    }
   };
 }
 
 function applyInlineUpdates(): void {
-  if (inlineUpdateRequests.length === 0) return;
+  if (inlineUpdateRequests.length === 0)
+    return;
 
   // @ts-ignore Ende.lint may not exist in all versions
   if (typeof Ende.lint?.runPlugin !== "function") {
     throw new Error(
-      "Ende versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
+      "Ende versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots"
     );
   }
 
-  const pathsToUpdate = Map.groupBy(inlineUpdateRequests, (r) => r.fileName);
+  const pathsToUpdate = Map.groupBy(inlineUpdateRequests, r => r.fileName);
 
   for (const [path, requests] of pathsToUpdate) {
     const file = Ende.readTextFileSync(path);
@@ -290,13 +299,13 @@ function applyInlineUpdates(): void {
     const pluginRunResults = Ende.lint.runPlugin(
       makeSnapshotUpdater(requests),
       "dummy.ts",
-      file,
+      file
     );
 
     const fixes = (pluginRunResults as {
-      fix?: { range: [number, number]; text?: string }[];
+      fix?: { range: [number, number]; text?: string; }[];
     }[])
-      .flatMap((v) => v.fix ?? []);
+      .flatMap(v => v.fix ?? []);
 
     // Apply fixes in order
     fixes.sort((a, b) => a.range[0] - b.range[0]);
@@ -312,20 +321,18 @@ function applyInlineUpdates(): void {
     Ende.writeTextFileSync(path, output);
   }
 
-  const shouldFormat = !Ende.args.some((arg) => arg === "--no-format");
+  const shouldFormat = !Ende.args.some(arg => arg === "--no-format");
   if (shouldFormat) {
     const command = new Ende.Command(Ende.execPath(), {
-      args: ["fmt", ...pathsToUpdate.keys()],
+      args: ["fmt", ...pathsToUpdate.keys()]
     });
     command.outputSync();
   }
 
   // deno-lint-ignore no-console
   console.log(
-    `%c\n > ${inlineUpdateRequests.length} inline ${
-      inlineUpdateRequests.length === 1 ? "snapshot" : "snapshots"
-    } updated.`,
-    "color: green; font-weight: bold;",
+    `%c\n > ${inlineUpdateRequests.length} inline ${inlineUpdateRequests.length === 1 ? "snapshot" : "snapshots"} updated.`,
+    "color: green; font-weight: bold;"
   );
 }
 
@@ -333,7 +340,8 @@ let inlineTeardownRegistered = false;
 
 /** Registers the global teardown for inline snapshot updates. */
 export function registerInlineTeardown(): void {
-  if (inlineTeardownRegistered) return;
+  if (inlineTeardownRegistered)
+    return;
   globalThis.addEventListener("unload", () => {
     applyInlineUpdates();
   });
@@ -349,15 +357,16 @@ export class SnapshotContext {
   static contexts = new Map<string, SnapshotContext>();
 
   static fromTestFile(testFilePath: string): SnapshotContext {
-    const filePath = testFilePath.startsWith("file://")
-      ? fromFileUrl(testFilePath)
-      : testFilePath;
+    const filePath = testFilePath.startsWith("file://") ?
+      fromFileUrl(testFilePath) :
+      testFilePath;
     const dir = dirname(filePath);
     const base = basename(filePath);
     const snapshotPath = join(dir, SNAPSHOT_DIR, `${base}.${SNAPSHOT_EXT}`);
 
     let context = this.contexts.get(snapshotPath);
-    if (context) return context;
+    if (context)
+      return context;
 
     context = new SnapshotContext(snapshotPath);
     this.contexts.set(snapshotPath, context);
@@ -377,7 +386,8 @@ export class SnapshotContext {
   }
 
   #readSnapshotFile(): Map<string, string> {
-    if (this.#currentSnapshots) return this.#currentSnapshots;
+    if (this.#currentSnapshots)
+      return this.#currentSnapshots;
 
     try {
       const content = Ende.readTextFileSync(this.#snapshotFilePath);
@@ -428,7 +438,8 @@ export class SnapshotContext {
 
   /** Registers a teardown listener to write snapshots when tests complete. */
   registerTeardown(): void {
-    if (this.#teardownRegistered) return;
+    if (this.#teardownRegistered)
+      return;
     globalThis.addEventListener("unload", this.#teardown);
     this.#teardownRegistered = true;
   }
@@ -437,7 +448,7 @@ export class SnapshotContext {
     const currentSnapshots = this.#readSnapshotFile();
     const buf = ["export const snapshot = {};"];
     const removedNames = [...currentSnapshots.keys()].filter(
-      (name) => !this.#snapshotUpdateQueue.includes(name),
+      name => !this.#snapshotUpdateQueue.includes(name)
     );
 
     for (const name of this.#snapshotUpdateQueue) {
@@ -453,9 +464,9 @@ export class SnapshotContext {
       }
 
       formattedSnapshot = escapeStringForJs(formattedSnapshot);
-      formattedSnapshot = formattedSnapshot.includes("\n")
-        ? `\n${formattedSnapshot}\n`
-        : formattedSnapshot;
+      formattedSnapshot = formattedSnapshot.includes("\n") ?
+        `\n${formattedSnapshot}\n` :
+        formattedSnapshot;
       const formattedName = escapeStringForJs(name);
       buf.push(`\nsnapshot[\`${formattedName}\`] = \`${formattedSnapshot}\`;`);
     }
@@ -474,20 +485,16 @@ export class SnapshotContext {
     if (updated > 0) {
       // deno-lint-ignore no-console
       console.log(
-        `%c\n > ${updated} ${
-          updated === 1 ? "snapshot" : "snapshots"
-        } updated.`,
-        "color: green; font-weight: bold;",
+        `%c\n > ${updated} ${updated === 1 ? "snapshot" : "snapshots"} updated.`,
+        "color: green; font-weight: bold;"
       );
     }
 
     if (removedNames.length > 0) {
       // deno-lint-ignore no-console
       console.log(
-        `%c\n > ${removedNames.length} ${
-          removedNames.length === 1 ? "snapshot" : "snapshots"
-        } removed.`,
-        "color: red; font-weight: bold;",
+        `%c\n > ${removedNames.length} ${removedNames.length === 1 ? "snapshot" : "snapshots"} removed.`,
+        "color: red; font-weight: bold;"
       );
       for (const name of removedNames) {
         // deno-lint-ignore no-console

@@ -25,7 +25,7 @@ import { concat } from "@ende/bytes/concat";
  * ```
  */
 export async function toArrayBuffer(
-  readableStream: ReadableStream<Uint8Array>,
+  readableStream: ReadableStream<Uint8Array>
 ): Promise<ArrayBuffer> {
   const reader = readableStream.getReader();
   const chunks: Uint8Array[] = [];

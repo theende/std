@@ -59,9 +59,10 @@ export type EscapeJsOptions = {
  */
 export function escapeJs(data: unknown, options: EscapeJsOptions = {}): string {
   const { space } = options;
-  return JSON.stringify(data, null, space)
+  return JSON
+    .stringify(data, null, space)
     .replaceAll(
       /[\u2028\u2029]|<(?=!--|\/?script)/gi,
-      (m) => String.raw`\u${m.charCodeAt(0).toString(16).padStart(4, "0")}`,
+      m => String.raw`\u${m.charCodeAt(0).toString(16).padStart(4, "0")}`
     );
 }

@@ -5,7 +5,7 @@
 /** Return type for {@linkcode invertBy}. */
 export type InvertByResult<
   T extends Record<PropertyKey, PropertyKey>,
-  K extends keyof T,
+  K extends keyof T
 > = Record<PropertyKey, K[]>;
 
 /**
@@ -40,7 +40,7 @@ export type InvertByResult<
  */
 export function invertBy<
   R extends Record<PropertyKey, PropertyKey>,
-  T extends (key: PropertyKey) => PropertyKey,
+  T extends (key: PropertyKey) => PropertyKey
 >(record: Readonly<R>, transformer: T): InvertByResult<R, keyof R> {
   const result = {} as InvertByResult<R, keyof R>;
 

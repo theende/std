@@ -1,6 +1,4 @@
 {
-  "name": "@ende/collections",
-  "version": "1.4.0",
   "exports": {
     ".": "./mod.ts",
     "./aggregate-groups": "./aggregate_groups.ts",
@@ -20,8 +18,8 @@
     "./includes-value": "./includes_value.ts",
     "./interleave": "./interleave.ts",
     "./intersect": "./intersect.ts",
-    "./invert-by": "./invert_by.ts",
     "./invert": "./invert.ts",
+    "./invert-by": "./invert_by.ts",
     "./join-to-string": "./join_to_string.ts",
     "./map-entries": "./map_entries.ts",
     "./map-keys": "./map_keys.ts",
@@ -52,5 +50,7 @@
     "./unzip": "./unzip.ts",
     "./without-all": "./without_all.ts",
     "./zip": "./zip.ts"
-  }
+  },
+  "name": "@ende/collections",
+  "version": "2026.10.15"
 }

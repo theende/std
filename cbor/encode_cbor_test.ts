@@ -11,7 +11,7 @@ import type { CborType } from "./types.ts";
 Ende.test("encodeCbor() encoding undefined", () => {
   assertEquals(
     encodeCbor(undefined),
-    new Uint8Array([0b111_10111]),
+    new Uint8Array([0b111_10111])
   );
 });
 
@@ -37,7 +37,7 @@ Ende.test("encodeCbor() encoding numbers as Uint", () => {
   num = random(2 ** 8, 2 ** 16);
   assertEquals(
     encodeCbor(num),
-    new Uint8Array([0b000_11001, num >> 8 & 0xFF, num & 0xFF]),
+    new Uint8Array([0b000_11001, num >> 8 & 0xFF, num & 0xFF])
   );
 
   num = random(2 ** 16, 2 ** 32);
@@ -48,8 +48,8 @@ Ende.test("encodeCbor() encoding numbers as Uint", () => {
       num >> 24 & 0xFF,
       num >> 16 & 0xFF,
       num >> 8 & 0xFF,
-      num & 0xFF,
-    ]),
+      num & 0xFF
+    ])
   );
 
   // JavaScript fails at correctly bit-wising this many bits as a number.
@@ -66,9 +66,10 @@ Ende.test("encodeCbor() encoding numbers as Uint", () => {
         num >> 24n & 0xFFn,
         num >> 16n & 0xFFn,
         num >> 8n & 0xFFn,
-        num & 0xFFn,
-      ].map((x) => Number(x)),
-    ),
+        num & 0xFFn
+      ]
+        .map(x => Number(x))
+    )
   );
 });
 
@@ -76,7 +77,7 @@ Ende.test("encodeCbor() encoding numbers as Int", () => {
   const num = -random(1, 24); // -0 === 0
   assertEquals(
     encodeCbor(num),
-    new Uint8Array([0b001_00000 + (-num - 1)]),
+    new Uint8Array([0b001_00000 + (-num - 1)])
   );
 });
 
@@ -86,7 +87,7 @@ Ende.test("encodeCbor() encoding numbers as Float", () => {
   view.setFloat64(0, num);
   assertEquals(
     encodeCbor(num),
-    concat([new Uint8Array([0b111_11011]), new Uint8Array(view.buffer)]),
+    concat([new Uint8Array([0b111_11011]), new Uint8Array(view.buffer)])
   );
 });
 
@@ -94,7 +95,7 @@ Ende.test("encodeCbor() encoding bigints as Uint", () => {
   let num = BigInt(random(0, 24));
   assertEquals(
     encodeCbor(num),
-    new Uint8Array([0b000_00000 + Number(num)]),
+    new Uint8Array([0b000_00000 + Number(num)])
   );
 
   num = BigInt(random(24, 2 ** 8));
@@ -106,8 +107,8 @@ Ende.test("encodeCbor() encoding bigints as Uint", () => {
     new Uint8Array([
       0b000_11001,
       Number(num >> 8n & 0xFFn),
-      Number(num & 0xFFn),
-    ]),
+      Number(num & 0xFFn)
+    ])
   );
 
   num = BigInt(random(2 ** 16, 2 ** 32));
@@ -118,8 +119,8 @@ Ende.test("encodeCbor() encoding bigints as Uint", () => {
       Number(num >> 24n & 0xFFn),
       Number(num >> 16n & 0xFFn),
       Number(num >> 8n & 0xFFn),
-      Number(num & 0xFFn),
-    ]),
+      Number(num & 0xFFn)
+    ])
   );
 
   num = BigInt(random(2 ** 32, 2 ** 64));
@@ -134,8 +135,8 @@ Ende.test("encodeCbor() encoding bigints as Uint", () => {
       Number(num >> 24n & 0xFFn),
       Number(num >> 16n & 0xFFn),
       Number(num >> 8n & 0xFFn),
-      Number(num & 0xFFn),
-    ]),
+      Number(num & 0xFFn)
+    ])
   );
 });
 
@@ -143,37 +144,37 @@ Ende.test("encodeCbor() encoding bigints as Int", () => {
   const num = -BigInt(random(1, 24)); // -0 === 0
   assertEquals(
     encodeCbor(num),
-    new Uint8Array([0b001_00000 + Number(-num - 1n)]),
+    new Uint8Array([0b001_00000 + Number(-num - 1n)])
   );
 });
 
 Ende.test("encodeCbor() encoding strings", () => {
   const decoder = new TextDecoder();
 
-  let bytes = new Uint8Array(random(0, 24)).map((_) => random(97, 123)); // Range: `a` - `z`
+  let bytes = new Uint8Array(random(0, 24)).map(_ => random(97, 123)); // Range: `a` - `z`
   assertEquals(
     encodeCbor(decoder.decode(bytes)),
-    new Uint8Array([0b011_00000 + bytes.length, ...bytes]),
+    new Uint8Array([0b011_00000 + bytes.length, ...bytes])
   );
 
-  bytes = new Uint8Array(random(24, 2 ** 8)).map((_) => random(97, 123)); // Range: `a` - `z`
+  bytes = new Uint8Array(random(24, 2 ** 8)).map(_ => random(97, 123)); // Range: `a` - `z`
   assertEquals(
     encodeCbor(decoder.decode(bytes)),
-    new Uint8Array([0b011_11000, bytes.length, ...bytes]),
+    new Uint8Array([0b011_11000, bytes.length, ...bytes])
   );
 
-  bytes = new Uint8Array(random(2 ** 8, 2 ** 16)).map((_) => random(97, 123)); // Range: `a` - `z`
+  bytes = new Uint8Array(random(2 ** 8, 2 ** 16)).map(_ => random(97, 123)); // Range: `a` - `z`
   assertEquals(
     encodeCbor(decoder.decode(bytes)),
     new Uint8Array([
       0b011_11001,
       bytes.length >> 8 & 0xFF,
       bytes.length & 0xFF,
-      ...bytes,
-    ]),
+      ...bytes
+    ])
   );
 
-  bytes = new Uint8Array(random(2 ** 16, 2 ** 17)).map((_) => random(97, 123)); // Range: `a` - `z`
+  bytes = new Uint8Array(random(2 ** 16, 2 ** 17)).map(_ => random(97, 123)); // Range: `a` - `z`
   assertEquals(
     encodeCbor(decoder.decode(bytes)),
     new Uint8Array([
@@ -182,8 +183,8 @@ Ende.test("encodeCbor() encoding strings", () => {
       bytes.length >> 16 & 0xFF,
       bytes.length >> 8 & 0xFF,
       bytes.length & 0xFF,
-      ...bytes,
-    ]),
+      ...bytes
+    ])
   );
 
   // Can't test the next bracket up due to JavaScript limitations.
@@ -195,7 +196,7 @@ Ende.test("encodeCbor() correctly preallocates enough space for strings", () => 
   assert(input.length !== binary.length);
   assertEquals(
     encodeCbor(input),
-    new Uint8Array([0b011_00100, ...binary]),
+    new Uint8Array([0b011_00100, ...binary])
   );
 });
 
@@ -203,13 +204,13 @@ Ende.test("encodeCbor() encoding Uint8Arrays", () => {
   let bytes = new Uint8Array(random(0, 24));
   assertEquals(
     encodeCbor(bytes),
-    new Uint8Array([0b010_00000 + bytes.length, ...bytes]),
+    new Uint8Array([0b010_00000 + bytes.length, ...bytes])
   );
 
   bytes = new Uint8Array(random(24, 2 ** 8));
   assertEquals(
     encodeCbor(bytes),
-    new Uint8Array([0b010_11000, bytes.length, ...bytes]),
+    new Uint8Array([0b010_11000, bytes.length, ...bytes])
   );
 
   bytes = new Uint8Array(random(2 ** 8, 2 ** 16));
@@ -219,8 +220,8 @@ Ende.test("encodeCbor() encoding Uint8Arrays", () => {
       0b010_11001,
       bytes.length >> 8 & 0xFF,
       bytes.length & 0xFF,
-      ...bytes,
-    ]),
+      ...bytes
+    ])
   );
 
   bytes = new Uint8Array(random(2 ** 16, 2 ** 17));
@@ -232,8 +233,8 @@ Ende.test("encodeCbor() encoding Uint8Arrays", () => {
       bytes.length >> 16 & 0xFF,
       bytes.length >> 8 & 0xFF,
       bytes.length & 0xFF,
-      ...bytes,
-    ]),
+      ...bytes
+    ])
   );
 
   // Can't test the next bracket up due to JavaScript limitations.
@@ -243,7 +244,7 @@ Ende.test("encodeCbor() encoding Dates", () => {
   const date = new Date();
   assertEquals(
     encodeCbor(date),
-    new Uint8Array([0b110_00001, ...encodeCbor(date.getTime() / 1000)]),
+    new Uint8Array([0b110_00001, ...encodeCbor(date.getTime() / 1000)])
   );
 });
 
@@ -251,7 +252,7 @@ Ende.test("encodeCbor() encoding bignums as Uint byte string", () => {
   const num = 2n ** 64n;
   assertEquals(
     encodeCbor(num),
-    new Uint8Array([0b110_00010, 0b010_01001, 1, 0, 0, 0, 0, 0, 0, 0, 0]),
+    new Uint8Array([0b110_00010, 0b010_01001, 1, 0, 0, 0, 0, 0, 0, 0, 0])
   );
 });
 
@@ -259,7 +260,7 @@ Ende.test("encodeCbor() encoding bignums as Int byte string", () => {
   const num = -(2n ** 64n) - 1n;
   assertEquals(
     encodeCbor(num),
-    new Uint8Array([0b110_00011, 0b010_01001, 1, 0, 0, 0, 0, 0, 0, 0, 0]),
+    new Uint8Array([0b110_00011, 0b010_01001, 1, 0, 0, 0, 0, 0, 0, 0, 0])
   );
 });
 
@@ -272,11 +273,12 @@ Ende.test("encodeCbor() encoding Map<CborType, CborType>", () => {
       1,
       3,
       0b101_00000 + 3,
-      ...Array.from(map
-        .entries())
+      ...Array
+        .from(map
+          .entries())
         .map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
-        .flat(),
-    ]),
+        .flat()
+    ])
   );
 });
 
@@ -292,8 +294,8 @@ Ende.test("encodeCbor() encoding Maps", () => {
       1,
       3,
       0b101_00000 + pairs,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat(),
-    ]),
+      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat()
+    ])
   );
 
   pairs = random(24, 2 ** 8);
@@ -308,8 +310,8 @@ Ende.test("encodeCbor() encoding Maps", () => {
       3,
       0b101_11000,
       pairs,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat(),
-    ]),
+      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat()
+    ])
   );
 
   pairs = random(2 ** 8, 2 ** 16);
@@ -325,8 +327,8 @@ Ende.test("encodeCbor() encoding Maps", () => {
       0b101_11001,
       pairs >> 8 & 0xFF,
       pairs & 0xFF,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat(),
-    ]),
+      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat()
+    ])
   );
 
   pairs = random(2 ** 16, 2 ** 17);
@@ -344,8 +346,8 @@ Ende.test("encodeCbor() encoding Maps", () => {
       pairs >> 16 & 0xFF,
       pairs >> 8 & 0xFF,
       pairs & 0xFF,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat(),
-    ]),
+      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)]).flat()
+    ])
   );
 
   // Can't test the next bracket up due to JavaScript limitations.
@@ -357,8 +359,8 @@ Ende.test("encodeCbor() encoding arrays", () => {
     encodeCbor(array),
     new Uint8Array([
       0b100_00000 + array.length,
-      ...array.map((x) => [...encodeCbor(x)]).flat(),
-    ]),
+      ...array.map(x => [...encodeCbor(x)]).flat()
+    ])
   );
 
   array = new Array(random(24, 2 ** 8)).fill(0);
@@ -367,8 +369,8 @@ Ende.test("encodeCbor() encoding arrays", () => {
     new Uint8Array([
       0b100_11000,
       array.length,
-      ...array.map((x) => [...encodeCbor(x)]).flat(),
-    ]),
+      ...array.map(x => [...encodeCbor(x)]).flat()
+    ])
   );
 
   array = new Array(random(2 ** 8, 2 ** 16)).fill(0);
@@ -378,8 +380,8 @@ Ende.test("encodeCbor() encoding arrays", () => {
       0b100_11001,
       array.length >> 8 & 0xFF,
       array.length & 0xFF,
-      ...array.map((x) => [...encodeCbor(x)]).flat(),
-    ]),
+      ...array.map(x => [...encodeCbor(x)]).flat()
+    ])
   );
 
   array = new Array(random(2 ** 16, 2 ** 17)).fill(0);
@@ -391,8 +393,8 @@ Ende.test("encodeCbor() encoding arrays", () => {
       array.length >> 16 & 0xFF,
       array.length >> 8 & 0xFF,
       array.length & 0xFF,
-      ...array.map((x) => [...encodeCbor(x)]).flat(),
-    ]),
+      ...array.map(x => [...encodeCbor(x)]).flat()
+    ])
   );
 
   // Can't test the next bracket up due to JavaScript limitations.
@@ -402,15 +404,16 @@ Ende.test("encodeCbor() encoding objects", () => {
   let pairs = random(0, 24);
   let entries: [string, number][] = new Array(pairs).fill(0).map((
     _,
-    i,
+    i
   ) => [i.toString(), i]);
   assertEquals(
     encodeCbor(Object.fromEntries(entries)),
     new Uint8Array([
       0b101_00000 + pairs,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
-        .flat(),
-    ]),
+      ...entries
+        .map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
+        .flat()
+    ])
   );
 
   pairs = random(24, 2 ** 8);
@@ -420,9 +423,10 @@ Ende.test("encodeCbor() encoding objects", () => {
     new Uint8Array([
       0b101_11000,
       pairs,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
-        .flat(),
-    ]),
+      ...entries
+        .map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
+        .flat()
+    ])
   );
 
   pairs = random(2 ** 8, 2 ** 16);
@@ -433,26 +437,27 @@ Ende.test("encodeCbor() encoding objects", () => {
       0b101_11001,
       pairs >> 8 & 0xFF,
       pairs & 0xFF,
-      ...entries.map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
-        .flat(),
-    ]),
+      ...entries
+        .map(([k, v]) => [...encodeCbor(k), ...encodeCbor(v)])
+        .flat()
+    ])
   );
 
   // Can't test the next two bracket up due to JavaScript limitations.
 });
 
 Ende.test("encodeCbor() ignores inherited enumerable properties", () => {
-  const input: { [k: string]: CborType } = Object.assign(
+  const input: { [k: string]: CborType; } = Object.assign(
     Object.create({ inherited: 1 }),
-    { own: 2 },
+    { own: 2 }
   );
   assertEquals(
     encodeCbor(input),
     new Uint8Array([
       0b101_00001,
       ...encodeCbor("own"),
-      ...encodeCbor(2),
-    ]),
+      ...encodeCbor(2)
+    ])
   );
 });
 
@@ -467,14 +472,14 @@ Ende.test("encodeCbor() sizes object keys with multi-byte characters", () => {
     new Uint8Array([
       0b101_00001,
       ...encodeCbor("é☃é☃é☃é☃"),
-      ...encodeCbor(1),
-    ]),
+      ...encodeCbor(1)
+    ])
   );
 
   // Mixed keys: an ASCII key next to a multi-byte key, so the size
   // arithmetic must hold for every key independently.
   assertEquals(
-    encodeCbor({ a: 1, "日本語": 2, b: 3 }),
+    encodeCbor({ a: 1, 日本語: 2, b: 3 }),
     new Uint8Array([
       0b101_00011,
       ...encodeCbor("a"),
@@ -482,8 +487,8 @@ Ende.test("encodeCbor() sizes object keys with multi-byte characters", () => {
       ...encodeCbor("日本語"),
       ...encodeCbor(2),
       ...encodeCbor("b"),
-      ...encodeCbor(3),
-    ]),
+      ...encodeCbor(3)
+    ])
   );
 
   // Value with a multi-byte string was already correctly sized; this guards
@@ -493,16 +498,16 @@ Ende.test("encodeCbor() sizes object keys with multi-byte characters", () => {
     new Uint8Array([
       0b101_00001,
       ...encodeCbor("greeting"),
-      ...encodeCbor("héllo wörld"),
-    ]),
+      ...encodeCbor("héllo wörld")
+    ])
   );
 });
 
 Ende.test("encodeCbor() encoding CborTag()", () => {
-  const bytes = new Uint8Array(random(0, 24)).map((_) => random(0, 256));
+  const bytes = new Uint8Array(random(0, 24)).map(_ => random(0, 256));
   assertEquals(
     encodeCbor(new CborTag(2, bytes)),
-    new Uint8Array([0b110_00010, 0b010_00000 + bytes.length, ...bytes]),
+    new Uint8Array([0b110_00010, 0b010_00000 + bytes.length, ...bytes])
   );
 });
 
@@ -513,7 +518,7 @@ Ende.test("encodeCbor() rejecting numbers as Uint", () => {
       encodeCbor(num);
     },
     RangeError,
-    `Cannot encode number: It (${num}) exceeds 2 ** 64 - 1`,
+    `Cannot encode number: It (${num}) exceeds 2 ** 64 - 1`
   );
 });
 
@@ -524,7 +529,7 @@ Ende.test("encodeCbor() rejecting numbers as Int", () => {
       encodeCbor(num);
     },
     RangeError,
-    `Cannot encode number: It (${num}) exceeds -(2 ** 64) - 1`,
+    `Cannot encode number: It (${num}) exceeds -(2 ** 64) - 1`
   );
 });
 
@@ -535,12 +540,12 @@ Ende.test("encodeCbor() rejecting CborTag()", () => {
       encodeCbor(
         new CborTag(
           num,
-          new Uint8Array(random(0, 24)).map((_) => random(0, 256)),
-        ),
+          new Uint8Array(random(0, 24)).map(_ => random(0, 256))
+        )
       );
     },
     RangeError,
-    `Cannot encode Tag Item: Tag Number (${num}) is less than zero`,
+    `Cannot encode Tag Item: Tag Number (${num}) is less than zero`
   );
   num = 2 ** 65;
   assertThrows(
@@ -548,11 +553,11 @@ Ende.test("encodeCbor() rejecting CborTag()", () => {
       encodeCbor(
         new CborTag(
           num,
-          new Uint8Array(random(0, 24)).map((_) => random(0, 256)),
-        ),
+          new Uint8Array(random(0, 24)).map(_ => random(0, 256))
+        )
       );
     },
     RangeError,
-    `Cannot encode Tag Item: Tag Number (${num}) exceeds 2 ** 64 - 1`,
+    `Cannot encode Tag Item: Tag Number (${num}) exceeds 2 ** 64 - 1`
   );
 });

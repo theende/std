@@ -13,7 +13,7 @@ const testCases = [
   ["foo", "MZXW6==="],
   ["foob", "MZXW6YQ="],
   ["fooba", "MZXW6YTB"],
-  ["foobar", "MZXW6YTBOI======"],
+  ["foobar", "MZXW6YTBOI======"]
 ] as const;
 
 Ende.test({
@@ -22,7 +22,7 @@ Ende.test({
     for (const [bin, b32] of testCases) {
       assertEquals(encodeBase32(bin), b32);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -31,7 +31,7 @@ Ende.test({
     for (const [bin, b32] of testCases) {
       assertEquals(decodeBase32(b32), new TextEncoder().encode(bin));
     }
-  },
+  }
 });
 
 Ende.test({
@@ -40,9 +40,9 @@ Ende.test({
     assertThrows(
       () => decodeBase32("OOOO=="),
       Error,
-      "Invalid base32 string: length (6) must be a multiple of 8",
+      "Invalid base32 string: length (6) must be a multiple of 8"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -51,9 +51,9 @@ Ende.test({
     assertThrows(
       () => decodeBase32("5HXR334AQYAAAA=========="),
       Error,
-      "Cannot decode input as base32: Invalid character (=)",
+      "Cannot decode input as base32: Invalid character (=)"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -61,5 +61,5 @@ Ende.test({
   fn() {
     const data = "a".repeat(16400);
     assertExists(encodeBase32(data));
-  },
+  }
 });

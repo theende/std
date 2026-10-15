@@ -33,7 +33,7 @@ import { AssertionError } from "./assertion_error.ts";
 export function assertStrictEquals<T>(
   actual: unknown,
   expected: T,
-  msg?: string,
+  msg?: string
 ): asserts actual is T {
   if (Object.is(actual, expected)) {
     return;
@@ -48,18 +48,15 @@ export function assertStrictEquals<T>(
   if (actualString === expectedString) {
     const withOffset = actualString
       .split("\n")
-      .map((l) => `    ${l}`)
+      .map((l: any) => `    ${l}`)
       .join("\n");
-    message =
-      `Values have the same structure but are not reference-equal${msgSuffix}\n\n${
-        red(withOffset)
-      }\n`;
+    message = `Values have the same structure but are not reference-equal${msgSuffix}\n\n${red(withOffset)}\n`;
   } else {
     const stringDiff = (typeof actual === "string") &&
       (typeof expected === "string");
-    const diffResult = stringDiff
-      ? diffStr(actual as string, expected as string)
-      : diff(actualString.split("\n"), expectedString.split("\n"));
+    const diffResult = stringDiff ?
+      diffStr(actual as string, expected as string) :
+      diff(actualString.split("\n"), expectedString.split("\n"));
     const diffMsg = buildMessage(diffResult, { stringDiff }, arguments[3])
       .join("\n");
     message = `Values are not strictly equal${msgSuffix}\n${diffMsg}`;

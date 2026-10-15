@@ -4,17 +4,17 @@
 // deno-lint-ignore-file no-explicit-any ban-types
 
 import {
+  assertType,
   type Assert,
   type AssertFalse,
   type AssertTrue,
-  assertType,
   type Has,
   type IsAny,
   type IsExact,
   type IsNever,
   type IsNullable,
   type IsUnknown,
-  type NotHas,
+  type NotHas
 } from "./types.ts";
 
 // IsNullable
@@ -49,14 +49,14 @@ import {
   assertType<IsExact<unknown, unknown>>(true);
   assertType<IsExact<never, never>>(true);
   assertType<IsExact<{}, {}>>(true);
-  assertType<IsExact<{ prop: string }, { prop: string }>>(true);
-  assertType<IsExact<{ prop: { prop: string } }, { prop: { prop: string } }>>(
-    true,
+  assertType<IsExact<{ prop: string; }, { prop: string; }>>(true);
+  assertType<IsExact<{ prop: { prop: string; }; }, { prop: { prop: string; }; }>>(
+    true
   );
-  assertType<IsExact<{ prop: never }, { prop: never }>>(true);
-  assertType<IsExact<{ prop: any }, { prop: any }>>(true);
-  assertType<IsExact<{ prop: unknown }, { prop: unknown }>>(true);
-  assertType<IsExact<{ readonly prop: any }, { readonly prop: any }>>(true);
+  assertType<IsExact<{ prop: never; }, { prop: never; }>>(true);
+  assertType<IsExact<{ prop: any; }, { prop: any; }>>(true);
+  assertType<IsExact<{ prop: unknown; }, { prop: unknown; }>>(true);
+  assertType<IsExact<{ readonly prop: any; }, { readonly prop: any; }>>(true);
   assertType<IsExact<[], []>>(true);
   assertType<IsExact<readonly [], readonly []>>(true);
   assertType<IsExact<any[], any[]>>(true);
@@ -84,26 +84,26 @@ import {
   assertType<IsExact<_Class<any>, _Class<any>>>(true);
   assertType<
     IsExact<
-      _Class<{ x: any; prop?: any }>,
-      _Class<{ x: any; prop?: any }>
+      _Class<{ x: any; prop?: any; }>,
+      _Class<{ x: any; prop?: any; }>
     >
   >(true);
   assertType<
     IsExact<
-      _Class<{ x: any; readonly prop: any }>,
-      _Class<{ x: any; readonly prop: any }>
+      _Class<{ x: any; readonly prop: any; }>,
+      _Class<{ x: any; readonly prop: any; }>
     >
   >(true);
   assertType<
     IsExact<
-      { [x: string]: unknown } & { prop: unknown },
-      { [x: string]: unknown; prop: unknown }
+      { [x: string]: unknown; } & { prop: unknown; },
+      { [x: string]: unknown; prop: unknown; }
     >
   >(true);
   assertType<
     IsExact<
-      { [x: string]: unknown; prop: unknown },
-      { [x: string]: unknown } & { prop: unknown }
+      { [x: string]: unknown; prop: unknown; },
+      { [x: string]: unknown; } & { prop: unknown; }
     >
   >(true);
 
@@ -120,37 +120,37 @@ import {
   assertType<IsExact<unknown, any>>(false);
   assertType<IsExact<never, any>>(false);
   assertType<IsExact<Date | typeof globalThis, Date>>(false);
-  assertType<IsExact<{ name: string; other?: Date }, { name: string }>>(false);
-  assertType<IsExact<{ prop: Date }, { prop: string }>>(false);
-  assertType<IsExact<{ other?: Date }, { prop?: string }>>(false);
-  assertType<IsExact<{ prop: { prop?: string } }, { prop: { prop: string } }>>(
-    false,
+  assertType<IsExact<{ name: string; other?: Date; }, { name: string; }>>(false);
+  assertType<IsExact<{ prop: Date; }, { prop: string; }>>(false);
+  assertType<IsExact<{ other?: Date; }, { prop?: string; }>>(false);
+  assertType<IsExact<{ prop: { prop?: string; }; }, { prop: { prop: string; }; }>>(
+    false
   );
-  assertType<IsExact<{ prop: any }, { prop: string }>>(false);
-  assertType<IsExact<{ prop: any }, { prop: unknown }>>(false);
-  assertType<IsExact<{ prop: any }, { prop: never }>>(false);
-  assertType<IsExact<{ prop: unknown }, { prop: never }>>(false);
-  assertType<IsExact<{ prop: { prop: unknown } }, { prop: { prop: any } }>>(
-    false,
+  assertType<IsExact<{ prop: any; }, { prop: string; }>>(false);
+  assertType<IsExact<{ prop: any; }, { prop: unknown; }>>(false);
+  assertType<IsExact<{ prop: any; }, { prop: never; }>>(false);
+  assertType<IsExact<{ prop: unknown; }, { prop: never; }>>(false);
+  assertType<IsExact<{ prop: { prop: unknown; }; }, { prop: { prop: any; }; }>>(
+    false
   );
-  assertType<IsExact<{ prop: { prop: unknown } }, { prop: { prop: never } }>>(
-    false,
+  assertType<IsExact<{ prop: { prop: unknown; }; }, { prop: { prop: never; }; }>>(
+    false
   );
-  assertType<IsExact<{ prop: { prop: any } }, { prop: { prop: never } }>>(
-    false,
+  assertType<IsExact<{ prop: { prop: any; }; }, { prop: { prop: never; }; }>>(
+    false
   );
-  assertType<IsExact<{ prop: string }, { prop: never }>>(false);
-  assertType<IsExact<{ prop: { prop: any } }, { prop: { prop: string } }>>(
-    false,
+  assertType<IsExact<{ prop: string; }, { prop: never; }>>(false);
+  assertType<IsExact<{ prop: { prop: any; }; }, { prop: { prop: string; }; }>>(
+    false
   );
   assertType<
     IsExact<
-      { prop: any } | { prop: string },
-      { prop: number } | { prop: string }
+      { prop: any; } | { prop: string; },
+      { prop: number; } | { prop: string; }
     >
   >(false);
-  assertType<IsExact<{ prop: string | undefined }, { prop?: string }>>(false); // these are different
-  assertType<IsExact<{ prop: any }, { readonly prop: any }>>(false);
+  assertType<IsExact<{ prop: string | undefined; }, { prop?: string; }>>(false); // these are different
+  assertType<IsExact<{ prop: any; }, { readonly prop: any; }>>(false);
   assertType<IsExact<[], readonly []>>(false);
   assertType<IsExact<any[], []>>(false);
   assertType<IsExact<any[], unknown[]>>(false);
@@ -188,26 +188,26 @@ import {
   assertType<IsExact<_Class<any>, _Class<number>>>(false);
   assertType<
     IsExact<
-      _Class<{ x: any; prop?: any }>,
-      _Class<{ x: any; other?: any }>
+      _Class<{ x: any; prop?: any; }>,
+      _Class<{ x: any; other?: any; }>
     >
   >(false);
   assertType<
     IsExact<
-      _Class<{ x: any; prop: any }>,
-      _Class<{ x: any; readonly prop: any }>
+      _Class<{ x: any; prop: any; }>,
+      _Class<{ x: any; readonly prop: any; }>
     >
   >(false);
   assertType<
     IsExact<
-      { [x: string]: unknown; prop: any } & { prop: unknown },
-      { [x: string]: unknown; prop: unknown }
+      { [x: string]: unknown; prop: any; } & { prop: unknown; },
+      { [x: string]: unknown; prop: unknown; }
     >
   >(false);
   assertType<
     IsExact<
-      { [x: string]: unknown; prop: unknown },
-      { [x: string]: unknown; prop: any } & { prop: unknown }
+      { [x: string]: unknown; prop: unknown; },
+      { [x: string]: unknown; prop: any; } & { prop: unknown; }
     >
   >(false);
 }

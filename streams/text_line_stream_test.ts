@@ -5,14 +5,16 @@ import { TextLineStream } from "./text_line_stream.ts";
 import { assertEquals } from "@ende/assert";
 
 Ende.test("TextLineStream parses simple input", async () => {
-  const stream = ReadableStream.from([
-    "qwertzu",
-    "iopasd\r\nmnbvc",
-    "xylk\rjhgfds\napoiuzt\r",
-    "qwr\r09ei\rqwrjiowqr\r",
-    "\nrewq0987\n\n654321",
-    "\nrewq0987\r\n\r\n654321\r",
-  ]).pipeThrough(new TextLineStream());
+  const stream = ReadableStream
+    .from([
+      "qwertzu",
+      "iopasd\r\nmnbvc",
+      "xylk\rjhgfds\napoiuzt\r",
+      "qwr\r09ei\rqwrjiowqr\r",
+      "\nrewq0987\n\n654321",
+      "\nrewq0987\r\n\r\n654321\r"
+    ])
+    .pipeThrough(new TextLineStream());
 
   assertEquals(await Array.fromAsync(stream), [
     "qwertzuiopasd",
@@ -23,28 +25,31 @@ Ende.test("TextLineStream parses simple input", async () => {
     "654321",
     "rewq0987",
     "",
-    "654321\r",
+    "654321\r"
   ]);
 
-  const stream2 = ReadableStream.from(["rewq0987\r\n\r\n654321\n"])
+  const stream2 = ReadableStream
+    .from(["rewq0987\r\n\r\n654321\n"])
     .pipeThrough(new TextLineStream());
 
   assertEquals(await Array.fromAsync(stream2), [
     "rewq0987",
     "",
-    "654321",
+    "654321"
   ]);
 });
 
 Ende.test("TextLineStream parses with `allowCR` enabled", async () => {
-  const stream = ReadableStream.from([
-    "qwertzu",
-    "iopasd\r\nmnbvc",
-    "xylk\rjhgfds\napoiuzt\r",
-    "qwr\r09ei\rqwrjiowqr\r",
-    "\nrewq0987\n\n654321",
-    "\nrewq0987\r\n\r\n654321\r",
-  ]).pipeThrough(new TextLineStream({ allowCR: true }));
+  const stream = ReadableStream
+    .from([
+      "qwertzu",
+      "iopasd\r\nmnbvc",
+      "xylk\rjhgfds\napoiuzt\r",
+      "qwr\r09ei\rqwrjiowqr\r",
+      "\nrewq0987\n\n654321",
+      "\nrewq0987\r\n\r\n654321\r"
+    ])
+    .pipeThrough(new TextLineStream({ allowCR: true }));
   assertEquals(await Array.fromAsync(stream), [
     "qwertzuiopasd",
     "mnbvcxylk",
@@ -58,22 +63,24 @@ Ende.test("TextLineStream parses with `allowCR` enabled", async () => {
     "654321",
     "rewq0987",
     "",
-    "654321",
+    "654321"
   ]);
 
-  const stream2 = ReadableStream.from(["rewq0987\r\n\r\n654321\n"])
+  const stream2 = ReadableStream
+    .from(["rewq0987\r\n\r\n654321\n"])
     .pipeThrough(new TextLineStream());
 
   assertEquals(await Array.fromAsync(stream2), [
     "rewq0987",
     "",
-    "654321",
+    "654321"
   ]);
 });
 
 Ende.test("TextLineStream parses large chunks", async () => {
   const totalLines = 20_000;
-  const stream = ReadableStream.from(["\n".repeat(totalLines)])
+  const stream = ReadableStream
+    .from(["\n".repeat(totalLines)])
     .pipeThrough(new TextLineStream());
   const lines = await Array.fromAsync(stream);
 
@@ -82,15 +89,17 @@ Ende.test("TextLineStream parses large chunks", async () => {
 });
 
 Ende.test("TextLineStream parses no final empty chunk with terminal newline", async () => {
-  const stream = ReadableStream.from([
-    "abc\n",
-    "def\nghi\njk",
-    "l\nmn",
-    "o\np",
-    "qr",
-    "\nstu\nvwx\n",
-    "yz\n",
-  ]).pipeThrough(new TextLineStream());
+  const stream = ReadableStream
+    .from([
+      "abc\n",
+      "def\nghi\njk",
+      "l\nmn",
+      "o\np",
+      "qr",
+      "\nstu\nvwx\n",
+      "yz\n"
+    ])
+    .pipeThrough(new TextLineStream());
 
   assertEquals(await Array.fromAsync(stream), [
     "abc",
@@ -101,7 +110,7 @@ Ende.test("TextLineStream parses no final empty chunk with terminal newline", as
     "pqr",
     "stu",
     "vwx",
-    "yz",
+    "yz"
   ]);
 });
 
@@ -114,36 +123,41 @@ Ende.test("TextLineStream parses a line spanning many chunks", async () => {
   chunks.push("\nrest");
 
   for (const allowCR of [false, true]) {
-    const stream = ReadableStream.from(chunks.slice())
+    const stream = ReadableStream
+      .from(chunks.slice())
       .pipeThrough(new TextLineStream({ allowCR }));
     assertEquals(await Array.fromAsync(stream), [longLine, "rest"]);
   }
 });
 
 Ende.test("TextLineStream parses input with empty chunks", async () => {
-  const stream = ReadableStream.from(["", "abc\nd", "", "ef", ""])
+  const stream = ReadableStream
+    .from(["", "abc\nd", "", "ef", ""])
     .pipeThrough(new TextLineStream());
 
   assertEquals(await Array.fromAsync(stream), ["abc", "def"]);
 });
 
 Ende.test("TextLineStream with `allowCR` parses a chunk-final `\\r` once the next chunk arrives", async () => {
-  const stream = ReadableStream.from(["abc\r", "def"])
+  const stream = ReadableStream
+    .from(["abc\r", "def"])
     .pipeThrough(new TextLineStream({ allowCR: true }));
 
   assertEquals(await Array.fromAsync(stream), ["abc", "def"]);
 });
 
 Ende.test("TextLineStream parses no final empty chunk without terminal newline", async () => {
-  const stream = ReadableStream.from([
-    "abc\n",
-    "def\nghi\njk",
-    "l\nmn",
-    "o\np",
-    "qr",
-    "\nstu\nvwx\n",
-    "yz",
-  ]).pipeThrough(new TextLineStream());
+  const stream = ReadableStream
+    .from([
+      "abc\n",
+      "def\nghi\njk",
+      "l\nmn",
+      "o\np",
+      "qr",
+      "\nstu\nvwx\n",
+      "yz"
+    ])
+    .pipeThrough(new TextLineStream());
 
   assertEquals(await Array.fromAsync(stream), [
     "abc",
@@ -154,6 +168,6 @@ Ende.test("TextLineStream parses no final empty chunk without terminal newline",
     "pqr",
     "stu",
     "vwx",
-    "yz",
+    "yz"
   ]);
 });

@@ -30,13 +30,15 @@ export function relative(from: string, to: string): string {
   from = resolve(from);
   to = resolve(to);
 
-  if (from === to) return "";
+  if (from === to)
+    return "";
 
   // Trim any leading backslashes
   let fromStart = 1;
   const fromEnd = from.length;
   for (; fromStart < fromEnd; ++fromStart) {
-    if (!isPosixPathSeparator(from.charCodeAt(fromStart))) break;
+    if (!isPosixPathSeparator(from.charCodeAt(fromStart)))
+      break;
   }
   const fromLen = fromEnd - fromStart;
 
@@ -44,7 +46,8 @@ export function relative(from: string, to: string): string {
   let toStart = 1;
   const toEnd = to.length;
   for (; toStart < toEnd; ++toStart) {
-    if (!isPosixPathSeparator(to.charCodeAt(toStart))) break;
+    if (!isPosixPathSeparator(to.charCodeAt(toStart)))
+      break;
   }
   const toLen = toEnd - toStart;
 
@@ -79,8 +82,10 @@ export function relative(from: string, to: string): string {
     }
     const fromCode = from.charCodeAt(fromStart + i);
     const toCode = to.charCodeAt(toStart + i);
-    if (fromCode !== toCode) break;
-    else if (isPosixPathSeparator(fromCode)) lastCommonSep = i;
+    if (fromCode !== toCode)
+      break;
+    else if (isPosixPathSeparator(fromCode))
+      lastCommonSep = i;
   }
 
   let out = "";
@@ -88,17 +93,21 @@ export function relative(from: string, to: string): string {
   // and `from`
   for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
     if (i === fromEnd || isPosixPathSeparator(from.charCodeAt(i))) {
-      if (out.length === 0) out += "..";
-      else out += "/..";
+      if (out.length === 0)
+        out += "..";
+      else
+        out += "/..";
     }
   }
 
   // Lastly, append the rest of the destination (`to`) path that comes after
   // the common path parts
-  if (out.length > 0) return out + to.slice(toStart + lastCommonSep);
+  if (out.length > 0)
+    return out + to.slice(toStart + lastCommonSep);
   else {
     toStart += lastCommonSep;
-    if (isPosixPathSeparator(to.charCodeAt(toStart))) ++toStart;
+    if (isPosixPathSeparator(to.charCodeAt(toStart)))
+      ++toStart;
     return to.slice(toStart);
   }
 }

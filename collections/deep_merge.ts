@@ -6,7 +6,7 @@
 const DEFAULT_OPTIONS: DeepMergeOptions = {
   arrays: "merge",
   sets: "merge",
-  maps: "merge",
+  maps: "merge"
 };
 
 /**
@@ -100,11 +100,11 @@ const DEFAULT_OPTIONS: DeepMergeOptions = {
  * ```
  */
 export function deepMerge<
-  T extends Record<PropertyKey, unknown>,
+  T extends Record<PropertyKey, unknown>
 >(
   record: Partial<Readonly<T>>,
   other: Partial<Readonly<T>>,
-  options?: Readonly<DeepMergeOptions>,
+  options?: Readonly<DeepMergeOptions>
 ): T;
 /**
  * Merges the two given records, recursively merging any nested records with the
@@ -201,11 +201,11 @@ export function deepMerge<
 export function deepMerge<
   T extends Record<PropertyKey, unknown>,
   U extends Record<PropertyKey, unknown>,
-  Options extends DeepMergeOptions,
+  Options extends DeepMergeOptions
 >(
   record: Readonly<T>,
   other: Readonly<U>,
-  options?: Readonly<Options>,
+  options?: Readonly<Options>
 ): DeepMerge<T, U, Options>;
 export function deepMerge<
   T extends Record<PropertyKey, unknown>,
@@ -214,17 +214,17 @@ export function deepMerge<
     arrays: "merge";
     sets: "merge";
     maps: "merge";
-  },
+  }
 >(
   record: Readonly<T>,
   other: Readonly<U>,
-  options?: Readonly<Options>,
+  options?: Readonly<Options>
 ): DeepMerge<T, U, Options> {
   return deepMergeInternal(
     record,
     other,
     new Set(),
-    options ?? DEFAULT_OPTIONS as Options,
+    options ?? DEFAULT_OPTIONS as Options
   );
 }
 
@@ -235,12 +235,12 @@ function deepMergeInternal<
     arrays: "merge";
     sets: "merge";
     maps: "merge";
-  },
+  }
 >(
   record: Readonly<T>,
   other: Readonly<U>,
   seen: Set<NonNullable<unknown>>,
-  options: Readonly<Options>,
+  options: Readonly<Options>
 ) {
   // Extract options
   // Clone left operand to avoid performing mutations in-place
@@ -249,7 +249,7 @@ function deepMergeInternal<
 
   const keys = new Set([
     ...getKeys(record),
-    ...getKeys(other),
+    ...getKeys(other)
   ]) as Set<keyof Result>;
 
   // Iterate through each key of other object and use correct merging strategy
@@ -292,7 +292,7 @@ function mergeObjects(
   left: Readonly<NonNullable<Record<string, unknown>>>,
   right: Readonly<NonNullable<Record<string, unknown>>>,
   seen: Set<NonNullable<unknown>>,
-  options: Readonly<DeepMergeOptions>,
+  options: Readonly<DeepMergeOptions>
 ): Readonly<NonNullable<Record<string, unknown> | Iterable<unknown>>> {
   // Recursively merge mergeable objects
   if (isMergeable(left) && isMergeable(right)) {
@@ -345,19 +345,19 @@ function mergeObjects(
  * are not considered mergeable (it means that reference will be copied)
  */
 function isMergeable(
-  value: NonNullable<unknown>,
+  value: NonNullable<unknown>
 ): value is Record<PropertyKey, unknown> {
   return Object.getPrototypeOf(value) === Object.prototype;
 }
 
 function isIterable(
-  value: NonNullable<unknown>,
+  value: NonNullable<unknown>
 ): value is Iterable<unknown> {
   return typeof (value as Iterable<unknown>)[Symbol.iterator] === "function";
 }
 
 function isNonNullObject(
-  value: unknown,
+  value: unknown
 ): value is NonNullable<Record<string, unknown>> {
   return value !== null && typeof value === "object";
 }
@@ -367,7 +367,8 @@ function getKeys<T extends Record<string, unknown>>(record: T): Array<keyof T> {
   const symbols = Object.getOwnPropertySymbols(record);
 
   // Fast path: most objects have no symbol keys
-  if (symbols.length === 0) return keys;
+  if (symbols.length === 0)
+    return keys;
 
   for (const sym of symbols) {
     if (Object.prototype.propertyIsEnumerable.call(record, sym)) {
@@ -464,9 +465,8 @@ export type DeepMergeOptions = {
  */
 
 /** Force intellisense to expand the typing to hide merging typings */
-export type ExpandRecursively<T> = T extends Record<PropertyKey, unknown>
-  ? T extends infer O ? { [K in keyof O]: ExpandRecursively<O[K]> } : never
-  : T;
+export type ExpandRecursively<T> = T extends Record<PropertyKey, unknown> ? T extends infer O ? { [K in keyof O]: ExpandRecursively<O[K]>; } : never :
+  T;
 
 /** Filter of keys matching a given type */
 export type PartialByType<T, U> = {
@@ -484,7 +484,7 @@ export type MergeAllSets<
   Y = PartialByType<U, Set<unknown>>,
   Z = {
     [K in keyof X & keyof Y]: Set<SetValueType<X[K]> | SetValueType<Y[K]>>;
-  },
+  }
 > = Z;
 
 /** Get array values type */
@@ -500,7 +500,7 @@ export type MergeAllArrays<
     [K in keyof X & keyof Y]: Array<
       ArrayValueType<X[K]> | ArrayValueType<Y[K]>
     >;
-  },
+  }
 > = Z;
 
 /** Get map values types */
@@ -520,7 +520,7 @@ export type MergeAllMaps<
       MapKeyType<X[K]> | MapKeyType<Y[K]>,
       MapValueType<X[K]> | MapValueType<Y[K]>
     >;
-  },
+  }
 > = Z;
 
 /** Merge all records types definitions from keys present in both objects */
@@ -532,7 +532,7 @@ export type MergeAllRecords<
   Y = PartialByType<U, Record<PropertyKey, unknown>>,
   Z = {
     [K in keyof X & keyof Y]: DeepMerge<X[K], Y[K], Options>;
-  },
+  }
 > = Z;
 
 /** Exclude map, sets and array from type */
@@ -552,14 +552,14 @@ export type ObjectXorKeys<
   T,
   U,
   X = Omit<T, keyof U> & Omit<U, keyof T>,
-  Y = { [K in keyof X]: X[K] },
+  Y = { [K in keyof X]: X[K]; }
 > = Y;
 
 /** Merge two objects, with left precedence */
 export type MergeRightOmitComplexes<
   T,
   U,
-  X = ObjectXorKeys<T, U> & OmitComplexes<{ [K in keyof U]: U[K] }>,
+  X = ObjectXorKeys<T, U> & OmitComplexes<{ [K in keyof U]: U[K]; }>
 > = X;
 
 /** Merge two objects */
@@ -570,23 +570,21 @@ export type Merge<
   X =
     & MergeRightOmitComplexes<T, U>
     & MergeAllRecords<T, U, Options>
-    & (Options extends { sets: "replace" } ? PartialByType<U, Set<unknown>>
-      : MergeAllSets<T, U>)
-    & (Options extends { arrays: "replace" } ? PartialByType<U, Array<unknown>>
-      : MergeAllArrays<T, U>)
-    & (Options extends { maps: "replace" }
-      ? PartialByType<U, Map<unknown, unknown>>
-      : MergeAllMaps<T, U>),
+    & (Options extends { sets: "replace"; } ? PartialByType<U, Set<unknown>> :
+      MergeAllSets<T, U>)
+    & (Options extends { arrays: "replace"; } ? PartialByType<U, Array<unknown>> :
+      MergeAllArrays<T, U>)
+    & (Options extends { maps: "replace"; } ? PartialByType<U, Map<unknown, unknown>> :
+      MergeAllMaps<T, U>)
 > = ExpandRecursively<X>;
 
 /** Merge deeply two objects */
 export type DeepMerge<
   T,
   U,
-  Options = Record<string, MergingStrategy>,
+  Options = Record<string, MergingStrategy>
 > =
   // Handle objects
-  [T, U] extends [Record<PropertyKey, unknown>, Record<PropertyKey, unknown>]
-    ? Merge<T, U, Options>
+  [T, U] extends [Record<PropertyKey, unknown>, Record<PropertyKey, unknown>] ? Merge<T, U, Options> :
     // Handle primitives
-    : T | U;
+    T | U;

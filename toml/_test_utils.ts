@@ -16,7 +16,7 @@ type TestCaseValue = {
 export type TestCase =
   | TestCaseValue
   | TestCase[]
-  | { [key: string]: TestCase };
+  | { [key: string]: TestCase; };
 
 function isTestCaseValue(v: unknown): v is TestCaseValue {
   return typeof v === "object" && v !== null &&

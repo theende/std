@@ -32,10 +32,10 @@ Ende.test("expect().toHaveReturnedTimes() with custom error message", () => {
   mockFn();
 
   expect(() => expect(mockFn, msg).toHaveReturnedTimes(1)).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 
   expect(() => expect(mockFn, msg).not.toHaveReturnedTimes(2)).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 });

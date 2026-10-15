@@ -139,7 +139,8 @@ Ende.test("RollingCounter.rotate() bulk matches repeated single rotates", () => 
   }
 
   let evictedA = 0;
-  for (let i = 0; i < 3; i++) evictedA += a.rotate();
+  for (let i = 0; i < 3; i++)
+    evictedA += a.rotate();
   const evictedB = b.rotate(3);
 
   assertEquals(evictedA, evictedB);
@@ -212,7 +213,7 @@ Ende.test("RollingCounter[Symbol.toStringTag] returns 'RollingCounter'", () => {
   const counter = new RollingCounter(3);
   assertEquals(
     Object.prototype.toString.call(counter),
-    "[object RollingCounter]",
+    "[object RollingCounter]"
   );
 });
 
@@ -247,7 +248,8 @@ Ende.test("RollingCounter with segmentCount of 1 evicts on every rotate", () => 
 Ende.test("RollingCounter handles many rotations without data loss", () => {
   const counter = new RollingCounter(3);
   counter.increment(10);
-  for (let i = 0; i < 100; i++) counter.rotate();
+  for (let i = 0; i < 100; i++)
+    counter.rotate();
   assertEquals(counter.total, 0);
 
   counter.increment(1);
@@ -435,7 +437,7 @@ Ende.test("RollingCounter.from() throws on non-array segments", () => {
   assertThrows(
     // deno-lint-ignore no-explicit-any
     () => RollingCounter.from({ segments: "no" as any }),
-    TypeError,
+    TypeError
   );
 });
 
@@ -445,7 +447,7 @@ Ende.test("RollingCounter.from() throws on null / undefined / non-object source"
       // deno-lint-ignore no-explicit-any
       () => RollingCounter.from(bad as any),
       TypeError,
-      "must be a RollingCounter or snapshot object",
+      "must be a RollingCounter or snapshot object"
     );
   }
 });
@@ -454,7 +456,7 @@ Ende.test("RollingCounter.from() throws on invalid segment values", () => {
   for (const bad of [-1, 1.5, NaN, Infinity]) {
     assertThrows(
       () => RollingCounter.from({ segments: [0, bad, 0] }),
-      RangeError,
+      RangeError
     );
   }
 });

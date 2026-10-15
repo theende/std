@@ -9,7 +9,7 @@ import {
   isServerErrorStatus,
   isSuccessfulStatus,
   STATUS_CODE,
-  STATUS_TEXT,
+  STATUS_TEXT
 } from "./status.ts";
 import { assert, assertEquals } from "@ende/assert";
 
@@ -21,7 +21,7 @@ Ende.test({
     assertEquals(STATUS_CODE.NoContent, 204);
     assertEquals(STATUS_CODE.NotFound, 404);
     assertEquals(STATUS_CODE.InternalServerError, 500);
-  },
+  }
 });
 
 Ende.test({
@@ -33,9 +33,9 @@ Ende.test({
     assertEquals(STATUS_TEXT[STATUS_CODE.NotFound], "Not Found");
     assertEquals(
       STATUS_TEXT[STATUS_CODE.InternalServerError],
-      "Internal Server Error",
+      "Internal Server Error"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -45,7 +45,7 @@ Ende.test({
     assert(!isInformationalStatus(STATUS_CODE.OK));
     assert(isInformationalStatus(101));
     assert(!isInformationalStatus(300));
-  },
+  }
 });
 
 Ende.test({
@@ -55,7 +55,7 @@ Ende.test({
     assert(!isSuccessfulStatus(STATUS_CODE.NotFound));
     assert(isSuccessfulStatus(204));
     assert(!isSuccessfulStatus(100));
-  },
+  }
 });
 
 Ende.test({
@@ -65,7 +65,7 @@ Ende.test({
     assert(!isRedirectStatus(STATUS_CODE.NotFound));
     assert(isRedirectStatus(301));
     assert(!isRedirectStatus(200));
-  },
+  }
 });
 
 Ende.test({
@@ -75,7 +75,7 @@ Ende.test({
     assert(!isClientErrorStatus(STATUS_CODE.InternalServerError));
     assert(isClientErrorStatus(400));
     assert(!isClientErrorStatus(503));
-  },
+  }
 });
 
 Ende.test({
@@ -85,7 +85,7 @@ Ende.test({
     assert(!isServerErrorStatus(STATUS_CODE.NotFound));
     assert(isServerErrorStatus(503));
     assert(!isServerErrorStatus(400));
-  },
+  }
 });
 
 Ende.test({
@@ -99,5 +99,5 @@ Ende.test({
     assert(!isErrorStatus(STATUS_CODE.MovedPermanently));
     assert(!isErrorStatus(100));
     assert(!isErrorStatus(204));
-  },
+  }
 });

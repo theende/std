@@ -7,7 +7,7 @@ import { mapNotNullish } from "./map_not_nullish.ts";
 function mapNotNullishTest<T, O>(
   input: [Array<T>, (el: T) => O | undefined | null],
   expected: Array<O>,
-  message?: string,
+  message?: string
 ) {
   const actual = mapNotNullish(...input);
   assertEquals(actual, expected, message);
@@ -17,20 +17,20 @@ Ende.test({
   name: "mapNotNullish() handles no mutation",
   fn() {
     const array = [1, 2, 3, 4];
-    mapNotNullish(array, (it) => it * 2);
+    mapNotNullish(array, it => it * 2);
 
     assertEquals(array, [1, 2, 3, 4]);
-  },
+  }
 });
 
 Ende.test({
   name: "mapNotNullish() handles empty input",
   fn() {
     mapNotNullishTest(
-      [[], (it) => it],
-      [],
+      [[], it => it],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -39,11 +39,11 @@ Ende.test({
     mapNotNullishTest(
       [
         [[], 1, 3],
-        (it) => it,
+        it => it
       ],
-      [[], 1, 3],
+      [[], 1, 3]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -52,18 +52,18 @@ Ende.test({
     mapNotNullishTest(
       [
         ["Anna", "Kim", "Hans"],
-        (it) => it.charAt(0),
+        it => it.charAt(0)
       ],
-      ["A", "K", "H"],
+      ["A", "K", "H"]
     );
     mapNotNullishTest(
       [
         [3, 4, 5, 6],
-        (it) => it * 2,
+        it => it * 2
       ],
-      [6, 8, 10, 12],
+      [6, 8, 10, 12]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -72,10 +72,9 @@ Ende.test({
     mapNotNullishTest(
       [
         ["Errors: 5", "Success", "Warnings: 10", "..."],
-        (it) =>
-          it.match(/\w+: (?<numberOfProblems>\d+)/u)?.groups?.numberOfProblems,
+        it => it.match(/\w+: (?<numberOfProblems>\d+)/u)?.groups?.numberOfProblems
       ],
-      ["5", "10"],
+      ["5", "10"]
     );
     mapNotNullishTest(
       [
@@ -83,13 +82,13 @@ Ende.test({
           { first: "Kim", middle: undefined, last: "Example" },
           { first: "Arthur", middle: "Hans", last: "Somename" },
           { first: "Laura", middle: "Marija", last: "Anothername" },
-          { first: "Sam", middle: null, last: "Smith" },
+          { first: "Sam", middle: null, last: "Smith" }
         ],
-        (it) => it.middle,
+        it => it.middle
       ],
-      ["Hans", "Marija"],
+      ["Hans", "Marija"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -97,8 +96,8 @@ Ende.test({
   fn() {
     const result = mapNotNullish(
       [1, 2, 3, 4],
-      (it, index) => index === 1 ? null : it + index,
+      (it, index) => index === 1 ? null : it + index
     );
     assertEquals(result, [1, 5, 7]);
-  },
+  }
 });

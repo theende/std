@@ -35,7 +35,8 @@ export function parse(path: string): ParsedPath {
   assertPath(path);
 
   const ret: ParsedPath = { root: "", dir: "", base: "", ext: "", name: "" };
-  if (path.length === 0) return ret;
+  if (path.length === 0)
+    return ret;
   const isAbsolute = isPosixPathSeparator(path.charCodeAt(0));
   let start: number;
   if (isAbsolute) {
@@ -74,8 +75,10 @@ export function parse(path: string): ParsedPath {
     }
     if (code === CHAR_DOT) {
       // If this is our first dot, mark it as the start of our extension
-      if (startDot === -1) startDot = i;
-      else if (preDotState !== 1) preDotState = 1;
+      if (startDot === -1)
+        startDot = i;
+      else if (preDotState !== 1)
+        preDotState = 1;
     } else if (startDot !== -1) {
       // We saw a non-dot and non-path separator before our dot, so we should
       // have a good chance at having a non-empty extension
@@ -114,9 +117,10 @@ export function parse(path: string): ParsedPath {
   if (startPart > 0) {
     ret.dir = stripTrailingSeparators(
       path.slice(0, startPart - 1),
-      isPosixPathSeparator,
+      isPosixPathSeparator
     );
-  } else if (isAbsolute) ret.dir = "/";
+  } else if (isAbsolute)
+    ret.dir = "/";
 
   return ret;
 }

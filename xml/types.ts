@@ -87,9 +87,9 @@ export class XmlSyntaxError extends SyntaxError {
    */
   constructor(message: string, position: XmlPosition) {
     super(
-      position.line === 0
-        ? message
-        : `${message} at line ${position.line}, column ${position.column}`,
+      position.line === 0 ?
+        message :
+        `${message} at line ${position.line}, column ${position.column}`
     );
     this.name = "XmlSyntaxError";
     this.line = position.line;
@@ -338,7 +338,7 @@ export type XmlDeclarationCallback = (
   standalone: "yes" | "no" | undefined,
   line: number,
   column: number,
-  offset: number,
+  offset: number
 ) => void;
 
 /** Callback for DOCTYPE declarations. */
@@ -348,7 +348,7 @@ export type XmlDoctypeCallback = (
   systemId: string | undefined,
   line: number,
   column: number,
-  offset: number,
+  offset: number
 ) => void;
 
 /** Callback for text, CDATA, or comment content with position. */
@@ -356,7 +356,7 @@ export type XmlContentCallback = (
   content: string,
   line: number,
   column: number,
-  offset: number,
+  offset: number
 ) => void;
 
 /** Callback for processing instructions. */
@@ -365,7 +365,7 @@ export type XmlProcessingInstructionCallback = (
   content: string,
   line: number,
   column: number,
-  offset: number,
+  offset: number
 ) => void;
 
 /**
@@ -431,7 +431,7 @@ export interface XmlEventCallbacks {
     selfClosing: boolean,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void;
 
   /**
@@ -445,7 +445,7 @@ export interface XmlEventCallbacks {
     uri: string | undefined,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void;
 
   /** Called for text content (entity-decoded). */

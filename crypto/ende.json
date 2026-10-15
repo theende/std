@@ -1,13 +1,13 @@
 {
-  "name": "@ende/crypto",
-  "version": "1.1.0",
-  "exports": {
-    ".": "./mod.ts",
-    "./crypto": "./crypto.ts",
-    "./timing-safe-equal": "./timing_safe_equal.ts",
-    "./aes-gcm": "./aes_gcm.ts"
-  },
   "exclude": [
     "_wasm/target"
-  ]
+  ],
+  "exports": {
+    ".": "./mod.ts",
+    "./aes-gcm": "./aes_gcm.ts",
+    "./crypto": "./crypto.ts",
+    "./timing-safe-equal": "./timing_safe_equal.ts"
+  },
+  "name": "@ende/crypto",
+  "version": "2026.10.15"
 }

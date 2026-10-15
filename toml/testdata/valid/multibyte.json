@@ -1,21 +1,21 @@
 {
-    "𝐭𝐛𝐥": {
-        "string": {"type": "string", "value": "𝓼𝓽𝓻𝓲𝓷𝓰 - #"},
-        "sub": {
-            "another_test_string": {"type": "string", "value": "§á₥è ƭλïñϱ, βúƭ ωïƭλ á ƨƭřïñϱ #"},
-            "escapes":             {"type": "string", "value": " Âñδ ωλèñ \"'ƨ ářè ïñ ƭλè ƨƭřïñϱ, áℓôñϱ ωïƭλ # \""},
-            "βïƭ#": {
-                "multi_line_array": [{"type": "string", "value": "]"}],
-                "ωλáƭ?":            {"type": "string", "value": "Ýôú δôñ'ƭ ƭλïñƙ ƨô₥è úƨèř ωôñ'ƭ δô ƭλáƭ?"}
-            },
-            "𝕒𝕣𝕣𝕒𝕪": [
-                {"type": "string", "value": "] "},
-                {"type": "string", "value": " # "}
-            ],
-            "𝕒𝕣𝕣𝕒𝕪𝟚": [
-                {"type": "string", "value": "Tèƨƭ #11 ]ƥřôƲèδ ƭλáƭ"},
-                {"type": "string", "value": "Éжƥèřï₥èñƭ #9 ωáƨ á ƨúççèƨƨ"}
-            ]
-        }
+  "𝐭𝐛𝐥": {
+    "string": { "type": "string", "value": "𝓼𝓽𝓻𝓲𝓷𝓰 - #" },
+    "sub": {
+      "another_test_string": { "type": "string", "value": "§á₥è ƭλïñϱ, βúƭ ωïƭλ á ƨƭřïñϱ #" },
+      "escapes": { "type": "string", "value": " Âñδ ωλèñ \"'ƨ ářè ïñ ƭλè ƨƭřïñϱ, áℓôñϱ ωïƭλ # \"" },
+      "βïƭ#": {
+        "multi_line_array": [{ "type": "string", "value": "]" }],
+        "ωλáƭ?": { "type": "string", "value": "Ýôú δôñ'ƭ ƭλïñƙ ƨô₥è úƨèř ωôñ'ƭ δô ƭλáƭ?" }
+      },
+      "𝕒𝕣𝕣𝕒𝕪": [
+        { "type": "string", "value": "] " },
+        { "type": "string", "value": " # " }
+      ],
+      "𝕒𝕣𝕣𝕒𝕪𝟚": [
+        { "type": "string", "value": "Tèƨƭ #11 ]ƥřôƲèδ ƭλáƭ" },
+        { "type": "string", "value": "Éжƥèřï₥èñƭ #9 ωáƨ á ƨúççèƨƨ" }
+      ]
     }
+  }
 }

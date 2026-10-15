@@ -8,10 +8,10 @@ Ende.test("maxBy() handles array input", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
-    { name: "Anna", age: 23 },
+    { name: "Anna", age: 23 }
   ];
 
-  const max = maxBy(input, (i) => i.age);
+  const max = maxBy(input, i => i.age);
 
   assertEquals(max, { name: "John", age: 42 });
 });
@@ -20,10 +20,10 @@ Ende.test("maxBy() handles array input with mutation", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
-    { name: "Anna", age: 23 },
+    { name: "Anna", age: 23 }
   ];
 
-  const max = maxBy(input, (i) => i.age - 10);
+  const max = maxBy(input, i => i.age - 10);
 
   assertEquals(max, { name: "John", age: 42 });
 });
@@ -33,22 +33,22 @@ Ende.test("maxBy() handles array input with multiple max", () => {
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
     { name: "John", age: 42 },
-    { name: "Anna", age: 23 },
+    { name: "Anna", age: 23 }
   ];
 
-  const max = maxBy(input, (i) => i.age);
+  const max = maxBy(input, i => i.age);
 
   assertEquals(max, { name: "John", age: 42 });
 });
 
 Ende.test("maxBy() handles single element array", () => {
-  assertEquals(maxBy([42], (i) => i), 42);
+  assertEquals(maxBy([42], i => i), 42);
 });
 
 Ende.test("maxBy() handles array of positive numbers", () => {
   const input = [2, 3, 5];
 
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
 
   assertEquals(max, 5);
 });
@@ -72,27 +72,27 @@ Ende.test("maxBy() handles array of strings", () => {
 Ende.test("maxBy() handles of empty array", () => {
   const input: number[] = [];
 
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
 
   assertEquals(max, undefined);
 });
 
 Ende.test("maxBy() handles empty input", () => {
-  const emptyArray: Array<{ age: number }> = [];
-  const max = maxBy(emptyArray, (it) => it.age);
+  const emptyArray: Array<{ age: number; }> = [];
+  const max = maxBy(emptyArray, it => it.age);
 
   assertEquals(max, undefined);
 });
 
 Ende.test("maxBy() handles empty generator", () => {
   function* gen(): Generator<number> {}
-  assertEquals(maxBy(gen(), (i) => i), undefined);
+  assertEquals(maxBy(gen(), i => i), undefined);
 });
 
 Ende.test("maxBy() handles array of numbers with multiple max", () => {
   const input = [2, 3, 5, 5];
 
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
 
   assertEquals(max, 5);
 });
@@ -100,7 +100,7 @@ Ende.test("maxBy() handles array of numbers with multiple max", () => {
 Ende.test("maxBy() handles array of numbers with infinity", () => {
   const input = [2, 3, 5, Infinity];
 
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
 
   assertEquals(max, Infinity);
 });
@@ -108,21 +108,21 @@ Ende.test("maxBy() handles array of numbers with infinity", () => {
 Ende.test("maxBy() handles array of numbers with NaN", () => {
   const input = [2, 3, 5, NaN];
 
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
 
   assertEquals(max, 5);
 });
 
 Ende.test("maxBy() handles NaN at first position", () => {
   const input = [NaN, 2, 3];
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
   assertEquals(max, NaN);
 });
 
 Ende.test("maxBy() handles no mutation", () => {
   const input = [2, 3, 5];
 
-  maxBy(input, (i) => i);
+  maxBy(input, i => i);
 
   assertEquals(input, [2, 3, 5]);
 });
@@ -130,7 +130,7 @@ Ende.test("maxBy() handles no mutation", () => {
 Ende.test("maxBy() returns same object reference", () => {
   const john = { name: "John", age: 42 };
   const input = [{ name: "Kyle", age: 34 }, john, { name: "Anna", age: 23 }];
-  const max = maxBy(input, (i) => i.age);
+  const max = maxBy(input, i => i.age);
   assertStrictEquals(max, john);
 });
 
@@ -140,11 +140,11 @@ Ende.test({
     const input = [
       "9007199254740999",
       "9007199254740991",
-      "9007199254740995",
+      "9007199254740995"
     ];
 
-    assertEquals(maxBy(input, (it) => BigInt(it)), "9007199254740999");
-  },
+    assertEquals(maxBy(input, it => BigInt(it)), "9007199254740999");
+  }
 });
 
 Ende.test({
@@ -153,11 +153,11 @@ Ende.test({
     const input = [
       "February 1, 2022",
       "December 17, 1995",
-      "June 12, 2012",
+      "June 12, 2012"
     ];
 
-    assertEquals(maxBy(input, (it) => new Date(it)), "February 1, 2022");
-  },
+    assertEquals(maxBy(input, it => new Date(it)), "February 1, 2022");
+  }
 });
 
 Ende.test("maxBy() handles generator input", () => {
@@ -166,7 +166,7 @@ Ende.test("maxBy() handles generator input", () => {
     yield { name: "John", age: 42 };
     yield { name: "Anna", age: 23 };
   }
-  const max = maxBy(gen(), (i) => i.age);
+  const max = maxBy(gen(), i => i.age);
   assertEquals(max, { name: "John", age: 42 });
 });
 
@@ -174,12 +174,12 @@ Ende.test("maxBy() handles single element generator", () => {
   function* gen() {
     yield 42;
   }
-  assertEquals(maxBy(gen(), (i) => i), 42);
+  assertEquals(maxBy(gen(), i => i), 42);
 });
 
 Ende.test("maxBy() handles Set input", () => {
   const input = new Set([5, 2, 8, 1, 9]);
-  const max = maxBy(input, (i) => i);
+  const max = maxBy(input, i => i);
   assertEquals(max, 9);
 });
 
@@ -187,9 +187,9 @@ Ende.test("maxBy() handles Map values", () => {
   const input = new Map([
     ["a", { age: 34 }],
     ["b", { age: 23 }],
-    ["c", { age: 45 }],
+    ["c", { age: 45 }]
   ]);
-  const max = maxBy(input.values(), (i) => i.age);
+  const max = maxBy(input.values(), i => i.age);
   assertEquals(max, { age: 45 });
 });
 
@@ -201,5 +201,5 @@ Ende.test({
     const max = maxBy(input, (_, index) => index);
 
     assertEquals(max, 1);
-  },
+  }
 });

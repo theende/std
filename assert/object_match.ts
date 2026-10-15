@@ -34,7 +34,7 @@ export function assertObjectMatch(
   // deno-lint-ignore no-explicit-any
   actual: Record<PropertyKey, any>,
   expected: Record<PropertyKey, unknown>,
-  msg?: string,
+  msg?: string
 ): void {
   return assertEquals(
     // get the intersection of "actual" and "expected"
@@ -43,7 +43,7 @@ export function assertObjectMatch(
     // set (nested) instances' constructor field to be "Object" without changing expected value.
     // see https://github.com/denoland/std/pull/1419
     filter(expected, expected),
-    msg,
+    msg
   );
 }
 
@@ -58,7 +58,7 @@ function defineProperty(target: object, key: PropertyKey, value: unknown) {
     value,
     configurable: true,
     enumerable: true,
-    writable: true,
+    writable: true
   });
 }
 
@@ -69,14 +69,15 @@ function filter(a: Loose, b: Loose): Loose {
   function filterObject(a: Loose, b: Loose): Loose {
     // Prevent infinite loop with circular references with same filter
     const memo = seen.get(a);
-    if (memo && (memo === b)) return a;
+    if (memo && (memo === b))
+      return a;
 
     try {
       seen.set(a, b);
     } catch (err) {
       if (err instanceof TypeError) {
         throw new TypeError(
-          `Cannot assertObjectMatch ${a === null ? null : `type ${typeof a}`}`,
+          `Cannot assertObjectMatch ${a === null ? null : `type ${typeof a}`}`
         );
       }
     }
@@ -85,13 +86,15 @@ function filter(a: Loose, b: Loose): Loose {
     const filtered = {} as Loose;
     const keysA = Reflect.ownKeys(a);
     const keysB = Reflect.ownKeys(b);
-    const entries = keysA.filter((key) => keysB.includes(key))
-      .map((key) => [key, a[key as string]]) as Array<[string, unknown]>;
+    const entries = keysA
+      .filter(key => keysB.includes(key))
+      .map(key => [key, a[key as string]]) as Array<[string, unknown]>;
 
     if (keysA.length && keysB.length && !entries.length) {
       // If both objects are not empty but don't have the same keys or symbols,
       // returns the entries in object a.
-      for (const key of keysA) defineProperty(filtered, key, a[key]);
+      for (const key of keysA)
+        defineProperty(filtered, key, a[key]);
       return filtered;
     }
 
@@ -130,9 +133,9 @@ function filter(a: Loose, b: Loose): Loose {
                     return [k, filterObject(v as Loose, v2 as Loose)];
                   }
                   return [k, v];
-                },
-              ),
-            ),
+                }
+              )
+            )
           );
           continue;
         }
@@ -146,7 +149,7 @@ function filter(a: Loose, b: Loose): Loose {
         defineProperty(
           filtered,
           key,
-          filterObject(value as Loose, subset as Loose),
+          filterObject(value as Loose, subset as Loose)
         );
         continue;
       }
@@ -160,7 +163,8 @@ function filter(a: Loose, b: Loose): Loose {
   function filterArray(a: unknown[], b: unknown[]): unknown[] {
     // Prevent infinite loop with circular references with same filter
     const memo = seen.get(a);
-    if (memo && (memo === b)) return a;
+    if (memo && (memo === b))
+      return a;
 
     seen.set(a, b);
 
@@ -193,7 +197,8 @@ function filter(a: Loose, b: Loose): Loose {
         // When both operands are maps, build a filtered map with common keys and filter nested objects inside
         if ((value instanceof Map) && (subset instanceof Map)) {
           const map = new Map(
-            [...value].filter(([k]) => subset.has(k))
+            [...value]
+              .filter(([k]) => subset.has(k))
               .map(([k, v]) => {
                 const v2 = subset.get(k);
                 if (isObject(v) && isObject(v2)) {
@@ -201,7 +206,7 @@ function filter(a: Loose, b: Loose): Loose {
                 }
 
                 return [k, v];
-              }),
+              })
           );
           filtered.push(map);
           continue;

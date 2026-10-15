@@ -70,13 +70,13 @@ export interface PollOptions {
 export async function poll<T>(
   fn: () => T,
   isDone: (result: Awaited<T>) => boolean,
-  options: PollOptions = {},
+  options: PollOptions = {}
 ): Promise<Awaited<T>> {
   const { signal, interval = 1000 } = options;
 
   if (!Number.isFinite(interval) || interval < 0) {
     throw new RangeError(
-      `Cannot poll as 'interval' must be a non-negative finite number: current value is ${interval}`,
+      `Cannot poll as 'interval' must be a non-negative finite number: current value is ${interval}`
     );
   }
 

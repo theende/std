@@ -28,7 +28,7 @@ import { format } from "@ende/internal/format";
 export function assertNotStrictEquals<T>(
   actual: T,
   expected: T,
-  msg?: string,
+  msg?: string
 ) {
   if (!Object.is(actual, expected)) {
     return;
@@ -36,8 +36,6 @@ export function assertNotStrictEquals<T>(
 
   const msgSuffix = msg ? `: ${msg}` : ".";
   throw new AssertionError(
-    `Expected "actual" to not be strictly equal to: ${
-      format(actual)
-    }${msgSuffix}\n`,
+    `Expected "actual" to not be strictly equal to: ${format(actual)}${msgSuffix}\n`
   );
 }

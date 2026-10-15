@@ -45,7 +45,7 @@
  */
 export function maxOf<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => number,
+  selector: (el: T, index: number) => number
 ): number | undefined;
 /**
  * Applies the given selector to all elements of the provided collection and
@@ -79,23 +79,25 @@ export function maxOf<T>(
  */
 export function maxOf<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => bigint,
+  selector: (el: T, index: number) => bigint
 ): bigint | undefined;
 export function maxOf<
   T,
   S extends
     | ((el: T, index: number) => number)
-    | ((el: T, index: number) => bigint),
+    | ((el: T, index: number) => bigint)
 >(
   array: Iterable<T>,
-  selector: S,
+  selector: S
 ): ReturnType<S> | undefined {
   if (Array.isArray(array)) {
     const length = array.length;
-    if (length === 0) return undefined;
+    if (length === 0)
+      return undefined;
 
     let max = selector(array[0]!, 0) as ReturnType<S>;
-    if (Number.isNaN(max)) return max;
+    if (Number.isNaN(max))
+      return max;
 
     for (let i = 1; i < length; i++) {
       const currentValue = selector(array[i]!, i) as ReturnType<S>;
@@ -113,10 +115,12 @@ export function maxOf<
   const iter = array[Symbol.iterator]();
   const first = iter.next();
 
-  if (first.done) return undefined;
+  if (first.done)
+    return undefined;
 
   let max = selector(first.value, index++) as ReturnType<S>;
-  if (Number.isNaN(max)) return max;
+  if (Number.isNaN(max))
+    return max;
 
   let next = iter.next();
   while (!next.done) {

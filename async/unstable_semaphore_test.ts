@@ -6,14 +6,14 @@ import {
   assertEquals,
   assertExists,
   assertFalse,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { Semaphore } from "./unstable_semaphore.ts";
 
 /** Helper to assert that a promise is blocked until released */
 async function assertBlocks(
   acquirePromise: Promise<unknown>,
-  release: () => void,
+  release: () => void
 ): Promise<void> {
   let blocked = true;
   const p = acquirePromise.then(() => blocked = false);

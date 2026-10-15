@@ -17,7 +17,7 @@ Ende.test("expect().toContainEqual()", () => {
     AssertionError,
     `The value doesn't contain the expected item:
 Value: [{foo: 42},{bar: 43},{baz: 44}]
-Expected: {bar: 42}`,
+Expected: {bar: 42}`
   );
 
   assertThrows(
@@ -27,7 +27,7 @@ Expected: {bar: 42}`,
     AssertionError,
     `The value contains the expected item:
 Value: [{foo: 42},{bar: 43},{baz: 44}]
-Expected: {foo: 42}`,
+Expected: {foo: 42}`
   );
 });
 
@@ -35,12 +35,12 @@ Ende.test("expect().toContainEqual() handles null and undefined", () => {
   assertThrows(
     () => expect(null).not.toContainEqual("foo"),
     AssertionError,
-    "The value is null or undefined",
+    "The value is null or undefined"
   );
   assertThrows(
     () => expect(undefined).not.toContainEqual("foo"),
     AssertionError,
-    "The value is null or undefined",
+    "The value is null or undefined"
   );
 });
 
@@ -48,7 +48,7 @@ Ende.test("expect().toContainEqual() throws error when the value is not an array
   assertThrows(
     () => expect({ foo: 42 }).toContainEqual({ foo: 42 }),
     AssertionError,
-    "The value is not iterable",
+    "The value is not iterable"
   );
 });
 
@@ -57,12 +57,14 @@ Ende.test("expect().toContainEqual() with custom error message", () => {
 
   expect(() =>
     expect([{ foo: 42 }, { bar: 43 }, { baz: 44 }], msg).toContainEqual({
-      foo: 4,
+      foo: 4
     })
-  ).toThrow(new RegExp(`^${msg}`));
+  )
+    .toThrow(new RegExp(`^${msg}`));
   expect(() =>
     expect([{ foo: 42 }, { bar: 43 }, { baz: 44 }], msg).not.toContainEqual({
-      foo: 42,
+      foo: 42
     })
-  ).toThrow(new RegExp(`^${msg}`));
+  )
+    .toThrow(new RegExp(`^${msg}`));
 });

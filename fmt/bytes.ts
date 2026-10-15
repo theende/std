@@ -118,7 +118,7 @@ export interface FormatOptions {
  */
 export function format(
   num: number,
-  options: FormatOptions = {},
+  options: FormatOptions = {}
 ): string {
   if (!Number.isFinite(num)) {
     throw new TypeError(`Expected a finite number, got ${typeof num}: ${num}`);
@@ -142,9 +142,9 @@ export function format(
 
   const exponent = Math.min(
     Math.floor(
-      options.binary ? Math.log(num) / Math.log(1024) : Math.log10(num) / 3,
+      options.binary ? Math.log(num) / Math.log(1024) : Math.log10(num) / 3
     ),
-    UNITS_FIRSTLETTER.length - 1,
+    UNITS_FIRSTLETTER.length - 1
   );
   num /= Math.pow(options.binary ? 1024 : 1000, exponent);
 
@@ -155,7 +155,7 @@ export function format(
   const numberString = toLocaleString(
     num,
     options.locale,
-    localeOptions,
+    localeOptions
   );
 
   let unit = UNITS_FIRSTLETTER[exponent];
@@ -168,7 +168,7 @@ export function format(
 }
 
 function getLocaleOptions(
-  { maximumFractionDigits, minimumFractionDigits }: FormatOptions,
+  { maximumFractionDigits, minimumFractionDigits }: FormatOptions
 ): LocaleOptions | undefined {
   if (
     maximumFractionDigits === undefined && minimumFractionDigits === undefined
@@ -195,7 +195,7 @@ function getLocaleOptions(
 function toLocaleString(
   num: number,
   locale: boolean | string | string[] | undefined,
-  options: LocaleOptions | undefined,
+  options: LocaleOptions | undefined
 ): string {
   if (typeof locale === "string" || Array.isArray(locale)) {
     return num.toLocaleString(locale, options);

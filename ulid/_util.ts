@@ -21,7 +21,7 @@ function replaceCharAt(str: string, index: number, char: string) {
 export function encodeTime(timestamp: number): string {
   if (!Number.isInteger(timestamp) || timestamp < 0 || timestamp > TIME_MAX) {
     throw new RangeError(
-      `Time must be a positive integer less than ${TIME_MAX}`,
+      `Time must be a positive integer less than ${TIME_MAX}`
     );
   }
   let str = "";

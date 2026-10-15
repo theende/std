@@ -3,7 +3,7 @@
 import { longestCommonPrefix } from "./unstable_longest_common_prefix.ts";
 import { assertEquals, assertGreater } from "@ende/assert";
 
-Ende.test(longestCommonPrefix.name, async (t) => {
+Ende.test(longestCommonPrefix.name, async t => {
   await t.step("0 strings", () => {
     assertEquals(longestCommonPrefix([]), "");
   });
@@ -22,7 +22,7 @@ Ende.test(longestCommonPrefix.name, async (t) => {
     assertEquals(longestCommonPrefix(["flower", "glow", "flight"]), "");
   });
 
-  await t.step("surrogate pairs", async (t) => {
+  await t.step("surrogate pairs", async t => {
     const poop = "💩";
     const dizzy = "💫";
     assertGreater(poop.codePointAt(0)!, 0xffff);

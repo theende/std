@@ -8,9 +8,9 @@
 
 // deno-lint-ignore no-explicit-any
 const { Ende } = globalThis as any;
-const noColor = typeof Ende?.noColor === "boolean"
-  ? Ende.noColor as boolean
-  : false;
+const noColor = typeof Ende?.noColor === "boolean" ?
+  Ende.noColor as boolean :
+  false;
 
 interface Code {
   open: string;
@@ -24,14 +24,14 @@ function code(open: number[], close: number): Code {
   return {
     open: `\x1b[${open.join(";")}m`,
     close: `\x1b[${close}m`,
-    regexp: new RegExp(`\\x1b\\[${close}m`, "g"),
+    regexp: new RegExp(`\\x1b\\[${close}m`, "g")
   };
 }
 
 function run(str: string, code: Code): string {
-  return enabled
-    ? `${code.open}${str.replace(code.regexp, code.open)}${code.close}`
-    : str;
+  return enabled ?
+    `${code.open}${str.replace(code.regexp, code.open)}${code.close}` :
+    str;
 }
 
 /**
@@ -208,9 +208,10 @@ export function bgGreen(str: string): string {
 const ANSI_REGEXP = new RegExp(
   [
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
-    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TXZcf-nq-uy=><~]))",
-  ].join("|"),
-  "g",
+    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TXZcf-nq-uy=><~]))"
+  ]
+    .join("|"),
+  "g"
 );
 
 /**

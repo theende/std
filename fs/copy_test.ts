@@ -4,7 +4,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import * as path from "@ende/path";
 import { copy, copySync } from "./copy.ts";
@@ -19,18 +19,18 @@ const testdataDir = path.resolve(moduleDir, "testdata");
 function testCopy(
   name: string,
   cb: (tempDir: string) => Promise<void>,
-  ignore = false,
+  ignore = false
 ) {
   Ende.test({
     name,
     async fn() {
       const tempDir = await Ende.makeTempDir({
-        prefix: "ende_std_copy_async_test_",
+        prefix: "ende_std_copy_async_test_"
       });
       await cb(tempDir);
       await Ende.remove(tempDir, { recursive: true });
     },
-    ignore,
+    ignore
   });
 }
 
@@ -39,11 +39,11 @@ function testCopySync(name: string, cb: (tempDir: string) => void) {
     name,
     fn: () => {
       const tempDir = Ende.makeTempDirSync({
-        prefix: "ende_std_copy_sync_test_",
+        prefix: "ende_std_copy_sync_test_"
       });
       cb(tempDir);
       Ende.removeSync(tempDir, { recursive: true });
-    },
+    }
   });
 }
 
@@ -55,9 +55,9 @@ testCopy(
     await assertRejects(
       async () => {
         await copy(srcFile, destFile);
-      },
+      }
     );
-  },
+  }
 );
 
 testCopy(
@@ -70,9 +70,9 @@ testCopy(
         await copy(srcFile, destFile);
       },
       Error,
-      "Source and destination cannot be the same",
+      "Source and destination cannot be the same"
     );
-  },
+  }
 );
 
 testCopy(
@@ -86,7 +86,7 @@ testCopy(
     assert(await Ende.lstat(srcFile), "source should exist before copy");
     await assertRejects(
       async () => await Ende.lstat(destFile),
-      "destination should not exist before copy",
+      "destination should not exist before copy"
     );
 
     await copy(srcFile, destFile);
@@ -99,7 +99,7 @@ testCopy(
     assertEquals(
       srcContent,
       destContent,
-      "source and destination should have the same content",
+      "source and destination should have the same content"
     );
 
     // Copy again and it should throw an error.
@@ -108,7 +108,7 @@ testCopy(
         await copy(srcFile, destFile);
       },
       Error,
-      `'${destFile}' already exists`,
+      `'${destFile}' already exists`
     );
 
     // Modify destination file.
@@ -122,7 +122,7 @@ testCopy(
 
     // Make sure the file has been overwritten.
     assertEquals(await Ende.readTextFile(destFile), "txt");
-  },
+  }
 );
 
 testCopy(
@@ -140,7 +140,7 @@ testCopy(
       // Copy with overwrite and preserve timestamps options.
       await copy(srcFile, destFile, {
         overwrite: true,
-        preserveTimestamps: true,
+        preserveTimestamps: true
       });
 
       const destStatInfo = await Ende.stat(destFile);
@@ -176,7 +176,7 @@ testCopy(
       assertEquals(srcNestFileInfo.atime, destNestFileInfo.atime);
       assertEquals(srcNestFileInfo.mtime, destNestFileInfo.mtime);
     }
-  },
+  }
 );
 
 testCopy(
@@ -192,9 +192,9 @@ testCopy(
         await copy(srcDir, destDir);
       },
       Error,
-      `Cannot copy '${srcDir}' to a subdirectory of itself: '${destDir}'`,
+      `Cannot copy '${srcDir}' to a subdirectory of itself: '${destDir}'`
     );
-  },
+  }
 );
 
 testCopy(
@@ -211,9 +211,9 @@ testCopy(
         await copy(srcDir, destDir);
       },
       Error,
-      `Cannot overwrite non-directory '${destDir}' with directory '${srcDir}'`,
+      `Cannot overwrite non-directory '${destDir}' with directory '${srcDir}'`
     );
-  },
+  }
 );
 
 testCopy(
@@ -234,11 +234,11 @@ testCopy(
     // After copy. The source and destination should have the same content.
     assertEquals(
       await Ende.readTextFile(srcFile),
-      await Ende.readTextFile(destFile),
+      await Ende.readTextFile(destFile)
     );
     assertEquals(
       await Ende.readTextFile(srcNestFile),
-      await Ende.readTextFile(destNestFile),
+      await Ende.readTextFile(destNestFile)
     );
 
     // Copy again without overwrite option and it should throw an error.
@@ -247,7 +247,7 @@ testCopy(
         await copy(srcDir, destDir);
       },
       Error,
-      `'${destDir}' already exists`,
+      `'${destDir}' already exists`
     );
 
     // Modify the file in the destination directory.
@@ -259,7 +259,7 @@ testCopy(
 
     // Make sure the file has been overwritten.
     assertEquals(await Ende.readTextFile(destNestFile), "nest");
-  },
+  }
 );
 
 testCopy(
@@ -271,7 +271,7 @@ testCopy(
 
     assert(
       (await Ende.lstat(srcLink)).isSymlink,
-      `'${srcLink}' should be symlink type`,
+      `'${srcLink}' should be symlink type`
     );
 
     await copy(srcLink, destLink);
@@ -279,7 +279,7 @@ testCopy(
     const statInfo = await Ende.lstat(destLink);
 
     assert(statInfo.isSymlink, `'${destLink}' should be symlink type`);
-  },
+  }
 );
 
 testCopy(
@@ -293,7 +293,7 @@ testCopy(
 
     assert(
       (await Ende.lstat(srcLink)).isSymlink,
-      `'${srcLink}' should be symlink type`,
+      `'${srcLink}' should be symlink type`
     );
 
     await copy(srcLink, destLink);
@@ -301,7 +301,7 @@ testCopy(
     const statInfo = await Ende.lstat(destLink);
 
     assert(statInfo.isSymlink);
-  },
+  }
 );
 
 testCopySync(
@@ -312,7 +312,7 @@ testCopySync(
     assertThrows(() => {
       copySync(srcFile, destFile);
     });
-  },
+  }
 );
 
 testCopySync(
@@ -330,7 +330,7 @@ testCopySync(
       // Copy with overwrite and preserve timestamps options.
       copySync(srcFile, destFile, {
         overwrite: true,
-        preserveTimestamps: true,
+        preserveTimestamps: true
       });
 
       const destStatInfo = Ende.statSync(destFile);
@@ -366,7 +366,7 @@ testCopySync(
       assertEquals(srcNestFileInfo.atime, destNestFileInfo.atime);
       assertEquals(srcNestFileInfo.mtime, destNestFileInfo.mtime);
     }
-  },
+  }
 );
 
 testCopySync(
@@ -378,9 +378,9 @@ testCopySync(
         copySync(srcFile, srcFile);
       },
       Error,
-      "Source and destination cannot be the same",
+      "Source and destination cannot be the same"
     );
-  },
+  }
 );
 
 testCopySync("copySync() copies file to new destination", (tempDir: string) => {
@@ -407,7 +407,7 @@ testCopySync("copySync() copies file to new destination", (tempDir: string) => {
       copySync(srcFile, destFile);
     },
     Error,
-    `'${destFile}' already exists`,
+    `'${destFile}' already exists`
   );
 
   // Modify destination file.
@@ -415,7 +415,7 @@ testCopySync("copySync() copies file to new destination", (tempDir: string) => {
 
   assertEquals(
     new TextDecoder().decode(Ende.readFileSync(destFile)),
-    "txt copy",
+    "txt copy"
   );
 
   // Copy again with overwrite option.
@@ -438,9 +438,9 @@ testCopySync(
         copySync(srcDir, destDir);
       },
       Error,
-      `Cannot copy '${srcDir}' to a subdirectory of itself: '${destDir}'`,
+      `Cannot copy '${srcDir}' to a subdirectory of itself: '${destDir}'`
     );
-  },
+  }
 );
 
 testCopySync(
@@ -457,9 +457,9 @@ testCopySync(
         copySync(srcDir, destDir);
       },
       Error,
-      `Cannot overwrite non-directory '${destDir}' with directory '${srcDir}'`,
+      `Cannot overwrite non-directory '${destDir}' with directory '${srcDir}'`
     );
-  },
+  }
 );
 
 testCopySync("copySync() copies a directory", (tempDir: string) => {
@@ -478,11 +478,11 @@ testCopySync("copySync() copies a directory", (tempDir: string) => {
   // After copy. The source and destination should have the same content.
   assertEquals(
     new TextDecoder().decode(Ende.readFileSync(srcFile)),
-    new TextDecoder().decode(Ende.readFileSync(destFile)),
+    new TextDecoder().decode(Ende.readFileSync(destFile))
   );
   assertEquals(
     new TextDecoder().decode(Ende.readFileSync(srcNestFile)),
-    new TextDecoder().decode(Ende.readFileSync(destNestFile)),
+    new TextDecoder().decode(Ende.readFileSync(destNestFile))
   );
 
   // Copy again without overwrite option and it should throw an error.
@@ -491,14 +491,14 @@ testCopySync("copySync() copies a directory", (tempDir: string) => {
       copySync(srcDir, destDir);
     },
     Error,
-    `'${destDir}' already exists`,
+    `'${destDir}' already exists`
   );
 
   // Modify the file in the destination directory.
   Ende.writeFileSync(destNestFile, new TextEncoder().encode("nest copy"));
   assertEquals(
     new TextDecoder().decode(Ende.readFileSync(destNestFile)),
-    "nest copy",
+    "nest copy"
   );
 
   // Copy again with overwrite option.
@@ -507,7 +507,7 @@ testCopySync("copySync() copies a directory", (tempDir: string) => {
   // Make sure the file has been overwritten.
   assertEquals(
     new TextDecoder().decode(Ende.readFileSync(destNestFile)),
-    "nest",
+    "nest"
   );
 });
 
@@ -520,7 +520,7 @@ testCopySync(
 
     assert(
       Ende.lstatSync(srcLink).isSymlink,
-      `'${srcLink}' should be symlink type`,
+      `'${srcLink}' should be symlink type`
     );
 
     copySync(srcLink, destLink);
@@ -528,7 +528,7 @@ testCopySync(
     const statInfo = Ende.lstatSync(destLink);
 
     assert(statInfo.isSymlink, `'${destLink}' should be symlink type`);
-  },
+  }
 );
 
 testCopySync(
@@ -542,7 +542,7 @@ testCopySync(
 
     assert(
       Ende.lstatSync(srcLink).isSymlink,
-      `'${srcLink}' should be symlink type`,
+      `'${srcLink}' should be symlink type`
     );
 
     copySync(srcLink, destLink);
@@ -550,5 +550,5 @@ testCopySync(
     const statInfo = Ende.lstatSync(destLink);
 
     assert(statInfo.isSymlink);
-  },
+  }
 );

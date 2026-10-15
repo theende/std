@@ -97,7 +97,7 @@ export type ProblemDetailsExtensions = Omit<
  * @experimental **UNSTABLE**: New API, yet to be vetted.
  */
 export type ProblemDetails<
-  T extends ProblemDetailsExtensions = Record<string, never>,
+  T extends ProblemDetailsExtensions = Record<string, never>
 > = {
   /**
    * A URI reference identifying the problem type. Defaults to `"about:blank"`
@@ -201,22 +201,24 @@ export interface ProblemDetailsResponseOptions {
  * ```
  */
 export function createProblemDetailsResponse<
-  T extends ProblemDetailsExtensions,
+  T extends ProblemDetailsExtensions
 >(
   problemDetails: ProblemDetails<T>,
-  options?: ProblemDetailsResponseOptions,
+  options?: ProblemDetailsResponseOptions
 ): Response {
   const pd: Record<string, unknown> = { ...problemDetails };
 
-  if (pd.type === undefined) pd.type = "about:blank";
+  if (pd.type === undefined)
+    pd.type = "about:blank";
 
-  if (pd.status === undefined) pd.status = 500;
+  if (pd.status === undefined)
+    pd.status = 500;
 
   if (!Number.isInteger(pd.status)) {
     throw new RangeError(
       `Cannot create Problem Details response: status must be a finite integer, received ${
         typeof pd.status === "string" ? `"${pd.status}"` : String(pd.status)
-      }`,
+      }`
     );
   }
 
@@ -235,7 +237,7 @@ export function createProblemDetailsResponse<
     return new Response(body, {
       status,
       ...(statusText !== undefined ? { statusText } : {}),
-      headers: { "Content-Type": PROBLEM_JSON_MEDIA_TYPE },
+      headers: { "Content-Type": PROBLEM_JSON_MEDIA_TYPE }
     });
   }
   const headers = new Headers(options.headers);
@@ -243,18 +245,16 @@ export function createProblemDetailsResponse<
   return new Response(body, {
     status,
     ...(statusText !== undefined ? { statusText } : {}),
-    headers,
+    headers
   });
 }
 
 function normalizeParsedProblemDetails(
-  raw: unknown,
+  raw: unknown
 ): Record<string, unknown> {
   if (typeof raw !== "object" || raw === null || Array.isArray(raw)) {
     throw new TypeError(
-      `Cannot parse Problem Details: expected a JSON object, but got ${
-        raw === null ? "null" : Array.isArray(raw) ? "an array" : typeof raw
-      }`,
+      `Cannot parse Problem Details: expected a JSON object, but got ${raw === null ? "null" : Array.isArray(raw) ? "an array" : typeof raw}`
     );
   }
 
@@ -263,23 +263,29 @@ function normalizeParsedProblemDetails(
 
   // RFC 9457 §3.1: ignore standard members whose value type does not match.
   for (const key in source) {
-    if (!Object.hasOwn(source, key)) continue;
+    if (!Object.hasOwn(source, key))
+      continue;
     const value = source[key];
     switch (key) {
       case "type":
-        if (typeof value === "string") result.type = value;
+        if (typeof value === "string")
+          result.type = value;
         break;
       case "status":
-        if (Number.isInteger(value)) result.status = value;
+        if (Number.isInteger(value))
+          result.status = value;
         break;
       case "title":
-        if (typeof value === "string") result.title = value;
+        if (typeof value === "string")
+          result.title = value;
         break;
       case "detail":
-        if (typeof value === "string") result.detail = value;
+        if (typeof value === "string")
+          result.detail = value;
         break;
       case "instance":
-        if (typeof value === "string") result.instance = value;
+        if (typeof value === "string")
+          result.instance = value;
         break;
       default:
         result[key] = value;
@@ -326,14 +332,14 @@ function normalizeParsedProblemDetails(
  * ```
  */
 export function parseProblemDetails<
-  T extends ProblemDetailsExtensions = Record<string, never>,
+  T extends ProblemDetailsExtensions = Record<string, never>
 >(input: unknown): ProblemDetails<T> {
   // A `Response` is a non-null, non-array object with no enumerable own keys,
   // so it would silently parse to an empty result. Reject it explicitly so
   // callers who forgot to migrate to `parseProblemDetailsResponse` fail loudly.
   if (input instanceof Response) {
     throw new TypeError(
-      "Cannot parse Problem Details: input is a Response, use parseProblemDetailsResponse instead",
+      "Cannot parse Problem Details: input is a Response, use parseProblemDetailsResponse instead"
     );
   }
   return normalizeParsedProblemDetails(input) as ProblemDetails<T>;
@@ -378,7 +384,7 @@ export function parseProblemDetails<
  * ```
  */
 export async function parseProblemDetailsResponse<
-  T extends ProblemDetailsExtensions = Record<string, never>,
+  T extends ProblemDetailsExtensions = Record<string, never>
 >(input: Response): Promise<ProblemDetails<T>> {
   const raw = await input.json();
   return normalizeParsedProblemDetails(raw) as ProblemDetails<T>;
@@ -415,7 +421,8 @@ export async function parseProblemDetailsResponse<
  */
 export function isProblemDetailsResponse(response: Response): boolean {
   const contentType = response.headers.get("Content-Type");
-  if (contentType === null) return false;
+  if (contentType === null)
+    return false;
   const semi = contentType.indexOf(";");
   const base = semi === -1 ? contentType : contentType.substring(0, semi);
   const mediaType = base.toLowerCase().trim();

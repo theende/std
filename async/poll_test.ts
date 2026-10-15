@@ -11,8 +11,8 @@ Ende.test("poll() returns result when isDone returns true", async () => {
       callCount++;
       return { status: callCount >= 3 ? "done" : "pending" };
     },
-    (r) => r.status === "done",
-    { interval: 10 },
+    r => r.status === "done",
+    { interval: 10 }
   );
 
   assertEquals(result, { status: "done" });
@@ -25,7 +25,7 @@ Ende.test("poll() returns immediately when isDone returns true on first call", a
 
   const result = await poll(
     () => "immediate",
-    () => true,
+    () => true
   );
 
   assertEquals(result, "immediate");
@@ -39,8 +39,8 @@ Ende.test("poll() works with async functions", async () => {
       await Promise.resolve();
       return ++callCount;
     },
-    (n) => n >= 3,
-    { interval: 10 },
+    n => n >= 3,
+    { interval: 10 }
   );
 
   assertEquals(result, 3);
@@ -52,8 +52,8 @@ Ende.test("poll() respects interval timing", async () => {
   let callCount = 0;
   const promise = poll(
     () => ++callCount,
-    (n) => n >= 4,
-    { interval: 200 },
+    n => n >= 4,
+    { interval: 200 }
   );
 
   // First call is immediate
@@ -81,7 +81,7 @@ Ende.test("poll() handles abort signal", async () => {
   const promise = poll(
     () => ++callCount,
     () => false, // Never done
-    { signal: controller.signal, interval: 10 },
+    { signal: controller.signal, interval: 10 }
   );
 
   // First call is immediate
@@ -111,9 +111,9 @@ Ende.test("poll() handles already aborted signal", async () => {
       poll(
         () => "value",
         () => false,
-        { signal: controller.signal },
+        { signal: controller.signal }
       ),
-    DOMException,
+    DOMException
   );
 });
 
@@ -127,10 +127,10 @@ Ende.test("poll() propagates custom abort reason", async () => {
       poll(
         () => "value",
         () => false,
-        { signal: controller.signal },
+        { signal: controller.signal }
       ),
     Error,
-    "custom reason",
+    "custom reason"
   );
 });
 
@@ -141,10 +141,10 @@ Ende.test("poll() propagates errors from fn", async () => {
         () => {
           throw new Error("fetch failed");
         },
-        () => true,
+        () => true
       ),
     Error,
-    "fetch failed",
+    "fetch failed"
   );
 });
 
@@ -155,10 +155,10 @@ Ende.test("poll() propagates errors from isDone", async () => {
         () => "value",
         () => {
           throw new Error("predicate failed");
-        },
+        }
       ),
     Error,
-    "predicate failed",
+    "predicate failed"
   );
 });
 
@@ -168,9 +168,9 @@ Ende.test("poll() throws RangeError for negative interval", () => {
       poll(
         () => "value",
         () => true,
-        { interval: -1 },
+        { interval: -1 }
       ),
-    RangeError,
+    RangeError
   );
 });
 
@@ -180,9 +180,9 @@ Ende.test("poll() throws RangeError for NaN interval", () => {
       poll(
         () => "value",
         () => true,
-        { interval: NaN },
+        { interval: NaN }
       ),
-    RangeError,
+    RangeError
   );
 });
 
@@ -192,8 +192,8 @@ Ende.test("poll() throws RangeError for Infinity interval", () => {
       poll(
         () => "value",
         () => true,
-        { interval: Infinity },
+        { interval: Infinity }
       ),
-    RangeError,
+    RangeError
   );
 });

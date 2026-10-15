@@ -28,7 +28,7 @@ export function toFileUrl(path: string): URL {
 
   const url = new URL("file:///");
   url.pathname = encodeWhitespace(
-    path.replace(/^\/+/, "/").replace(/%/g, "%25").replace(/\\/g, "%5C"),
+    path.replace(/^\/+/, "/").replace(/%/g, "%25").replace(/\\/g, "%5C")
   );
   return url;
 }

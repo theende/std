@@ -17,7 +17,7 @@ Ende.test({
     const x = { a: 1 };
     const y = x;
     assertStrictEquals(x, y);
-  },
+  }
 });
 
 Ende.test({
@@ -39,7 +39,7 @@ Ende.test({
 
     assertStrictEquals(z, x);
     z.number; // ok
-  },
+  }
 });
 
 Ende.test({
@@ -55,9 +55,9 @@ Ende.test({
 +       3,
 +     ],
 -     b: 2,
-    }`,
+    }`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -71,9 +71,9 @@ Ende.test({
     {
       a: 1,
       b: 2,
-    }`,
+    }`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -86,7 +86,7 @@ Ende.test({
 
     {
       a: 1,
-    }`,
+    }`
     );
-  },
+  }
 });

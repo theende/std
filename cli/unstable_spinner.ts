@@ -45,7 +45,7 @@ const COLORS: Record<Color, string> = {
   magenta: "\u001b[35m",
   cyan: "\u001b[36m",
   white: "\u001b[37m",
-  gray: "\u001b[90m",
+  gray: "\u001b[90m"
 };
 
 /**
@@ -153,7 +153,7 @@ export class Spinner {
       spinner = DEFAULT_SPINNER,
       message = "",
       interval = DEFAULT_INTERVAL,
-      color,
+      color
     } = options ?? {};
     this.#spinner = spinner;
     this.message = message;
@@ -227,9 +227,9 @@ export class Spinner {
     const updateFrame = () => {
       const color = this.#color ?? "";
       const frame = encoder.encode(
-        noColor
-          ? this.#spinner[i] + " " + this.message
-          : color + this.#spinner[i] + COLOR_RESET + " " + this.message,
+        noColor ?
+          this.#spinner[i] + " " + this.message :
+          color + this.#spinner[i] + COLOR_RESET + " " + this.message
       );
       // call writeSync once to reduce flickering
       const writeData = new Uint8Array(LINE_CLEAR.length + frame.length);
@@ -260,7 +260,8 @@ export class Spinner {
    * ```
    */
   stop() {
-    if (this.#intervalId === null) return;
+    if (this.#intervalId === null)
+      return;
     clearInterval(this.#intervalId);
     this.#intervalId = null;
     this.#output.writeSync(LINE_CLEAR); // Clear the current line

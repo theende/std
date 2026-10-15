@@ -52,7 +52,8 @@ export function normalize(path: string | URL): string {
         let last = j;
         // Match 1 or more non-path separators
         for (; j < len; ++j) {
-          if (isPathSeparator(path.charCodeAt(j))) break;
+          if (isPathSeparator(path.charCodeAt(j)))
+            break;
         }
         if (j < len && j !== last) {
           const firstPart = path.slice(last, j);
@@ -60,14 +61,16 @@ export function normalize(path: string | URL): string {
           last = j;
           // Match 1 or more path separators
           for (; j < len; ++j) {
-            if (!isPathSeparator(path.charCodeAt(j))) break;
+            if (!isPathSeparator(path.charCodeAt(j)))
+              break;
           }
           if (j < len && j !== last) {
             // Matched!
             last = j;
             // Match 1 or more non-path separators
             for (; j < len; ++j) {
-              if (isPathSeparator(path.charCodeAt(j))) break;
+              if (isPathSeparator(path.charCodeAt(j)))
+                break;
             }
             if (j === len) {
               // We matched a UNC root only
@@ -114,24 +117,29 @@ export function normalize(path: string | URL): string {
       path.slice(rootEnd),
       !isAbsolute,
       "\\",
-      isPathSeparator,
+      isPathSeparator
     );
   } else {
     tail = "";
   }
-  if (tail.length === 0 && !isAbsolute) tail = ".";
+  if (tail.length === 0 && !isAbsolute)
+    tail = ".";
   if (tail.length > 0 && isPathSeparator(path.charCodeAt(len - 1))) {
     tail += "\\";
   }
   if (device === undefined) {
     if (isAbsolute) {
-      if (tail.length > 0) return `\\${tail}`;
-      else return "\\";
+      if (tail.length > 0)
+        return `\\${tail}`;
+      else
+        return "\\";
     }
     return tail;
   } else if (isAbsolute) {
-    if (tail.length > 0) return `${device}\\${tail}`;
-    else return `${device}\\`;
+    if (tail.length > 0)
+      return `${device}\\${tail}`;
+    else
+      return `${device}\\`;
   }
   return device + tail;
 }

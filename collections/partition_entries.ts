@@ -41,7 +41,7 @@
  */
 export function partitionEntries<T>(
   record: Readonly<Record<string, T>>,
-  predicate: (entry: [string, T]) => boolean,
+  predicate: (entry: [string, T]) => boolean
 ): [match: Record<string, T>, rest: Record<string, T>] {
   const match: Record<string, T> = {};
   const rest: Record<string, T> = {};

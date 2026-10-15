@@ -6,7 +6,7 @@ import { umask } from "./unstable_umask.ts";
 
 Ende.test({
   name: "umask() changes current mask",
-  ignore: Ende.build.os === "windows",
+  ignore: Ende.build.os === "windows"
 }, () => {
   const initialMask = umask(0o77);
   const updatedMask0 = umask(0o22);

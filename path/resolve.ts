@@ -27,7 +27,7 @@ import { resolve as windowsResolve } from "./windows/resolve.ts";
  * @returns The resolved path.
  */
 export function resolve(...pathSegments: string[]): string {
-  return isWindows
-    ? windowsResolve(...pathSegments)
-    : posixResolve(...pathSegments);
+  return isWindows ?
+    windowsResolve(...pathSegments) :
+    posixResolve(...pathSegments);
 }

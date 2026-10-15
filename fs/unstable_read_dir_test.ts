@@ -5,7 +5,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { fromFileUrl, join, resolve } from "@ende/path";
 import { readDir, readDirSync } from "./unstable_read_dir.ts";

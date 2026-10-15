@@ -22,7 +22,7 @@ const COREUTILS_TESTSUITE = [
   ["///a///", "/"],
   ["///a///b", "///a"],
   ["///a//b/", "///a"],
-  ["", "."],
+  ["", "."]
 ] as const;
 
 const POSIX_TESTSUITE = [
@@ -33,7 +33,7 @@ const POSIX_TESTSUITE = [
   ["/", "/"],
   ["////", "/"],
   ["//a", "/"],
-  ["foo", "."],
+  ["foo", "."]
 ] as const;
 
 const WINDOWS_TESTSUITE = [
@@ -69,10 +69,10 @@ const WINDOWS_TESTSUITE = [
   ["", "."],
   ["/", "/"],
   ["////", "/"],
-  ["foo", "."],
+  ["foo", "."]
 ] as const;
 
-Ende.test("posix.dirname()", function () {
+Ende.test("posix.dirname()", function() {
   for (const [name, expected] of COREUTILS_TESTSUITE) {
     assertEquals(dirname(name), expected);
   }
@@ -91,18 +91,18 @@ Ende.test("posix.dirname()", function () {
 Ende.test("posix.dirname() works with file URLs", () => {
   assertEquals(
     posix.dirname(new URL("file:///home/user/Documents/image.png")),
-    "/home/user/Documents",
+    "/home/user/Documents"
   );
 
   // throws with non-file URLs
   assertThrows(
     () => posix.dirname(new URL("https://deno.land/")),
     TypeError,
-    'URL must be a file URL: received "https:"',
+    "URL must be a file URL: received \"https:\""
   );
 });
 
-Ende.test("windows.dirname()", function () {
+Ende.test("windows.dirname()", function() {
   for (const [name, expected] of WINDOWS_TESTSUITE) {
     assertEquals(windows.dirname(name), expected);
   }
@@ -120,13 +120,13 @@ Ende.test("windows.dirname()", function () {
 Ende.test("windows.dirname() works with file URLs", () => {
   assertEquals(
     windows.dirname(new URL("file:///C:/home/user/Documents/image.png")),
-    "C:\\home\\user\\Documents",
+    "C:\\home\\user\\Documents"
   );
 
   // throws with non-file URLs
   assertThrows(
     () => windows.dirname(new URL("https://deno.land/")),
     TypeError,
-    'URL must be a file URL: received "https:"',
+    "URL must be a file URL: received \"https:\""
   );
 });

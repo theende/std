@@ -33,11 +33,11 @@ Ende.test("expect.arrayContaining() with array of mixed types", () => {
 Ende.test("matchObject on array", () => {
   const a = [
     { foo: "bar" },
-    { foo: "baz" },
+    { foo: "baz" }
   ];
 
   expect(a).toEqual(expect.arrayContaining([
-    expect.objectContaining({ foo: "bar" }),
+    expect.objectContaining({ foo: "bar" })
   ]));
 });
 
@@ -45,14 +45,14 @@ Ende.test("test from blog post", () => {
   const state = [
     { type: "START", data: "foo" },
     { type: "START", data: "baz" },
-    { type: "END", data: "foo" },
+    { type: "END", data: "foo" }
   ];
 
   expect(state).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        type: "END",
-      }),
-    ]),
+        type: "END"
+      })
+    ])
   );
 });

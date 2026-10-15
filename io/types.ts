@@ -115,7 +115,7 @@ export enum SeekMode {
   /* Seek from the current position within the file/resource. */
   Current = 1,
   /* Seek from the end of the current file/resource. */
-  End = 2,
+  End = 2
 }
 
 /**

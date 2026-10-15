@@ -25,7 +25,7 @@ import type { ReadFileOptions } from "./unstable_types.ts";
  */
 export async function readFile(
   path: string | URL,
-  options?: ReadFileOptions,
+  options?: ReadFileOptions
 ): Promise<Uint8Array> {
   return await Ende.readFile(path, { ...options });
 }

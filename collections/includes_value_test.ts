@@ -6,7 +6,7 @@ import { assert, assertEquals } from "@ende/assert";
 Ende.test("includesValue() handles example", () => {
   const input = {
     first: 33,
-    second: 34,
+    second: 34
   };
   const actual = includesValue(input, 34);
   assert(actual);
@@ -15,14 +15,14 @@ Ende.test("includesValue() handles example", () => {
 Ende.test("includesValue() handles no mutation", () => {
   const input = {
     first: 33,
-    second: 34,
+    second: 34
   };
 
   includesValue(input, 34);
 
   assertEquals(input, {
     first: 33,
-    second: 34,
+    second: 34
   });
 });
 
@@ -37,7 +37,7 @@ Ende.test("includesValue() handles empty input returns false", () => {
 Ende.test("includesValue() returns false when it doesn't include the value", () => {
   const input = {
     first: 33,
-    second: 34,
+    second: 34
   };
 
   const actual = includesValue(input, 45);
@@ -51,17 +51,17 @@ Ende.test("includesValue() handles non-enumerable properties", () => {
 
   Object.defineProperty(input, "nep", {
     enumerable: false,
-    value: 42,
+    value: 42
   });
 
   Object.defineProperty(input, "neptwo", {
     enumerable: false,
-    value: "hello",
+    value: "hello"
   });
 
   Object.defineProperty(input, "nepthree", {
     enumerable: false,
-    value: true,
+    value: true
   });
 
   const actual1 = includesValue(input, 42);
@@ -75,7 +75,7 @@ Ende.test("includesValue() handles non-enumerable properties", () => {
 
 Ende.test("includesValue() handles non-primitive values", () => {
   const input = {
-    first: {},
+    first: {}
   };
 
   const actual = includesValue(input, {});
@@ -85,7 +85,7 @@ Ende.test("includesValue() handles non-primitive values", () => {
 
 Ende.test("includesValue() handles same behaviour as naive impl", () => {
   const input = {
-    first: 42,
+    first: 42
   };
 
   const includesValueResult = includesValue(input, 42);
@@ -96,7 +96,7 @@ Ende.test("includesValue() handles same behaviour as naive impl", () => {
 
 Ende.test("includesValue() handles NaN value", () => {
   const input = {
-    first: NaN,
+    first: NaN
   };
 
   const actual = includesValue(input, NaN);

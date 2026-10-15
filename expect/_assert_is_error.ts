@@ -19,25 +19,24 @@ import { stripAnsiCode } from "@ende/internal/styles";
 export function assertIsError<E extends Error = Error>(
   error: unknown,
   // deno-lint-ignore no-explicit-any
-  ErrorClass?: abstract new (...args: any[]) => E,
+  ErrorClass?: abstract new(...args: any[]) => E,
   msgMatches?: string | RegExp,
-  msg?: string,
+  msg?: string
 ): asserts error is E {
   const msgPrefix = msg ? `${msg}: ` : "";
   if (!(error instanceof Error)) {
     throw new AssertionError(
-      `${msgPrefix}Expected "error" to be an Error object.`,
+      `${msgPrefix}Expected "error" to be an Error object.`
     );
   }
   if (ErrorClass && !(error instanceof ErrorClass)) {
-    msg =
-      `${msgPrefix}Expected error to be instance of "${ErrorClass.name}", but was "${error?.constructor?.name}".`;
+    msg = `${msgPrefix}Expected error to be instance of "${ErrorClass.name}", but was "${error?.constructor?.name}".`;
     throw new AssertionError(msg);
   }
   let msgCheck;
   if (typeof msgMatches === "string") {
     msgCheck = stripAnsiCode(error.message).includes(
-      stripAnsiCode(msgMatches),
+      stripAnsiCode(msgMatches)
     );
   }
   if (msgMatches instanceof RegExp) {
@@ -46,9 +45,9 @@ export function assertIsError<E extends Error = Error>(
 
   if (msgMatches && !msgCheck) {
     msg = `${msgPrefix}Expected error message to include ${
-      msgMatches instanceof RegExp
-        ? msgMatches.toString()
-        : JSON.stringify(msgMatches)
+      msgMatches instanceof RegExp ?
+        msgMatches.toString() :
+        JSON.stringify(msgMatches)
     }, but got ${JSON.stringify(error?.message)}.`;
     throw new AssertionError(msg);
   }

@@ -30,12 +30,12 @@ import type { Uint8Array_ } from "./_types.ts";
 export type { Uint8Array_ };
 import {
   alphabet,
-  type Base64Alphabet,
   calcSizeBase64,
   decode,
   encode,
   padding,
   rAlphabet,
+  type Base64Alphabet
 } from "./_common64.ts";
 import { detach } from "./_common_detach.ts";
 
@@ -68,21 +68,21 @@ const decoder = new TextDecoder();
  * );
  * ```
  */
-export class Base64EncoderStream<T extends "string" | "bytes">
-  extends TransformStream<
-    Uint8Array_,
-    T extends "bytes" ? Uint8Array_ : string
-  > {
+export class Base64EncoderStream<T extends "string" | "bytes"> extends TransformStream<
+  Uint8Array_,
+  T extends "bytes" ? Uint8Array_ : string
+> {
   /**
    * Constructs a new instance.
    *
    * @param options The options for the base64 stream.
    */
-  constructor(options: { alphabet?: Base64Alphabet; output?: T } = {}) {
+  constructor(options: { alphabet?: Base64Alphabet; output?: T; } = {}) {
     const abc = alphabet[options.alphabet ?? "base64"];
-    const decode = function (): (input: Uint8Array_) => Expect<T> {
-      if (options.output === "bytes") return (x) => x as Expect<T>;
-      return (x) => decoder.decode(x) as Expect<T>;
+    const decode = function(): (input: Uint8Array_) => Expect<T> {
+      if (options.output === "bytes")
+        return x => x as Expect<T>;
+      return x => decoder.decode(x) as Expect<T>;
     }();
     const push = new Uint8Array(2);
     let remainder = 0;
@@ -90,20 +90,21 @@ export class Base64EncoderStream<T extends "string" | "bytes">
       transform(chunk, controller) {
         let [output, i] = detach(
           chunk,
-          calcSizeBase64(remainder + chunk.length),
+          calcSizeBase64(remainder + chunk.length)
         );
         if (remainder) {
           i -= remainder;
           output.set(push.subarray(0, remainder), i);
         }
         remainder = (output.length - i) % 3;
-        if (remainder) push.set(output.subarray(-remainder));
+        if (remainder)
+          push.set(output.subarray(-remainder));
         const o = encode(
           output.subarray(0, -remainder || undefined),
           i,
           0,
           abc,
-          padding,
+          padding
         );
         controller.enqueue(decode(output.subarray(0, o)));
       },
@@ -111,16 +112,17 @@ export class Base64EncoderStream<T extends "string" | "bytes">
         if (remainder) {
           const [output, i] = detach(
             push.subarray(0, remainder),
-            calcSizeBase64(remainder),
+            calcSizeBase64(remainder)
           );
           let o = encode(output, i, 0, abc, padding);
           if (options.alphabet === "base64url") {
             const i = output.indexOf(padding, o - 2);
-            if (i > 0) o = i;
+            if (i > 0)
+              o = i;
           }
           controller.enqueue(decode(output.subarray(0, o)));
         }
-      },
+      }
     });
   }
 }
@@ -152,21 +154,21 @@ export class Base64EncoderStream<T extends "string" | "bytes">
  * );
  * ```
  */
-export class Base64DecoderStream<T extends "string" | "bytes">
-  extends TransformStream<
-    T extends "bytes" ? Uint8Array_ : string,
-    Uint8Array_
-  > {
+export class Base64DecoderStream<T extends "string" | "bytes"> extends TransformStream<
+  T extends "bytes" ? Uint8Array_ : string,
+  Uint8Array_
+> {
   /**
    * Constructs a new instance.
    *
    * @param options The options for the base64 stream.
    */
-  constructor(options: { alphabet?: Base64Alphabet; input?: T } = {}) {
+  constructor(options: { alphabet?: Base64Alphabet; input?: T; } = {}) {
     const abc = rAlphabet[options.alphabet ?? "base64"];
-    const encode = function (): (input: Expect<T>) => Uint8Array_ {
-      if (options.input === "bytes") return (x) => x as Uint8Array_;
-      return (x) => encoder.encode(x as string) as Uint8Array_;
+    const encode = function(): (input: Expect<T>) => Uint8Array_ {
+      if (options.input === "bytes")
+        return x => x as Uint8Array_;
+      return x => encoder.encode(x as string) as Uint8Array_;
     }();
     const push = new Uint8Array(3);
     let remainder = 0;
@@ -178,13 +180,14 @@ export class Base64DecoderStream<T extends "string" | "bytes">
           output.set(push.subarray(0, remainder));
         }
         remainder = output.length % 4;
-        if (remainder) push.set(output.subarray(-remainder));
+        if (remainder)
+          push.set(output.subarray(-remainder));
         const o = decode(
           output.subarray(0, -remainder || undefined),
           0,
           0,
           abc,
-          padding,
+          padding
         );
         controller.enqueue(output.subarray(0, o));
       },
@@ -195,11 +198,11 @@ export class Base64DecoderStream<T extends "string" | "bytes">
             0,
             0,
             abc,
-            padding,
+            padding
           );
           controller.enqueue(push.subarray(0, o));
         }
-      },
+      }
     });
   }
 }

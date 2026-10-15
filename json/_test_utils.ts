@@ -7,9 +7,10 @@ import type { JsonParseStream } from "./parse_stream.ts";
 export async function assertValidParse(
   transform: typeof ConcatenatedJsonParseStream | typeof JsonParseStream,
   chunks: string[],
-  expect: unknown[],
+  expect: unknown[]
 ) {
-  const r = ReadableStream.from(chunks)
+  const r = ReadableStream
+    .from(chunks)
     .pipeThrough(new transform());
   const res = await Array.fromAsync(r);
   assertEquals(res, expect);
@@ -19,14 +20,15 @@ export async function assertInvalidParse(
   transform: typeof ConcatenatedJsonParseStream | typeof JsonParseStream,
   chunks: string[],
   // deno-lint-ignore no-explicit-any
-  ErrorClass: new (...args: any[]) => Error,
-  msgIncludes: string | undefined,
+  ErrorClass: new(...args: any[]) => Error,
+  msgIncludes: string | undefined
 ) {
-  const r = ReadableStream.from(chunks)
+  const r = ReadableStream
+    .from(chunks)
     .pipeThrough(new transform());
   await assertRejects(
     async () => await Array.fromAsync(r),
     ErrorClass,
-    msgIncludes,
+    msgIncludes
   );
 }

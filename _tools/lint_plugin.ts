@@ -30,15 +30,10 @@ function isConstantCase(string: string): boolean {
 
 const CONTRACTION_REGEXP = /\S'\S/;
 
-export const COPYRIGHT_NOTICE = `Copyright 2018-${
-  new Date().getFullYear()
-} the Deno authors. MIT license.`;
+export const COPYRIGHT_NOTICE = `Copyright 2018-${new Date().getFullYear()} the Deno authors. MIT license.`;
 
-const endeYears = new Date().getFullYear() === 2026
-  ? "2026"
-  : `2026-${new Date().getFullYear()}`;
-export const ENDE_COPYRIGHT_NOTICE =
-  `Copyright ${endeYears} the Ende authors. MIT license.`;
+const endeYears = new Date().getFullYear() === 2026 ? "2026" : `2026-${new Date().getFullYear()}`;
+export const ENDE_COPYRIGHT_NOTICE = `Copyright ${endeYears} the Ende authors. MIT license.`;
 
 export default {
   name: "ende-style-guide",
@@ -48,29 +43,29 @@ export default {
       create(context) {
         return {
           MethodDefinition(node) {
-            if (node.accessibility !== "private") return;
+            if (node.accessibility !== "private")
+              return;
             // TODO(iuioiua): add fix
             context.report({
               node,
               range: node.range,
               message: "Method uses `private` keyword",
-              hint:
-                "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo()` instead of `private foo()`.",
+              hint: "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo()` instead of `private foo()`."
             });
           },
           PropertyDefinition(node) {
-            if (node.accessibility !== "private") return;
+            if (node.accessibility !== "private")
+              return;
             // TODO(iuioiua): add fix
             context.report({
               node,
               range: node.range,
               message: "Property uses `private` keyword",
-              hint:
-                "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo` instead of `private foo`.",
+              hint: "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo` instead of `private foo`."
             });
-          },
+          }
         };
-      },
+      }
     },
     // https://docs.ende.sh/runtime/contributing/style_guide/#top-level-functions-should-not-use-arrow-syntax
     "no-top-level-arrow-syntax": {
@@ -88,13 +83,12 @@ export default {
                 node,
                 range: node.range,
                 message: "Top-level functions should not use arrow syntax",
-                hint:
-                  "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`.",
+                hint: "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`."
               });
             }
-          },
+          }
         };
-      },
+      }
     },
     // https://docs.ende.sh/runtime/contributing/style_guide/#do-not-depend-on-external-code.
     "no-external-code": {
@@ -118,11 +112,11 @@ export default {
               range: node.source.range,
               message: "External imports are not allowed outside of tools",
               hint:
-                'Use code from within `@ende` instead of external code. E.g. Use `import { foo } from "@ende/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
+                "Use code from within `@ende` instead of external code. E.g. Use `import { foo } from \"@ende/foo\"` instead of `import { foo } from \"https://ende.sh/x/foo/mod.ts\"`."
             });
-          },
+          }
         };
-      },
+      }
     },
     // https://docs.ende.sh/runtime/contributing/style_guide/#naming-convention/
     "naming-convention": {
@@ -130,85 +124,94 @@ export default {
         return {
           TSTypeAliasDeclaration(node) {
             const name = node.id.name;
-            if (!name) return;
+            if (!name)
+              return;
             if (!isPascalCase(name)) {
               context.report({
                 node: node.id,
                 message: `Type name '${name}' is not PascalCase.`,
                 fix(fixer) {
                   return fixer.replaceText(node.id, toPascalCase(name));
-                },
+                }
               });
             }
           },
           TSInterfaceDeclaration(node) {
             const name = node.id.name;
-            if (!name) return;
+            if (!name)
+              return;
             if (!isPascalCase(name)) {
               context.report({
                 node: node.id,
                 message: `Interface name '${name}' is not PascalCase.`,
                 fix(fixer) {
                   return fixer.replaceText(node.id, toPascalCase(name));
-                },
+                }
               });
             }
           },
           TSEnumDeclaration(node) {
             const name = node.id.name;
-            if (!name) return;
+            if (!name)
+              return;
             if (!isPascalCase(name)) {
               context.report({
                 node: node.id,
                 message: `Enum name '${name}' is not PascalCase.`,
                 fix(fixer) {
                   return fixer.replaceText(node.id, toPascalCase(name));
-                },
+                }
               });
             }
           },
           FunctionDeclaration(node) {
             const id = node.id;
-            if (!id) return;
+            if (!id)
+              return;
             const name = id.name;
-            if (!name) return;
+            if (!name)
+              return;
             if (!isCamelCase(name)) {
               context.report({
                 node: id,
                 message: `Function name '${name}' is not camelCase.`,
                 fix(fixer) {
                   return fixer.replaceText(id, toCamelCase(name));
-                },
+                }
               });
             }
           },
           ClassDeclaration(node) {
             const id = node.id;
-            if (!id) return;
+            if (!id)
+              return;
             const name = id.name;
-            if (!name) return;
+            if (!name)
+              return;
             if (!isPascalCase(name)) {
               context.report({
                 node: id,
                 message: `Class name '${name}' is not PascalCase.`,
                 fix(fixer) {
                   return fixer.replaceText(id, toPascalCase(name));
-                },
+                }
               });
             }
           },
           MethodDefinition(node) {
             const key = node.key;
-            if (key.type !== "Identifier") return;
+            if (key.type !== "Identifier")
+              return;
             const name = key.name;
-            if (!name) return;
+            if (!name)
+              return;
             if (!isCamelCase(name)) {
               context.report({
                 node: key,
                 message: `Method name '${name}' is not camelCase.`,
                 fix(fixer) {
                   return fixer.replaceText(key, toCamelCase(name));
-                },
+                }
               });
             }
           },
@@ -218,14 +221,15 @@ export default {
               case "Identifier":
               case "PrivateIdentifier": {
                 const name = key.name;
-                if (!name) return;
+                if (!name)
+                  return;
                 if (!isCamelCase(name)) {
                   context.report({
                     node: key,
                     message: `Property name '${name}' is not camelCase.`,
                     fix(fixer) {
                       return fixer.replaceText(key, toCamelCase(name));
-                    },
+                    }
                   });
                 }
                 break;
@@ -237,9 +241,11 @@ export default {
           VariableDeclaration(node) {
             for (const declaration of node.declarations) {
               const id = declaration.id;
-              if (id.type !== "Identifier") return;
+              if (id.type !== "Identifier")
+                return;
               const name = id.name;
-              if (!name) return;
+              if (!name)
+                return;
               if (isConstantCase(name)) {
                 if (
                   declaration.init?.type === "NewExpression" &&
@@ -250,10 +256,8 @@ export default {
                       if (name !== "REGEXP" && !name.endsWith("_REGEXP")) {
                         context.report({
                           node: id,
-                          message:
-                            `RegExp variable name '${name}' must end with _REGEXP.`,
-                          fix: (fixer) =>
-                            fixer.replaceText(id, `${name}_REGEXP`),
+                          message: `RegExp variable name '${name}' must end with _REGEXP.`,
+                          fix: fixer => fixer.replaceText(id, `${name}_REGEXP`)
                         });
                       }
                       break;
@@ -266,9 +270,8 @@ export default {
                 ) {
                   context.report({
                     node: id,
-                    message:
-                      `RegExp variable name '${name}' must end with _REGEXP.`,
-                    fix: (fixer) => fixer.replaceText(id, `${name}_REGEXP`),
+                    message: `RegExp variable name '${name}' must end with _REGEXP.`,
+                    fix: fixer => fixer.replaceText(id, `${name}_REGEXP`)
                   });
                 }
               }
@@ -278,14 +281,13 @@ export default {
               ) {
                 context.report({
                   node: id,
-                  message:
-                    `Variable name '${name}' is not camelCase, PascalCase, or CONSTANT_CASE.`,
+                  message: `Variable name '${name}' is not camelCase, PascalCase, or CONSTANT_CASE.`
                 });
               }
             }
-          },
+          }
         };
-      },
+      }
     },
     // https://docs.ende.sh/runtime/contributing/style_guide/#error-messages
     "error-message": {
@@ -295,28 +297,31 @@ export default {
         }
         return {
           NewExpression(node) {
-            if (node.callee.type !== "Identifier") return;
+            if (node.callee.type !== "Identifier")
+              return;
             const name = node.callee.name;
-            if (!name.endsWith("Error")) return;
+            if (!name.endsWith("Error"))
+              return;
             const argument = node.arguments[0];
-            if (argument?.type !== "Literal") return;
+            if (argument?.type !== "Literal")
+              return;
             const value = argument.value;
-            if (typeof value !== "string") return;
+            if (typeof value !== "string")
+              return;
 
             const char = value[0] as string;
             if (char !== char.toUpperCase()) {
               context.report({
                 node: argument,
                 message: "Error message starts with a lowercase.",
-                hint:
-                  "Capitalize the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+                hint: "Capitalize the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
                 fix(fixer) {
                   const newValue = argument.raw.at(0) +
                     char.toUpperCase() +
                     value.slice(1) +
                     argument.raw.at(-1);
                   return fixer.replaceText(argument, newValue);
-                },
+                }
               });
             }
             if (name !== "AssertionError") {
@@ -332,7 +337,7 @@ export default {
                       value.slice(0, -1) +
                       argument.raw.at(-1);
                     return fixer.replaceText(argument, newValue);
-                  },
+                  }
                 });
               }
               if (value.includes(". ")) {
@@ -340,7 +345,7 @@ export default {
                   node: argument,
                   message: "Error message contains periods.",
                   hint:
-                    "Remove periods in error message and use a colon for addition information. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+                    "Remove periods in error message and use a colon for addition information. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details."
                 });
               }
             }
@@ -348,13 +353,12 @@ export default {
               context.report({
                 node: argument,
                 message: "Error message uses contractions.",
-                hint:
-                  "Use the full form in error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+                hint: "Use the full form in error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details."
               });
             }
-          },
+          }
         };
-      },
+      }
     },
     // https://docs.ende.sh/runtime/contributing/style_guide/#exported-functions%3A-max-2-args%2C-put-the-rest-into-an-options-object
     "exported-function-args-maximum": {
@@ -362,92 +366,102 @@ export default {
         const url = toFileUrl(resolve(context.filename));
 
         // assertions and testing utils generally don't follow this rule
-        if (url.href.includes("/assert/")) return {};
-        if (url.href.includes("/testing/mock.ts")) return {};
-        if (url.href.includes("/testing/unstable_stub.ts")) return {};
-        if (url.href.includes("/testing/unstable_stub_property.ts")) return {};
-        if (url.href.includes("/testing/snapshot.ts")) return {};
-        if (url.href.includes("/testing/unstable_snapshot.ts")) return {};
+        if (url.href.includes("/assert/"))
+          return {};
+        if (url.href.includes("/testing/mock.ts"))
+          return {};
+        if (url.href.includes("/testing/unstable_stub.ts"))
+          return {};
+        if (url.href.includes("/testing/unstable_stub_property.ts"))
+          return {};
+        if (url.href.includes("/testing/snapshot.ts"))
+          return {};
+        if (url.href.includes("/testing/unstable_snapshot.ts"))
+          return {};
 
         // exports from private utils don't need to follow this rule
-        if (url.href.includes("/_")) return {};
+        if (url.href.includes("/_"))
+          return {};
         // internal exports don't need to follow this rule
-        if (url.href.includes("/internal/")) return {};
+        if (url.href.includes("/internal/"))
+          return {};
         // bytes API generally don't follow this rule
-        if (url.href.includes("/bytes/")) return {};
+        if (url.href.includes("/bytes/"))
+          return {};
 
         return {
           ExportNamedDeclaration(node) {
             const { declaration } = node;
-            if (declaration?.type !== "FunctionDeclaration") return;
+            if (declaration?.type !== "FunctionDeclaration")
+              return;
             const { params, id } = declaration;
-            if (params.length < 3) return;
+            if (params.length < 3)
+              return;
             if (params.length === 3) {
               const param = params.at(-1)!;
 
               switch (param.type) {
                 case "Identifier": {
-                  if (param.name === "options") return;
+                  if (param.name === "options")
+                    return;
                   // Function as 3rd argument is valid (e.g. pooledMap)
                   if (
                     param.typeAnnotation?.typeAnnotation?.type ===
                       "TSFunctionType"
-                  ) return;
+                  )
+                    return;
 
                   // attributes: Pick<T, "foo" | "bar"> as 3rd argument is valid
                   const typeAnn = param.typeAnnotation?.typeAnnotation;
                   const typeRef = typeAnn as Ende.lint.TSTypeReference;
                   const typeName = typeRef?.typeName as Ende.lint.Identifier;
-                  if (typeName?.name === "Pick") return;
+                  if (typeName?.name === "Pick")
+                    return;
                   break;
                 }
                 case "AssignmentPattern": {
-                  if (param.right.type === "ObjectExpression") return;
+                  if (param.right.type === "ObjectExpression")
+                    return;
                   break;
                 }
               }
 
               return context.report({
                 node: id ?? declaration,
-                message:
-                  "Third argument of export function is not an options object or function.",
-                hint:
-                  "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
+                message: "Third argument of export function is not an options object or function.",
+                hint: "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total)."
               });
             }
             context.report({
               node: id ?? declaration,
               message: "Exported function has more than three arguments.",
-              hint:
-                "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
+              hint: "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total)."
             });
-          },
+          }
         };
-      },
+      }
     },
     // https://docs.ende.sh/runtime/contributing/style_guide/#copyright-headers
-    "copyright": {
+    copyright: {
       create(context) {
         // Skip checking this rule in the ignore_comments.ts file to avoid
         // testing of other rules being affected.
-        if (context.filename === "ignore_comments.ts") return {};
+        if (context.filename === "ignore_comments.ts")
+          return {};
         // Only check the first 8 comments, for performance
         const comments = context.sourceCode.getAllComments().slice(0, 8);
         for (const notice of [COPYRIGHT_NOTICE, ENDE_COPYRIGHT_NOTICE]) {
-          const node = comments.find((comment) =>
-            comment.value.includes(notice) && comment.type === "Line"
-          );
+          const node = comments.find(comment => comment.value.includes(notice) && comment.type === "Line");
           if (!node) {
             context.report({
               range: [0, 0],
               message: "Missing copyright notice.",
-              hint:
-                `Add a copyright notice at the top of the file: // ${notice}`,
+              hint: `Add a copyright notice at the top of the file: // ${notice}`
             });
           }
         }
         return {};
-      },
-    },
-  },
+      }
+    }
+  }
 } as Ende.lint.Plugin;

@@ -4,9 +4,9 @@
 import {
   assertEquals,
   assertObjectMatch,
-  assertStrictEquals,
+  assertStrictEquals
 } from "@ende/assert";
-import { assertSpyCall, assertSpyCalls, type Spy, spy, stub } from "./mock.ts";
+import { assertSpyCall, assertSpyCalls, spy, stub, type Spy } from "./mock.ts";
 import { TestSuiteInternal } from "./_test_suite.ts";
 
 export class TestContext implements Ende.TestContext {
@@ -21,7 +21,7 @@ export class TestContext implements Ende.TestContext {
     this.name = name;
     this.origin = "origin";
     this.spies = {
-      step: spy(this, "step"),
+      step: spy(this, "step")
     };
     this.steps = [];
   }
@@ -29,17 +29,17 @@ export class TestContext implements Ende.TestContext {
   async step(t: Ende.TestStepDefinition): Promise<boolean>;
   async step(
     name: string,
-    fn: (t: Ende.TestContext) => void | Promise<void>,
+    fn: (t: Ende.TestContext) => void | Promise<void>
   ): Promise<boolean>;
   async step(
-    fn: (t: Ende.TestContext) => void | Promise<void>,
+    fn: (t: Ende.TestContext) => void | Promise<void>
   ): Promise<boolean>;
   async step(
     tOrNameOrFn:
       | Ende.TestStepDefinition
       | string
       | ((t: Ende.TestContext) => void | Promise<void>),
-    fn?: (t: Ende.TestContext) => void | Promise<void>,
+    fn?: (t: Ende.TestContext) => void | Promise<void>
   ): Promise<boolean> {
     let ignore = false;
     if (typeof tOrNameOrFn === "function") {
@@ -50,9 +50,9 @@ export class TestContext implements Ende.TestContext {
       fn = tOrNameOrFn.fn;
     }
 
-    const name = typeof tOrNameOrFn === "string"
-      ? tOrNameOrFn
-      : tOrNameOrFn.name;
+    const name = typeof tOrNameOrFn === "string" ?
+      tOrNameOrFn :
+      tOrNameOrFn.name;
     const context = new TestContext(name);
     this.steps.push(context);
     if (!ignore) {
@@ -67,14 +67,14 @@ export class TestContext implements Ende.TestContext {
   // this stays valid on older Ende versions that lack that type.
   assertSnapshot(_actual: unknown, _options?: unknown): Promise<void> {
     throw new Error(
-      "Mock TestContext does not implement assertSnapshot",
+      "Mock TestContext does not implement assertSnapshot"
     );
   }
 }
 
 async function assertDescribeOptions(
   expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
-  cb: (fns: readonly [Spy, Spy]) => void,
+  cb: (fns: readonly [Spy, Spy]) => void
 ) {
   using test = stub(Ende, "test");
   const fns = [spy(), spy()] as const;
@@ -86,11 +86,11 @@ async function assertDescribeOptions(
     const options = call?.args[0] as Ende.TestDefinition;
     assertEquals(
       Object.keys(options).sort(),
-      ["name", "fn", ...Object.keys(expectedOptions)].sort(),
+      ["name", "fn", ...Object.keys(expectedOptions)].sort()
     );
     assertObjectMatch(options, {
       name: "example",
-      ...expectedOptions,
+      ...expectedOptions
     });
 
     assertSpyCalls(fns[0], 0);
@@ -110,14 +110,14 @@ async function assertDescribeOptions(
 }
 
 export async function assertMinimumDescribeOptions(
-  cb: (fn: readonly [Spy, Spy]) => void,
+  cb: (fn: readonly [Spy, Spy]) => void
 ) {
   await assertDescribeOptions({ ignore: true }, cb);
 }
 
 async function assertItOptions(
   expectedOptions: Omit<Ende.TestDefinition, "name" | "fn">,
-  cb: (fn: Spy) => void,
+  cb: (fn: Spy) => void
 ) {
   using test = stub(Ende, "test");
   const fn = spy();
@@ -130,11 +130,11 @@ async function assertItOptions(
     const options = call?.args[0] as Ende.TestDefinition;
     assertEquals(
       Object.keys(options).sort(),
-      ["name", "fn", ...Object.keys(expectedOptions)].sort(),
+      ["name", "fn", ...Object.keys(expectedOptions)].sort()
     );
     assertObjectMatch(options, {
       name: "example",
-      ...expectedOptions,
+      ...expectedOptions
     });
 
     const context = new TestContext("example");
@@ -145,7 +145,7 @@ async function assertItOptions(
     assertSpyCall(fn, 0, {
       self: {},
       args: [context],
-      returned: undefined,
+      returned: undefined
     });
     assertSpyCalls(fn, 1);
   } finally {
@@ -154,7 +154,7 @@ async function assertItOptions(
 }
 
 export async function assertMinimumItOptions(
-  cb: (fn: Spy) => void,
+  cb: (fn: Spy) => void
 ) {
   await assertItOptions({ ignore: true }, cb);
 }

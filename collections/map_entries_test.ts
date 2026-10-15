@@ -7,7 +7,7 @@ import { mapEntries } from "./map_entries.ts";
 function mapEntriesTest<T, O>(
   input: [Record<string, T>, (entry: [string, T]) => [string, O]],
   expected: Record<string, O>,
-  message?: string,
+  message?: string
 ) {
   const actual = mapEntries(...input);
   assertEquals(actual, expected, message);
@@ -20,17 +20,17 @@ Ende.test({
     mapEntries(object, ([key, value]) => [`${key}a`, value]);
 
     assertEquals(object, { a: 5, b: true });
-  },
+  }
 });
 
 Ende.test({
   name: "mapEntries() handles empty input",
   fn() {
     mapEntriesTest(
-      [{}, (it) => it],
-      {},
+      [{}, it => it],
+      {}
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
         {
           foo: true,
           bar: "lorem",
-          1: -5,
+          1: -5
         },
-        (it) => it,
+        it => it
       ],
       {
         foo: true,
         bar: "lorem",
-        1: -5,
-      },
+        1: -5
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -60,11 +60,11 @@ Ende.test({
     mapEntriesTest(
       [
         { test: "foo", "": [] },
-        () => ["b", 5],
+        () => ["b", 5]
       ],
-      { b: 5 },
+      { b: 5 }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -73,35 +73,35 @@ Ende.test({
     mapEntriesTest(
       [
         {
-          "Anna": 22,
-          "Kim": 24,
-          "Karen": 33,
-          "Claudio": 11,
-          "Karl": 45,
+          Anna: 22,
+          Kim: 24,
+          Karen: 33,
+          Claudio: 11,
+          Karl: 45
         },
-        ([name, age]) => [name.charAt(0), age - 10],
+        ([name, age]) => [name.charAt(0), age - 10]
       ],
       {
-        "A": 12,
-        "K": 35,
-        "C": 1,
-      },
+        A: 12,
+        K: 35,
+        C: 1
+      }
     );
     mapEntriesTest(
       [
         {
-          "ad04": "Kim",
-          "e5f1": "Marija",
-          "10a8": "Kim",
+          ad04: "Kim",
+          e5f1: "Marija",
+          "10a8": "Kim"
         },
-        ([key, value]) => [value, key],
+        ([key, value]) => [value, key]
       ],
       {
-        "Kim": "10a8",
-        "Marija": "e5f1",
-      },
+        Kim: "10a8",
+        Marija: "e5f1"
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -110,32 +110,32 @@ Ende.test({
     mapEntriesTest(
       [
         {
-          "Mine": "Aliens",
-          "Umse": "Feiert das",
-          "ZM": "36 Grad",
+          Mine: "Aliens",
+          Umse: "Feiert das",
+          ZM: "36 Grad"
         },
-        ([artist, track]) => [artist, `${artist} - ${track}`],
+        ([artist, track]) => [artist, `${artist} - ${track}`]
       ],
       {
-        "Mine": "Mine - Aliens",
-        "Umse": "Umse - Feiert das",
-        "ZM": "ZM - 36 Grad",
-      },
+        Mine: "Mine - Aliens",
+        Umse: "Umse - Feiert das",
+        ZM: "ZM - 36 Grad"
+      }
     );
     mapEntriesTest(
       [
         {
-          "ad04": { name: "Object A", type: "Asset" },
-          "e5f1": { name: "Onboarding", type: "Process" },
-          "10a8": { name: "Marija", type: "Employee" },
+          ad04: { name: "Object A", type: "Asset" },
+          e5f1: { name: "Onboarding", type: "Process" },
+          "10a8": { name: "Marija", type: "Employee" }
         },
-        ([_, value]) => [value.type, value],
+        ([_, value]) => [value.type, value]
       ],
       {
-        "Asset": { name: "Object A", type: "Asset" },
-        "Process": { name: "Onboarding", type: "Process" },
-        "Employee": { name: "Marija", type: "Employee" },
-      },
+        Asset: { name: "Object A", type: "Asset" },
+        Process: { name: "Onboarding", type: "Process" },
+        Employee: { name: "Marija", type: "Employee" }
+      }
     );
-  },
+  }
 });

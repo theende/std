@@ -5,7 +5,7 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { assertEquals, assertThrows } from "@ende/assert";
 
-Ende.test("posix.toFileUrl()", function () {
+Ende.test("posix.toFileUrl()", function() {
   assertEquals(posix.toFileUrl("/home/foo").href, "file:///home/foo");
   assertEquals(posix.toFileUrl("/home/ ").href, "file:///home/%20");
   assertEquals(posix.toFileUrl("/home/%20").href, "file:///home/%2520");
@@ -13,22 +13,22 @@ Ende.test("posix.toFileUrl()", function () {
   assertThrows(
     () => posix.toFileUrl("foo").href,
     TypeError,
-    'Path must be absolute: received "foo"',
+    "Path must be absolute: received \"foo\""
   );
   assertThrows(
     () => posix.toFileUrl("C:/"),
     TypeError,
-    'Path must be absolute: received "C:/"',
+    "Path must be absolute: received \"C:/\""
   );
   assertEquals(
     posix.toFileUrl("//localhost/home/foo").href,
-    "file:///localhost/home/foo",
+    "file:///localhost/home/foo"
   );
   assertEquals(posix.toFileUrl("//localhost/").href, "file:///localhost/");
   assertEquals(posix.toFileUrl("//:/home/foo").href, "file:///:/home/foo");
 });
 
-Ende.test("windows.toFileUrl()", function () {
+Ende.test("windows.toFileUrl()", function() {
   assertEquals(windows.toFileUrl("/home/foo").href, "file:///home/foo");
   assertEquals(windows.toFileUrl("/home/ ").href, "file:///home/%20");
   assertEquals(windows.toFileUrl("/home/%20").href, "file:///home/%2520");
@@ -36,22 +36,22 @@ Ende.test("windows.toFileUrl()", function () {
   assertThrows(
     () => windows.toFileUrl("foo").href,
     TypeError,
-    'Path must be absolute: received "foo"',
+    "Path must be absolute: received \"foo\""
   );
   assertEquals(windows.toFileUrl("C:/").href, "file:///C:/");
   assertEquals(
     windows.toFileUrl("//localhost/home/foo").href,
-    "file:///home/foo",
+    "file:///home/foo"
   );
   assertEquals(
     windows.toFileUrl("//127.0.0.1/home/foo").href,
-    "file://127.0.0.1/home/foo",
+    "file://127.0.0.1/home/foo"
   );
   assertEquals(windows.toFileUrl("//localhost/").href, "file:///");
   assertEquals(windows.toFileUrl("//127.0.0.1/").href, "file://127.0.0.1/");
   assertThrows(
     () => windows.toFileUrl("//:/home/foo").href,
     TypeError,
-    'Invalid hostname: ""',
+    "Invalid hostname: \"\""
   );
 });

@@ -9,7 +9,7 @@ import { parse } from "./parse.ts";
 // =============================================================================
 
 Ende.test("parse() stores attributes by full name", () => {
-  const doc = parse('<root xml:lang="en"/>');
+  const doc = parse("<root xml:lang=\"en\"/>");
 
   // Attribute is stored by full name (with namespace prefix)
   assertEquals(doc.root.attributes["xml:lang"], "en");
@@ -38,7 +38,7 @@ Ende.test("parse() throws on empty document", () => {
   assertThrows(
     () => parse(""),
     Error,
-    "No root element",
+    "No root element"
   );
 });
 
@@ -65,7 +65,7 @@ Ende.test("parse() handles complex document", () => {
 
   // Filter products manually
   const products = doc.root.children.filter(
-    (child) => child.type === "element" && child.name.local === "product",
+    child => child.type === "element" && child.name.local === "product"
   );
   assertEquals(products.length, 2);
 
@@ -75,7 +75,7 @@ Ende.test("parse() handles complex document", () => {
 
     // Find name element
     const name = firstProduct.children.find(
-      (child) => child.type === "element" && child.name.local === "name",
+      child => child.type === "element" && child.name.local === "name"
     );
     if (name?.type === "element" && name.children[0]?.type === "text") {
       assertEquals(name.children[0].text, "Widget");
@@ -103,18 +103,18 @@ Ende.test("parse() handles RSS-like feed", () => {
   assertEquals(doc.root.attributes["version"], "2.0");
 
   const channel = doc.root.children.find(
-    (child) => child.type === "element" && child.name.local === "channel",
+    child => child.type === "element" && child.name.local === "channel"
   );
   if (channel?.type === "element") {
     const title = channel.children.find(
-      (child) => child.type === "element" && child.name.local === "title",
+      child => child.type === "element" && child.name.local === "title"
     );
     if (title?.type === "element" && title.children[0]?.type === "text") {
       assertEquals(title.children[0].text, "Example Feed");
     }
 
     const items = channel.children.filter(
-      (child) => child.type === "element" && child.name.local === "item",
+      child => child.type === "element" && child.name.local === "item"
     );
     assertEquals(items.length, 2);
   }
@@ -150,7 +150,7 @@ Ende.test("parse() includes comment nodes in tree", () => {
 
 Ende.test("parse() excludes comments when ignoreComments is true", () => {
   const doc = parse("<root><!-- comment --><item/></root>", {
-    ignoreComments: true,
+    ignoreComments: true
   });
 
   // Only the <item/> element should be in children
@@ -187,7 +187,7 @@ Ende.test("parse() xml10 rejects C0 control char refs", () => {
   assertThrows(
     () => parse("<root>&#x2;</root>"),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -195,7 +195,7 @@ Ende.test("parse() xml11 rejects NULL char ref", () => {
   assertThrows(
     () => parse("<root>&#x0;</root>", { xmlVersion: "1.1" }),
     Error,
-    "Invalid character reference",
+    "Invalid character reference"
   );
 });
 
@@ -203,7 +203,7 @@ Ende.test("parse() xml11 rejects literal C0 controls", () => {
   assertThrows(
     () => parse("<root>\x01</root>", { xmlVersion: "1.1" }),
     SyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -211,7 +211,7 @@ Ende.test("parse() xml11 rejects literal C1 controls", () => {
   assertThrows(
     () => parse("<root>\x80</root>", { xmlVersion: "1.1" }),
     SyntaxError,
-    "Illegal XML character",
+    "Illegal XML character"
   );
 });
 
@@ -233,8 +233,8 @@ Ende.test("parse() xml11 normalizes LS (U+2028) line endings", () => {
 
 Ende.test("parse() xml11 allows namespace prefix unbinding", () => {
   const doc = parse(
-    '<root xmlns:ns="http://example.com"><child xmlns:ns="" /></root>',
-    { xmlVersion: "1.1" },
+    "<root xmlns:ns=\"http://example.com\"><child xmlns:ns=\"\" /></root>",
+    { xmlVersion: "1.1" }
   );
   assertEquals(doc.root.name.local, "root");
 });
@@ -243,22 +243,22 @@ Ende.test("parse() xml10 rejects namespace prefix unbinding", () => {
   assertThrows(
     () =>
       parse(
-        '<root xmlns:ns="http://example.com"><child xmlns:ns="" /></root>',
+        "<root xmlns:ns=\"http://example.com\"><child xmlns:ns=\"\" /></root>"
       ),
     SyntaxError,
-    "Cannot unbind namespace prefix",
+    "Cannot unbind namespace prefix"
   );
 });
 
 Ende.test("parse() xml11 accepts C0 char refs in attributes", () => {
-  const doc = parse('<root attr="&#x2;"/>', { xmlVersion: "1.1" });
+  const doc = parse("<root attr=\"&#x2;\"/>", { xmlVersion: "1.1" });
   assertEquals(doc.root.attributes["attr"], "\x02");
 });
 
 Ende.test("parse() xml11 version declaration is reported", () => {
   const doc = parse(
-    '<?xml version="1.1"?><root/>',
-    { xmlVersion: "1.1" },
+    "<?xml version=\"1.1\"?><root/>",
+    { xmlVersion: "1.1" }
   );
   assertEquals(doc.declaration?.version, "1.1");
 });

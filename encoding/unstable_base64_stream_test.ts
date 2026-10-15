@@ -8,7 +8,7 @@ import { FixedChunkStream } from "@ende/streams/unstable-fixed-chunk-stream";
 import { encodeBase64 } from "./unstable_base64.ts";
 import {
   Base64DecoderStream,
-  Base64EncoderStream,
+  Base64EncoderStream
 } from "./unstable_base64_stream.ts";
 
 Ende.test("Base64EncoderStream() with normal format", async () => {
@@ -21,7 +21,7 @@ Ende.test("Base64EncoderStream() with normal format", async () => {
     assertEquals(
       await toText(readable),
       encodeBase64(await Ende.readFile("./ende.lock"), { alphabet }),
-      alphabet,
+      alphabet
     );
   }
 });
@@ -38,10 +38,10 @@ Ende.test("Base64EncoderStream() with raw format", async () => {
       new TextEncoder().encode(
         encodeBase64(
           await Ende.readFile("./ende.lock"),
-          { alphabet },
-        ),
+          { alphabet }
+        )
       ),
-      alphabet,
+      alphabet
     );
   }
 });
@@ -58,7 +58,7 @@ Ende.test("Base64DecoderStream() with normal format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock"),
+      await Ende.readFile("./ende.lock")
     );
   }
 });
@@ -73,7 +73,7 @@ Ende.test("Base64DecoderStream() with raw format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock"),
+      await Ende.readFile("./ende.lock")
     );
   }
 });

@@ -8,7 +8,7 @@ import {
   assertLess,
   assertRejects,
   assertStringIncludes,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { FakeTime } from "@ende/testing/time";
 
@@ -18,7 +18,7 @@ Ende.test("pooledMap() throws for invalid poolLimit", () => {
     assertThrows(
       () => pooledMap(poolLimit, [1], noop),
       RangeError,
-      "'poolLimit' must be a positive integer",
+      "'poolLimit' must be a positive integer"
     );
   }
 });
@@ -30,7 +30,7 @@ Ende.test("pooledMap()", async () => {
   const results = pooledMap(
     2,
     [1, 2, 3],
-    (i) => new Promise<number>((r) => setTimeout(() => r(i), 300)),
+    i => new Promise<number>(r => setTimeout(() => r(i), 300))
   );
   for (const _ of Array(7)) {
     time.tick(100);
@@ -60,7 +60,7 @@ Ende.test("pooledMap() handles errors", async () => {
       }
     },
     AggregateError,
-    "Cannot complete the mapping as an error was thrown from an item",
+    "Cannot complete the mapping as an error was thrown from an item"
   );
   assertEquals(error.errors.length, 2);
   assertStringIncludes(error.errors[0].stack, "Error: Bad number: 1");
@@ -72,7 +72,7 @@ Ende.test("pooledMap() returns ordered items", async () => {
   const results = pooledMap(
     2,
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    (i) => new Promise<number>((r) => setTimeout(() => r(i), 100 / i)),
+    i => new Promise<number>(r => setTimeout(() => r(i), 100 / i))
   );
 
   const returned = await Array.fromAsync(results);
@@ -88,7 +88,7 @@ Ende.test("pooledMap() checks browser compat", async () => {
     const results = pooledMap(
       2,
       [1, 2, 3],
-      (i) => new Promise<number>((r) => setTimeout(() => r(i), 100)),
+      i => new Promise<number>(r => setTimeout(() => r(i), 100))
     );
     const array = await Array.fromAsync(results);
     assertEquals(array, [1, 2, 3]);

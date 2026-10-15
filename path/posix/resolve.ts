@@ -29,10 +29,11 @@ export function resolve(...pathSegments: string[]): string {
   for (let i = pathSegments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
     let path: string;
 
-    if (i >= 0) path = pathSegments[i]!;
+    if (i >= 0)
+      path = pathSegments[i]!;
     else {
       path = cwd(
-        "Resolved a relative path without a current working directory (CWD)",
+        "Resolved a relative path without a current working directory (CWD)"
       );
     }
 
@@ -55,12 +56,16 @@ export function resolve(...pathSegments: string[]): string {
     resolvedPath,
     !resolvedAbsolute,
     "/",
-    isPosixPathSeparator,
+    isPosixPathSeparator
   );
 
   if (resolvedAbsolute) {
-    if (resolvedPath.length > 0) return `/${resolvedPath}`;
-    else return "/";
-  } else if (resolvedPath.length > 0) return resolvedPath;
-  else return ".";
+    if (resolvedPath.length > 0)
+      return `/${resolvedPath}`;
+    else
+      return "/";
+  } else if (resolvedPath.length > 0)
+    return resolvedPath;
+  else
+    return ".";
 }

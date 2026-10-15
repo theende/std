@@ -15,19 +15,19 @@ Ende.test({
         minor: 0,
         patch: 0,
         prerelease: [],
-        build: [],
+        build: []
       }, {
         operator: "<",
         major: 0,
         minor: 0,
         patch: 0,
         prerelease: [],
-        build: [],
-      }],
+        build: []
+      }]
     ];
     const actual = isRange(range);
     assertEquals(actual, true);
-  },
+  }
 });
 
 Ende.test({
@@ -36,7 +36,7 @@ Ende.test({
     const range: Range = [[ALL]];
     const actual = isRange(range);
     assertEquals(actual, true);
-  },
+  }
 });
 
 Ende.test({
@@ -45,7 +45,7 @@ Ende.test({
     const range: Range = [[null]] as unknown as Range;
     const actual = isRange(range);
     assertEquals(actual, false);
-  },
+  }
 });
 
 Ende.test({
@@ -54,7 +54,7 @@ Ende.test({
     const range: Range = [[undefined]] as unknown as Range;
     const actual = isRange(range);
     assertEquals(actual, false);
-  },
+  }
 });
 
 Ende.test({
@@ -63,7 +63,7 @@ Ende.test({
     const range: Range = [[[1, 2, 3]]] as unknown as Range;
     const actual = isRange(range);
     assertEquals(actual, false);
-  },
+  }
 });
 
 Ende.test({
@@ -72,5 +72,5 @@ Ende.test({
     const range: Range = [[[true]]] as unknown as Range;
     const actual = isRange(range);
     assertEquals(actual, false);
-  },
+  }
 });

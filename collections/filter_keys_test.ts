@@ -7,7 +7,7 @@ import { filterKeys } from "./filter_keys.ts";
 function filterKeysTest<T>(
   input: [Record<string, T>, (key: string) => boolean],
   expected: Record<string, T>,
-  message?: string,
+  message?: string
 ) {
   const actual = filterKeys(...input);
   assertEquals(actual, expected, message);
@@ -17,10 +17,10 @@ Ende.test({
   name: "filterKeys() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
-    filterKeys(object, (key) => key !== "a");
+    filterKeys(object, key => key !== "a");
 
     assertEquals(object, { a: 5, b: true });
-  },
+  }
 });
 
 Ende.test({
@@ -28,9 +28,9 @@ Ende.test({
   fn() {
     filterKeysTest(
       [{}, () => true],
-      {},
+      {}
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
         {
           foo: true,
           bar: "lorem",
-          1: -5,
+          1: -5
         },
-        () => true,
+        () => true
       ],
       {
         foo: true,
         bar: "lorem",
-        1: -5,
-      },
+        1: -5
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -63,28 +63,28 @@ Ende.test({
           foo: true,
           bar: "lorem",
           baz: 13,
-          1: -5,
+          1: -5
         },
-        (it) => it.startsWith("b"),
+        it => it.startsWith("b")
       ],
       {
         bar: "lorem",
-        baz: 13,
-      },
+        baz: 13
+      }
     );
     filterKeysTest(
       [
         {
-          "Kim": 22,
-          "Andrew": 14,
-          "Marija": 34,
+          Kim: 22,
+          Andrew: 14,
+          Marija: 34
         },
-        (it) => it.length > 3,
+        it => it.length > 3
       ],
       {
-        "Andrew": 14,
-        "Marija": 34,
-      },
+        Andrew: 14,
+        Marija: 34
+      }
     );
-  },
+  }
 });

@@ -5,7 +5,7 @@ import {
   assertEquals,
   AssertionError,
   assertStringIncludes,
-  assertThrows,
+  assertThrows
 } from "./mod.ts";
 
 Ende.test("assertStringIncludes()", () => {
@@ -27,7 +27,7 @@ Ende.test("assertStringIncludes() throws", () => {
   assertThrows(
     () => assertStringIncludes("Denosaurus from Jurassic", "Raptor"),
     AssertionError,
-    `Expected actual: "Denosaurus from Jurassic" to contain: "Raptor".`,
+    `Expected actual: "Denosaurus from Jurassic" to contain: "Raptor".`
   );
 });
 
@@ -37,9 +37,9 @@ Ende.test("assertStringIncludes() with custom message", () => {
       assertStringIncludes(
         "Denosaurus from Jurassic",
         "Raptor",
-        "CUSTOM MESSAGE",
+        "CUSTOM MESSAGE"
       ),
     AssertionError,
-    `Expected actual: "Denosaurus from Jurassic" to contain: "Raptor": CUSTOM MESSAGE`,
+    `Expected actual: "Denosaurus from Jurassic" to contain: "Raptor": CUSTOM MESSAGE`
   );
 });

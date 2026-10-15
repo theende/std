@@ -37,24 +37,28 @@ import { isValidNumber, isValidString } from "./_shared.ts";
  * @returns True if value is a valid SemVer otherwise false
  */
 export function isSemVer(value: unknown): value is SemVer {
-  if (value === null || value === undefined) return false;
-  if (Array.isArray(value)) return false;
-  if (typeof value !== "object") return false;
-  if (value === ANY) return true;
+  if (value === null || value === undefined)
+    return false;
+  if (Array.isArray(value))
+    return false;
+  if (typeof value !== "object")
+    return false;
+  if (value === ANY)
+    return true;
 
   const {
     major,
     minor,
     patch,
     build = [],
-    prerelease = [],
+    prerelease = []
   } = value as Record<string, unknown>;
   return (
     isValidNumber(major) &&
     isValidNumber(minor) &&
     isValidNumber(patch) &&
     Array.isArray(prerelease) &&
-    prerelease.every((v) => isValidString(v) || isValidNumber(v)) &&
+    prerelease.every(v => isValidString(v) || isValidNumber(v)) &&
     Array.isArray(build) &&
     build.every(isValidString)
   );

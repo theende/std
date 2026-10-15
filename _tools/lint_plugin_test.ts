@@ -3,28 +3,25 @@
 // Ende.lint namespace does not pass type checking in Deno 1.x
 
 import { assertEquals } from "@ende/assert/equals";
-import lintPlugin, {
-  COPYRIGHT_NOTICE,
-  ENDE_COPYRIGHT_NOTICE,
-} from "./lint_plugin.ts";
+import lintPlugin, { COPYRIGHT_NOTICE, ENDE_COPYRIGHT_NOTICE } from "./lint_plugin.ts";
 
 function assertLintPluginDiagnostics(
   source: string,
   // Note: if empty, means no lint errors
   expectedDiagnostics: Ende.lint.Diagnostic[],
   // Set to false when wanting to check comments (i.e. testing of `ende-style-guide/copyright-notice` lint rule)
-  ignoreComments = true,
+  ignoreComments = true
 ) {
   const actualDiagnostics = Ende.lint.runPlugin(
     lintPlugin,
     ignoreComments ? "ignore_comments.ts" : "main.ts", // Dummy filename, file doesn't need to exist.
-    source,
+    source
   );
   assertEquals(actualDiagnostics, expectedDiagnostics);
 }
 
 Ende.test("ende-style-guide/prefer-private-field", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -34,7 +31,7 @@ class MyClass {
   #bar() {}
 }
     `,
-    [],
+    []
   );
 
   // Bad
@@ -49,21 +46,19 @@ class MyClass {
       fix: [],
       range: [19, 35],
       message: "Property uses `private` keyword",
-      hint:
-        "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo` instead of `private foo`.",
+      hint: "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo` instead of `private foo`."
     }, {
       id: "ende-style-guide/prefer-private-field",
       range: [38, 54],
       fix: [],
       message: "Method uses `private` keyword",
-      hint:
-        "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo()` instead of `private foo()`.",
-    }],
+      hint: "Use private field (`#`) instead of the `private` keyword. E.g. Use `#foo()` instead of `private foo()`."
+    }]
   );
 });
 
 Ende.test("ende-style-guide/no-top-level-arrow-syntax", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Bad
   assertLintPluginDiagnostics(
@@ -77,18 +72,16 @@ export const bar = () => "foo";
         range: [13, 24],
         fix: [],
         message: "Top-level functions should not use arrow syntax",
-        hint:
-          "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`.",
+        hint: "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`."
       },
       {
         id: "ende-style-guide/no-top-level-arrow-syntax",
         range: [45, 56],
         fix: [],
         message: "Top-level functions should not use arrow syntax",
-        hint:
-          "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`.",
-      },
-    ],
+        hint: "Use function declaration instead of arrow function. E.g. Use `function foo() {}` instead of `const foo = () => {}`."
+      }
+    ]
   );
 
   // Good
@@ -99,15 +92,15 @@ function foo() {
 
   return "bar";
 }`,
-    [],
+    []
   );
 });
 
 Ende.test("ende-style-guide/no-external-code", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Good
-  assertLintPluginDiagnostics('import { walk } from "@ende/fs/walk";', []);
+  assertLintPluginDiagnostics("import { walk } from \"@ende/fs/walk\";", []);
 
   // Bad
   assertLintPluginDiagnostics(
@@ -121,20 +114,20 @@ import { bad } from "jsr:@malicious-muffin/bad";
       range: [1, 65],
       message: "External imports are not allowed outside of tools",
       hint:
-        'Use code from within `@ende` instead of external code. E.g. Use `import { foo } from "@ende/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
+        "Use code from within `@ende` instead of external code. E.g. Use `import { foo } from \"@ende/foo\"` instead of `import { foo } from \"https://ende.sh/x/foo/mod.ts\"`."
     }, {
       id: "ende-style-guide/no-external-code",
       fix: [],
       range: [66, 114],
       message: "External imports are not allowed outside of tools",
       hint:
-        'Use code from within `@ende` instead of external code. E.g. Use `import { foo } from "@ende/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
-    }],
+        "Use code from within `@ende` instead of external code. E.g. Use `import { foo } from \"@ende/foo\"` instead of `import { foo } from \"https://ende.sh/x/foo/mod.ts\"`."
+    }]
   );
 });
 
 Ende.test("ende-style-guide/naming-convention", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -170,7 +163,7 @@ enum EnumName {
 }
 
     `,
-    [],
+    []
   );
 
   // Bad
@@ -205,51 +198,50 @@ enum enumName {
         fix: [],
         hint: undefined,
         id: "ende-style-guide/naming-convention",
-        message:
-          "Variable name 'CONSTANT_name' is not camelCase, PascalCase, or CONSTANT_CASE.",
-        range: [7, 20],
+        message: "Variable name 'CONSTANT_name' is not camelCase, PascalCase, or CONSTANT_CASE.",
+        range: [7, 20]
       },
       {
         fix: [{ range: [40, 52], text: "functionName" }],
         hint: undefined,
         id: "ende-style-guide/naming-convention",
         message: "Function name 'FunctionName' is not camelCase.",
-        range: [40, 52],
+        range: [40, 52]
       },
       {
         fix: [{ range: [123, 132], text: "ClassName" }],
         hint: undefined,
         id: "ende-style-guide/naming-convention",
         message: "Class name 'className' is not PascalCase.",
-        range: [123, 132],
+        range: [123, 132]
       },
       {
         fix: [{ range: [142, 150], text: "TypeName" }],
         hint: undefined,
         id: "ende-style-guide/naming-convention",
         message: "Type name 'typeName' is not PascalCase.",
-        range: [142, 150],
+        range: [142, 150]
       },
       {
         fix: [{ range: [244, 246], text: "Db" }],
         hint: undefined,
         id: "ende-style-guide/naming-convention",
         message: "Type name 'DB' is not PascalCase.",
-        range: [244, 246],
+        range: [244, 246]
       },
       {
         fix: [{ range: [264, 277], text: "InterfaceName" }],
         hint: undefined,
         id: "ende-style-guide/naming-convention",
         message: "Interface name 'interfaceName' is not PascalCase.",
-        range: [264, 277],
-      },
-    ] as unknown as Ende.lint.Diagnostic[],
+        range: [264, 277]
+      }
+    ] as unknown as Ende.lint.Diagnostic[]
   );
 });
 
 Ende.test("ende-style-guide/error-message", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -267,7 +259,7 @@ new Class("Cannot parse input");
 new Error(message);
 new WrongParamTypeForAnError(true);
     `,
-    [],
+    []
   );
 
   // Bad
@@ -282,20 +274,18 @@ new CustomError("Can't parse input");
     `,
     [
       {
-        fix: [{ range: [11, 31], text: '"Cannot parse input"' }],
-        hint:
-          "Capitalize the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        fix: [{ range: [11, 31], text: "\"Cannot parse input\"" }],
+        hint: "Capitalize the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
         id: "ende-style-guide/error-message",
         message: "Error message starts with a lowercase.",
-        range: [11, 31],
+        range: [11, 31]
       },
       {
-        fix: [{ range: [48, 69], text: '"Cannot parse input"' }],
-        hint:
-          "Remove the period at the end of the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        fix: [{ range: [48, 69], text: "\"Cannot parse input\"" }],
+        hint: "Remove the period at the end of the error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
         id: "ende-style-guide/error-message",
         message: "Error message ends with a period.",
-        range: [48, 69],
+        range: [48, 69]
       },
       {
         fix: [],
@@ -303,22 +293,21 @@ new CustomError("Can't parse input");
           "Remove periods in error message and use a colon for addition information. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
         id: "ende-style-guide/error-message",
         message: "Error message contains periods.",
-        range: [123, 161],
+        range: [123, 161]
       },
       {
         fix: [],
-        hint:
-          "Use the full form in error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
+        hint: "Use the full form in error message. See https://docs.ende.sh/runtime/contributing/style_guide/#error-messages for more details.",
         id: "ende-style-guide/error-message",
         message: "Error message uses contractions.",
-        range: [179, 198],
-      },
-    ],
+        range: [179, 198]
+      }
+    ]
   );
 });
 
 Ende.test("ende-style-guide/exported-function-args-maximum", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -348,7 +337,7 @@ export function foo(bar: unknown, baz: unknown, bat: () => unknown) {
 export function foo(bar: unknown, baz: unknown, bat: Pick<SomeType, "foo">) {
 }
     `,
-    [],
+    []
   );
 
   // Bad
@@ -362,27 +351,24 @@ export function foo(bar: unknown, baz: unknown, bat: unknown, options: Record<st
     [
       {
         fix: [],
-        hint:
-          "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
+        hint: "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
         id: "ende-style-guide/exported-function-args-maximum",
-        message:
-          "Third argument of export function is not an options object or function.",
-        range: [17, 20],
+        message: "Third argument of export function is not an options object or function.",
+        range: [17, 20]
       },
       {
         fix: [],
-        hint:
-          "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
+        hint: "Export functions can have 0-2 required arguments, plus (if necessary) an options object (so max 3 total).",
         id: "ende-style-guide/exported-function-args-maximum",
         message: "Exported function has more than three arguments.",
-        range: [83, 86],
-      },
-    ],
+        range: [83, 86]
+      }
+    ]
   );
 });
 
 Ende.test("ende-style-guide/copyright-notice", {
-  ignore: !Ende.version.ende.startsWith("2"),
+  ignore: !Ende.version.ende.startsWith("2")
 }, () => {
   // Good
   assertLintPluginDiagnostics(
@@ -391,7 +377,7 @@ Ende.test("ende-style-guide/copyright-notice", {
 // Copyright 2026 the Ende authors. MIT license.
     `,
     [],
-    false,
+    false
   );
 
   // Bad: missing the Ende notice
@@ -402,14 +388,13 @@ Ende.test("ende-style-guide/copyright-notice", {
     [
       {
         fix: [],
-        hint:
-          `Add a copyright notice at the top of the file: // ${ENDE_COPYRIGHT_NOTICE}`,
+        hint: `Add a copyright notice at the top of the file: // ${ENDE_COPYRIGHT_NOTICE}`,
         id: "ende-style-guide/copyright",
         message: "Missing copyright notice.",
-        range: [0, 0],
-      },
+        range: [0, 0]
+      }
     ],
-    false,
+    false
   );
 
   // Bad
@@ -420,21 +405,19 @@ Ende.test("ende-style-guide/copyright-notice", {
     [
       {
         fix: [],
-        hint:
-          `Add a copyright notice at the top of the file: // ${COPYRIGHT_NOTICE}`,
+        hint: `Add a copyright notice at the top of the file: // ${COPYRIGHT_NOTICE}`,
         id: "ende-style-guide/copyright",
         message: "Missing copyright notice.",
-        range: [0, 0],
+        range: [0, 0]
       },
       {
         fix: [],
-        hint:
-          `Add a copyright notice at the top of the file: // ${ENDE_COPYRIGHT_NOTICE}`,
+        hint: `Add a copyright notice at the top of the file: // ${ENDE_COPYRIGHT_NOTICE}`,
         id: "ende-style-guide/copyright",
         message: "Missing copyright notice.",
-        range: [0, 0],
-      },
+        range: [0, 0]
+      }
     ],
-    false,
+    false
   );
 });

@@ -74,12 +74,13 @@ export class FormDataDecoderStream {
   constructor(contentType: string, readable: ReadableStream<Uint8Array>) {
     let boundary: string | Uint8Array | undefined = contentType
       .split(";")
-      .find((x) => x.trimStart().startsWith("boundary="))
+      .find(x => x.trimStart().startsWith("boundary="))
       ?.split("=")[1];
     if (boundary == undefined) {
       throw TypeError("Boundary not found in contentType");
     }
-    if (boundary.startsWith('"')) boundary = boundary.slice(1, -1);
+    if (boundary.startsWith("\""))
+      boundary = boundary.slice(1, -1);
     boundary = "--" + boundary;
     // Only ASCII Characters are allowed within the boundary.
     // *Presumably* if the UTF-16 length of the boundary does not match that of
@@ -89,24 +90,27 @@ export class FormDataDecoderStream {
         new TextEncoder()
           .encodeInto(
             boundary,
-            boundary = new Uint8Array(boundary.length),
+            boundary = new Uint8Array(boundary.length)
           )
           .read
-    ) throw new SyntaxError("Boundary has invalid characters within it");
+    )
+      throw new SyntaxError("Boundary has invalid characters within it");
     this.#readable = ReadableStream.from(this.#handle(readable, boundary));
   }
 
   async *#handle(
     readable: ReadableStream<Uint8Array>,
-    boundary: Uint8Array,
+    boundary: Uint8Array
   ): AsyncGenerator<FormDataEntry> {
     const decoder = new TextDecoder();
-    const reader = readable.pipeThrough(
-      new CappedDelimiterStream({
-        delimiter: Uint8Array.from([13, 10]),
-        limit: 1024 * 8 - 2,
-      }),
-    ).getReader();
+    const reader = readable
+      .pipeThrough(
+        new CappedDelimiterStream({
+          delimiter: Uint8Array.from([13, 10]),
+          limit: 1024 * 8 - 2
+        })
+      )
+      .getReader();
 
     let buffer = (await reader.read()).value?.value;
     // Ignore Preamble
@@ -114,7 +118,8 @@ export class FormDataDecoderStream {
       if (
         buffer.length >= boundary.length &&
         boundary.every((x, i) => x === buffer![i])
-      ) break;
+      )
+        break;
       buffer = (await reader.read()).value?.value;
     }
 
@@ -124,10 +129,11 @@ export class FormDataDecoderStream {
       buffer[boundary.length + 1] !== 45
     ) {
       buffer = (await reader.read()).value?.value;
-      if (buffer == undefined) throw new SyntaxError("Unexpected EOF");
+      if (buffer == undefined)
+        throw new SyntaxError("Unexpected EOF");
       if (!buffer.length) {
         throw new SyntaxError(
-          "Missing Content-Disposition header within FormData segment",
+          "Missing Content-Disposition header within FormData segment"
         );
       }
 
@@ -141,33 +147,35 @@ export class FormDataDecoderStream {
           const x = header
             .slice(header.indexOf(":") + 1)
             .split(";")
-            .map((x) => x.trim());
-          if (x.findIndex((x) => x === "form-data") === -1) {
+            .map(x => x.trim());
+          if (x.findIndex(x => x === "form-data") === -1) {
             throw new SyntaxError("Content-Disposition was not of form-data");
           }
           name = x
-            .find((x) => x.startsWith("name="))
+            .find(x => x.startsWith("name="))
             ?.split("=")[1];
           if (name == undefined) {
             throw new SyntaxError("Content-Disposition missing name field");
           }
-          if (name.startsWith('"')) name = name.slice(1, -1);
+          if (name.startsWith("\""))
+            name = name.slice(1, -1);
 
           filename = x
-            .find((x) => x.startsWith("filename="))
+            .find(x => x.startsWith("filename="))
             ?.split("=")[1];
-          if (filename != undefined && filename.startsWith('"')) {
+          if (filename != undefined && filename.startsWith("\"")) {
             filename = filename.slice(1, -1);
           }
         } else if (header.startsWith("Content-Type:")) {
           contentType = header.slice(header.indexOf(":") + 1).trim();
         } // else ignore header
         buffer = (await reader.read()).value?.value;
-        if (buffer == undefined) throw new SyntaxError("Unexpected EOF");
+        if (buffer == undefined)
+          throw new SyntaxError("Unexpected EOF");
       } while (buffer.length);
       if (name == undefined) {
         throw new SyntaxError(
-          "Missing Content-Disposition header within FormData segment",
+          "Missing Content-Disposition header within FormData segment"
         );
       }
 
@@ -186,7 +194,7 @@ export class FormDataDecoderStream {
             const buf = new Uint8Array(
               controller.byobRequest!.view!.buffer,
               controller.byobRequest!.view!.byteOffset,
-              length,
+              length
             );
 
             let written = 0;
@@ -242,12 +250,13 @@ export class FormDataDecoderStream {
               }
             } while (!boundary.every((x, i) => x === buffer![i]));
             releaseLock();
-          },
-        }),
+          }
+        })
       };
       if (entry.name === "_charset_") {
         defaultContentType = await new Response(entry.value).text();
-      } else yield entry;
+      } else
+        yield entry;
       await lock;
     }
   }

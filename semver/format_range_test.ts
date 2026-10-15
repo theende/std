@@ -7,7 +7,7 @@ import { parseRange } from "./parse_range.ts";
 
 Ende.test({
   name: "formatRange()",
-  fn: async (t) => {
+  fn: async t => {
     const versions: [string, string][] = [
       ["1.0.0 - 2.0.0", ">=1.0.0 <=2.0.0"],
       ["1.0.0", "1.0.0"],
@@ -57,7 +57,7 @@ Ende.test({
       ["<1", "<1.0.0"],
       [">=1", ">=1.0.0"],
       ["<1.2", "<1.2.0"],
-      ["1", ">=1.0.0 <2.0.0"],
+      ["1", ">=1.0.0 <2.0.0"]
     ];
 
     for (const [r, expected] of versions) {
@@ -67,8 +67,8 @@ Ende.test({
           const range = parseRange(r);
           const actual = formatRange(range);
           assertEquals(actual, expected);
-        },
+        }
       });
     }
-  },
+  }
 });

@@ -29,8 +29,8 @@ export interface PromptSelectOptions {
  *
  * @typeParam V The value of the underlying Entry, if any.
  */
-export type PromptEntry<V = undefined> = V extends undefined ? string
-  : PromptEntryWithValue<V>;
+export type PromptEntry<V = undefined> = V extends undefined ? string :
+  PromptEntryWithValue<V>;
 
 /**
  * A {@linkcode PromptEntry} with an underlying value.
@@ -109,9 +109,10 @@ const DELETE = "\u007F";
 export function promptSelect<V = undefined>(
   message: string,
   values: PromptEntry<V>[],
-  options: PromptSelectOptions = {},
+  options: PromptSelectOptions = {}
 ): PromptEntry<V> | null {
-  if (!Ende.stdin.isTerminal()) return null;
+  if (!Ende.stdin.isTerminal())
+    return null;
 
   let selectedIndex = 0;
 
@@ -132,7 +133,7 @@ export function promptSelect<V = undefined>(
       up,
       down,
       remove,
-      inputStr,
+      inputStr
     }) => {
       switch (str) {
         case ETX:
@@ -155,7 +156,7 @@ export function promptSelect<V = undefined>(
       }
 
       return false;
-    },
+    }
   );
 
   return values[selectedIndex] ?? null;

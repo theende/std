@@ -16,6 +16,6 @@ export function disposableStack() {
       for (let i = this.disposables.length - 1; i >= 0; --i) {
         this.disposables[i]![Symbol.dispose]();
       }
-    },
+    }
   };
 }

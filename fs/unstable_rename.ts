@@ -28,7 +28,7 @@
  */
 export async function rename(
   oldpath: string | URL,
-  newpath: string | URL,
+  newpath: string | URL
 ): Promise<void> {
   await Ende.rename(oldpath, newpath);
 }

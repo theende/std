@@ -14,6 +14,6 @@ description: >
   Script which is being evaluated for JSON.parse (see step 4 of JSON.parse).
 ---*/
 
-var result = JSON.parse('{ "__proto__": 1, "__proto__": 2 }');
+var result = JSON.parse("{ \"__proto__\": 1, \"__proto__\": 2 }");
 
 assert.sameValue(result.__proto__, 2);

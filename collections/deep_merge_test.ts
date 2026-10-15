@@ -6,25 +6,25 @@ import { deepMerge } from "./deep_merge.ts";
 Ende.test("deepMerge() handles simple merge", () => {
   assertEquals(
     deepMerge({
-      foo: true,
+      foo: true
     }, {
-      bar: true,
+      bar: true
     }),
     {
       foo: true,
-      bar: true,
-    },
+      bar: true
+    }
   );
 });
 
 Ende.test("deepMerge() handles symbol merge", () => {
   assertEquals(
     deepMerge({}, {
-      [Symbol.for("deepmerge.test")]: true,
+      [Symbol.for("deepmerge.test")]: true
     }),
     {
-      [Symbol.for("deepmerge.test")]: true,
-    },
+      [Symbol.for("deepmerge.test")]: true
+    }
   );
 });
 
@@ -34,12 +34,12 @@ Ende.test("deepMerge() ignores non enumerable", () => {
       {},
       Object.defineProperties({}, {
         foo: { enumerable: false, value: true },
-        bar: { enumerable: true, value: true },
-      }),
+        bar: { enumerable: true, value: true }
+      })
     ),
     {
-      bar: true,
-    },
+      bar: true
+    }
   );
 });
 
@@ -47,37 +47,37 @@ Ende.test("deepMerge() handles nested merge", () => {
   assertEquals(
     deepMerge({
       foo: {
-        bar: true,
-      },
+        bar: true
+      }
     }, {
       foo: {
         baz: true,
-        quux: {},
+        quux: {}
       },
-      qux: true,
+      qux: true
     }),
     {
       foo: {
         bar: true,
         baz: true,
-        quux: {},
+        quux: {}
       },
-      qux: true,
-    },
+      qux: true
+    }
   );
 });
 
 Ende.test("deepMerge() prevents prototype merge", () => {
   assertEquals(
     deepMerge({
-      constructor: undefined,
+      constructor: undefined
     }, {
-      foo: true,
+      foo: true
     }),
     {
       constructor: undefined,
-      foo: true,
-    },
+      foo: true
+    }
   );
 });
 
@@ -85,28 +85,28 @@ Ende.test("deepMerge() prevents calling Object.prototype.__proto__ accessor prop
   Object.defineProperty(Object.prototype, "__proto__", {
     get() {
       throw new Error(
-        "Unexpected Object.prototype.__proto__ getter property call",
+        "Unexpected Object.prototype.__proto__ getter property call"
       );
     },
     set() {
       throw new Error(
-        "Unexpected Object.prototype.__proto__ setter property call",
+        "Unexpected Object.prototype.__proto__ setter property call"
       );
     },
-    configurable: true,
+    configurable: true
   });
   try {
     assertEquals<unknown>(
       deepMerge({
-        foo: true,
+        foo: true
       }, {
         bar: true,
-        ["__proto__"]: {},
+        ["__proto__"]: {}
       }),
       {
         foo: true,
-        bar: true,
-      },
+        bar: true
+      }
     );
   } finally {
     // deno-lint-ignore no-explicit-any
@@ -118,14 +118,14 @@ Ende.test("deepMerge() overrides target (non-mergeable source)", () => {
   assertEquals(
     deepMerge({
       foo: {
-        bar: true,
-      },
+        bar: true
+      }
     }, {
-      foo: true,
+      foo: true
     }),
     {
-      foo: true,
-    },
+      foo: true
+    }
   );
 });
 
@@ -133,49 +133,49 @@ Ende.test("deepMerge() overrides target (non-mergeable destination, object like)
   const CustomClass = class {};
   assertEquals(
     deepMerge({
-      foo: new CustomClass(),
+      foo: new CustomClass()
     }, {
-      foo: true,
+      foo: true
     }),
     {
-      foo: true,
-    },
+      foo: true
+    }
   );
 });
 
 Ende.test("deepMerge() overrides target (non-mergeable destination, array like)", () => {
   assertEquals(
     deepMerge({
-      foo: [],
+      foo: []
     }, {
-      foo: true,
+      foo: true
     }),
     {
-      foo: true,
-    },
+      foo: true
+    }
   );
 });
 
 Ende.test("deepMerge() overrides target (different object like source and destination)", () => {
   assertEquals(
     deepMerge({
-      foo: {},
+      foo: {}
     }, {
-      foo: [1, 2],
+      foo: [1, 2]
     }),
     {
-      foo: [1, 2],
-    },
+      foo: [1, 2]
+    }
   );
   assertEquals(
     deepMerge({
-      foo: [],
+      foo: []
     }, {
-      foo: { bar: true },
+      foo: { bar: true }
     }),
     {
-      foo: { bar: true },
-    },
+      foo: { bar: true }
+    }
   );
 });
 
@@ -198,7 +198,7 @@ Ende.test("deepMerge() handles primitive types handling", () => {
     class: new CustomClass(),
     get get() {
       return true;
-    },
+    }
   };
   assertEquals(
     deepMerge({
@@ -212,91 +212,91 @@ Ende.test("deepMerge() handles primitive types handling", () => {
       object: null,
       regexp: /foo/,
       date: new Date(0),
-      function: function () {},
-      async: async function () {},
+      function: function() {},
+      async: async function() {},
       arrow: () => {},
       class: null,
-      get: false,
+      get: false
     }, expected),
-    expected,
+    expected
   );
 });
 
 Ende.test("deepMerge() handles array merge (replace)", () => {
   assertEquals(
     deepMerge({
-      foo: [1, 2, 3],
+      foo: [1, 2, 3]
     }, {
-      foo: [4, 5, 6],
+      foo: [4, 5, 6]
     }, { arrays: "replace" }),
     {
-      foo: [4, 5, 6],
-    },
+      foo: [4, 5, 6]
+    }
   );
 });
 
 Ende.test("deepMerge() handles array merge (merge)", () => {
   assertEquals(
     deepMerge({
-      foo: [1, 2, 3],
+      foo: [1, 2, 3]
     }, {
-      foo: [4, 5, 6],
+      foo: [4, 5, 6]
     }, { arrays: "merge" }),
     {
-      foo: [1, 2, 3, 4, 5, 6],
-    },
+      foo: [1, 2, 3, 4, 5, 6]
+    }
   );
 });
 
 Ende.test("deepMerge() handles maps merge (replace)", () => {
   assertEquals(
     deepMerge({
-      map: new Map([["foo", true]]),
+      map: new Map([["foo", true]])
     }, {
-      map: new Map([["bar", true]]),
+      map: new Map([["bar", true]])
     }, { maps: "replace" }),
     {
-      map: new Map([["bar", true]]),
-    },
+      map: new Map([["bar", true]])
+    }
   );
 });
 
 Ende.test("deepMerge() handles maps merge (merge)", () => {
   assertEquals(
     deepMerge({
-      map: new Map([["foo", true]]),
+      map: new Map([["foo", true]])
     }, {
-      map: new Map([["bar", true]]),
+      map: new Map([["bar", true]])
     }, { maps: "merge" }),
     {
-      map: new Map([["foo", true], ["bar", true]]),
-    },
+      map: new Map([["foo", true], ["bar", true]])
+    }
   );
 });
 
 Ende.test("deepMerge() handles sets merge (replace)", () => {
   assertEquals(
     deepMerge({
-      set: new Set(["foo"]),
+      set: new Set(["foo"])
     }, {
-      set: new Set(["bar"]),
+      set: new Set(["bar"])
     }, { sets: "replace" }),
     {
-      set: new Set(["bar"]),
-    },
+      set: new Set(["bar"])
+    }
   );
 });
 
 Ende.test("deepMerge() handles sets merge (merge)", () => {
   assertEquals(
     deepMerge({
-      set: new Set(["foo"]),
+      set: new Set(["foo"])
     }, {
-      set: new Set(["bar"]),
+      set: new Set(["bar"])
     }, { sets: "merge" }),
     {
-      set: new Set(["foo", "bar"]),
-    },
+      set: new Set(["foo", "bar"])
+    }
   );
 });
 
@@ -308,28 +308,28 @@ Ende.test("deepMerge() handles nested replace", () => {
         b: ["B11", "B12"],
         c: {
           d: "D1",
-          e: ["E11"],
-        },
+          e: ["E11"]
+        }
       },
       {
         b: [],
         c: {
           d: "D2",
-          e: [],
-        },
+          e: []
+        }
       },
       {
-        arrays: "replace",
-      },
+        arrays: "replace"
+      }
     ),
     {
       a: "A1",
       b: [],
       c: {
         d: "D2",
-        e: [],
-      },
-    },
+        e: []
+      }
+    }
   );
 });
 
@@ -339,21 +339,21 @@ Ende.test("deepMerge() handles complex test", () => {
       foo: {
         bar: {
           quux: new Set(["foo"]),
-          grault: {},
-        },
-      },
+          grault: {}
+        }
+      }
     }, {
       foo: {
         bar: {
           baz: true,
           qux: [1, 2],
           grault: {
-            garply: false,
-          },
+            garply: false
+          }
         },
         corge: "deno",
-        [Symbol.for("deepmerge.test")]: true,
-      },
+        [Symbol.for("deepmerge.test")]: true
+      }
     }),
     {
       foo: {
@@ -362,18 +362,18 @@ Ende.test("deepMerge() handles complex test", () => {
           baz: true,
           qux: [1, 2],
           grault: {
-            garply: false,
-          },
+            garply: false
+          }
         },
         corge: "deno",
-        [Symbol.for("deepmerge.test")]: true,
-      },
-    },
+        [Symbol.for("deepmerge.test")]: true
+      }
+    }
   );
 });
 
 Ende.test("deepMerge() handles circular references", () => {
-  const expected = { foo: true } as { foo: boolean; bar: unknown };
+  const expected = { foo: true } as { foo: boolean; bar: unknown; };
   expected.bar = expected;
   assertEquals(deepMerge({}, expected), expected);
   assertEquals(deepMerge(expected, {}), expected);
@@ -381,11 +381,11 @@ Ende.test("deepMerge() handles circular references", () => {
 
   const source = {
     foo: { b: { c: { d: {} } } },
-    bar: {},
+    bar: {}
   };
   const object = {
     foo: { a: 1 },
-    bar: { a: 2 },
+    bar: { a: 2 }
   };
 
   source.foo.b.c.d = source;
@@ -399,41 +399,41 @@ Ende.test("deepMerge() handles circular references", () => {
 Ende.test("deepMerge() handles target object is not modified", () => {
   const record = {
     foo: {
-      bar: true,
+      bar: true
     },
     baz: [1, 2, 3],
-    quux: new Set([1, 2, 3]),
+    quux: new Set([1, 2, 3])
   };
   assertEquals(
     deepMerge(record, {
       foo: {
-        qux: false,
+        qux: false
       },
       baz: [4, 5, 6],
-      quux: new Set([4, 5, 6]),
+      quux: new Set([4, 5, 6])
     }, { arrays: "merge", sets: "merge" }),
     {
       foo: {
         bar: true,
-        qux: false,
+        qux: false
       },
       baz: [1, 2, 3, 4, 5, 6],
-      quux: new Set([1, 2, 3, 4, 5, 6]),
-    },
+      quux: new Set([1, 2, 3, 4, 5, 6])
+    }
   );
   assertEquals(record, {
     foo: {
-      bar: true,
+      bar: true
     },
     baz: [1, 2, 3],
-    quux: new Set([1, 2, 3]),
+    quux: new Set([1, 2, 3])
   });
 });
 
 Ende.test("deepMerge() uses merge strategy by default for arrays/sets/maps", () => {
   const result = deepMerge(
     { arr: [1], set: new Set(["a"]), map: new Map([["x", 1]]) },
-    { arr: [2], set: new Set(["b"]), map: new Map([["y", 2]]) },
+    { arr: [2], set: new Set(["b"]), map: new Map([["y", 2]]) }
   );
   assertEquals(result.arr, [1, 2]);
   assertEquals(result.set, new Set(["a", "b"]));
@@ -450,7 +450,7 @@ Ende.test("deepMerge() handles map key conflicts with merge strategy", () => {
   const result = deepMerge(
     { map: new Map([["foo", 1]]) },
     { map: new Map([["foo", 2]]) },
-    { maps: "merge" },
+    { maps: "merge" }
   );
   assertEquals(result.map.get("foo"), 2);
 });
@@ -459,7 +459,7 @@ Ende.test("deepMerge() deduplicates sets when merging", () => {
   const result = deepMerge(
     { set: new Set([1, 2, 3]) },
     { set: new Set([2, 3, 4]) },
-    { sets: "merge" },
+    { sets: "merge" }
   );
   assertEquals(result.set, new Set([1, 2, 3, 4]));
 });
@@ -468,7 +468,7 @@ Ende.test("deepMerge() handles mixed merge strategies", () => {
   const result = deepMerge(
     { arr: [1], set: new Set(["a"]) },
     { arr: [2], set: new Set(["b"]) },
-    { arrays: "replace", sets: "merge" },
+    { arrays: "replace", sets: "merge" }
   );
   assertEquals(result.arr, [2]);
   assertEquals(result.set, new Set(["a", "b"]));
@@ -477,6 +477,6 @@ Ende.test("deepMerge() handles mixed merge strategies", () => {
 Ende.test("deepMerge() preserves keys only in target", () => {
   assertEquals(
     deepMerge({ a: 1, b: 2 }, { b: 3 }),
-    { a: 1, b: 3 },
+    { a: 1, b: 3 }
   );
 });

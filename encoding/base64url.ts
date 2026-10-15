@@ -38,21 +38,23 @@ alphabet.forEach((byte, i) => rAlphabet[byte] = i);
  * ```
  */
 export function encodeBase64Url(
-  data: ArrayBuffer | Uint8Array | string,
+  data: ArrayBuffer | Uint8Array | string
 ): string {
   if (typeof data === "string") {
     data = new TextEncoder().encode(data) as Uint8Array_;
-  } else if (data instanceof ArrayBuffer) data = new Uint8Array(data).slice();
-  else data = data.slice();
+  } else if (data instanceof ArrayBuffer)
+    data = new Uint8Array(data).slice();
+  else
+    data = data.slice();
   const [output, i] = detach(
     data as Uint8Array_,
-    calcSizeBase64((data as Uint8Array_).length),
+    calcSizeBase64((data as Uint8Array_).length)
   );
   let o = encode(output, i, 0, alphabet, padding);
   o = output.indexOf(padding, o - 2);
   return new TextDecoder().decode(
     // deno-lint-ignore no-explicit-any
-    o > 0 ? new Uint8Array((output.buffer as any).transfer(o)) : output,
+    o > 0 ? new Uint8Array((output.buffer as any).transfer(o)) : output
   );
 }
 

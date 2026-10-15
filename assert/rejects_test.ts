@@ -20,7 +20,7 @@ Ende.test("assertRejects() with synchronous function that throws", async () => {
         throw { wrong: "true" };
       }),
     AssertionError,
-    "Function throws when expected to reject.",
+    "Function throws when expected to reject."
   );
 });
 
@@ -29,10 +29,10 @@ Ende.test("assertRejects() with PromiseLike", async () => {
     () => ({
       then() {
         throw new Error("some error");
-      },
+      }
     }),
     Error,
-    "some error",
+    "some error"
   );
 });
 
@@ -44,11 +44,11 @@ Ende.test("assertRejects() with non-error value rejected and error class", async
           return Promise.reject("Panic!");
         },
         Error,
-        "Panic!",
+        "Panic!"
       );
     },
     AssertionError,
-    "A non-Error object was rejected.",
+    "A non-Error object was rejected."
   );
 });
 
@@ -67,7 +67,7 @@ Ende.test("assertRejects() with error class", async () => {
       return Promise.reject(new Error("foo"));
     },
     Error,
-    "foo",
+    "foo"
   );
 });
 
@@ -75,7 +75,7 @@ Ende.test("assertRejects() resolves with caught error", async () => {
   const error = await assertRejects(
     () => {
       return Promise.reject(new Error("foo"));
-    },
+    }
   );
   assert(error instanceof Error);
   assertEquals(error.message, "foo");
@@ -87,7 +87,7 @@ Ende.test("assertRejects() throws async parent error ", async () => {
       return Promise.reject(new AssertionError("Fail!"));
     },
     Error,
-    "Fail!",
+    "Fail!"
   );
 });
 
@@ -98,7 +98,7 @@ Ende.test("assertRejects() accepts abstract class", () => {
   assertRejects(
     () => Promise.reject(new ConcreteError("failed")),
     AbstractError,
-    "fail",
+    "fail"
   );
 });
 
@@ -112,12 +112,12 @@ Ende.test(
         assertRejects(
           () => Promise.reject(new AnotherCustomError("failed")),
           CustomError,
-          "fail",
+          "fail"
         ),
       AssertionError,
-      'Expected error to be instance of "CustomError", but was "AnotherCustomError".',
+      "Expected error to be instance of \"CustomError\", but was \"AnotherCustomError\"."
     );
-  },
+  }
 );
 
 Ende.test("assertRejects() throws when no promise is returned", async () => {
@@ -125,7 +125,7 @@ Ende.test("assertRejects() throws when no promise is returned", async () => {
     // @ts-expect-error - testing invalid input
     async () => await assertRejects(() => {}),
     AssertionError,
-    "Function throws when expected to reject.",
+    "Function throws when expected to reject."
   );
 });
 
@@ -133,7 +133,7 @@ Ende.test("assertRejects() throws when the promise doesn't reject", async () => 
   await assertRejects(
     async () => await assertRejects(async () => await Promise.resolve(42)),
     AssertionError,
-    "Expected function to reject.",
+    "Expected function to reject."
   );
 });
 
@@ -142,9 +142,9 @@ Ende.test("assertRejects() throws with custom message", async () => {
     async () =>
       await assertRejects(
         async () => await Promise.resolve(42),
-        "CUSTOM MESSAGE",
+        "CUSTOM MESSAGE"
       ),
     AssertionError,
-    "Expected function to reject: CUSTOM MESSAGE",
+    "Expected function to reject: CUSTOM MESSAGE"
   );
 });

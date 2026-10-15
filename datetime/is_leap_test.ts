@@ -14,7 +14,7 @@ Ende.test({
     assert(isLeap(new Date("1972-01-02")));
     assert(isLeap(new Date("2000-01-02")));
     assert(!isLeap(new Date("2100-01-02")));
-  },
+  }
 });
 
 Ende.test({
@@ -40,5 +40,5 @@ Ende.test({
     assert(!isUtcLeap(new Date("December 31, 2000 23:59:59 GMT-01:00")));
     assert(isUtcLeap(new Date("January 1, 2001 00:00:00 GMT+01:00")));
     assert(isUtcLeap(new Date("December 31, 1999 23:59:59 GMT-01:00")));
-  },
+  }
 });

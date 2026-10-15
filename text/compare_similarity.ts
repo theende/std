@@ -51,12 +51,11 @@ export interface CompareSimilarityOptions {
  */
 export function compareSimilarity(
   givenWord: string,
-  options?: CompareSimilarityOptions,
+  options?: CompareSimilarityOptions
 ): (a: string, b: string) => number {
   const { compareFn = levenshteinDistance } = { ...options };
   if (options?.caseSensitive) {
-    return (a: string, b: string) =>
-      compareFn(givenWord, a) - compareFn(givenWord, b);
+    return (a: string, b: string) => compareFn(givenWord, a) - compareFn(givenWord, b);
   }
   givenWord = givenWord.toLowerCase();
   return (a: string, b: string) =>

@@ -77,19 +77,17 @@
 /** Combines recursively all intersection types and returns a new single type.
  * @internal
  */
-type Id<TRecord> = TRecord extends Record<string, unknown>
-  ? TRecord extends infer InferredRecord
-    ? { [Key in keyof InferredRecord]: Id<InferredRecord[Key]> }
-  : never
-  : TRecord;
+type Id<TRecord> = TRecord extends Record<string, unknown> ?
+  TRecord extends infer InferredRecord ? { [Key in keyof InferredRecord]: Id<InferredRecord[Key]>; } :
+  never :
+  TRecord;
 
 /** Converts a union type `A | B | C` into an intersection type `A & B & C`.
  * @internal
  */
-type UnionToIntersection<TValue> =
-  (TValue extends unknown ? (args: TValue) => unknown : never) extends
-    (args: infer R) => unknown ? R extends Record<string, unknown> ? R : never
-    : never;
+type UnionToIntersection<TValue> = (TValue extends unknown ? (args: TValue) => unknown : never) extends (args: infer R) => unknown ?
+  R extends Record<string, unknown> ? R : never :
+  never;
 
 /** @internal */
 type BooleanType = boolean | string | undefined;
@@ -106,13 +104,13 @@ type Negatable = string | undefined;
 type UseTypes<
   TBooleans extends BooleanType,
   TStrings extends StringType,
-  TCollectable extends Collectable,
+  TCollectable extends Collectable
 > = undefined extends (
   & (false extends TBooleans ? undefined : TBooleans)
   & TCollectable
   & TStrings
-) ? false
-  : true;
+) ? false :
+  true;
 
 /**
  * Creates a record with all available flags with the corresponding type and
@@ -125,7 +123,7 @@ type Values<
   TCollectable extends Collectable,
   TNegatable extends Negatable,
   TDefault extends Record<string, unknown> | undefined,
-  TAliases extends Aliases | undefined,
+  TAliases extends Aliases | undefined
 > = UseTypes<TBooleans, TStrings, TCollectable> extends true ?
     & Record<string, unknown>
     & AddAliases<
@@ -141,9 +139,9 @@ type Values<
         DedotRecord<TDefault>
       >,
       TAliases
-    >
+    > :
   // deno-lint-ignore no-explicit-any
-  : Record<string, any>;
+  Record<string, any>;
 
 /** @internal */
 type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<
@@ -152,21 +150,19 @@ type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<
 
 type AddAliases<
   TArgs,
-  TAliases extends Aliases | undefined,
+  TAliases extends Aliases | undefined
 > = {
   [TArgName in keyof TArgs as AliasNames<TArgName, TAliases>]: TArgs[TArgName];
 };
 
 type AliasNames<
   TArgName,
-  TAliases extends Aliases | undefined,
-> = TArgName extends keyof TAliases
-  ? string extends TAliases[TArgName] ? TArgName
-  : TAliases[TArgName] extends string ? TArgName | TAliases[TArgName]
-  : TAliases[TArgName] extends Array<string>
-    ? TArgName | TAliases[TArgName][number]
-  : TArgName
-  : TArgName;
+  TAliases extends Aliases | undefined
+> = TArgName extends keyof TAliases ? string extends TAliases[TArgName] ? TArgName :
+  TAliases[TArgName] extends string ? TArgName | TAliases[TArgName] :
+  TAliases[TArgName] extends Array<string> ? TArgName | TAliases[TArgName][number] :
+  TArgName :
+  TArgName;
 
 /**
  * Spreads all default values of Record `TDefaults` into Record `TArgs`
@@ -177,18 +173,17 @@ type AliasNames<
  *
  * **Result:** `{ foo: boolean | number, bar?: number }`
  */
-type SpreadDefaults<TArgs, TDefaults> = TDefaults extends undefined ? TArgs
-  : TArgs extends Record<string, unknown> ?
+type SpreadDefaults<TArgs, TDefaults> = TDefaults extends undefined ? TArgs :
+  TArgs extends Record<string, unknown> ?
       & Omit<TArgs, keyof TDefaults>
       & {
-        [Default in keyof TDefaults]: Default extends keyof TArgs
-          ? (TArgs[Default] & TDefaults[Default] | TDefaults[Default]) extends
-            Record<string, unknown>
-            ? NonNullable<SpreadDefaults<TArgs[Default], TDefaults[Default]>>
-          : TDefaults[Default] | NonNullable<TArgs[Default]>
-          : unknown;
-      }
-  : never;
+        [Default in keyof TDefaults]: Default extends keyof TArgs ?
+          (TArgs[Default] & TDefaults[Default] | TDefaults[Default]) extends Record<string, unknown> ?
+            NonNullable<SpreadDefaults<TArgs[Default], TDefaults[Default]>> :
+          TDefaults[Default] | NonNullable<TArgs[Default]> :
+          unknown;
+      } :
+  never;
 
 /**
  * Defines the Record for the `default` option to add
@@ -213,52 +208,52 @@ type MapDefaults<TArgNames extends ArgType> = Partial<
 
 type RecursiveRequired<TRecord> = TRecord extends Record<string, unknown> ? {
     [Key in keyof TRecord]-?: RecursiveRequired<TRecord[Key]>;
-  }
-  : TRecord;
+  } :
+  TRecord;
 
 /** Same as `MapTypes` but also supports collectable options. */
 type CollectValues<
   TArgNames extends ArgType,
   TType,
   TCollectable extends Collectable,
-  TNegatable extends Negatable = undefined,
+  TNegatable extends Negatable = undefined
 > = UnionToIntersection<
   Extract<TArgNames, TCollectable> extends string ?
-      & (Exclude<TArgNames, TCollectable> extends never ? Record<never, never>
-        : MapTypes<Exclude<TArgNames, TCollectable>, TType, TNegatable>)
-      & (Extract<TArgNames, TCollectable> extends never ? Record<never, never>
-        : RecursiveRequired<
+      & (Exclude<TArgNames, TCollectable> extends never ? Record<never, never> :
+        MapTypes<Exclude<TArgNames, TCollectable>, TType, TNegatable>)
+      & (Extract<TArgNames, TCollectable> extends never ? Record<never, never> :
+        RecursiveRequired<
           MapTypes<Extract<TArgNames, TCollectable>, Array<TType>, TNegatable>
-        >)
-    : MapTypes<TArgNames, TType, TNegatable>
+        >) :
+    MapTypes<TArgNames, TType, TNegatable>
 >;
 
 /** Same as `Record` but also supports dotted and negatable options. */
 type MapTypes<
   TArgNames extends ArgType,
   TType,
-  TNegatable extends Negatable = undefined,
-> = undefined extends TArgNames ? Record<never, never>
-  : TArgNames extends `${infer Name}.${infer Rest}` ? {
+  TNegatable extends Negatable = undefined
+> = undefined extends TArgNames ? Record<never, never> :
+  TArgNames extends `${infer Name}.${infer Rest}` ? {
       [Key in Name]?: MapTypes<
         Rest,
         TType,
         TNegatable extends `${Name}.${infer Negate}` ? Negate : undefined
       >;
-    }
-  : TArgNames extends string ? Partial<
+    } :
+  TArgNames extends string ? Partial<
       Record<TArgNames, TNegatable extends TArgNames ? TType | false : TType>
-    >
-  : Record<never, never>;
+    > :
+  Record<never, never>;
 
 type CollectUnknownValues<
   TBooleans extends BooleanType,
   TStrings extends StringType,
   TCollectable extends Collectable,
-  TNegatable extends Negatable,
+  TNegatable extends Negatable
 > = UnionToIntersection<
-  TCollectable extends TBooleans & TStrings ? Record<never, never>
-    : DedotRecord<
+  TCollectable extends TBooleans & TStrings ? Record<never, never> :
+    DedotRecord<
       // Unknown collectable & non-negatable args.
       & Record<
         Exclude<
@@ -279,20 +274,19 @@ type CollectUnknownValues<
 >;
 
 /** Converts `{ "foo.bar.baz": unknown }` into `{ foo: { bar: { baz: unknown } } }`. */
-type DedotRecord<TRecord> = Record<string, unknown> extends TRecord ? TRecord
-  : TRecord extends Record<string, unknown> ? UnionToIntersection<
+type DedotRecord<TRecord> = Record<string, unknown> extends TRecord ? TRecord :
+  TRecord extends Record<string, unknown> ? UnionToIntersection<
       ValueOf<
         {
-          [Key in keyof TRecord]: Key extends string ? Dedot<Key, TRecord[Key]>
-            : never;
+          [Key in keyof TRecord]: Key extends string ? Dedot<Key, TRecord[Key]> :
+            never;
         }
       >
-    >
-  : TRecord;
+    > :
+  TRecord;
 
-type Dedot<TKey extends string, TValue> = TKey extends
-  `${infer Name}.${infer Rest}` ? { [Key in Name]: Dedot<Rest, TValue> }
-  : { [Key in TKey]: TValue };
+type Dedot<TKey extends string, TValue> = TKey extends `${infer Name}.${infer Rest}` ? { [Key in Name]: Dedot<Rest, TValue>; } :
+  { [Key in TKey]: TValue; };
 
 type ValueOf<TValue> = TValue[keyof TValue];
 
@@ -300,7 +294,7 @@ type ValueOf<TValue> = TValue[keyof TValue];
 export type Args<
   // deno-lint-ignore no-explicit-any
   TArgs extends Record<string, unknown> = Record<string, any>,
-  TDoubleDash extends boolean | undefined = undefined,
+  TDoubleDash extends boolean | undefined = undefined
 > = Id<
   & TArgs
   & {
@@ -308,9 +302,9 @@ export type Args<
      * them. */
     _: Array<string | number>;
   }
-  & (boolean extends TDoubleDash ? DoubleDash
-    : true extends TDoubleDash ? Required<DoubleDash>
-    : Record<never, never>)
+  & (boolean extends TDoubleDash ? DoubleDash :
+    true extends TDoubleDash ? Required<DoubleDash> :
+    Record<never, never>)
 >;
 
 /** @internal */
@@ -329,7 +323,7 @@ export interface ParseOptions<
     | Record<string, unknown>
     | undefined,
   TAliases extends Aliases | undefined = Aliases | undefined,
-  TDoubleDash extends boolean | undefined = boolean | undefined,
+  TDoubleDash extends boolean | undefined = boolean | undefined
 > {
   /**
    * When `true`, populate the result `_` with everything before the `--` and
@@ -425,8 +419,7 @@ interface NestedMapping {
   [key: string]: NestedMapping | unknown;
 }
 
-const FLAG_REGEXP =
-  /^(?:-(?:(?<doubleDash>-)(?<negated>no-)?)?)(?<key>.+?)(?:=(?<value>.*))?$/s;
+const FLAG_REGEXP = /^(?:-(?:(?<doubleDash>-)(?<negated>no-)?)?)(?<key>.+?)(?:=(?<value>.*))?$/s;
 const LETTER_REGEXP = /[A-Za-z]/;
 const NUMBER_REGEXP = /-?\d+(\.\d*)?(e-?\d+)?$/;
 const HYPHEN_REGEXP = /^(-|--)[^-]/;
@@ -449,17 +442,19 @@ function setNested(
   object: NestedMapping,
   keys: string[],
   value: unknown,
-  collect = false,
+  collect = false
 ) {
   keys = [...keys];
   const key = keys.pop()!;
 
   for (const k of keys) {
-    if (isConstructorOrProto(object, k)) return;
+    if (isConstructorOrProto(object, k))
+      return;
     object = (object[k] ??= {}) as NestedMapping;
   }
 
-  if (isConstructorOrProto(object, key)) return;
+  if (isConstructorOrProto(object, key))
+    return;
 
   if (collect) {
     const v = object[key];
@@ -477,7 +472,8 @@ function setNested(
 function hasNested(object: NestedMapping, keys: string[]): boolean {
   for (const key of keys) {
     const value = object[key];
-    if (!Object.hasOwn(object, key)) return false;
+    if (!Object.hasOwn(object, key))
+      return false;
     object = value as NestedMapping;
   }
   return true;
@@ -486,11 +482,14 @@ function hasNested(object: NestedMapping, keys: string[]): boolean {
 function aliasIsBoolean(
   aliasMap: Map<string, Set<string>>,
   booleanSet: Set<string>,
-  key: string,
+  key: string
 ): boolean {
   const set = aliasMap.get(key);
-  if (set === undefined) return false;
-  for (const alias of set) if (booleanSet.has(alias)) return true;
+  if (set === undefined)
+    return false;
+  for (const alias of set)
+    if (booleanSet.has(alias))
+      return true;
   return false;
 }
 
@@ -622,7 +621,7 @@ export function parseArgs<
   TDefaults extends Record<string, unknown> | undefined = undefined,
   TAliases extends Aliases<TAliasArgNames, TAliasNames> | undefined = undefined,
   TAliasArgNames extends string = string,
-  TAliasNames extends string = string,
+  TAliasNames extends string = string
 >(
   args: readonly string[],
   options?: ParseOptions<
@@ -633,7 +632,7 @@ export function parseArgs<
     TDefaults,
     TAliases,
     TDoubleDash
-  >,
+  >
 ): Args<TArgs, TDoubleDash> {
   const {
     "--": doubleDash = false,
@@ -644,7 +643,7 @@ export function parseArgs<
     string = [],
     collect = [],
     negatable = [],
-    unknown: unknownFn = (i: string): unknown => i,
+    unknown: unknownFn = (i: string): unknown => i
   } = options ?? {};
   const aliasMap: Map<string, Set<string>> = new Map();
   const booleanSet = new Set<string>();
@@ -661,10 +660,10 @@ export function parseArgs<
       }
       const aliases = Array.isArray(value) ? value : [value];
       aliasMap.set(key, new Set(aliases));
-      aliases.forEach((alias) =>
+      aliases.forEach(alias =>
         aliasMap.set(
           alias,
-          new Set([key, ...aliases.filter((it) => it !== alias)]),
+          new Set([key, ...aliases.filter(it => it !== alias)])
         )
       );
     }
@@ -677,7 +676,7 @@ export function parseArgs<
       const booleanArgs = Array.isArray(boolean) ? boolean : [boolean];
       for (const key of booleanArgs.filter(Boolean)) {
         booleanSet.add(key);
-        aliasMap.get(key)?.forEach((al) => {
+        aliasMap.get(key)?.forEach(al => {
           booleanSet.add(al);
         });
       }
@@ -688,7 +687,7 @@ export function parseArgs<
     const stringArgs = Array.isArray(string) ? string : [string];
     for (const key of stringArgs.filter(Boolean)) {
       stringSet.add(key);
-      aliasMap.get(key)?.forEach((al) => stringSet.add(al));
+      aliasMap.get(key)?.forEach(al => stringSet.add(al));
     }
   }
 
@@ -696,7 +695,7 @@ export function parseArgs<
     const collectArgs = Array.isArray(collect) ? collect : [collect];
     for (const key of collectArgs.filter(Boolean)) {
       collectSet.add(key);
-      aliasMap.get(key)?.forEach((al) => collectSet.add(al));
+      aliasMap.get(key)?.forEach(al => collectSet.add(al));
     }
   }
 
@@ -704,7 +703,7 @@ export function parseArgs<
     const negatableArgs = Array.isArray(negatable) ? negatable : [negatable];
     for (const key of negatableArgs.filter(Boolean)) {
       negatableSet.add(key);
-      aliasMap.get(key)?.forEach((alias) => negatableSet.add(alias));
+      aliasMap.get(key)?.forEach(alias => negatableSet.add(alias));
     }
   }
 
@@ -714,7 +713,7 @@ export function parseArgs<
     key: string,
     value: string | number | boolean,
     arg: string,
-    collect: boolean,
+    collect: boolean
   ) {
     if (
       !booleanSet.has(key) &&
@@ -733,7 +732,7 @@ export function parseArgs<
 
     const collectable = collect && collectSet.has(key);
     setNested(argv, key.split("."), value, collectable);
-    aliasMap.get(key)?.forEach((key) => {
+    aliasMap.get(key)?.forEach(key => {
       setNested(argv, key.split("."), value, collectable);
     });
   }
@@ -760,7 +759,8 @@ export function parseArgs<
 
       if (doubleDash) {
         if (value != null) {
-          if (booleanSet.has(key)) value = parseBooleanString(value);
+          if (booleanSet.has(key))
+            value = parseBooleanString(value);
           setArgument(key, value, arg, true);
           continue;
         }
@@ -835,7 +835,8 @@ export function parseArgs<
       }
 
       key = arg.slice(-1);
-      if (key === "-") continue;
+      if (key === "-")
+        continue;
 
       const nextArg = args[i + 1];
 
@@ -862,7 +863,7 @@ export function parseArgs<
 
     if (unknownFn?.(arg) !== false) {
       argv._.push(
-        stringSet.has("_") || !isNumber(arg) ? arg : Number(arg),
+        stringSet.has("_") || !isNumber(arg) ? arg : Number(arg)
       );
     }
 
@@ -876,9 +877,7 @@ export function parseArgs<
     const keys = key.split(".");
     if (!hasNested(argv, keys)) {
       setNested(argv, keys, value);
-      aliasMap.get(key)?.forEach((key) =>
-        setNested(argv, key.split("."), value)
-      );
+      aliasMap.get(key)?.forEach(key => setNested(argv, key.split("."), value));
     }
   }
 

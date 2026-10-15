@@ -4,9 +4,9 @@
 import { assertEquals } from "@ende/assert";
 import { CappedDelimiterStream } from "./unstable_capped_delimiter_stream.ts";
 
-Ende.test("CappedDelimiterStream matching", async function () {
+Ende.test("CappedDelimiterStream matching", async function() {
   const input = Uint8Array.from(
-    [0, 0, 1, 1, 1, 0, 0, 0, 0, 5, 5, 5, 5, 5, 2, 3, 3, 4, 6, 0, 0, 2, 3, 3],
+    [0, 0, 1, 1, 1, 0, 0, 0, 0, 5, 5, 5, 5, 5, 2, 3, 3, 4, 6, 0, 0, 2, 3, 3]
   );
   const expected = [
     { match: true, value: Uint8Array.from([]) },
@@ -14,23 +14,23 @@ Ende.test("CappedDelimiterStream matching", async function () {
     { match: true, value: Uint8Array.from([]) },
     { match: false, value: Uint8Array.from([5, 5, 5, 5, 5]) },
     { match: true, value: Uint8Array.from([2, 3, 3, 4, 6]) },
-    { match: false, value: Uint8Array.from([2, 3, 3]) },
+    { match: false, value: Uint8Array.from([2, 3, 3]) }
   ];
 
   const actual = await Array.fromAsync(
     ReadableStream
       .from([input])
       .pipeThrough(
-        new CappedDelimiterStream({ delimiter: new Uint8Array(2), limit: 5 }),
-      ),
+        new CappedDelimiterStream({ delimiter: new Uint8Array(2), limit: 5 })
+      )
   );
 
   assertEquals(actual, expected);
 });
 
-Ende.test("CappedDelimiterStream splitting", async function () {
+Ende.test("CappedDelimiterStream splitting", async function() {
   const input = Uint8Array.from(
-    [1, 1, 1, 0, 0, 0, 0, 5, 5, 5, 5, 5, 2, 3, 3, 4, 6, 0, 0, 2, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 5, 5, 5, 5, 5, 2, 3, 3, 4, 6, 0, 0, 2, 0, 0, 0, 0]
   );
   const expected = [
     { match: true, value: Uint8Array.from([1, 1, 1]) },
@@ -38,15 +38,15 @@ Ende.test("CappedDelimiterStream splitting", async function () {
     { match: false, value: Uint8Array.from([5, 5, 5, 5, 5]) },
     { match: true, value: Uint8Array.from([2, 3, 3, 4, 6]) },
     { match: true, value: Uint8Array.from([2]) },
-    { match: true, value: Uint8Array.from([]) },
+    { match: true, value: Uint8Array.from([]) }
   ];
 
   const actual = await Array.fromAsync(
     ReadableStream
       .from([input])
       .pipeThrough(
-        new CappedDelimiterStream({ delimiter: new Uint8Array(2), limit: 5 }),
-      ),
+        new CappedDelimiterStream({ delimiter: new Uint8Array(2), limit: 5 })
+      )
   );
 
   assertEquals(actual, expected);

@@ -47,13 +47,13 @@ export interface WaitForOptions {
 export function waitFor(
   predicate: () => boolean | Promise<boolean>,
   ms: number,
-  options: WaitForOptions = {},
+  options: WaitForOptions = {}
 ): Promise<void> {
   const { step = 100 } = options;
 
   // Create a new promise that resolves when the predicate is true
   let timer: ReturnType<typeof setTimeout>;
-  const p: Promise<void> = new Promise(function (resolve) {
+  const p: Promise<void> = new Promise(function(resolve) {
     const setTimer = () => {
       timer = setTimeout(async () => {
         if (await predicate()) {

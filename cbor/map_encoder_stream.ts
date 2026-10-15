@@ -39,8 +39,7 @@ import type { CborMapStreamInput } from "./types.ts";
  * }
  * ```
  */
-export class CborMapEncoderStream
-  implements TransformStream<CborMapStreamInput, Uint8Array> {
+export class CborMapEncoderStream implements TransformStream<CborMapStreamInput, Uint8Array> {
   #readable: ReadableStream<Uint8Array>;
   #writable: WritableStream<CborMapStreamInput>;
   /**
@@ -51,7 +50,7 @@ export class CborMapEncoderStream
       CborMapStreamInput,
       CborMapStreamInput
     >();
-    this.#readable = toByteStream(ReadableStream.from(async function* () {
+    this.#readable = toByteStream(ReadableStream.from(async function*() {
       yield new Uint8Array([0b101_11111]);
       for await (const [k, v] of readable) {
         yield encodeCbor(k);
@@ -104,7 +103,7 @@ export class CborMapEncoderStream
   static from(
     asyncIterable:
       | AsyncIterable<CborMapStreamInput>
-      | Iterable<CborMapStreamInput>,
+      | Iterable<CborMapStreamInput>
   ): CborMapEncoderStream {
     const encoder = new CborMapEncoderStream();
     ReadableStream.from(asyncIterable).pipeTo(encoder.writable);

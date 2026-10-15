@@ -7,7 +7,7 @@ import { mapValues } from "./map_values.ts";
 function mapValuesTest<T, O>(
   input: [Record<string, T>, (value: T) => O],
   expected: Record<string, O>,
-  message?: string,
+  message?: string
 ) {
   const actual = mapValues(...input);
   assertEquals(actual, expected, message);
@@ -20,17 +20,17 @@ Ende.test({
     mapValues(object, () => 999);
 
     assertEquals(object, { a: 5, b: true });
-  },
+  }
 });
 
 Ende.test({
   name: "mapValues() handles empty input",
   fn() {
     mapValuesTest(
-      [{}, (it) => it],
-      {},
+      [{}, it => it],
+      {}
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
         {
           foo: true,
           bar: "lorem",
-          1: -5,
+          1: -5
         },
-        (it) => it,
+        it => it
       ],
       {
         foo: true,
         bar: "lorem",
-        1: -5,
-      },
+        1: -5
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -60,21 +60,21 @@ Ende.test({
     mapValuesTest<number, null | undefined | string | boolean>(
       [
         {
-          "something": 0,
-          "yetanotherkey": 1,
-          "andonemore": 2,
-          "lastone": 3,
+          something: 0,
+          yetanotherkey: 1,
+          andonemore: 2,
+          lastone: 3
         },
-        (it) => [null, undefined, "", false][it],
+        it => [null, undefined, "", false][it]
       ],
       {
-        "something": null,
-        "yetanotherkey": undefined,
-        "andonemore": "",
-        "lastone": false,
-      },
+        something: null,
+        yetanotherkey: undefined,
+        andonemore: "",
+        lastone: false
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -83,32 +83,32 @@ Ende.test({
     mapValuesTest(
       [
         {
-          "FoodFile": "/home/deno/food.txt",
-          "CalendarFile": "/home/deno/weekend.cal",
+          FoodFile: "/home/deno/food.txt",
+          CalendarFile: "/home/deno/weekend.cal"
         },
-        (path) => path.slice(path.lastIndexOf(".")),
+        path => path.slice(path.lastIndexOf("."))
       ],
       {
-        "FoodFile": ".txt",
-        "CalendarFile": ".cal",
-      },
+        FoodFile: ".txt",
+        CalendarFile: ".cal"
+      }
     );
     mapValuesTest(
       [
         {
-          "Curry": 20,
-          "Beans": 2,
-          "Rice": 3.5,
+          Curry: 20,
+          Beans: 2,
+          Rice: 3.5
         },
-        (price) => price.toFixed(2),
+        price => price.toFixed(2)
       ],
       {
-        "Curry": "20.00",
-        "Beans": "2.00",
-        "Rice": "3.50",
-      },
+        Curry: "20.00",
+        Beans: "2.00",
+        Rice: "3.50"
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -118,12 +118,12 @@ Ende.test({
     const input: Record<Variants, string> = { a: "a", b: "b" };
     const actual = mapValues(
       input,
-      (_: string) => 1,
+      (_: string) => 1
     );
     const expected = { a: 1, b: 1 };
 
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -133,12 +133,12 @@ Ende.test({
     const input: Partial<Record<Variants, string>> = { a: "a" };
     const actual = mapValues(
       input,
-      (_: string) => 1,
+      (_: string) => 1
     );
     const expected = { a: 1 };
 
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -147,10 +147,10 @@ Ende.test({
     const key = "key";
     const actual = mapValues(
       { [key]: "value" },
-      (_, k) => k,
+      (_, k) => k
     );
     const expected = { [key]: key };
 
     assertEquals(actual, expected);
-  },
+  }
 });

@@ -26,7 +26,7 @@ import {
   RIGHT_SQUARE_BRACKET,
   SHARP,
   SINGLE_QUOTE,
-  VERTICAL_LINE,
+  VERTICAL_LINE
 } from "./_chars.ts";
 import { DEFAULT_SCHEMA, type Schema } from "./_schema.ts";
 import type { KindType, StyleVariant, Type } from "./_type.ts";
@@ -50,12 +50,12 @@ const ESCAPE_SEQUENCES = new Map<number, string>([
   [0x0c, "\\f"],
   [0x0d, "\\r"],
   [0x1b, "\\e"],
-  [0x22, '\\"'],
+  [0x22, "\\\""],
   [0x5c, "\\\\"],
   [0x85, "\\N"],
   [0xa0, "\\_"],
   [0x2028, "\\L"],
-  [0x2029, "\\P"],
+  [0x2029, "\\P"]
 ]);
 
 const DEPRECATED_BOOLEANS_SYNTAX = new Set([
@@ -74,7 +74,7 @@ const DEPRECATED_BOOLEANS_SYNTAX = new Set([
   "NO",
   "off",
   "Off",
-  "OFF",
+  "OFF"
 ]);
 
 /**
@@ -82,16 +82,19 @@ const DEPRECATED_BOOLEANS_SYNTAX = new Set([
  */
 function charCodeToHexString(charCode: number): string {
   const hexString = charCode.toString(16).toUpperCase();
-  if (charCode <= 0xff) return `\\x${hexString.padStart(2, "0")}`;
-  if (charCode <= 0xffff) return `\\u${hexString.padStart(4, "0")}`;
-  if (charCode <= 0xffffffff) return `\\U${hexString.padStart(8, "0")}`;
+  if (charCode <= 0xff)
+    return `\\x${hexString.padStart(2, "0")}`;
+  if (charCode <= 0xffff)
+    return `\\u${hexString.padStart(4, "0")}`;
+  if (charCode <= 0xffffffff)
+    return `\\U${hexString.padStart(8, "0")}`;
   throw new Error(
-    "Code point within a string may not be greater than 0xFFFFFFFF",
+    "Code point within a string may not be greater than 0xFFFFFFFF"
   );
 }
 
 function createStyleMap(
-  map: Record<string, StyleVariant>,
+  map: Record<string, StyleVariant>
 ): Map<string, StyleVariant> {
   const result = new Map();
   for (let tag of Object.keys(map)) {
@@ -109,7 +112,7 @@ function indentString(string: string, spaces: number): string {
   const indent = " ".repeat(spaces);
   return string
     .split("\n")
-    .map((line) => line.length ? indent + line : line)
+    .map(line => line.length ? indent + line : line)
     .join("\n");
 }
 
@@ -187,7 +190,7 @@ function chooseScalarStyle(
   indentPerLevel: number,
   lineWidth: number,
   implicitTypes: Type<"scalar", unknown>[],
-  quoteStyle: "'" | '"',
+  quoteStyle: "'" | "\""
 ): number {
   const shouldTrackWidth = lineWidth !== -1;
   let hasLineBreak = false;
@@ -209,7 +212,8 @@ function chooseScalarStyle(
         return STYLE_DOUBLE;
       }
       plain = plain && isPlainSafe(char);
-      if (char > 0xffff) i++;
+      if (char > 0xffff)
+        i++;
     }
   } else {
     // Case: block styles permitted.
@@ -229,7 +233,8 @@ function chooseScalarStyle(
         return STYLE_DOUBLE;
       }
       plain = plain && isPlainSafe(char);
-      if (char > 0xffff) i++;
+      if (char > 0xffff)
+        i++;
     }
     // in case the end is missing a \n
     hasFoldableLine = hasFoldableLine ||
@@ -243,11 +248,11 @@ function chooseScalarStyle(
   if (!hasLineBreak && !hasFoldableLine) {
     // Strings interpretable as another type have to be quoted;
     // e.g. the string 'true' vs. the boolean true.
-    return plain && !implicitTypes.some((type) => type.resolve(string))
-      ? STYLE_PLAIN
-      : quoteStyle === "'"
-      ? STYLE_SINGLE
-      : STYLE_DOUBLE;
+    return plain && !implicitTypes.some(type => type.resolve(string)) ?
+      STYLE_PLAIN :
+      quoteStyle === "'" ?
+      STYLE_SINGLE :
+      STYLE_DOUBLE;
   }
   // Edge case: block indentation indicator can only have one digit.
   if (indentPerLevel > 9 && needIndentIndicator(string)) {
@@ -263,7 +268,8 @@ function chooseScalarStyle(
 // otherwise settles for the shortest line over the limit.
 // NB. More-indented lines *cannot* be folded, as that would add an extra \n.
 function foldLine(line: string, width: number): string {
-  if (line === "" || line[0] === " ") return line;
+  if (line === "" || line[0] === " ")
+    return line;
 
   // Since a more-indented line adds a \n, breaks can't be followed by a space.
   const breakRegExp = / [^ ]/g; // note: the match index will always be <= length-2.
@@ -355,9 +361,9 @@ function escapeString(string: string): string {
       continue;
     }
     const escapeSeq = ESCAPE_SEQUENCES.get(char);
-    result += !escapeSeq && isPrintable(char)
-      ? string[i]
-      : escapeSeq || charCodeToHexString(char);
+    result += !escapeSeq && isPrintable(char) ?
+      string[i] :
+      escapeSeq || charCodeToHexString(char);
   }
 
   return result;
@@ -365,9 +371,9 @@ function escapeString(string: string): string {
 
 // Pre-conditions: string is valid for a block scalar, 1 <= indentPerLevel <= 9.
 function blockHeader(string: string, indentPerLevel: number): string {
-  const indentIndicator = needIndentIndicator(string)
-    ? String(indentPerLevel)
-    : "";
+  const indentIndicator = needIndentIndicator(string) ?
+    String(indentPerLevel) :
+    "";
 
   // note the special case: the string '\n' counts as a "trailing" empty line.
   const clip = string[string.length - 1] === "\n";
@@ -384,7 +390,8 @@ function getDuplicateObjects(root: unknown): unknown[] {
 
   for (let i = 0; i < queue.length; i++) {
     const value = queue[i];
-    if (!isObject(value)) continue;
+    if (!isObject(value))
+      continue;
     if (seenObjects.has(value)) {
       duplicateObjects.add(value);
       continue;
@@ -397,7 +404,8 @@ function getDuplicateObjects(root: unknown): unknown[] {
   return [...duplicateObjects];
 }
 function stringifyValue(value: unknown, tag: string | null) {
-  if (tag !== null && tag !== "?") return `!<${tag}> ${value}`;
+  if (tag !== null && tag !== "?")
+    return `!<${tag}> ${value}`;
   return value as string;
 }
 
@@ -453,7 +461,7 @@ export interface DumperStateOptions {
    * If you specify single quotes, double quotes will still be used
    * for non-printable characters. (default: "'")
    */
-  quoteStyle?: "'" | '"';
+  quoteStyle?: "'" | "\"";
 }
 
 export class DumperState {
@@ -471,7 +479,7 @@ export class DumperState {
   duplicates: unknown[] = [];
   usedDuplicates: Set<unknown> = new Set();
   styleMap: Map<string, StyleVariant> = new Map();
-  quoteStyle: "'" | '"';
+  quoteStyle: "'" | "\"";
 
   constructor({
     schema = DEFAULT_SCHEMA,
@@ -485,13 +493,14 @@ export class DumperState {
     useAnchors = true,
     compatMode = true,
     condenseFlow = false,
-    quoteStyle = "'",
+    quoteStyle = "'"
   }: DumperStateOptions) {
     this.indent = Math.max(1, indent);
     this.arrayIndent = arrayIndent;
     this.skipInvalid = skipInvalid;
     this.flowLevel = flowLevel;
-    if (styles) this.styleMap = createStyleMap(styles);
+    if (styles)
+      this.styleMap = createStyleMap(styles);
     this.sortKeys = sortKeys;
     this.lineWidth = lineWidth;
     this.useAnchors = useAnchors;
@@ -510,7 +519,7 @@ export class DumperState {
   //  Importantly, this keeps the "+" chomp indicator from gaining an extra line.
   stringifyScalar(
     string: string,
-    { level, isKey }: { level: number; isKey: boolean },
+    { level, isKey }: { level: number; isKey: boolean; }
   ): string {
     if (string.length === 0) {
       return "''";
@@ -529,9 +538,9 @@ export class DumperState {
     // This behaves better than a constant minimum width which disallows
     // narrower options, or an indent threshold which causes the width
     // to suddenly increase.
-    const lineWidth = this.lineWidth === -1
-      ? -1
-      : Math.max(Math.min(this.lineWidth, 40), this.lineWidth - indent);
+    const lineWidth = this.lineWidth === -1 ?
+      -1 :
+      Math.max(Math.min(this.lineWidth, 40), this.lineWidth - indent);
 
     // Without knowing if keys are implicit/explicit,
     // assume implicit for safety.
@@ -545,7 +554,7 @@ export class DumperState {
       this.indent,
       lineWidth,
       this.implicitTypes,
-      this.quoteStyle,
+      this.quoteStyle
     );
     switch (scalarStyle) {
       case STYLE_PLAIN:
@@ -553,27 +562,25 @@ export class DumperState {
       case STYLE_SINGLE:
         return `'${string.replace(/'/g, "''")}'`;
       case STYLE_LITERAL:
-        return `|${blockHeader(string, this.indent)}${
-          trimTrailingNewline(indentString(string, indent))
-        }`;
+        return `|${blockHeader(string, this.indent)}${trimTrailingNewline(indentString(string, indent))}`;
       case STYLE_FOLDED:
         return `>${blockHeader(string, this.indent)}${
           trimTrailingNewline(
-            indentString(foldString(string, lineWidth), indent),
+            indentString(foldString(string, lineWidth), indent)
           )
         }`;
       case STYLE_DOUBLE:
         return `"${escapeString(string)}"`;
       default:
         throw new TypeError(
-          "Invalid scalar style should be unreachable: please file a bug report against Ende at https://github.com/theende/std/issues",
+          "Invalid scalar style should be unreachable: please file a bug report against Ende at https://github.com/theende/std/issues"
         );
     }
   }
 
   stringifyFlowSequence(
     array: unknown[],
-    { level }: { level: number },
+    { level }: { level: number; }
   ): string {
     const results = [];
     for (const value of array) {
@@ -581,9 +588,10 @@ export class DumperState {
         level,
         block: false,
         compact: false,
-        isKey: false,
+        isKey: false
       });
-      if (string === null) continue;
+      if (string === null)
+        continue;
       results.push(string);
     }
     const separator = this.condenseFlow ? "," : ", ";
@@ -592,7 +600,7 @@ export class DumperState {
 
   stringifyBlockSequence(
     array: unknown[],
-    { level, compact }: { level: number; compact: boolean },
+    { level, compact }: { level: number; compact: boolean; }
   ): string {
     const whitespace = generateNextLine(this.indent, level);
     const prefix = compact ? "" : whitespace;
@@ -602,9 +610,10 @@ export class DumperState {
         level: level + 1,
         block: true,
         compact: true,
-        isKey: false,
+        isKey: false
       });
-      if (string === null) continue;
+      if (string === null)
+        continue;
       const linePrefix = LINE_FEED === string.charCodeAt(0) ? "-" : "- ";
       results.push(`${linePrefix}${string}`);
     }
@@ -613,9 +622,9 @@ export class DumperState {
 
   stringifyFlowMapping(
     object: Record<string, unknown>,
-    { level }: { level: number },
+    { level }: { level: number; }
   ): string {
-    const quote = this.condenseFlow ? '"' : "";
+    const quote = this.condenseFlow ? "\"" : "";
     const separator = this.condenseFlow ? ":" : ": ";
 
     const results = [];
@@ -624,21 +633,23 @@ export class DumperState {
         level,
         block: false,
         compact: false,
-        isKey: false,
+        isKey: false
       });
-      if (keyString === null) continue; // Skip this pair because of invalid key;
+      if (keyString === null)
+        continue; // Skip this pair because of invalid key;
 
       const valueString = this.stringifyNode(value, {
         level,
         block: false,
         compact: false,
-        isKey: false,
+        isKey: false
       });
-      if (valueString === null) continue; // Skip this pair because of invalid value.
+      if (valueString === null)
+        continue; // Skip this pair because of invalid value.
 
       const keyPrefix = keyString.length > 1024 ? "? " : "";
       results.push(
-        quote + keyPrefix + keyString + quote + separator + valueString,
+        quote + keyPrefix + keyString + quote + separator + valueString
       );
     }
 
@@ -651,7 +662,7 @@ export class DumperState {
       tag: string | null;
       level: number;
       compact: boolean;
-    },
+    }
   ): string {
     const keys = Object.keys(object);
 
@@ -667,7 +678,7 @@ export class DumperState {
       // Something is wrong
       throw new TypeError(
         `"sortKeys" must be a boolean or a function: received ${typeof this
-          .sortKeys}`,
+          .sortKeys}`
       );
     }
 
@@ -682,9 +693,10 @@ export class DumperState {
         level: level + 1,
         block: true,
         compact: true,
-        isKey: true,
+        isKey: true
       });
-      if (keyString === null) continue; // Skip this pair because of invalid key.
+      if (keyString === null)
+        continue; // Skip this pair because of invalid key.
 
       const explicitPair = (tag !== null && tag !== "?") ||
         (keyString.length > 1024);
@@ -693,16 +705,18 @@ export class DumperState {
         level: level + 1,
         block: true,
         compact: explicitPair,
-        isKey: false,
+        isKey: false
       });
-      if (valueString === null) continue; // Skip this pair because of invalid value.
+      if (valueString === null)
+        continue; // Skip this pair because of invalid value.
 
       let pairBuffer = "";
       if (explicitPair) {
         pairBuffer += keyString.charCodeAt(0) === LINE_FEED ? "?" : "? ";
       }
       pairBuffer += keyString;
-      if (explicitPair) pairBuffer += separator;
+      if (explicitPair)
+        pairBuffer += separator;
       pairBuffer += valueString.charCodeAt(0) === LINE_FEED ? ":" : ": ";
       pairBuffer += valueString;
       results.push(pairBuffer);
@@ -713,7 +727,8 @@ export class DumperState {
   }
 
   getTypeRepresentation(type: Type<KindType, unknown>, value: unknown) {
-    if (!type.represent) return value;
+    if (!type.represent)
+      return value;
     const style = this.styleMap.get(type.tag) ??
       type.defaultStyle as StyleVariant;
     if (typeof type.represent === "function") {
@@ -722,13 +737,13 @@ export class DumperState {
     const represent = type.represent[style];
     if (!represent) {
       throw new TypeError(
-        `!<${type.tag}> tag resolver accepts not "${style}" style`,
+        `!<${type.tag}> tag resolver accepts not "${style}" style`
       );
     }
     return represent(value, style);
   }
 
-  detectType(value: unknown): { tag: string | null; value: unknown } {
+  detectType(value: unknown): { tag: string | null; value: unknown; } {
     for (const type of this.implicitTypes) {
       if (type.predicate?.(value)) {
         value = this.getTypeRepresentation(type, value);
@@ -773,7 +788,8 @@ export class DumperState {
       const duplicate = duplicateIndex !== -1;
 
       if (duplicate) {
-        if (this.usedDuplicates.has(value)) return `*ref_${duplicateIndex}`;
+        if (this.usedDuplicates.has(value))
+          return `*ref_${duplicateIndex}`;
         this.usedDuplicates.add(value);
       }
 
@@ -790,29 +806,34 @@ export class DumperState {
         if (block && value.length !== 0) {
           value = this.stringifyBlockSequence(value, {
             level: arrayLevel,
-            compact,
+            compact
           });
-          if (duplicate) value = `&ref_${duplicateIndex}${value}`;
+          if (duplicate)
+            value = `&ref_${duplicateIndex}${value}`;
           return stringifyValue(value, tag);
         }
 
         value = this.stringifyFlowSequence(value, { level: arrayLevel });
-        if (duplicate) value = `&ref_${duplicateIndex} ${value}`;
+        if (duplicate)
+          value = `&ref_${duplicateIndex} ${value}`;
         return stringifyValue(value, tag);
       }
 
       if (block && Object.keys(value).length !== 0) {
         value = this.stringifyBlockMapping(value, { tag, level, compact });
-        if (duplicate) value = `&ref_${duplicateIndex}${value}`;
+        if (duplicate)
+          value = `&ref_${duplicateIndex}${value}`;
         return stringifyValue(value, tag);
       }
 
       value = this.stringifyFlowMapping(value, { level });
-      if (duplicate) value = `&ref_${duplicateIndex} ${value}`;
+      if (duplicate)
+        value = `&ref_${duplicateIndex} ${value}`;
       return stringifyValue(value, tag);
     }
 
-    if (this.skipInvalid) return null;
+    if (this.skipInvalid)
+      return null;
     throw new TypeError(`Cannot stringify ${typeof value}`);
   }
 
@@ -826,7 +847,7 @@ export class DumperState {
       level: 0,
       block: true,
       compact: true,
-      isKey: false,
+      isKey: false
     });
     if (string !== null) {
       return `${string}\n`;

@@ -1,9 +1,9 @@
 {
-  "name": "@ende/tar",
-  "version": "0.1.10",
   "exports": {
     ".": "./mod.ts",
     "./tar-stream": "./tar_stream.ts",
     "./untar-stream": "./untar_stream.ts"
-  }
+  },
+  "name": "@ende/tar",
+  "version": "2026.10.15"
 }

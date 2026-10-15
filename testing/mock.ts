@@ -328,7 +328,7 @@ import {
   isSpy,
   registerMock,
   sessions,
-  unregisterMock,
+  unregisterMock
 } from "./_mock_utils.ts";
 
 /**
@@ -363,7 +363,7 @@ export interface SpyCall<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > {
   /** Arguments passed to a function when called. */
   args: Args;
@@ -382,7 +382,7 @@ export interface Spy<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > {
   (this: Self, ...args: Args): Return;
   /** The function that is being spied on. */
@@ -402,20 +402,21 @@ export interface MethodSpy<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > extends Spy<Self, Args, Return>, Disposable {}
 
 /** Wraps a function with a Spy. */
 function functionSpy<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(func?: (this: Self, ...args: Args) => Return): Spy<Self, Args, Return> {
   const original = func ?? (() => {}) as (this: Self, ...args: Args) => Return;
   const calls: SpyCall<Self, Args, Return>[] = [];
-  const spy = function (this: Self, ...args: Args): Return {
+  const spy = function(this: Self, ...args: Args): Return {
     const call: SpyCall<Self, Args, Return> = { args };
-    if (this) call.self = this;
+    if (this)
+      call.self = this;
     try {
       call.returned = original.apply(this, args);
     } catch (error) {
@@ -429,24 +430,24 @@ function functionSpy<
   Object.defineProperties(spy, {
     original: {
       enumerable: true,
-      value: original,
+      value: original
     },
     calls: {
       enumerable: true,
-      value: calls,
+      value: calls
     },
     restored: {
       enumerable: true,
-      get: () => false,
+      get: () => false
     },
     restore: {
       enumerable: true,
       value: () => {
         throw new MockError(
-          "Cannot restore: function cannot be restored",
+          "Cannot restore: function cannot be restored"
         );
-      },
-    },
+      }
+    }
   });
   return spy;
 }
@@ -504,19 +505,19 @@ export function mockSession(): number;
 export function mockSession<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
-  func: (this: Self, ...args: Args) => Return,
+  func: (this: Self, ...args: Args) => Return
 ): (this: Self, ...args: Args) => Return;
 export function mockSession<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
-  func?: (this: Self, ...args: Args) => Return,
+  func?: (this: Self, ...args: Args) => Return
 ): number | ((this: Self, ...args: Args) => Return) {
   if (func) {
-    return function (this: Self, ...args: Args): Return {
+    return function(this: Self, ...args: Args): Return {
       const id = sessions.length;
       sessions.push(new Set());
       try {
@@ -558,11 +559,11 @@ export function mockSession<
 export function mockSessionAsync<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
-  func: (this: Self, ...args: Args) => Promise<Return>,
+  func: (this: Self, ...args: Args) => Promise<Return>
 ): (this: Self, ...args: Args) => Promise<Return> {
-  return async function (this: Self, ...args: Args): Promise<Return> {
+  return async function(this: Self, ...args: Args): Promise<Return> {
     const id = sessions.length;
     sessions.push(new Set());
     try {
@@ -611,23 +612,23 @@ export function restore(id?: number) {
 function methodSpy<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(self: Self, property: keyof Self): MethodSpy<Self, Args, Return> {
   if (typeof self[property] !== "function") {
     throw new MockError(
-      "Cannot spy: property is not an instance method",
+      "Cannot spy: property is not an instance method"
     );
   }
   if (isSpy(self[property])) {
     throw new MockError(
-      "Cannot spy: already spying on instance method",
+      "Cannot spy: already spying on instance method"
     );
   }
 
   const propertyDescriptor = Object.getOwnPropertyDescriptor(self, property);
   if (propertyDescriptor && !propertyDescriptor.configurable) {
     throw new MockError(
-      "Cannot spy: non-configurable instance method",
+      "Cannot spy: non-configurable instance method"
     );
   }
 
@@ -637,9 +638,10 @@ function methodSpy<
   ) => Return;
   const calls: SpyCall<Self, Args, Return>[] = [];
   let restored = false;
-  const spy = function (this: Self, ...args: Args): Return {
+  const spy = function(this: Self, ...args: Args): Return {
     const call: SpyCall<Self, Args, Return> = { args };
-    if (this) call.self = this;
+    if (this)
+      call.self = this;
     try {
       call.returned = original.apply(this, args);
     } catch (error) {
@@ -653,22 +655,22 @@ function methodSpy<
   Object.defineProperties(spy, {
     original: {
       enumerable: true,
-      value: original,
+      value: original
     },
     calls: {
       enumerable: true,
-      value: calls,
+      value: calls
     },
     restored: {
       enumerable: true,
-      get: () => restored,
+      get: () => restored
     },
     restore: {
       enumerable: true,
       value: () => {
         if (restored) {
           throw new MockError(
-            "Cannot restore: instance method already restored",
+            "Cannot restore: instance method already restored"
           );
         }
         if (propertyDescriptor) {
@@ -678,20 +680,20 @@ function methodSpy<
         }
         restored = true;
         unregisterMock(spy);
-      },
+      }
     },
     [Symbol.dispose]: {
       value: () => {
         spy.restore();
-      },
-    },
+      }
+    }
   });
 
   Object.defineProperty(self, property, {
     configurable: true,
     enumerable: propertyDescriptor?.enumerable ?? false,
     writable: propertyDescriptor?.writable ?? false,
-    value: spy,
+    value: spy
   });
 
   registerMock(spy);
@@ -703,12 +705,12 @@ export interface ConstructorSpy<
   // deno-lint-ignore no-explicit-any
   Self = any,
   // deno-lint-ignore no-explicit-any
-  Args extends unknown[] = any[],
+  Args extends unknown[] = any[]
 > {
   /** Construct an instance. */
-  new (...args: Args): Self;
+  new(...args: Args): Self;
   /** The function that is being spied on. */
-  original: new (...args: Args) => Self;
+  original: new(...args: Args) => Self;
   /** Information about calls made to the function or instance method. */
   calls: SpyCall<Self, Args, Self>[];
   /** Whether or not the original instance method has been restored. */
@@ -720,9 +722,9 @@ export interface ConstructorSpy<
 /** Wraps a constructor with a Spy. */
 function constructorSpy<
   Self,
-  Args extends unknown[],
+  Args extends unknown[]
 >(
-  constructor: new (...args: Args) => Self,
+  constructor: new(...args: Args) => Self
 ): ConstructorSpy<Self, Args> {
   const original = constructor;
   const calls: SpyCall<Self, Args, Self>[] = [];
@@ -747,7 +749,7 @@ function constructorSpy<
     static readonly restored = false;
     static restore() {
       throw new MockError(
-        "Cannot restore: constructor cannot be restored",
+        "Cannot restore: constructor cannot be restored"
       );
     }
   } as ConstructorSpy<Self, Args>;
@@ -761,9 +763,9 @@ function constructorSpy<
  */
 export type GetParametersFromProp<
   Self,
-  Prop extends keyof Self,
-> = Self[Prop] extends (...args: infer Args) => unknown ? Args
-  : unknown[];
+  Prop extends keyof Self
+> = Self[Prop] extends (...args: infer Args) => unknown ? Args :
+  unknown[];
 
 /**
  * Utility for extracting the return type from a property
@@ -772,10 +774,10 @@ export type GetParametersFromProp<
  */
 export type GetReturnFromProp<
   Self,
-  Prop extends keyof Self,
+  Prop extends keyof Self
 > // deno-lint-ignore no-explicit-any
- = Self[Prop] extends (...args: any[]) => infer Return ? Return
-  : unknown;
+ = Self[Prop] extends (...args: any[]) => infer Return ? Return :
+  unknown;
 
 /** SpyLink object type. */
 export type SpyLike<
@@ -784,7 +786,7 @@ export type SpyLike<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > = Spy<Self, Args, Return> | ConstructorSpy<Self, Args>;
 
 /** Creates a spy function.
@@ -821,7 +823,7 @@ export function spy<
   Self = any,
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
-  Return = undefined,
+  Return = undefined
 >(): Spy<Self, Args, Return>;
 /**
  * Create a spy function with the given implementation.
@@ -855,7 +857,7 @@ export function spy<
 export function spy<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(func: (this: Self, ...args: Args) => Return): Spy<Self, Args, Return>;
 /**
  * Create a spy constructor.
@@ -891,9 +893,9 @@ export function spy<
  */
 export function spy<
   Self,
-  Args extends unknown[],
+  Args extends unknown[]
 >(
-  constructor: new (...args: Args) => Self,
+  constructor: new(...args: Args) => Self
 ): ConstructorSpy<Self, Args>;
 /**
  * Wraps a instance method with a Spy.
@@ -932,10 +934,10 @@ export function spy<
  */
 export function spy<
   Self,
-  Prop extends keyof Self,
+  Prop extends keyof Self
 >(
   self: Self,
-  property: Prop,
+  property: Prop
 ): MethodSpy<
   Self,
   GetParametersFromProp<Self, Prop>,
@@ -944,13 +946,13 @@ export function spy<
 export function spy<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
   funcOrConstOrSelf?:
     | ((this: Self, ...args: Args) => Return)
-    | (new (...args: Args) => Self)
+    | (new(...args: Args) => Self)
     | Self,
-  property?: keyof Self,
+  property?: keyof Self
 ): SpyLike<Self, Args, Return> {
   if (!funcOrConstOrSelf) {
     return functionSpy<Self, Args, Return>();
@@ -958,11 +960,11 @@ export function spy<
     return methodSpy<Self, Args, Return>(funcOrConstOrSelf as Self, property);
   } else if (funcOrConstOrSelf.toString().startsWith("class")) {
     return constructorSpy<Self, Args>(
-      funcOrConstOrSelf as new (...args: Args) => Self,
+      funcOrConstOrSelf as new(...args: Args) => Self
     );
   } else {
     return functionSpy<Self, Args, Return>(
-      funcOrConstOrSelf as (this: Self, ...args: Args) => Return,
+      funcOrConstOrSelf as (this: Self, ...args: Args) => Return
     );
   }
 }
@@ -974,7 +976,7 @@ export interface Stub<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > extends MethodSpy<Self, Args, Return> {
   /** The function that is used instead of the original. */
   fake: (this: Self, ...args: Args) => Return;
@@ -1011,10 +1013,10 @@ export interface Stub<
  */
 export function stub<
   Self,
-  Prop extends keyof Self,
+  Prop extends keyof Self
 >(
   self: Self,
-  property: Prop,
+  property: Prop
 ): Stub<Self, GetParametersFromProp<Self, Prop>, GetReturnFromProp<Self, Prop>>;
 /**
  * Replaces an instance method with a Stub with the given implementation.
@@ -1044,32 +1046,32 @@ export function stub<
  */
 export function stub<
   Self,
-  Prop extends keyof Self,
+  Prop extends keyof Self
 >(
   self: Self,
   property: Prop,
   func: (
     this: Self,
     ...args: GetParametersFromProp<Self, Prop>
-  ) => GetReturnFromProp<Self, Prop>,
+  ) => GetReturnFromProp<Self, Prop>
 ): Stub<Self, GetParametersFromProp<Self, Prop>, GetReturnFromProp<Self, Prop>>;
 export function stub<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
   self: Self,
   property: keyof Self,
-  func?: (this: Self, ...args: Args) => Return,
+  func?: (this: Self, ...args: Args) => Return
 ): Stub<Self, Args, Return> {
   if (self[property] !== undefined && typeof self[property] !== "function") {
     throw new MockError(
-      "Cannot stub: property is not an instance method",
+      "Cannot stub: property is not an instance method"
     );
   }
   if (isSpy(self[property])) {
     throw new MockError(
-      "Cannot stub: already spying on instance method",
+      "Cannot stub: already spying on instance method"
     );
   }
 
@@ -1086,9 +1088,10 @@ export function stub<
   ) => Return;
   const calls: SpyCall<Self, Args, Return>[] = [];
   let restored = false;
-  const stub = function (this: Self, ...args: Args): Return {
+  const stub = function(this: Self, ...args: Args): Return {
     const call: SpyCall<Self, Args, Return> = { args };
-    if (this) call.self = this;
+    if (this)
+      call.self = this;
     try {
       call.returned = fake.apply(this, args);
     } catch (error) {
@@ -1102,26 +1105,26 @@ export function stub<
   Object.defineProperties(stub, {
     original: {
       enumerable: true,
-      value: original,
+      value: original
     },
     fake: {
       enumerable: true,
-      value: fake,
+      value: fake
     },
     calls: {
       enumerable: true,
-      value: calls,
+      value: calls
     },
     restored: {
       enumerable: true,
-      get: () => restored,
+      get: () => restored
     },
     restore: {
       enumerable: true,
       value: () => {
         if (restored) {
           throw new MockError(
-            "Cannot restore: instance method already restored",
+            "Cannot restore: instance method already restored"
           );
         }
         if (propertyDescriptor) {
@@ -1131,20 +1134,20 @@ export function stub<
         }
         restored = true;
         unregisterMock(stub);
-      },
+      }
     },
     [Symbol.dispose]: {
       value: () => {
         stub.restore();
-      },
-    },
+      }
+    }
   });
 
   Object.defineProperty(self, property, {
     configurable: true,
     enumerable: propertyDescriptor?.enumerable ?? false,
     writable: propertyDescriptor?.writable ?? false,
-    value: stub,
+    value: stub
   });
 
   registerMock(stub);
@@ -1175,18 +1178,18 @@ export function stub<
 export function assertSpyCalls<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
   spy: SpyLike<Self, Args, Return>,
-  expectedCalls: number,
+  expectedCalls: number
 ) {
   try {
     assertEquals(spy.calls.length, expectedCalls);
   } catch (e) {
     assertIsError(e);
-    let message = spy.calls.length < expectedCalls
-      ? "Spy not called as much as expected:\n"
-      : "Spy called more than expected:\n";
+    let message = spy.calls.length < expectedCalls ?
+      "Spy not called as much as expected:\n" :
+      "Spy called more than expected:\n";
     message += e.message.split("\n").slice(1).join("\n");
     throw new AssertionError(message);
   }
@@ -1199,7 +1202,7 @@ export interface ExpectedSpyCall<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > {
   /** Arguments passed to a function when called. */
   args?: [...Args, ...unknown[]];
@@ -1214,7 +1217,7 @@ export interface ExpectedSpyCall<
   error?: {
     /** The class for the error that was thrown by a function. */
     // deno-lint-ignore no-explicit-any
-    Class?: new (...args: any[]) => Error;
+    Class?: new(...args: any[]) => Error;
     /** Part of the message for the error that was thrown by a function. */
     msgIncludes?: string;
   };
@@ -1223,10 +1226,10 @@ export interface ExpectedSpyCall<
 function getSpyCall<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
   spy: SpyLike<Self, Args, Return>,
-  callIndex: number,
+  callIndex: number
 ): SpyCall {
   if (spy.calls.length < (callIndex + 1)) {
     throw new AssertionError("Spy not called as much as expected");
@@ -1260,11 +1263,11 @@ function getSpyCall<
 export function assertSpyCall<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
   spy: SpyLike<Self, Args, Return>,
   callIndex: number,
-  expected?: ExpectedSpyCall<Self, Args, Return>,
+  expected?: ExpectedSpyCall<Self, Args, Return>
 ) {
   const call = getSpyCall(spy, callIndex);
   if (expected) {
@@ -1275,7 +1278,7 @@ export function assertSpyCall<
         assertIsError(e);
         throw new AssertionError(
           "Spy not called with expected args:\n" +
-            e.message.split("\n").slice(1).join("\n"),
+            e.message.split("\n").slice(1).join("\n")
         );
       }
     }
@@ -1285,9 +1288,9 @@ export function assertSpyCall<
         assertEquals(call.self, expected.self);
       } catch (e) {
         assertIsError(e);
-        let message = expected.self
-          ? "Spy not called as method on expected self:\n"
-          : "Spy not expected to be called as method on object:\n";
+        let message = expected.self ?
+          "Spy not called as method on expected self:\n" :
+          "Spy not expected to be called as method on object:\n";
         message += e.message.split("\n").slice(1).join("\n");
         throw new AssertionError(message);
       }
@@ -1296,12 +1299,12 @@ export function assertSpyCall<
     if ("returned" in expected) {
       if ("error" in expected) {
         throw new TypeError(
-          "Do not expect error and return, only one should be expected",
+          "Do not expect error and return, only one should be expected"
         );
       }
       if (call.error) {
         throw new AssertionError(
-          "Spy call did not return expected value, an error was thrown.",
+          "Spy call did not return expected value, an error was thrown."
         );
       }
       try {
@@ -1310,7 +1313,7 @@ export function assertSpyCall<
         assertIsError(e);
         throw new AssertionError(
           "Spy call did not return expected value:\n" +
-            e.message.split("\n").slice(1).join("\n"),
+            e.message.split("\n").slice(1).join("\n")
         );
       }
     }
@@ -1318,13 +1321,13 @@ export function assertSpyCall<
     if ("error" in expected) {
       if ("returned" in call) {
         throw new AssertionError(
-          "Spy call did not throw an error, a value was returned.",
+          "Spy call did not throw an error, a value was returned."
         );
       }
       assertIsError(
         call.error,
         expected.error?.Class,
-        expected.error?.msgIncludes,
+        expected.error?.msgIncludes
       );
     }
   }
@@ -1359,11 +1362,11 @@ export function assertSpyCall<
 export async function assertSpyCallAsync<
   Self,
   Args extends unknown[],
-  Return,
+  Return
 >(
   spy: SpyLike<Self, Args, Promise<Return>>,
   callIndex: number,
-  expected?: ExpectedSpyCall<Self, Args, Promise<Return> | Return>,
+  expected?: ExpectedSpyCall<Self, Args, Promise<Return> | Return>
 ) {
   const expectedSync = expected && { ...expected };
   if (expectedSync) {
@@ -1375,12 +1378,12 @@ export async function assertSpyCallAsync<
 
   if (call.error) {
     throw new AssertionError(
-      "Spy call did not return a promise, an error was thrown.",
+      "Spy call did not return a promise, an error was thrown."
     );
   }
   if (call.returned !== Promise.resolve(call.returned)) {
     throw new AssertionError(
-      "Spy call did not return a promise, a value was returned.",
+      "Spy call did not return a promise, a value was returned."
     );
   }
 
@@ -1388,7 +1391,7 @@ export async function assertSpyCallAsync<
     if ("returned" in expected) {
       if ("error" in expected) {
         throw new TypeError(
-          "Do not expect error and return, only one should be expected",
+          "Do not expect error and return, only one should be expected"
         );
       }
       let expectedResolved;
@@ -1396,7 +1399,7 @@ export async function assertSpyCallAsync<
         expectedResolved = await expected.returned;
       } catch {
         throw new TypeError(
-          "Do not expect rejected promise, expect error instead",
+          "Do not expect rejected promise, expect error instead"
         );
       }
 
@@ -1413,7 +1416,7 @@ export async function assertSpyCallAsync<
         assertIsError(e);
         throw new AssertionError(
           "Spy call did not resolve to expected value:\n" +
-            e.message.split("\n").slice(1).join("\n"),
+            e.message.split("\n").slice(1).join("\n")
         );
       }
     }
@@ -1422,7 +1425,7 @@ export async function assertSpyCallAsync<
       await assertRejects(
         () => Promise.resolve(call.returned),
         expected.error?.Class ?? Error,
-        expected.error?.msgIncludes ?? "",
+        expected.error?.msgIncludes ?? ""
       );
     }
   }
@@ -1461,12 +1464,12 @@ export function assertSpyCallArg<
   Self,
   Args extends unknown[],
   Return,
-  ExpectedArg,
+  ExpectedArg
 >(
   spy: SpyLike<Self, Args, Return>,
   callIndex: number,
   argIndex: number,
-  expected: ExpectedArg,
+  expected: ExpectedArg
 ): ExpectedArg {
   const call = getSpyCall(spy, callIndex);
   const arg = call?.args[argIndex];
@@ -1507,11 +1510,11 @@ export function assertSpyCallArgs<
   Self,
   Args extends unknown[],
   Return,
-  ExpectedArgs extends unknown[],
+  ExpectedArgs extends unknown[]
 >(
   spy: SpyLike<Self, Args, Return>,
   callIndex: number,
-  expected: ExpectedArgs,
+  expected: ExpectedArgs
 ): ExpectedArgs;
 /**
  * Asserts that an spy is called with a specific range of args as expected.
@@ -1544,12 +1547,12 @@ export function assertSpyCallArgs<
   Self,
   Args extends unknown[],
   Return,
-  ExpectedArgs extends unknown[],
+  ExpectedArgs extends unknown[]
 >(
   spy: SpyLike<Self, Args, Return>,
   callIndex: number,
   argsStart: number,
-  expected: ExpectedArgs,
+  expected: ExpectedArgs
 ): ExpectedArgs;
 /**
  * Asserts that an spy is called with a specific range of args as expected.
@@ -1583,25 +1586,25 @@ export function assertSpyCallArgs<
   Self,
   Args extends unknown[],
   Return,
-  ExpectedArgs extends unknown[],
+  ExpectedArgs extends unknown[]
 >(
   spy: SpyLike<Self, Args, Return>,
   callIndex: number,
   argsStart: number,
   argsEnd: number,
-  expected: ExpectedArgs,
+  expected: ExpectedArgs
 ): ExpectedArgs;
 export function assertSpyCallArgs<
   ExpectedArgs extends unknown[],
   Args extends unknown[],
   Return,
-  Self,
+  Self
 >(
   spy: SpyLike<Self, Args, Return>,
   callIndex: number,
   argsStart?: number | ExpectedArgs,
   argsEnd?: number | ExpectedArgs,
-  expected?: ExpectedArgs,
+  expected?: ExpectedArgs
 ): ExpectedArgs {
   const call = getSpyCall(spy, callIndex);
   if (!expected) {
@@ -1612,11 +1615,11 @@ export function assertSpyCallArgs<
     expected = argsStart as ExpectedArgs;
     argsStart = undefined;
   }
-  const args = typeof argsEnd === "number"
-    ? call.args.slice(argsStart as number, argsEnd)
-    : typeof argsStart === "number"
-    ? call.args.slice(argsStart)
-    : call.args;
+  const args = typeof argsEnd === "number" ?
+    call.args.slice(argsStart as number, argsEnd) :
+    typeof argsStart === "number" ?
+    call.args.slice(argsStart) :
+    call.args;
   assertEquals(args, expected);
   return args as ExpectedArgs;
 }
@@ -1642,9 +1645,9 @@ export function returnsThis<
   // deno-lint-ignore no-explicit-any
   Self = any,
   // deno-lint-ignore no-explicit-any
-  Args extends unknown[] = any[],
+  Args extends unknown[] = any[]
 >(): (this: Self, ...args: Args) => Self {
-  return function (this: Self): Self {
+  return function(this: Self): Self {
     return this;
   };
 }
@@ -1669,11 +1672,11 @@ export function returnsThis<
 export function returnsArg<
   Arg,
   // deno-lint-ignore no-explicit-any
-  Self = any,
+  Self = any
 >(
-  idx: number,
+  idx: number
 ): (this: Self, ...args: Arg[]) => Arg | undefined {
-  return function (...args: Arg[]): Arg | undefined {
+  return function(...args: Arg[]): Arg | undefined {
     return args[idx];
   };
 }
@@ -1699,12 +1702,12 @@ export function returnsArg<
 export function returnsArgs<
   Args extends unknown[],
   // deno-lint-ignore no-explicit-any
-  Self = any,
+  Self = any
 >(
   start = 0,
-  end?: number,
+  end?: number
 ): (this: Self, ...args: Args) => Args {
-  return function (this: Self, ...args: Args): Args {
+  return function(this: Self, ...args: Args): Args {
     return args.slice(start, end) as Args;
   };
 }
@@ -1735,24 +1738,25 @@ export function returnsNext<
   // deno-lint-ignore no-explicit-any
   Self = any,
   // deno-lint-ignore no-explicit-any
-  Args extends unknown[] = any[],
+  Args extends unknown[] = any[]
 >(
-  values: Iterable<Return | Error>,
+  values: Iterable<Return | Error>
 ): (this: Self, ...args: Args) => Return {
   const gen = (function* returnsValue() {
     yield* values;
   })();
   let calls = 0;
-  return function () {
+  return function() {
     const next = gen.next();
     if (next.done) {
       throw new MockError(
-        `Not expected to be called more than ${calls} time(s)`,
+        `Not expected to be called more than ${calls} time(s)`
       );
     }
     calls++;
     const { value } = next;
-    if (value instanceof Error) throw value;
+    if (value instanceof Error)
+      throw value;
     return value;
   };
 }
@@ -1783,26 +1787,27 @@ export function resolvesNext<
   // deno-lint-ignore no-explicit-any
   Self = any,
   // deno-lint-ignore no-explicit-any
-  Args extends unknown[] = any[],
+  Args extends unknown[] = any[]
 >(
   iterable:
     | Iterable<Return | Error | Promise<Return | Error>>
-    | AsyncIterable<Return | Error | Promise<Return | Error>>,
+    | AsyncIterable<Return | Error | Promise<Return | Error>>
 ): (this: Self, ...args: Args) => Promise<Return> {
   const gen = (async function* returnsValue() {
     yield* iterable;
   })();
   let calls = 0;
-  return async function () {
+  return async function() {
     const next = await gen.next();
     if (next.done) {
       throw new MockError(
-        `Not expected to be called more than ${calls} time(s)`,
+        `Not expected to be called more than ${calls} time(s)`
       );
     }
     calls++;
     const { value } = next;
-    if (value instanceof Error) throw value;
+    if (value instanceof Error)
+      throw value;
     return value;
   };
 }

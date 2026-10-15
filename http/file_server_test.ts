@@ -6,10 +6,10 @@ import {
   assertEquals,
   assertFalse,
   assertMatch,
-  assertStringIncludes,
+  assertStringIncludes
 } from "@ende/assert";
 import { stub } from "@ende/testing/mock";
-import { serveDir, type ServeDirOptions, serveFile } from "./file_server.ts";
+import { serveDir, serveFile, type ServeDirOptions } from "./file_server.ts";
 import { eTag } from "./etag.ts";
 import {
   basename,
@@ -20,7 +20,7 @@ import {
   relative,
   resolve,
   SEPARATOR,
-  toFileUrl,
+  toFileUrl
 } from "@ende/path";
 import endeConfig from "./ende.json" with { type: "json" };
 import { MINUTE } from "@ende/datetime/constants";
@@ -37,7 +37,7 @@ const serveDirOptions: ServeDirOptions = {
   fsRoot: testdataDir,
   showDirListing: true,
   showDotfiles: true,
-  enableCors: true,
+  enableCors: true
 };
 const endeVersion = parseSemver(Ende.version.ende);
 const isCanary = endeVersion.build ? endeVersion.build.length > 0 : false;
@@ -49,9 +49,9 @@ const TEST_FILE_PATH = join(testdataDir, "test_file.txt");
 const TEST_FILE_STAT = await Ende.stat(TEST_FILE_PATH);
 const TEST_FILE_SIZE = TEST_FILE_STAT.size;
 const TEST_FILE_ETAG = await eTag(TEST_FILE_STAT) as string;
-const TEST_FILE_LAST_MODIFIED = TEST_FILE_STAT.mtime instanceof Date
-  ? new Date(TEST_FILE_STAT.mtime).toUTCString()
-  : "";
+const TEST_FILE_LAST_MODIFIED = TEST_FILE_STAT.mtime instanceof Date ?
+  new Date(TEST_FILE_STAT.mtime).toUTCString() :
+  "";
 const TEST_FILE_TEXT = await Ende.readTextFile(TEST_FILE_PATH);
 const LOCALHOST = Ende.build.os === "windows" ? "localhost" : "0.0.0.0";
 
@@ -59,7 +59,7 @@ const LOCALHOST = Ende.build.os === "windows" ? "localhost" : "0.0.0.0";
 async function fetchExactPath(
   hostname: string,
   port: number,
-  path: string,
+  path: string
 ): Promise<Response> {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
@@ -98,7 +98,7 @@ async function fetchExactPath(
   const body = currentResult.slice(startOfBody);
   const headersStr = currentResult.slice(0, startOfBody);
   const headersReg = /^(.*): (.*)$/mg;
-  const headersObj: { [i: string]: string } = {};
+  const headersObj: { [i: string]: string; } = {};
   let match = headersReg.exec(headersStr);
   while (match !== null) {
     if (match[1] && match[2]) {
@@ -108,7 +108,7 @@ async function fetchExactPath(
   }
   return new Response(body, {
     status: statusCode,
-    headers: new Headers(headersObj),
+    headers: new Headers(headersObj)
   });
 }
 
@@ -118,9 +118,9 @@ Ende.test("serveDir() sets last-modified header", async () => {
   await res.body?.cancel();
   const lastModifiedHeader = res.headers.get("last-modified") as string;
   const lastModifiedTime = Date.parse(lastModifiedHeader);
-  const expectedTime = TEST_FILE_STAT.mtime instanceof Date
-    ? TEST_FILE_STAT.mtime.getTime()
-    : Number.NaN;
+  const expectedTime = TEST_FILE_STAT.mtime instanceof Date ?
+    TEST_FILE_STAT.mtime.getTime() :
+    Number.NaN;
 
   assertAlmostEquals(lastModifiedTime, expectedTime, 5 * MINUTE);
 });
@@ -148,7 +148,7 @@ Ende.test("serveDir() with hash symbol in filename", async () => {
   assertEquals(res.status, 200);
   assertEquals(
     res.headers.get("content-type"),
-    "text/plain; charset=UTF-8",
+    "text/plain; charset=UTF-8"
   );
   assertEquals(downloadedFile, text);
 
@@ -167,7 +167,7 @@ Ende.test("serveDir() with space in filename", async () => {
   assertEquals(res.status, 200);
   assertEquals(
     res.headers.get("content-type"),
-    "text/plain; charset=UTF-8",
+    "text/plain; charset=UTF-8"
   );
   assertEquals(downloadedFile, text);
 
@@ -183,9 +183,9 @@ Ende.test("serveDir() serves directory index", async () => {
   const page = await res.text();
 
   assertEquals(res.status, 200);
-  assertStringIncludes(page, '<a href=".">home</a>/');
-  assertStringIncludes(page, '<a href="./hello.html">hello.html</a>');
-  assertStringIncludes(page, '<a href="./tls/">tls/</a>');
+  assertStringIncludes(page, "<a href=\".\">home</a>/");
+  assertStringIncludes(page, "<a href=\"./hello.html\">hello.html</a>");
+  assertStringIncludes(page, "<a href=\"./tls/\">tls/</a>");
   assertStringIncludes(page, "%2525A.txt");
   if (fsModeUnavailable) {
     assertMatch(page, /<td class="mode">(\s)*\(unknown mode\)(\s)*<\/td>/);
@@ -204,10 +204,10 @@ Ende.test("serveDir() serves directory index with entry to the parent directory"
   assertEquals(res.status, 200);
   assertStringIncludes(
     page,
-    '<a href="../../">home</a>/<a href="../">nested-subdirs</a>/<a href=".">subdir</a>/',
+    "<a href=\"../../\">home</a>/<a href=\"../\">nested-subdirs</a>/<a href=\".\">subdir</a>/"
   );
-  assertStringIncludes(page, '<a href="..">../</a>');
-  assertStringIncludes(page, '<a href="./test_file.txt">test_file.txt</a>');
+  assertStringIncludes(page, "<a href=\"..\">../</a>");
+  assertStringIncludes(page, "<a href=\"./test_file.txt\">test_file.txt</a>");
 });
 
 Ende.test("serveDir() serves directory index with file containing space in the filename", async () => {
@@ -219,8 +219,8 @@ Ende.test("serveDir() serves directory index with file containing space in the f
   const page = await res.text();
 
   assertEquals(res.status, 200);
-  assertStringIncludes(page, '<a href="./hello.html">hello.html</a>');
-  assertStringIncludes(page, '<a href="./tls/">tls/</a>');
+  assertStringIncludes(page, "<a href=\"./hello.html\">hello.html</a>");
+  assertStringIncludes(page, "<a href=\"./tls/\">tls/</a>");
   assertStringIncludes(page, "test%20file.txt");
   if (fsModeUnavailable) {
     assertMatch(page, /<td class="mode">(\s)*\(unknown mode\)(\s)*<\/td>/);
@@ -238,8 +238,8 @@ Ende.test("serveDir() serves directory index with file's mode is 0", async () =>
     "stat",
     async (path: string | URL): Promise<Ende.FileInfo> => ({
       ...(await stat(path)),
-      mode: 0,
-    }),
+      mode: 0
+    })
   );
   const res = await serveDir(new Request("http://localhost/"), serveDirOptions);
   const page = await res.text();
@@ -247,18 +247,18 @@ Ende.test("serveDir() serves directory index with file's mode is 0", async () =>
 });
 
 Ende.test("serveDir() escapes file names when rendering directory index", {
-  ignore: Ende.build.os === "windows",
+  ignore: Ende.build.os === "windows"
 }, async () => {
   const dir = await Ende.makeTempDir();
   const filePath = join(dir, "<img src=x onerror=alert(1)>");
   await Ende.writeTextFile(filePath, "abc");
   const res = await serveDir(new Request("http://localhost/"), {
     ...serveDirOptions,
-    fsRoot: dir,
+    fsRoot: dir
   });
   assertStringIncludes(
     await res.text(),
-    '<a href="./%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E">&lt;img src=x onerror=alert(1)&gt;</a>',
+    "<a href=\"./%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E\">&lt;img src=x onerror=alert(1)&gt;</a>"
   );
 });
 
@@ -313,7 +313,7 @@ Ende.test("serveDir() traverses path", async () => {
   const port = 4507;
   const server = Ende.serve(
     { port, signal: controller.signal },
-    async (req) => await serveDir(req, serveDirOptions),
+    async req => await serveDir(req, serveDirOptions)
   );
 
   const res1 = await fetchExactPath("127.0.0.1", port, "../../../..");
@@ -324,7 +324,7 @@ Ende.test("serveDir() traverses path", async () => {
   const res2 = await fetchExactPath(
     "127.0.0.1",
     port,
-    "http://localhost/../../../..",
+    "http://localhost/../../../.."
   );
   const page = await res2.text();
 
@@ -337,7 +337,7 @@ Ende.test("serveDir() traverses path", async () => {
 
 Ende.test("serveDir() traverses encoded URI path", async () => {
   const req = new Request(
-    "http://localhost/%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..",
+    "http://localhost/%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F.."
   );
   const res = await serveDir(req, serveDirOptions);
   await res.body?.cancel();
@@ -395,8 +395,8 @@ Ende.test("serveDir() script prints help", async () => {
       "--quiet",
       "--no-lock",
       "http/file_server.ts",
-      "--help",
-    ],
+      "--help"
+    ]
   });
   const { stdout } = await command.output();
   const output = new TextDecoder().decode(stdout);
@@ -411,8 +411,8 @@ Ende.test("serveDir() script prints version", async () => {
       "--quiet",
       "--no-lock",
       "http/file_server.ts",
-      "--version",
-    ],
+      "--version"
+    ]
   });
   const { stdout } = await command.output();
   const output = new TextDecoder().decode(stdout);
@@ -445,15 +445,15 @@ Ende.test("serveDir() script fails with partial TLS args", async () => {
       "--cert",
       "./testdata/tls/localhost.crt",
       "-p",
-      `4578`,
+      `4578`
     ],
-    stderr: "null",
+    stderr: "null"
   });
   const { stdout, success } = await command.output();
   assertFalse(success);
   assertStringIncludes(
     new TextDecoder().decode(stdout),
-    "--key and --cert are required for TLS",
+    "--key and --cert are required for TLS"
   );
 });
 
@@ -461,7 +461,7 @@ Ende.test("serveDir() doesn't show directory listings", async () => {
   const req = new Request("http://localhost/");
   const res = await serveDir(req, {
     ...serveDirOptions,
-    showDirListing: false,
+    showDirListing: false
   });
   await res.body?.cancel();
 
@@ -486,7 +486,7 @@ Ende.test("serveDir() doesn't show dotfiles when showDotfiles=false", async () =
   const req1 = new Request("http://localhost/");
   const res1 = await serveDir(req1, {
     ...serveDirOptions,
-    showDotfiles: false,
+    showDotfiles: false
   });
   const page1 = await res1.text();
 
@@ -495,7 +495,7 @@ Ende.test("serveDir() doesn't show dotfiles when showDotfiles=false", async () =
   const req2 = new Request("http://localhost/.dotfile");
   const res2 = await serveDir(req2, {
     ...serveDirOptions,
-    showDotfiles: false,
+    showDotfiles: false
   });
   const body = await res2.text();
 
@@ -512,13 +512,13 @@ Ende.test("serveDir() rejects percent-encoded backslashes", async () => {
     "/%5c.dotfile",
     "/subdir%5C..%5C.dotfile",
     "/subdir%5C..%5C..%5Cfile_server.ts",
-    "/%5C..%5C..%5Cfile_server.ts",
+    "/%5C..%5C..%5Cfile_server.ts"
   ];
   for (const path of paths) {
     const req = new Request(`http://localhost${path}`);
     const res = await serveDir(req, {
       ...serveDirOptions,
-      showDotfiles: false,
+      showDotfiles: false
     });
     await res.body?.cancel();
 
@@ -535,7 +535,7 @@ Ende.test("serveDir() serves descendants when fsRoot is a filesystem root", asyn
   const req = new Request(`http://localhost${requestPath}`);
   const res = await serveDir(req, {
     quiet: true,
-    fsRoot: filesystemRoot,
+    fsRoot: filesystemRoot
   });
 
   assertEquals(res.status, 200);
@@ -559,7 +559,7 @@ Ende.test("serveDir() shows .. if it makes sense", async () => {
 
 Ende.test("serveDir() handles range request (bytes=0-0)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=0-0" },
+    headers: { range: "bytes=0-0" }
   });
   const res = await serveDir(req, serveDirOptions);
   const text = await res.text();
@@ -569,13 +569,13 @@ Ende.test("serveDir() handles range request (bytes=0-0)", async () => {
 
 Ende.test("serveDir() handles range request (bytes=0-100)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=0-100" },
+    headers: { range: "bytes=0-100" }
   });
   const res = await serveDir(req, serveDirOptions);
 
   assertEquals(
     res.headers.get("content-range"),
-    `bytes 0-100/${TEST_FILE_SIZE}`,
+    `bytes 0-100/${TEST_FILE_SIZE}`
   );
   assertEquals(res.status, 206);
   assertEquals((await res.arrayBuffer()).byteLength, 101);
@@ -583,28 +583,28 @@ Ende.test("serveDir() handles range request (bytes=0-100)", async () => {
 
 Ende.test("serveDir() handles range request (bytes=300-)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=300-" },
+    headers: { range: "bytes=300-" }
   });
   const res = await serveDir(req, serveDirOptions);
   const text = await res.text();
 
   assertEquals(
     res.headers.get("content-range"),
-    `bytes 300-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`,
+    `bytes 300-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`
   );
   assertEquals(text, TEST_FILE_TEXT.substring(300));
 });
 
 Ende.test("serveDir() handles range request (bytes=-200)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=-200" },
+    headers: { range: "bytes=-200" }
   });
   const res = await serveDir(req, serveDirOptions);
 
   assertEquals(await res.text(), TEST_FILE_TEXT.slice(-200));
   assertEquals(
     res.headers.get("content-range"),
-    `bytes ${TEST_FILE_SIZE - 200}-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`,
+    `bytes ${TEST_FILE_SIZE - 200}-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`
   );
   assertEquals(res.status, 206);
   assertEquals(res.statusText, "Partial Content");
@@ -612,14 +612,14 @@ Ende.test("serveDir() handles range request (bytes=-200)", async () => {
 
 Ende.test("serveDir() clamps ranges that are too large (bytes=0-999999999)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=0-999999999" },
+    headers: { range: "bytes=0-999999999" }
   });
   const res = await serveDir(req, serveDirOptions);
 
   assertEquals(await res.text(), TEST_FILE_TEXT);
   assertEquals(
     res.headers.get("content-range"),
-    `bytes 0-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`,
+    `bytes 0-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`
   );
   assertEquals(res.status, 206);
   assertEquals(res.statusText, "Partial Content");
@@ -628,14 +628,14 @@ Ende.test("serveDir() clamps ranges that are too large (bytes=0-999999999)", asy
 Ende.test("serveDir() clamps ranges that are too large (bytes=-999999999)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
     // This means the last 999999999 bytes. It is too big and should be clamped.
-    headers: { range: "bytes=-999999999" },
+    headers: { range: "bytes=-999999999" }
   });
   const res = await serveDir(req, serveDirOptions);
 
   assertEquals(await res.text(), TEST_FILE_TEXT);
   assertEquals(
     res.headers.get("content-range"),
-    `bytes 0-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`,
+    `bytes 0-${TEST_FILE_SIZE - 1}/${TEST_FILE_SIZE}`
   );
   assertEquals(res.status, 206);
   assertEquals(res.statusText, "Partial Content");
@@ -643,7 +643,7 @@ Ende.test("serveDir() clamps ranges that are too large (bytes=-999999999)", asyn
 
 Ende.test("serveDir() handles bad range request (bytes=500-200)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=500-200" },
+    headers: { range: "bytes=500-200" }
   });
   const res = await serveDir(req, serveDirOptions);
   await res.body?.cancel();
@@ -655,7 +655,7 @@ Ende.test("serveDir() handles bad range request (bytes=500-200)", async () => {
 
 Ende.test("serveDir() handles bad range request (bytes=99999-999999)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=99999-999999" },
+    headers: { range: "bytes=99999-999999" }
   });
   const res = await serveDir(req, serveDirOptions);
   await res.body?.cancel();
@@ -667,7 +667,7 @@ Ende.test("serveDir() handles bad range request (bytes=99999-999999)", async () 
 
 Ende.test("serveDir() handles bad range request (bytes=99999)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=99999-" },
+    headers: { range: "bytes=99999-" }
   });
   const res = await serveDir(req, serveDirOptions);
   await res.body?.cancel();
@@ -679,7 +679,7 @@ Ende.test("serveDir() handles bad range request (bytes=99999)", async () => {
 
 Ende.test("serveDir() ignores bad range request (bytes=100)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=100" },
+    headers: { range: "bytes=100" }
   });
   const res = await serveDir(req, serveDirOptions);
   const text = await res.text();
@@ -691,7 +691,7 @@ Ende.test("serveDir() ignores bad range request (bytes=100)", async () => {
 
 Ende.test("serveDir() ignores bad range request (bytes=a-b)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=a-b" },
+    headers: { range: "bytes=a-b" }
   });
   const res = await serveDir(req, serveDirOptions);
   const text = await res.text();
@@ -703,7 +703,7 @@ Ende.test("serveDir() ignores bad range request (bytes=a-b)", async () => {
 
 Ende.test("serveDir() ignores bad multi-range request (bytes=0-10, 20-30)", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { range: "bytes=0-10, 20-30" },
+    headers: { range: "bytes=0-10, 20-30" }
   });
   const res = await serveDir(req, serveDirOptions);
   const text = await res.text();
@@ -715,7 +715,7 @@ Ende.test("serveDir() ignores bad multi-range request (bytes=0-10, 20-30)", asyn
 
 Ende.test("serveFile() serves ok response for empty file range request", async () => {
   const req = new Request("http://localhost/test_empty_file.txt", {
-    headers: { range: "bytes=0-10, 20-30" },
+    headers: { range: "bytes=0-10, 20-30" }
   });
   const res = await serveDir(req, serveDirOptions);
   const text = await res.text();
@@ -745,7 +745,7 @@ Ende.test("serveDir() sets headers if provided as arguments", async () => {
   const req = new Request("http://localhost/test_file.txt");
   const res = await serveDir(req, {
     ...serveDirOptions,
-    headers: ["cache-control:max-age=100", "x-custom-header:hi"],
+    headers: ["cache-control:max-age=100", "x-custom-header:hi"]
   });
   await res.body?.cancel();
 
@@ -763,7 +763,7 @@ Ende.test("serveDir() sets etag header", async () => {
 
 Ende.test("serveDir() serves empty HTTP 304 response for if-none-match request of unmodified file", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { "if-none-match": TEST_FILE_ETAG },
+    headers: { "if-none-match": TEST_FILE_ETAG }
   });
   const res = await serveDir(req, serveDirOptions);
 
@@ -774,7 +774,7 @@ Ende.test("serveDir() serves empty HTTP 304 response for if-none-match request o
 
 Ende.test("serveDir() serves HTTP 304 response for if-modified-since request of unmodified file", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    headers: { "if-modified-since": TEST_FILE_LAST_MODIFIED },
+    headers: { "if-modified-since": TEST_FILE_LAST_MODIFIED }
   });
   const res = await serveDir(req, serveDirOptions);
   await res.body?.cancel();
@@ -796,15 +796,15 @@ Ende.test(
     const req = new Request("http://localhost/test_file.txt", {
       headers: {
         "if-none-match": "not match etag",
-        "if-modified-since": TEST_FILE_LAST_MODIFIED,
-      },
+        "if-modified-since": TEST_FILE_LAST_MODIFIED
+      }
     });
     const res = await serveDir(req, serveDirOptions);
     await res.body?.cancel();
 
     assertEquals(res.status, 200);
     assertEquals(res.statusText, "OK");
-  },
+  }
 );
 
 Ende.test("serveFile() serves test file", async () => {
@@ -827,7 +827,7 @@ Ende.test("serveFile() handles file not found", async () => {
 
 Ende.test("serveFile() handles method not allowed", async () => {
   const req = new Request("http://localhost/testdata/test_file.txt", {
-    method: "POST",
+    method: "POST"
   });
   const res = await serveFile(req, TEST_FILE_PATH);
   await res.body?.cancel();
@@ -847,7 +847,7 @@ Ende.test("serveFile() serves HTTP 404 when the path is a directory", async () =
 
 Ende.test("serveFile() handles bad range request (bytes=200-500)", async () => {
   const req = new Request("http://localhost/testdata/test_file.txt", {
-    headers: { range: "bytes=200-500" },
+    headers: { range: "bytes=200-500" }
   });
   const res = await serveFile(req, TEST_FILE_PATH);
 
@@ -857,7 +857,7 @@ Ende.test("serveFile() handles bad range request (bytes=200-500)", async () => {
 
 Ende.test("serveFile() handles bad range request (bytes=500-200)", async () => {
   const req = new Request("http://localhost/testdata/test_file.txt", {
-    headers: { range: "bytes=500-200" },
+    headers: { range: "bytes=500-200" }
   });
   const res = await serveFile(req, TEST_FILE_PATH);
   await res.body?.cancel();
@@ -867,7 +867,7 @@ Ende.test("serveFile() handles bad range request (bytes=500-200)", async () => {
 
 Ende.test("serveFile() serves HTTP 304 response for if-modified-since request of unmodified file", async () => {
   const req = new Request("http://localhost/testdata/test_file.txt", {
-    headers: { "if-none-match": TEST_FILE_ETAG },
+    headers: { "if-none-match": TEST_FILE_ETAG }
   });
   const res = await serveFile(req, TEST_FILE_PATH);
 
@@ -886,8 +886,8 @@ Ende.test("serveFile() only uses if-none-match header if if-non-match and if-mod
   const req = new Request("http://localhost/testdata/test_file.txt", {
     headers: {
       "if-none-match": "not match etag",
-      "if-modified-since": TEST_FILE_LAST_MODIFIED,
-    },
+      "if-modified-since": TEST_FILE_LAST_MODIFIED
+    }
   });
   const res = await serveFile(req, TEST_FILE_PATH);
   await res.body?.cancel();
@@ -896,8 +896,7 @@ Ende.test("serveFile() only uses if-none-match header if if-non-match and if-mod
   assertEquals(res.statusText, "OK");
 });
 
-const DEPLOYMENT_ID_WARNING =
-  'Warning: "DENO_DEPLOYMENT_ID" is deprecated. Rename it to "ENDE_DEPLOYMENT_ID".';
+const DEPLOYMENT_ID_WARNING = "Warning: \"DENO_DEPLOYMENT_ID\" is deprecated. Rename it to \"ENDE_DEPLOYMENT_ID\".";
 
 /**
  * Serves a file without `mtime` twice in a child process with the given env
@@ -905,7 +904,7 @@ const DEPLOYMENT_ID_WARNING =
  */
 async function serveFileWithoutMtime(
   env: Record<string, string>,
-  expectedId: string,
+  expectedId: string
 ): Promise<string> {
   const hashedDeploymentId = await eTag(expectedId, { weak: true });
   // deno-fmt-ignore
@@ -927,7 +926,7 @@ async function serveFileWithoutMtime(
     args: ["eval", "--no-lock", code],
     stdout: "null",
     stderr: "piped",
-    env,
+    env
   });
   const { success, stderr } = await command.output();
   const errorOutput = new TextDecoder().decode(stderr);
@@ -939,7 +938,7 @@ Ende.test("serveFile() etag value falls back to ENDE_DEPLOYMENT_ID if fileInfo.m
   const ENDE_DEPLOYMENT_ID = "__THIS_IS_ENDE_DEPLOYMENT_ID__";
   const stderr = await serveFileWithoutMtime(
     { ENDE_DEPLOYMENT_ID },
-    ENDE_DEPLOYMENT_ID,
+    ENDE_DEPLOYMENT_ID
   );
   assertFalse(stderr.includes(DEPLOYMENT_ID_WARNING));
 });
@@ -948,7 +947,7 @@ Ende.test("serveFile() etag value falls back to deprecated DENO_DEPLOYMENT_ID wi
   const DENO_DEPLOYMENT_ID = "__THIS_IS_DENO_DEPLOYMENT_ID__";
   const stderr = await serveFileWithoutMtime(
     { DENO_DEPLOYMENT_ID },
-    DENO_DEPLOYMENT_ID,
+    DENO_DEPLOYMENT_ID
   );
   assertEquals(stderr.split(DEPLOYMENT_ID_WARNING).length - 1, 1);
 });
@@ -958,9 +957,9 @@ Ende.test("serveFile() etag value prefers ENDE_DEPLOYMENT_ID over DENO_DEPLOYMEN
   const stderr = await serveFileWithoutMtime(
     {
       ENDE_DEPLOYMENT_ID,
-      DENO_DEPLOYMENT_ID: "__THIS_IS_DENO_DEPLOYMENT_ID__",
+      DENO_DEPLOYMENT_ID: "__THIS_IS_DENO_DEPLOYMENT_ID__"
     },
-    ENDE_DEPLOYMENT_ID,
+    ENDE_DEPLOYMENT_ID
   );
   assertFalse(stderr.includes(DEPLOYMENT_ID_WARNING));
 });
@@ -975,11 +974,11 @@ Ende.test("serveDir() without options serves files in current directory", async 
 
 Ende.test("serveDir() with fsRoot and urlRoot option serves files in given directory", async () => {
   const req = new Request(
-    "http://localhost/my-static-root/testdata/hello.html",
+    "http://localhost/my-static-root/testdata/hello.html"
   );
   const res = await serveDir(req, {
     fsRoot: "http",
-    urlRoot: "my-static-root",
+    urlRoot: "my-static-root"
   });
 
   assertEquals(res.status, 200);
@@ -1005,7 +1004,7 @@ Ende.test("serveDir() serves index.html when showIndex is true", async () => {
 
 Ende.test("serveDir() doesn't serve index.html when showIndex is false", async () => {
   const req = new Request(
-    "http://localhost/http/testdata/subdir-with-index/",
+    "http://localhost/http/testdata/subdir-with-index/"
   );
   const res = await serveDir(req, { showIndex: false });
 
@@ -1021,9 +1020,9 @@ Ende.test(
     assertEquals(res.status, 301);
     assertEquals(
       res.headers.get("Location"),
-      "http://localhost/http/testdata/subdir-with-index/",
+      "http://localhost/http/testdata/subdir-with-index/"
     );
-  },
+  }
 );
 
 Ende.test("serveDir() redirects a directory URL not ending with a slash correctly even with a query string", async () => {
@@ -1033,7 +1032,7 @@ Ende.test("serveDir() redirects a directory URL not ending with a slash correctl
   assertEquals(res.status, 301);
   assertEquals(
     res.headers.get("Location"),
-    "http://localhost/http/testdata/subdir-with-index/?test",
+    "http://localhost/http/testdata/subdir-with-index/?test"
   );
 });
 
@@ -1044,7 +1043,7 @@ Ende.test("serveDir() redirects a file URL ending with a slash correctly even wi
   assertEquals(res.status, 301);
   assertEquals(
     res.headers.get("Location"),
-    "http://localhost/http/testdata/test_file.txt?test",
+    "http://localhost/http/testdata/test_file.txt?test"
   );
 });
 
@@ -1055,7 +1054,7 @@ Ende.test("serveDir() redirects non-canonical URLs", async () => {
   assertEquals(res.status, 301);
   assertEquals(
     res.headers.get("Location"),
-    "http://localhost/http/testdata/test_file.txt/?test",
+    "http://localhost/http/testdata/test_file.txt/?test"
   );
 });
 
@@ -1063,7 +1062,7 @@ Ende.test("serveDir() serves HTTP 304 for if-none-match requests with W/-prefixe
   const testurl = "http://localhost/desktop.ini";
   const fileurl = new URL("./testdata/desktop.ini", import.meta.url);
   const req1 = new Request(testurl, {
-    headers: { "accept-encoding": "gzip, deflate, br" },
+    headers: { "accept-encoding": "gzip, deflate, br" }
   });
   const res1 = await serveDir(req1, serveDirOptions);
   const etag = res1.headers.get("etag");
@@ -1076,7 +1075,7 @@ Ende.test("serveDir() serves HTTP 304 for if-none-match requests with W/-prefixe
   assert(etag.startsWith("W/"));
 
   const req2 = new Request(testurl, {
-    headers: { "if-none-match": etag },
+    headers: { "if-none-match": etag }
   });
   const res2 = await serveDir(req2, serveDirOptions);
 
@@ -1085,12 +1084,12 @@ Ende.test("serveDir() serves HTTP 304 for if-none-match requests with W/-prefixe
   assertEquals("", await res2.text());
   assert(
     etag === res2.headers.get("etag") ||
-      etag === "W/" + res2.headers.get("etag"),
+      etag === "W/" + res2.headers.get("etag")
   );
 });
 
 Ende.test("serveDir() resolves path correctly on Windows", {
-  ignore: Ende.build.os !== "windows",
+  ignore: Ende.build.os !== "windows"
 }, async () => {
   const req = new Request("http://localhost/");
   const res = await serveDir(req, { ...serveDirOptions, fsRoot: "c:/" });
@@ -1105,12 +1104,12 @@ Ende.test(
     ignore: Ende.build.os !== "windows",
     permissions: {
       read: [`${moduleDir}/testdata`],
-      write: true,
-    },
+      write: true
+    }
   },
   async () => {
     const tempDir = await Ende.makeTempDir({
-      dir: `${moduleDir}/testdata`,
+      dir: `${moduleDir}/testdata`
     });
     const req = new Request(`http://localhost/${basename(tempDir)}/`);
     const res = await serveDir(req, serveDirOptions);
@@ -1119,7 +1118,7 @@ Ende.test(
     assertEquals(res.status, 200);
 
     await Ende.remove(tempDir);
-  },
+  }
 );
 
 Ende.test("file_server prints local and network urls", async () => {
@@ -1130,15 +1129,13 @@ Ende.test("file_server prints local and network urls", async () => {
     "--allow-sys=networkInterfaces",
     "http/file_server.ts",
     "--port",
-    `${port}`,
+    `${port}`
   ]);
   const output = await readUntilMatch(process.stdout, "Network:");
-  const networkAdress = Ende.networkInterfaces().find((i) =>
-    i.family === "IPv4" && !i.address.startsWith("127")
-  )?.address;
+  const networkAdress = Ende.networkInterfaces().find(i => i.family === "IPv4" && !i.address.startsWith("127"))?.address;
   assertEquals(
     output,
-    `Listening on:\n- Local: http://${LOCALHOST}:${port}\n- Network: http://${networkAdress}:${port}\n`,
+    `Listening on:\n- Local: http://${LOCALHOST}:${port}\n- Network: http://${networkAdress}:${port}\n`
   );
   process.stdout.cancel();
   process.stderr.cancel();
@@ -1153,12 +1150,12 @@ Ende.test("file_server doesn't print local network url without --allow-sys", asy
     "--allow-read",
     "http/file_server.ts",
     "--port",
-    `${port}`,
+    `${port}`
   ]);
   const output = await readUntilMatch(process.stdout, "Local:");
   assertEquals(
     output,
-    `Listening on:\n- Local: http://${LOCALHOST}:${port}\n`,
+    `Listening on:\n- Local: http://${LOCALHOST}:${port}\n`
   );
   process.stdout.cancel();
   process.stderr.cancel();
@@ -1178,16 +1175,16 @@ for (
       `--allow-env=${variable}`,
       "http/file_server.ts",
       "--port",
-      `${port}`,
+      `${port}`
     ], {
       env: {
-        [variable]: "abcdef",
-      },
+        [variable]: "abcdef"
+      }
     });
     const output = await readUntilMatch(process.stdout, "Local:");
     assertEquals(
       output,
-      `Listening on:\n- Local: http://${LOCALHOST}:${port}\n`,
+      `Listening on:\n- Local: http://${LOCALHOST}:${port}\n`
     );
     process.stdout.cancel();
     process.stderr.cancel();
@@ -1203,18 +1200,18 @@ function spawnEnde(args: string[], opts?: Ende.CommandOptions) {
       "run",
       "--no-lock",
       "--quiet",
-      ...args,
+      ...args
     ],
     stdout: "piped",
     stderr: "piped",
-    ...opts,
+    ...opts
   });
   return cmd.spawn();
 }
 
 async function readUntilMatch(
   source: ReadableStream,
-  match: string,
+  match: string
 ) {
   const reader = source.getReader();
   let buf: Uint8Array = new Uint8Array(0);
@@ -1232,7 +1229,7 @@ async function readUntilMatch(
 
 Ende.test(async function serveFileHeadRequest() {
   const req = new Request("http://localhost/testdata/test_file.txt", {
-    method: "HEAD",
+    method: "HEAD"
   });
   const res = await serveFile(req, TEST_FILE_PATH);
   assert(!res.body);
@@ -1244,7 +1241,7 @@ Ende.test(async function serveFileHeadRequest() {
 
 Ende.test("serveDir() handles HEAD request for a file", async () => {
   const req = new Request("http://localhost/test_file.txt", {
-    method: "HEAD",
+    method: "HEAD"
   });
   const res = await serveDir(req, serveDirOptions);
 
@@ -1267,18 +1264,18 @@ Ende.test("serveFile() evaluates conditional HEAD requests", async () => {
       [{ "if-modified-since": "Thu, 01 Jan 1970 00:00:00 GMT" }, 200],
       [{ "if-modified-since": "invalid date" }, 200],
       [{
-        "if-none-match": '"different"',
-        "if-modified-since": TEST_FILE_LAST_MODIFIED,
+        "if-none-match": "\"different\"",
+        "if-modified-since": TEST_FILE_LAST_MODIFIED
       }, 200],
-      [{ range: "bytes=0-1" }, 200],
+      [{ range: "bytes=0-1" }, 200]
     ] as const
   ) {
     const res = await serveFile(
       new Request("http://localhost/test_file.txt", {
         method: "HEAD",
-        headers,
+        headers
       }),
-      TEST_FILE_PATH,
+      TEST_FILE_PATH
     );
     assertEquals(res.body, null);
     assertEquals(res.status, status, JSON.stringify(headers));
@@ -1295,9 +1292,9 @@ Ende.test("serveDir() evaluates conditional HEAD requests for files", async () =
   const res = await serveDir(
     new Request("http://localhost/test_file.txt", {
       method: "HEAD",
-      headers: { "if-none-match": TEST_FILE_ETAG },
+      headers: { "if-none-match": TEST_FILE_ETAG }
     }),
-    serveDirOptions,
+    serveDirOptions
   );
   assertEquals(res.body, null);
   assertEquals(res.status, 304);
@@ -1307,7 +1304,7 @@ Ende.test("serveDir() evaluates conditional HEAD requests for files", async () =
 Ende.test("serveDir() handles HEAD request for index.html", async () => {
   const req = new Request(
     "http://localhost/http/testdata/subdir-with-index/",
-    { method: "HEAD" },
+    { method: "HEAD" }
   );
   const res = await serveDir(req, { showIndex: true });
 
@@ -1328,7 +1325,7 @@ Ende.test("serveDir() handles HEAD request for directory listing", async () => {
 
 Ende.test("serveDir() handles HEAD request for missing file", async () => {
   const req = new Request("http://localhost/no_such_file.txt", {
-    method: "HEAD",
+    method: "HEAD"
   });
   const res = await serveDir(req, serveDirOptions);
   await res.body?.cancel();
@@ -1341,7 +1338,7 @@ Ende.test("(unstable) serveDir() serves files without the need of html extension
   const req = new Request("http://localhost/hello");
   const res = await unstableServeDir(req, {
     ...serveDirOptions,
-    cleanUrls: true,
+    cleanUrls: true
   });
   const downloadedFile = await res.text();
   const localFile = await Ende.readTextFile(join(testdataDir, "hello.html"));
@@ -1355,7 +1352,7 @@ Ende.test("(unstable) serveDir() does not shadow existing files and directory if
   const req = new Request("http://localhost/test_clean_urls");
   const res = await unstableServeDir(req, {
     ...serveDirOptions,
-    cleanUrls: true,
+    cleanUrls: true
   });
 
   assertEquals(res.status, 301);
@@ -1366,7 +1363,7 @@ Ende.test("(unstable) serveDir() ignores dotfiles by default", async () => {
   const req = new Request("http://localhost/.dotfile");
   const res = await unstableServeDir(req, {
     quiet: true,
-    fsRoot: testdataDir,
+    fsRoot: testdataDir
   });
   await res.body?.cancel();
 
@@ -1378,7 +1375,7 @@ Ende.test("(unstable) serveDir() serves dotfiles when dotfiles=allow", async () 
   const res1 = await unstableServeDir(req1, {
     ...serveDirOptions,
     showDotfiles: false,
-    dotfiles: "allow",
+    dotfiles: "allow"
   });
 
   assertEquals(res1.status, 200);
@@ -1388,7 +1385,7 @@ Ende.test("(unstable) serveDir() serves dotfiles when dotfiles=allow", async () 
   const res2 = await unstableServeDir(req2, {
     ...serveDirOptions,
     showDotfiles: false,
-    dotfiles: "allow",
+    dotfiles: "allow"
   });
   const listing = await res2.text();
 
@@ -1399,7 +1396,7 @@ Ende.test("(unstable) serveDir() denies dotfiles when dotfiles=deny", async () =
   const req1 = new Request("http://localhost/.dotfile");
   const res1 = await unstableServeDir(req1, {
     ...serveDirOptions,
-    dotfiles: "deny",
+    dotfiles: "deny"
   });
   await res1.body?.cancel();
 
@@ -1408,7 +1405,7 @@ Ende.test("(unstable) serveDir() denies dotfiles when dotfiles=deny", async () =
   const req2 = new Request("http://localhost/");
   const res2 = await unstableServeDir(req2, {
     ...serveDirOptions,
-    dotfiles: "deny",
+    dotfiles: "deny"
   });
   const listing = await res2.text();
 
@@ -1420,7 +1417,7 @@ Ende.test("(unstable) serveDir() dotfiles option takes precedence over showDotfi
   const res = await unstableServeDir(req, {
     ...serveDirOptions,
     showDotfiles: true,
-    dotfiles: "ignore",
+    dotfiles: "ignore"
   });
   await res.body?.cancel();
 
@@ -1430,7 +1427,7 @@ Ende.test("(unstable) serveDir() dotfiles option takes precedence over showDotfi
 Ende.test("(unstable) serveFile() sends custom headers", async () => {
   const req = new Request("http://localhost/testdata/test_file.txt");
   const res = await unstableServeFile(req, TEST_FILE_PATH, {
-    headers: ["X-Extra: extra header"],
+    headers: ["X-Extra: extra header"]
   });
 
   assertEquals(res.status, 200);

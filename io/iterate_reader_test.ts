@@ -37,7 +37,7 @@ Ende.test("iterateReader()", async () => {
   let totalSize = 0;
   await Array.fromAsync(
     iterateReader(reader),
-    (buf) => totalSize += buf.byteLength,
+    buf => totalSize += buf.byteLength
   );
 
   assertEquals(totalSize, 12);
@@ -47,7 +47,7 @@ Ende.test("iterateReader() works with slow consumer", async () => {
   const a = new Uint8Array([97]);
   const b = new Uint8Array([98]);
   const iter = iterateReader(
-    readerFromStreamReader(ReadableStream.from([a, b]).getReader()),
+    readerFromStreamReader(ReadableStream.from([a, b]).getReader())
   );
   const promises = [];
   for await (const bytes of iter) {
@@ -103,7 +103,7 @@ Ende.test("iterateReaderSync() works with slow consumer", async () => {
         return bytes.length;
       }
       return null;
-    },
+    }
   };
   const iter = iterateReaderSync(readerSync);
   const promises = [];

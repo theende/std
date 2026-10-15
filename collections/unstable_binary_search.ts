@@ -35,10 +35,10 @@
  * ```
  */
 export function binarySearch<
-  T extends ArrayLike<number> | ArrayLike<bigint> | ArrayLike<string>,
+  T extends ArrayLike<number> | ArrayLike<bigint> | ArrayLike<string>
 >(
   haystack: T,
-  needle: T[number],
+  needle: T[number]
 ): number {
   let start = 0;
   let mid: number;
@@ -49,7 +49,8 @@ export function binarySearch<
     haystack[mid]! < needle ? start = mid + 1 : end = mid - 1
   ) {
     mid = Math.floor((start + end) / 2);
-    if (haystack[mid]! === needle) return mid;
+    if (haystack[mid]! === needle)
+      return mid;
   }
 
   return ~start;

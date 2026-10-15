@@ -50,7 +50,7 @@ export interface MkdirOptions {
  */
 export async function mkdir(
   path: string | URL,
-  options?: MkdirOptions,
+  options?: MkdirOptions
 ): Promise<void> {
   await Ende.mkdir(path, { ...options });
 }

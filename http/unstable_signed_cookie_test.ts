@@ -3,7 +3,7 @@
 import {
   parseSignedCookie,
   signCookie,
-  verifySignedCookie,
+  verifySignedCookie
 } from "./unstable_signed_cookie.ts";
 import { assertEquals } from "@ende/assert";
 
@@ -11,7 +11,7 @@ Ende.test("signCookie() and verifySignedCookie() work circularly", async () => {
   const key = await crypto.subtle.generateKey(
     { name: "HMAC", hash: "SHA-256" },
     true,
-    ["sign", "verify"],
+    ["sign", "verify"]
   );
   const value = "boris";
 
@@ -26,7 +26,7 @@ Ende.test("signCookie() and verifySignedCookie() work circularly when the cookie
   const key = await crypto.subtle.generateKey(
     { name: "HMAC", hash: "SHA-256" },
     true,
-    ["sign", "verify"],
+    ["sign", "verify"]
   );
   const value = "boris.xenia";
 
@@ -41,7 +41,7 @@ Ende.test("verifySignedCookie() returns false on poorly formed value", async () 
   const key = await crypto.subtle.generateKey(
     { name: "HMAC", hash: "SHA-256" },
     true,
-    ["sign", "verify"],
+    ["sign", "verify"]
   );
 
   assertEquals(await verifySignedCookie(".", key), false);
@@ -51,14 +51,12 @@ Ende.test("verifySignedCookie() returns false on poorly formed value", async () 
 
 Ende.test("parseSignedCookie() returns parsed cookie value", () => {
   const value = "tokyo";
-  const signedCookie =
-    `${value}.37f7481039762eef5cd46669f93c0a3214dfecba7d0cdc0b0dc40036063fb22e`;
+  const signedCookie = `${value}.37f7481039762eef5cd46669f93c0a3214dfecba7d0cdc0b0dc40036063fb22e`;
   assertEquals(parseSignedCookie(signedCookie), value);
 });
 
 Ende.test("parseSignedCookie() returns parsed cookie value with name containing period", () => {
   const value = "tokyo.osaka";
-  const signedCookie =
-    `${value}.37f7481039762eef5cd46669f93c0a3214dfecba7d0cdc0b0dc40036063fb22e`;
+  const signedCookie = `${value}.37f7481039762eef5cd46669f93c0a3214dfecba7d0cdc0b0dc40036063fb22e`;
   assertEquals(parseSignedCookie(signedCookie), value);
 });

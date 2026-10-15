@@ -11,7 +11,7 @@ Ende.test({
     sample(array);
 
     assertEquals(array, ["a", "abc", "ba"]);
-  },
+  }
 });
 
 Ende.test({
@@ -19,7 +19,7 @@ Ende.test({
   fn() {
     const actual = sample([]);
     assertEquals(actual, undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -29,7 +29,7 @@ Ende.test({
     const actual = sample([1, 2, 3]);
 
     assert(actual && input.includes(actual));
-  },
+  }
 });
 
 Ende.test({
@@ -38,17 +38,17 @@ Ende.test({
     const input = [
       {
         name: "Anna",
-        age: 18,
+        age: 18
       },
       {
         name: "Kim",
-        age: 24,
-      },
+        age: 24
+      }
     ];
     const actual = sample(input);
 
     assert(actual && input.includes(actual));
-  },
+  }
 });
 
 Ende.test("sample() returns the first element if there is only one element", () => {
@@ -79,7 +79,7 @@ Ende.test("sample() handles a Map", () => {
   const input = new Map([
     ["a", 1],
     ["b", 2],
-    ["c", 3],
+    ["c", 3]
   ]);
   const actual = sample(input);
   assert(actual !== undefined);
@@ -99,7 +99,7 @@ Ende.test("sample() handles TypedArrays", () => {
     Int16Array,
     Int32Array,
     Float32Array,
-    Float64Array,
+    Float64Array
   ];
   for (const TypedArray of typedArrays) {
     const input = new TypedArray([1, 2, 3]);
@@ -123,7 +123,7 @@ Ende.test("sample() handles user-defined iterable", () => {
       yield "a";
       yield "b";
       yield "c";
-    },
+    }
   };
   const actual = sample(iterable);
   assert(actual !== undefined);

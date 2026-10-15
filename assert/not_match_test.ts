@@ -10,7 +10,7 @@ Ende.test("assertNotMatch() throws", () => {
   assertThrows(
     () => assertNotMatch("Denosaurus from Jurassic", RegExp(/from/)),
     AssertionError,
-    `Expected actual: "Denosaurus from Jurassic" to not match: "/from/".`,
+    `Expected actual: "Denosaurus from Jurassic" to not match: "/from/".`
   );
 });
 
@@ -20,9 +20,9 @@ Ende.test("assertNotMatch() throws with custom message", () => {
       assertNotMatch(
         "Denosaurus from Jurassic",
         RegExp(/from/),
-        "CUSTOM MESSAGE",
+        "CUSTOM MESSAGE"
       ),
     AssertionError,
-    `Expected actual: "Denosaurus from Jurassic" to not match: "/from/": CUSTOM MESSAGE`,
+    `Expected actual: "Denosaurus from Jurassic" to not match: "/from/": CUSTOM MESSAGE`
   );
 });

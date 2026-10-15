@@ -10,27 +10,27 @@ const testdataDir = path.resolve(moduleDir, "testdata");
 
 Ende.test("encode() handles testdata", () => {
   const one = JSON.parse(
-    Ende.readTextFileSync(path.join(testdataDir, "1.json")),
+    Ende.readTextFileSync(path.join(testdataDir, "1.json"))
   );
   assertEquals(decode(encode(one)), one);
 
   const two = JSON.parse(
-    Ende.readTextFileSync(path.join(testdataDir, "2.json")),
+    Ende.readTextFileSync(path.join(testdataDir, "2.json"))
   );
   assertEquals(decode(encode(two)), two);
 
   const three = JSON.parse(
-    Ende.readTextFileSync(path.join(testdataDir, "3.json")),
+    Ende.readTextFileSync(path.join(testdataDir, "3.json"))
   );
   assertEquals(decode(encode(three)), three);
 
   const four = JSON.parse(
-    Ende.readTextFileSync(path.join(testdataDir, "4.json")),
+    Ende.readTextFileSync(path.join(testdataDir, "4.json"))
   );
   assertEquals(decode(encode(four)), four);
 
   const five = JSON.parse(
-    Ende.readTextFileSync(path.join(testdataDir, "5.json")),
+    Ende.readTextFileSync(path.join(testdataDir, "5.json"))
   );
   assertEquals(decode(encode(five)), five);
 });
@@ -50,7 +50,7 @@ Ende.test("encode() handles positive numbers", () => {
 
   assertEquals(
     encode(20000000000),
-    Uint8Array.of(0xcb, 66, 18, 160, 95, 32, 0, 0, 0),
+    Uint8Array.of(0xcb, 66, 18, 160, 95, 32, 0, 0, 0)
   );
   assertEquals(decode(encode(20000000000)), 20000000000);
 });
@@ -70,7 +70,7 @@ Ende.test("encode() handles negative numbers", () => {
 
   assertEquals(
     encode(-600000000000),
-    Uint8Array.of(0xcb, 194, 97, 118, 89, 46, 0, 0, 0),
+    Uint8Array.of(0xcb, 194, 97, 118, 89, 46, 0, 0, 0)
   );
   assertEquals(decode(encode(-600000000000)), -600000000000);
 });
@@ -78,7 +78,7 @@ Ende.test("encode() handles negative numbers", () => {
 Ende.test("encode() handles floats", () => {
   assertEquals(
     encode(0.3),
-    Uint8Array.of(0xcb, 63, 211, 51, 51, 51, 51, 51, 51),
+    Uint8Array.of(0xcb, 63, 211, 51, 51, 51, 51, 51, 51)
   );
   assertEquals(decode(encode(0.3)), 0.3);
 });
@@ -88,14 +88,14 @@ Ende.test("encode() handles bigints", () => {
   assertEquals(decode(encode(0n)), 0n);
   assertEquals(
     encode(-10n),
-    Uint8Array.of(0xd3, 255, 255, 255, 255, 255, 255, 255, 246),
+    Uint8Array.of(0xd3, 255, 255, 255, 255, 255, 255, 255, 246)
   );
   assertEquals(decode(encode(-10n)), -10n);
   assertEquals(encode(10n), Uint8Array.of(0xcf, 0, 0, 0, 0, 0, 0, 0, 10));
   assertEquals(decode(encode(10n)), 10n);
   assertEquals(
     encode(9999999999999999999n),
-    Uint8Array.of(0xcf, 138, 199, 35, 4, 137, 231, 255, 255),
+    Uint8Array.of(0xcf, 138, 199, 35, 4, 137, 231, 255, 255)
   );
   assertEquals(decode(encode(9999999999999999999n)), 9999999999999999999n);
 
@@ -106,21 +106,21 @@ Ende.test("encode() handles bigints", () => {
 Ende.test("encode() handles strings", () => {
   assertEquals(
     encode("hello world"),
-    Uint8Array.of(171, 104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100),
+    Uint8Array.of(171, 104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100)
   );
   assertEquals(decode(encode("hello world")), "hello world");
 
   const mediumString = "a".repeat(255);
   assertEquals(
     encode(mediumString),
-    Uint8Array.of(0xd9, 255, ...new Array(mediumString.length).fill(97)),
+    Uint8Array.of(0xd9, 255, ...new Array(mediumString.length).fill(97))
   );
   assertEquals(decode(encode(mediumString)), mediumString);
 
   const longString = "a".repeat(256);
   assertEquals(
     encode(longString),
-    Uint8Array.of(0xda, 1, 0, ...new Array(longString.length).fill(97)),
+    Uint8Array.of(0xda, 1, 0, ...new Array(longString.length).fill(97))
   );
   assertEquals(decode(encode(longString)), longString);
 
@@ -133,8 +133,8 @@ Ende.test("encode() handles strings", () => {
       1,
       0,
       0,
-      ...new Array(reallyLongString.length).fill(97),
-    ),
+      ...new Array(reallyLongString.length).fill(97)
+    )
   );
   assertEquals(decode(encode(reallyLongString)), reallyLongString);
 });
@@ -142,15 +142,15 @@ Ende.test("encode() handles strings", () => {
 Ende.test("encode() handles Uint8Arrays", () => {
   assertEquals(
     encode(Uint8Array.of(0, 1, 2, 3)),
-    Uint8Array.of(0xc4, 4, 0, 1, 2, 3),
+    Uint8Array.of(0xc4, 4, 0, 1, 2, 3)
   );
   assertEquals(
     encode(new Uint8Array(256)),
-    Uint8Array.of(0xc5, 1, 0, ...new Uint8Array(256)),
+    Uint8Array.of(0xc5, 1, 0, ...new Uint8Array(256))
   );
   assertEquals(
     encode(new Uint8Array(65536)),
-    Uint8Array.of(0xc6, 0, 1, 0, 0, ...new Uint8Array(65536)),
+    Uint8Array.of(0xc6, 0, 1, 0, 0, ...new Uint8Array(65536))
   );
 });
 
@@ -175,10 +175,10 @@ Ende.test("encode() handles maps", () => {
   const mapNull = Object.create(null);
   assertEquals(decode(encode(mapNull)), mapNull);
 
-  const map1 = { "a": 0, "b": 2, "c": "three", "d": null };
+  const map1 = { a: 0, b: 2, c: "three", d: null };
   assertEquals(decode(encode(map1)), map1);
 
-  const nestedMap = { "a": -1, "b": 2, "c": "three", "d": null, "e": map1 };
+  const nestedMap = { a: -1, b: 2, c: "three", d: null, e: map1 };
   assertEquals(decode(encode(nestedMap)), nestedMap);
 });
 
@@ -197,7 +197,7 @@ Ende.test("encode() handles huge object with 100k properties", () => {
   for (let i = 0; i < 100000; i++) {
     const _ = Object.defineProperty(bigObject, `prop_${i}`, {
       value: i,
-      enumerable: true,
+      enumerable: true
     });
   }
   assertEquals(decode(encode(bigObject)), bigObject);
@@ -212,7 +212,7 @@ Ende.test("encode() throws when the object is an instance of a custom class", ()
   assertThrows(
     () => encode(foo),
     Error,
-    "Cannot safely encode value into messagepack",
+    "Cannot safely encode value into messagepack"
   );
 });
 
@@ -220,7 +220,7 @@ Ende.test("encode() accepts `as const` data", () => {
   const data = {
     a: 1,
     b: { c: 2 },
-    d: [3, { e: 4 }],
+    d: [3, { e: 4 }]
   } as const;
 
   void (() => {

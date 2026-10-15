@@ -40,11 +40,11 @@
  */
 export function chunk<T>(
   iterable: Iterable<T>,
-  size: number,
+  size: number
 ): T[][] {
   if (size <= 0 || !Number.isInteger(size)) {
     throw new RangeError(
-      `Expected size to be an integer greater than 0 but found ${size}`,
+      `Expected size to be an integer greater than 0 but found ${size}`
     );
   }
   const result: T[][] = [];

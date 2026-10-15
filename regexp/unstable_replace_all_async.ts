@@ -35,7 +35,7 @@
 export async function replaceAllAsync(
   text: string,
   searchValue: RegExp | string,
-  replacer: (substring: string, ...args: any[]) => Promise<string> | string,
+  replacer: (substring: string, ...args: any[]) => Promise<string> | string
 ): Promise<string> {
   const promises: (Promise<string> | string)[] = [];
 

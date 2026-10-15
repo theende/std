@@ -20,9 +20,9 @@ Ende.test({
         const input = "a,b,c\n";
         assertEquals(
           parse(input),
-          [["a", "b", "c"]],
+          [["a", "b", "c"]]
         );
-      },
+      }
     });
 
     await t.step({
@@ -33,10 +33,10 @@ Ende.test({
           parse(input),
           [
             ["a", "b"],
-            ["c", "d"],
-          ],
+            ["c", "d"]
+          ]
         );
-      },
+      }
     });
 
     await t.step({
@@ -45,26 +45,25 @@ Ende.test({
         const input = "a,b\rc,d\r\n";
         assertEquals(
           parse(input),
-          [["a", "b\rc", "d"]],
+          [["a", "b\rc", "d"]]
         );
-      },
+      }
     });
 
     await t.step({
       name: "RFC4180test",
       fn() {
-        const input =
-          '#field1,field2,field3\n"aaa","bbb","ccc"\n"a,a","bbb","ccc"\nzzz,yyy,xxx';
+        const input = "#field1,field2,field3\n\"aaa\",\"bbb\",\"ccc\"\n\"a,a\",\"bbb\",\"ccc\"\nzzz,yyy,xxx";
         assertEquals(
           parse(input),
           [
             ["#field1", "field2", "field3"],
             ["aaa", "bbb", "ccc"],
             ["a,a", `bbb`, "ccc"],
-            ["zzz", "yyy", "xxx"],
-          ],
+            ["zzz", "yyy", "xxx"]
+          ]
         );
-      },
+      }
     });
     await t.step({
       name: "NoEOLTest",
@@ -72,9 +71,9 @@ Ende.test({
         const input = "a,b,c";
         assertEquals(
           parse(input),
-          [["a", "b", "c"]],
+          [["a", "b", "c"]]
         );
-      },
+      }
     });
 
     await t.step({
@@ -83,20 +82,20 @@ Ende.test({
         const input = "a;b;c\n";
         assertEquals(
           parse(input, { separator: ";" }),
-          [["a", "b", "c"]],
+          [["a", "b", "c"]]
         );
-      },
+      }
     });
 
     await t.step({
       name: "MultiLine",
       fn() {
-        const input = '"two\nline","one line","three\nline\nfield"';
+        const input = "\"two\nline\",\"one line\",\"three\nline\nfield\"";
         assertEquals(
           parse(input),
-          [["two\nline", "one line", "three\nline\nfield"]],
+          [["two\nline", "one line", "three\nline\nfield"]]
         );
-      },
+      }
     });
 
     await t.step({
@@ -105,9 +104,9 @@ Ende.test({
         const input = "a,b,c\nd,,f";
         assertEquals(
           parse(input),
-          [["a", "b", "c"], ["d", "", "f"]],
+          [["a", "b", "c"], ["d", "", "f"]]
         );
-      },
+      }
     });
 
     await t.step({
@@ -116,9 +115,9 @@ Ende.test({
         const input = "a,b,c\nd,,f";
         assertEquals(
           parse(input, { skipFirstRow: true }),
-          [{ a: "d", b: "", c: "f" }],
+          [{ a: "d", b: "", c: "f" }]
         );
-      },
+      }
     });
 
     await t.step({
@@ -129,10 +128,10 @@ Ende.test({
           parse(input, { columns: ["one", "two", "three"] }),
           [
             { one: "a", two: "b", three: "c" },
-            { one: "d", two: "", three: "f" },
-          ],
+            { one: "d", two: "", three: "f" }
+          ]
         );
-      },
+      }
     });
 
     await t.step({
@@ -143,10 +142,10 @@ Ende.test({
           parse(input),
           [
             ["a", "b", "c"],
-            ["d", "e", "f"],
-          ],
+            ["d", "e", "f"]
+          ]
         );
-      },
+      }
     });
 
     await t.step({
@@ -157,10 +156,10 @@ Ende.test({
           parse(input, { fieldsPerRecord: 0 }),
           [
             ["a", "b", "c"],
-            ["d", "e", "f"],
-          ],
+            ["d", "e", "f"]
+          ]
         );
-      },
+      }
     });
 
     await t.step({
@@ -169,9 +168,9 @@ Ende.test({
         const input = " a,  b,   c\n";
         assertEquals(
           parse(input, { trimLeadingSpace: true }),
-          [["a", "b", "c"]],
+          [["a", "b", "c"]]
         );
-      },
+      }
     });
 
     await t.step({
@@ -180,7 +179,7 @@ Ende.test({
         const input = " a,  b,   c\n";
         const output = [[" a", "  b", "   c"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "Comment",
@@ -188,7 +187,7 @@ Ende.test({
         const input = "#1,2,3\na,b,c\n#comment";
         const output = [["a", "b", "c"]];
         assertEquals(parse(input, { comment: "#" }), output);
-      },
+      }
     });
     await t.step({
       name: "NoComment",
@@ -196,10 +195,10 @@ Ende.test({
         const input = "#1,2,3\na,b,c";
         const output = [
           ["#1", "2", "3"],
-          ["a", "b", "c"],
+          ["a", "b", "c"]
         ];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "LazyQuotes",
@@ -207,7 +206,7 @@ Ende.test({
         const input = `a "word","1"2",a","b`;
         const output = [[`a "word"`, `1"2`, `a"`, `b`]];
         assertEquals(parse(input, { lazyQuotes: true }), output);
-      },
+      }
     });
     await t.step({
       name: "BareQuotes",
@@ -215,7 +214,7 @@ Ende.test({
         const input = `a "word","1"2",a"`;
         const output = [[`a "word"`, `1"2`, `a"`]];
         assertEquals(parse(input, { lazyQuotes: true }), output);
-      },
+      }
     });
     await t.step({
       name: "BareDoubleQuotes",
@@ -223,7 +222,7 @@ Ende.test({
         const input = `a""b,c`;
         const output = [[`a""b`, `c`]];
         assertEquals(parse(input, { lazyQuotes: true }), output);
-      },
+      }
     });
     await t.step({
       name: "BadDoubleQuotes",
@@ -232,9 +231,9 @@ Ende.test({
         assertThrows(
           () => parse(input),
           SyntaxError,
-          'parse error on line 1, column 2: bare " in non-quoted-field',
+          "parse error on line 1, column 2: bare \" in non-quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "error column Unicode code point number",
@@ -243,9 +242,9 @@ Ende.test({
         assertThrows(
           () => parse(input),
           SyntaxError,
-          'parse error on line 1, column 6: bare " in non-quoted-field',
+          "parse error on line 1, column 6: bare \" in non-quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "TrimQuote",
@@ -253,7 +252,7 @@ Ende.test({
         const input = ` "a"," b",c`;
         const output = [["a", " b", "c"]];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       name: "BadBareQuote",
@@ -262,9 +261,9 @@ Ende.test({
         assertThrows(
           () => parse(input),
           SyntaxError,
-          'parse error on line 1, column 3: bare " in non-quoted-field',
+          "parse error on line 1, column 3: bare \" in non-quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "BadTrailingQuote",
@@ -273,9 +272,9 @@ Ende.test({
         assertThrows(
           () => parse(input),
           SyntaxError,
-          'parse error on line 1, column 11: bare " in non-quoted-field',
+          "parse error on line 1, column 11: bare \" in non-quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "ExtraneousQuote",
@@ -284,9 +283,9 @@ Ende.test({
         assertThrows(
           () => parse(input),
           SyntaxError,
-          `parse error on line 1, column 4: extraneous or missing " in quoted-field`,
+          `parse error on line 1, column 4: extraneous or missing " in quoted-field`
         );
-      },
+      }
     });
     await t.step({
       name: "BadFieldCount",
@@ -295,9 +294,9 @@ Ende.test({
         assertThrows(
           () => parse(input, { fieldsPerRecord: 0 }),
           SyntaxError,
-          "Syntax error on line 2: expected 3 fields but got 2",
+          "Syntax error on line 2: expected 3 fields but got 2"
         );
-      },
+      }
     });
     await t.step({
       name: "BadFieldCount1",
@@ -306,9 +305,9 @@ Ende.test({
         assertThrows(
           () => parse(input, { fieldsPerRecord: 2 }),
           SyntaxError,
-          "Syntax error on line 1: expected 2 fields but got 3",
+          "Syntax error on line 1: expected 2 fields but got 3"
         );
-      },
+      }
     });
     await t.step({
       name: "NegativeFieldsPerRecord",
@@ -316,10 +315,10 @@ Ende.test({
         const input = `a,b,c\nd,e`;
         const output = [
           ["a", "b", "c"],
-          ["d", "e"],
+          ["d", "e"]
         ];
         assertEquals(parse(input, { fieldsPerRecord: -1 }), output);
-      },
+      }
     });
     await t.step({
       name: "FieldCount",
@@ -327,10 +326,10 @@ Ende.test({
         const input = "a,b,c\nd,e";
         const output = [
           ["a", "b", "c"],
-          ["d", "e"],
+          ["d", "e"]
         ];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCommaEOF",
@@ -338,7 +337,7 @@ Ende.test({
         const input = "a,b,c,";
         const output = [["a", "b", "c", ""]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCommaEOL",
@@ -346,7 +345,7 @@ Ende.test({
         const input = "a,b,c,\n";
         const output = [["a", "b", "c", ""]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCommaSpaceEOF",
@@ -354,7 +353,7 @@ Ende.test({
         const input = "a,b,c, ";
         const output = [["a", "b", "c", ""]];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCommaSpaceEOL",
@@ -362,7 +361,7 @@ Ende.test({
         const input = "a,b,c, \n";
         const output = [["a", "b", "c", ""]];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCommaLine3",
@@ -371,10 +370,10 @@ Ende.test({
         const output = [
           ["a", "b", "c"],
           ["d", "e", "f"],
-          ["g", "hi", ""],
+          ["g", "hi", ""]
         ];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       name: "NotTrailingComma3",
@@ -382,13 +381,12 @@ Ende.test({
         const input = "a,b,c, \n";
         const output = [["a", "b", "c", " "]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "CommaFieldTest",
       fn() {
-        const input =
-          `x,y,z,w\nx,y,z,\nx,y,,\nx,,,\n,,,\n"x","y","z","w"\n"x","y","z",""\n"x","y","",""\n"x","","",""\n"","","",""\n`;
+        const input = `x,y,z,w\nx,y,z,\nx,y,,\nx,,,\n,,,\n"x","y","z","w"\n"x","y","z",""\n"x","y","",""\n"x","","",""\n"","","",""\n`;
         const output = [
           ["x", "y", "z", "w"],
           ["x", "y", "z", ""],
@@ -399,10 +397,10 @@ Ende.test({
           ["x", "y", "z", ""],
           ["x", "y", "", ""],
           ["x", "", "", ""],
-          ["", "", "", ""],
+          ["", "", "", ""]
         ];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCommaIneffective1",
@@ -410,10 +408,10 @@ Ende.test({
         const input = "a,b,\nc,d,e";
         const output = [
           ["a", "b", ""],
-          ["c", "d", "e"],
+          ["c", "d", "e"]
         ];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       name: "ReadAllReuseRecord",
@@ -421,11 +419,11 @@ Ende.test({
         const input = "a,b\nc,d";
         const output = [
           ["a", "b"],
-          ["c", "d"],
+          ["c", "d"]
         ];
         assertEquals(parse(input), output);
         // ReuseRecord: true,
-      },
+      }
     });
     await t.step({
       name: "StartLine1", // Issue 19019
@@ -435,9 +433,9 @@ c"d,e`;
         assertThrows(
           () => parse(input, { fieldsPerRecord: 2 }),
           SyntaxError,
-          'Syntax error on line 1; parse error on line 2, column 2: extraneous or missing " in quoted-field',
+          "Syntax error on line 1; parse error on line 2, column 2: extraneous or missing \" in quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "StartLine2",
@@ -449,9 +447,9 @@ c"d,e`;
         assertThrows(
           () => parse(input, { fieldsPerRecord: 2 }),
           SyntaxError,
-          'Syntax error on line 2; parse error on line 4, column 1: extraneous or missing " in quoted-field',
+          "Syntax error on line 2; parse error on line 4, column 1: extraneous or missing \" in quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "ParseErrorLine",
@@ -464,17 +462,17 @@ c"d,e`;
         assertThrows(
           () => parse(input),
           SyntaxError,
-          'Syntax error on line 4; parse error on line 4, column 1: extraneous or missing " in quoted-field',
+          "Syntax error on line 4; parse error on line 4, column 1: extraneous or missing \" in quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "CRLFInQuotedField", // Issue 21201
       fn() {
-        const input = 'A,"Hello\r\nHi",B\r\n';
+        const input = "A,\"Hello\r\nHi\",B\r\n";
         const output = [["A", "Hello\nHi", "B"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "BinaryBlobField", // Issue 19410
@@ -482,7 +480,7 @@ c"d,e`;
         const input = "x09\x41\xb4\x1c,aktau";
         const output = [["x09A\xb4\x1c", "aktau"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "TrailingCR",
@@ -490,26 +488,26 @@ c"d,e`;
         const input = "field1,field2\r";
         const output = [["field1", "field2"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "QuotedTrailingCR",
       fn() {
-        const input = '"field"\r';
+        const input = "\"field\"\r";
         const output = [["field"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "QuotedTrailingCRCR",
       fn() {
-        const input = '"field"\r\r';
+        const input = "\"field\"\r\r";
         assertThrows(
           () => parse(input, { fieldsPerRecord: 2 }),
           SyntaxError,
-          'parse error on line 1, column 7: extraneous or missing " in quoted-field',
+          "parse error on line 1, column 7: extraneous or missing \" in quoted-field"
         );
-      },
+      }
     });
     await t.step({
       name: "FieldCR",
@@ -517,7 +515,7 @@ c"d,e`;
         const input = "field\rfield\r";
         const output = [["field\rfield"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "FieldCRCR",
@@ -525,7 +523,7 @@ c"d,e`;
         const input = "field\r\rfield\r\r";
         const output = [["field\r\rfield\r"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "FieldCRCRLF",
@@ -533,7 +531,7 @@ c"d,e`;
         const input = "field\r\r\nfield\r\r\n";
         const output = [["field\r"], ["field\r"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "FieldCRCRLFCR",
@@ -541,7 +539,7 @@ c"d,e`;
         const input = "field\r\r\n\rfield\r\r\n\r";
         const output = [["field\r"], ["\rfield\r"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "FieldCRCRLFCRCR",
@@ -549,7 +547,7 @@ c"d,e`;
         const input = "field\r\r\n\r\rfield\r\r\n\r\r";
         const output = [["field\r"], ["\r\rfield\r"], ["\r"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "MultiFieldCRCRLFCRCR",
@@ -558,10 +556,10 @@ c"d,e`;
         const output = [
           ["field1", "field2\r"],
           ["\r\rfield1", "field2\r"],
-          ["\r\r", ""],
+          ["\r\r", ""]
         ];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "NonASCIICommaAndComment",
@@ -572,22 +570,22 @@ c"d,e`;
           parse(input, {
             trimLeadingSpace: true,
             separator: "£",
-            comment: "€",
+            comment: "€"
           }),
-          output,
+          output
         );
-      },
+      }
     });
     await t.step({
       name: "NonASCIICommaAndCommentWithQuotes",
       fn() {
-        const input = 'a€"  b,"€ c\nλ comment\n';
+        const input = "a€\"  b,\"€ c\nλ comment\n";
         const output = [["a", "  b,", " c"]];
         assertEquals(
           parse(input, { separator: "€", comment: "λ" }),
-          output,
+          output
         );
-      },
+      }
     });
     await t.step(
       {
@@ -595,14 +593,14 @@ c"d,e`;
         // This tests that the parser doesn't confuse such characters.
         name: "NonASCIICommaConfusion",
         fn() {
-          const input = '"abθcd"λefθgh';
+          const input = "\"abθcd\"λefθgh";
           const output = [["abθcd", "efθgh"]];
           assertEquals(
             parse(input, { separator: "λ", comment: "€" }),
-            output,
+            output
           );
-        },
-      },
+        }
+      }
     );
     await t.step({
       name: "NonASCIICommentConfusion",
@@ -610,15 +608,15 @@ c"d,e`;
         const input = "λ\nλ\nθ\nλ\n";
         const output = [["λ"], ["λ"], ["λ"]];
         assertEquals(parse(input, { comment: "θ" }), output);
-      },
+      }
     });
     await t.step({
       name: "QuotedFieldMultipleLF",
       fn() {
-        const input = '"\n\n\n\n"';
+        const input = "\"\n\n\n\n\"";
         const output = [["\n\n\n\n"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "MultipleCRLF",
@@ -626,7 +624,7 @@ c"d,e`;
         const input = "\r\n\r\n\r\n\r\n";
         const output: string[][] = [];
         assertEquals(parse(input), output);
-      },
+      }
       /**
        * The implementation may read each line in several chunks if
        * it doesn't fit entirely.
@@ -646,29 +644,29 @@ c"d,e`;
     await t.step({
       name: "QuoteWithTrailingCRLF",
       fn() {
-        const input = '"foo"bar"\r\n';
+        const input = "\"foo\"bar\"\r\n";
         assertThrows(
           () => parse(input),
           SyntaxError,
-          `parse error on line 1, column 5: extraneous or missing " in quoted-field`,
+          `parse error on line 1, column 5: extraneous or missing " in quoted-field`
         );
-      },
+      }
     });
     await t.step({
       name: "LazyQuoteWithTrailingCRLF",
       fn() {
-        const input = '"foo"bar"\r\n';
+        const input = "\"foo\"bar\"\r\n";
         const output = [[`foo"bar`]];
         assertEquals(parse(input, { lazyQuotes: true }), output);
-      },
+      }
     });
     await t.step({
       name: "DoubleQuoteWithTrailingCRLF",
       fn() {
-        const input = '"foo""bar"\r\n';
+        const input = "\"foo\"\"bar\"\r\n";
         const output = [[`foo"bar`]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "EvenQuotes",
@@ -676,7 +674,7 @@ c"d,e`;
         const input = `""""""""`;
         const output = [[`"""`]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "OddQuotes",
@@ -685,9 +683,9 @@ c"d,e`;
         assertThrows(
           () => parse(input),
           SyntaxError,
-          `parse error on line 1, column 8: extraneous or missing " in quoted-field`,
+          `parse error on line 1, column 8: extraneous or missing " in quoted-field`
         );
-      },
+      }
     });
     await t.step({
       name: "LazyOddQuotes",
@@ -695,7 +693,7 @@ c"d,e`;
         const input = `"""""""`;
         const output = [[`"""`]];
         assertEquals(parse(input, { lazyQuotes: true }), output);
-      },
+      }
     });
     await t.step({
       name: "BadComma1",
@@ -704,9 +702,9 @@ c"d,e`;
         assertThrows(
           () => parse(input, { separator: "\n" }),
           Error,
-          "Cannot parse input: invalid delimiter",
+          "Cannot parse input: invalid delimiter"
         );
-      },
+      }
     });
     await t.step({
       name: "BadComma2",
@@ -715,20 +713,20 @@ c"d,e`;
         assertThrows(
           () => parse(input, { separator: "\r" }),
           Error,
-          "Cannot parse input: invalid delimiter",
+          "Cannot parse input: invalid delimiter"
         );
-      },
+      }
     });
     await t.step({
       name: "BadComma3",
       fn() {
         const input = "";
         assertThrows(
-          () => parse(input, { separator: '"' }),
+          () => parse(input, { separator: "\"" }),
           Error,
-          "Cannot parse input: invalid delimiter",
+          "Cannot parse input: invalid delimiter"
         );
-      },
+      }
     });
     await t.step({
       name: "BadComment1",
@@ -737,9 +735,9 @@ c"d,e`;
         assertThrows(
           () => parse(input, { comment: "\n" }),
           Error,
-          "Cannot parse input: invalid delimiter",
+          "Cannot parse input: invalid delimiter"
         );
-      },
+      }
     });
     await t.step({
       name: "BadComment2",
@@ -748,9 +746,9 @@ c"d,e`;
         assertThrows(
           () => parse(input, { comment: "\r" }),
           Error,
-          "Cannot parse input: invalid delimiter",
+          "Cannot parse input: invalid delimiter"
         );
-      },
+      }
     });
     await t.step({
       name: "BadCommaComment",
@@ -759,9 +757,9 @@ c"d,e`;
         assertThrows(
           () => parse(input, { separator: "X", comment: "X" }),
           Error,
-          "Cannot parse input: invalid delimiter",
+          "Cannot parse input: invalid delimiter"
         );
-      },
+      }
     });
 
     await t.step({
@@ -770,7 +768,7 @@ c"d,e`;
         const input = "a,b,c";
         const output = [["a", "b", "c"]];
         assertEquals(parse(input, { skipFirstRow: false }), output);
-      },
+      }
     });
     await t.step({
       name: "simple Bufreader",
@@ -778,7 +776,7 @@ c"d,e`;
         const input = "a,b,c";
         const output = [["a", "b", "c"]];
         assertEquals(parse(input, { skipFirstRow: false }), output);
-      },
+      }
     });
     await t.step({
       name: "multiline",
@@ -786,10 +784,10 @@ c"d,e`;
         const input = "a,b,c\ne,f,g\n";
         const output = [
           ["a", "b", "c"],
-          ["e", "f", "g"],
+          ["e", "f", "g"]
         ];
         assertEquals(parse(input, { skipFirstRow: false }), output);
-      },
+      }
     });
     await t.step({
       name: "header mapping boolean",
@@ -797,7 +795,7 @@ c"d,e`;
         const input = "a,b,c\ne,f,g\n";
         const output = [{ a: "e", b: "f", c: "g" }];
         assertEquals(parse(input, { skipFirstRow: true }), output);
-      },
+      }
     });
     await t.step({
       name: "header mapping array",
@@ -805,13 +803,13 @@ c"d,e`;
         const input = "a,b,c\ne,f,g\n";
         const output = [
           { this: "a", is: "b", sparta: "c" },
-          { this: "e", is: "f", sparta: "g" },
+          { this: "e", is: "f", sparta: "g" }
         ];
         assertEquals(
           parse(input, { columns: ["this", "is", "sparta"] }),
-          output,
+          output
         );
-      },
+      }
     });
 
     await t.step({
@@ -820,16 +818,16 @@ c"d,e`;
         const input = "a,b,1\nc,d,2\ne,f,3";
         const output = [
           { foo: "c", bar: "d", baz: "2" },
-          { foo: "e", bar: "f", baz: "3" },
+          { foo: "e", bar: "f", baz: "3" }
         ];
         assertEquals(
           parse(input, {
             skipFirstRow: true,
-            columns: ["foo", "bar", "baz"],
+            columns: ["foo", "bar", "baz"]
           }),
-          output,
+          output
         );
-      },
+      }
     });
     await t.step({
       name: "mismatching number of headers and fields 1",
@@ -839,12 +837,12 @@ c"d,e`;
           () =>
             parse(input, {
               skipFirstRow: true,
-              columns: ["foo", "bar", "baz"],
+              columns: ["foo", "bar", "baz"]
             }),
           Error,
-          "Syntax error on line 2: The record has 2 fields, but the header has 3 fields",
+          "Syntax error on line 2: The record has 2 fields, but the header has 3 fields"
         );
-      },
+      }
     });
     await t.step({
       name: "mismatching number of headers and fields 2",
@@ -854,12 +852,12 @@ c"d,e`;
           () =>
             parse(input, {
               skipFirstRow: true,
-              columns: ["foo", "bar", "baz"],
+              columns: ["foo", "bar", "baz"]
             }),
           Error,
-          "Syntax error on line 2: The record has 4 fields, but the header has 3 fields",
+          "Syntax error on line 2: The record has 4 fields, but the header has 3 fields"
         );
-      },
+      }
     });
     await t.step({
       name: "Strips leading byte-order mark with bare cell",
@@ -868,16 +866,16 @@ c"d,e`;
         const output = [["abc"]];
         assert(!JSON.stringify(output).includes(BYTE_ORDER_MARK));
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "Strips leading byte-order mark with quoted cell",
       fn() {
         const input = `${BYTE_ORDER_MARK}"a""b"`;
-        const output = [['a"b']];
+        const output = [["a\"b"]];
         assert(!JSON.stringify(output).includes(BYTE_ORDER_MARK));
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "Does not strip byte-order mark after position [0]",
@@ -885,27 +883,25 @@ c"d,e`;
         const input = `a${BYTE_ORDER_MARK}bc`;
         const output = [[`a${BYTE_ORDER_MARK}bc`]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
-      name:
-        "trimLeadingSpace strips leading byte-order mark followed by whitespace",
+      name: "trimLeadingSpace strips leading byte-order mark followed by whitespace",
       fn() {
         const input = `${BYTE_ORDER_MARK} abc`;
         const output = [["abc"]];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       // This behavior is due to String#trimStart including U+FEFF in the set of
       // characters to be trimmed
-      name:
-        "trimLeadingSpace strips leading whitespace followed by byte-order mark",
+      name: "trimLeadingSpace strips leading whitespace followed by byte-order mark",
       fn() {
         const input = ` ${BYTE_ORDER_MARK}abc`;
         const output = [["abc"]];
         assertEquals(parse(input, { trimLeadingSpace: true }), output);
-      },
+      }
     });
     await t.step({
       name: "leading line breaks",
@@ -913,7 +909,7 @@ c"d,e`;
         const input = "\n\na,b,c";
         const output = [["a", "b", "c"]];
         assertEquals(parse(input), output);
-      },
+      }
     });
     await t.step({
       name: "throws when skipFirstRow=true with empty data",
@@ -921,11 +917,11 @@ c"d,e`;
         assertThrows(
           () => parse("", { skipFirstRow: true }),
           Error,
-          "Cannot parse input: headers must be defined",
+          "Cannot parse input: headers must be defined"
         );
-      },
+      }
     });
-  },
+  }
 });
 
 Ende.test({
@@ -997,14 +993,14 @@ Ende.test({
     {
       const parsed = parse(
         "a\nb",
-        { skipFirstRow: false },
+        { skipFirstRow: false }
       );
       type _ = AssertTrue<IsExact<typeof parsed, string[][]>>;
     }
     {
       const parsed = parse(
         "a\nb",
-        { skipFirstRow: true },
+        { skipFirstRow: true }
       );
       type _ = AssertTrue<
         IsExact<typeof parsed, Record<string, string>[]>
@@ -1022,5 +1018,5 @@ Ende.test({
         IsExact<typeof parsed, Record<"aaa", string>[]>
       >;
     }
-  },
+  }
 });

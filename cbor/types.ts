@@ -47,7 +47,7 @@ export type CborStreamInput =
   | CborPrimitiveType
   | CborTag<CborStreamInput>
   | CborStreamInput[]
-  | { [k: string]: CborStreamInput }
+  | { [k: string]: CborStreamInput; }
   | CborByteEncoderStream
   | CborTextEncoderStream
   | CborArrayEncoderStream

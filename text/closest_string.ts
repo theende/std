@@ -47,11 +47,11 @@ export interface ClosestStringOptions {
 export function closestString(
   givenWord: string,
   possibleWords: ReadonlyArray<string>,
-  options?: ClosestStringOptions,
+  options?: ClosestStringOptions
 ): string {
   if (possibleWords.length === 0) {
     throw new TypeError(
-      "When using closestString(), the possibleWords array must contain at least one word",
+      "When using closestString(), the possibleWords array must contain at least one word"
     );
   }
   const { caseSensitive, compareFn = levenshteinDistance } = { ...options };
@@ -63,9 +63,9 @@ export function closestString(
   let nearestWord = possibleWords[0]!;
   let closestStringDistance = Infinity;
   for (const each of possibleWords) {
-    const distance = caseSensitive
-      ? compareFn(givenWord, each)
-      : compareFn(givenWord, each.toLowerCase());
+    const distance = caseSensitive ?
+      compareFn(givenWord, each) :
+      compareFn(givenWord, each.toLowerCase());
     if (distance < closestStringDistance) {
       nearestWord = each;
       closestStringDistance = distance;

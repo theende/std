@@ -17,12 +17,12 @@ Ende.test("AbortStream", async () => {
       .pipeThrough( // To slow the process down for the controller.abort()
         new TransformStream({
           async transform(chunk, controller) {
-            await new Promise((a) => setTimeout(a, 50));
+            await new Promise(a => setTimeout(a, 50));
             controller.enqueue(chunk);
-          },
-        }),
+          }
+        })
       )
-      .pipeThrough(new AbortStream(controller.signal)),
+      .pipeThrough(new AbortStream(controller.signal))
   )
     .bytes();
 

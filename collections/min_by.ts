@@ -44,7 +44,7 @@
  */
 export function minBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => number,
+  selector: (el: T, index: number) => number
 ): T | undefined;
 /**
  * Returns the first element that is the smallest value of the given function or
@@ -77,7 +77,7 @@ export function minBy<T>(
  */
 export function minBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => string,
+  selector: (el: T, index: number) => string
 ): T | undefined;
 /**
  * Returns the first element that is the smallest value of the given function or
@@ -110,7 +110,7 @@ export function minBy<T>(
  */
 export function minBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => bigint,
+  selector: (el: T, index: number) => bigint
 ): T | undefined;
 /**
  * Returns the first element that is the smallest value of the given function or
@@ -141,7 +141,7 @@ export function minBy<T>(
  */
 export function minBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => Date,
+  selector: (el: T, index: number) => Date
 ): T | undefined;
 export function minBy<T>(
   array: Iterable<T>,
@@ -149,11 +149,12 @@ export function minBy<T>(
     | ((el: T, index: number) => number)
     | ((el: T, index: number) => string)
     | ((el: T, index: number) => bigint)
-    | ((el: T, index: number) => Date),
+    | ((el: T, index: number) => Date)
 ): T | undefined {
   if (Array.isArray(array)) {
     const length = array.length;
-    if (length === 0) return undefined;
+    if (length === 0)
+      return undefined;
 
     let min: T = array[0]!;
     let minValue = selector(min, 0);
@@ -174,7 +175,8 @@ export function minBy<T>(
   const iter = array[Symbol.iterator]();
   const first = iter.next();
 
-  if (first.done) return undefined;
+  if (first.done)
+    return undefined;
 
   let min: T = first.value;
   let minValue = selector(min, index++);

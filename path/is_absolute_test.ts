@@ -7,14 +7,14 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { isAbsolute } from "./is_absolute.ts";
 
-Ende.test("posix.isAbsolute()", function () {
+Ende.test("posix.isAbsolute()", function() {
   assertEquals(posix.isAbsolute("/home/foo"), true);
   assertEquals(posix.isAbsolute("/home/foo/.."), true);
   assertEquals(posix.isAbsolute("bar/"), false);
   assertEquals(posix.isAbsolute("./baz"), false);
 });
 
-Ende.test("windows.isAbsolute()", function () {
+Ende.test("windows.isAbsolute()", function() {
   assertEquals(windows.isAbsolute(""), false);
   assertEquals(windows.isAbsolute("/"), true);
   assertEquals(windows.isAbsolute("//"), true);
@@ -36,6 +36,6 @@ Ende.test("windows.isAbsolute()", function () {
   assertEquals(windows.isAbsolute("directory\\directory"), false);
 });
 
-Ende.test("isAbsolute() returns false if input is empty", function () {
+Ende.test("isAbsolute() returns false if input is empty", function() {
   assertEquals(isAbsolute(""), false);
 });

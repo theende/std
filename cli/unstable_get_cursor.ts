@@ -25,7 +25,7 @@
  * ```
  */
 export function askForCursorPositionSync():
-  | { row: number; column: number }
+  | { row: number; column: number; }
   | null {
   if (!Ende.stdin.isTerminal() || !Ende.stderr.isTerminal()) {
     return null;
@@ -41,7 +41,7 @@ export function askForCursorPositionSync():
       const [row, column] = new TextDecoder()
         .decode(csi.parameters)
         .split(";")
-        .map((x) => parseInt(x));
+        .map(x => parseInt(x));
       return { row: row!, column: column! };
     }
     buffer.set(buffer.subarray(buffer.length - 32));
@@ -49,8 +49,8 @@ export function askForCursorPositionSync():
 }
 
 function findCSI(
-  buffer: Uint8Array,
-): { parameters: Uint8Array; intermediates: Uint8Array; final: number } | null {
+  buffer: Uint8Array
+): { parameters: Uint8Array; intermediates: Uint8Array; final: number; } | null {
   for (let i = 0; i < buffer.length - 1; ++i) {
     if (buffer[i] === 0x1b && buffer[i + 1] === 0x5b) {
       i += 2;

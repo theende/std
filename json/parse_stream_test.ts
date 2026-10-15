@@ -12,10 +12,10 @@ Ende.test({
   async fn() {
     await assertValidParse(
       JsonParseStream,
-      ['{"foo": "bar"}', '["foo"]', '"foo"', "0", "null", "true", "false"],
-      [{ foo: "bar" }, ["foo"], "foo", 0, null, true, false],
+      ["{\"foo\": \"bar\"}", "[\"foo\"]", "\"foo\"", "0", "null", "true", "false"],
+      [{ foo: "bar" }, ["foo"], "foo", 0, null, true, false]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -24,9 +24,9 @@ Ende.test({
     await assertValidParse(
       JsonParseStream,
       [" \t\r\n", ""],
-      [],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -34,10 +34,10 @@ Ende.test({
   async fn() {
     await assertValidParse(
       JsonParseStream,
-      ['"👪"', '"🦕"', '"\u3053\u3093\u306b\u3061\u306f"'],
-      ["👪", "🦕", "\u3053\u3093\u306b\u3061\u306f"],
+      ["\"👪\"", "\"🦕\"", "\"\u3053\u3093\u306b\u3061\u306f\""],
+      ["👪", "🦕", "\u3053\u3093\u306b\u3061\u306f"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -45,11 +45,11 @@ Ende.test({
   async fn() {
     await assertInvalidParse(
       JsonParseStream,
-      ['{"foo": "bar"}', '{"foo": '],
+      ["{\"foo\": \"bar\"}", "{\"foo\": "],
       SyntaxError,
-      `Unexpected end of JSON input (parsing: '{"foo": ')`,
+      `Unexpected end of JSON input (parsing: '{"foo": ')`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -66,11 +66,11 @@ Ende.test({
     const result = await Array.fromAsync(readable);
 
     assertEquals(result, [
-      { "hello": "world" },
+      { hello: "world" },
       ["👋", "👋", "👋"],
-      { "deno": "🦕" },
+      { deno: "🦕" }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -87,11 +87,11 @@ Ende.test({
     const result = await Array.fromAsync(readable);
 
     assertEquals(result, [
-      { "hello": "world" },
+      { hello: "world" },
       ["👋", "👋", "👋"],
-      { "deno": "🦕" },
+      { deno: "🦕" }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -110,9 +110,9 @@ Ende.test({
     const result = await Array.fromAsync(readable);
 
     assertEquals(result, [
-      { "hello": "world" },
+      { hello: "world" },
       ["👋", "👋", "👋"],
-      { "deno": "🦕" },
+      { deno: "🦕" }
     ]);
-  },
+  }
 });

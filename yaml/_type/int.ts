@@ -32,7 +32,8 @@ function resolveYamlInteger(data: string): boolean {
   let index = 0;
   let hasDigits = false;
 
-  if (!max) return false;
+  if (!max)
+    return false;
 
   let ch = data[index];
 
@@ -43,7 +44,8 @@ function resolveYamlInteger(data: string): boolean {
 
   if (ch === "0") {
     // 0
-    if (index + 1 === max) return true;
+    if (index + 1 === max)
+      return true;
     ch = data[++index];
 
     // base 2, base 8, base 16
@@ -54,8 +56,10 @@ function resolveYamlInteger(data: string): boolean {
 
       for (; index < max; index++) {
         ch = data[index];
-        if (ch === "_") continue;
-        if (ch !== "0" && ch !== "1") return false;
+        if (ch === "_")
+          continue;
+        if (ch !== "0" && ch !== "1")
+          return false;
         hasDigits = true;
       }
       return hasDigits && ch !== "_";
@@ -67,8 +71,10 @@ function resolveYamlInteger(data: string): boolean {
 
       for (; index < max; index++) {
         ch = data[index];
-        if (ch === "_") continue;
-        if (!isHexCode(data.charCodeAt(index))) return false;
+        if (ch === "_")
+          continue;
+        if (!isHexCode(data.charCodeAt(index)))
+          return false;
         hasDigits = true;
       }
       return hasDigits && ch !== "_";
@@ -77,8 +83,10 @@ function resolveYamlInteger(data: string): boolean {
     // base 8
     for (; index < max; index++) {
       ch = data[index];
-      if (ch === "_") continue;
-      if (!isOctCode(data.charCodeAt(index))) return false;
+      if (ch === "_")
+        continue;
+      if (!isOctCode(data.charCodeAt(index)))
+        return false;
       hasDigits = true;
     }
     return hasDigits && ch !== "_";
@@ -87,11 +95,13 @@ function resolveYamlInteger(data: string): boolean {
   // base 10 (except 0) or base 60
 
   // value should not start with `_`;
-  if (ch === "_") return false;
+  if (ch === "_")
+    return false;
 
   for (; index < max; index++) {
     ch = data[index];
-    if (ch === "_") continue;
+    if (ch === "_")
+      continue;
     if (!isDecCode(data.charCodeAt(index))) {
       return false;
     }
@@ -99,7 +109,8 @@ function resolveYamlInteger(data: string): boolean {
   }
 
   // Should have digits and should not end with `_`
-  if (!hasDigits || ch === "_") return false;
+  if (!hasDigits || ch === "_")
+    return false;
 
   // base60 almost not used, no needs to optimize
   return /^(:[0-5]?[0-9])+$/.test(data.slice(index));
@@ -115,16 +126,20 @@ function constructYamlInteger(data: string): number {
   let sign = 1;
   let ch = value[0];
   if (ch === "-" || ch === "+") {
-    if (ch === "-") sign = -1;
+    if (ch === "-")
+      sign = -1;
     value = value.slice(1);
     ch = value[0];
   }
 
-  if (value === "0") return 0;
+  if (value === "0")
+    return 0;
 
   if (ch === "0") {
-    if (value[1] === "b") return sign * parseInt(value.slice(2), 2);
-    if (value[1] === "x") return sign * parseInt(value, 16);
+    if (value[1] === "b")
+      return sign * parseInt(value.slice(2), 2);
+    if (value[1] === "x")
+      return sign * parseInt(value, 16);
     return sign * parseInt(value, 8);
   }
 
@@ -132,7 +147,8 @@ function constructYamlInteger(data: string): number {
 }
 
 function isInteger(object: unknown): object is number {
-  if (object instanceof Number) object = object.valueOf();
+  if (object instanceof Number)
+    object = object.valueOf();
   return typeof object === "number" && object % 1 === 0 &&
     !isNegativeZero(object);
 }
@@ -147,16 +163,16 @@ export const int: Type<"scalar", number> = {
     // deno-lint-ignore ban-types
     binary(object: number | Number): string {
       const value = object instanceof Number ? object.valueOf() : object;
-      return value >= 0
-        ? `0b${value.toString(2)}`
-        : `-0b${value.toString(2).slice(1)}`;
+      return value >= 0 ?
+        `0b${value.toString(2)}` :
+        `-0b${value.toString(2).slice(1)}`;
     },
     // deno-lint-ignore ban-types
     octal(object: number | Number): string {
       const value = object instanceof Number ? object.valueOf() : object;
-      return value >= 0
-        ? `0${value.toString(8)}`
-        : `-0${value.toString(8).slice(1)}`;
+      return value >= 0 ?
+        `0${value.toString(8)}` :
+        `-0${value.toString(8).slice(1)}`;
     },
     // deno-lint-ignore ban-types
     decimal(object: number | Number): string {
@@ -166,10 +182,10 @@ export const int: Type<"scalar", number> = {
     // deno-lint-ignore ban-types
     hexadecimal(object: number | Number): string {
       const value = object instanceof Number ? object.valueOf() : object;
-      return value >= 0
-        ? `0x${value.toString(16).toUpperCase()}`
-        : `-0x${value.toString(16).toUpperCase().slice(1)}`;
-    },
+      return value >= 0 ?
+        `0x${value.toString(16).toUpperCase()}` :
+        `-0x${value.toString(16).toUpperCase().slice(1)}`;
+    }
   },
-  resolve: resolveYamlInteger,
+  resolve: resolveYamlInteger
 };

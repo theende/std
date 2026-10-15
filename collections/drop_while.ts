@@ -39,7 +39,7 @@
  */
 export function dropWhile<T>(
   iterable: Iterable<T>,
-  predicate: (el: T, index: number) => boolean,
+  predicate: (el: T, index: number) => boolean
 ): T[] {
   if (Array.isArray(iterable)) {
     const idx = iterable.findIndex((el, index) => !predicate(el, index));

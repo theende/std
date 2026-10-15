@@ -8,7 +8,7 @@ import { FixedChunkStream } from "@ende/streams/unstable-fixed-chunk-stream";
 import { encodeBase32 } from "./unstable_base32.ts";
 import {
   Base32DecoderStream,
-  Base32EncoderStream,
+  Base32EncoderStream
 } from "./unstable_base32_stream.ts";
 
 Ende.test("Base32EncoderStream() with normal format", async () => {
@@ -21,7 +21,7 @@ Ende.test("Base32EncoderStream() with normal format", async () => {
     assertEquals(
       await toText(readable),
       encodeBase32(await Ende.readFile("./ende.lock"), { alphabet }),
-      alphabet,
+      alphabet
     );
   }
 });
@@ -31,7 +31,7 @@ Ende.test("Base32EncoderStream() with raw format", async () => {
     const alphabet of [
       "base32",
       "base32hex",
-      "base32crockford",
+      "base32crockford"
     ] as const
   ) {
     const readable = (await Ende.open("./ende.lock"))
@@ -44,10 +44,10 @@ Ende.test("Base32EncoderStream() with raw format", async () => {
       new TextEncoder().encode(
         encodeBase32(
           await Ende.readFile("./ende.lock"),
-          { alphabet },
-        ),
+          { alphabet }
+        )
       ),
-      alphabet,
+      alphabet
     );
   }
 });
@@ -64,7 +64,7 @@ Ende.test("Base32DecoderStream() with normal format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock"),
+      await Ende.readFile("./ende.lock")
     );
   }
 });
@@ -74,7 +74,7 @@ Ende.test("Base32DecoderStream() with raw format", async () => {
     const alphabet of [
       "base32",
       "base32hex",
-      "base32crockford",
+      "base32crockford"
     ] as const
   ) {
     const readable = (await Ende.open("./ende.lock"))
@@ -85,7 +85,7 @@ Ende.test("Base32DecoderStream() with raw format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock"),
+      await Ende.readFile("./ende.lock")
     );
   }
 });

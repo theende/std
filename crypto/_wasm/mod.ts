@@ -44,7 +44,7 @@ export const DIGEST_ALGORITHM_NAMES = [
   "FNV32",
   "FNV32A",
   "FNV64",
-  "FNV64A",
+  "FNV64A"
 ] as const;
 
 /** An algorithm name supported by std/crypto. */

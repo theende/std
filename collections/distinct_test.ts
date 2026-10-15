@@ -7,7 +7,7 @@ import { distinct } from "./distinct.ts";
 function distinctTest<I>(
   input: Array<I>,
   expected: Array<I>,
-  message?: string,
+  message?: string
 ) {
   const actual = distinct(input);
   assertEquals(actual, expected, message);
@@ -17,7 +17,7 @@ Ende.test({
   name: "distinct() handles identities on empty array",
   fn() {
     distinctTest([], []);
-  },
+  }
 });
 
 Ende.test({
@@ -25,17 +25,17 @@ Ende.test({
   fn() {
     distinctTest(
       [true, "asdf", 4, "asdf", true],
-      [true, "asdf", 4],
+      [true, "asdf", 4]
     );
     distinctTest(
       [null, undefined, null, "foo", undefined],
-      [null, undefined, "foo"],
+      [null, undefined, "foo"]
     );
     distinctTest(
       [true, "asdf", 4, "asdf", true],
-      [true, "asdf", 4],
+      [true, "asdf", 4]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -55,5 +55,5 @@ Ende.test({
 
     const sets = [new Set(), new Set()];
     distinctTest(sets, sets);
-  },
+  }
 });

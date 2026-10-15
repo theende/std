@@ -8,14 +8,14 @@ Ende.test({
   name: "format() handles duration since epoch",
   fn() {
     assertExists(format(Date.now()));
-  },
+  }
 });
 
 Ende.test({
   name: "format() handles narrow duration",
   fn() {
     assertEquals(format(99674), "0d 0h 1m 39s 674ms 0µs 0ns");
-  },
+  }
 });
 
 Ende.test({
@@ -24,9 +24,9 @@ Ende.test({
     assertEquals(
       // @ts-expect-error: explicitly giving undefined
       format(99674, { style: undefined }),
-      "0d 0h 1m 39s 674ms 0µs 0ns",
+      "0d 0h 1m 39s 674ms 0µs 0ns"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -34,9 +34,9 @@ Ende.test({
   fn() {
     assertEquals(
       format(99674, { style: "full" }),
-      "0 days, 0 hours, 1 minute, 39 seconds, 674 milliseconds, 0 microseconds, 0 nanoseconds",
+      "0 days, 0 hours, 1 minute, 39 seconds, 674 milliseconds, 0 microseconds, 0 nanoseconds"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -44,9 +44,9 @@ Ende.test({
   fn() {
     assertEquals(
       format(99674, { style: "digital" }),
-      "00:00:01:39:674:000:000",
+      "00:00:01:39:674:000:000"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -54,9 +54,9 @@ Ende.test({
   fn() {
     assertEquals(
       format(-99674, { style: "digital" }),
-      "00:00:01:39:674:000:000",
+      "00:00:01:39:674:000:000"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -64,16 +64,16 @@ Ende.test({
   fn() {
     assertEquals(
       format(99674, { style: "full", ignoreZero: true }),
-      "1 minute, 39 seconds, 674 milliseconds",
+      "1 minute, 39 seconds, 674 milliseconds"
     );
-  },
+  }
 });
 
 Ende.test({
   name: "format() handles narrow duration ignore zero",
   fn() {
     assertEquals(format(99674, { ignoreZero: true }), "1m 39s 674ms");
-  },
+  }
 });
 
 Ende.test({
@@ -81,26 +81,25 @@ Ende.test({
   fn() {
     assertEquals(
       format(99674, { ignoreZero: true, style: "digital" }),
-      "00:00:01:39:674",
+      "00:00:01:39:674"
     );
-  },
+  }
 });
 
 Ende.test({
   name: "format() handles duration rounding error",
   fn() {
     assertEquals(format(16.342, { ignoreZero: true }), "16ms 342µs");
-  },
+  }
 });
 
 Ende.test({
   name: "format() throws on invalid style option",
   fn() {
     assertThrows(
-      () =>
-        format(16.342, { style: "invalid" as keyof FormatOptions["style"] }),
+      () => format(16.342, { style: "invalid" as keyof FormatOptions["style"] }),
       TypeError,
-      'style must be "narrow", "full", or "digital"!',
+      "style must be \"narrow\", \"full\", or \"digital\"!"
     );
-  },
+  }
 });

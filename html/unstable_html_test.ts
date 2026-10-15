@@ -13,7 +13,7 @@ Ende.test("html()", () => {
     result,
     `
     <span style="color: red;">blue</span>
-  `,
+  `
   );
 });
 
@@ -24,7 +24,7 @@ Ende.test("html() treats undefined as empty string", () => {
     `,
     `
       <div></div>
-    `,
+    `
   );
 });
 
@@ -35,7 +35,7 @@ Ende.test("html() with no interpolations", () => {
     `,
     `
       <p>hello</p>
-    `,
+    `
   );
 });
 
@@ -46,18 +46,18 @@ Ende.test("html() with empty string interpolation", () => {
     `,
     `
       <div></div>
-    `,
+    `
   );
 });
 
 Ende.test("html() does not escape HTML in interpolated values", () => {
-  const userInput = '<script>alert("XSS")</script>';
+  const userInput = "<script>alert(\"XSS\")</script>";
   assertEquals(
     html`
       <div>${userInput}</div>
     `,
     `
       <div><script>alert("XSS")</script></div>
-    `,
+    `
   );
 });

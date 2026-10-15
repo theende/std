@@ -12,14 +12,14 @@ Ende.test("CborArrayEncoderStream() correctly encoding", async () => {
 
   const expectedOutput = concat([
     new Uint8Array([0b100_11111]),
-    ...arrays.map((x) => encodeCbor(x)),
-    new Uint8Array([0b111_11111]),
+    ...arrays.map(x => encodeCbor(x)),
+    new Uint8Array([0b111_11111])
   ]);
 
   const actualOutput = concat(
     await Array.fromAsync(
-      ReadableStream.from(arrays).pipeThrough(new CborArrayEncoderStream()),
-    ),
+      ReadableStream.from(arrays).pipeThrough(new CborArrayEncoderStream())
+    )
   );
 
   assertEquals(actualOutput, expectedOutput);
@@ -30,14 +30,14 @@ Ende.test("CborArrayEncoderStream.from() correctly encoding", async () => {
 
   const expectedOutput = concat([
     new Uint8Array([0b100_11111]),
-    ...arrays.map((x) => encodeCbor(x)),
-    new Uint8Array([0b111_11111]),
+    ...arrays.map(x => encodeCbor(x)),
+    new Uint8Array([0b111_11111])
   ]);
 
   const actualOutput = concat(
     await Array.fromAsync(
-      CborArrayEncoderStream.from(arrays).readable,
-    ),
+      CborArrayEncoderStream.from(arrays).readable
+    )
   );
 
   assertEquals(actualOutput, expectedOutput);

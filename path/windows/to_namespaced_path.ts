@@ -6,7 +6,7 @@ import {
   CHAR_BACKWARD_SLASH,
   CHAR_COLON,
   CHAR_DOT,
-  CHAR_QUESTION_MARK,
+  CHAR_QUESTION_MARK
 } from "../_common/constants.ts";
 import { isWindowsDeviceRoot } from "./_util.ts";
 import { resolve } from "./resolve.ts";
@@ -28,8 +28,10 @@ import { resolve } from "./resolve.ts";
  */
 export function toNamespacedPath(path: string): string {
   // Note: this will *probably* throw somewhere.
-  if (typeof path !== "string") return path;
-  if (path.length === 0) return "";
+  if (typeof path !== "string")
+    return path;
+  if (path.length === 0)
+    return "";
 
   const resolvedPath = resolve(path);
 

@@ -28,7 +28,7 @@ export type { GlobOptions };
  */
 export function joinGlobs(
   globs: string[],
-  options: Pick<GlobOptions, "globstar"> = {},
+  options: Pick<GlobOptions, "globstar"> = {}
 ): string {
   const { globstar = false } = options;
   if (!globstar || globs.length === 0) {
@@ -38,10 +38,13 @@ export function joinGlobs(
   for (const glob of globs) {
     const path = glob;
     if (path.length > 0) {
-      if (!joined) joined = path;
-      else joined += `${SEPARATOR}${path}`;
+      if (!joined)
+        joined = path;
+      else
+        joined += `${SEPARATOR}${path}`;
     }
   }
-  if (!joined) return ".";
+  if (!joined)
+    return ".";
   return normalizeGlob(joined, { globstar });
 }

@@ -11,13 +11,13 @@ import { ensureDirSync } from "./ensure_dir.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Ende.test("getFileInfoType() returns entity type as a string", function () {
+Ende.test("getFileInfoType() returns entity type as a string", function() {
   const pairs = [
     [path.join(testdataDir, "file_type_1"), "file"],
-    [path.join(testdataDir, "file_type_dir_1"), "dir"],
+    [path.join(testdataDir, "file_type_dir_1"), "dir"]
   ];
 
-  pairs.forEach(function (p) {
+  pairs.forEach(function(p) {
     const filePath = p[0] as string;
     const type = p[1] as PathType;
     switch (type) {

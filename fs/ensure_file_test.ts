@@ -7,9 +7,9 @@ import { ensureFile, ensureFileSync } from "./ensure_file.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Ende.test("ensureFile() creates file if it does not exist", async function () {
+Ende.test("ensureFile() creates file if it does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_file_",
+    prefix: "ende_std_ensure_file_"
   });
   const testDir = path.join(tempDirPath, "ensure_file_1");
   const testFile = path.join(testDir, "test.txt");
@@ -24,9 +24,9 @@ Ende.test("ensureFile() creates file if it does not exist", async function () {
   }
 });
 
-Ende.test("ensureFileSync() creates file if it does not exist", function () {
+Ende.test("ensureFileSync() creates file if it does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_file_sync_",
+    prefix: "ende_std_ensure_file_sync_"
   });
   const testDir = path.join(tempDirPath, "ensure_file_2");
   const testFile = path.join(testDir, "test.txt");
@@ -41,9 +41,9 @@ Ende.test("ensureFileSync() creates file if it does not exist", function () {
   }
 });
 
-Ende.test("ensureFile() ensures existing file exists", async function () {
+Ende.test("ensureFile() ensures existing file exists", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_file_",
+    prefix: "ende_std_ensure_file_"
   });
   const testDir = path.join(tempDirPath, "ensure_file_3");
   const testFile = path.join(testDir, "test.txt");
@@ -61,9 +61,9 @@ Ende.test("ensureFile() ensures existing file exists", async function () {
   }
 });
 
-Ende.test("ensureFileSync() ensures existing file exists", function () {
+Ende.test("ensureFileSync() ensures existing file exists", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_file_sync_",
+    prefix: "ende_std_ensure_file_sync_"
   });
   const testDir = path.join(tempDirPath, "ensure_file_4");
   const testFile = path.join(testDir, "test.txt");
@@ -81,9 +81,9 @@ Ende.test("ensureFileSync() ensures existing file exists", function () {
   }
 });
 
-Ende.test("ensureFile() rejects if input is dir", async function () {
+Ende.test("ensureFile() rejects if input is dir", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_file_",
+    prefix: "ende_std_ensure_file_"
   });
   const testDir = path.join(tempDirPath, "ensure_file_5");
 
@@ -95,16 +95,16 @@ Ende.test("ensureFile() rejects if input is dir", async function () {
         await ensureFile(testDir);
       },
       Error,
-      `Failed to ensure file exists: expected 'file', got 'dir'`,
+      `Failed to ensure file exists: expected 'file', got 'dir'`
     );
   } finally {
     await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Ende.test("ensureFileSync() throws if input is dir", function () {
+Ende.test("ensureFileSync() throws if input is dir", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_file_sync_",
+    prefix: "ende_std_ensure_file_sync_"
   });
   const testDir = path.join(tempDirPath, "ensure_file_6");
 
@@ -116,7 +116,7 @@ Ende.test("ensureFileSync() throws if input is dir", function () {
         ensureFileSync(testDir);
       },
       Error,
-      `Failed to ensure file exists: expected 'file', got 'dir'`,
+      `Failed to ensure file exists: expected 'file', got 'dir'`
     );
   } finally {
     Ende.removeSync(tempDirPath, { recursive: true });
@@ -135,9 +135,9 @@ Ende.test({
     await assertRejects(
       async () => await ensureFile(testFile),
       // deno-lint-ignore no-explicit-any
-      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied
     );
-  },
+  }
 });
 
 Ende.test({
@@ -152,22 +152,21 @@ Ende.test({
     assertThrows(
       () => ensureFileSync(testFile),
       // deno-lint-ignore no-explicit-any
-      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "ensureFile() can write file without write permissions on parent directory",
+  name: "ensureFile() can write file without write permissions on parent directory",
   permissions: {
     read: true,
     write: true,
-    run: [Ende.execPath()],
+    run: [Ende.execPath()]
   },
   async fn() {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "ende_std_ensure_file_",
+      prefix: "ende_std_ensure_file_"
     });
     const testDir = path.join(tempDirPath, "ensure_file_9");
     const testFile = path.join(testDir, "test.txt");
@@ -187,25 +186,25 @@ Ende.test({
         args: [
           "eval",
           "--no-lock",
-          `Ende.removeSync("${testDir}", { recursive: true });`,
-        ],
-      }).output();
+          `Ende.removeSync("${testDir}", { recursive: true });`
+        ]
+      })
+        .output();
       await Ende.remove(tempDirPath, { recursive: true });
     }
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "ensureFileSync() can write file without write permissions on parent directory",
+  name: "ensureFileSync() can write file without write permissions on parent directory",
   permissions: {
     read: true,
     write: true,
-    run: [Ende.execPath()],
+    run: [Ende.execPath()]
   },
   fn() {
     const tempDirPath = Ende.makeTempDirSync({
-      prefix: "ende_std_ensure_file_sync_",
+      prefix: "ende_std_ensure_file_sync_"
     });
     const testDir = path.join(tempDirPath, "ensure_file_10");
     const testFile = path.join(testDir, "test.txt");
@@ -225,10 +224,11 @@ Ende.test({
         args: [
           "eval",
           "--no-lock",
-          `Ende.removeSync("${testDir}", { recursive: true });`,
-        ],
-      }).outputSync();
+          `Ende.removeSync("${testDir}", { recursive: true });`
+        ]
+      })
+        .outputSync();
       Ende.removeSync(tempDirPath, { recursive: true });
     }
-  },
+  }
 });

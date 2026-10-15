@@ -10,18 +10,18 @@ Ende.test("FormDataEncoderStream", async () => {
       { name: "a", value: "b" },
       {
         name: "c",
-        value: new Blob([new Uint8Array(10)]),
+        value: new Blob([new Uint8Array(10)])
       },
       {
         name: "d",
         value: ReadableStream.from([new Uint8Array(20)]),
-        filename: "potato.txt",
+        filename: "potato.txt"
       },
       { name: "e", value: "f", contentType: "text/plain" },
       {
         name: "g",
-        value: new Blob([new Uint8Array(30)], { type: "text/html" }),
-      },
+        value: new Blob([new Uint8Array(30)], { type: "text/html" })
+      }
     ]))
     .toRequest("https://example.com/", { method: "POST" })
     .formData();
@@ -54,14 +54,14 @@ Ende.test(
         value: new ReadableStream({
           pull(controller) {
             controller.error(new Error("potato"));
-          },
-        }),
-      }]),
+          }
+        })
+      }])
     )
       .toResponse();
 
     await assertRejects(async () => await response.formData(), Error, "potato");
-  },
+  }
 );
 
 Ende.test("FormDataEncoderStream destructuring works correctly", async () => {
@@ -69,15 +69,16 @@ Ende.test("FormDataEncoderStream destructuring works correctly", async () => {
     .from(ReadableStream.from([{ name: "a", value: "b" }]));
 
   const formData = await new Response(encoder.readable, {
-    headers: { "Content-Type": encoder.contentType },
-  }).formData();
+    headers: { "Content-Type": encoder.contentType }
+  })
+    .formData();
   assertEquals(formData.get("a"), "b");
 });
 
 Ende.test("FormDataEncoderStream handles small byob requests", async () => {
   const reader = FormDataEncoderStream
     .from(
-      ReadableStream.from([{ name: "abcdefghijklmnopqrstuvwxyz", value: "b" }]),
+      ReadableStream.from([{ name: "abcdefghijklmnopqrstuvwxyz", value: "b" }])
     )
     .readable
     .getReader({ mode: "byob" });
@@ -85,7 +86,8 @@ Ende.test("FormDataEncoderStream handles small byob requests", async () => {
   while (true) {
     const { done, value } = await reader.read(new Uint8Array(5), { min: 5 });
     assert(value != undefined);
-    if (done) break;
+    if (done)
+      break;
   }
 });
 
@@ -96,7 +98,7 @@ Ende.test(
       .from(ReadableStream.from([{ name: "a", value: "b" }]))
       .readable
       .cancel();
-  },
+  }
 );
 
 Ende.test(
@@ -105,7 +107,7 @@ Ende.test(
     const reader = FormDataEncoderStream
       .from(ReadableStream.from([{
         name: "a",
-        value: new Blob([new Uint8Array(1024 * 8)]),
+        value: new Blob([new Uint8Array(1024 * 8)])
       }]))
       .readable
       .getReader({ mode: "byob" });
@@ -116,5 +118,5 @@ Ende.test(
     assert(value instanceof Uint8Array);
 
     await reader.cancel();
-  },
+  }
 );

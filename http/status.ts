@@ -162,7 +162,7 @@ export const STATUS_CODE = {
   /** RFC 2774, 7 */
   NotExtended: 510,
   /** RFC 6585, 6 */
-  NetworkAuthenticationRequired: 511,
+  NetworkAuthenticationRequired: 511
 } as const;
 
 /** An HTTP status code. */
@@ -196,8 +196,7 @@ export const STATUS_TEXT = {
   [STATUS_CODE.MovedPermanently]: "Moved Permanently",
   [STATUS_CODE.MultiStatus]: "Multi Status",
   [STATUS_CODE.MultipleChoices]: "Multiple Choices",
-  [STATUS_CODE.NetworkAuthenticationRequired]:
-    "Network Authentication Required",
+  [STATUS_CODE.NetworkAuthenticationRequired]: "Network Authentication Required",
   [STATUS_CODE.NoContent]: "No Content",
   [STATUS_CODE.NonAuthoritativeInfo]: "Non Authoritative Info",
   [STATUS_CODE.NotAcceptable]: "Not Acceptable",
@@ -232,7 +231,7 @@ export const STATUS_TEXT = {
   [STATUS_CODE.UnsupportedMediaType]: "Unsupported Media Type",
   [STATUS_CODE.UpgradeRequired]: "Upgrade Required",
   [STATUS_CODE.UseProxy]: "Use Proxy",
-  [STATUS_CODE.VariantAlsoNegotiates]: "Variant Also Negotiates",
+  [STATUS_CODE.VariantAlsoNegotiates]: "Variant Also Negotiates"
 } as const;
 
 /** An HTTP status text. */
@@ -349,7 +348,7 @@ export function isStatus(status: number): status is StatusCode {
  * @returns Whether or not the provided status is an informational status code.
  */
 export function isInformationalStatus(
-  status: number,
+  status: number
 ): status is InformationalStatus {
   return isStatus(status) && status >= 100 && status < 200;
 }
@@ -369,7 +368,7 @@ export function isInformationalStatus(
  * @returns Whether or not the provided status is a successful status code.
  */
 export function isSuccessfulStatus(
-  status: number,
+  status: number
 ): status is SuccessfulStatus {
   return isStatus(status) && status >= 200 && status < 300;
 }
@@ -407,7 +406,7 @@ export function isRedirectStatus(status: number): status is RedirectStatus {
  * @returns Whether or not the provided status is a client error status code.
  */
 export function isClientErrorStatus(
-  status: number,
+  status: number
 ): status is ClientErrorStatus {
   return isStatus(status) && status >= 400 && status < 500;
 }
@@ -427,7 +426,7 @@ export function isClientErrorStatus(
  * @returns Whether or not the provided status is a server error status code.
  */
 export function isServerErrorStatus(
-  status: number,
+  status: number
 ): status is ServerErrorStatus {
   return isStatus(status) && status >= 500 && status < 600;
 }

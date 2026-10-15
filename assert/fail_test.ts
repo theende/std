@@ -2,13 +2,13 @@
 // Copyright 2026 the Ende authors. MIT license.
 import { AssertionError, assertThrows, fail } from "./mod.ts";
 
-Ende.test("AssertFail", function () {
+Ende.test("AssertFail", function() {
   assertThrows(fail, AssertionError, "Failed assertion.");
   assertThrows(
     () => {
       fail("foo");
     },
     AssertionError,
-    "Failed assertion: foo",
+    "Failed assertion: foo"
   );
 });

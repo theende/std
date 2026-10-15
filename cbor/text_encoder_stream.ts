@@ -36,8 +36,7 @@ import { numberToArray } from "./_common.ts";
  * }
  * ```
  */
-export class CborTextEncoderStream
-  implements TransformStream<string, Uint8Array> {
+export class CborTextEncoderStream implements TransformStream<string, Uint8Array> {
   #readable: ReadableStream<Uint8Array>;
   #writable: WritableStream<string>;
   /**
@@ -45,12 +44,13 @@ export class CborTextEncoderStream
    */
   constructor() {
     const { readable, writable } = new TransformStream<string, string>();
-    this.#readable = toByteStream(ReadableStream.from(async function* () {
+    this.#readable = toByteStream(ReadableStream.from(async function*() {
       yield new Uint8Array([0b011_11111]);
       const textEncoder = new TextEncoder();
       for await (const x of readable) {
         const y = textEncoder.encode(x);
-        if (y.length < 24) yield new Uint8Array([0b011_00000 + y.length]);
+        if (y.length < 24)
+          yield new Uint8Array([0b011_00000 + y.length]);
         else if (y.length < 2 ** 8) {
           yield new Uint8Array([0b011_11000, y.length]);
         } else if (y.length < 2 ** 16) {
@@ -58,7 +58,8 @@ export class CborTextEncoderStream
         } else if (y.length < 2 ** 32) {
           yield new Uint8Array([0b011_11010, ...numberToArray(4, y.length)]);
         } // Can safely assume `x.length < 2 ** 64` as JavaScript doesn't support a `Uint8Array` being that large.
-        else yield new Uint8Array([0b011_11011, ...numberToArray(8, y.length)]);
+        else
+          yield new Uint8Array([0b011_11011, ...numberToArray(8, y.length)]);
         yield y;
       }
       yield new Uint8Array([0b111_11111]);
@@ -98,7 +99,7 @@ export class CborTextEncoderStream
    * @returns A {@link CborTextEncoderStream} instance of the encoded data.
    */
   static from(
-    asyncIterable: AsyncIterable<string> | Iterable<string>,
+    asyncIterable: AsyncIterable<string> | Iterable<string>
   ): CborTextEncoderStream {
     const encoder = new CborTextEncoderStream();
     ReadableStream.from(asyncIterable).pipeTo(encoder.writable);

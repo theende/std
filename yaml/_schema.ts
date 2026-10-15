@@ -61,13 +61,13 @@ export type TypeMap = Record<
 
 function createTypeMap(
   implicitTypes: ImplicitType[],
-  explicitTypes: ExplicitType[],
+  explicitTypes: ExplicitType[]
 ): TypeMap {
   const result: TypeMap = {
     fallback: new Map(),
     mapping: new Map(),
     scalar: new Map(),
-    sequence: new Map(),
+    sequence: new Map()
   };
   const fallbackMap = result.fallback;
   for (const type of [...implicitTypes, ...explicitTypes]) {
@@ -103,7 +103,7 @@ function createSchema({ explicitTypes = [], implicitTypes = [], include }: {
  * @see {@link http://www.yaml.org/spec/1.2/spec.html#id2802346}
  */
 const FAILSAFE_SCHEMA = createSchema({
-  explicitTypes: [str, seq, map],
+  explicitTypes: [str, seq, map]
 });
 
 /**
@@ -113,7 +113,7 @@ const FAILSAFE_SCHEMA = createSchema({
  */
 const JSON_SCHEMA = createSchema({
   implicitTypes: [nil, bool, int, float],
-  include: FAILSAFE_SCHEMA,
+  include: FAILSAFE_SCHEMA
 });
 
 /**
@@ -122,7 +122,7 @@ const JSON_SCHEMA = createSchema({
  * @see {@link http://www.yaml.org/spec/1.2/spec.html#id2804923}
  */
 const CORE_SCHEMA = createSchema({
-  include: JSON_SCHEMA,
+  include: JSON_SCHEMA
 });
 
 /**
@@ -131,7 +131,7 @@ const CORE_SCHEMA = createSchema({
 export const DEFAULT_SCHEMA = createSchema({
   explicitTypes: [binary, omap, pairs, set],
   implicitTypes: [timestamp, merge],
-  include: CORE_SCHEMA,
+  include: CORE_SCHEMA
 });
 
 /***
@@ -156,7 +156,7 @@ export const DEFAULT_SCHEMA = createSchema({
  */
 const EXTENDED_SCHEMA = createSchema({
   explicitTypes: [regexp, undefinedType],
-  include: DEFAULT_SCHEMA,
+  include: DEFAULT_SCHEMA
 });
 
 export const SCHEMA_MAP = new Map<SchemaType, Schema>([
@@ -164,12 +164,12 @@ export const SCHEMA_MAP = new Map<SchemaType, Schema>([
   ["default", DEFAULT_SCHEMA],
   ["failsafe", FAILSAFE_SCHEMA],
   ["json", JSON_SCHEMA],
-  ["extended", EXTENDED_SCHEMA],
+  ["extended", EXTENDED_SCHEMA]
 ]);
 
 export function getSchema(
   schema: SchemaType = "default",
-  types?: ImplicitType[],
+  types?: ImplicitType[]
 ): Schema {
   const schemaObj = SCHEMA_MAP.get(schema)!;
 
@@ -179,6 +179,6 @@ export function getSchema(
 
   return createSchema({
     implicitTypes: [...types, ...schemaObj.implicitTypes],
-    explicitTypes: [...schemaObj.explicitTypes],
+    explicitTypes: [...schemaObj.explicitTypes]
   });
 }

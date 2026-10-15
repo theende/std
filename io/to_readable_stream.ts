@@ -48,12 +48,12 @@ export interface ToReadableStreamOptions {
  */
 export function toReadableStream(
   reader: Reader | (Reader & Closer),
-  options?: ToReadableStreamOptions,
+  options?: ToReadableStreamOptions
 ): ReadableStream<Uint8Array> {
   const {
     autoClose = true,
     chunkSize = DEFAULT_CHUNK_SIZE,
-    strategy,
+    strategy
   } = options ?? {};
 
   return new ReadableStream({
@@ -80,6 +80,6 @@ export function toReadableStream(
       if (isCloser(reader) && autoClose) {
         reader.close();
       }
-    },
+    }
   }, strategy);
 }

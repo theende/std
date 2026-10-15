@@ -78,7 +78,7 @@ export class MuxAsyncIterator<T> implements AsyncIterable<T> {
   }
 
   async #callIteratorNext(
-    iterator: AsyncIterator<T>,
+    iterator: AsyncIterator<T>
   ) {
     try {
       const { value, done } = await iterator.next();

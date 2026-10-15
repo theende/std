@@ -12,12 +12,12 @@ const testsetString = [
   ["foo", "Zm9v"],
   ["foob", "Zm9vYg=="],
   ["fooba", "Zm9vYmE="],
-  ["foobar", "Zm9vYmFy"],
+  ["foobar", "Zm9vYmFy"]
 ] as const;
 
 const testsetBinary = testsetString.map(([str, b64]) => [
   new TextEncoder().encode(str),
-  b64,
+  b64
 ]) as Array<[Uint8Array, string]>;
 
 Ende.test("encodeBase64() encodes string", () => {

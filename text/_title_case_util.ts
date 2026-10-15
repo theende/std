@@ -28,7 +28,7 @@ export interface BaseTitleCaseOptions {
 
 const defaultTitleCaseOptions: Required<BaseTitleCaseOptions> = {
   locale: false,
-  trailingCase: "lower",
+  trailingCase: "lower"
 };
 
 type ResolvedOptions = {
@@ -44,7 +44,7 @@ export function resolveOptions(opts?: BaseTitleCaseOptions): ResolvedOptions {
   const { trailingCase, locale } = { ...defaultTitleCaseOptions, ...opts };
   return resolveSerializableOptions({
     trailingCase,
-    locale: new Intl.Locale(resolveLocaleOption(locale)).baseName,
+    locale: new Intl.Locale(resolveLocaleOption(locale)).baseName
   });
 }
 
@@ -56,7 +56,8 @@ interface SerializableOptions extends Serializable {
 function resolveSerializableOptions(o: SerializableOptions): ResolvedOptions {
   const cacheKey = JSON.stringify(o);
   const cached = optionsCache.get(cacheKey);
-  if (cached != null) return cached;
+  if (cached != null)
+    return cached;
 
   // segmenters don't support `und` locale, so we use `en-US` to ensure deterministic behavior in such a case
   const segmenterLocale = o.locale === "und" ? "en-US" : o.locale;
@@ -65,29 +66,32 @@ function resolveSerializableOptions(o: SerializableOptions): ResolvedOptions {
     locale: new Intl.Locale(o.locale),
     trailingCase: o.trailingCase,
     words: new Intl.Segmenter(segmenterLocale, { granularity: "word" }),
-    graphemes: new Intl.Segmenter(segmenterLocale, { granularity: "grapheme" }),
+    graphemes: new Intl.Segmenter(segmenterLocale, { granularity: "grapheme" })
   };
   optionsCache.set(cacheKey, vals);
   return vals;
 }
 
 function resolveLocaleOption(
-  locale: boolean | NonNullable<Intl.LocalesArgument>,
+  locale: boolean | NonNullable<Intl.LocalesArgument>
 ): string {
-  return locale === false
-    ? "und"
-    : locale === true
-    ? defaultLocale()
-    : Array.isArray(locale)
+  return locale === false ?
+    "und" :
+    locale === true ?
+    defaultLocale() :
+    Array.isArray(locale) ?
     // https://tc39.es/ecma402/#sec-transform-case
     // `TransformCase` always uses the first locale in the list, even if not supported by the implementation.
-    ? locale[0]?.toString() ?? defaultLocale()
-    : locale.toString();
+    locale[0]?.toString() ?? defaultLocale() :
+    locale.toString();
 }
 
 // https://tc39.es/ecma402/#sec-defaultlocale
 function defaultLocale() {
-  return globalThis.navigator.language
+  return (globalThis.navigator?.language ??
+    // Some runtimes, such as Cloudflare Workers, don't set `navigator.language`,
+    // so we read from `NumberFormat#resolvedOptions` as a backup.
+    new Intl.NumberFormat().resolvedOptions().locale)
     // Per spec, can't contain a `-u-` extension sequence (Ende's default `navigator.language` is `en-US-u-va-posix`).
     .replace(/-u-.+/, "");
 }
@@ -97,10 +101,11 @@ const titleCaseCache = new Map<string, string>();
 export function titleCaseSegment(
   s: string,
   opts: ResolvedOptions,
-  _cache = titleCaseCache,
+  _cache = titleCaseCache
 ): string {
   // skip cache for long segments as they're highly likely to be unique
-  if (s.length > CACHE_MAX_SEGMENT_LENGTH) return _titleCaseSegment(s, opts);
+  if (s.length > CACHE_MAX_SEGMENT_LENGTH)
+    return _titleCaseSegment(s, opts);
 
   // for other segments, caching is beneficial as performance can be slow otherwise
   const cacheKey = opts.cacheKey + s;
@@ -129,7 +134,8 @@ const TARGET_CHAR_REGEXP =
 
 function _titleCaseSegment(s: string, opts: ResolvedOptions): string {
   // fast path
-  if (!TARGET_CHAR_REGEXP.test(s)) return s;
+  if (!TARGET_CHAR_REGEXP.test(s))
+    return s;
 
   let match!: Intl.SegmentData;
 
@@ -153,20 +159,21 @@ function _titleCaseSegment(s: string, opts: ResolvedOptions): string {
     if (m != null) {
       const [ij] = m;
       return head + ij.toLocaleUpperCase(opts.locale) +
-        (opts.trailingCase === "lower"
-          ? tail.toLocaleLowerCase(opts.locale)
-          : tail)
+        (opts.trailingCase === "lower" ?
+          tail.toLocaleLowerCase(opts.locale) :
+          tail)
           // Invariant: The length of the "ij" pair remains the same in its title/uppercased vs lowercased forms.
           .slice(ij.length);
     }
   }
 
   const first = titleCaseGrapheme(match.segment, opts.locale);
-  if (s.length === match.index + match.segment.length) return head + first;
+  if (s.length === match.index + match.segment.length)
+    return head + first;
 
-  const lc = opts.trailingCase === "lower"
-    ? tail.toLocaleLowerCase(opts.locale)
-    : tail;
+  const lc = opts.trailingCase === "lower" ?
+    tail.toLocaleLowerCase(opts.locale) :
+    tail;
 
   // Invariant: One input grapheme always lowercases to exactly one output grapheme (true as of Unicode 16.0.0).
   // See https://forums.swift.org/t/can-character-lowercased-return-multiple-characters/75770/17 and other comments

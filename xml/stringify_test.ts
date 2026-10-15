@@ -14,7 +14,7 @@ Ende.test("stringify() serializes empty element", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [],
+    children: []
   };
 
   assertEquals(stringify(element), "<root/>");
@@ -25,7 +25,7 @@ Ende.test("stringify() serializes element with text content", () => {
     type: "element",
     name: { raw: "greeting", local: "greeting" },
     attributes: {},
-    children: [{ type: "text", text: "Hello!" }],
+    children: [{ type: "text", text: "Hello!" }]
   };
 
   assertEquals(stringify(element), "<greeting>Hello!</greeting>");
@@ -41,9 +41,9 @@ Ende.test("stringify() serializes nested elements", () => {
         type: "element",
         name: { raw: "child", local: "child" },
         attributes: {},
-        children: [],
-      },
-    ],
+        children: []
+      }
+    ]
   };
 
   assertEquals(stringify(element), "<root><child/></root>");
@@ -58,7 +58,7 @@ Ende.test("stringify() includes namespace prefix in tag name", () => {
     type: "element",
     name: { raw: "ns:element", prefix: "ns", local: "element" },
     attributes: {},
-    children: [],
+    children: []
   };
 
   assertEquals(stringify(element), "<ns:element/>");
@@ -73,10 +73,10 @@ Ende.test("stringify() serializes single attribute", () => {
     type: "element",
     name: { raw: "item", local: "item" },
     attributes: { id: "123" },
-    children: [],
+    children: []
   };
 
-  assertEquals(stringify(element), '<item id="123"/>');
+  assertEquals(stringify(element), "<item id=\"123\"/>");
 });
 
 Ende.test("stringify() serializes multiple attributes", () => {
@@ -84,23 +84,23 @@ Ende.test("stringify() serializes multiple attributes", () => {
     type: "element",
     name: { raw: "item", local: "item" },
     attributes: { id: "1", class: "main" },
-    children: [],
+    children: []
   };
 
-  assertEquals(stringify(element), '<item id="1" class="main"/>');
+  assertEquals(stringify(element), "<item id=\"1\" class=\"main\"/>");
 });
 
 Ende.test("stringify() encodes special characters in attributes", () => {
   const element: XmlElement = {
     type: "element",
     name: { raw: "item", local: "item" },
-    attributes: { name: 'Tom & "Jerry"' },
-    children: [],
+    attributes: { name: "Tom & \"Jerry\"" },
+    children: []
   };
 
   assertEquals(
     stringify(element),
-    '<item name="Tom &amp; &quot;Jerry&quot;"/>',
+    "<item name=\"Tom &amp; &quot;Jerry&quot;\"/>"
   );
 });
 
@@ -109,10 +109,10 @@ Ende.test("stringify() encodes whitespace in attributes", () => {
     type: "element",
     name: { raw: "item", local: "item" },
     attributes: { data: "line1\nline2\ttab" },
-    children: [],
+    children: []
   };
 
-  assertEquals(stringify(element), '<item data="line1&#10;line2&#9;tab"/>');
+  assertEquals(stringify(element), "<item data=\"line1&#10;line2&#9;tab\"/>");
 });
 
 // =============================================================================
@@ -124,12 +124,12 @@ Ende.test("stringify() encodes special characters in text", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "text", text: "<script>&</script>" }],
+    children: [{ type: "text", text: "<script>&</script>" }]
   };
 
   assertEquals(
     stringify(element),
-    "<root>&lt;script&gt;&amp;&lt;/script&gt;</root>",
+    "<root>&lt;script&gt;&amp;&lt;/script&gt;</root>"
   );
 });
 
@@ -138,7 +138,7 @@ Ende.test("stringify() preserves whitespace in text", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "text", text: "  spaces  " }],
+    children: [{ type: "text", text: "  spaces  " }]
   };
 
   assertEquals(stringify(element), "<root>  spaces  </root>");
@@ -153,7 +153,7 @@ Ende.test("stringify() serializes CDATA section", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "cdata", text: "<not>xml</not>" }],
+    children: [{ type: "cdata", text: "<not>xml</not>" }]
   };
 
   assertEquals(stringify(element), "<root><![CDATA[<not>xml</not>]]></root>");
@@ -164,12 +164,12 @@ Ende.test("stringify() does not encode entities in CDATA", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "cdata", text: "&amp; stays &amp;" }],
+    children: [{ type: "cdata", text: "&amp; stays &amp;" }]
   };
 
   assertEquals(
     stringify(element),
-    "<root><![CDATA[&amp; stays &amp;]]></root>",
+    "<root><![CDATA[&amp; stays &amp;]]></root>"
   );
 });
 
@@ -182,7 +182,7 @@ Ende.test("stringify() serializes comments", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "comment", text: " comment " }],
+    children: [{ type: "comment", text: " comment " }]
   };
 
   assertEquals(stringify(element), "<root><!-- comment --></root>");
@@ -203,10 +203,10 @@ Ende.test("stringify() serializes mixed content", () => {
         type: "element",
         name: { raw: "child", local: "child" },
         attributes: {},
-        children: [],
+        children: []
       },
-      { type: "text", text: "more" },
-    ],
+      { type: "text", text: "more" }
+    ]
   };
 
   assertEquals(stringify(element), "<root>text<child/>more</root>");
@@ -223,17 +223,17 @@ Ende.test("stringify() includes XML declaration from document", () => {
       version: "1.0",
       line: 1,
       column: 1,
-      offset: 0,
+      offset: 0
     },
     root: {
       type: "element",
       name: { raw: "root", local: "root" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   };
 
-  assertEquals(stringify(doc), '<?xml version="1.0"?><root/>');
+  assertEquals(stringify(doc), "<?xml version=\"1.0\"?><root/>");
 });
 
 Ende.test("stringify() includes encoding in declaration", () => {
@@ -244,17 +244,17 @@ Ende.test("stringify() includes encoding in declaration", () => {
       encoding: "UTF-8",
       line: 1,
       column: 1,
-      offset: 0,
+      offset: 0
     },
     root: {
       type: "element",
       name: { raw: "root", local: "root" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   };
 
-  assertEquals(stringify(doc), '<?xml version="1.0" encoding="UTF-8"?><root/>');
+  assertEquals(stringify(doc), "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>");
 });
 
 Ende.test("stringify() includes standalone in declaration", () => {
@@ -265,17 +265,17 @@ Ende.test("stringify() includes standalone in declaration", () => {
       standalone: "yes",
       line: 1,
       column: 1,
-      offset: 0,
+      offset: 0
     },
     root: {
       type: "element",
       name: { raw: "root", local: "root" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   };
 
-  assertEquals(stringify(doc), '<?xml version="1.0" standalone="yes"?><root/>');
+  assertEquals(stringify(doc), "<?xml version=\"1.0\" standalone=\"yes\"?><root/>");
 });
 
 Ende.test("stringify() omits declaration when option is false", () => {
@@ -285,14 +285,14 @@ Ende.test("stringify() omits declaration when option is false", () => {
       version: "1.0",
       line: 1,
       column: 1,
-      offset: 0,
+      offset: 0
     },
     root: {
       type: "element",
       name: { raw: "root", local: "root" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   };
 
   assertEquals(stringify(doc, { declaration: false }), "<root/>");
@@ -304,8 +304,8 @@ Ende.test("stringify() handles document without declaration", () => {
       type: "element",
       name: { raw: "root", local: "root" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   };
 
   assertEquals(stringify(doc), "<root/>");
@@ -325,14 +325,14 @@ Ende.test("stringify() pretty-prints with indent option", () => {
         type: "element",
         name: { raw: "child", local: "child" },
         attributes: {},
-        children: [],
-      },
-    ],
+        children: []
+      }
+    ]
   };
 
   assertEquals(
     stringify(element, { indent: "  " }),
-    "<root>\n  <child/>\n</root>",
+    "<root>\n  <child/>\n</root>"
   );
 });
 
@@ -351,16 +351,16 @@ Ende.test("stringify() pretty-prints deeply nested elements", () => {
             type: "element",
             name: { raw: "c", local: "c" },
             attributes: {},
-            children: [],
-          },
-        ],
-      },
-    ],
+            children: []
+          }
+        ]
+      }
+    ]
   };
 
   assertEquals(
     stringify(element, { indent: "  " }),
-    "<a>\n  <b>\n    <c/>\n  </b>\n</a>",
+    "<a>\n  <b>\n    <c/>\n  </b>\n</a>"
   );
 });
 
@@ -369,7 +369,7 @@ Ende.test("stringify() keeps text content inline when pretty-printing", () => {
     type: "element",
     name: { raw: "p", local: "p" },
     attributes: {},
-    children: [{ type: "text", text: "Hello World" }],
+    children: [{ type: "text", text: "Hello World" }]
   };
 
   assertEquals(stringify(element, { indent: "  " }), "<p>Hello World</p>");
@@ -382,19 +382,19 @@ Ende.test("stringify() pretty-prints declaration on separate line", () => {
       version: "1.0",
       line: 1,
       column: 1,
-      offset: 0,
+      offset: 0
     },
     root: {
       type: "element",
       name: { raw: "root", local: "root" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   };
 
   assertEquals(
     stringify(doc, { indent: "  " }),
-    '<?xml version="1.0"?>\n<root/>',
+    "<?xml version=\"1.0\"?>\n<root/>"
   );
 });
 
@@ -409,14 +409,14 @@ Ende.test("stringify() pretty-prints comments", () => {
         type: "element",
         name: { raw: "child", local: "child" },
         attributes: {},
-        children: [],
-      },
-    ],
+        children: []
+      }
+    ]
   };
 
   assertEquals(
     stringify(element, { indent: "  " }),
-    "<root>\n  <!-- comment -->\n  <child/>\n</root>",
+    "<root>\n  <!-- comment -->\n  <child/>\n</root>"
   );
 });
 
@@ -432,7 +432,7 @@ Ende.test("stringify() handles complex document", () => {
       encoding: "UTF-8",
       line: 1,
       column: 1,
-      offset: 0,
+      offset: 0
     },
     root: {
       type: "element",
@@ -448,17 +448,17 @@ Ende.test("stringify() handles complex document", () => {
               type: "element",
               name: { raw: "name", local: "name" },
               attributes: {},
-              children: [{ type: "text", text: "Widget" }],
-            },
-          ],
-        },
-      ],
-    },
+              children: [{ type: "text", text: "Widget" }]
+            }
+          ]
+        }
+      ]
+    }
   };
 
-  const expected = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  const expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
     "<catalog>\n" +
-    '  <product id="1">\n' +
+    "  <product id=\"1\">\n" +
     "    <name>Widget</name>\n" +
     "  </product>\n" +
     "</catalog>";
@@ -475,7 +475,7 @@ Ende.test("stringify() handles Unicode content", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "text", text: "日本語 🎉 émoji" }],
+    children: [{ type: "text", text: "日本語 🎉 émoji" }]
   };
 
   assertEquals(stringify(element), "<root>日本語 🎉 émoji</root>");
@@ -486,10 +486,10 @@ Ende.test("stringify() handles empty string attribute", () => {
     type: "element",
     name: { raw: "item", local: "item" },
     attributes: { value: "" },
-    children: [],
+    children: []
   };
 
-  assertEquals(stringify(element), '<item value=""/>');
+  assertEquals(stringify(element), "<item value=\"\"/>");
 });
 
 // =============================================================================
@@ -501,12 +501,12 @@ Ende.test("stringify() escapes ]]> in CDATA by splitting", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "cdata", text: "contains ]]> sequence" }],
+    children: [{ type: "cdata", text: "contains ]]> sequence" }]
   };
 
   assertEquals(
     stringify(element),
-    "<root><![CDATA[contains ]]]]><![CDATA[> sequence]]></root>",
+    "<root><![CDATA[contains ]]]]><![CDATA[> sequence]]></root>"
   );
 });
 
@@ -515,12 +515,12 @@ Ende.test("stringify() escapes multiple ]]> in CDATA", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "cdata", text: "a]]>b]]>c" }],
+    children: [{ type: "cdata", text: "a]]>b]]>c" }]
   };
 
   assertEquals(
     stringify(element),
-    "<root><![CDATA[a]]]]><![CDATA[>b]]]]><![CDATA[>c]]></root>",
+    "<root><![CDATA[a]]]]><![CDATA[>b]]]]><![CDATA[>c]]></root>"
   );
 });
 
@@ -529,12 +529,12 @@ Ende.test("stringify() handles ]]> at start of CDATA", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "cdata", text: "]]>text" }],
+    children: [{ type: "cdata", text: "]]>text" }]
   };
 
   assertEquals(
     stringify(element),
-    "<root><![CDATA[]]]]><![CDATA[>text]]></root>",
+    "<root><![CDATA[]]]]><![CDATA[>text]]></root>"
   );
 });
 
@@ -543,12 +543,12 @@ Ende.test("stringify() handles ]]> at end of CDATA", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "cdata", text: "text]]>" }],
+    children: [{ type: "cdata", text: "text]]>" }]
   };
 
   assertEquals(
     stringify(element),
-    "<root><![CDATA[text]]]]><![CDATA[>]]></root>",
+    "<root><![CDATA[text]]]]><![CDATA[>]]></root>"
   );
 });
 
@@ -561,13 +561,13 @@ Ende.test("stringify() throws for -- in comment", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "comment", text: "contains -- sequence" }],
+    children: [{ type: "comment", text: "contains -- sequence" }]
   };
 
   assertThrows(
     () => stringify(element),
     TypeError,
-    'XML forbids "--"',
+    "XML forbids \"--\""
   );
 });
 
@@ -576,13 +576,13 @@ Ende.test("stringify() throws for comment ending with -", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "comment", text: "ends with hyphen-" }],
+    children: [{ type: "comment", text: "ends with hyphen-" }]
   };
 
   assertThrows(
     () => stringify(element),
     TypeError,
-    'trailing "-"',
+    "trailing \"-\""
   );
 });
 
@@ -591,11 +591,11 @@ Ende.test("stringify() allows single hyphen in comment", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [{ type: "comment", text: " single-hyphen is fine " }],
+    children: [{ type: "comment", text: " single-hyphen is fine " }]
   };
 
   assertEquals(
     stringify(element),
-    "<root><!-- single-hyphen is fine --></root>",
+    "<root><!-- single-hyphen is fine --></root>"
   );
 });

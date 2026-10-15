@@ -8,7 +8,8 @@ Ende.test("toText()", async () => {
   const strings = ["hello", " js ", "fans", " 中文♥"];
   const expected = "hello js fans 中文♥";
 
-  const byteStream = ReadableStream.from(strings)
+  const byteStream = ReadableStream
+    .from(strings)
     .pipeThrough(new TextEncoderStream());
   assertEquals(await toText(byteStream), expected);
 

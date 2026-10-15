@@ -90,8 +90,7 @@ export interface CappedDelimiterOptions {
  * );
  * ```
  */
-export class CappedDelimiterStream
-  implements TransformStream<Uint8Array, CappedDelimiterEntry> {
+export class CappedDelimiterStream implements TransformStream<Uint8Array, CappedDelimiterEntry> {
   #readable: ReadableStream<CappedDelimiterEntry>;
   #writable: WritableStream<Uint8Array>;
   /**
@@ -110,18 +109,20 @@ export class CappedDelimiterStream
 
   async *#handle(
     readable: ReadableStream<Uint8Array>,
-    { delimiter, limit }: CappedDelimiterOptions,
+    { delimiter, limit }: CappedDelimiterOptions
   ): AsyncGenerator<CappedDelimiterEntry> {
     const reader = toByteStream(readable).getReader({ mode: "byob" });
     let buffer = (await reader.read(
       new Uint8Array(limit + delimiter.length),
-      { min: limit + delimiter.length },
-    )).value!;
+      { min: limit + delimiter.length }
+    ))
+      .value!;
 
     a: while (true) {
       b: for (let i = 0; i <= buffer.length - delimiter.length; ++i) {
         for (let j = 0; j < delimiter.length; ++j) {
-          if (buffer[i + j] !== delimiter[j]) continue b;
+          if (buffer[i + j] !== delimiter[j])
+            continue b;
         }
         // Match
         yield { match: true, value: buffer.slice(0, i) };
@@ -131,7 +132,7 @@ export class CappedDelimiterStream
         buffer = new Uint8Array(
           buffer.buffer,
           0,
-          buffer.byteOffset + buffer.byteLength,
+          buffer.byteOffset + buffer.byteLength
         );
         continue a;
       }
@@ -150,7 +151,7 @@ export class CappedDelimiterStream
       buffer = new Uint8Array(
         buffer.buffer,
         0,
-        buffer.byteOffset + buffer.byteLength,
+        buffer.byteOffset + buffer.byteLength
       );
     }
   }

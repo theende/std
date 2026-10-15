@@ -285,7 +285,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    */
   delete(key: K): boolean {
     const list = this.#map.get(key);
-    if (list === undefined) return false;
+    if (list === undefined)
+      return false;
     this.#valueCount -= list.length;
     this.#map.delete(key);
     return true;
@@ -317,7 +318,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    */
   deleteEntry(key: K, value: V): boolean {
     const list = this.#map.get(key);
-    if (!list) return false;
+    if (!list)
+      return false;
     // SameValueZero, matching `hasEntry()` / `Map` / `Set` semantics so that
     // `NaN` values can be removed. `Array.prototype.indexOf` uses strict
     // equality and would never match `NaN`.
@@ -329,10 +331,12 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
         break;
       }
     }
-    if (index === -1) return false;
+    if (index === -1)
+      return false;
     list.splice(index, 1);
     this.#valueCount--;
-    if (list.length === 0) this.#map.delete(key);
+    if (list.length === 0)
+      this.#map.delete(key);
     return true;
   }
 
@@ -401,11 +405,11 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    */
   forEach<T = undefined>(
     callbackfn: (this: T, value: V, key: K, map: this) => void,
-    thisArg?: T,
+    thisArg?: T
   ): void {
     if (typeof callbackfn !== "function") {
       throw new TypeError(
-        `Cannot call MultiMap.prototype.forEach: "callbackfn" is not a function: received ${typeof callbackfn}`,
+        `Cannot call MultiMap.prototype.forEach: "callbackfn" is not a function: received ${typeof callbackfn}`
       );
     }
     // The bucket is snapshotted before the inner loop so mutations to the
@@ -458,7 +462,7 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
           if (currentList !== null && innerIndex < currentList.length) {
             return {
               value: [currentKey, currentList[innerIndex++]!],
-              done: false,
+              done: false
             };
           }
           const outerResult = outer.next();
@@ -473,7 +477,7 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
       },
       [Symbol.iterator]() {
         return this;
-      },
+      }
     };
     return iter;
   }
@@ -525,15 +529,16 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
     const iter: IterableIterator<[K, V[]]> = {
       next(): IteratorResult<[K, V[]]> {
         const outerResult = outer.next();
-        if (outerResult.done) return { value: undefined, done: true };
+        if (outerResult.done)
+          return { value: undefined, done: true };
         return {
           value: [outerResult.value[0], outerResult.value[1].slice()],
-          done: false,
+          done: false
         };
       },
       [Symbol.iterator]() {
         return this;
-      },
+      }
     };
     return iter;
   }
@@ -611,7 +616,7 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
       },
       [Symbol.iterator]() {
         return this;
-      },
+      }
     };
     return iter;
   }
@@ -711,10 +716,11 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    */
   [Symbol.for("Deno.customInspect")](
     inspect: (value: unknown, options: unknown) => string,
-    options: unknown,
+    options: unknown
   ): string {
     const size = this.#map.size;
-    if (size === 0) return `MultiMap(0) {}`;
+    if (size === 0)
+      return `MultiMap(0) {}`;
     const parts: string[] = [];
     for (const [key, list] of this.#map) {
       parts.push(`${inspect(key, options)} => ${inspect(list, options)}`);
@@ -775,11 +781,11 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    */
   static groupBy<K, T>(
     items: Iterable<T>,
-    keyFn: (item: T, index: number) => K,
+    keyFn: (item: T, index: number) => K
   ): MultiMap<K, T> {
     if (typeof keyFn !== "function") {
       throw new TypeError(
-        `Cannot call MultiMap.groupBy: "keyFn" is not a function: received ${typeof keyFn}`,
+        `Cannot call MultiMap.groupBy: "keyFn" is not a function: received ${typeof keyFn}`
       );
     }
     const map = new MultiMap<K, T>();

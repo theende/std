@@ -2,8 +2,7 @@
 // Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
 
-const UUID_REGEXP =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_REGEXP = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /**
  * Determines whether a string is a valid
@@ -23,7 +22,7 @@ const UUID_REGEXP =
  * ```
  */
 export function validate(
-  id: string,
+  id: string
 ): id is ReturnType<typeof crypto.randomUUID> {
   return UUID_REGEXP.test(id);
 }

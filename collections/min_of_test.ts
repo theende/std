@@ -6,40 +6,40 @@ import { assertEquals } from "@ende/assert";
 Ende.test("minOf() handles regular min", () => {
   const array = [5, 18, 35, 120];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, 5);
 });
 
 Ende.test("minOf() handles single element", () => {
-  const actual = minOf([42], (i) => i);
+  const actual = minOf([42], i => i);
   assertEquals(actual, 42);
 });
 
 Ende.test("minOf() handles mixed negatives and positives numbers", () => {
   const array = [-32, -18, 140, 36];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, -32);
 });
 
 Ende.test("minOf() handles negatives numbers", () => {
   const array = [-32, -18, -140, -36];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, -140);
 });
 
 Ende.test("minOf() handles BigInt regular min", () => {
   const array = [BigInt(5), BigInt(18), BigInt(35), BigInt(120)];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, BigInt(5));
 });
 
 Ende.test("minOf() handles BigInt negatives numbers", () => {
   const array = [BigInt(-32), BigInt(-18), BigInt(-140), BigInt(-36)];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, BigInt(-140));
 });
 
@@ -47,10 +47,10 @@ Ende.test("minOf() handles object properties", () => {
   const object = [
     { name: "mustard", count: 2 },
     { name: "soy", count: 4 },
-    { name: "tomato", count: 32 },
+    { name: "tomato", count: 32 }
   ];
 
-  const actual = minOf(object, (i) => i.count);
+  const actual = minOf(object, i => i.count);
   assertEquals(actual, 2);
 });
 
@@ -58,17 +58,17 @@ Ende.test("minOf() handles mixed object properties", () => {
   const object = [
     { name: "mustard", count: -2 },
     { name: "soy", count: 4 },
-    { name: "tomato", count: -32 },
+    { name: "tomato", count: -32 }
   ];
 
-  const actual = minOf(object, (i) => i.count);
+  const actual = minOf(object, i => i.count);
   assertEquals(actual, -32);
 });
 
 Ende.test("minOf() handles no mutation", () => {
   const array = [1, 2, 3, 4];
 
-  minOf(array, (i) => i + 2);
+  minOf(array, i => i + 2);
 
   assertEquals(array, [1, 2, 3, 4]);
 });
@@ -81,14 +81,14 @@ Ende.test("minOf() handles iterable input", () => {
     yield 1;
   }
 
-  const actual = minOf(generate(), (i) => i);
+  const actual = minOf(generate(), i => i);
   assertEquals(actual, 1);
 });
 
 Ende.test("minOf() handles empty iterable", () => {
   function* generate(): Generator<number> {}
 
-  const actual = minOf(generate(), (i) => i);
+  const actual = minOf(generate(), i => i);
   assertEquals(actual, undefined);
 });
 
@@ -99,14 +99,14 @@ Ende.test("minOf() handles NaN in iterable", () => {
     yield 3;
   }
 
-  const actual = minOf(generate(), (i) => i);
+  const actual = minOf(generate(), i => i);
   assertEquals(actual, NaN);
 });
 
 Ende.test("minOf() handles empty array results in undefined", () => {
   const array: number[] = [];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, undefined);
 });
 
@@ -122,24 +122,24 @@ Ende.test("minOf() handles NaN and Infinity", () => {
     6,
     Number.NaN,
     7,
-    8,
+    8
   ];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, NaN);
 });
 
 Ende.test("minOf() handles NaN as first element", () => {
   const array = [NaN, 1, 2, 3];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
   assertEquals(actual, NaN);
 });
 
 Ende.test("minOf() handles minus infinity", () => {
   const array = [1, 2, -Infinity, 3, 4, 5, 6, 7, 8];
 
-  const actual = minOf(array, (i) => i);
+  const actual = minOf(array, i => i);
 
   assertEquals(actual, -Infinity);
 });
@@ -152,5 +152,5 @@ Ende.test({
     const max = minOf(input, (it, index) => it * index);
 
     assertEquals(max, 0);
-  },
+  }
 });

@@ -9,7 +9,7 @@ import { equal } from "./_equal.ts";
 export function buildEqualOptions(options: EqualOptionUtil): EqualOptions {
   const { customMessage, customTesters = [], strictCheck } = options ?? {};
   const ret: EqualOptions = {
-    customTesters,
+    customTesters
   };
   if (customMessage !== undefined) {
     ret.msg = customMessage;
@@ -56,8 +56,8 @@ function getObjectKeys(object: object): Array<string | symbol> {
   return [
     ...Object.keys(object),
     ...Object.getOwnPropertySymbols(object).filter(
-      (s) => Object.getOwnPropertyDescriptor(object, s)?.enumerable,
-    ),
+      s => Object.getOwnPropertyDescriptor(object, s)?.enumerable
+    )
   ];
 }
 
@@ -77,11 +77,13 @@ function hasPropertyInObject(object: object, key: string | symbol): boolean {
 
 // deno-lint-ignore no-explicit-any
 function entries(obj: any) {
-  if (!isObject(obj)) return [];
+  if (!isObject(obj))
+    return [];
 
-  return Object.getOwnPropertySymbols(obj)
-    .filter((key) => key !== Symbol.iterator)
-    .map((key) => [key, obj[key as keyof typeof obj]])
+  return Object
+    .getOwnPropertySymbols(obj)
+    .filter(key => key !== Symbol.iterator)
+    .map(key => [key, obj[key as keyof typeof obj]])
     .concat(Object.entries(obj));
 }
 
@@ -93,7 +95,7 @@ export function iterableEquality(
   b: any,
   customTesters: Tester[] = [],
   aStack: unknown[] = [],
-  bStack: unknown[] = [],
+  bStack: unknown[] = []
 ): boolean | undefined {
   if (
     typeof a !== "object" ||
@@ -128,14 +130,14 @@ export function iterableEquality(
       b,
       [...filteredCustomTesters],
       [...aStack],
-      [...bStack],
+      [...bStack]
     );
 
   // Replace any instance of iterableEquality with the new
   // iterableEqualityWithStack so we can do circular detection
   const filteredCustomTesters: Tester[] = [
-    ...customTesters.filter((t) => t !== iterableEquality),
-    iterableEqualityWithStack,
+    ...customTesters.filter(t => t !== iterableEquality),
+    iterableEqualityWithStack
   ];
 
   if (a.size !== undefined) {
@@ -148,7 +150,7 @@ export function iterableEquality(
           let has = false;
           for (const bValue of b) {
             const isEqual = equal(aValue, bValue, {
-              customTesters: filteredCustomTesters,
+              customTesters: filteredCustomTesters
             });
             if (isEqual === true) {
               has = true;
@@ -171,7 +173,7 @@ export function iterableEquality(
         if (
           !b.has(aEntry[0]) ||
           !equal(aEntry[1], b.get(aEntry[0]), {
-            customTesters: filteredCustomTesters,
+            customTesters: filteredCustomTesters
           })
         ) {
           let has = false;
@@ -179,7 +181,7 @@ export function iterableEquality(
             const matchedKey = equal(
               aEntry[0],
               bEntry[0],
-              { customTesters: filteredCustomTesters },
+              { customTesters: filteredCustomTesters }
             );
 
             let matchedValue = false;
@@ -187,7 +189,7 @@ export function iterableEquality(
               matchedValue = equal(
                 aEntry[1],
                 bEntry[1],
-                { customTesters: filteredCustomTesters },
+                { customTesters: filteredCustomTesters }
               );
             }
             if (matchedValue === true) {
@@ -239,46 +241,44 @@ export function iterableEquality(
 export function subsetEquality(
   object: unknown,
   subset: unknown,
-  customTesters: Tester[] = [],
+  customTesters: Tester[] = []
 ): boolean | undefined {
-  const filteredCustomTesters = customTesters.filter((t) =>
-    t !== subsetEquality
-  );
+  const filteredCustomTesters = customTesters.filter(t => t !== subsetEquality);
 
-  const subsetEqualityWithContext =
-    (seenReferences: WeakMap<object, boolean> = new WeakMap()) =>
-    // deno-lint-ignore no-explicit-any
-    (object: any, subset: any): boolean | undefined => {
-      if (!isObjectWithKeys(subset)) {
-        return undefined;
-      }
+  const subsetEqualityWithContext = (seenReferences: WeakMap<object, boolean> = new WeakMap()) =>
+  // deno-lint-ignore no-explicit-any
+  (object: any, subset: any): boolean | undefined => {
+    if (!isObjectWithKeys(subset)) {
+      return undefined;
+    }
 
-      if (seenReferences.has(subset)) return undefined;
-      seenReferences.set(subset, true);
+    if (seenReferences.has(subset))
+      return undefined;
+    seenReferences.set(subset, true);
 
-      const matchResult = getObjectKeys(subset).every((key) => {
-        if (isObjectWithKeys(subset[key])) {
-          if (seenReferences.has(subset[key])) {
-            return equal(object[key], subset[key], {
-              customTesters: filteredCustomTesters,
-            });
-          }
-        }
-        const result = object != null &&
-          hasPropertyInObject(object, key) &&
-          equal(object[key], subset[key], {
-            customTesters: [
-              ...filteredCustomTesters,
-              subsetEqualityWithContext(seenReferences),
-            ],
+    const matchResult = getObjectKeys(subset).every(key => {
+      if (isObjectWithKeys(subset[key])) {
+        if (seenReferences.has(subset[key])) {
+          return equal(object[key], subset[key], {
+            customTesters: filteredCustomTesters
           });
-        seenReferences.delete(subset[key]);
-        return result;
-      });
-      seenReferences.delete(subset);
+        }
+      }
+      const result = object != null &&
+        hasPropertyInObject(object, key) &&
+        equal(object[key], subset[key], {
+          customTesters: [
+            ...filteredCustomTesters,
+            subsetEqualityWithContext(seenReferences)
+          ]
+        });
+      seenReferences.delete(subset[key]);
+      return result;
+    });
+    seenReferences.delete(subset);
 
-      return matchResult;
-    };
+    return matchResult;
+  };
 
   return subsetEqualityWithContext()(object, subset);
 }
@@ -288,20 +288,18 @@ export function getObjectSubset(
   object: unknown,
   subset: unknown,
   customTesters: Tester[] = [],
-  seenReferences: WeakMap<object, boolean> = new WeakMap(),
+  seenReferences: WeakMap<object, boolean> = new WeakMap()
 ): unknown {
   if (Array.isArray(object)) {
     if (Array.isArray(subset) && subset.length === object.length) {
-      return subset.map((_: unknown, i: number) =>
-        getObjectSubset(object[i], subset[i], customTesters, seenReferences)
-      );
+      return subset.map((_: unknown, i: number) => getObjectSubset(object[i], subset[i], customTesters, seenReferences));
     }
   } else if (object instanceof Date) {
     return object;
   } else if (isObject(object) && isObject(subset)) {
     if (
       equal(object, subset, {
-        customTesters: [...customTesters, iterableEquality, subsetEquality],
+        customTesters: [...customTesters, iterableEquality, subsetEquality]
       })
     ) {
       return subset;
@@ -313,7 +311,8 @@ export function getObjectSubset(
     seenReferences.set(object as object, true);
 
     for (const key of Object.keys(obj)) {
-      if (!Object.prototype.hasOwnProperty.call(sub, key)) continue;
+      if (!Object.prototype.hasOwnProperty.call(sub, key))
+        continue;
 
       const val = obj[key];
       if (typeof val === "object" && val !== null && seenReferences.has(val)) {
@@ -323,12 +322,13 @@ export function getObjectSubset(
           val,
           sub[key],
           customTesters,
-          seenReferences,
+          seenReferences
         );
       }
     }
 
-    if (Object.keys(trimmed).length > 0) return trimmed;
+    if (Object.keys(trimmed).length > 0)
+      return trimmed;
   }
   return object;
 }

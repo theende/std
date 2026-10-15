@@ -3,13 +3,13 @@
 
 import { assert, assertFalse, assertThrows } from "@ende/assert";
 
-import { type Format, test } from "./test.ts";
+import { test, type Format } from "./test.ts";
 
 Ende.test("test() tests for unknown format", () => {
   assertThrows(
     () => test("foo", ["unknown"] as unknown as Format[]),
     TypeError,
-    "Unable to test for unknown front matter format",
+    "Unable to test for unknown front matter format"
   );
 });
 
@@ -49,7 +49,7 @@ This is a test for issue #2595
 MIT License`;
 
     assert(!test(str));
-  },
+  }
 });
 
 Ende.test("test() handles valid json input", () => {
@@ -92,7 +92,7 @@ Ende.test("test() handles wrong format", () => {
 {"title": "Three dashes followed by format marks the spot"}
 ---
 `,
-    ["yaml"],
+    ["yaml"]
   );
   assertFalse(result);
 });

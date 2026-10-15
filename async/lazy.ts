@@ -108,45 +108,48 @@ export class Lazy<T> {
    * @returns The cached or newly initialized value.
    */
   get(options?: LazyGetOptions): Promise<T> {
-    if (this.#settled) return Promise.resolve(this.#value as T);
+    if (this.#settled)
+      return Promise.resolve(this.#value as T);
     const signal = options?.signal;
-    if (signal?.aborted) return Promise.reject(signal.reason);
+    if (signal?.aborted)
+      return Promise.reject(signal.reason);
 
     if (this.#promise === undefined) {
       const p = new Promise<T>((resolve, reject) => {
         Promise.resolve().then(() => this.#init()).then(
-          (value) => {
+          value => {
             if (this.#promise === p) {
               this.#value = value;
               this.#settled = true;
             }
             resolve(value);
           },
-          (err) => {
+          err => {
             if (this.#promise === p) {
               this.#promise = undefined;
             }
             reject(err);
-          },
+          }
         );
       });
       this.#promise = p;
     }
 
-    if (!signal) return this.#promise;
+    if (!signal)
+      return this.#promise;
 
     return new Promise<T>((resolve, reject) => {
       const abort = () => reject(signal.reason);
       signal.addEventListener("abort", abort, { once: true });
       this.#promise!.then(
-        (value) => {
+        value => {
           signal.removeEventListener("abort", abort);
           resolve(value);
         },
-        (err) => {
+        err => {
           signal.removeEventListener("abort", abort);
           reject(err);
-        },
+        }
       );
     });
   }
@@ -200,10 +203,10 @@ export class Lazy<T> {
    * @returns `{ ok: true, value }` if the value has been initialized, or
    *   `{ ok: false }` if not yet initialized or still in-flight.
    */
-  peek(): { ok: true; value: T } | { ok: false } {
-    return this.#settled
-      ? { ok: true, value: this.#value as T }
-      : { ok: false };
+  peek(): { ok: true; value: T; } | { ok: false; } {
+    return this.#settled ?
+      { ok: true, value: this.#value as T } :
+      { ok: false };
   }
 
   /**

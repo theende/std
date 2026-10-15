@@ -7,7 +7,7 @@ import { unzip } from "./unzip.ts";
 function unzipTest<T, U>(
   input: [Array<[T, U]>],
   expected: [Array<T>, Array<U>],
-  message?: string,
+  message?: string
 ) {
   const actual = unzip(...input);
   assertEquals(actual, expected, message);
@@ -19,16 +19,16 @@ Ende.test({
     const zipped: Array<[number, boolean]> = [
       [1, true],
       [2, false],
-      [3, true],
+      [3, true]
     ];
     unzip(zipped);
 
     assertEquals(zipped, [
       [1, true],
       [2, false],
-      [3, true],
+      [3, true]
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -36,9 +36,9 @@ Ende.test({
   fn() {
     unzipTest(
       [[]],
-      [[], []],
+      [[], []]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -49,24 +49,24 @@ Ende.test({
         [
           [1, "foo"],
           [4, "bar"],
-          [5, "lorem"],
-        ],
+          [5, "lorem"]
+        ]
       ],
       [
         [1, 4, 5],
-        ["foo", "bar", "lorem"],
-      ],
+        ["foo", "bar", "lorem"]
+      ]
     );
     unzipTest(
       [
         [
-          [true, false],
-        ],
+          [true, false]
+        ]
       ],
       [
         [true],
-        [false],
-      ],
+        [false]
+      ]
     );
     unzipTest(
       [
@@ -75,13 +75,13 @@ Ende.test({
           [5, null],
           [undefined, "asdf"],
           [null, false],
-          [1.2, ""],
-        ],
+          [1.2, ""]
+        ]
       ],
       [
         [undefined, 5, undefined, null, 1.2],
-        ["foo", null, "asdf", false, ""],
-      ],
+        ["foo", null, "asdf", false, ""]
+      ]
     );
-  },
+  }
 });

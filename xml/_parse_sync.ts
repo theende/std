@@ -23,7 +23,7 @@ import type {
   XmlElement,
   XmlName,
   XmlNode,
-  XmlTextNode,
+  XmlTextNode
 } from "./types.ts";
 import { XmlSyntaxError } from "./types.ts";
 import { decodeEntities } from "./_entities.ts";
@@ -37,7 +37,7 @@ import {
   validateQName,
   validateXmlDeclaration,
   WHITESPACE_ONLY_REGEXP,
-  XML_NAMESPACE,
+  XML_NAMESPACE
 } from "./_common.ts";
 import { isNameChar, isNameStartChar } from "./_name_chars.ts";
 
@@ -97,12 +97,12 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
 
   // Normalize line endings (XML 1.0 §2.11 / XML 1.1 §2.11)
   const version = xml11 ? "1.1" : "1.0";
-  const needsNormalization = xml11
-    ? xml.includes("\r") || xml.includes("\x85") || xml.includes("\u2028")
-    : xml.includes("\r");
-  const input = needsNormalization
-    ? xml.replace(LINE_ENDING_REGEXP[version], "\n")
-    : xml;
+  const needsNormalization = xml11 ?
+    xml.includes("\r") || xml.includes("\x85") || xml.includes("\u2028") :
+    xml.includes("\r");
+  const input = needsNormalization ?
+    xml.replace(LINE_ENDING_REGEXP[version], "\n") :
+    xml;
   const len = input.length;
 
   function isIllegalLiteralChar(code: number): boolean {
@@ -121,7 +121,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
   // Namespace tracking (lazy initialization for performance)
   // Only created when first namespace prefix is encountered
   // Using object wrapper to avoid TypeScript control flow narrowing issues with error()
-  const ns: { bindings: Map<string, string> | null } = { bindings: null };
+  const ns: { bindings: Map<string, string> | null; } = { bindings: null };
   // Stack of namespace bindings per element scope (array of [prefix, previousUri] tuples)
   // Used to restore bindings when element closes
   const nsStack: Array<Array<[string, string | undefined]>> = [];
@@ -157,7 +157,8 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
     let searchStart = 0;
     while (true) {
       const nlPos = input.indexOf("\n", searchStart);
-      if (nlPos === -1 || nlPos >= offset) break;
+      if (nlPos === -1 || nlPos >= offset)
+        break;
       line++;
       lastNlPos = nlPos;
       searchStart = nlPos + 1;
@@ -165,7 +166,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
     return {
       line,
       column: offset - lastNlPos,
-      offset,
+      offset
     };
   }
 
@@ -249,7 +250,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       if (code === CC_LBRACKET) {
         // Conditional sections are not allowed in internal subset
         error(
-          "Conditional sections (INCLUDE/IGNORE) are not allowed in internal DTD subset",
+          "Conditional sections (INCLUDE/IGNORE) are not allowed in internal DTD subset"
         );
       }
 
@@ -408,7 +409,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         input.charCodeAt(pos + 1) === CC_DASH
       ) {
         error(
-          "SGML-style comments (--) are not allowed in XML declarations",
+          "SGML-style comments (--) are not allowed in XML declarations"
         );
       }
     } else {
@@ -449,7 +450,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         // Must have whitespace before SystemLiteral
         if (pos >= len || !isWhitespace(input.charCodeAt(pos))) {
           error(
-            "PUBLIC identifier requires both public ID and system ID literals",
+            "PUBLIC identifier requires both public ID and system ID literals"
           );
         }
         skipWhitespace();
@@ -458,15 +459,13 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         const nextCode = input.charCodeAt(pos);
         if (nextCode !== CC_DQUOTE && nextCode !== CC_SQUOTE) {
           error(
-            "PUBLIC identifier requires both public ID and system ID literals",
+            "PUBLIC identifier requires both public ID and system ID literals"
           );
         }
         parseQuotedLiteral();
       } else {
         error(
-          `Expected SYSTEM, PUBLIC, or quoted string in ENTITY declaration, got '${
-            keyword || input[pos]
-          }'`,
+          `Expected SYSTEM, PUBLIC, or quoted string in ENTITY declaration, got '${keyword || input[pos]}'`
         );
       }
 
@@ -533,9 +532,10 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
     if (validatePubid) {
       const pubidError = validatePubidLiteral(
         input.slice(valueStart, pos),
-        quoteChar,
+        quoteChar
       );
-      if (pubidError) error(pubidError);
+      if (pubidError)
+        error(pubidError);
     }
     pos++;
   }
@@ -670,7 +670,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       }
 
       error(
-        `Unexpected character '${input[pos]}' in DTD declaration`,
+        `Unexpected character '${input[pos]}' in DTD declaration`
       );
     }
     error("Unterminated DTD declaration");
@@ -780,9 +780,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       if (isIllegalLiteralChar(code)) {
         pos = i;
         error(
-          `Illegal XML character U+${
-            code.toString(16).toUpperCase().padStart(4, "0")
-          }`,
+          `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
         );
       }
     }
@@ -828,7 +826,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         if (rawText.includes("&")) {
           pos = textStart + rawText.indexOf("&");
           error(
-            "Cannot use character/entity references in prolog/epilog (XML 1.0 §2.8)",
+            "Cannot use character/entity references in prolog/epilog (XML 1.0 §2.8)"
           );
         }
         // Check for non-whitespace content
@@ -836,11 +834,11 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
           pos = textStart;
           if (!root) {
             error(
-              "Cannot have content before the root element (XML 1.0 §2.8)",
+              "Cannot have content before the root element (XML 1.0 §2.8)"
             );
           } else {
             error(
-              "Cannot have content after the root element (XML 1.0 §2.8)",
+              "Cannot have content after the root element (XML 1.0 §2.8)"
             );
           }
         }
@@ -882,7 +880,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       // since XmlName.raw preserves the exact input to parseName()
       if (expected.name.raw !== name) {
         error(
-          `Mismatched closing tag: expected </${expected.name.raw}> but found </${name}>`,
+          `Mismatched closing tag: expected </${expected.name.raw}> but found </${name}>`
         );
       }
 
@@ -920,7 +918,8 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         const start = pos;
 
         const endIdx = input.indexOf("-->", pos);
-        if (endIdx === -1) errorUnterminated("Unterminated comment");
+        if (endIdx === -1)
+          errorUnterminated("Unterminated comment");
 
         const content = input.slice(start, endIdx);
         // XML 1.0 §2.5: "--" is not permitted within comments
@@ -944,9 +943,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
           if (isIllegalLiteralChar(charCode)) {
             pos = i;
             error(
-              `Illegal XML character U+${
-                charCode.toString(16).toUpperCase().padStart(4, "0")
-              }`,
+              `Illegal XML character U+${charCode.toString(16).toUpperCase().padStart(4, "0")}`
             );
           }
         }
@@ -964,13 +961,13 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         if (!root) {
           pos -= 2; // Point back to '<!'
           error(
-            "Cannot have CDATA section before the root element (XML 1.0 §2.8)",
+            "Cannot have CDATA section before the root element (XML 1.0 §2.8)"
           );
         }
         if (rootClosed) {
           pos -= 2; // Point back to '<!'
           error(
-            "Cannot have CDATA section after the root element (XML 1.0 §2.8)",
+            "Cannot have CDATA section after the root element (XML 1.0 §2.8)"
           );
         }
 
@@ -978,16 +975,15 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         const start = pos;
 
         const endIdx = input.indexOf("]]>", pos);
-        if (endIdx === -1) errorUnterminated("Unterminated CDATA section");
+        if (endIdx === -1)
+          errorUnterminated("Unterminated CDATA section");
 
         for (let i = start; i < endIdx; i++) {
           const charCode = input.charCodeAt(i);
           if (isIllegalLiteralChar(charCode)) {
             pos = i;
             error(
-              `Illegal XML character U+${
-                charCode.toString(16).toUpperCase().padStart(4, "0")
-              }`,
+              `Illegal XML character U+${charCode.toString(16).toUpperCase().padStart(4, "0")}`
             );
           }
         }
@@ -1006,7 +1002,8 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
 
         // Skip whitespace before name (required)
         const wsBeforeName = pos;
-        while (pos < len && isWhitespace(input.charCodeAt(pos))) pos++;
+        while (pos < len && isWhitespace(input.charCodeAt(pos)))
+          pos++;
         if (pos === wsBeforeName) {
           error("Expected whitespace after DOCTYPE");
         }
@@ -1015,7 +1012,8 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         const nameStart = pos;
         while (pos < len) {
           const dc = input.charCodeAt(pos);
-          if (isWhitespace(dc) || dc === CC_GT || dc === CC_LBRACKET) break;
+          if (isWhitespace(dc) || dc === CC_GT || dc === CC_LBRACKET)
+            break;
           pos++;
         }
         if (pos === nameStart) {
@@ -1040,23 +1038,25 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
             // Quoted string (public/system ID) - only allowed after PUBLIC/SYSTEM
             if (!sawExternalIdKeyword) {
               error(
-                "Unexpected quoted string in DOCTYPE - expected PUBLIC or SYSTEM",
+                "Unexpected quoted string in DOCTYPE - expected PUBLIC or SYSTEM"
               );
             }
             const quote = dc;
             const quoteChar = String.fromCharCode(quote);
             pos++;
             const valueStart = pos;
-            while (pos < len && input.charCodeAt(pos) !== quote) pos++;
+            while (pos < len && input.charCodeAt(pos) !== quote)
+              pos++;
             if (pos >= len) {
               error("Unterminated quoted string in DOCTYPE");
             }
             if (expectPubidLiteral) {
               const pubidError = validatePubidLiteral(
                 input.slice(valueStart, pos),
-                quoteChar,
+                quoteChar
               );
-              if (pubidError) error(pubidError);
+              if (pubidError)
+                error(pubidError);
               expectPubidLiteral = false;
             }
             pos++;
@@ -1080,7 +1080,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
           ) {
             // Case-insensitive match but wrong case
             error(
-              `'${input.slice(pos, pos + 6)}' must be uppercase 'PUBLIC'`,
+              `'${input.slice(pos, pos + 6)}' must be uppercase 'PUBLIC'`
             );
           } else if (
             input.slice(pos, pos + 6).toUpperCase() === "SYSTEM" &&
@@ -1088,14 +1088,15 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
           ) {
             // Case-insensitive match but wrong case
             error(
-              `'${input.slice(pos, pos + 6)}' must be uppercase 'SYSTEM'`,
+              `'${input.slice(pos, pos + 6)}' must be uppercase 'SYSTEM'`
             );
           } else {
             // Other content
             pos++;
           }
         }
-        if (pos < len) pos++;
+        if (pos < len)
+          pos++;
         continue;
       }
 
@@ -1117,7 +1118,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       if (target.includes(":")) {
         pos = ltPos + 2; // Point to start of target
         error(
-          "Cannot use ':' in processing instruction target (Namespaces §3)",
+          "Cannot use ':' in processing instruction target (Namespaces §3)"
         );
       }
 
@@ -1130,9 +1131,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
           !isWhitespace(afterTargetCode) // Not whitespace
         ) {
           error(
-            `Unexpected character '${
-              String.fromCharCode(afterTargetCode)
-            }' in processing instruction target`,
+            `Unexpected character '${String.fromCharCode(afterTargetCode)}' in processing instruction target`
           );
         }
       }
@@ -1149,9 +1148,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         if (isIllegalLiteralChar(charCode)) {
           pos = i;
           error(
-            `Illegal XML character U+${
-              charCode.toString(16).toUpperCase().padStart(4, "0")
-            } in processing instruction`,
+            `Illegal XML character U+${charCode.toString(16).toUpperCase().padStart(4, "0")} in processing instruction`
           );
         }
       }
@@ -1167,7 +1164,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         if (ltPos !== 0 && !(ltPos === 1 && input.charCodeAt(0) === 0xFEFF)) {
           pos = ltPos;
           error(
-            "XML declaration must appear at the start of the document (XML 1.0 §2.8)",
+            "XML declaration must appear at the start of the document (XML 1.0 §2.8)"
           );
         }
 
@@ -1186,14 +1183,14 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
           offset: 0,
           ...(result.encoding !== undefined && { encoding: result.encoding }),
           ...(result.standalone !== undefined && {
-            standalone: result.standalone,
-          }),
+            standalone: result.standalone
+          })
         };
       } else if (isReservedPiTarget(target)) {
         // XML 1.0 §2.6: "xml" in any case variation is reserved
         pos = ltPos;
         error(
-          `Processing instruction target '${target}' is reserved; 'xml' must be lowercase (XML 1.0 §2.6)`,
+          `Processing instruction target '${target}' is reserved; 'xml' must be lowercase (XML 1.0 §2.6)`
         );
       }
       // Other PIs are ignored for tree building
@@ -1271,7 +1268,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       const attrName = readName();
       if (attrName === "") {
         error(
-          `Unexpected character '${String.fromCharCode(chCode)}' in start tag`,
+          `Unexpected character '${String.fromCharCode(chCode)}' in start tag`
         );
       }
 
@@ -1339,7 +1336,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
     if (!selfClosing) {
       // Use shared empty array to avoid allocation when no bindings
       nsStack.push(
-        elementBindings.length > 0 ? elementBindings : EMPTY_NS_SCOPE,
+        elementBindings.length > 0 ? elementBindings : EMPTY_NS_SCOPE
       );
     }
 
@@ -1375,7 +1372,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
         if (prefix !== "xmlns" && prefix !== "xml") {
           if (!ns.bindings?.has(prefix)) {
             error(
-              `Unbound namespace prefix '${prefix}' in attribute '${attrName}'`,
+              `Unbound namespace prefix '${prefix}' in attribute '${attrName}'`
             );
           }
           // Track local names for duplicate expanded name detection
@@ -1405,7 +1402,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
             const uri = bindings.get(prefix)!;
             if (seenUris.has(uri)) {
               error(
-                `Duplicate expanded attribute name '{${uri}}${localName}'`,
+                `Duplicate expanded attribute name '{${uri}}${localName}'`
               );
             }
             seenUris.add(uri);
@@ -1419,7 +1416,7 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
       type: "element",
       name: elementName,
       attributes,
-      children: [],
+      children: []
     };
 
     if (stack.length > 0) {
@@ -1459,14 +1456,14 @@ export function parseSync(xml: string, options?: ParseOptions): XmlDocument {
   if (!root) {
     throw new XmlSyntaxError(
       "No root element found in XML document",
-      trackPosition
-        ? { line: 1, column: 1, offset: 0 }
-        : { line: 0, column: 0, offset: 0 },
+      trackPosition ?
+        { line: 1, column: 1, offset: 0 } :
+        { line: 0, column: 0, offset: 0 }
     );
   }
 
   return {
     ...(declaration !== undefined && { declaration }),
-    root: root as XmlElement,
+    root: root as XmlElement
   };
 }

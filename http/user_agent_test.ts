@@ -8,8 +8,9 @@ Ende.test({
   name: "UserAgent.prototype.browser",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/browser-all.json", {
-      with: { type: "json" },
-    })).default;
+      with: { type: "json" }
+    }))
+      .default;
     for (const { desc, ua, expect: { major, name, version } } of specs) {
       await t.step({
         name: desc,
@@ -18,38 +19,40 @@ Ende.test({
           assertEquals(actual.browser, {
             major: major === "undefined" ? undefined : major,
             name: name === "undefined" ? undefined : name,
-            version: version === "undefined" ? undefined : version,
+            version: version === "undefined" ? undefined : version
           });
-        },
+        }
       });
     }
-  },
+  }
 });
 
 Ende.test({
   name: "UserAgent.prototype.cpu",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/cpu-all.json", {
-      with: { type: "json" },
-    })).default;
+      with: { type: "json" }
+    }))
+      .default;
     for (const { desc: name, ua, expect } of specs) {
       await t.step({
         name,
         fn() {
           const actual = new UserAgent(ua);
           assertEquals(actual.cpu, expect);
-        },
+        }
       });
     }
-  },
+  }
 });
 
 Ende.test({
   name: "UserAgent.prototype.device",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/device-all.json", {
-      with: { type: "json" },
-    })).default;
+      with: { type: "json" }
+    }))
+      .default;
     for (const { desc: name, ua, expect: { vendor, model, type } } of specs) {
       await t.step({
         name,
@@ -58,20 +61,21 @@ Ende.test({
           assertEquals(actual.device, {
             vendor: vendor === "undefined" ? undefined : vendor,
             model: model === "undefined" ? undefined : model,
-            type: type === "undefined" ? undefined : type,
+            type: type === "undefined" ? undefined : type
           });
-        },
+        }
       });
     }
-  },
+  }
 });
 
 Ende.test({
   name: "UserAgent.prototype.engine",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/engine-all.json", {
-      with: { type: "json" },
-    })).default;
+      with: { type: "json" }
+    }))
+      .default;
     for (const { desc, ua, expect: { name, version } } of specs) {
       await t.step({
         name: desc,
@@ -79,20 +83,21 @@ Ende.test({
           const actual = new UserAgent(ua);
           assertEquals(actual.engine, {
             name: name === "undefined" ? undefined : name,
-            version: version === "undefined" ? undefined : version,
+            version: version === "undefined" ? undefined : version
           });
-        },
+        }
       });
     }
-  },
+  }
 });
 
 Ende.test({
   name: "UserAgent.prototype.os",
   async fn(t) {
     const specs = (await import("./testdata/user_agent/os-all.json", {
-      with: { type: "json" },
-    })).default;
+      with: { type: "json" }
+    }))
+      .default;
     for (const { desc, ua, expect: { name, version } } of specs) {
       await t.step({
         name: desc,
@@ -100,12 +105,12 @@ Ende.test({
           const actual = new UserAgent(ua);
           assertEquals(actual.os, {
             name: name === "undefined" ? undefined : name,
-            version: version === "undefined" ? undefined : version,
+            version: version === "undefined" ? undefined : version
           });
-        },
+        }
       });
     }
-  },
+  }
 });
 
 Ende.test("UserAgent.constructor() accepts null", () => {
@@ -114,13 +119,13 @@ Ende.test("UserAgent.constructor() accepts null", () => {
   assertEquals(ua.browser, {
     name: undefined,
     version: undefined,
-    major: undefined,
+    major: undefined
   });
   assertEquals(ua.cpu, { architecture: undefined });
   assertEquals(ua.device, {
     model: undefined,
     type: undefined,
-    vendor: undefined,
+    vendor: undefined
   });
   assertEquals(ua.engine, { name: undefined, version: undefined });
   assertEquals(ua.os, { name: undefined, version: undefined });
@@ -128,14 +133,14 @@ Ende.test("UserAgent.constructor() accepts null", () => {
 
 Ende.test("UserAgent.toString() returns ua itself", () => {
   const ua = new UserAgent(
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
   );
   assertEquals(ua.toString(), ua.ua);
 });
 
 Ende.test("UserAgent.toJSON() returns the object { browser, cpu, device, engine, os, ua }", () => {
   const ua = new UserAgent(
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
   );
   assertEquals(ua.toJSON(), {
     browser: { name: "Chrome", version: "64.0.3282.140", major: "64" },
@@ -143,14 +148,13 @@ Ende.test("UserAgent.toJSON() returns the object { browser, cpu, device, engine,
     device: { model: undefined, type: undefined, vendor: undefined },
     engine: { name: "Blink", version: "64.0.3282.140" },
     os: { name: "Linux", version: "x86_64" },
-    ua:
-      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+    ua: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
   });
 });
 
 Ende.test("UserAgent supports custom inspect in Ende", () => {
   const ua = new UserAgent(
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
   );
   assertEquals(
     Ende.inspect(ua),
@@ -161,6 +165,6 @@ Ende.test("UserAgent supports custom inspect in Ende", () => {
   engine: { name: "Blink", version: "64.0.3282.140" },
   os: { name: "Linux", version: "x86_64" },
   ua: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
-}`,
+}`
   );
 });

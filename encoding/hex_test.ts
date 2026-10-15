@@ -17,7 +17,7 @@ const testCases = [
   ["f0f1f2f3f4f5f6f7", [0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7]],
   ["f8f9fafbfcfdfeff", [0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff]],
   ["67", Array.from(new TextEncoder().encode("g"))],
-  ["e3a1", [0xe3, 0xa1]],
+  ["e3a1", [0xe3, 0xa1]]
 ];
 
 const errCases: [string, ErrorConstructor, string][] = [
@@ -25,18 +25,18 @@ const errCases: [string, ErrorConstructor, string][] = [
   [
     "0",
     RangeError,
-    "Cannot decode input as hex: Length (1) must be divisible by 2",
+    "Cannot decode input as hex: Length (1) must be divisible by 2"
   ],
   [
     "zd4aa",
     RangeError,
-    "Cannot decode input as hex: Length (5) must be divisible by 2",
+    "Cannot decode input as hex: Length (5) must be divisible by 2"
   ],
   ["d4az", TypeError, "Cannot decode input as hex: Invalid character (z)"],
   [
     "30313",
     RangeError,
-    "Cannot decode input as hex: Length (5) must be divisible by 2",
+    "Cannot decode input as hex: Length (5) must be divisible by 2"
   ],
   ["0g", TypeError, "Cannot decode input as hex: Invalid character (g)"],
   ["00gg", TypeError, "Cannot decode input as hex: Invalid character (g)"],
@@ -44,8 +44,8 @@ const errCases: [string, ErrorConstructor, string][] = [
   [
     "ffeed",
     RangeError,
-    "Cannot decode input as hex: Length (5) must be divisible by 2",
-  ],
+    "Cannot decode input as hex: Length (5) must be divisible by 2"
+  ]
 ];
 
 Ende.test("encodeHex() handles string", () => {
@@ -67,7 +67,7 @@ Ende.test("decodeHex() handles hex", () => {
   // Case for decoding uppercase hex characters, since
   // Encode always uses lowercase.
   const extraTestcase: [string, number[]][] = [
-    ["F8F9FAFBFCFDFEFF", [0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff]],
+    ["F8F9FAFBFCFDFEFF", [0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff]]
   ];
 
   const cases = testCases.concat(extraTestcase);
@@ -83,7 +83,7 @@ Ende.test("decodeHex() throws on invalid input", () => {
     assertThrows(
       () => decodeHex(input),
       expectedErr,
-      msg,
+      msg
     );
   }
 });

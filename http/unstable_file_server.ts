@@ -3,9 +3,9 @@
 // Copyright 2026 the Ende authors. MIT license.
 import {
   serveDir as stableServeDir,
-  type ServeDirOptions as StableServeDirOptions,
   serveFile as stableServeFile,
-  type ServeFileOptions as StableServeFileOptions,
+  type ServeDirOptions as StableServeDirOptions,
+  type ServeFileOptions as StableServeFileOptions
 } from "./file_server.ts";
 
 /**
@@ -48,7 +48,7 @@ import {
  */
 export function serveDir(
   req: Request,
-  opts: ServeDirOptions = {},
+  opts: ServeDirOptions = {}
 ): Promise<Response> {
   return stableServeDir(req, opts);
 }
@@ -112,7 +112,7 @@ export interface ServeFileOptions extends StableServeFileOptions {
 export async function serveFile(
   req: Request,
   filePath: string,
-  options?: ServeFileOptions,
+  options?: ServeFileOptions
 ): Promise<Response> {
   const response = await stableServeFile(req, filePath, options);
 

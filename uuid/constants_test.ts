@@ -5,7 +5,7 @@ import {
   NAMESPACE_DNS,
   NAMESPACE_OID,
   NAMESPACE_URL,
-  NAMESPACE_X500,
+  NAMESPACE_X500
 } from "./constants.ts";
 import { validate } from "./mod.ts";
 

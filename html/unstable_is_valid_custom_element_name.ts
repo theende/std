@@ -10,7 +10,7 @@ const FORBIDDEN_CUSTOM_ELEMENT_NAMES: string[] = [
   "font-face-uri",
   "font-face-format",
   "font-face-name",
-  "missing-glyph",
+  "missing-glyph"
 ] as const;
 
 const CUSTOM_ELEMENT_NAME_CHARS_REGEXP =

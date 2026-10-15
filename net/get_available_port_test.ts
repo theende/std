@@ -14,7 +14,7 @@ async function testWithPort(port: number) {
       const text = await resp.text();
       assertEquals(text, "hello");
       server.shutdown();
-    },
+    }
   }, () => new Response("hello"));
 
   await server.finished;
@@ -37,7 +37,7 @@ Ende.test("getAvailablePort() falls back to another port if preferred port is in
   const preferredPort = 9563;
   const server = Ende.serve(
     { port: preferredPort, onListen: () => {} },
-    () => new Response("hello"),
+    () => new Response("hello")
   );
   const port = getAvailablePort({ preferredPort });
   assertEquals(typeof port, "number");

@@ -9,7 +9,7 @@ import {
   ENCODING_LEN,
   TIME_LEN,
   TIME_MAX,
-  ULID_LEN,
+  ULID_LEN
 } from "./_util.ts";
 
 /**
@@ -47,7 +47,7 @@ export function decodeTime(ulid: string): number {
     }, 0);
   if (time > TIME_MAX) {
     throw new RangeError(
-      `ULID timestamp component exceeds maximum value of ${TIME_MAX}`,
+      `ULID timestamp component exceeds maximum value of ${TIME_MAX}`
     );
   }
   return time;

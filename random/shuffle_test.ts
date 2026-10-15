@@ -5,7 +5,7 @@ import { shuffle } from "./shuffle.ts";
 import {
   assertAlmostEquals,
   assertEquals,
-  assertNotStrictEquals,
+  assertNotStrictEquals
 } from "@ende/assert";
 
 Ende.test("shuffle() handles empty arrays", () => {
@@ -51,7 +51,7 @@ Ende.test("shuffle() with PRNG always returning 0 produces predictable result", 
   const items = [1, 2, 3, 4, 5];
   assertEquals(
     shuffle(items, { prng: () => 0 }),
-    shuffle(items, { prng: () => 0 }),
+    shuffle(items, { prng: () => 0 })
   );
 });
 
@@ -59,7 +59,7 @@ Ende.test("shuffle() with PRNG returning max value produces predictable result",
   const items = [1, 2, 3, 4, 5];
   assertEquals(
     shuffle(items, { prng: () => 0.9999999999 }),
-    shuffle(items, { prng: () => 0.9999999999 }),
+    shuffle(items, { prng: () => 0.9999999999 })
   );
 });
 
@@ -69,8 +69,8 @@ Ende.test("shuffle() handles arrays with null and undefined values", () => {
   const shuffled = shuffle(items, { prng });
 
   assertEquals(shuffled.length, items.length);
-  assertEquals(shuffled.filter((x) => x === null).length, 2);
-  assertEquals(shuffled.filter((x) => x === undefined).length, 1);
+  assertEquals(shuffled.filter(x => x === null).length, 2);
+  assertEquals(shuffled.filter(x => x === undefined).length, 1);
 });
 
 Ende.test("shuffle() returns a copy and without modifying the original array", () => {
@@ -90,19 +90,19 @@ Ende.test("shuffle() gives relatively uniform distribution of results", () => {
 
   const results = Array.from(
     { length: 1e3 },
-    () => shuffle(items, { prng }),
+    () => shuffle(items, { prng })
   );
 
   for (const idx of items.keys()) {
     const groupsByidx = Object.values(
-      Object.groupBy(results.map((result) => result[idx]), (item) => item!),
+      Object.groupBy(results.map(result => result[idx]), item => item!)
     ) as number[][];
 
     for (const group of groupsByidx) {
       assertAlmostEquals(
         group.length,
         results.length / items.length,
-        results.length / 10,
+        results.length / 10
       );
     }
   }

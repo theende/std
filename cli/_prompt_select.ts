@@ -41,13 +41,13 @@ export function handlePromptSelect<V>(
     down(): void;
     remove(): void;
     inputStr(): void;
-  }) => boolean | "return",
+  }) => boolean | "return"
 ) {
   const input = Ende.stdin;
   const output = Ende.stdout;
   const indexedValues = values.map((value, absoluteIndex) => ({
     value,
-    absoluteIndex,
+    absoluteIndex
   }));
   let clearLength = indexedValues.length + 1;
 
@@ -73,21 +73,22 @@ export function handlePromptSelect<V>(
 
   let visibleLines = visibleLinesInit ?? Math.max(
     1,
-    Math.min(availableHeight, values.length),
+    Math.min(availableHeight, values.length)
   );
 
   while (true) {
     output.writeSync(
       encoder.encode(
-        `${message + (searchBuffer ? ` (filter: ${searchBuffer})` : "")}\r\n`,
-      ),
+        `${message + (searchBuffer ? ` (filter: ${searchBuffer})` : "")}\r\n`
+      )
     );
-    const filteredChunks = indexedValues.filter((item) => {
+    const filteredChunks = indexedValues.filter(item => {
       if (searchBuffer === "") {
         return true;
       } else {
         return (typeof item.value === "string" ? item.value : item.value.label)
-          .toLowerCase().includes(searchBuffer.toLowerCase());
+          .toLowerCase()
+          .includes(searchBuffer.toLowerCase());
       }
     });
     const visibleChunks = filteredChunks.slice(offset, visibleLines + offset);
@@ -98,7 +99,7 @@ export function handlePromptSelect<V>(
 
     if (hasUpArrow) {
       output.writeSync(
-        encoder.encode(`${ARROW_PADDING}${MORE_CONTENT_BEFORE_INDICATOR}\r\n`),
+        encoder.encode(`${ARROW_PADDING}${MORE_CONTENT_BEFORE_INDICATOR}\r\n`)
       );
     }
 
@@ -107,8 +108,8 @@ export function handlePromptSelect<V>(
         index,
         {
           absoluteIndex,
-          value,
-        },
+          value
+        }
       ] of visibleChunks.entries()
     ) {
       const active = index === (activeIndex - offset);
@@ -116,20 +117,19 @@ export function handlePromptSelect<V>(
       const maybePrefix = valueChange(active, absoluteIndex);
       output.writeSync(
         encoder.encode(
-          `${start}${maybePrefix ? ` ${maybePrefix}` : ""} ${
-            typeof value === "string" ? value : value.label
-          }\r\n`,
-        ),
+          `${start}${maybePrefix ? ` ${maybePrefix}` : ""} ${typeof value === "string" ? value : value.label}\r\n`
+        )
       );
     }
 
     if (hasDownArrow) {
       output.writeSync(
-        encoder.encode(`${ARROW_PADDING}${MORE_CONTENT_AFTER_INDICATOR}\r\n`),
+        encoder.encode(`${ARROW_PADDING}${MORE_CONTENT_AFTER_INDICATOR}\r\n`)
       );
     }
     const n = input.readSync(buffer);
-    if (n === null || n === 0) break;
+    if (n === null || n === 0)
+      break;
     const string = decoder.decode(buffer.slice(0, n));
 
     const processedInput = handleInput(
@@ -169,8 +169,8 @@ export function handlePromptSelect<V>(
         inputStr: () => {
           activeIndex = 0;
           searchBuffer += string;
-        },
-      },
+        }
+      }
     );
 
     if (processedInput === "return") {
@@ -182,7 +182,7 @@ export function handlePromptSelect<V>(
     if (fitToRemainingHeight) {
       availableHeight = Math.min(
         availableHeight,
-        Ende.consoleSize().rows - SAFE_PADDING,
+        Ende.consoleSize().rows - SAFE_PADDING
       );
     } else {
       availableHeight = Ende.consoleSize().rows - SAFE_PADDING;
@@ -209,13 +209,14 @@ export function handlePromptSelect<V>(
 
 function getCursorRow(
   input: typeof Ende.stdin,
-  output: typeof Ende.stdout,
+  output: typeof Ende.stdout
 ): number | undefined {
   output.writeSync(QUERY_CURSOR_POSITION);
 
   const buffer = new Uint8Array(32);
   const n = input.readSync(buffer);
-  if (n === null || n === 0) return undefined;
+  if (n === null || n === 0)
+    return undefined;
 
   const response = decoder.decode(buffer.subarray(0, n)).trim();
 

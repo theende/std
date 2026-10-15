@@ -1,12 +1,12 @@
 {
-  "name": "@ende/json",
-  "version": "1.1.0",
   "exports": {
     ".": "./mod.ts",
-    "./types": "./types.ts",
+    "./canonicalize": "./canonicalize.ts",
     "./concatenated-json-parse-stream": "./concatenated_json_parse_stream.ts",
     "./parse-stream": "./parse_stream.ts",
     "./stringify-stream": "./stringify_stream.ts",
-    "./canonicalize": "./canonicalize.ts"
-  }
+    "./types": "./types.ts"
+  },
+  "name": "@ende/json",
+  "version": "2026.10.15"
 }

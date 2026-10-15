@@ -37,7 +37,7 @@ import { generate as generateV5, validate as validateV5 } from "./v5.ts";
 import {
   extractTimestamp as extractTimestampV7,
   generate as generateV7,
-  validate as validateV7,
+  validate as validateV7
 } from "./v7.ts";
 
 /**
@@ -55,7 +55,7 @@ import {
  */
 export const v1 = {
   generate: generateV1,
-  validate: validateV1,
+  validate: validateV1
 };
 
 /**
@@ -74,7 +74,7 @@ export const v1 = {
  */
 export const v3 = {
   generate: generateV3,
-  validate: validateV3,
+  validate: validateV3
 };
 
 /**
@@ -91,7 +91,7 @@ export const v3 = {
  * ```
  */
 export const v4 = {
-  validate: validateV4,
+  validate: validateV4
 };
 
 /**
@@ -110,7 +110,7 @@ export const v4 = {
  */
 export const v5 = {
   generate: generateV5,
-  validate: validateV5,
+  validate: validateV5
 };
 
 /**
@@ -131,5 +131,5 @@ export const v5 = {
 export const v7 = {
   generate: generateV7,
   validate: validateV7,
-  extractTimestamp: extractTimestampV7,
+  extractTimestamp: extractTimestampV7
 };

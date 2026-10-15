@@ -11,5 +11,5 @@ description: >
 ---*/
 
 assert.throws(SyntaxError, function() {
-  JSON.parse('\u200b1234'); // should produce a syntax error 
+  JSON.parse("\u200b1234"); // should produce a syntax error
 });

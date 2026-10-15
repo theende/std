@@ -10,8 +10,10 @@ import { CborSequenceDecoderStream } from "./sequence_decoder_stream.ts";
 Ende.test("CborArrayDecodedStream() being consumed", async () => {
   const size = random(0, 24);
 
-  const reader = ReadableStream.from([encodeCbor(new Array(size).fill(0))])
-    .pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = ReadableStream
+    .from([encodeCbor(new Array(size).fill(0))])
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   const { done, value } = await reader.read();
   assert(done === false);
@@ -24,11 +26,13 @@ Ende.test("CborArrayDecodedStream() being consumed", async () => {
 
 Ende.test("CborArrayDecodedStream() being cancelled", async () => {
   const size = random(0, 24);
-  const reader = ReadableStream.from([
-    encodeCbor(new Array(size).fill(0)),
-    encodeCbor(0),
-  ])
-    .pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = ReadableStream
+    .from([
+      encodeCbor(new Array(size).fill(0)),
+      encodeCbor(0)
+    ])
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   {
     const { done, value } = await reader.read();

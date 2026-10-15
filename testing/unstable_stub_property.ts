@@ -31,7 +31,7 @@
 export function stubProperty<Self, Prop extends keyof Self>(
   self: Self,
   property: Prop,
-  value: Self[Prop],
+  value: Self[Prop]
 ): Disposable {
   const descriptor = Object.getOwnPropertyDescriptor(self, property);
 
@@ -40,27 +40,25 @@ export function stubProperty<Self, Prop extends keyof Self>(
     return {
       [Symbol.dispose]() {
         delete self[property];
-      },
+      }
     };
   }
 
   if (!descriptor.configurable && !descriptor.writable) {
     throw new TypeError(
-      `Cannot stub property "${
-        String(property)
-      }" because it is not configurable or writable.`,
+      `Cannot stub property "${String(property)}" because it is not configurable or writable.`
     );
   }
 
   Object.defineProperty(self, property, {
     ...descriptor,
-    ...(isAccessorDescriptor(descriptor) ? { get: () => value } : { value }),
+    ...(isAccessorDescriptor(descriptor) ? { get: () => value } : { value })
   });
 
   return {
     [Symbol.dispose]() {
       Object.defineProperty(self, property, descriptor);
-    },
+    }
   };
 }
 

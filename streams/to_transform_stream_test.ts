@@ -7,8 +7,9 @@ import { toTransformStream } from "./to_transform_stream.ts";
 Ende.test({
   name: "toTransformStream()",
   async fn() {
-    const readable = ReadableStream.from([0, 1, 2])
-      .pipeThrough(toTransformStream(async function* (src) {
+    const readable = ReadableStream
+      .from([0, 1, 2])
+      .pipeThrough(toTransformStream(async function*(src) {
         for await (const i of src) {
           yield i * 100;
         }
@@ -16,14 +17,15 @@ Ende.test({
 
     const res = await Array.fromAsync(readable);
     assertEquals(res, [0, 100, 200]);
-  },
+  }
 });
 
 Ende.test({
   name: "toTransformStream() handles iterable instead of asyncIterable",
   async fn() {
-    const readable = ReadableStream.from([0, 1, 2])
-      .pipeThrough(toTransformStream(function* (_src) {
+    const readable = ReadableStream
+      .from([0, 1, 2])
+      .pipeThrough(toTransformStream(function*(_src) {
         yield 0;
         yield 100;
         yield 200;
@@ -31,7 +33,7 @@ Ende.test({
 
     const res = await Array.fromAsync(readable);
     assertEquals(res, [0, 100, 200]);
-  },
+  }
 });
 
 Ende.test({
@@ -43,7 +45,7 @@ Ende.test({
         toTransformStream(() => null);
       },
       TypeError,
-      "Transformer must return an iterable or async iterable",
+      "Transformer must return an iterable or async iterable"
     );
 
     assertThrows(
@@ -52,7 +54,7 @@ Ende.test({
         toTransformStream(() => 123);
       },
       TypeError,
-      "Transformer must return an iterable or async iterable",
+      "Transformer must return an iterable or async iterable"
     );
 
     assertThrows(
@@ -61,9 +63,9 @@ Ende.test({
         toTransformStream(() => ({ notAnIterator: true }));
       },
       TypeError,
-      "Transformer must return an iterable or async iterable",
+      "Transformer must return an iterable or async iterable"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -81,14 +83,14 @@ Ende.test({
         const readable1 = new ReadableStream({
           start(controller) {
             controller.error(expectedError); // error from readable1
-          },
+          }
         });
         const readable2 = readable1.pipeThrough(
-          toTransformStream(async function* (src) {
+          toTransformStream(async function*(src) {
             for await (const i of src) {
               yield i;
             }
-          }),
+          })
         );
 
         try {
@@ -98,7 +100,7 @@ Ende.test({
         }
 
         assertEquals(actualError, expectedError);
-      },
+      }
     });
     await t.step({
       name: "to generator",
@@ -109,24 +111,24 @@ Ende.test({
         const readable1 = new ReadableStream({
           start(controller) {
             controller.error(expectedError); // error from readable1
-          },
+          }
         });
         const readable2 = readable1.pipeThrough(
-          toTransformStream(async function* (src) {
+          toTransformStream(async function*(src) {
             try {
               await src.getReader().read();
             } catch (error) {
               actualError = error; // catch error in generator
             }
             yield 0;
-          }),
+          })
         );
 
         await readable2.getReader().read();
         assertEquals(actualError, expectedError);
-      },
+      }
     });
-  },
+  }
 });
 
 Ende.test({
@@ -141,13 +143,13 @@ Ende.test({
     const readable1 = new ReadableStream({
       cancel(reason) {
         actualError1 = reason; // catch error in readable1
-      },
+      }
     });
     const readable2 = readable1.pipeThrough(
       // deno-lint-ignore require-yield
-      toTransformStream(function* () {
+      toTransformStream(function*() {
         throw expectedError; // error from generator
-      }),
+      })
     );
 
     try {
@@ -160,15 +162,15 @@ Ende.test({
       name: "to readable 1",
       fn() {
         assertEquals(actualError1, expectedError);
-      },
+      }
     });
     await t.step({
       name: "to readable 2",
       fn() {
         assertEquals(actualError2, expectedError);
-      },
+      }
     });
-  },
+  }
 });
 
 Ende.test({
@@ -185,17 +187,17 @@ Ende.test({
         const readable1 = new ReadableStream({
           cancel(reason) {
             actualError = reason; // catch error in readable1
-          },
+          }
         });
         const readable2 = readable1.pipeThrough(
-          toTransformStream(function* () {
+          toTransformStream(function*() {
             yield 0;
-          }),
+          })
         );
 
         await readable2.cancel(expectedError); // cancellation from readable2
         assertEquals(actualError, expectedError);
-      },
+      }
     });
     await t.step({
       name: "to readable 2",
@@ -204,31 +206,30 @@ Ende.test({
 
         const readable1 = new ReadableStream();
         const readable2 = readable1.pipeThrough(
-          toTransformStream(function* () {
+          toTransformStream(function*() {
             try {
               yield 0;
             } catch (error) {
               actualError = error; // catch error in generator
             }
-          }),
+          })
         );
 
         const reader = readable2.getReader();
         await reader.read();
         await reader.cancel(expectedError); // cancellation from readable2
         assertEquals(actualError, expectedError);
-      },
+      }
     });
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "toTransformStream() handles streams cancel with the correct error message",
+  name: "toTransformStream() handles streams cancel with the correct error message",
   async fn() {
     const src = ReadableStream.from([0, 1, 2]);
     // deno-lint-ignore require-yield
-    const transform = toTransformStream(function* (src) {
+    const transform = toTransformStream(function*(src) {
       src.getReader(); // lock the source stream to cause error at cancel
       throw new Error("foo");
     });
@@ -236,9 +237,9 @@ Ende.test({
     await assertRejects(
       async () => await Array.fromAsync(src.pipeThrough(transform)),
       Error,
-      "foo",
+      "foo"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -246,8 +247,9 @@ Ende.test({
   async fn() {
     let finallyCalled = false;
 
-    const readable = ReadableStream.from([1, 2, 3])
-      .pipeThrough(toTransformStream(async function* (src) {
+    const readable = ReadableStream
+      .from([1, 2, 3])
+      .pipeThrough(toTransformStream(async function*(src) {
         try {
           for await (const chunk of src) {
             yield chunk;
@@ -262,5 +264,5 @@ Ende.test({
     await reader.cancel("test cancellation");
 
     assertEquals(finallyCalled, true);
-  },
+  }
 });

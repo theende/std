@@ -11,17 +11,17 @@ import { assertEquals, assertThrows } from "@ende/assert";
 import { assertSpyCall, spy, stub } from "@ende/testing/mock";
 import * as c from "./colors.ts";
 
-Ende.test("sprintf() handles noVerb", function () {
+Ende.test("sprintf() handles noVerb", function() {
   assertEquals(sprintf("bla"), "bla");
 });
 
-Ende.test("sprintf() handles percent", function () {
+Ende.test("sprintf() handles percent", function() {
   assertEquals(sprintf("%%"), "%");
   assertEquals(sprintf("!%%!"), "!%!");
   assertEquals(sprintf("!%%"), "!%");
   assertEquals(sprintf("%%!"), "%!");
 });
-Ende.test("sprintf() handles boolean", function () {
+Ende.test("sprintf() handles boolean", function() {
   assertEquals(sprintf("%t", true), "true");
   assertEquals(sprintf("%10t", true), "      true");
   assertEquals(sprintf("%-10t", false), "false     ");
@@ -30,46 +30,46 @@ Ende.test("sprintf() handles boolean", function () {
   assertEquals(sprintf("%tbla", false), "falsebla");
 });
 
-Ende.test("sprintf() handles integer", function () {
+Ende.test("sprintf() handles integer", function() {
   assertEquals(sprintf("%b", 4), "100");
   assertEquals(sprintf("%b", -4), "-100");
   assertEquals(
     sprintf("%b", 4.1),
-    "100.0001100110011001100110011001100110011001100110011",
+    "100.0001100110011001100110011001100110011001100110011"
   );
   assertEquals(
     sprintf("%b", -4.1),
-    "-100.0001100110011001100110011001100110011001100110011",
+    "-100.0001100110011001100110011001100110011001100110011"
   );
   assertEquals(
     sprintf("%b", Number.MAX_SAFE_INTEGER),
-    "11111111111111111111111111111111111111111111111111111",
+    "11111111111111111111111111111111111111111111111111111"
   );
   assertEquals(
     sprintf("%b", Number.MIN_SAFE_INTEGER),
-    "-11111111111111111111111111111111111111111111111111111",
+    "-11111111111111111111111111111111111111111111111111111"
   );
   // width
 
   assertEquals(sprintf("%4b", 4), " 100");
 });
 
-Ende.test("sprintf() handles integerC", function () {
+Ende.test("sprintf() handles integerC", function() {
   assertEquals(sprintf("%c", 0x31), "1");
   assertEquals(sprintf("%c%b", 0x31, 1), "11");
   assertEquals(sprintf("%c", 0x1f4a9), "💩");
-  //width
+  // width
   assertEquals(sprintf("%4c", 0x31), "   1");
 });
 
-Ende.test("sprintf() handles integerD", function () {
+Ende.test("sprintf() handles integerD", function() {
   assertEquals(sprintf("%d", 4), "4");
   assertEquals(sprintf("%d", -4), "-4");
   assertEquals(sprintf("%d", Number.MAX_SAFE_INTEGER), "9007199254740991");
   assertEquals(sprintf("%d", Number.MIN_SAFE_INTEGER), "-9007199254740991");
 });
 
-Ende.test("sprintf() handles integerO", function () {
+Ende.test("sprintf() handles integerO", function() {
   assertEquals(sprintf("%o", 4), "4");
   assertEquals(sprintf("%o", -4), "-4");
   assertEquals(sprintf("%o", 9), "11");
@@ -79,7 +79,7 @@ Ende.test("sprintf() handles integerO", function () {
   // width
   assertEquals(sprintf("%4o", 4), "   4");
 });
-Ende.test("sprintf() handles integerx", function () {
+Ende.test("sprintf() handles integerx", function() {
   assertEquals(sprintf("%x", 4), "4");
   assertEquals(sprintf("%x", -4), "-4");
   assertEquals(sprintf("%x", 9), "9");
@@ -93,7 +93,7 @@ Ende.test("sprintf() handles integerx", function () {
   assertEquals(sprintf("%+4x", 4), "  +4");
   assertEquals(sprintf("%-+4x", 4), "+4  ");
 });
-Ende.test("sprintf() handles integerX", function () {
+Ende.test("sprintf() handles integerX", function() {
   assertEquals(sprintf("%X", 4), "4");
   assertEquals(sprintf("%X", -4), "-4");
   assertEquals(sprintf("%X", 9), "9");
@@ -102,7 +102,7 @@ Ende.test("sprintf() handles integerX", function () {
   assertEquals(sprintf("%X", Number.MIN_SAFE_INTEGER), "-1FFFFFFFFFFFFF");
 });
 
-Ende.test("sprintf() handles floats", function () {
+Ende.test("sprintf() handles floats", function() {
   assertEquals(sprintf("%e", 4), "4.000000e+00");
   assertEquals(sprintf("%e", -4), "-4.000000e+00");
   assertEquals(sprintf("%e", 4.1), "4.100000e+00");
@@ -114,7 +114,7 @@ Ende.test("sprintf() handles floats", function () {
   assertEquals(sprintf("%.3e", 999999), "1.000e+06");
   assertEquals(sprintf("%.3e", 0.000099999), "1.000e-04");
 });
-Ende.test("sprintf() handles floatE", function () {
+Ende.test("sprintf() handles floatE", function() {
   assertEquals(sprintf("%E", 4), "4.000000E+00");
   assertEquals(sprintf("%E", -4), "-4.000000E+00");
   assertEquals(sprintf("%E", 4.1), "4.100000E+00");
@@ -124,7 +124,7 @@ Ende.test("sprintf() handles floatE", function () {
   assertEquals(sprintf("%E", Number.MIN_VALUE), "5.000000E-324");
   assertEquals(sprintf("%E", Number.MAX_VALUE), "1.797693E+308");
 });
-Ende.test("sprintf() handles floatfF", function () {
+Ende.test("sprintf() handles floatfF", function() {
   assertEquals(sprintf("%f", 4), "4.000000");
   assertEquals(sprintf("%F", 4), "4.000000");
   assertEquals(sprintf("%f", -4), "-4.000000");
@@ -135,39 +135,39 @@ Ende.test("sprintf() handles floatfF", function () {
   assertEquals(sprintf("%F", -4.1), "-4.100000");
   assertEquals(
     sprintf("%f", Number.MAX_SAFE_INTEGER),
-    "9007199254740991.000000",
+    "9007199254740991.000000"
   );
   assertEquals(
     sprintf("%F", Number.MAX_SAFE_INTEGER),
-    "9007199254740991.000000",
+    "9007199254740991.000000"
   );
   assertEquals(
     sprintf("%f", Number.MIN_SAFE_INTEGER),
-    "-9007199254740991.000000",
+    "-9007199254740991.000000"
   );
   assertEquals(
     sprintf("%F", Number.MIN_SAFE_INTEGER),
-    "-9007199254740991.000000",
+    "-9007199254740991.000000"
   );
   assertEquals(sprintf("%f", Number.MIN_VALUE), "0.000000");
   assertEquals(
     sprintf("%.324f", Number.MIN_VALUE),
-    "0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005",
+    "0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005"
   );
   assertEquals(sprintf("%F", Number.MIN_VALUE), "0.000000");
   assertEquals(
     sprintf("%f", Number.MAX_VALUE),
-    "179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000",
+    "179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000"
   );
   assertEquals(
     sprintf("%F", Number.MAX_VALUE),
-    "179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000",
+    "179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000"
   );
   assertEquals(sprintf("%.3f", 0.9999), "1.000");
   assertEquals(sprintf("%.3f", 1.9999), "2.000");
 });
 
-Ende.test("sprintf() handles string", function () {
+Ende.test("sprintf() handles string", function() {
   assertEquals(sprintf("%s World%s", "Hello", "!"), "Hello World!");
 });
 
@@ -219,7 +219,7 @@ Ende.test("printf() handles string with colors", () => {
   assertEquals(sprintf("%4s", c.bgRgb8("foo", 42)), " [48;5;42mfoo[49m");
 });
 
-Ende.test("sprintf() handles hex", function () {
+Ende.test("sprintf() handles hex", function() {
   assertEquals(sprintf("%x", "123"), "313233");
   assertEquals(sprintf("%x", "n"), "6e");
 
@@ -227,27 +227,27 @@ Ende.test("sprintf() handles hex", function () {
   assertThrows(
     () => sprintf("%x", {}),
     Error,
-    "Cannot format hex, only number and string are supported for hex formatting: object is given",
+    "Cannot format hex, only number and string are supported for hex formatting: object is given"
   );
 });
-Ende.test("sprintf() handles heX", function () {
+Ende.test("sprintf() handles heX", function() {
   assertEquals(sprintf("%X", "123"), "313233");
   assertEquals(sprintf("%X", "n"), "6E");
 });
 
-Ende.test("sprintf() handles type", function () {
+Ende.test("sprintf() handles type", function() {
   assertEquals(sprintf("%T", new Date()), "object");
   assertEquals(sprintf("%T", 123), "number");
   assertEquals(sprintf("%T", "123"), "string");
   assertEquals(sprintf("%.3T", "123"), "str");
 });
 
-Ende.test("sprintf() handles positional", function () {
+Ende.test("sprintf() handles positional", function() {
   assertEquals(sprintf("%[1]d%[2]d", 1, 2), "12");
   assertEquals(sprintf("%[2]d%[1]d", 1, 2), "21");
 });
 
-Ende.test("sprintf() handles sharp", function () {
+Ende.test("sprintf() handles sharp", function() {
   assertEquals(sprintf("%#x", "123"), "0x313233");
   assertEquals(sprintf("%#X", "123"), "0X313233");
   assertEquals(sprintf("%#x", 123), "0x7b");
@@ -256,10 +256,10 @@ Ende.test("sprintf() handles sharp", function () {
   assertEquals(sprintf("%#b", 4), "0b100");
 });
 
-Ende.test("sprintf() handles width and precision", function () {
+Ende.test("sprintf() handles width and precision", function() {
   assertEquals(
     sprintf("%9.99d", 9),
-    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009",
+    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009"
   );
   assertEquals(sprintf("%1.12d", 9), "000000000009");
   assertEquals(sprintf("%2s", "a"), " a");
@@ -268,32 +268,32 @@ Ende.test("sprintf() handles width and precision", function () {
 
   assertEquals(
     sprintf("%*.99d", 9, 9),
-    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009",
+    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009"
   );
   assertEquals(
     sprintf("%9.*d", 99, 9),
-    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009",
+    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009"
   );
   assertEquals(sprintf("%*s", 2, "a"), " a");
   assertEquals(sprintf("%*d", 2, 1), " 1");
   assertEquals(sprintf("%#*x", 4, 1), " 0x1");
 });
 
-Ende.test("sprintf() handles dash", function () {
+Ende.test("sprintf() handles dash", function() {
   assertEquals(sprintf("%-2s", "a"), "a ");
   assertEquals(sprintf("%-2d", 1), "1 ");
 });
-Ende.test("sprintf() handles plus", function () {
+Ende.test("sprintf() handles plus", function() {
   assertEquals(sprintf("%-+3d", 1), "+1 ");
   assertEquals(sprintf("%+3d", 1), " +1");
   assertEquals(sprintf("%+3d", -1), " -1");
 });
 
-Ende.test("sprintf() handles space", function () {
+Ende.test("sprintf() handles space", function() {
   assertEquals(sprintf("% -3d", 3), " 3 ");
 });
 
-Ende.test("sprintf() handles zero", function () {
+Ende.test("sprintf() handles zero", function() {
   assertEquals(sprintf("%04s", "a"), "000a");
 });
 
@@ -336,7 +336,7 @@ const tests: Array<[string, any, string]> = [
   // Runes that are not printable.
   // {"%c", '\U00000e00', "\u0e00"},
   // TODO(bartlomieju) check if \U escape exists in js
-  //["%c", '\U0010ffff'.codePointAt(0), "\U0010ffff"],
+  // ["%c", '\U0010ffff'.codePointAt(0), "\U0010ffff"],
 
   // Runes that are not valid.
   ["%c", -1, "�"],
@@ -363,14 +363,14 @@ const tests: Array<[string, any, string]> = [
   // ["%08q", "abc", `000"abc"`],
   // TODO(bartlomieju): verb q
   // ["%-8q", "abc", `"abc"   `],
-  //["%.5q", "abcdefghijklmnopqrstuvwxyz", `"abcde"`],
+  // ["%.5q", "abcdefghijklmnopqrstuvwxyz", `"abcde"`],
   ["%.5x", "abcdefghijklmnopqrstuvwxyz", "6162636465"],
-  //["%.3q", "日本語日本語", `"日本語"`],
-  //["%.1q", "日本語", `"日"`]
+  // ["%.3q", "日本語日本語", `"日本語"`],
+  // ["%.1q", "日本語", `"日"`]
   // change of go testcase utf-8([日]) = 0xe697a5, utf-16= 65e5 and
   // our %x takes lower byte of string "%.1x", "日本語", "e6"],,
   ["%.1x", "日本語", "e5"],
-  //["%10.1q", "日本語日本語", `       "日"`],
+  // ["%10.1q", "日本語日本語", `       "日"`],
   // ["%10v", null, "     <nil>"],
   // TODO(bartlomieju): null, undefined ...
   // ["%-10v", null, "<nil>     "],
@@ -379,13 +379,13 @@ const tests: Array<[string, any, string]> = [
   ["%d", 12345, "12345"],
   ["%d", -12345, "-12345"],
   // ["%d", ^uint8(0), "255"],
-  //["%d", ^uint16(0), "65535"],
-  //["%d", ^uint32(0), "4294967295"],
-  //["%d", ^uint64(0), "18446744073709551615"],
+  // ["%d", ^uint16(0), "65535"],
+  // ["%d", ^uint32(0), "4294967295"],
+  // ["%d", ^uint64(0), "18446744073709551615"],
   ["%d", -1 << 7, "-128"],
   ["%d", -1 << 15, "-32768"],
   ["%d", -1 << 31, "-2147483648"],
-  //["%d", (-1 << 63), "-9223372036854775808"],
+  // ["%d", (-1 << 63), "-9223372036854775808"],
   ["%.d", 0, ""],
   ["%.0d", 0, ""],
   ["%6.0d", 0, "      "],
@@ -434,7 +434,7 @@ const tests: Array<[string, any, string]> = [
   ["%+.3e", 1.0, "+1.000e+00"],
   ["%+.3f", -1.0, "-1.000"],
   ["%+.3F", -1.0, "-1.000"],
-  //["%+.3F", float32(-1.0), "-1.000"],
+  // ["%+.3F", float32(-1.0), "-1.000"],
   ["%+07.2f", 1.0, "+001.00"],
   ["%+07.2f", -1.0, "-001.00"],
   ["%-07.2f", 1.0, "1.00   "],
@@ -452,14 +452,14 @@ const tests: Array<[string, any, string]> = [
   ["%+.3g", -1.0, "-1"],
   ["% .3g", -1.0, "-1"],
   ["% .3g", 1.0, " 1"],
-  //	//["%b", float32(1.0), "8388608p-23"],
-  //	["%b", 1.0, "4503599627370496p-52"],
-  //	// Test sharp flag used with floats.
+  // 	//["%b", float32(1.0), "8388608p-23"],
+  // 	["%b", 1.0, "4503599627370496p-52"],
+  // 	// Test sharp flag used with floats.
   ["%#g", 1e-323, "1.00000e-323"],
   ["%#g", -1.0, "-1.00000"],
   ["%#g", 1.1, "1.10000"],
   ["%#g", 123456.0, "123456."],
-  //["%#g", 1234567.0, "1.234567e+06"],
+  // ["%#g", 1234567.0, "1.234567e+06"],
   // the line above is incorrect in go (according to
   // my posix reading) %f-> prec = prec-1
   ["%#g", 1234567.0, "1.23457e+06"],
@@ -482,13 +482,13 @@ const tests: Array<[string, any, string]> = [
   ["%#.4g", 123000.0, "1.230e+05"],
   ["%#9.4g", 1.0, "    1.000"],
   // The sharp flag has no effect for binary float format.
-  //	["%#b", 1.0, "4503599627370496p-52"], // TODO binary for floats
+  // 	["%#b", 1.0, "4503599627370496p-52"], // TODO binary for floats
   // Precision has no effect for binary float format.
-  //["%.4b", float32(1.0), "8388608p-23"], // TODO s.above
+  // ["%.4b", float32(1.0), "8388608p-23"], // TODO s.above
   // ["%.4b", -1.0, "-4503599627370496p-52"],
   // Test correct f.intbuf boundary checks.
-  //["%.68f", 1.0, zeroFill("1.", 68, "")], // TODO zerofill
-  //["%.68f", -1.0, zeroFill("-1.", 68, "")], //TODO s.a.
+  // ["%.68f", 1.0, zeroFill("1.", 68, "")], // TODO zerofill
+  // ["%.68f", -1.0, zeroFill("-1.", 68, "")], //TODO s.a.
   // float infinites and NaNs
   ["%f", Number.POSITIVE_INFINITY, "+Inf"],
   ["%.1f", Number.NEGATIVE_INFINITY, "-Inf"],
@@ -521,25 +521,25 @@ const tests: Array<[string, any, string]> = [
   // ["%g", 1234.5678e3, "1.2345678e+06"],
   // I believe the above test from go is incorrect according to posix, s. above.
   ["%g", 1234.5678e3, "1.23457e+06"],
-  //["%g", float32(1234.5678e3), "1.2345678e+06"],
-  //["%g", 1234.5678e-8, "1.2345678e-05"], // posix, see above
+  // ["%g", float32(1234.5678e3), "1.2345678e+06"],
+  // ["%g", 1234.5678e-8, "1.2345678e-05"], // posix, see above
   ["%g", 1234.5678e-8, "1.23457e-05"],
   ["%g", -7.0, "-7"],
   ["%g", -1e-9, "-1e-09"],
-  //["%g", float32(-1e-9), "-1e-09"],
+  // ["%g", float32(-1e-9), "-1e-09"],
   ["%E", 1.0, "1.000000E+00"],
   ["%E", 1234.5678e3, "1.234568E+06"],
   ["%E", 1234.5678e-8, "1.234568E-05"],
   ["%E", -7.0, "-7.000000E+00"],
   ["%E", -1e-9, "-1.000000E-09"],
-  //["%G", 1234.5678e3, "1.2345678E+06"], // posix, see above
+  // ["%G", 1234.5678e3, "1.2345678E+06"], // posix, see above
   ["%G", 1234.5678e3, "1.23457E+06"],
-  //["%G", float32(1234.5678e3), "1.2345678E+06"],
-  //["%G", 1234.5678e-8, "1.2345678E-05"], // posic, see above
+  // ["%G", float32(1234.5678e3), "1.2345678E+06"],
+  // ["%G", 1234.5678e-8, "1.2345678E-05"], // posic, see above
   ["%G", 1234.5678e-8, "1.23457E-05"],
   ["%G", -7.0, "-7"],
   ["%G", -1e-9, "-1E-09"],
-  //["%G", float32(-1e-9), "-1E-09"],
+  // ["%G", float32(-1e-9), "-1E-09"],
   ["%20.5s", "qwertyuiop", "               qwert"],
   ["%.5s", "qwertyuiop", "qwert"],
   ["%-20.5s", "qwertyuiop", "qwert               "],
@@ -561,7 +561,7 @@ const tests: Array<[string, any, string]> = [
   ["%g", 1.23456789e3, "1234.57"],
   // ["%g", 1.23456789e-3, "0.00123456789"], posix...
   ["%g", 1.23456789e-3, "0.00123457"], // see above prec6 = precdef6 - (-3+1)
-  //["%g", 1.23456789e20, "1.23456789e+20"],
+  // ["%g", 1.23456789e20, "1.23456789e+20"],
   ["%g", 1.23456789e20, "1.23457e+20"],
   // arrays
   // TODO(bartlomieju):
@@ -616,19 +616,19 @@ const tests: Array<[string, any, string]> = [
   // %p with pointers
 
   // erroneous things
-  //	{"", nil, "%!(EXTRA <nil>)"},
-  //	{"", 2, "%!(EXTRA int=2)"},
-  //	{"no args", "hello", "no args%!(EXTRA string=hello)"},
-  //	{"%s %", "hello", "hello %!(NOVERB)"},
-  //	{"%s %.2", "hello", "hello %!(NOVERB)"},
-  //	{"%017091901790959340919092959340919017929593813360", 0,
+  // 	{"", nil, "%!(EXTRA <nil>)"},
+  // 	{"", 2, "%!(EXTRA int=2)"},
+  // 	{"no args", "hello", "no args%!(EXTRA string=hello)"},
+  // 	{"%s %", "hello", "hello %!(NOVERB)"},
+  // 	{"%s %.2", "hello", "hello %!(NOVERB)"},
+  // 	{"%017091901790959340919092959340919017929593813360", 0,
   //       "%!(NOVERB)%!(EXTRA int=0)"},
-  //	{"%184467440737095516170v", 0, "%!(NOVERB)%!(EXTRA int=0)"},
-  //	// Extra argument errors should format without flags set.
-  //	{"%010.2", "12345", "%!(NOVERB)%!(EXTRA string=12345)"},
+  // 	{"%184467440737095516170v", 0, "%!(NOVERB)%!(EXTRA int=0)"},
+  // 	// Extra argument errors should format without flags set.
+  // 	{"%010.2", "12345", "%!(NOVERB)%!(EXTRA string=12345)"},
   //
-  //	// Test that maps with non-reflexive keys print all keys and values.
-  //	{"%v", map[float64]int{NaN: 1, NaN: 1}, "map[NaN:1 NaN:1]"},
+  // 	// Test that maps with non-reflexive keys print all keys and values.
+  // 	{"%v", map[float64]int{NaN: 1, NaN: 1}, "map[NaN:1 NaN:1]"},
 
   // more floats
 
@@ -648,15 +648,15 @@ const tests: Array<[string, any, string]> = [
   ["% +7.2f", -1.0, "  -1.00"],
   ["%07.2f", 1.0, "0001.00"],
   ["%07.2f", -1.0, "-001.00"],
-  ["% 07.2f", 1.0, " 001.00"], //153 here
+  ["% 07.2f", 1.0, " 001.00"], // 153 here
   ["% 07.2f", -1.0, "-001.00"],
   ["%+07.2f", 1.0, "+001.00"],
   ["%+07.2f", -1.0, "-001.00"],
   ["% +07.2f", 1.0, "+001.00"],
-  ["% +07.2f", -1.0, "-001.00"],
+  ["% +07.2f", -1.0, "-001.00"]
 ];
 
-Ende.test("sprintf() handles thorough", function () {
+Ende.test("sprintf() handles thorough", function() {
   tests.forEach((t, i) => {
     //            p(t)
     const is = sprintf(t[0], t[1]);
@@ -664,20 +664,20 @@ Ende.test("sprintf() handles thorough", function () {
     assertEquals(
       is,
       should,
-      `failed case[${i}] : is >${is}< should >${should}<`,
+      `failed case[${i}] : is >${is}< should >${should}<`
     );
   });
 });
 
-Ende.test("sprintf() handles weirdos", function () {
+Ende.test("sprintf() handles weirdos", function() {
   assertEquals(sprintf("%.d", 9), "9");
   assertEquals(
     sprintf("dec[%d]=%d hex[%[1]d]=%#x oct[%[1]d]=%#o %s", 1, 255, "Third"),
-    "dec[1]=255 hex[1]=0xff oct[1]=0377 Third",
+    "dec[1]=255 hex[1]=0xff oct[1]=0377 Third"
   );
 });
 
-Ende.test("sprintf() handles formatV", function () {
+Ende.test("sprintf() handles formatV", function() {
   const a = { a: { a: { a: { a: { a: { a: { a: {} } } } } } } };
   assertEquals(sprintf("%v", a), "[object Object]");
   assertEquals(
@@ -686,7 +686,7 @@ Ende.test("sprintf() handles formatV", function () {
   a: {
     a: { a: { a: { a: [Object] } } }
   }
-}`,
+}`
   );
   assertEquals(
     sprintf("%#.8v", a),
@@ -698,46 +698,46 @@ Ende.test("sprintf() handles formatV", function () {
       }
     }
   }
-}`,
+}`
   );
   assertEquals(sprintf("%#.1v", a), `{ a: { a: [Object] } }`);
   assertEquals(sprintf("%.10v", a), "[object Ob"); // truncated at 10th char
 });
 
-Ende.test("sprintf() handles formatJ", function () {
+Ende.test("sprintf() handles formatJ", function() {
   const a = { a: { a: { a: { a: { a: { a: { a: {} } } } } } } };
   assertEquals(
     sprintf("%j", a),
-    `{"a":{"a":{"a":{"a":{"a":{"a":{"a":{}}}}}}}}`,
+    `{"a":{"a":{"a":{"a":{"a":{"a":{"a":{}}}}}}}}`
   );
 });
 
-Ende.test("sprintf() handles formatI", function () {
+Ende.test("sprintf() handles formatI", function() {
   const a = { a: { a: { a: { a: { a: { a: { a: {} } } } } } } };
   assertEquals(
     sprintf("%i", a),
-    "{\n  a: {\n    a: {\n      a: {\n        a: {\n          a: {\n            a: {\n              a: {}\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+    "{\n  a: {\n    a: {\n      a: {\n        a: {\n          a: {\n            a: {\n              a: {}\n            }\n          }\n        }\n      }\n    }\n  }\n}"
   );
   assertEquals(
     sprintf("%I", a),
-    "{ a: { a: { a: { a: { a: { a: { a: {} } } } } } } }",
+    "{ a: { a: { a: { a: { a: { a: { a: {} } } } } } } }"
   );
 });
 
-Ende.test("sprintf() handles lessThan flag", function () {
+Ende.test("sprintf() handles lessThan flag", function() {
   const a = { a: { a: { a: { a: { a: { a: { a: {} } } } } } } };
   const aArray = [a, a, a];
   assertEquals(
     sprintf("%<#.1v", aArray),
-    `[ { a: { a: [Object] } }, { a: { a: [Object] } }, { a: { a: [Object] } } ]`,
+    `[ { a: { a: [Object] } }, { a: { a: [Object] } }, { a: { a: [Object] } } ]`
   );
   const fArray = [1.2345, 0.98765, 123456789.5678];
   assertEquals(sprintf("%<.2f", fArray), "[ 1.23, 0.99, 123456789.57 ]");
 });
 
-Ende.test("sprintf() handles errors", function () {
+Ende.test("sprintf() handles errors", function() {
   // wrong type : TODO strict mode ...
-  //assertEquals(S("%f", "not a number"), "%!(BADTYPE flag=f type=string)")
+  // assertEquals(S("%f", "not a number"), "%!(BADTYPE flag=f type=string)")
   assertEquals(sprintf("A %h", ""), "A %!(BAD VERB 'h')");
   assertEquals(sprintf("%J", ""), "%!(BAD VERB 'J')");
   assertEquals(sprintf("bla%J", ""), "bla%!(BAD VERB 'J')");
@@ -751,11 +751,11 @@ Ende.test("sprintf() handles errors", function () {
   assertEquals(sprintf("%.*f", "a", 1.1), "%!(BAD PREC 'a')");
   assertEquals(
     sprintf("%.[2]*f", 1.23, "p"),
-    `%!(BAD PREC 'p')%!(EXTRA '1.23')`,
+    `%!(BAD PREC 'p')%!(EXTRA '1.23')`
   );
   assertEquals(
     sprintf("%.[2]*[1]f Yippie!", 1.23, "p"),
-    "%!(BAD PREC 'p') Yippie!",
+    "%!(BAD PREC 'p') Yippie!"
   );
 
   assertEquals(sprintf("%[1]*.2f", "a", "p"), "%!(BAD WIDTH 'a')");
@@ -767,11 +767,11 @@ Ende.test("sprintf() handles errors", function () {
   // (realistically) the entire error handling is still up for grabs.
   assertEquals(
     sprintf("%[hallo]s %d %d %d", 1, 2, 3, 4),
-    "%!(BAD INDEX) 2 3 4",
+    "%!(BAD INDEX) 2 3 4"
   );
   assertEquals(
     sprintf("%[5]s", 1, 2, 3, 4),
-    `%!(BAD INDEX)%!(EXTRA '2' '3' '4')`,
+    `%!(BAD INDEX)%!(EXTRA '2' '3' '4')`
   );
   assertEquals(sprintf("%[5]f"), "%!(BAD INDEX)");
   assertEquals(sprintf("%.[5]f"), "%!(BAD INDEX)");
@@ -782,7 +782,7 @@ Ende.test("sprintf() throws with d with sharp option", () => {
   assertThrows(
     () => sprintf("%#d", 1.1),
     Error,
-    "Cannot handle the radix 10: only 2, 8, 16 are supported",
+    "Cannot handle the radix 10: only 2, 8, 16 are supported"
   );
 });
 
@@ -792,6 +792,6 @@ Ende.test("printf() prints the result synchronously", () => {
   printf("Hello %s", "world");
 
   assertSpyCall(writeSpy, 0, {
-    args: [new TextEncoder().encode("Hello world")],
+    args: [new TextEncoder().encode("Hello world")]
   });
 });

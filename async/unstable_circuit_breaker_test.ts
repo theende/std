@@ -6,13 +6,13 @@ import {
   assertEquals,
   assertInstanceOf,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { FakeTime } from "@ende/testing/time";
 import {
   CircuitBreaker,
   CircuitBreakerOpenError,
-  type CircuitState,
+  type CircuitState
 } from "./unstable_circuit_breaker.ts";
 
 // ---------------------------------------------------------------------------
@@ -21,7 +21,7 @@ import {
 
 async function failN(
   breaker: CircuitBreaker,
-  n: number,
+  n: number
 ): Promise<void> {
   for (let i = 0; i < n; i++) {
     try {
@@ -32,7 +32,7 @@ async function failN(
 
 async function succeedN(
   breaker: CircuitBreaker,
-  n: number,
+  n: number
 ): Promise<void> {
   for (let i = 0; i < n; i++) {
     await breaker.execute(() => Promise.resolve("ok"));
@@ -48,7 +48,7 @@ Ende.test("CircuitBreaker() throws for invalid rate options", () => {
     assertThrows(
       () => new CircuitBreaker({ failureRateThreshold: value }),
       RangeError,
-      '"failureRateThreshold" must be a finite number in (0, 1]',
+      "\"failureRateThreshold\" must be a finite number in (0, 1]"
     );
   }
 });
@@ -59,7 +59,7 @@ Ende.test("CircuitBreaker() throws for invalid positive integer options", () => 
     "windowMs",
     "segmentsPerWindow",
     "successThreshold",
-    "halfOpenMaxConcurrent",
+    "halfOpenMaxConcurrent"
   ] as const;
 
   for (const field of fields) {
@@ -67,7 +67,7 @@ Ende.test("CircuitBreaker() throws for invalid positive integer options", () => 
       assertThrows(
         () => new CircuitBreaker({ [field]: value }),
         RangeError,
-        `"${field}" must be a positive integer`,
+        `"${field}" must be a positive integer`
       );
     }
   }
@@ -78,7 +78,7 @@ Ende.test("CircuitBreaker() throws for invalid cooldownMs", () => {
     assertThrows(
       () => new CircuitBreaker({ cooldownMs: value }),
       RangeError,
-      '"cooldownMs" must be a finite non-negative number',
+      "\"cooldownMs\" must be a finite non-negative number"
     );
   }
 });
@@ -86,7 +86,7 @@ Ende.test("CircuitBreaker() throws for invalid cooldownMs", () => {
 Ende.test("CircuitBreaker() accepts edge-case valid options", () => {
   const breaker = new CircuitBreaker({
     failureRateThreshold: 1,
-    cooldownMs: 0,
+    cooldownMs: 0
   });
   assertEquals(breaker.state, "closed");
 });
@@ -110,14 +110,14 @@ Ende.test("CircuitBreaker.execute() propagates thrown errors", async () => {
   await assertRejects(
     () => breaker.execute(() => Promise.reject(new Error("boom"))),
     Error,
-    "boom",
+    "boom"
   );
 });
 
 Ende.test("CircuitBreaker.execute() propagates synchronous throws and counts them as failures", async () => {
   const breaker = new CircuitBreaker({
     failureRateThreshold: 1,
-    minimumThroughput: 1,
+    minimumThroughput: 1
   });
 
   await assertRejects(
@@ -126,7 +126,7 @@ Ende.test("CircuitBreaker.execute() propagates synchronous throws and counts the
         throw new Error("sync boom");
       }),
     Error,
-    "sync boom",
+    "sync boom"
   );
   assertEquals(breaker.state, "open");
 });
@@ -140,7 +140,7 @@ Ende.test("CircuitBreaker.execute() opens when failure rate meets threshold and 
     failureRateThreshold: 0.5,
     minimumThroughput: 4,
     windowMs: 60_000,
-    segmentsPerWindow: 1,
+    segmentsPerWindow: 1
   });
 
   // 1S + 1F = 50% but only 2 requests (below minimum of 4)
@@ -159,7 +159,7 @@ Ende.test("CircuitBreaker.execute() stays closed when rate is below threshold", 
     failureRateThreshold: 0.5,
     minimumThroughput: 4,
     windowMs: 60_000,
-    segmentsPerWindow: 1,
+    segmentsPerWindow: 1
   });
 
   await succeedN(breaker, 3);
@@ -171,14 +171,14 @@ Ende.test("CircuitBreaker.execute() throws CircuitBreakerOpenError when open", a
   const breaker = new CircuitBreaker({
     failureRateThreshold: 1,
     minimumThroughput: 1,
-    cooldownMs: 30_000,
+    cooldownMs: 30_000
   });
 
   await failN(breaker, 1);
   const err = await assertRejects(
     () => breaker.execute(() => Promise.resolve("ignored")),
     CircuitBreakerOpenError,
-    "Circuit breaker is open: retry after",
+    "Circuit breaker is open: retry after"
   );
   assert(err.remainingCooldownMs > 0);
 });
@@ -194,7 +194,7 @@ Ende.test("CircuitBreaker.execute() evicts old failures as segments rotate", asy
     failureRateThreshold: 0.5,
     minimumThroughput: 2,
     windowMs: 1000,
-    segmentsPerWindow: 2,
+    segmentsPerWindow: 2
   });
 
   // 1 failure (below minimum)
@@ -213,13 +213,13 @@ Ende.test("CircuitBreaker.execute() evicts old failures as segments rotate", asy
 Ende.test("CircuitBreaker.execute() tracks segment rotation with onFailure counts", async () => {
   using time = new FakeTime();
 
-  const failures: Array<{ count: number; total: number }> = [];
+  const failures: Array<{ count: number; total: number; }> = [];
   const breaker = new CircuitBreaker({
     failureRateThreshold: 0.8,
     minimumThroughput: 3,
     windowMs: 1000,
     segmentsPerWindow: 2,
-    onFailure: (_error, count, total) => failures.push({ count, total }),
+    onFailure: (_error, count, total) => failures.push({ count, total })
   });
 
   // 2 failures in first segment
@@ -253,7 +253,7 @@ Ende.test("CircuitBreaker.execute() transitions open -> half_open -> closed afte
     minimumThroughput: 1,
     cooldownMs: 1000,
     successThreshold: 2,
-    onStateChange: (from, to) => transitions.push([from, to]),
+    onStateChange: (from, to) => transitions.push([from, to])
   });
 
   await failN(breaker, 1);
@@ -272,7 +272,7 @@ Ende.test("CircuitBreaker.execute() transitions open -> half_open -> closed afte
   assertEquals(transitions, [
     ["closed", "open"],
     ["open", "half_open"],
-    ["half_open", "closed"],
+    ["half_open", "closed"]
   ]);
 });
 
@@ -284,7 +284,7 @@ Ende.test("CircuitBreaker.state resolves time-based transitions lazily", async (
     failureRateThreshold: 1,
     minimumThroughput: 1,
     cooldownMs: 1000,
-    onStateChange: (from, to) => transitions.push([from, to]),
+    onStateChange: (from, to) => transitions.push([from, to])
   });
 
   await failN(breaker, 1);
@@ -305,7 +305,7 @@ Ende.test("CircuitBreaker.execute() reopens from half_open on failure", async ()
   const breaker = new CircuitBreaker({
     failureRateThreshold: 1,
     minimumThroughput: 1,
-    cooldownMs: 1000,
+    cooldownMs: 1000
   });
 
   await failN(breaker, 1);
@@ -326,7 +326,7 @@ Ende.test("CircuitBreaker.execute() resets consecutive successes on half_open fa
     minimumThroughput: 1,
     cooldownMs: 1000,
     successThreshold: 2,
-    halfOpenMaxConcurrent: 3,
+    halfOpenMaxConcurrent: 3
   });
 
   await failN(breaker, 1);
@@ -355,7 +355,7 @@ Ende.test("CircuitBreaker.execute() transitions immediately with cooldownMs 0", 
     failureRateThreshold: 1,
     minimumThroughput: 1,
     cooldownMs: 0,
-    successThreshold: 1,
+    successThreshold: 1
   });
 
   await failN(breaker, 1);
@@ -377,7 +377,7 @@ Ende.test("CircuitBreaker.execute() limits concurrent requests in half_open", as
     minimumThroughput: 1,
     cooldownMs: 1000,
     halfOpenMaxConcurrent: 1,
-    successThreshold: 2,
+    successThreshold: 2
   });
 
   await failN(breaker, 1);
@@ -386,15 +386,15 @@ Ende.test("CircuitBreaker.execute() limits concurrent requests in half_open", as
   let resolveFirst: (() => void) | undefined;
   const firstPromise = breaker.execute(
     () =>
-      new Promise<string>((resolve) => {
+      new Promise<string>(resolve => {
         resolveFirst = () => resolve("first");
-      }),
+      })
   );
 
   // Second request exceeds concurrency limit — rejected with remainingCooldownMs 0
   const err = await assertRejects(
     () => breaker.execute(() => Promise.resolve("second")),
-    CircuitBreakerOpenError,
+    CircuitBreakerOpenError
   );
   assertEquals(err.remainingCooldownMs, 0);
 
@@ -410,7 +410,7 @@ Ende.test("CircuitBreaker.execute() frees half_open concurrency slot on failure"
     minimumThroughput: 1,
     cooldownMs: 1000,
     halfOpenMaxConcurrent: 1,
-    successThreshold: 1,
+    successThreshold: 1
   });
 
   await failN(breaker, 1);
@@ -438,25 +438,27 @@ Ende.test("CircuitBreaker.execute() counts a request in the same window segment 
     minimumThroughput: 1,
     windowMs: 1000,
     segmentsPerWindow: 10,
-    onFailure: (_error, failures, requests) =>
-      samples.push([failures, requests]),
+    onFailure: (_error, failures, requests) => samples.push([failures, requests])
   });
 
   const rejects: ((err: Error) => void)[] = [];
   const pending = [0, 1].map(() =>
-    breaker.execute(
-      () =>
-        new Promise<string>((_r, rej) => {
-          rejects.push(rej);
-        }),
-    ).catch(() => {})
+    breaker
+      .execute(
+        () =>
+          new Promise<string>((_r, rej) => {
+            rejects.push(rej);
+          })
+      )
+      .catch(() => {})
   );
 
   // The whole window expires, then a fresh request rotates the counters.
   time.tick(1500);
   await breaker.execute(() => Promise.resolve("ok"));
 
-  for (const reject of rejects) reject(new Error("late"));
+  for (const reject of rejects)
+    reject(new Error("late"));
   await Promise.all(pending);
 
   assertEquals(samples, [[1, 2], [2, 3]]);
@@ -470,18 +472,20 @@ Ende.test("CircuitBreaker.execute() evicts expired history before evaluating a d
     failureRateThreshold: 0.5,
     minimumThroughput: 2,
     windowMs: 1000,
-    segmentsPerWindow: 10,
+    segmentsPerWindow: 10
   });
 
   await failN(breaker, 1);
 
   let reject: ((err: Error) => void) | undefined;
-  const pending = breaker.execute(
-    () =>
-      new Promise<string>((_r, rej) => {
-        reject = rej;
-      }),
-  ).catch(() => {});
+  const pending = breaker
+    .execute(
+      () =>
+        new Promise<string>((_r, rej) => {
+          reject = rej;
+        })
+    )
+    .catch(() => {});
 
   // The earlier failure falls out of the window before this one completes.
   time.tick(5000);
@@ -499,7 +503,7 @@ Ende.test("CircuitBreaker.execute() prevents stale half_open success from closin
     minimumThroughput: 1,
     cooldownMs: 1000,
     halfOpenMaxConcurrent: 2,
-    successThreshold: 1,
+    successThreshold: 1
   });
 
   await failN(breaker, 1);
@@ -510,15 +514,15 @@ Ende.test("CircuitBreaker.execute() prevents stale half_open success from closin
 
   const promiseA = breaker.execute(
     () =>
-      new Promise<string>((r) => {
+      new Promise<string>(r => {
         resolveA = () => r("ok");
-      }),
+      })
   );
   const promiseB = breaker.execute(
     () =>
       new Promise<string>((_r, rej) => {
-        rejectB = (e) => rej(e);
-      }),
+        rejectB = e => rej(e);
+      })
   );
 
   // B fails first — reopens circuit
@@ -541,7 +545,7 @@ Ende.test("CircuitBreaker.execute() ignores success from a request admitted in a
     minimumThroughput: 1,
     cooldownMs: 1000,
     halfOpenMaxConcurrent: 1,
-    successThreshold: 1,
+    successThreshold: 1
   });
 
   await failN(breaker, 1);
@@ -551,9 +555,9 @@ Ende.test("CircuitBreaker.execute() ignores success from a request admitted in a
   let resolveStale: (() => void) | undefined;
   const stale = breaker.execute(
     () =>
-      new Promise<string>((r) => {
+      new Promise<string>(r => {
         resolveStale = () => r("ok");
-      }),
+      })
   );
 
   breaker.forceOpen();
@@ -572,7 +576,7 @@ Ende.test("CircuitBreaker.execute() does not release half_open capacity for a re
     minimumThroughput: 1,
     cooldownMs: 1000,
     halfOpenMaxConcurrent: 1,
-    successThreshold: 5,
+    successThreshold: 5
   });
 
   await failN(breaker, 1);
@@ -582,9 +586,9 @@ Ende.test("CircuitBreaker.execute() does not release half_open capacity for a re
   let resolveStale: (() => void) | undefined;
   const stale = breaker.execute(
     () =>
-      new Promise<string>((r) => {
+      new Promise<string>(r => {
         resolveStale = () => r("ok");
-      }),
+      })
   );
 
   breaker.forceOpen();
@@ -594,9 +598,9 @@ Ende.test("CircuitBreaker.execute() does not release half_open capacity for a re
   let resolveProbe: (() => void) | undefined;
   const probe = breaker.execute(
     () =>
-      new Promise<string>((r) => {
+      new Promise<string>(r => {
         resolveProbe = () => r("ok");
-      }),
+      })
   );
 
   resolveStale?.();
@@ -605,7 +609,7 @@ Ende.test("CircuitBreaker.execute() does not release half_open capacity for a re
   // The new period's single slot is still taken by `probe`.
   await assertRejects(
     () => breaker.execute(() => Promise.resolve("ok")),
-    CircuitBreakerOpenError,
+    CircuitBreakerOpenError
   );
 
   resolveProbe?.();
@@ -624,7 +628,7 @@ Ende.test("CircuitBreaker.execute() fires callbacks once when concurrent half_op
     cooldownMs: 1000,
     halfOpenMaxConcurrent: 2,
     onStateChange: (from, to) => transitions.push([from, to]),
-    onOpen: () => openCallCount++,
+    onOpen: () => openCallCount++
   });
 
   await failN(breaker, 1);
@@ -636,14 +640,14 @@ Ende.test("CircuitBreaker.execute() fires callbacks once when concurrent half_op
   const promiseA = breaker.execute(
     () =>
       new Promise<string>((_r, rej) => {
-        rejectA = (e) => rej(e);
-      }),
+        rejectA = e => rej(e);
+      })
   );
   const promiseB = breaker.execute(
     () =>
       new Promise<string>((_r, rej) => {
-        rejectB = (e) => rej(e);
-      }),
+        rejectB = e => rej(e);
+      })
   );
 
   rejectA?.(new Error("fail A"));
@@ -658,9 +662,10 @@ Ende.test("CircuitBreaker.execute() fires callbacks once when concurrent half_op
 
   assertEquals(breaker.state, "open");
   assertEquals(
-    transitions.filter(([from, to]) => from === "half_open" && to === "open")
+    transitions
+      .filter(([from, to]) => from === "half_open" && to === "open")
       .length,
-    1,
+    1
   );
   assertEquals(openCallCount, 2); // 1 initial trip + 1 half_open reopen
 });
@@ -674,8 +679,8 @@ Ende.test("CircuitBreaker.execute() filters errors with isFailure predicate", as
   const breaker = new CircuitBreaker({
     failureRateThreshold: 0.5,
     minimumThroughput: 1,
-    isFailure: (error) => !(error instanceof TypeError),
-    onFailure: (error) => failures.push(error),
+    isFailure: error => !(error instanceof TypeError),
+    onFailure: error => failures.push(error)
   });
 
   // TypeError is excluded — not counted as failure, but still a request
@@ -698,8 +703,8 @@ Ende.test("CircuitBreaker.execute() counts results as failures via isResultFailu
   const breaker = new CircuitBreaker<number>({
     failureRateThreshold: 0.5,
     minimumThroughput: 1,
-    isResultFailure: (result) => result < 0,
-    onFailure: (error) => failures.push(error),
+    isResultFailure: result => result < 0,
+    onFailure: error => failures.push(error)
   });
 
   // Positive result — not a failure
@@ -722,7 +727,7 @@ Ende.test("CircuitBreaker.execute() reopens circuit via isResultFailure in half_
     failureRateThreshold: 1,
     minimumThroughput: 1,
     cooldownMs: 1000,
-    isResultFailure: (result) => result < 0,
+    isResultFailure: result => result < 0
   });
 
   try {
@@ -754,17 +759,17 @@ Ende.test("CircuitBreaker.execute() isolates isFailure predicate errors and stil
     const breaker = new CircuitBreaker({
       isFailure: () => {
         throw predicateError;
-      },
+      }
     });
 
     const originalError = new Error("service down");
     await assertRejects(
       () => breaker.execute(() => Promise.reject(originalError)),
       Error,
-      "service down",
+      "service down"
     );
 
-    await new Promise<void>((resolve) => queueMicrotask(resolve));
+    await new Promise<void>(resolve => queueMicrotask(resolve));
     assertEquals(asyncErrors.length, 1);
     assertEquals(asyncErrors[0], predicateError);
   } finally {
@@ -786,13 +791,13 @@ Ende.test("CircuitBreaker.execute() isolates isResultFailure predicate errors an
     const breaker = new CircuitBreaker<string>({
       isResultFailure: () => {
         throw predicateError;
-      },
+      }
     });
 
     const result = await breaker.execute(() => Promise.resolve("ok"));
     assertEquals(result, "ok");
 
-    await new Promise<void>((resolve) => queueMicrotask(resolve));
+    await new Promise<void>(resolve => queueMicrotask(resolve));
     assertEquals(asyncErrors.length, 1);
     assertEquals(asyncErrors[0], predicateError);
   } finally {
@@ -808,13 +813,13 @@ Ende.test("CircuitBreaker.forceOpen() opens the circuit from any state", () => {
   using time = new FakeTime();
 
   const transitions: Array<[CircuitState, CircuitState]> = [];
-  const openCalls: Array<{ failures: number; total: number }> = [];
+  const openCalls: Array<{ failures: number; total: number; }> = [];
   const breaker = new CircuitBreaker({
     failureRateThreshold: 1,
     minimumThroughput: 1,
     cooldownMs: 1000,
     onStateChange: (from, to) => transitions.push([from, to]),
-    onOpen: (failures, total) => openCalls.push({ failures, total }),
+    onOpen: (failures, total) => openCalls.push({ failures, total })
   });
 
   // From closed
@@ -834,7 +839,7 @@ Ende.test("CircuitBreaker.forceOpen() opens the circuit from any state", () => {
   assertEquals(transitions, [
     ["closed", "open"],
     ["open", "half_open"],
-    ["half_open", "open"],
+    ["half_open", "open"]
   ]);
 });
 
@@ -848,7 +853,7 @@ Ende.test("CircuitBreaker.forceClose() closes the circuit from any state", async
     minimumThroughput: 1,
     cooldownMs: 1000,
     onStateChange: (from, to) => transitions.push([from, to]),
-    onClose: () => closeCalled++,
+    onClose: () => closeCalled++
   });
 
   // From closed — no callback
@@ -877,7 +882,7 @@ Ende.test("CircuitBreaker.reset() silently resets without invoking callbacks", a
     failureRateThreshold: 1,
     minimumThroughput: 1,
     onStateChange: (from, to) => transitions.push([from, to]),
-    onClose: () => closeCalled = true,
+    onClose: () => closeCalled = true
   });
 
   await failN(breaker, 1);
@@ -894,13 +899,13 @@ Ende.test("CircuitBreaker.reset() silently resets without invoking callbacks", a
 // ---------------------------------------------------------------------------
 
 Ende.test("CircuitBreaker.execute() invokes onFailure with correct counts", async () => {
-  const failures: Array<{ error: unknown; count: number; total: number }> = [];
+  const failures: Array<{ error: unknown; count: number; total: number; }> = [];
   const breaker = new CircuitBreaker({
     failureRateThreshold: 1,
     minimumThroughput: 10,
     windowMs: 60_000,
     segmentsPerWindow: 1,
-    onFailure: (error, count, total) => failures.push({ error, count, total }),
+    onFailure: (error, count, total) => failures.push({ error, count, total })
   });
 
   const err1 = new Error("fail1");
@@ -914,18 +919,18 @@ Ende.test("CircuitBreaker.execute() invokes onFailure with correct counts", asyn
 
   assertEquals(failures, [
     { error: err1, count: 1, total: 1 },
-    { error: err2, count: 2, total: 2 },
+    { error: err2, count: 2, total: 2 }
   ]);
 });
 
 Ende.test("CircuitBreaker.execute() invokes onOpen with failure counts", async () => {
-  const openCalls: Array<{ failures: number; total: number }> = [];
+  const openCalls: Array<{ failures: number; total: number; }> = [];
   const breaker = new CircuitBreaker({
     failureRateThreshold: 0.5,
     minimumThroughput: 2,
     windowMs: 60_000,
     segmentsPerWindow: 1,
-    onOpen: (failures, total) => openCalls.push({ failures, total }),
+    onOpen: (failures, total) => openCalls.push({ failures, total })
   });
 
   await failN(breaker, 2);
@@ -943,7 +948,7 @@ Ende.test("CircuitBreaker.execute() invokes onHalfOpen and onClose callbacks", a
     cooldownMs: 1000,
     successThreshold: 1,
     onHalfOpen: () => halfOpenCalled = true,
-    onClose: () => closeCalled = true,
+    onClose: () => closeCalled = true
   });
 
   await failN(breaker, 1);
@@ -973,7 +978,7 @@ Ende.test("CircuitBreaker.execute() rejects immediately if signal already aborte
         return Promise.resolve("ignored");
       }, { signal: controller.signal }),
     DOMException,
-    "aborted",
+    "aborted"
   );
 
   assertEquals(fnCalled, false);
@@ -1000,17 +1005,17 @@ Ende.test("CircuitBreaker callbacks that throw are reported asynchronously witho
       minimumThroughput: 1,
       onFailure: () => {
         throw callbackError;
-      },
+      }
     });
 
     const originalError = new Error("service down");
     await assertRejects(
       () => breaker.execute(() => Promise.reject(originalError)),
       Error,
-      "service down",
+      "service down"
     );
 
-    await new Promise<void>((resolve) => queueMicrotask(resolve));
+    await new Promise<void>(resolve => queueMicrotask(resolve));
 
     assertEquals(breaker.state, "open");
     assertEquals(asyncErrors.length, 1);
@@ -1034,11 +1039,11 @@ Ende.test("CircuitBreaker onStateChange that throws is reported asynchronously",
     const breaker = new CircuitBreaker({
       onStateChange: () => {
         throw callbackError;
-      },
+      }
     });
 
     breaker.forceOpen();
-    await new Promise<void>((resolve) => queueMicrotask(resolve));
+    await new Promise<void>(resolve => queueMicrotask(resolve));
 
     assertEquals(breaker.state, "open");
     assertEquals(asyncErrors.length, 1);

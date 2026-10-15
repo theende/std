@@ -10,14 +10,14 @@ Ende.test("D2Array constructor - width/height overload", () => {
   assertEquals(arr.initialValue, "test");
   assertEquals(arr.raw, [
     ["test", "test", "test"],
-    ["test", "test", "test"],
+    ["test", "test", "test"]
   ]);
 });
 
 Ende.test("D2Array constructor - array overload", () => {
   const input = [
     [1, 2, 3],
-    [4, 5, 6],
+    [4, 5, 6]
   ];
   const arr = new D2Array(input, 0);
   assertEquals(arr.width, 3);
@@ -25,7 +25,7 @@ Ende.test("D2Array constructor - array overload", () => {
   assertEquals(arr.initialValue, 0);
   assertEquals(arr.raw, [
     [1, 2, 3],
-    [4, 5, 6],
+    [4, 5, 6]
   ]);
 });
 
@@ -45,7 +45,7 @@ Ende.test("D2Array width and height getters", () => {
     [1, 2],
     [3, 4],
     [5, 6],
-    [7, 8],
+    [7, 8]
   ], 0);
   assertEquals(arr2.width, 2);
   assertEquals(arr2.height, 4);
@@ -55,7 +55,7 @@ Ende.test("D2Array slice - default parameters", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
-    [7, 8, 9],
+    [7, 8, 9]
   ], 0);
   const slice = arr.slice();
   assertEquals(slice.width, 3);
@@ -63,7 +63,7 @@ Ende.test("D2Array slice - default parameters", () => {
   assertEquals(slice.raw, [
     [1, 2, 3],
     [4, 5, 6],
-    [7, 8, 9],
+    [7, 8, 9]
   ]);
 });
 
@@ -71,14 +71,14 @@ Ende.test("D2Array slice - with coordinates and dimensions", () => {
   const arr = new D2Array([
     [1, 2, 3, 4],
     [5, 6, 7, 8],
-    [9, 10, 11, 12],
+    [9, 10, 11, 12]
   ], 0);
   const slice = arr.slice(1, 1, 2, 2);
   assertEquals(slice.width, 2);
   assertEquals(slice.height, 2);
   assertEquals(slice.raw, [
     [6, 7],
-    [10, 11],
+    [10, 11]
   ]);
 });
 
@@ -86,19 +86,19 @@ Ende.test("D2Array slice - partial dimensions", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
-    [7, 8, 9],
+    [7, 8, 9]
   ], 0);
   const slice1 = arr.slice(1, 0);
   assertEquals(slice1.raw, [
     [2, 3],
     [5, 6],
-    [8, 9],
+    [8, 9]
   ]);
 
   const slice2 = arr.slice(0, 1, 2);
   assertEquals(slice2.raw, [
     [4, 5],
-    [7, 8],
+    [7, 8]
   ]);
 });
 
@@ -115,21 +115,21 @@ Ende.test("D2Array resize - shrink both dimensions", () => {
   const arr = new D2Array([
     [1, 2, 3, 4],
     [5, 6, 7, 8],
-    [9, 10, 11, 12],
+    [9, 10, 11, 12]
   ], 0);
   arr.resize(2, 2);
   assertEquals(arr.width, 2);
   assertEquals(arr.height, 2);
   assertEquals(arr.raw, [
     [1, 2],
-    [5, 6],
+    [5, 6]
   ]);
 });
 
 Ende.test("D2Array resize - grow both dimensions", () => {
   const arr = new D2Array([
     [1, 2],
-    [3, 4],
+    [3, 4]
   ], 0);
   arr.resize(4, 3);
   assertEquals(arr.width, 4);
@@ -137,7 +137,7 @@ Ende.test("D2Array resize - grow both dimensions", () => {
   assertEquals(arr.raw, [
     [1, 2, 0, 0],
     [3, 4, 0, 0],
-    [0, 0, 0, 0],
+    [0, 0, 0, 0]
   ]);
 });
 
@@ -145,7 +145,7 @@ Ende.test("D2Array resize - mixed grow/shrink", () => {
   const arr = new D2Array([
     [1, 2, 3],
     [4, 5, 6],
-    [7, 8, 9],
+    [7, 8, 9]
   ], -1);
   arr.resize(2, 4);
   assertEquals(arr.width, 2);
@@ -154,7 +154,7 @@ Ende.test("D2Array resize - mixed grow/shrink", () => {
     [1, 2],
     [4, 5],
     [7, 8],
-    [-1, -1],
+    [-1, -1]
   ]);
 });
 
@@ -173,7 +173,7 @@ Ende.test("D2Array insert - with D2Array", () => {
     [false, true, true, true, false],
     [false, true, true, true, false],
     [false, true, true, true, false],
-    [false, false, false, false, false],
+    [false, false, false, false, false]
   ]);
 });
 
@@ -181,14 +181,14 @@ Ende.test("D2Array insert - with regular array", () => {
   const arr = new D2Array(4, 4, 0);
   const insert = [
     [1, 2],
-    [3, 4],
+    [3, 4]
   ];
   arr.insert(1, 1, insert);
   assertEquals(arr.raw, [
     [0, 0, 0, 0],
     [0, 1, 2, 0],
     [0, 3, 4, 0],
-    [0, 0, 0, 0],
+    [0, 0, 0, 0]
   ]);
 });
 
@@ -198,13 +198,13 @@ Ende.test("D2Array insert - out of bounds clipping", () => {
     [1, 2, 3, 4],
     [5, 6, 7, 8],
     [9, 10, 11, 12],
-    [13, 14, 15, 16],
+    [13, 14, 15, 16]
   ];
   arr.insert(1, 1, insert);
   assertEquals(arr.raw, [
     [0, 0, 0],
     [0, 1, 2],
-    [0, 5, 6],
+    [0, 5, 6]
   ]);
 });
 
@@ -212,13 +212,13 @@ Ende.test("D2Array insert - at origin", () => {
   const arr = new D2Array(3, 3, 0);
   const insert = [
     [1, 2],
-    [3, 4],
+    [3, 4]
   ];
   arr.insert(0, 0, insert);
   assertEquals(arr.raw, [
     [1, 2, 0],
     [3, 4, 0],
-    [0, 0, 0],
+    [0, 0, 0]
   ]);
 });
 
@@ -226,7 +226,7 @@ Ende.test("D2Array iterator functionality", () => {
   const arr = new D2Array([
     [1, 2],
     [3, 4],
-    [5, 6],
+    [5, 6]
   ], 0);
 
   const rows = [];
@@ -237,20 +237,20 @@ Ende.test("D2Array iterator functionality", () => {
   assertEquals(rows, [
     [1, 2],
     [3, 4],
-    [5, 6],
+    [5, 6]
   ]);
 });
 
 Ende.test("D2Array iterator with spread operator", () => {
   const arr = new D2Array([
     ["a", "b"],
-    ["c", "d"],
+    ["c", "d"]
   ], "");
 
   const rows = [...arr];
   assertEquals(rows, [
     ["a", "b"],
-    ["c", "d"],
+    ["c", "d"]
   ]);
 });
 
@@ -264,7 +264,7 @@ Ende.test("D2Array slice - edge cases", () => {
 Ende.test("D2Array array constructor maintains independence", () => {
   const original = [
     [1, 2],
-    [3, 4],
+    [3, 4]
   ];
   const arr = new D2Array(original, 0);
 
@@ -275,7 +275,7 @@ Ende.test("D2Array array constructor maintains independence", () => {
 Ende.test("D2Array slice creates independent copy", () => {
   const arr = new D2Array([
     [1, 2, 3],
-    [4, 5, 6],
+    [4, 5, 6]
   ], 0);
 
   const slice = arr.slice(0, 0, 2, 2);
@@ -292,6 +292,6 @@ Ende.test("D2Array insert with coordinates beyond array bounds", () => {
   assertEquals(arr.raw, [
     [0, 0, 0],
     [0, 0, 0],
-    [0, 0, 0],
+    [0, 0, 0]
   ]);
 });

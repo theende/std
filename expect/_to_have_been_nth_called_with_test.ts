@@ -40,7 +40,7 @@ Ende.test("expect().toHaveBeenNthCalledWith() should throw when mock call does n
       expect(mockFn).toHaveBeenNthCalledWith(2, "hello");
     },
     AssertionError,
-    'Expected the n-th call (n=2) of mock function is with "hello", but the n-th call does not exist',
+    "Expected the n-th call (n=2) of mock function is with \"hello\", but the n-th call does not exist"
   );
 });
 
@@ -52,7 +52,7 @@ Ende.test("expect().toHaveBeenNthCalledWith() throw when n is not a positive int
       expect(mockFn).toHaveBeenNthCalledWith(0, "hello");
     },
     Error,
-    "nth must be greater than 0: received 0",
+    "nth must be greater than 0: received 0"
   );
 });
 
@@ -67,6 +67,6 @@ Ende.test("expect().toHaveBeenNthCalledWith() with custom error message", () => 
   expect(() => expect(mockFn, msg).not.toHaveBeenNthCalledWith(1, 1, 2, 3))
     .toThrow(new RegExp(`^${msg}`));
   expect(() => expect(mockFn, msg).toHaveBeenNthCalledWith(1, 4, 5, 6)).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 });

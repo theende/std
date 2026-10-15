@@ -8,11 +8,11 @@ import {
   formatRange,
   greaterThanRange,
   parse,
-  parseRange,
+  parseRange
 } from "./mod.ts";
 import type { Operator } from "./types.ts";
 
-Ende.test("greaterThanRange() checks if the semver is greater than the range", async (t) => {
+Ende.test("greaterThanRange() checks if the semver is greater than the range", async t => {
   // from https://github.com/npm/node-semver/blob/692451bd6f75b38a71a99f39da405c94a5954a22/test/fixtures/version-gt-range.js
   const versionGtRange = [
     ["~1.2.2", "1.3.0"],
@@ -66,7 +66,7 @@ Ende.test("greaterThanRange() checks if the semver is greater than the range", a
     ["<1", "1.0.0"],
     ["=0.7.x", "0.8.2"],
     ["<0.7.x", "0.7.2"],
-    ["=0.1.0", "1.0.0"],
+    ["=0.1.0", "1.0.0"]
   ] as const;
 
   for (const [range, version] of versionGtRange) {
@@ -156,15 +156,13 @@ Ende.test("greaterThanRange() checks if the semver is greater than the range", a
     ["^1.0.0 || ~2.0.1", "2.0.0"],
     ["^0.1.0 || ~3.0.1 || 5.0.0", "3.2.0"],
     ["^0.1.0 || ~3.0.1 || 5.0.0", "5.0.0-0", true],
-    ["^0.1.0 || ~3.0.1 || >4 <=5.0.0", "3.5.0"],
+    ["^0.1.0 || ~3.0.1 || >4 <=5.0.0", "3.5.0"]
   ] as const;
 
   for (const [range, version] of versionNotGtRange) {
     const v = parse(version);
     const r = parseRange(range);
-    const testName = `${format(v)} should not be greater than ${
-      formatRange(r)
-    }`;
+    const testName = `${format(v)} should not be greater than ${formatRange(r)}`;
     await t.step(testName, () => {
       assertFalse(greaterThanRange(v, r), testName);
     });
@@ -177,7 +175,7 @@ Ende.test("greaterThanRange() handles equals operator", () => {
     minor: 0,
     patch: 0,
     prerelease: [],
-    build: [],
+    build: []
   };
   const range = [[{
     operator: "=" as Operator,
@@ -185,7 +183,7 @@ Ende.test("greaterThanRange() handles equals operator", () => {
     minor: 0,
     patch: 0,
     prerelease: [],
-    build: [],
+    build: []
   }]];
   assertEquals(greaterThanRange(version, range), false);
 });
@@ -196,7 +194,7 @@ Ende.test("greaterThanRange() handles not equals operator", () => {
     minor: 0,
     patch: 0,
     prerelease: [],
-    build: [],
+    build: []
   };
   const range = [[{
     operator: "!=" as const,
@@ -204,7 +202,7 @@ Ende.test("greaterThanRange() handles not equals operator", () => {
     minor: 0,
     patch: 0,
     prerelease: [],
-    build: [],
+    build: []
   }]];
   assertEquals(greaterThanRange(version, range), false);
 });

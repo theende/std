@@ -39,10 +39,12 @@ function sanitizeInput(input: string) {
 
   if (input.length > 0) {
     // Add trailing `\n` if not exists
-    if (!isEOL(input.charCodeAt(input.length - 1))) input += "\n";
+    if (!isEOL(input.charCodeAt(input.length - 1)))
+      input += "\n";
 
     // Strip BOM
-    if (input.charCodeAt(0) === 0xfeff) input = input.slice(1);
+    if (input.charCodeAt(0) === 0xfeff)
+      input = input.slice(1);
   }
 
   return input;
@@ -74,12 +76,12 @@ function sanitizeInput(input: string) {
  */
 export function parse(
   content: string,
-  options: ParseOptions = {},
+  options: ParseOptions = {}
 ): unknown {
   content = sanitizeInput(content);
   const state = new LoaderState(content, {
     ...options,
-    schema: SCHEMA_MAP.get(options.schema!)!,
+    schema: SCHEMA_MAP.get(options.schema!)!
   });
   const documents = state.readDocuments({ singleDocument: true });
   const document = documents.next().value;
@@ -117,12 +119,12 @@ export function parse(
  */
 export function parseAll(
   content: string,
-  options: ParseOptions = {},
+  options: ParseOptions = {}
 ): unknown[] {
   content = sanitizeInput(content);
   const state = new LoaderState(content, {
     ...options,
-    schema: SCHEMA_MAP.get(options.schema!)!,
+    schema: SCHEMA_MAP.get(options.schema!)!
   });
   return [...state.readDocuments()];
 }

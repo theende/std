@@ -37,7 +37,7 @@
  */
 export function filterValues<T>(
   record: Readonly<Record<string, T>>,
-  predicate: (value: T) => boolean,
+  predicate: (value: T) => boolean
 ): Record<string, T> {
   const result: Record<string, T> = {};
   const entries = Object.entries(record);

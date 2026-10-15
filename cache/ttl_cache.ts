@@ -91,8 +91,7 @@ export interface TtlCacheOptions<K, V> {
  * assertEquals(cache.get("a"), undefined); // expired
  * ```
  */
-export class TtlCache<K, V> extends Map<K, V>
-  implements MemoizationCache<K, V> {
+export class TtlCache<K, V> extends Map<K, V> implements MemoizationCache<K, V> {
   #defaultTtl: number;
   #timeouts = new Map();
   #eject?: ((ejectedKey: K, ejectedValue: V) => void) | undefined;
@@ -112,12 +111,12 @@ export class TtlCache<K, V> extends Map<K, V>
    */
   constructor(
     defaultTtl: number,
-    options?: TtlCacheOptions<K, V>,
+    options?: TtlCacheOptions<K, V>
   ) {
     super();
     if (!(defaultTtl >= 0) || !Number.isFinite(defaultTtl)) {
       throw new RangeError(
-        `Cannot create TtlCache: defaultTtl must be a finite, non-negative number: received ${defaultTtl}`,
+        `Cannot create TtlCache: defaultTtl must be a finite, non-negative number: received ${defaultTtl}`
       );
     }
     this.#defaultTtl = defaultTtl;
@@ -157,30 +156,31 @@ export class TtlCache<K, V> extends Map<K, V>
   override set(
     key: K,
     value: V,
-    options?: TtlCacheSetOptions,
+    options?: TtlCacheSetOptions
   ): this {
     if (options?.absoluteExpiration !== undefined && !this.#slidingExpiration) {
       throw new TypeError(
-        "Cannot set entry in TtlCache: absoluteExpiration requires slidingExpiration to be enabled",
+        "Cannot set entry in TtlCache: absoluteExpiration requires slidingExpiration to be enabled"
       );
     }
 
     const ttl = options?.ttl ?? this.#defaultTtl;
     if (!(ttl >= 0) || !Number.isFinite(ttl)) {
       throw new RangeError(
-        `Cannot set entry in TtlCache: ttl must be a finite, non-negative number: received ${ttl}`,
+        `Cannot set entry in TtlCache: ttl must be a finite, non-negative number: received ${ttl}`
       );
     }
 
     const abs = options?.absoluteExpiration;
     if (abs !== undefined && (!(abs >= 0) || !Number.isFinite(abs))) {
       throw new RangeError(
-        `Cannot set entry in TtlCache: absoluteExpiration must be a finite, non-negative number: received ${abs}`,
+        `Cannot set entry in TtlCache: absoluteExpiration must be a finite, non-negative number: received ${abs}`
       );
     }
 
     const existing = this.#timeouts.get(key);
-    if (existing !== undefined) clearTimeout(existing);
+    if (existing !== undefined)
+      clearTimeout(existing);
     super.set(key, value);
     this.#timeouts.set(key, setTimeout(() => this.delete(key), ttl));
 
@@ -220,8 +220,10 @@ export class TtlCache<K, V> extends Map<K, V>
    * ```
    */
   override get(key: K): V | undefined {
-    if (!super.has(key)) return undefined;
-    if (this.#slidingExpiration) this.#resetTtl(key);
+    if (!super.has(key))
+      return undefined;
+    if (this.#slidingExpiration)
+      this.#resetTtl(key);
     return super.get(key);
   }
 
@@ -261,7 +263,8 @@ export class TtlCache<K, V> extends Map<K, V>
    * ```
    */
   peek(key: K): V | undefined {
-    if (!super.has(key)) return undefined;
+    if (!super.has(key))
+      return undefined;
     return super.get(key);
   }
 
@@ -288,10 +291,12 @@ export class TtlCache<K, V> extends Map<K, V>
   override delete(key: K): boolean {
     const value = super.get(key);
     const existed = super.delete(key);
-    if (!existed) return false;
+    if (!existed)
+      return false;
 
     const timeout = this.#timeouts.get(key);
-    if (timeout !== undefined) clearTimeout(timeout);
+    if (timeout !== undefined)
+      clearTimeout(timeout);
     this.#timeouts.delete(key);
     this.#entryTtls?.delete(key);
     this.#absoluteDeadlines?.delete(key);
@@ -334,7 +339,8 @@ export class TtlCache<K, V> extends Map<K, V>
         error ??= e;
       }
     }
-    if (error !== undefined) throw error;
+    if (error !== undefined)
+      throw error;
   }
 
   /**
@@ -363,18 +369,20 @@ export class TtlCache<K, V> extends Map<K, V>
 
   #resetTtl(key: K): void {
     const ttl = this.#entryTtls!.get(key);
-    if (ttl === undefined) return;
+    if (ttl === undefined)
+      return;
 
     const deadline = this.#absoluteDeadlines!.get(key);
-    const effectiveTtl = deadline !== undefined
-      ? Math.min(ttl, Math.max(0, deadline - Date.now()))
-      : ttl;
+    const effectiveTtl = deadline !== undefined ?
+      Math.min(ttl, Math.max(0, deadline - Date.now())) :
+      ttl;
 
     const existing = this.#timeouts.get(key);
-    if (existing !== undefined) clearTimeout(existing);
+    if (existing !== undefined)
+      clearTimeout(existing);
     this.#timeouts.set(
       key,
-      setTimeout(() => this.delete(key), effectiveTtl),
+      setTimeout(() => this.delete(key), effectiveTtl)
     );
   }
 }

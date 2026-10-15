@@ -64,7 +64,7 @@ Ende.test(
     } finally {
       await Ende.remove(tempDirPath, { recursive: true });
     }
-  },
+  }
 );
 
 Ende.test("copyFileSync() copies content to an existed file", () => {

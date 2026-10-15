@@ -11,10 +11,10 @@ Ende.test({
       ["image/gif", "gif"],
       ["application/javascript", "js"],
       ["text/html; charset=UTF-8", "html"],
-      ["application/foo", undefined],
+      ["application/foo", undefined]
     ];
     for (const [fixture, expected] of fixtures) {
       assertEquals(extension(fixture), expected);
     }
-  },
+  }
 });

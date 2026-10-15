@@ -7,9 +7,7 @@ import { isWildcardComparator } from "./_shared.ts";
 
 function formatComparator(comparator: Comparator): string {
   const { operator } = comparator;
-  return `${operator === undefined ? "" : operator}${
-    isWildcardComparator(comparator) ? "*" : format(comparator)
-  }`;
+  return `${operator === undefined ? "" : operator}${isWildcardComparator(comparator) ? "*" : format(comparator)}`;
 }
 
 /**
@@ -28,6 +26,7 @@ function formatComparator(comparator: Comparator): string {
  * @returns A string representation of the SemVer range
  */
 export function formatRange(range: Range): string {
-  return range.map((c) => c.map((c) => formatComparator(c)).join(" "))
+  return range
+    .map(c => c.map(c => formatComparator(c)).join(" "))
     .join("||");
 }

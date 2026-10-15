@@ -42,7 +42,7 @@ export async function* iterateReader(
   reader: Reader,
   options?: {
     bufSize?: number;
-  },
+  }
 ): AsyncIterableIterator<Uint8Array> {
   const bufSize = options?.bufSize ?? DEFAULT_BUFFER_SIZE;
   const b = new Uint8Array(bufSize);
@@ -100,7 +100,7 @@ export function* iterateReaderSync(
   reader: ReaderSync,
   options?: {
     bufSize?: number;
-  },
+  }
 ): IterableIterator<Uint8Array> {
   const bufSize = options?.bufSize ?? DEFAULT_BUFFER_SIZE;
   const b = new Uint8Array(bufSize);

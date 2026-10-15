@@ -150,7 +150,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    * ```
    */
   override delete(key: K): boolean {
-    if (!super.has(key)) return false;
+    if (!super.has(key))
+      return false;
     const value = super.get(key)!;
     return super.delete(key) && this.#reverseMap.delete(value);
   }
@@ -178,7 +179,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    * ```
    */
   deleteReverse(value: V): boolean {
-    if (!this.#reverseMap.has(value)) return false;
+    if (!this.#reverseMap.has(value))
+      return false;
     const key = this.#reverseMap.get(value)!;
     return super.delete(key) && this.#reverseMap.delete(value);
   }

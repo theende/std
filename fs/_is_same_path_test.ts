@@ -15,7 +15,7 @@ Ende.test({
       ["C:\\test", "C:\\test", true],
       ["C:\\test", "C:\\test\\test", false],
       ["C:\\test", path.toFileUrl("C:\\test"), true],
-      ["C:\\test", path.toFileUrl("C:\\test\\test"), false],
+      ["C:\\test", path.toFileUrl("C:\\test\\test"), false]
     ];
 
     for (const p of pairs) {
@@ -26,10 +26,10 @@ Ende.test({
       assertEquals(
         isSamePath(src, dest),
         expected,
-        `'${src}' should ${expected ? "" : "not"} be the same as '${dest}'`,
+        `'${src}' should ${expected ? "" : "not"} be the same as '${dest}'`
       );
     }
-  },
+  }
 });
 
 Ende.test({
@@ -42,7 +42,7 @@ Ende.test({
       ["/test", "/test/test", false],
       ["/test", "/test/test/..", true],
       ["/test", path.toFileUrl("/test"), true],
-      ["/test", path.toFileUrl("/test/test"), false],
+      ["/test", path.toFileUrl("/test/test"), false]
     ];
 
     for (const p of pairs) {
@@ -53,8 +53,8 @@ Ende.test({
       assertEquals(
         isSamePath(src, dest),
         expected,
-        `'${src}' should ${expected ? "" : "not"} be the same as '${dest}'`,
+        `'${src}' should ${expected ? "" : "not"} be the same as '${dest}'`
       );
     }
-  },
+  }
 });

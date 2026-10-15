@@ -46,7 +46,7 @@
  */
 export function mapNotNullish<T, O>(
   array: Iterable<T>,
-  transformer: (el: T, index: number) => O,
+  transformer: (el: T, index: number) => O
 ): NonNullable<O>[] {
   const result: NonNullable<O>[] = [];
   let index = 0;

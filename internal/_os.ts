@@ -7,6 +7,7 @@ export function checkWindows(): boolean {
 
   // Check the Ende global, then the browser
   const os = global.Ende?.build?.os;
-  if (typeof os === "string") return os === "windows";
+  if (typeof os === "string")
+    return os === "windows";
   return global.navigator?.platform?.startsWith("Win") ?? false;
 }

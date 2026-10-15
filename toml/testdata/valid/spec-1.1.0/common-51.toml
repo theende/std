@@ -2,7 +2,7 @@
 name = "Hammer"
 sku = 738594937
 
-[[product]]  # empty table within the array
+[[product]] # empty table within the array
 
 [[product]]
 name = "Nail"

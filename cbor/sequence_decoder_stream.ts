@@ -14,7 +14,7 @@ export {
   CborArrayDecodedStream,
   CborByteDecodedStream,
   CborMapDecodedStream,
-  CborTextDecodedStream,
+  CborTextDecodedStream
 };
 
 /**
@@ -118,8 +118,7 @@ export {
  * }
  * ```
  */
-export class CborSequenceDecoderStream
-  implements TransformStream<Uint8Array, CborStreamOutput> {
+export class CborSequenceDecoderStream implements TransformStream<Uint8Array, CborStreamOutput> {
   #source: ReadableStreamBYOBReader;
   #readable: ReadableStream<CborStreamOutput>;
   #writable: WritableStream<Uint8Array>;
@@ -133,7 +132,7 @@ export class CborSequenceDecoderStream
     >();
     this.#source = toByteStream(readable).getReader({ mode: "byob" });
     this.#readable = ReadableStream.from<CborStreamOutput>(
-      this.#decodeSequence(),
+      this.#decodeSequence()
     );
     this.#writable = writable;
   }
@@ -141,21 +140,25 @@ export class CborSequenceDecoderStream
   async #read(bytes: number, expectMore: true): Promise<Uint8Array>;
   async #read(
     bytes: number,
-    expectMore: false,
+    expectMore: false
   ): Promise<Uint8Array | undefined>;
   async #read(
     bytes: number,
-    expectMore: boolean,
+    expectMore: boolean
   ): Promise<Uint8Array | undefined> {
-    if (bytes === 0) return new Uint8Array(0);
+    if (bytes === 0)
+      return new Uint8Array(0);
     const { done, value } = await this.#source.read(new Uint8Array(bytes), {
-      min: bytes,
+      min: bytes
     });
     if (done) {
-      if (expectMore) throw new RangeError("More bytes were expected");
-      else return undefined;
+      if (expectMore)
+        throw new RangeError("More bytes were expected");
+      else
+        return undefined;
     }
-    if (value.length < bytes) throw new RangeError("More bytes were expected");
+    if (value.length < bytes)
+      throw new RangeError("More bytes were expected");
     return value;
   }
 
@@ -166,30 +169,32 @@ export class CborSequenceDecoderStream
   }
 
   async *#readDefinite(
-    items: number | bigint,
+    items: number | bigint
   ): AsyncGenerator<CborStreamOutput> {
     items = BigInt(items);
     for (let i = 0n; i < items; ++i) {
       const x = await this.#decode(
-        arrayToNumber((await this.#read(1, true)).buffer, true) as number,
+        arrayToNumber((await this.#read(1, true)).buffer, true) as number
       );
       if (x instanceof Array) {
         yield x[0];
         await x[1];
-      } else yield x;
+      } else
+        yield x;
     }
   }
 
   async *#readIndefinite(
     denyInnerIndefinite: boolean,
-    message?: string,
+    message?: string
   ): AsyncGenerator<CborStreamOutput> {
     while (true) {
       const byte = arrayToNumber(
         (await this.#read(1, true)).buffer,
-        true,
+        true
       ) as number;
-      if (byte === 0b111_11111) break;
+      if (byte === 0b111_11111)
+        break;
       if (denyInnerIndefinite && (byte & 0b000_11111) === 31) {
         throw new TypeError(message);
       }
@@ -197,25 +202,28 @@ export class CborSequenceDecoderStream
       if (x instanceof Array) {
         yield x[0];
         await x[1];
-      } else yield x;
+      } else
+        yield x;
     }
   }
 
   async *#decodeSequence(): AsyncGenerator<CborStreamOutput> {
     while (true) {
       const value = await this.#read(1, false);
-      if (value == undefined) return;
+      if (value == undefined)
+        return;
       // Since `value` is only 1 byte long, it will be of type `number`
       const x = await this.#decode(arrayToNumber(value.buffer, true) as number);
       if (x instanceof Array) {
         yield x[0];
         await x[1];
-      } else yield x;
+      } else
+        yield x;
     }
   }
 
   #decode(
-    byte: number,
+    byte: number
   ): Promise<CborStreamOutput | [CborStreamOutput, lock: Promise<unknown>]> {
     const majorType = byte >> 5;
     const aI = byte & 0b000_11111;
@@ -240,22 +248,23 @@ export class CborSequenceDecoderStream
   }
 
   async #decodeZero(aI: number): Promise<number | bigint> {
-    if (aI < 24) return aI;
+    if (aI < 24)
+      return aI;
     if (aI <= 27) {
       return arrayToNumber(
         (await this.#read(2 ** (aI - 24), true)).buffer,
-        true,
+        true
       );
     }
     throw new RangeError(
-      `Cannot decode value (0b000_${aI.toString(2).padStart(5, "0")})`,
+      `Cannot decode value (0b000_${aI.toString(2).padStart(5, "0")})`
     );
   }
 
   async #decodeOne(aI: number): Promise<number | bigint> {
     if (aI > 27) {
       throw new RangeError(
-        `Cannot decode value (0b001_${aI.toString(2).padStart(5, "0")})`,
+        `Cannot decode value (0b001_${aI.toString(2).padStart(5, "0")})`
       );
     }
     const x = await this.#decodeZero(aI);
@@ -263,109 +272,118 @@ export class CborSequenceDecoderStream
   }
 
   async #decodeTwo(
-    aI: number,
+    aI: number
   ): Promise<Uint8Array | [CborByteDecodedStream, lock: Promise<unknown>]> {
-    if (aI < 24) return await this.#read(aI, true);
+    if (aI < 24)
+      return await this.#read(aI, true);
     if (aI <= 27) {
       const bytes = arrayToNumber(
         (await this.#read(2 ** (aI - 24), true)).buffer,
-        true,
+        true
       );
       if (typeof bytes === "bigint") {
         let releaseLock: ReleaseLock = () => {};
-        const lock = new Promise((x) => releaseLock = x);
+        const lock = new Promise(x => releaseLock = x);
         return [
           new CborByteDecodedStream(this.#readGen(bytes), releaseLock),
-          lock,
+          lock
         ];
-      } else return await this.#read(bytes, true);
+      } else
+        return await this.#read(bytes, true);
     }
     if (aI === 31) {
       let releaseLock: ReleaseLock = () => {};
-      const lock = new Promise((x) => releaseLock = x);
+      const lock = new Promise(x => releaseLock = x);
       return [
         new CborByteDecodedStream(
-          async function* (gen) {
+          async function*(gen) {
             for await (const x of gen) {
-              if (x instanceof Uint8Array) yield x;
+              if (x instanceof Uint8Array)
+                yield x;
               else if (x instanceof CborByteDecodedStream) {
-                for await (const y of x) yield y;
-              } else throw new TypeError("Unexpected type in CBOR byte string");
+                for await (const y of x)
+                  yield y;
+              } else
+                throw new TypeError("Unexpected type in CBOR byte string");
             }
           }(this.#readIndefinite(true, "")),
-          releaseLock,
+          releaseLock
         ),
-        lock,
+        lock
       ];
     }
     throw new RangeError(
-      `Cannot decode value (0b010_${aI.toString(2).padStart(5, "0")})`,
+      `Cannot decode value (0b010_${aI.toString(2).padStart(5, "0")})`
     );
   }
 
   async #decodeThree(
-    aI: number,
+    aI: number
   ): Promise<string | [CborTextDecodedStream, lock: Promise<unknown>]> {
-    if (aI < 24) return new TextDecoder().decode(await this.#read(aI, true));
+    if (aI < 24)
+      return new TextDecoder().decode(await this.#read(aI, true));
     if (aI <= 27) {
       const bytes = arrayToNumber(
         (await this.#read(2 ** (aI - 24), true)).buffer,
-        true,
+        true
       );
       // Strings can't be as long as Uint8Arrays so a lower bound is set before switching to a stream.
       if (bytes > 2 ** 16) {
         let releaseLock: ReleaseLock = () => {};
-        const lock = new Promise((x) => releaseLock = x);
+        const lock = new Promise(x => releaseLock = x);
         return [
           new CborTextDecodedStream(
-            async function* (gen) {
+            async function*(gen) {
               const decoder = new TextDecoder();
               for await (const chunk of gen) {
                 yield decoder.decode(chunk, { stream: true });
               }
             }(this.#readGen(BigInt(bytes))),
-            releaseLock,
+            releaseLock
           ),
-          lock,
+          lock
         ];
       } else {
         return new TextDecoder().decode(
-          await this.#read(Number(bytes), true),
+          await this.#read(Number(bytes), true)
         );
       }
     }
     if (aI === 31) {
       let releaseLock: ReleaseLock = () => {};
-      const lock = new Promise((x) => releaseLock = x);
+      const lock = new Promise(x => releaseLock = x);
       return [
         new CborTextDecodedStream(
-          async function* (gen) {
+          async function*(gen) {
             for await (const x of gen) {
-              if (typeof x === "string") yield x;
+              if (typeof x === "string")
+                yield x;
               else if (x instanceof CborTextDecodedStream) {
-                for await (const y of x) yield y;
-              } else throw new TypeError("Unexpected type in CBOR text string");
+                for await (const y of x)
+                  yield y;
+              } else
+                throw new TypeError("Unexpected type in CBOR text string");
             }
           }(this.#readIndefinite(true, "")),
-          releaseLock,
+          releaseLock
         ),
-        lock,
+        lock
       ];
     }
     throw new RangeError(
-      `Cannot decode value (0b011_${aI.toString(2).padStart(5, "0")})`,
+      `Cannot decode value (0b011_${aI.toString(2).padStart(5, "0")})`
     );
   }
 
   async #decodeFour(
-    aI: number,
+    aI: number
   ): Promise<[CborArrayDecodedStream, lock: Promise<unknown>]> {
     let releaseLock: ReleaseLock = () => {};
-    const lock = new Promise((x) => releaseLock = x);
+    const lock = new Promise(x => releaseLock = x);
     if (aI < 24) {
       return [
         new CborArrayDecodedStream(this.#readDefinite(aI), releaseLock),
-        lock,
+        lock
       ];
     }
     if (aI <= 27) {
@@ -374,45 +392,46 @@ export class CborSequenceDecoderStream
           this.#readDefinite(
             arrayToNumber(
               (await this.#read(2 ** (aI - 24), true)).buffer,
-              true,
-            ),
+              true
+            )
           ),
-          releaseLock,
+          releaseLock
         ),
-        lock,
+        lock
       ];
     }
     if (aI === 31) {
       return [
         new CborArrayDecodedStream(this.#readIndefinite(false), releaseLock),
-        lock,
+        lock
       ];
     }
     releaseLock();
     throw new RangeError(
-      `Cannot decode value (0b100_${aI.toString(2).padStart(5, "0")})`,
+      `Cannot decode value (0b100_${aI.toString(2).padStart(5, "0")})`
     );
   }
 
   async #decodeFive(
-    aI: number,
+    aI: number
   ): Promise<[CborMapDecodedStream, lock: Promise<unknown>]> {
     async function* convert(
-      gen: AsyncGenerator<CborStreamOutput>,
+      gen: AsyncGenerator<CborStreamOutput>
     ): AsyncGenerator<CborMapStreamOutput> {
       while (true) {
         const key = await gen.next();
-        if (key.done) break;
+        if (key.done)
+          break;
         if (typeof key.value !== "string") {
           throw new TypeError(
-            "Cannot parse map key: Only text string map keys are supported",
+            "Cannot parse map key: Only text string map keys are supported"
           );
         }
 
         const value = await gen.next();
         if (value.done) {
           throw new RangeError(
-            "Impossible State: readDefinite | readIndefinite should have thrown an error",
+            "Impossible State: readDefinite | readIndefinite should have thrown an error"
           );
         }
 
@@ -421,14 +440,14 @@ export class CborSequenceDecoderStream
     }
 
     let releaseLock: ReleaseLock = () => {};
-    const lock = new Promise((x) => releaseLock = x);
+    const lock = new Promise(x => releaseLock = x);
     if (aI < 24) {
       return [
         new CborMapDecodedStream(
           convert(this.#readDefinite(aI * 2)),
-          releaseLock,
+          releaseLock
         ),
-        lock,
+        lock
       ];
     }
     if (aI <= 27) {
@@ -438,54 +457,54 @@ export class CborSequenceDecoderStream
             this.#readDefinite(
               arrayToNumber(
                 (await this.#read(2 ** (aI - 24), true)).buffer,
-                true,
-              ),
-            ),
+                true
+              )
+            )
           ),
-          releaseLock,
+          releaseLock
         ),
-        lock,
+        lock
       ];
     }
     if (aI === 31) {
       return [
         new CborMapDecodedStream(
           convert(this.#readIndefinite(false)),
-          releaseLock,
+          releaseLock
         ),
-        lock,
+        lock
       ];
     }
     releaseLock();
     throw new RangeError(
-      `Cannot decode value (0b101_${aI.toString(2).padStart(5, "0")})`,
+      `Cannot decode value (0b101_${aI.toString(2).padStart(5, "0")})`
     );
   }
 
   async #decodeSix(
-    aI: number,
+    aI: number
   ): Promise<
     Date | CborTag<CborStreamOutput> | [
       CborTag<CborStreamOutput>,
-      lock: Promise<unknown>,
+      lock: Promise<unknown>
     ]
   > {
     const tagNumber = await this.#decodeZero(aI);
     const tagContent = await this.#decode(
-      arrayToNumber((await this.#read(1, true)).buffer, true) as number,
+      arrayToNumber((await this.#read(1, true)).buffer, true) as number
     );
     switch (tagNumber) {
       case 0:
         if (typeof tagContent !== "string") {
           throw new TypeError(
-            "Invalid DataItem: Expected text string to follow tag number 0",
+            "Invalid DataItem: Expected text string to follow tag number 0"
           );
         }
         return new Date(tagContent);
       case 1:
         if (typeof tagContent !== "number" && typeof tagContent !== "bigint") {
           throw new TypeError(
-            "Invalid DataItem: Expected integer or float to follow tagNumber 1",
+            "Invalid DataItem: Expected integer or float to follow tagNumber 1"
           );
         }
         return new Date(Number(tagContent) * 1000);
@@ -510,11 +529,11 @@ export class CborSequenceDecoderStream
     if (25 <= aI && aI <= 27) {
       return arrayToNumber(
         (await this.#read(2 ** (aI - 24), true)).buffer,
-        false,
+        false
       );
     }
     throw new RangeError(
-      `Cannot decode value (0b111_${aI.toString(2).padStart(5, "0")})`,
+      `Cannot decode value (0b111_${aI.toString(2).padStart(5, "0")})`
     );
   }
 

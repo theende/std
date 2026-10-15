@@ -22,7 +22,8 @@ import { AssertionError } from "./assertion_error.ts";
  * @param msg The optional message to display if the assertion fails.
  */
 export function assertLess<T>(actual: T, expected: T, msg?: string) {
-  if (actual < expected) return;
+  if (actual < expected)
+    return;
 
   const actualString = format(actual);
   const expectedString = format(expected);

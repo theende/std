@@ -5,23 +5,23 @@ import {
   assertEquals,
   assertMatch,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { fromFileUrl, join, joinGlobs, normalize, relative } from "@ende/path";
 import {
   expandGlob,
-  type ExpandGlobOptions,
   expandGlobSync,
+  type ExpandGlobOptions
 } from "./expand_glob.ts";
 
 async function expandGlobArray(
   globString: string,
   options: ExpandGlobOptions,
-  { forceRoot = "" } = {},
+  { forceRoot = "" } = {}
 ): Promise<string[]> {
   const paths = await Array.fromAsync(
     expandGlob(globString, options),
-    ({ path }) => path,
+    ({ path }) => path
   );
   paths.sort();
   const root = normalize(forceRoot || options.root || Ende.cwd());
@@ -29,7 +29,7 @@ async function expandGlobArray(
     assert(path.startsWith(root));
   }
   const relativePaths = paths.map(
-    (path: string): string => relative(root, path) || ".",
+    (path: string): string => relative(root, path) || "."
   );
   relativePaths.sort();
   return relativePaths;
@@ -38,10 +38,10 @@ async function expandGlobArray(
 function expandGlobSyncArray(
   globString: string,
   options: ExpandGlobOptions,
-  { forceRoot = "" } = {},
+  { forceRoot = "" } = {}
 ): string[] {
   const pathsSync = [...expandGlobSync(globString, options)].map(
-    ({ path }): string => path,
+    ({ path }): string => path
   );
   pathsSync.sort();
   const root = normalize(forceRoot || options.root || Ende.cwd());
@@ -49,7 +49,7 @@ function expandGlobSyncArray(
     assert(path.startsWith(root));
   }
   const relativePaths = pathsSync.map(
-    (path: string): string => relative(root, path) || ".",
+    (path: string): string => relative(root, path) || "."
   );
   relativePaths.sort();
   return relativePaths;
@@ -58,10 +58,10 @@ function expandGlobSyncArray(
 const EG_OPTIONS: ExpandGlobOptions = {
   root: fromFileUrl(new URL(join("testdata", "glob"), import.meta.url)),
   includeDirs: true,
-  extended: false,
+  extended: false
 };
 
-Ende.test("expandGlob() with wildcard input returns all test data", async function () {
+Ende.test("expandGlob() with wildcard input returns all test data", async function() {
   const options = EG_OPTIONS;
   assertEquals(await expandGlobArray("*", options), [
     "a[b]c",
@@ -69,11 +69,11 @@ Ende.test("expandGlob() with wildcard input returns all test data", async functi
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlobSync() with wildcard input returns all test data", function () {
+Ende.test("expandGlobSync() with wildcard input returns all test data", function() {
   const options = EG_OPTIONS;
   assertEquals(expandGlobSyncArray("*", options), [
     "a[b]c",
@@ -81,29 +81,29 @@ Ende.test("expandGlobSync() with wildcard input returns all test data", function
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlob() excludes items in `exclude` option", async function () {
+Ende.test("expandGlob() excludes items in `exclude` option", async function() {
   const options = { ...EG_OPTIONS, exclude: ["abc"] };
   assertEquals(await expandGlobArray("*", options), [
     "a[b]c",
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
   assertEquals(expandGlobSyncArray("*", options), [
     "a[b]c",
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlob() returns empty array if path doesn't exist", async function () {
+Ende.test("expandGlob() returns empty array if path doesn't exist", async function() {
   assertEquals(await expandGlobArray("nonexistent", EG_OPTIONS), []);
   assertEquals(expandGlobSyncArray("nonexistent", EG_OPTIONS), []);
 });
@@ -111,7 +111,7 @@ Ende.test("expandGlob() returns empty array if path doesn't exist", async functi
 Ende.test(
   "expandGlob() throws permission error if the runtime doesn't have read permission",
   { permissions: {} },
-  async function () {
+  async function() {
     {
       await assertRejects(
         async () => {
@@ -119,7 +119,7 @@ Ende.test(
         },
         // deno-lint-ignore no-explicit-any
         (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
-        "run again with the --allow-read flag",
+        "run again with the --allow-read flag"
       );
     }
 
@@ -130,29 +130,29 @@ Ende.test(
         },
         // deno-lint-ignore no-explicit-any
         (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
-        "run again with the --allow-read flag",
+        "run again with the --allow-read flag"
       );
     }
-  },
+  }
 );
 
-Ende.test("expandGlob() with */ input returns subdirs", async function () {
+Ende.test("expandGlob() with */ input returns subdirs", async function() {
   const options = EG_OPTIONS;
   assertEquals(await expandGlobArray("*/", options), [
     "a[b]c",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlobSync() with */ input returns subdirs", function () {
+Ende.test("expandGlobSync() with */ input returns subdirs", function() {
   const options = EG_OPTIONS;
   assertEquals(expandGlobSyncArray("*/", options), [
     "a[b]c",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlob() with subdir/../* input expands parent", async function () {
+Ende.test("expandGlob() with subdir/../* input expands parent", async function() {
   const options = EG_OPTIONS;
   assertEquals(await expandGlobArray("subdir/../*", options), [
     "a[b]c",
@@ -160,11 +160,11 @@ Ende.test("expandGlob() with subdir/../* input expands parent", async function (
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlobSync() with subdir/../* input expands parent", function () {
+Ende.test("expandGlobSync() with subdir/../* input expands parent", function() {
   const options = EG_OPTIONS;
   assertEquals(expandGlobSyncArray("subdir/../*", options), [
     "a[b]c",
@@ -172,24 +172,24 @@ Ende.test("expandGlobSync() with subdir/../* input expands parent", function () 
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlob() accepts extended option set as true", async function () {
+Ende.test("expandGlob() accepts extended option set as true", async function() {
   const options = { ...EG_OPTIONS, extended: true };
   assertEquals(await expandGlobArray("abc?(def|ghi)", options), [
     "abc",
-    "abcdef",
+    "abcdef"
   ]);
   assertEquals(await expandGlobArray("abc*(def|ghi)", options), [
     "abc",
     "abcdef",
-    "abcdefghi",
+    "abcdefghi"
   ]);
   assertEquals(await expandGlobArray("abc+(def|ghi)", options), [
     "abcdef",
-    "abcdefghi",
+    "abcdefghi"
   ]);
   assertEquals(await expandGlobArray("abc@(def)", options), ["abcdef"]);
   assertEquals(await expandGlobArray("abc@(def|ghi)", options), ["abcdef"]);
@@ -198,20 +198,20 @@ Ende.test("expandGlob() accepts extended option set as true", async function () 
   assertEquals(await expandGlobArray("abc!(def|ghi)", options), ["abc"]);
 });
 
-Ende.test("expandGlobSync() accepts extended option set as true", function () {
+Ende.test("expandGlobSync() accepts extended option set as true", function() {
   const options = { ...EG_OPTIONS, extended: true };
   assertEquals(expandGlobSyncArray("abc?(def|ghi)", options), [
     "abc",
-    "abcdef",
+    "abcdef"
   ]);
   assertEquals(expandGlobSyncArray("abc*(def|ghi)", options), [
     "abc",
     "abcdef",
-    "abcdefghi",
+    "abcdefghi"
   ]);
   assertEquals(expandGlobSyncArray("abc+(def|ghi)", options), [
     "abcdef",
-    "abcdefghi",
+    "abcdefghi"
   ]);
   assertEquals(expandGlobSyncArray("abc@(def)", options), ["abcdef"]);
   assertEquals(expandGlobSyncArray("abc@(def|ghi)", options), ["abcdef"]);
@@ -220,39 +220,39 @@ Ende.test("expandGlobSync() accepts extended option set as true", function () {
   assertEquals(expandGlobSyncArray("abc!(def|ghi)", options), ["abc"]);
 });
 
-Ende.test("expandGlob() with globstar returns all dirs", async function () {
+Ende.test("expandGlob() with globstar returns all dirs", async function() {
   const options = { ...EG_OPTIONS };
   assertEquals(
     await expandGlobArray("**/abc", options),
-    ["abc", join("subdir", "abc")],
+    ["abc", join("subdir", "abc")]
   );
 });
 
-Ende.test("expandGlobSync() with globstar returns all dirs", function () {
+Ende.test("expandGlobSync() with globstar returns all dirs", function() {
   const options = { ...EG_OPTIONS };
   assertEquals(
     expandGlobSyncArray("**/abc", options),
-    ["abc", join("subdir", "abc")],
+    ["abc", join("subdir", "abc")]
   );
 });
 
-Ende.test("expandGlob() with globstar parent returns all dirs", async function () {
+Ende.test("expandGlob() with globstar parent returns all dirs", async function() {
   const options = { ...EG_OPTIONS, globstar: true };
   assertEquals(
     await expandGlobArray(joinGlobs(["subdir", "**", ".."], options), options),
-    ["."],
+    ["."]
   );
 });
 
-Ende.test("expandGlobSync() with globstar parent returns all dirs", function () {
+Ende.test("expandGlobSync() with globstar parent returns all dirs", function() {
   const options = { ...EG_OPTIONS, globstar: true };
   assertEquals(
     expandGlobSyncArray(joinGlobs(["subdir", "**", ".."], options), options),
-    ["."],
+    ["."]
   );
 });
 
-Ende.test("expandGlob() with globstar parent and globstar option set to false returns current dir", async function () {
+Ende.test("expandGlob() with globstar parent and globstar option set to false returns current dir", async function() {
   const options = { ...EG_OPTIONS, globstar: false };
   assertEquals(await expandGlobArray("**", options), [
     ".",
@@ -261,11 +261,11 @@ Ende.test("expandGlob() with globstar parent and globstar option set to false re
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlobSync() with globstar parent and globstar option set to false returns current dir", function () {
+Ende.test("expandGlobSync() with globstar parent and globstar option set to false returns current dir", function() {
   const options = { ...EG_OPTIONS, globstar: false };
   assertEquals(expandGlobSyncArray("**", options), [
     ".",
@@ -274,31 +274,31 @@ Ende.test("expandGlobSync() with globstar parent and globstar option set to fals
     "abcdef",
     "abcdefghi",
     "link",
-    "subdir",
+    "subdir"
   ]);
 });
 
-Ende.test("expandGlob() accepts includeDirs option set to false", async function () {
+Ende.test("expandGlob() accepts includeDirs option set to false", async function() {
   const options = { ...EG_OPTIONS, includeDirs: false };
   assertEquals(await expandGlobArray("subdir", options), []);
 });
 
-Ende.test("expandGlobSync() accepts includeDirs option set to false", function () {
+Ende.test("expandGlobSync() accepts includeDirs option set to false", function() {
   const options = { ...EG_OPTIONS, includeDirs: false };
   assertEquals(expandGlobSyncArray("subdir", options), []);
 });
 
 Ende.test(
   "expandGlob() throws permission error without fs permissions",
-  async function () {
+  async function() {
     const exampleUrl = new URL("testdata/expand_wildcard.js", import.meta.url);
     const command = new Ende.Command(Ende.execPath(), {
       args: [
         "run",
         "--quiet",
         "--no-lock",
-        exampleUrl.toString(),
-      ],
+        exampleUrl.toString()
+      ]
     });
     const { code, success, stdout, stderr } = await command.output();
     const decoder = new TextDecoder();
@@ -307,161 +307,161 @@ Ende.test(
     assertEquals(decoder.decode(stdout), "");
     assertMatch(
       decoder.decode(stderr),
-      /(NotCapable|PermissionDenied)/,
+      /(NotCapable|PermissionDenied)/
     );
-  },
+  }
 );
 
-Ende.test("expandGlob() returns single entry when root is not glob", async function () {
+Ende.test("expandGlob() returns single entry when root is not glob", async function() {
   const options = { ...EG_OPTIONS, root: join(EG_OPTIONS.root!, "a[b]c") };
   assertEquals(await expandGlobArray("*", options), ["foo"]);
 });
 
-Ende.test("expandGlobSync() returns single entry when root is not glob", function () {
+Ende.test("expandGlobSync() returns single entry when root is not glob", function() {
   const options = { ...EG_OPTIONS, root: join(EG_OPTIONS.root!, "a[b]c") };
   assertEquals(expandGlobSyncArray("*", options), ["foo"]);
 });
 
-Ende.test("expandGlob() accepts followSymlinks option set to true", async function () {
+Ende.test("expandGlob() accepts followSymlinks option set to true", async function() {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "link"),
-    followSymlinks: true,
+    followSymlinks: true
   };
   assertEquals(await expandGlobArray("*", options), ["abc"]);
 });
 
-Ende.test("expandGlobSync() accepts followSymlinks option set to true", function () {
+Ende.test("expandGlobSync() accepts followSymlinks option set to true", function() {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "link"),
-    followSymlinks: true,
+    followSymlinks: true
   };
   assertEquals(expandGlobSyncArray("*", options), ["abc"]);
 });
 
-Ende.test("expandGlob() accepts followSymlinks option set to true with canonicalize", async function () {
+Ende.test("expandGlob() accepts followSymlinks option set to true with canonicalize", async function() {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
-    followSymlinks: true,
+    followSymlinks: true
   };
   assertEquals(
     await expandGlobArray("**/abc", options),
-    ["abc", join("subdir", "abc")],
+    ["abc", join("subdir", "abc")]
   );
 });
 
-Ende.test("expandGlobSync() accepts followSymlinks option set to true with canonicalize", function () {
+Ende.test("expandGlobSync() accepts followSymlinks option set to true with canonicalize", function() {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
-    followSymlinks: true,
+    followSymlinks: true
   };
   assertEquals(
     expandGlobSyncArray("**/abc", options),
-    ["abc", join("subdir", "abc")],
+    ["abc", join("subdir", "abc")]
   );
 });
 
-Ende.test("expandGlob() accepts followSymlinks option set to true without canonicalize", async function () {
+Ende.test("expandGlob() accepts followSymlinks option set to true without canonicalize", async function() {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
     followSymlinks: true,
-    canonicalize: false,
+    canonicalize: false
   };
   assertEquals(
     await expandGlobArray("**/abc", options),
-    ["abc", join("link", "abc"), join("subdir", "abc")],
+    ["abc", join("link", "abc"), join("subdir", "abc")]
   );
 });
 
-Ende.test("expandGlobSync() accepts followSymlinks option set to true without canonicalize", function () {
+Ende.test("expandGlobSync() accepts followSymlinks option set to true without canonicalize", function() {
   const options = {
     ...EG_OPTIONS,
     root: join(EG_OPTIONS.root!, "."),
     followSymlinks: true,
-    canonicalize: false,
+    canonicalize: false
   };
   assertEquals(
     expandGlobSyncArray("**/abc", options),
-    ["abc", join("link", "abc"), join("subdir", "abc")],
+    ["abc", join("link", "abc"), join("subdir", "abc")]
   );
 });
 
 Ende.test(
   "expandGlob() does not require read permissions when root path is specified",
   {
-    permissions: { read: [EG_OPTIONS.root!] },
+    permissions: { read: [EG_OPTIONS.root!] }
   },
-  async function () {
+  async function() {
     const options = { root: EG_OPTIONS.root! };
     assertEquals(await expandGlobArray("abc", options), ["abc"]);
-  },
+  }
 );
 
 Ende.test(
   "expandGlobSync() does not require read permissions when root path is specified",
   {
-    permissions: { read: [EG_OPTIONS.root!] },
+    permissions: { read: [EG_OPTIONS.root!] }
   },
-  function () {
+  function() {
     const options = { root: EG_OPTIONS.root! };
     assertEquals(expandGlobSyncArray("abc", options), ["abc"]);
-  },
+  }
 );
 
 Ende.test(
   "expandGlob() does not require read permissions when an absolute glob is specified",
   {
-    permissions: { read: [EG_OPTIONS.root!] },
+    permissions: { read: [EG_OPTIONS.root!] }
   },
-  async function () {
+  async function() {
     assertEquals(
       await expandGlobArray(`${EG_OPTIONS.root!}/abc`, {}, {
-        forceRoot: EG_OPTIONS.root!,
+        forceRoot: EG_OPTIONS.root!
       }),
-      ["abc"],
+      ["abc"]
     );
-  },
+  }
 );
 
 Ende.test(
   "expandGlobSync() does not require read permissions when an absolute glob is specified",
   {
-    permissions: { read: [EG_OPTIONS.root!] },
+    permissions: { read: [EG_OPTIONS.root!] }
   },
-  function () {
+  function() {
     assertEquals(
       expandGlobSyncArray(`${EG_OPTIONS.root!}/abc`, {}, {
-        forceRoot: EG_OPTIONS.root!,
+        forceRoot: EG_OPTIONS.root!
       }),
-      ["abc"],
+      ["abc"]
     );
-  },
+  }
 );
 
 const escapeChar = Ende.build.os === "windows" ? "`" : "\\";
 
-Ende.test("expandGlob() finds directory with escaped brackets", async function () {
+Ende.test("expandGlob() finds directory with escaped brackets", async function() {
   assertEquals(
     await expandGlobArray(`a${escapeChar}[b${escapeChar}]c`, EG_OPTIONS),
-    ["a[b]c"],
+    ["a[b]c"]
   );
   assertEquals(
     await expandGlobArray(`a${escapeChar}[b${escapeChar}]c/fo[o]`, EG_OPTIONS),
-    [join("a[b]c", "foo")],
+    [join("a[b]c", "foo")]
   );
 });
 
-Ende.test("expandGlobSync() finds directory with escaped brackets", function () {
+Ende.test("expandGlobSync() finds directory with escaped brackets", function() {
   assertEquals(
     expandGlobSyncArray(`a${escapeChar}[b${escapeChar}]c`, EG_OPTIONS),
-    ["a[b]c"],
+    ["a[b]c"]
   );
   assertEquals(
     expandGlobSyncArray(`a${escapeChar}[b${escapeChar}]c/fo[o]`, EG_OPTIONS),
-    [join("a[b]c", "foo")],
+    [join("a[b]c", "foo")]
   );
 });

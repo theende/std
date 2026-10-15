@@ -6,7 +6,7 @@
 export type ReviverFunction = (
   key: string,
   value: string | number | boolean | null,
-  section?: string,
+  section?: string
 ) => unknown;
 
 const SECTION_REGEXP = /^\[(?<name>.*\S.*)]$/;
@@ -28,7 +28,7 @@ function isSection(input: string, lineNumber: number): boolean {
       return true;
     }
     throw new SyntaxError(
-      `Unexpected end of INI section at line ${lineNumber}`,
+      `Unexpected end of INI section at line ${lineNumber}`
     );
   }
   return false;
@@ -46,7 +46,8 @@ function* readTextLines(text: string): Generator<string> {
       case "\r":
         yield line;
         line = "";
-        if (text[i + 1] === "\n") i += 1;
+        if (text[i + 1] === "\n")
+          i += 1;
         break;
       default:
         line += char;
@@ -68,12 +69,17 @@ export interface ParseOptions {
 
 const QUOTED_VALUE_REGEXP = /^"(?<value>.*)"$/;
 function parseValue(_key: string, value: string) {
-  if (value === "null") return null;
-  if (value === "true") return true;
-  if (value === "false") return false;
+  if (value === "null")
+    return null;
+  if (value === "true")
+    return true;
+  if (value === "false")
+    return false;
   const match = value.match(QUOTED_VALUE_REGEXP);
-  if (match) return match.groups?.value as string;
-  if (!isNaN(+value)) return +value;
+  if (match)
+    return match.groups?.value as string;
+  if (!isNaN(+value))
+    return +value;
   return value;
 }
 
@@ -144,7 +150,7 @@ function parseValue(_key: string, value: string) {
  */
 export function parse<T extends object>(
   text: string,
-  options: ParseOptions = {},
+  options: ParseOptions = {}
 ): T {
   if (typeof text !== "string") {
     throw new SyntaxError(`Unexpected token ${text} in INI at line 0`);
@@ -160,16 +166,18 @@ export function parse<T extends object>(
     lineNumber += 1;
 
     // skip empty lines
-    if (line === "") continue;
+    if (line === "")
+      continue;
 
     // skip comment
-    if (isComment(line)) continue;
+    if (isComment(line))
+      continue;
 
     if (isSection(line, lineNumber)) {
       sectionName = SECTION_REGEXP.exec(line)?.groups?.name;
       if (!sectionName) {
         throw new SyntaxError(
-          `Unexpected empty section name at line ${lineNumber}`,
+          `Unexpected empty section name at line ${lineNumber}`
         );
       }
 
@@ -178,7 +186,7 @@ export function parse<T extends object>(
         value: object,
         writable: true,
         enumerable: true,
-        configurable: true,
+        configurable: true
       });
 
       continue;
@@ -188,24 +196,25 @@ export function parse<T extends object>(
 
     if (!groups) {
       throw new SyntaxError(
-        `Unexpected token ${line[0]} in INI at line ${lineNumber}`,
+        `Unexpected token ${line[0]} in INI at line ${lineNumber}`
       );
     }
 
-    const { key, value } = groups as { key: string; value: string };
+    const { key, value } = groups as { key: string; value: string; };
     if (!key.length) {
       throw new SyntaxError(`Unexpected empty key name at line ${lineNumber}`);
     }
 
     const parsedValue = parseValue(key, value);
     let val = parsedValue as unknown;
-    if (options.reviver) val = options.reviver(key, parsedValue, sectionName);
+    if (options.reviver)
+      val = options.reviver(key, parsedValue, sectionName);
 
     Object.defineProperty(object, key, {
       value: val,
       writable: true,
       enumerable: true,
-      configurable: true,
+      configurable: true
     });
   }
 

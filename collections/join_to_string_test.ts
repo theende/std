@@ -10,16 +10,16 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    joinToString(arr, (it) => it.name);
+    joinToString(arr, it => it.name);
 
     assertEquals(arr, [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -27,10 +27,10 @@ Ende.test({
   fn() {
     const arr = ["Kim", "Anna", "Tim"];
 
-    const out = joinToString(arr, (it) => it);
+    const out = joinToString(arr, it => it);
 
     assertEquals(out, "Kim,Anna,Tim");
-  },
+  }
 });
 
 Ende.test({
@@ -39,12 +39,12 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name);
+    const out = joinToString(arr, it => it.name);
 
     assertEquals(out, "Kim,Anna,Tim");
-  },
+  }
 });
 
 Ende.test({
@@ -53,12 +53,12 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name, { separator: " and " });
+    const out = joinToString(arr, it => it.name, { separator: " and " });
 
     assertEquals(out, "Kim and Anna and Tim");
-  },
+  }
 });
 
 Ende.test({
@@ -67,14 +67,14 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name, {
-      prefix: "winners are: ",
+    const out = joinToString(arr, it => it.name, {
+      prefix: "winners are: "
     });
 
     assertEquals(out, "winners are: Kim,Anna,Tim");
-  },
+  }
 });
 
 Ende.test({
@@ -83,14 +83,14 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name, {
-      suffix: " are winners",
+    const out = joinToString(arr, it => it.name, {
+      suffix: " are winners"
     });
 
     assertEquals(out, "Kim,Anna,Tim are winners");
-  },
+  }
 });
 
 Ende.test({
@@ -99,14 +99,14 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name, {
-      limit: 2,
+    const out = joinToString(arr, it => it.name, {
+      limit: 2
     });
 
     assertEquals(out, "Kim,Anna,...");
-  },
+  }
 });
 
 Ende.test({
@@ -115,15 +115,15 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name, {
+    const out = joinToString(arr, it => it.name, {
       limit: 2,
-      truncated: "...!",
+      truncated: "...!"
     });
 
     assertEquals(out, "Kim,Anna,...!");
-  },
+  }
 });
 
 Ende.test({
@@ -132,18 +132,18 @@ Ende.test({
     const arr = [
       { name: "Kim", age: 22 },
       { name: "Anna", age: 31 },
-      { name: "Tim", age: 58 },
+      { name: "Tim", age: 58 }
     ];
-    const out = joinToString(arr, (it) => it.name, {
+    const out = joinToString(arr, it => it.name, {
       suffix: " are winners",
       prefix: "result: ",
       separator: " and ",
       limit: 1,
-      truncated: "others",
+      truncated: "others"
     });
 
     assertEquals(out, "result: Kim and others are winners");
-  },
+  }
 });
 
 Ende.test({
@@ -154,5 +154,5 @@ Ende.test({
     const out = joinToString(arr, (it, index) => it + index);
 
     assertEquals(out, "Kim0,Anna1,Tim2");
-  },
+  }
 });

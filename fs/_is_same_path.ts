@@ -15,7 +15,7 @@ import { toPathString } from "./_to_path_string.ts";
  */
 export function isSamePath(
   src: string | URL,
-  dest: string | URL,
+  dest: string | URL
 ): boolean {
   src = toPathString(src);
   dest = toPathString(dest);

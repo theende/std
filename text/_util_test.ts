@@ -9,16 +9,15 @@ Ende.test({
   fn() {
     const result = splitToWords("");
     assertEquals(result.length, 0);
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "split() returns an empty array when input has no alphanumeric characters",
+  name: "split() returns an empty array when input has no alphanumeric characters",
   fn() {
     const result = splitToWords("🦕♥️ 🦕♥️ 🦕♥️");
     assertEquals(result.length, 0);
-  },
+  }
 });
 
 Ende.test({
@@ -28,7 +27,7 @@ Ende.test({
     const expected = ["deno", "wuv"];
 
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -37,7 +36,7 @@ Ende.test({
     const result = splitToWords("deno Is AWESOME");
     const expected = ["deno", "Is", "AWESOME"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -46,7 +45,7 @@ Ende.test({
     const result = splitToWords("  deno Is AWESOME ");
     const expected = ["deno", "Is", "AWESOME"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -55,7 +54,7 @@ Ende.test({
     const result = splitToWords("I am up-to-date!");
     const expected = ["I", "am", "up", "to", "date"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -64,7 +63,7 @@ Ende.test({
     const result = splitToWords("I am   -> thirsty!");
     const expected = ["I", "am", "thirsty"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -73,7 +72,7 @@ Ende.test({
     const result = splitToWords("denoIsAwesome");
     const expected = ["deno", "Is", "Awesome"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -82,7 +81,7 @@ Ende.test({
     const result = splitToWords("deno-is-awesome");
     const expected = ["deno", "is", "awesome"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -91,7 +90,7 @@ Ende.test({
     const result = splitToWords("denoIsAwesome");
     const expected = ["deno", "Is", "Awesome"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -100,7 +99,7 @@ Ende.test({
     const result = splitToWords("шруберри IsAwesome");
     const expected = ["шруберри", "Is", "Awesome"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -109,7 +108,7 @@ Ende.test({
     const result = splitToWords("шруберриШруберри");
     const expected = ["шруберри", "Шруберри"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -118,7 +117,7 @@ Ende.test({
     const result = splitToWords("אין_על דינו");
     const expected = ["אין", "על", "דינו"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -127,7 +126,7 @@ Ende.test({
     const result = splitToWords("DENO_IS_AWESOME");
     const expected = ["DENO", "IS", "AWESOME"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -136,7 +135,7 @@ Ende.test({
     const result = splitToWords("I Love HTMLDivElement");
     const expected = ["I", "Love", "HTML", "Div", "Element"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -145,7 +144,7 @@ Ende.test({
     const result = splitToWords("deno_is_awesome");
     const expected = ["deno", "is", "awesome"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -154,47 +153,47 @@ Ende.test({
     const result = splitToWords("I Love HTMLDivElement");
     const expected = ["I", "Love", "HTML", "Div", "Element"];
     assertEquals(result, expected);
-  },
+  }
 });
 
 Ende.test({
   name: "capitalizeWord() handles empty string",
   fn() {
     assertEquals(capitalizeWord(""), "");
-  },
+  }
 });
 
 Ende.test({
   name: "capitalizeWord() handles single char",
   fn() {
     assertEquals(capitalizeWord("a"), "A");
-  },
+  }
 });
 
 Ende.test({
   name: "capitalizeWord() handles multiple chars",
   fn() {
     assertEquals(capitalizeWord("aa"), "Aa");
-  },
+  }
 });
 
 Ende.test({
   name: "capitalizeWord() handles non-Latin text with letter case",
   fn() {
     assertEquals(capitalizeWord("γράφω"), "Γράφω");
-  },
+  }
 });
 
 Ende.test({
   name: "capitalizeWord() handles non-Latin text without letter case (no-op)",
   fn() {
     assertEquals(capitalizeWord("文字"), "文字");
-  },
+  }
 });
 
 Ende.test({
   name: "capitalizeWord() handles non-BMP text (no-op)",
   fn() {
     assertEquals(capitalizeWord("💩"), "💩");
-  },
+  }
 });

@@ -35,7 +35,7 @@ class MockReaderCloser implements Reader, Closer {
   }
 }
 
-Ende.test("toReadableStream()", async function () {
+Ende.test("toReadableStream()", async function() {
   const encoder = new TextEncoder();
   const reader = new Buffer(encoder.encode("hello deno land"));
   const stream = toReadableStream(reader);
@@ -44,13 +44,13 @@ Ende.test("toReadableStream()", async function () {
   assertEquals(decoder.decode(concat(actual)), "hello deno land");
 });
 
-Ende.test("toReadableStream() handles close", async function () {
+Ende.test("toReadableStream() handles close", async function() {
   const encoder = new TextEncoder();
   const reader = new MockReaderCloser();
   reader.chunks = [
     encoder.encode("hello "),
     encoder.encode("deno "),
-    encoder.encode("land"),
+    encoder.encode("land")
   ];
   const stream = toReadableStream(reader);
   const actual = await Array.fromAsync(stream);
@@ -59,13 +59,13 @@ Ende.test("toReadableStream() handles close", async function () {
   assertEquals(reader.closeCall, 1);
 });
 
-Ende.test("toReadableStream() doesn't call close with `autoClose` is false", async function () {
+Ende.test("toReadableStream() doesn't call close with `autoClose` is false", async function() {
   const encoder = new TextEncoder();
   const reader = new MockReaderCloser();
   reader.chunks = [
     encoder.encode("hello "),
     encoder.encode("deno "),
-    encoder.encode("land"),
+    encoder.encode("land")
   ];
   const stream = toReadableStream(reader, { autoClose: false });
   const actual = await Array.fromAsync(stream);
@@ -74,13 +74,13 @@ Ende.test("toReadableStream() doesn't call close with `autoClose` is false", asy
   assertEquals(reader.closeCall, 0);
 });
 
-Ende.test("toReadableStream() handles `chunkSize` option", async function () {
+Ende.test("toReadableStream() handles `chunkSize` option", async function() {
   const encoder = new TextEncoder();
   const reader = new MockReaderCloser();
   reader.chunks = [
     encoder.encode("hello "),
     encoder.encode("deno "),
-    encoder.encode("land"),
+    encoder.encode("land")
   ];
   const stream = toReadableStream(reader, { chunkSize: 2 });
   const actual = await Array.fromAsync(stream);

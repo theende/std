@@ -8,7 +8,7 @@ import {
   matchIPv6Subnet,
   matchSubnets,
   parseIPv4,
-  parseIPv6,
+  parseIPv6
 } from "./unstable_ip.ts";
 import { assertEquals } from "@ende/assert";
 
@@ -27,7 +27,7 @@ Ende.test("parseIPv4() returns the address bytes", () => {
     ["192.148.122.255", [192, 148, 122, 255]],
     ["0.128.11.33", [0, 128, 11, 33]],
     ["0.0.0.0", [0, 0, 0, 0]],
-    ["255.255.255.255", [255, 255, 255, 255]],
+    ["255.255.255.255", [255, 255, 255, 255]]
   ];
 
   for (const [addr, expected] of list) {
@@ -58,7 +58,7 @@ Ende.test("parseIPv4() returns undefined for invalid addresses", () => {
     "010.0.0.1",
     // Surrounding whitespace.
     " 1.2.3.4",
-    "1.2.3.4 ",
+    "1.2.3.4 "
   ];
 
   for (const addr of list) {
@@ -86,7 +86,7 @@ Ende.test("isIPv4()", () => {
     { addr: "1e2.1.1.1", expected: false },
     { addr: "+1.2.3.4", expected: false },
     { addr: "1.2.3.", expected: false },
-    { addr: "1..2.3", expected: false },
+    { addr: "1..2.3", expected: false }
   ];
 
   for (const { addr, expected } of list) {
@@ -98,7 +98,7 @@ Ende.test("parseIPv6() returns the address bytes", () => {
   const list: [string, Uint8Array][] = [
     [
       "2001:db8:3333:4444:5555:6666:7777:8888",
-      bytes(0x2001, 0x0db8, 0x3333, 0x4444, 0x5555, 0x6666, 0x7777, 0x8888),
+      bytes(0x2001, 0x0db8, 0x3333, 0x4444, 0x5555, 0x6666, 0x7777, 0x8888)
     ],
     ["2001:db8::1", bytes(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)],
     ["2001::db8:0:1", bytes(0x2001, 0, 0, 0, 0, 0x0db8, 0, 1)],
@@ -115,10 +115,10 @@ Ende.test("parseIPv6() returns the address bytes", () => {
     // x:x:x:x:x:x:d.d.d.d, RFC 4291, section 2.2.
     [
       "2003:3333:4444:5555:6666:7777:192.168.0.1",
-      bytes(0x2003, 0x3333, 0x4444, 0x5555, 0x6666, 0x7777, 0xc0a8, 0x0001),
+      bytes(0x2003, 0x3333, 0x4444, 0x5555, 0x6666, 0x7777, 0xc0a8, 0x0001)
     ],
     ["::192.168.0.1", bytes(0, 0, 0, 0, 0, 0, 0xc0a8, 0x0001)],
-    ["::ffff:127.0.0.1", bytes(0, 0, 0, 0, 0, 0xffff, 0x7f00, 0x0001)],
+    ["::ffff:127.0.0.1", bytes(0, 0, 0, 0, 0, 0xffff, 0x7f00, 0x0001)]
   ];
 
   for (const [addr, expected] of list) {
@@ -157,7 +157,7 @@ Ende.test("parseIPv6() returns undefined for invalid addresses", () => {
     " ::1",
     "::1 ",
     // Zone IDs are intentionally omitted by the URL standard.
-    "fe80::1%eth0",
+    "fe80::1%eth0"
   ];
 
   for (const addr of list) {
@@ -192,7 +192,7 @@ Ende.test("isIPv6()", () => {
     { addr: "fe80::1%eth0", expected: false },
     { addr: "1:2:3:4:5:6:7::8", expected: false },
     { addr: "::ffff:1.2.3", expected: false },
-    { addr: "1:2:3:4:5:6:7:8:9", expected: false },
+    { addr: "1:2:3:4:5:6:7:8:9", expected: false }
   ];
 
   for (const { addr, expected } of list) {
@@ -205,7 +205,7 @@ Ende.test("matchSubnets()", () => {
     "192.168.1.0/24",
     "10.0.0.0/8",
     "2001:db8::/32",
-    "172.16.0.100", // exact IP
+    "172.16.0.100" // exact IP
   ];
 
   const list = [
@@ -237,7 +237,7 @@ Ende.test("matchSubnets()", () => {
 
     // So are subnets whose base address the parsers reject.
     { addr: "192.168.1.10", subnets: ["192.168.01.0/24"], expected: false },
-    { addr: "192.168.1.10", subnets: ["0x7f.0.0.0/8"], expected: false },
+    { addr: "192.168.1.10", subnets: ["0x7f.0.0.0/8"], expected: false }
   ];
 
   for (const { addr, subnets, expected } of list) {
@@ -286,7 +286,7 @@ Ende.test("matchIPv4Subnet()", () => {
 
     // An address the parser rejects is not in any subnet.
     { addr: "010.0.0.1", subnet: "10.0.0.0/8", expected: false },
-    { addr: " 192.168.1.10", subnet: "192.168.1.0/24", expected: false },
+    { addr: " 192.168.1.10", subnet: "192.168.1.0/24", expected: false }
   ];
 
   for (const { addr, subnet, expected } of list) {
@@ -336,22 +336,22 @@ Ende.test("matchIPv6Subnet()", () => {
     {
       addr: "2001:db8::ffff:192.168.1.1.1",
       subnet: "2001:db8::/64",
-      expected: false,
+      expected: false
     },
     {
       addr: "2001:db8::ffff:192.168.1",
       subnet: "2001:db8::/64",
-      expected: false,
+      expected: false
     },
     {
       addr: "::ffff:192.168.1.1:",
       subnet: "::ffff:0.0.0.0/128",
-      expected: false,
+      expected: false
     },
     {
       addr: "::ffff:192.168.1.1",
       subnet: "::ffff:192.168.0.0/112",
-      expected: true,
+      expected: true
     },
 
     // Bit-level boundaries.
@@ -362,7 +362,7 @@ Ende.test("matchIPv6Subnet()", () => {
     // Addresses the parser now rejects.
     { addr: "2001:db8:::1", subnet: "2001:db8::/32", expected: false },
     { addr: "2001:db8::1 ", subnet: "2001:db8::/32", expected: false },
-    { addr: "fe80::1%eth0", subnet: "fe80::/10", expected: false },
+    { addr: "fe80::1%eth0", subnet: "fe80::/10", expected: false }
   ];
 
   for (const { addr, subnet, expected } of list) {

@@ -10,7 +10,7 @@ Ende.test("assertArrayIncludes() matches when array includes value", () => {
   assertArrayIncludes(fixtureObject, [{ deno: "luv" }]);
   assertArrayIncludes(
     Uint8Array.from([1, 2, 3, 4]),
-    Uint8Array.from([1, 2, 3]),
+    Uint8Array.from([1, 2, 3])
   );
   assertArrayIncludes(["a"], ["a"]);
   assertArrayIncludes(["a", "b", "c"], ["a", "b"]);
@@ -29,7 +29,8 @@ Expected actual: "[
 missing: [
   "b",
 ]
-`.trim(),
+`
+      .trim()
   );
 
   assertThrows(
@@ -53,7 +54,8 @@ missing: [
     deno: "node",
   },
 ]
-`.trim(),
+`
+      .trim()
   );
 });
 
@@ -70,7 +72,8 @@ Expected actual: "[
 missing: [
   "b",
 ]
-`.trim(),
+`
+      .trim()
   );
 });
 

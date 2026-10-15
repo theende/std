@@ -32,7 +32,7 @@ export interface XmlPipeline {
  */
 export function createXmlPipeline(
   options: ParseStreamOptions,
-  callbacks: XmlEventCallbacks,
+  callbacks: XmlEventCallbacks
 ): XmlPipeline {
   const trackPosition = options.trackPosition ?? false;
   const disallowDoctype = options.disallowDoctype ?? true;

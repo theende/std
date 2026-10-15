@@ -26,37 +26,37 @@ Ende.test("toSentenceCase() works the same as toTitleCase() filtering words on i
 
   assertEquals(
     toSentenceCase(str),
-    toTitleCase(str, { exclude: (_, i) => i > 0 }),
+    toTitleCase(str, { exclude: (_, i) => i > 0 })
   );
 });
 
-Ende.test("toSentenceCase() can be customized with options", async (t) => {
-  await t.step("`trailingCase`", async (t) => {
+Ende.test("toSentenceCase() can be customized with options", async t => {
+  await t.step("`trailingCase`", async t => {
     const input = "HELLO wOrLd";
 
-    await t.step('defaults to "lower"', () => {
+    await t.step("defaults to \"lower\"", () => {
       assertEquals(toSentenceCase(input), "Hello world");
     });
 
-    await t.step('explicitly passing "lower"', () => {
+    await t.step("explicitly passing \"lower\"", () => {
       assertEquals(
         toSentenceCase(input, { trailingCase: "lower" }),
-        "Hello world",
+        "Hello world"
       );
     });
 
-    await t.step('enabled by passing "unchanged"', () => {
+    await t.step("enabled by passing \"unchanged\"", () => {
       assertEquals(
         toSentenceCase(input, { trailingCase: "unchanged" }),
-        "HELLO wOrLd",
+        "HELLO wOrLd"
       );
     });
   });
 
-  await t.step("`locale`", async (t) => {
+  await t.step("`locale`", async t => {
     const input = "irrIgation";
 
-    await t.step('defaults to `false`, using locale-agnostic "und"', () => {
+    await t.step("defaults to `false`, using locale-agnostic \"und\"", () => {
       using _ = stubIntlFunctions("tr-TR");
       assertEquals(toSentenceCase(input), "Irrigation");
     });

@@ -20,7 +20,7 @@ export class BinarySearchNode<T> {
   static from<T>(node: BinarySearchNode<T>): BinarySearchNode<T> {
     const copy: BinarySearchNode<T> = new BinarySearchNode(
       node.parent,
-      node.value,
+      node.value
     );
     copy.left = node.left;
     copy.right = node.right;
@@ -28,29 +28,32 @@ export class BinarySearchNode<T> {
   }
 
   directionFromParent(): Direction | null {
-    return this.parent === null
-      ? null
-      : this === this.parent.left
-      ? "left"
-      : this === this.parent.right
-      ? "right"
-      : null;
+    return this.parent === null ?
+      null :
+      this === this.parent.left ?
+      "left" :
+      this === this.parent.right ?
+      "right" :
+      null;
   }
 
   findMinNode(): BinarySearchNode<T> {
     let minNode: BinarySearchNode<T> | null = this.left;
-    while (minNode?.left) minNode = minNode.left;
+    while (minNode?.left)
+      minNode = minNode.left;
     return minNode ?? this;
   }
 
   findMaxNode(): BinarySearchNode<T> {
     let maxNode: BinarySearchNode<T> | null = this.right;
-    while (maxNode?.right) maxNode = maxNode.right;
+    while (maxNode?.right)
+      maxNode = maxNode.right;
     return maxNode ?? this;
   }
 
   findSuccessorNode(): BinarySearchNode<T> | null {
-    if (this.right !== null) return this.right.findMinNode();
+    if (this.right !== null)
+      return this.right.findMinNode();
     let parent: BinarySearchNode<T> | null = this.parent;
     let direction: Direction | null = this.directionFromParent();
     while (parent && direction === "right") {

@@ -10,11 +10,11 @@ import { remove, removeSync } from "./unstable_remove.ts";
 Ende.test("makeTempFile() creates temporary files in the default temp directory path", async () => {
   const tempFile1 = await makeTempFile({
     prefix: "standard",
-    suffix: "library",
+    suffix: "library"
   });
   const tempFile2 = await makeTempFile({
     prefix: "standard",
-    suffix: "library",
+    suffix: "library"
   });
 
   try {

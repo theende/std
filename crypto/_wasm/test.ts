@@ -11,7 +11,7 @@ Ende.test("test", async () => {
   const wasmDigest = digest("SHA-384", input, undefined);
 
   const webDigest = new Uint8Array(
-    await webCrypto.subtle!.digest("SHA-384", input),
+    await webCrypto.subtle!.digest("SHA-384", input)
   );
 
   assertEquals(wasmDigest, webDigest);

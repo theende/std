@@ -26,11 +26,12 @@ import { lessThan } from "./less_than.ts";
  */
 export function minSatisfying(
   versions: SemVer[],
-  range: Range,
+  range: Range
 ): SemVer | undefined {
   let min;
   for (const version of versions) {
-    if (!satisfies(version, range)) continue;
+    if (!satisfies(version, range))
+      continue;
     min = min && lessThan(min, version) ? min : version;
   }
   return min;

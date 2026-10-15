@@ -7,7 +7,7 @@ import { union } from "./union.ts";
 function unionTest<I>(
   input: Array<Array<I>>,
   expected: Array<I>,
-  message?: string,
+  message?: string
 ) {
   const actual = union(...input);
   assertEquals(actual, expected, message);
@@ -22,14 +22,14 @@ Ende.test({
 
     assertEquals(arrayA, [1, 2, 3]);
     assertEquals(arrayB, [2, 4, 5]);
-  },
+  }
 });
 
 Ende.test({
   name: "union() handles empty input",
   fn() {
     unionTest([], []);
-  },
+  }
 });
 
 Ende.test({
@@ -39,11 +39,11 @@ Ende.test({
       [
         [],
         [],
-        [],
+        []
       ],
-      [],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -51,17 +51,17 @@ Ende.test({
   fn() {
     unionTest(
       [
-        [true, false],
+        [true, false]
       ],
-      [true, false],
+      [true, false]
     );
     unionTest(
       [
-        ["foo", "bar", "bar"],
+        ["foo", "bar", "bar"]
       ],
-      ["foo", "bar"],
+      ["foo", "bar"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -70,7 +70,7 @@ Ende.test({
     unionTest([[], ["a", "b", "c"]], ["a", "b", "c"]);
     unionTest([["a", "b", "c"], []], ["a", "b", "c"]);
     unionTest([[], ["a", "b", "c"], [], ["b", "d"]], ["a", "b", "c", "d"]);
-  },
+  }
 });
 
 Ende.test({
@@ -82,13 +82,13 @@ Ende.test({
       "c",
       "d",
       "e",
-      "f",
+      "f"
     ]);
     unionTest(
       [
         ["a", "b", "c"],
         ["d", "e", "f"],
-        ["g", "h", "j"],
+        ["g", "h", "j"]
       ],
       [
         "a",
@@ -99,10 +99,10 @@ Ende.test({
         "f",
         "g",
         "h",
-        "j",
-      ],
+        "j"
+      ]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -113,11 +113,11 @@ Ende.test({
       [
         [10, -2],
         [-2],
-        [5, 10],
+        [5, 10]
       ],
-      [10, -2, 5],
+      [10, -2, 5]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -129,22 +129,22 @@ Ende.test({
     const d = { bar: "banana" };
     unionTest<Record<string, string>>([
       [a, b],
-      [c],
+      [c]
     ], [a, b, c]);
     unionTest<Record<string, string>>([
       [a, b],
-      [b],
+      [b]
     ], [a, b]);
     unionTest<Record<string, string>>([
       [a, b],
-      [d],
+      [d]
     ], [a, b, d]);
     unionTest<Record<string, string>>([
       [a],
       [b, d],
-      [c, a, b],
+      [c, a, b]
     ], [a, b, d, c]);
-  },
+  }
 });
 
 Ende.test({
@@ -158,15 +158,15 @@ Ende.test({
 
     unionTest([
       [a, b],
-      [c],
+      [c]
     ], [a, b, c]);
     unionTest([
       [a, b],
-      [a],
+      [a]
     ], [a, b]);
     unionTest([
       [d, a],
-      [e],
+      [e]
     ], [d, a, e]);
-  },
+  }
 });

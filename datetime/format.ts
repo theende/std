@@ -76,7 +76,7 @@ export interface FormatOptions {
 export function format(
   date: Date,
   formatString: string,
-  options: FormatOptions = {},
+  options: FormatOptions = {}
 ): string {
   const formatter = new DateTimeFormatter(formatString);
   return formatter.format(date, options);

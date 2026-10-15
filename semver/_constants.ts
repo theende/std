@@ -12,7 +12,7 @@ export const ANY: SemVer = {
   minor: Number.NaN,
   patch: Number.NaN,
   prerelease: [],
-  build: [],
+  build: []
 };
 
 /**
@@ -20,7 +20,7 @@ export const ANY: SemVer = {
  */
 export const ALL: Comparator = {
   operator: undefined,
-  ...ANY,
+  ...ANY
 };
 
 export const OPERATORS = [
@@ -30,5 +30,5 @@ export const OPERATORS = [
   ">",
   ">=",
   "<",
-  "<=",
+  "<="
 ] as const;

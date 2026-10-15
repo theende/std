@@ -10,12 +10,12 @@ import type { CborMapStreamOutput } from "./types.ts";
 
 Ende.test("CborMapDecodedStream() being consumed", async () => {
   const size = random(0, 24);
-  const entries = new Array(size).fill(0).map((_, i) =>
-    [String.fromCharCode(97 + i), i] satisfies CborMapStreamOutput
-  );
+  const entries = new Array(size).fill(0).map((_, i) => [String.fromCharCode(97 + i), i] satisfies CborMapStreamOutput);
 
-  const reader = ReadableStream.from([encodeCbor(Object.fromEntries(entries))])
-    .pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = ReadableStream
+    .from([encodeCbor(Object.fromEntries(entries))])
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   const { done, value } = await reader.read();
   assert(done === false);
@@ -28,15 +28,15 @@ Ende.test("CborMapDecodedStream() being consumed", async () => {
 
 Ende.test("CborMapDecodedStream() being cancelled", async () => {
   const size = random(0, 24);
-  const entries = new Array(size).fill(0).map((_, i) =>
-    [String.fromCharCode(97 + i), i] satisfies CborMapStreamOutput
-  );
+  const entries = new Array(size).fill(0).map((_, i) => [String.fromCharCode(97 + i), i] satisfies CborMapStreamOutput);
 
-  const reader = ReadableStream.from([
-    encodeCbor(Object.fromEntries(entries)),
-    encodeCbor(0),
-  ])
-    .pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = ReadableStream
+    .from([
+      encodeCbor(Object.fromEntries(entries)),
+      encodeCbor(0)
+    ])
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   {
     const { done, value } = await reader.read();

@@ -7,12 +7,12 @@ import { decryptAesGcm, encryptAesGcm } from "./aes_gcm.ts";
 const encoder = new TextEncoder();
 
 function generateKey(
-  length: 128 | 256,
+  length: 128 | 256
 ): Promise<CryptoKey> {
   return crypto.subtle.generateKey(
     { name: "AES-GCM", length },
     true,
-    ["encrypt", "decrypt"],
+    ["encrypt", "decrypt"]
   );
 }
 
@@ -54,10 +54,10 @@ Ende.test("encryptAesGcm()/decryptAesGcm() round-trips with matching additionalD
   const plaintext = encoder.encode("secret");
   const aad = encoder.encode("metadata");
   const encrypted = await encryptAesGcm(key, plaintext, {
-    additionalData: aad,
+    additionalData: aad
   });
   const decrypted = await decryptAesGcm(key, encrypted, {
-    additionalData: aad,
+    additionalData: aad
   });
   assertEquals(decrypted, plaintext);
 });
@@ -65,25 +65,25 @@ Ende.test("encryptAesGcm()/decryptAesGcm() round-trips with matching additionalD
 Ende.test("decryptAesGcm() rejects with wrong additionalData", async () => {
   const key = await generateKey(256);
   const encrypted = await encryptAesGcm(key, encoder.encode("secret"), {
-    additionalData: encoder.encode("correct"),
+    additionalData: encoder.encode("correct")
   });
   await assertRejects(
     () =>
       decryptAesGcm(key, encrypted, {
-        additionalData: encoder.encode("wrong"),
+        additionalData: encoder.encode("wrong")
       }),
-    DOMException,
+    DOMException
   );
 });
 
 Ende.test("decryptAesGcm() rejects when additionalData expected but not provided", async () => {
   const key = await generateKey(256);
   const encrypted = await encryptAesGcm(key, encoder.encode("secret"), {
-    additionalData: encoder.encode("metadata"),
+    additionalData: encoder.encode("metadata")
   });
   await assertRejects(
     () => decryptAesGcm(key, encrypted),
-    DOMException,
+    DOMException
   );
 });
 
@@ -93,7 +93,7 @@ Ende.test("decryptAesGcm() rejects on tampered ciphertext", async () => {
   encrypted[14]! ^= 0xff;
   await assertRejects(
     () => decryptAesGcm(key, encrypted),
-    DOMException,
+    DOMException
   );
 });
 
@@ -103,7 +103,7 @@ Ende.test("decryptAesGcm() throws RangeError for data shorter than 28 bytes", as
     await assertRejects(
       () => decryptAesGcm(key, new Uint8Array(size)),
       RangeError,
-      `expected at least`,
+      `expected at least`
     );
   }
 });
@@ -114,7 +114,7 @@ Ende.test("decryptAesGcm() rejects with a different key", async () => {
   const encrypted = await encryptAesGcm(key1, encoder.encode("hello"));
   await assertRejects(
     () => decryptAesGcm(key2, encrypted),
-    DOMException,
+    DOMException
   );
 });
 
@@ -130,8 +130,8 @@ Ende.test("encryptAesGcm() output is valid Web Crypto AES-GCM", async () => {
     await crypto.subtle.decrypt(
       { name: "AES-GCM", iv: nonce, tagLength: 128 },
       key,
-      ciphertextAndTag,
-    ),
+      ciphertextAndTag
+    )
   );
   assertEquals(decrypted, plaintext);
 });
@@ -145,8 +145,8 @@ Ende.test("decryptAesGcm() decrypts manually constructed wire format", async () 
     await crypto.subtle.encrypt(
       { name: "AES-GCM", iv: nonce, tagLength: 128 },
       key,
-      plaintext,
-    ),
+      plaintext
+    )
   );
 
   const wire = new Uint8Array(12 + ciphertextAndTag.byteLength);
@@ -171,7 +171,7 @@ Ende.test("encryptAesGcm()/decryptAesGcm() round-trips ArrayBuffer inputs", asyn
   const encrypted = await encryptAesGcm(key, plaintext.buffer as ArrayBuffer);
   const decrypted = await decryptAesGcm(
     key,
-    encrypted.buffer as ArrayBuffer,
+    encrypted.buffer as ArrayBuffer
   );
   assertEquals(decrypted, plaintext);
 });
@@ -182,13 +182,13 @@ Ende.test("encryptAesGcm()/decryptAesGcm() round-trips DataView inputs", async (
   const plaintextView = new DataView(
     plaintext.buffer as ArrayBuffer,
     plaintext.byteOffset,
-    plaintext.byteLength,
+    plaintext.byteLength
   );
   const encrypted = await encryptAesGcm(key, plaintextView);
   const encryptedView = new DataView(
     encrypted.buffer as ArrayBuffer,
     encrypted.byteOffset,
-    encrypted.byteLength,
+    encrypted.byteLength
   );
   const decrypted = await decryptAesGcm(key, encryptedView);
   assertEquals(decrypted, plaintext);

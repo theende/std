@@ -91,14 +91,14 @@ export type JoinToStringOptions = {
 export function joinToString<T>(
   array: Iterable<T>,
   selector: (el: T, index: number) => string,
-  options: Readonly<JoinToStringOptions> = {},
+  options: Readonly<JoinToStringOptions> = {}
 ): string {
   const {
     separator = ",",
     prefix = "",
     suffix = "",
     limit = -1,
-    truncated = "...",
+    truncated = "..."
   } = options;
 
   let result = "";

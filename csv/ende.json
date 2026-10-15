@@ -1,6 +1,4 @@
 {
-  "name": "@ende/csv",
-  "version": "1.0.6",
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
@@ -8,5 +6,7 @@
     "./stringify": "./stringify.ts",
     "./stringify-stream": "./stringify_stream.ts",
     "./unstable-stringify": "./unstable_stringify.ts"
-  }
+  },
+  "name": "@ende/csv",
+  "version": "2026.10.15"
 }

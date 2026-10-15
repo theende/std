@@ -30,7 +30,7 @@ import type { RemoveOptions } from "./unstable_types.ts";
  */
 export async function remove(
   path: string | URL,
-  options?: RemoveOptions,
+  options?: RemoveOptions
 ) {
   await Ende.remove(path, options);
 }
@@ -62,7 +62,7 @@ export async function remove(
  */
 export function removeSync(
   path: string | URL,
-  options?: RemoveOptions,
+  options?: RemoveOptions
 ) {
   Ende.removeSync(path, options);
 }

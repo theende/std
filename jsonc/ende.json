@@ -1,8 +1,8 @@
 {
-  "name": "@ende/jsonc",
-  "version": "1.0.3",
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts"
-  }
+  },
+  "name": "@ende/jsonc",
+  "version": "2026.10.15"
 }

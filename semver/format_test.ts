@@ -5,7 +5,7 @@ import { assertEquals } from "@ende/assert";
 import { format } from "./format.ts";
 import { parse } from "./parse.ts";
 
-Ende.test("format()", async (t) => {
+Ende.test("format()", async t => {
   const versions: [string, string][] = [
     ["0.0.0", "0.0.0"],
     ["1.2.3", "1.2.3"],
@@ -13,7 +13,7 @@ Ende.test("format()", async (t) => {
     ["1.2.3-pre.0", "1.2.3-pre.0"],
     ["1.2.3+b", "1.2.3+b"],
     ["1.2.3+b.0", "1.2.3+b.0"],
-    ["1.2.3-pre.0+b.0", "1.2.3-pre.0+b.0"],
+    ["1.2.3-pre.0+b.0", "1.2.3-pre.0+b.0"]
   ];
 
   for (const [version, expected] of versions) {
@@ -23,7 +23,7 @@ Ende.test("format()", async (t) => {
         const v = parse(version)!;
         const actual = format(v);
         assertEquals(actual, expected);
-      },
+      }
     });
   }
 });

@@ -22,7 +22,7 @@
  */
 export async function copyFile(
   from: string | URL,
-  to: string | URL,
+  to: string | URL
 ): Promise<void> {
   await Ende.copyFile(from, to);
 }
@@ -49,7 +49,7 @@ export async function copyFile(
  */
 export function copyFileSync(
   from: string | URL,
-  to: string | URL,
+  to: string | URL
 ) {
   Ende.copyFileSync(from, to);
 }

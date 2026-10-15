@@ -13,30 +13,29 @@ Ende.test({
   name: "detect() detects CRLF as the end-of-line character",
   fn() {
     assertEquals(detect(CRLF_INPUT), CRLF);
-  },
+  }
 });
 
 Ende.test({
   name: "detect() detects LF as the end-of-line character",
   fn() {
     assertEquals(detect(LF_INPUT), LF);
-  },
+  }
 });
 
 Ende.test({
   name: "detect() returns null for a string with no end-of-line character",
   fn() {
     assertEquals(detect(NO_NL_INPUT), null);
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "detect() detects the most common end-of-line character in a mixed string",
+  name: "detect() detects the most common end-of-line character in a mixed string",
   fn() {
     assertEquals(detect(MIXED_INPUT), CRLF);
     assertEquals(detect(MIXED_INPUT2), CRLF);
-  },
+  }
 });
 
 Ende.test({
@@ -52,5 +51,5 @@ Ende.test({
     assertEquals(format(MIXED_INPUT, LF), LF_INPUT);
     assertEquals(format(MIXED_INPUT2, CRLF), CRLF_INPUT);
     assertEquals(format(MIXED_INPUT2, LF), LF_INPUT);
-  },
+  }
 });

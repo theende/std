@@ -39,7 +39,7 @@
  */
 export function associateBy<T>(
   array: Iterable<T>,
-  selector: (el: T) => string,
+  selector: (el: T) => string
 ): Record<string, T> {
   const result: Record<string, T> = {};
 

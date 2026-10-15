@@ -18,10 +18,10 @@ Ende.test("normalizeSring()", () => {
   assertEquals(normalizeString("./foo/bar", true, "/", isSeparator), "foo/bar");
   assertEquals(
     normalizeString("../foo/bar/baz/", true, "/", isSeparator),
-    "../foo/bar/baz",
+    "../foo/bar/baz"
   );
   assertEquals(
     normalizeString("/foo/../../bar", true, "/", isSeparator),
-    "../bar",
+    "../bar"
   );
 });

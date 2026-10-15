@@ -59,7 +59,7 @@ const joinTests: TestCase[] =
     [["/", "//foo"], "/foo"],
     [["/", "", "/foo"], "/foo"],
     [["", "/", "foo"], "/foo"],
-    [["", "/", "/foo"], "/foo"],
+    [["", "/", "/foo"], "/foo"]
   ];
 
 const joinUrlTests: UrlTestCase[] = [
@@ -68,8 +68,8 @@ const joinUrlTests: UrlTestCase[] = [
   [[new URL("file:///foo"), "../../../bar"], "/bar"],
   [
     [new URL("file:///foo"), "bar", "baz/asdf", "quux", ".."],
-    "/foo/bar/baz/asdf",
-  ],
+    "/foo/bar/baz/asdf"
+  ]
 ];
 
 // Windows-specific join tests
@@ -119,57 +119,57 @@ const windowsJoinTests: TestCase[] = [
   [["c:.", "/"], "c:.\\"],
   [["c:.", "file"], "c:file"],
   [["c:", "/"], "c:\\"],
-  [["c:", "file"], "c:\\file"],
+  [["c:", "file"], "c:\\file"]
 ];
 const windowsJoinUrlTests: UrlTestCase[] = [
   // URLs
   [[new URL("file:///c:")], "c:\\"],
   [[new URL("file:///c:"), "file"], "c:\\file"],
-  [[new URL("file:///c:/"), "file"], "c:\\file"],
+  [[new URL("file:///c:/"), "file"], "c:\\file"]
 ];
 
-Ende.test("posix.join()", function () {
-  joinTests.forEach(function (p) {
+Ende.test("posix.join()", function() {
+  joinTests.forEach(function(p) {
     const _p = p[0];
     const actual = posix.join.apply(null, _p);
     assertEquals(actual, p[1]);
   });
 
-  joinUrlTests.forEach(function (p) {
+  joinUrlTests.forEach(function(p) {
     const _p = p[0];
     const actual = posix.join.apply(null, _p);
     assertEquals(actual, p[1]);
   });
 });
 
-Ende.test("windows.join()", function () {
-  joinTests.forEach(function (p) {
+Ende.test("windows.join()", function() {
+  joinTests.forEach(function(p) {
     const _p = p[0];
     const actual = windows.join.apply(null, _p).replace(backslashRE, "/");
     assertEquals(actual, p[1]);
   });
-  windowsJoinTests.forEach(function (p) {
+  windowsJoinTests.forEach(function(p) {
     const _p = p[0];
     const actual = windows.join.apply(null, _p);
     assertEquals(actual, p[1]);
   });
 
-  joinUrlTests.forEach(function (p) {
+  joinUrlTests.forEach(function(p) {
     const _p = p[0];
     const actual = windows.join.apply(null, _p).replace(
       backslashRE,
-      "/",
+      "/"
     );
     assertEquals(actual, p[1]);
   });
-  windowsJoinUrlTests.forEach(function (p) {
+  windowsJoinUrlTests.forEach(function(p) {
     const _p = p[0];
     const actual = windows.join.apply(null, _p);
     assertEquals(actual, p[1]);
   });
 });
 
-Ende.test(`join() returns "." if input is empty`, function () {
+Ende.test(`join() returns "." if input is empty`, function() {
   assertEquals(join(""), ".");
   assertEquals(join("", ""), ".");
 

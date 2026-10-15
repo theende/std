@@ -8,7 +8,7 @@ import { equal } from "./_equal.ts";
 export abstract class AsymmetricMatcher<T> {
   constructor(
     protected value: T,
-    protected inverse: boolean = false,
+    protected inverse: boolean = false
   ) {}
   abstract equals(other: unknown): boolean;
 }
@@ -78,11 +78,7 @@ export class ArrayContaining extends AsymmetricMatcher<any[]> {
 
   equals(other: any[]): boolean {
     const res = Array.isArray(other) &&
-      this.value.every((e) =>
-        other.some((another) =>
-          equal(e, another, { customTesters: getCustomEqualityTesters() })
-        )
-      );
+      this.value.every(e => other.some(another => equal(e, another, { customTesters: getCustomEqualityTesters() })));
     return this.inverse ? !res : res;
   }
 }
@@ -163,8 +159,7 @@ export function stringNotMatching(pattern: string | RegExp): StringMatching {
   return new StringMatching(pattern, true);
 }
 
-export class ObjectContaining
-  extends AsymmetricMatcher<Record<string, unknown>> {
+export class ObjectContaining extends AsymmetricMatcher<Record<string, unknown>> {
   constructor(obj: Record<string, unknown>, inverse = false) {
     super(obj, inverse);
   }
@@ -187,13 +182,13 @@ export class ObjectContaining
 }
 
 export function objectContaining(
-  obj: Record<string, unknown>,
+  obj: Record<string, unknown>
 ): ObjectContaining {
   return new ObjectContaining(obj);
 }
 
 export function objectNotContaining(
-  obj: Record<string, unknown>,
+  obj: Record<string, unknown>
 ): ObjectContaining {
   return new ObjectContaining(obj, true);
 }

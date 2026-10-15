@@ -151,7 +151,7 @@ Ende.test({
     let fh = await open(testFile, {
       mode: 0o624,
       createNew: true,
-      write: true,
+      write: true
     });
     let fhStats = await fh.stat();
     fh.close();
@@ -165,7 +165,7 @@ Ende.test({
     assertEquals(fhStats.mode! & 0o777, 0o624 & ~Ende.umask(0o022));
 
     await remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("open() rejects with Error when all options are false", async () => {
@@ -181,7 +181,7 @@ Ende.test("open() rejects with TypeError when trying to 'truncate' and 'append' 
     const _fh = await open(tempFile, {
       write: true,
       append: true,
-      truncate: true,
+      truncate: true
     });
   }, TypeError);
 
@@ -343,8 +343,7 @@ Ende.test("openSync() handles 'truncate' when opening a file", () => {
 });
 
 Ende.test({
-  name:
-    "openSync() opens files with a user-defined mode prior to applying umask",
+  name: "openSync() opens files with a user-defined mode prior to applying umask",
   ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
@@ -363,7 +362,7 @@ Ende.test({
     assertEquals(fhStats.mode! & 0o777, 0o624 & ~Ende.umask(0o022));
 
     removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("openSync() throws with Error when all options are false", () => {
@@ -379,7 +378,7 @@ Ende.test("openSync() throws with TypeError when trying to 'truncate' and 'appen
     const _fh = openSync(tempFile, {
       write: true,
       append: true,
-      truncate: true,
+      truncate: true
     });
   }, TypeError);
 

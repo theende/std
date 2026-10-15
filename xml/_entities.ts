@@ -13,8 +13,7 @@
 // Group 2: decimal char ref (e.g. "#13")
 // Group 3: hex char ref (e.g. "#xd")
 // No groups: bare/invalid ampersand
-const ENTITY_OR_AMPERSAND_REGEXP =
-  /&(?:([a-zA-Z][a-zA-Z0-9]*);|(#[0-9]+);|(#x[0-9a-fA-F]+);)?/g;
+const ENTITY_OR_AMPERSAND_REGEXP = /&(?:([a-zA-Z][a-zA-Z0-9]*);|(#[0-9]+);|(#x[0-9a-fA-F]+);)?/g;
 const SPECIAL_CHARS_REGEXP = /[<>&'"]/g;
 const ATTR_ENCODE_REGEXP = /[<>&'"\t\n\r]/g;
 
@@ -24,7 +23,7 @@ const NAMED_ENTITIES: Record<string, string> = {
   gt: ">",
   amp: "&",
   apos: "'",
-  quot: '"',
+  quot: "\""
 };
 
 /** XML 1.0 §4.6 predefined entities (encode). */
@@ -33,7 +32,7 @@ const ENTITY_MAP: Record<string, string> = {
   ">": "&gt;",
   "&": "&amp;",
   "'": "&apos;",
-  '"': "&quot;",
+  "\"": "&quot;"
 };
 
 /** Entity map extended with whitespace for attribute values (§3.3.3). */
@@ -41,7 +40,7 @@ const ATTR_ENTITY_MAP: Record<string, string> = {
   ...ENTITY_MAP,
   "\t": "&#9;",
   "\n": "&#10;",
-  "\r": "&#13;",
+  "\r": "&#13;"
 };
 
 /**
@@ -99,7 +98,8 @@ function isValidXml11CharRef(codePoint: number): boolean {
  */
 export function decodeEntities(text: string, xml11: boolean): string {
   // Fast path: no ampersand means no entities to decode
-  if (!text.includes("&")) return text;
+  if (!text.includes("&"))
+    return text;
 
   const isValid = xml11 ? isValidXml11CharRef : isValidXml10CharRef;
 
@@ -111,7 +111,7 @@ export function decodeEntities(text: string, xml11: boolean): string {
       namedEntity: string | undefined,
       decimalRef: string | undefined,
       hexRef: string | undefined,
-      offset: number,
+      offset: number
     ) => {
       // Hex character reference (&#xNN;)
       if (hexRef !== undefined) {
@@ -119,7 +119,7 @@ export function decodeEntities(text: string, xml11: boolean): string {
         if (!isValid(codePoint)) {
           throw new Error(
             `Invalid character reference '${match}' at position ${offset}: ` +
-              `code point ${codePoint} is not a valid XML character`,
+              `code point ${codePoint} is not a valid XML character`
           );
         }
         return String.fromCodePoint(codePoint);
@@ -131,7 +131,7 @@ export function decodeEntities(text: string, xml11: boolean): string {
         if (!isValid(codePoint)) {
           throw new Error(
             `Invalid character reference '${match}' at position ${offset}: ` +
-              `code point ${codePoint} is not a valid XML character`,
+              `code point ${codePoint} is not a valid XML character`
           );
         }
         return String.fromCodePoint(codePoint);
@@ -145,16 +145,16 @@ export function decodeEntities(text: string, xml11: boolean): string {
         }
         throw new Error(
           `Unknown entity '${match}' at position ${offset}: ` +
-            `only predefined entities (lt, gt, amp, apos, quot) are recognized`,
+            `only predefined entities (lt, gt, amp, apos, quot) are recognized`
         );
       }
 
       // Bare ampersand (no valid entity pattern matched)
       throw new Error(
         `Invalid bare '&' at position ${offset}: ` +
-          `use &amp; or a valid entity reference (&name;, &#num;, &#xHex;)`,
+          `use &amp; or a valid entity reference (&name;, &#num;, &#xHex;)`
       );
-    },
+    }
   );
 }
 
@@ -165,8 +165,9 @@ export function decodeEntities(text: string, xml11: boolean): string {
  */
 export function encodeEntities(text: string): string {
   // Fast path: no special characters means nothing to encode
-  if (!/[<>&'"]/.test(text)) return text;
-  return text.replace(SPECIAL_CHARS_REGEXP, (c) => ENTITY_MAP[c]!);
+  if (!/[<>&'"]/.test(text))
+    return text;
+  return text.replace(SPECIAL_CHARS_REGEXP, c => ENTITY_MAP[c]!);
 }
 
 /**
@@ -177,6 +178,7 @@ export function encodeEntities(text: string): string {
  */
 export function encodeAttributeValue(value: string): string {
   // Fast path: no special characters means nothing to encode
-  if (!/[<>&'"\t\n\r]/.test(value)) return value;
-  return value.replace(ATTR_ENCODE_REGEXP, (c) => ATTR_ENTITY_MAP[c]!);
+  if (!/[<>&'"\t\n\r]/.test(value))
+    return value;
+  return value.replace(ATTR_ENCODE_REGEXP, c => ATTR_ENTITY_MAP[c]!);
 }

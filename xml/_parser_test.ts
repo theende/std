@@ -8,7 +8,7 @@ import type {
   ParseStreamOptions,
   XmlAttributeIterator,
   XmlEventCallbacks,
-  XmlName,
+  XmlName
 } from "./types.ts";
 import { XmlSyntaxError } from "./types.ts";
 
@@ -16,7 +16,7 @@ import { XmlSyntaxError } from "./types.ts";
 interface XmlEvent {
   type: string;
   name?: XmlName;
-  attributes?: Array<{ name: XmlName; value: string }>;
+  attributes?: Array<{ name: XmlName; value: string; }>;
   selfClosing?: boolean;
   text?: string;
   target?: string;
@@ -33,7 +33,7 @@ interface XmlEvent {
 function parseName(
   raw: string,
   colonIndex: number,
-  uri?: string,
+  uri?: string
 ): XmlName {
   if (colonIndex === -1) {
     return { raw, local: raw };
@@ -42,7 +42,7 @@ function parseName(
     raw,
     local: raw.slice(colonIndex + 1),
     prefix: raw.slice(0, colonIndex),
-    ...(uri !== undefined && { uri }),
+    ...(uri !== undefined && { uri })
   };
 }
 
@@ -61,7 +61,7 @@ function createEventCollector(): {
         ...(standalone !== undefined ? { standalone } : {}),
         line,
         column,
-        offset,
+        offset
       } as XmlEvent);
     },
     onStartElement(
@@ -72,16 +72,16 @@ function createEventCollector(): {
       selfClosing,
       line,
       column,
-      offset,
+      offset
     ) {
-      const attrs: Array<{ name: XmlName; value: string }> = [];
+      const attrs: Array<{ name: XmlName; value: string; }> = [];
       for (let i = 0; i < attributes.count; i++) {
         const attrName = attributes.getName(i);
         const attrColonIndex = attributes.getColonIndex(i);
         const attrUri = attributes.getUri(i);
         attrs.push({
           name: parseName(attrName, attrColonIndex, attrUri),
-          value: attributes.getValue(i),
+          value: attributes.getValue(i)
         });
       }
       events.push({
@@ -91,7 +91,7 @@ function createEventCollector(): {
         selfClosing,
         line,
         column,
-        offset,
+        offset
       });
     },
     onEndElement(name, colonIndex, uri, line, column, offset) {
@@ -100,7 +100,7 @@ function createEventCollector(): {
         name: parseName(name, colonIndex, uri),
         line,
         column,
-        offset,
+        offset
       });
     },
     onText(text, line, column, offset) {
@@ -119,9 +119,9 @@ function createEventCollector(): {
         content,
         line,
         column,
-        offset,
+        offset
       });
-    },
+    }
   };
   return { events, callbacks };
 }
@@ -143,7 +143,7 @@ function collectEvents(xml: string, options?: ParseStreamOptions): XmlEvent[] {
 
 Ende.test("XmlEventParser.process() extracts namespace prefix from element name", () => {
   const events = collectEvents(
-    '<ns:element xmlns:ns="http://example.com"></ns:element>',
+    "<ns:element xmlns:ns=\"http://example.com\"></ns:element>"
   );
 
   assertEquals(events[0]!.type, "start_element");
@@ -153,7 +153,7 @@ Ende.test("XmlEventParser.process() extracts namespace prefix from element name"
 
 Ende.test("XmlEventParser.process() resolves namespace URI for element name", () => {
   const events = collectEvents(
-    '<ns:element xmlns:ns="http://example.com"></ns:element>',
+    "<ns:element xmlns:ns=\"http://example.com\"></ns:element>"
   );
 
   assertEquals(events[0]!.type, "start_element");
@@ -164,18 +164,18 @@ Ende.test("XmlEventParser.process() resolves namespace URI for element name", ()
 });
 
 Ende.test("XmlEventParser.process() resolves xml namespace URI for xml: prefix", () => {
-  const events = collectEvents('<root xml:lang="en"/>');
+  const events = collectEvents("<root xml:lang=\"en\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.name.prefix, "xml");
   assertEquals(
     events[0]!.attributes?.[0]?.name.uri,
-    "http://www.w3.org/XML/1998/namespace",
+    "http://www.w3.org/XML/1998/namespace"
   );
 });
 
 Ende.test("XmlEventParser.process() extracts namespace prefix from attribute name", () => {
-  const events = collectEvents('<root xml:lang="en"/>');
+  const events = collectEvents("<root xml:lang=\"en\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.length, 1);
@@ -186,25 +186,23 @@ Ende.test("XmlEventParser.process() extracts namespace prefix from attribute nam
 
 Ende.test("XmlEventParser.process() resolves namespace URI for prefixed attributes", () => {
   const events = collectEvents(
-    '<root xmlns:ns="http://example.com" ns:attr="value"/>',
+    "<root xmlns:ns=\"http://example.com\" ns:attr=\"value\"/>"
   );
 
   assertEquals(events[0]!.type, "start_element");
   // Find the ns:attr attribute (not the xmlns:ns declaration)
-  const nsAttr = events[0]!.attributes?.find((a) => a.name.prefix === "ns");
+  const nsAttr = events[0]!.attributes?.find(a => a.name.prefix === "ns");
   assertEquals(nsAttr?.name.local, "attr");
   assertEquals(nsAttr?.name.uri, "http://example.com");
 });
 
 Ende.test("XmlEventParser.process() does not assign URI to xmlns: declarations", () => {
   const events = collectEvents(
-    '<root xmlns:ns="http://example.com"/>',
+    "<root xmlns:ns=\"http://example.com\"/>"
   );
 
   assertEquals(events[0]!.type, "start_element");
-  const xmlnsAttr = events[0]!.attributes?.find((a) =>
-    a.name.raw === "xmlns:ns"
-  );
+  const xmlnsAttr = events[0]!.attributes?.find(a => a.name.raw === "xmlns:ns");
   assertEquals(xmlnsAttr?.name.uri, undefined);
 });
 
@@ -222,14 +220,14 @@ Ende.test("XmlEventParser.process() handles element without prefix", () => {
 // =============================================================================
 
 Ende.test("XmlEventParser.process() decodes entities in attribute values", () => {
-  const events = collectEvents('<item name="Tom &amp; Jerry"/>');
+  const events = collectEvents("<item name=\"Tom &amp; Jerry\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "Tom & Jerry");
 });
 
 Ende.test("XmlEventParser.process() decodes character references in attribute values", () => {
-  const events = collectEvents('<item char="&#60;&#62;"/>');
+  const events = collectEvents("<item char=\"&#60;&#62;\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "<>");
@@ -244,7 +242,7 @@ Ende.test("XmlEventParser.process() decodes entities in text content", () => {
 
 Ende.test("XmlEventParser.process() decodes all predefined entities in text", () => {
   const events = collectEvents(
-    "<root>&lt;&gt;&amp;&apos;&quot;</root>",
+    "<root>&lt;&gt;&amp;&apos;&quot;</root>"
   );
 
   assertEquals(events[1]!.type, "text");
@@ -270,42 +268,42 @@ Ende.test("XmlEventParser.process() handles Unicode in text", () => {
 // =============================================================================
 
 Ende.test("XmlEventParser.process() normalizes literal tab in attribute value to space", () => {
-  const events = collectEvents('<item value="a\tb"/>');
+  const events = collectEvents("<item value=\"a\tb\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "a b");
 });
 
 Ende.test("XmlEventParser.process() normalizes literal newline in attribute value to space", () => {
-  const events = collectEvents('<item value="a\nb"/>');
+  const events = collectEvents("<item value=\"a\nb\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "a b");
 });
 
 Ende.test("XmlEventParser.process() preserves character reference to newline in attribute value", () => {
-  const events = collectEvents('<item value="a&#10;b"/>');
+  const events = collectEvents("<item value=\"a&#10;b\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "a\nb");
 });
 
 Ende.test("XmlEventParser.process() preserves character reference to tab in attribute value", () => {
-  const events = collectEvents('<item value="a&#9;b"/>');
+  const events = collectEvents("<item value=\"a&#9;b\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "a\tb");
 });
 
 Ende.test("XmlEventParser.process() preserves character reference to CR in attribute value", () => {
-  const events = collectEvents('<item value="a&#13;b"/>');
+  const events = collectEvents("<item value=\"a&#13;b\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "a\rb");
 });
 
 Ende.test("XmlEventParser.process() normalizes mixed literal and reference whitespace correctly", () => {
-  const events = collectEvents('<item value="a\t&#10;b"/>');
+  const events = collectEvents("<item value=\"a\t&#10;b\"/>");
 
   assertEquals(events[0]!.type, "start_element");
   assertEquals(events[0]!.attributes?.[0]?.value, "a \nb");
@@ -317,7 +315,7 @@ Ende.test("XmlEventParser.process() normalizes mixed literal and reference white
 
 Ende.test("XmlEventParser.process() does not decode entities in CDATA", () => {
   const events = collectEvents(
-    "<root><![CDATA[&amp; stays &amp;]]></root>",
+    "<root><![CDATA[&amp; stays &amp;]]></root>"
   );
 
   assertEquals(events[1]!.type, "cdata");
@@ -327,7 +325,7 @@ Ende.test("XmlEventParser.process() does not decode entities in CDATA", () => {
 Ende.test("XmlEventParser.process() coerces CDATA to text when option is set", () => {
   const events = collectEvents(
     "<root><![CDATA[content]]></root>",
-    { coerceCDataToText: true },
+    { coerceCDataToText: true }
   );
 
   assertEquals(events[1]!.type, "text");
@@ -341,7 +339,7 @@ Ende.test("XmlEventParser.process() coerces CDATA to text when option is set", (
 Ende.test("XmlEventParser.process() filters comments when ignoreComments is true", () => {
   const events = collectEvents(
     "<root><!-- comment -->text</root>",
-    { ignoreComments: true },
+    { ignoreComments: true }
   );
 
   assertEquals(events.length, 3);
@@ -353,7 +351,7 @@ Ende.test("XmlEventParser.process() filters comments when ignoreComments is true
 Ende.test("XmlEventParser.process() filters PIs when ignoreProcessingInstructions is true", () => {
   const events = collectEvents(
     "<?pi content?><root/>",
-    { ignoreProcessingInstructions: true },
+    { ignoreProcessingInstructions: true }
   );
 
   assertEquals(events.length, 2);
@@ -364,7 +362,7 @@ Ende.test("XmlEventParser.process() filters PIs when ignoreProcessingInstruction
 Ende.test("XmlEventParser.process() ignores whitespace-only text when option is set", () => {
   const events = collectEvents(
     "<root>  \n  </root>",
-    { ignoreWhitespace: true },
+    { ignoreWhitespace: true }
   );
 
   assertEquals(events.length, 2);
@@ -383,7 +381,7 @@ Ende.test("XmlEventParser.process() preserves whitespace by default", () => {
 Ende.test("XmlEventParser.process() preserves text with whitespace and content", () => {
   const events = collectEvents(
     "<root>  hello  </root>",
-    { ignoreWhitespace: true },
+    { ignoreWhitespace: true }
   );
 
   assertEquals(events.length, 3);
@@ -402,8 +400,8 @@ Ende.test("XmlEventParser.process() handles multiple options together", () => {
       ignoreWhitespace: true,
       ignoreComments: true,
       ignoreProcessingInstructions: true,
-      coerceCDataToText: true,
-    },
+      coerceCDataToText: true
+    }
   );
 
   assertEquals(events.length, 3);
@@ -420,7 +418,7 @@ Ende.test("XmlEventParser.process() throws on mismatched closing tag", () => {
   assertThrows(
     () => collectEvents("<root></wrong>"),
     XmlSyntaxError,
-    "Mismatched closing tag: expected </root> but found </wrong>",
+    "Mismatched closing tag: expected </root> but found </wrong>"
   );
 });
 
@@ -428,7 +426,7 @@ Ende.test("XmlEventParser.process() throws on unexpected closing tag", () => {
   assertThrows(
     () => collectEvents("</orphan>"),
     XmlSyntaxError,
-    "Unexpected closing tag </orphan> with no matching opening tag",
+    "Unexpected closing tag </orphan> with no matching opening tag"
   );
 });
 
@@ -436,7 +434,7 @@ Ende.test("XmlEventParser.process() throws on unclosed element", () => {
   assertThrows(
     () => collectEvents("<root>"),
     XmlSyntaxError,
-    "Unclosed element <root>",
+    "Unclosed element <root>"
   );
 });
 
@@ -444,7 +442,7 @@ Ende.test("XmlEventParser.process() throws on deeply nested unclosed element", (
   assertThrows(
     () => collectEvents("<root><child><grandchild></grandchild></child>"),
     XmlSyntaxError,
-    "Unclosed element <root>",
+    "Unclosed element <root>"
   );
 });
 
@@ -452,7 +450,7 @@ Ende.test("XmlEventParser.process() throws on multiple top-level elements after 
   assertThrows(
     () => collectEvents("<root/></extra>"),
     XmlSyntaxError,
-    "Unexpected closing tag </extra>",
+    "Unexpected closing tag </extra>"
   );
 });
 
@@ -473,14 +471,14 @@ Ende.test("XmlEventParser.process() tracks position on multiple lines", () => {
   const events = collectEvents("<root>\n  <child/>\n</root>");
 
   const child = events.find(
-    (e) => e.type === "start_element" && e.name?.local === "child",
+    e => e.type === "start_element" && e.name?.local === "child"
   );
   assertEquals(child?.line, 2);
   assertEquals(child?.column, 3);
 });
 
 Ende.test("XmlEventParser.process() tracks position for declaration", () => {
-  const events = collectEvents('<?xml version="1.0"?><root/>');
+  const events = collectEvents("<?xml version=\"1.0\"?><root/>");
 
   assertEquals(events[0]!.type, "declaration");
   assertEquals(events[0]!.line, 1);
@@ -494,7 +492,7 @@ Ende.test("XmlEventParser.process() tracks position for declaration", () => {
 
 Ende.test("XmlEventParser.process() propagates declaration encoding", () => {
   const events = collectEvents(
-    '<?xml version="1.0" encoding="UTF-8"?><root/>',
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>"
   );
 
   assertEquals(events[0]!.type, "declaration");
@@ -503,7 +501,7 @@ Ende.test("XmlEventParser.process() propagates declaration encoding", () => {
 
 Ende.test("XmlEventParser.process() propagates declaration standalone", () => {
   const events = collectEvents(
-    '<?xml version="1.0" standalone="yes"?><root/>',
+    "<?xml version=\"1.0\" standalone=\"yes\"?><root/>"
   );
 
   assertEquals(events[0]!.type, "declaration");
@@ -516,12 +514,12 @@ Ende.test("XmlEventParser.process() propagates declaration standalone", () => {
 
 Ende.test("XmlEventParser.process() emits processing instruction events by default", () => {
   const events = collectEvents(
-    '<?xml-stylesheet href="style.xsl"?><root/>',
+    "<?xml-stylesheet href=\"style.xsl\"?><root/>"
   );
 
   assertEquals(events[0]!.type, "processing_instruction");
   assertEquals(events[0]!.target, "xml-stylesheet");
-  assertEquals(events[0]!.content, 'href="style.xsl"');
+  assertEquals(events[0]!.content, "href=\"style.xsl\"");
   assertEquals(events[0]!.line, 1);
   assertEquals(events[0]!.column, 1);
   assertEquals(events[0]!.offset, 0);
@@ -529,10 +527,10 @@ Ende.test("XmlEventParser.process() emits processing instruction events by defau
 
 Ende.test("XmlEventParser.process() emits multiple processing instructions", () => {
   const events = collectEvents(
-    "<?pi1 data1?><?pi2 data2?><root/>",
+    "<?pi1 data1?><?pi2 data2?><root/>"
   );
 
-  const pis = events.filter((e) => e.type === "processing_instruction");
+  const pis = events.filter(e => e.type === "processing_instruction");
   assertEquals(pis.length, 2);
 });
 
@@ -557,25 +555,25 @@ Ende.test("XmlEventParser.process() throws when nesting exceeds maxDepth", () =>
   assertThrows(
     () => collectEvents("<a><b><c></c></b></a>", { maxDepth: 2 }),
     XmlSyntaxError,
-    "Element nesting depth exceeds limit of 2",
+    "Element nesting depth exceeds limit of 2"
   );
 });
 
 Ende.test("XmlEventParser.process() allows nesting within maxDepth", () => {
   const events = collectEvents("<a><b><c/></b></a>", { maxDepth: 3 });
-  assertEquals(events.filter((e) => e.type === "start_element").length, 3);
+  assertEquals(events.filter(e => e.type === "start_element").length, 3);
 });
 
 Ende.test("XmlEventParser.process() throws when attributes exceed maxAttributes", () => {
   assertThrows(
-    () => collectEvents('<root a="1" b="2" c="3"/>', { maxAttributes: 2 }),
+    () => collectEvents("<root a=\"1\" b=\"2\" c=\"3\"/>", { maxAttributes: 2 }),
     XmlSyntaxError,
-    "Attribute count exceeds limit of 2",
+    "Attribute count exceeds limit of 2"
   );
 });
 
 Ende.test("XmlEventParser.process() allows attributes within maxAttributes", () => {
-  const events = collectEvents('<root a="1" b="2"/>', { maxAttributes: 2 });
+  const events = collectEvents("<root a=\"1\" b=\"2\"/>", { maxAttributes: 2 });
   assertEquals(events[0]!.attributes?.length, 2);
 });
 
@@ -584,24 +582,28 @@ Ende.test("XmlEventParser.process() allows attributes within maxAttributes", () 
 // =============================================================================
 
 Ende.test("XmlEventParser.process() detects duplicate among 32+ attributes", () => {
-  const attrs = Array.from(
-    { length: 33 },
-    (_, i) => `a${i}="v"`,
-  ).join(" ");
+  const attrs = Array
+    .from(
+      { length: 33 },
+      (_, i) => `a${i}="v"`
+    )
+    .join(" ");
   // Duplicate the first attribute at the end
   const xml = `<root ${attrs} a0="dup"/>`;
   assertThrows(
     () => collectEvents(xml),
     XmlSyntaxError,
-    "Duplicate attribute 'a0'",
+    "Duplicate attribute 'a0'"
   );
 });
 
 Ende.test("XmlEventParser.process() parses 33 unique attributes", () => {
-  const attrs = Array.from(
-    { length: 33 },
-    (_, i) => `a${i}="v${i}"`,
-  ).join(" ");
+  const attrs = Array
+    .from(
+      { length: 33 },
+      (_, i) => `a${i}="v${i}"`
+    )
+    .join(" ");
   const xml = `<root ${attrs}/>`;
   const events = collectEvents(xml);
   assertEquals(events[0]!.attributes?.length, 33);
@@ -615,7 +617,7 @@ Ende.test("XmlEventParser.process() throws on PI target with colon", () => {
   assertThrows(
     () => collectEvents("<?foo:bar data?><root/>"),
     XmlSyntaxError,
-    "Cannot use ':' in processing instruction target",
+    "Cannot use ':' in processing instruction target"
   );
 });
 
@@ -627,7 +629,7 @@ Ende.test("XmlEventParser.process() throws on finalize with no root element", ()
   assertThrows(
     () => collectEvents(""),
     XmlSyntaxError,
-    "No root element found in XML document",
+    "No root element found in XML document"
   );
 });
 
@@ -636,12 +638,11 @@ Ende.test("XmlEventParser.process() throws on finalize with no root element", ()
 // =============================================================================
 
 Ende.test("XmlEventParser.process() allows same local name with different namespace URIs", () => {
-  const xml =
-    '<root xmlns:a="http://a.com" xmlns:b="http://b.com" a:x="1" b:x="2"/>';
+  const xml = "<root xmlns:a=\"http://a.com\" xmlns:b=\"http://b.com\" a:x=\"1\" b:x=\"2\"/>";
   const events = collectEvents(xml);
   const attrs = events[0]!.attributes!;
-  const aX = attrs.find((a) => a.name.raw === "a:x");
-  const bX = attrs.find((a) => a.name.raw === "b:x");
+  const aX = attrs.find(a => a.name.raw === "a:x");
+  const bX = attrs.find(a => a.name.raw === "b:x");
   assertEquals(aX?.name.uri, "http://a.com");
   assertEquals(bX?.name.uri, "http://b.com");
 });

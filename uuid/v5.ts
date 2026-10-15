@@ -6,8 +6,7 @@ import { bytesToUuid, uuidToBytes } from "./_common.ts";
 import { concat } from "@ende/bytes/concat";
 import { validate as validateCommon } from "./common.ts";
 
-const UUID_REGEXP =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_REGEXP = /^[0-9a-f]{8}-[0-9a-f]{4}-[5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /**
  * Determines whether a string is a valid
@@ -55,7 +54,7 @@ export function validate(id: string): boolean {
  */
 export async function generate(
   namespace: string,
-  data: Uint8Array,
+  data: Uint8Array
 ): Promise<string> {
   if (!validateCommon(namespace)) {
     throw new TypeError(`Cannot generate UUID: invalid namespace ${namespace}`);

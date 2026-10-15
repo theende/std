@@ -7,8 +7,8 @@
 import { assertEquals, assertThrows } from "@ende/assert";
 import { stringify } from "./stringify.ts";
 import {
-  type ImplicitType,
   stringify as unstableStringify,
+  type ImplicitType
 } from "./unstable_stringify.ts";
 import { compare, parse } from "@ende/semver";
 
@@ -22,15 +22,15 @@ Ende.test({
           "a",
           "b",
           {
-            a: false,
+            a: false
           },
           {
-            a: false,
-          },
-        ],
+            a: false
+          }
+        ]
       },
       test: "foobar",
-      binary: new Uint8Array([72, 101, 108, 108, 111]),
+      binary: new Uint8Array([72, 101, 108, 108, 111])
     };
 
     const ASSERTS = `foo:
@@ -45,7 +45,7 @@ binary: !<tag:yaml.org,2002:binary> SGVsbG8=
 `;
 
     assertEquals(stringify(FIXTURE), ASSERTS);
-  },
+  }
 });
 
 Ende.test({
@@ -56,7 +56,7 @@ Ende.test({
     const expected = "- 1\n- 2\n- 3\n";
 
     assertEquals(stringify(array), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -67,7 +67,7 @@ Ende.test({
     const expected = "Hello world\n";
 
     assertEquals(stringify(string), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -78,7 +78,7 @@ Ende.test({
     const expected = "1.01\n";
 
     assertEquals(stringify(number), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -89,7 +89,7 @@ Ende.test({
 
     assertEquals(stringify(new Number(42)), "42\n");
     assertEquals(stringify(new Number(-42)), "-42\n");
-  },
+  }
 });
 Ende.test({
   name: "stringify() handles integers with styles option",
@@ -97,46 +97,46 @@ Ende.test({
     // binary, octal, and hexadecimal can be specified in styles options
     assertEquals(
       stringify(42, { styles: { "!!int": "binary" } }),
-      "0b101010\n",
+      "0b101010\n"
     );
     assertEquals(
       stringify(-42, { styles: { "!!int": "binary" } }),
-      "-0b101010\n",
+      "-0b101010\n"
     );
     assertEquals(
       stringify(new Number(42), { styles: { "!!int": "binary" } }),
-      "0b101010\n",
+      "0b101010\n"
     );
     assertEquals(
       stringify(42, { styles: { "!!int": "octal" } }),
-      "052\n",
+      "052\n"
     );
     assertEquals(
       stringify(-42, { styles: { "!!int": "octal" } }),
-      "-052\n",
+      "-052\n"
     );
     assertEquals(
       stringify(new Number(42), { styles: { "!!int": "octal" } }),
-      "052\n",
+      "052\n"
     );
     assertEquals(
       stringify(42, { styles: { "!!int": "hexadecimal" } }),
-      "0x2A\n",
+      "0x2A\n"
     );
     assertEquals(
       stringify(-42, { styles: { "!!int": "hexadecimal" } }),
-      "-0x2A\n",
+      "-0x2A\n"
     );
     assertEquals(
       stringify(new Number(42), { styles: { "!!int": "hexadecimal" } }),
-      "0x2A\n",
+      "0x2A\n"
     );
     assertThrows(
       () => stringify(42, { styles: { "!!int": "camelcase" } }),
       TypeError,
-      '!<tag:yaml.org,2002:int> tag resolver accepts not "camelcase" style',
+      "!<tag:yaml.org,2002:int> tag resolver accepts not \"camelcase\" style"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -147,46 +147,46 @@ Ende.test({
 
     assertEquals(stringify(new Boolean(true)), "true\n");
     assertEquals(stringify(new Boolean(false)), "false\n");
-  },
+  }
 });
 Ende.test({
   name: "stringify() handles boolean with styles option",
   fn() {
     assertEquals(
       stringify(true, { styles: { "!!bool": "camelcase" } }),
-      "True\n",
+      "True\n"
     );
     assertEquals(
       stringify(false, { styles: { "!!bool": "camelcase" } }),
-      "False\n",
+      "False\n"
     );
     assertEquals(
       stringify(new Boolean(true), { styles: { "!!bool": "camelcase" } }),
-      "True\n",
+      "True\n"
     );
     assertEquals(
       stringify(true, { styles: { "!!bool": "uppercase" } }),
-      "TRUE\n",
+      "TRUE\n"
     );
     assertEquals(
       stringify(false, { styles: { "!!bool": "uppercase" } }),
-      "FALSE\n",
+      "FALSE\n"
     );
     assertEquals(
       stringify(new Boolean(true), { styles: { "!!bool": "uppercase" } }),
-      "TRUE\n",
+      "TRUE\n"
     );
     assertThrows(
       () => stringify(true, { styles: { "!!bool": "octal" } }),
       TypeError,
-      '!<tag:yaml.org,2002:bool> tag resolver accepts not "octal" style',
+      "!<tag:yaml.org,2002:bool> tag resolver accepts not \"octal\" style"
     );
     assertThrows(
       () => stringify(false, { styles: { "!!bool": "octal" } }),
       TypeError,
-      '!<tag:yaml.org,2002:bool> tag resolver accepts not "octal" style',
+      "!<tag:yaml.org,2002:bool> tag resolver accepts not \"octal\" style"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -194,21 +194,21 @@ Ende.test({
   fn() {
     assertEquals(
       stringify(new Uint8Array([1])),
-      "!<tag:yaml.org,2002:binary> AQ==\n",
+      "!<tag:yaml.org,2002:binary> AQ==\n"
     );
     assertEquals(
       stringify(new Uint8Array([1, 2])),
-      "!<tag:yaml.org,2002:binary> AQI=\n",
+      "!<tag:yaml.org,2002:binary> AQI=\n"
     );
     assertEquals(
       stringify(new Uint8Array([1, 2, 3])),
-      "!<tag:yaml.org,2002:binary> AQID\n",
+      "!<tag:yaml.org,2002:binary> AQID\n"
     );
     assertEquals(
       stringify(new Uint8Array(Array(50).keys())),
-      "!<tag:yaml.org,2002:binary> AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE=\n",
+      "!<tag:yaml.org,2002:binary> AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE=\n"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -217,14 +217,14 @@ Ende.test({
     assertThrows(
       () => stringify(undefined),
       TypeError,
-      "Cannot stringify undefined",
+      "Cannot stringify undefined"
     );
     assertThrows(
       () => stringify(() => {}),
       TypeError,
-      "Cannot stringify function",
+      "Cannot stringify function"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -233,9 +233,9 @@ Ende.test({
     const object = {
       regexp: {
         simple: /foobar/,
-        modifiers: /foobar/im,
+        modifiers: /foobar/im
       },
-      undefined: undefined,
+      undefined: undefined
     };
 
     const expected = `regexp:
@@ -245,40 +245,38 @@ undefined: !<tag:yaml.org,2002:js/undefined> ''
 `;
 
     assertEquals(stringify(object, { schema: "extended" }), expected);
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "stringify() throws with `!!js/function` yaml types with extended schema",
+  name: "stringify() throws with `!!js/function` yaml types with extended schema",
   fn() {
     const func = function foobar() {
       return "hello world!";
     };
 
     assertThrows(
-      () => stringify({ function: func }, { schema: "extended" }),
+      () => stringify({ function: func }, { schema: "extended" })
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "stringify() ignores `!!js/*` yaml types when skipInvalid option is true",
+  name: "stringify() ignores `!!js/*` yaml types when skipInvalid option is true",
   fn() {
     assertEquals(
       stringify({ undefined: undefined }, { skipInvalid: true }),
-      "{}\n",
+      "{}\n"
     );
     assertEquals(
       stringify({
         foobar() {
           return "hello world!";
-        },
+        }
       }, { skipInvalid: true }),
-      "{}\n",
+      "{}\n"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -297,44 +295,44 @@ Ende.test({
     assertEquals(stringify(Infinity), `.inf\n`);
     assertEquals(stringify(-Infinity), `-.inf\n`);
     assertEquals(stringify(NaN), `.nan\n`);
-  },
+  }
 });
 Ende.test({
   name: "stringify() handles float values with styles option",
   fn() {
     assertEquals(
       stringify(Infinity, {
-        styles: { "tag:yaml.org,2002:float": "uppercase" },
+        styles: { "tag:yaml.org,2002:float": "uppercase" }
       }),
-      `.INF\n`,
+      `.INF\n`
     );
     assertEquals(
       stringify(-Infinity, {
-        styles: { "tag:yaml.org,2002:float": "uppercase" },
+        styles: { "tag:yaml.org,2002:float": "uppercase" }
       }),
-      `-.INF\n`,
+      `-.INF\n`
     );
     assertEquals(
       stringify(NaN, { styles: { "tag:yaml.org,2002:float": "uppercase" } }),
-      `.NAN\n`,
+      `.NAN\n`
     );
     assertEquals(
       stringify(Infinity, {
-        styles: { "tag:yaml.org,2002:float": "camelcase" },
+        styles: { "tag:yaml.org,2002:float": "camelcase" }
       }),
-      `.Inf\n`,
+      `.Inf\n`
     );
     assertEquals(
       stringify(-Infinity, {
-        styles: { "tag:yaml.org,2002:float": "camelcase" },
+        styles: { "tag:yaml.org,2002:float": "camelcase" }
       }),
-      `-.Inf\n`,
+      `-.Inf\n`
     );
     assertEquals(
       stringify(NaN, { styles: { "tag:yaml.org,2002:float": "camelcase" } }),
-      `.NaN\n`,
+      `.NaN\n`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -346,7 +344,7 @@ Ende.test({
     // printable astral characters (e.g. emoji) are emitted literally
     assertEquals(stringify("🐱"), `🐱\n`);
     assertEquals(stringify("🎨 Check Format"), `🎨 Check Format\n`);
-  },
+  }
 });
 
 Ende.test({
@@ -354,9 +352,9 @@ Ende.test({
   fn() {
     assertEquals(
       stringify([new Date("2021-01-01T00:00:00.000Z")]),
-      `- 2021-01-01T00:00:00.000Z\n`,
+      `- 2021-01-01T00:00:00.000Z\n`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -365,13 +363,13 @@ Ende.test({
     const obj = { foo: "bar" };
     assertEquals(
       stringify([obj, obj], { useAnchors: false }),
-      `- foo: bar\n- foo: bar\n`,
+      `- foo: bar\n- foo: bar\n`
     );
     assertEquals(
       stringify([obj, obj], { useAnchors: true }),
-      `- &ref_0\n  foo: bar\n- *ref_0\n`,
+      `- &ref_0\n  foo: bar\n- *ref_0\n`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -382,16 +380,16 @@ Ende.test({
       `|-
   foo
   bar
-`,
+`
     );
     assertEquals(
       stringify("foo  \nbar  "),
       `|-
   foo \x20
   bar \x20
-`,
+`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -399,7 +397,7 @@ Ende.test({
   fn() {
     assertEquals(
       stringify(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
       ),
       `>-
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -409,22 +407,21 @@ Ende.test({
   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
   eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
   in culpa qui officia deserunt mollit anim id est laborum.
-`,
+`
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "stringify() uses flow style for arrays and mappings when the nesting level exceeds flowLevel option value",
+  name: "stringify() uses flow style for arrays and mappings when the nesting level exceeds flowLevel option value",
   fn() {
     assertEquals(
       stringify({ foo: ["bar", "baz"], bar: { hello: "world" } }, {
-        flowLevel: 1,
+        flowLevel: 1
       }),
       `foo: [bar, baz]
 bar: {hello: world}
-`,
+`
     );
 
     const a = { foo: 42 };
@@ -434,9 +431,9 @@ bar: {hello: world}
       stringify(obj, { flowLevel: 1 }),
       `foo: [&ref_0 {foo: 42}, &ref_1 [1, 2]]
 bar: {a: *ref_0, b: *ref_1}
-`,
+`
     );
-  },
+  }
 });
 
 Ende.test("stringify() handles indentation", () => {
@@ -446,9 +443,9 @@ Ende.test("stringify() handles indentation", () => {
     address: {
       street: "123 Main St",
       city: "Anytown",
-      zip: 12345,
+      zip: 12345
     },
-    skills: ["JavaScript", "TypeScript", "Deno"],
+    skills: ["JavaScript", "TypeScript", "Deno"]
   };
 
   const expected = `name: John
@@ -474,9 +471,9 @@ Ende.test("stringify() handles indentation with whitespace values", () => {
     address: {
       street: " 123 Main St ",
       city: "Anytown",
-      zip: 12345,
+      zip: 12345
     },
-    skills: [" JavaScript ", "TypeScript", "Deno"],
+    skills: [" JavaScript ", "TypeScript", "Deno"]
   };
 
   const expected = `name: John
@@ -502,9 +499,9 @@ Ende.test("stringify() handles indentation with start newline values", () => {
     address: {
       street: "\n123 Main St",
       city: "Anytown",
-      zip: 12345,
+      zip: 12345
     },
-    skills: ["\nJavaScript", "TypeScript", "Deno"],
+    skills: ["\nJavaScript", "TypeScript", "Deno"]
   };
 
   const expected = `name: John
@@ -530,9 +527,9 @@ Ende.test("stringify() handles indentation with trailing newline values", () => 
     address: {
       street: "123 Main St\n",
       city: "Anytown",
-      zip: 12345,
+      zip: 12345
     },
-    skills: ["JavaScript\n", "TypeScript", "Deno"],
+    skills: ["JavaScript\n", "TypeScript", "Deno"]
   };
 
   const expected = `name: John
@@ -560,9 +557,9 @@ Ende.test(
       address: {
         street: "123 Main St",
         city: "Anytown",
-        zip: 12345,
+        zip: 12345
       },
-      skills: ["JavaScript", "TypeScript", "Deno"],
+      skills: ["JavaScript", "TypeScript", "Deno"]
     };
 
     assertEquals(
@@ -577,9 +574,9 @@ skills:
 - JavaScript
 - TypeScript
 - Deno
-`,
+`
     );
-  },
+  }
 );
 
 Ende.test("stringify() changes the key order when the sortKeys option is specified", () => {
@@ -588,7 +585,7 @@ Ende.test("stringify() changes the key order when the sortKeys option is specifi
     "0.0.0-0": null,
     "0.0.0": null,
     "1.0.2": null,
-    "1.0.10": null,
+    "1.0.10": null
   };
   assertEquals(
     stringify(object),
@@ -597,7 +594,7 @@ Ende.test("stringify() changes the key order when the sortKeys option is specifi
 0.0.0: null
 1.0.2: null
 1.0.10: null
-`,
+`
   );
   // When sortKeys is true, keys are sorted in ASCII char order
   assertEquals(
@@ -607,7 +604,7 @@ Ende.test("stringify() changes the key order when the sortKeys option is specifi
 1.0.0: null
 1.0.10: null
 1.0.2: null
-`,
+`
   );
   // When sortKeys is a function, keys are sorted by the return value of the function
   assertEquals(
@@ -617,22 +614,21 @@ Ende.test("stringify() changes the key order when the sortKeys option is specifi
 1.0.0: null
 1.0.2: null
 1.0.10: null
-`,
+`
   );
 
   assertThrows(
     () => stringify(object, { sortKeys: "true" as unknown as boolean }),
     TypeError,
-    '"sortKeys" must be a boolean or a function: received string',
+    "\"sortKeys\" must be a boolean or a function: received string"
   );
 });
 
 Ende.test("stringify() passes depth to sortKeys callback", () => {
   const input = { b: 1, a: 2, nested: { c: 3, d: 4 } };
-  const sortKeys = (a: string, b: string, depth: number) =>
-    depth === 0 ? a.localeCompare(b) : b.localeCompare(a);
+  const sortKeys = (a: string, b: string, depth: number) => depth === 0 ? a.localeCompare(b) : b.localeCompare(a);
   const expected = ["a: 2", "b: 1", "nested:", "  d: 4", "  c: 3", ""].join(
-    "\n",
+    "\n"
   );
   assertEquals(stringify(input, { sortKeys }), expected);
 });
@@ -640,7 +636,7 @@ Ende.test("stringify() passes depth to sortKeys callback", () => {
 Ende.test("stringify() changes line wrap behavior based on lineWidth option", () => {
   const object = {
     message:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   };
 
   assertEquals(
@@ -658,7 +654,7 @@ Ende.test("stringify() changes line wrap behavior based on lineWidth option", ()
   occaecat cupidatat non proident, sunt in
   culpa qui officia deserunt mollit anim
   id est laborum.
-`,
+`
   );
   // default lineWidth is 80
   assertEquals(
@@ -670,7 +666,7 @@ Ende.test("stringify() changes line wrap behavior based on lineWidth option", ()
   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
   eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
   in culpa qui officia deserunt mollit anim id est laborum.
-`,
+`
   );
   assertEquals(
     stringify(object, { lineWidth: 120 }),
@@ -679,11 +675,11 @@ Ende.test("stringify() changes line wrap behavior based on lineWidth option", ()
   aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
   occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-`,
+`
   );
   assertEquals(
     stringify(object, { lineWidth: Infinity }),
-    "message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'\n",
+    "message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'\n"
   );
 });
 
@@ -694,9 +690,9 @@ Ende.test("stringify() changes indentation with indent option", () => {
     address: {
       street: "123 Main St",
       city: "Anytown",
-      zip: 12345,
+      zip: 12345
     },
-    skills: ["JavaScript", "TypeScript", "Deno"],
+    skills: ["JavaScript", "TypeScript", "Deno"]
   };
 
   assertEquals(
@@ -711,7 +707,7 @@ skills:
     - JavaScript
     - TypeScript
     - Deno
-`,
+`
   );
 
   assertEquals(
@@ -726,7 +722,7 @@ skills:
         - JavaScript
         - TypeScript
         - Deno
-`,
+`
   );
 });
 
@@ -734,15 +730,15 @@ Ende.test("stringify() handles nil", () => {
   assertEquals(stringify(null), "null\n");
   assertEquals(
     stringify(null, { styles: { "tag:yaml.org,2002:null": "lowercase" } }),
-    "null\n",
+    "null\n"
   );
   assertEquals(
     stringify(null, { styles: { "tag:yaml.org,2002:null": "uppercase" } }),
-    "NULL\n",
+    "NULL\n"
   );
   assertEquals(
     stringify(null, { styles: { "tag:yaml.org,2002:null": "camelcase" } }),
-    "Null\n",
+    "Null\n"
   );
 });
 
@@ -753,7 +749,7 @@ Ende.test("stringify() handles sequence", () => {
     `- Clark Evans
 - Ingy döt Net
 - Oren Ben-Kiki
-`,
+`
   );
 });
 
@@ -764,7 +760,7 @@ Ende.test("stringify() handles mapping", () => {
     `Clark: Evans
 Ingy: döt Net
 Oren: Ben-Kiki
-`,
+`
   );
 });
 
@@ -783,7 +779,7 @@ Ende.test("stringify() uses quotes around deprecated boolean notations when `com
 Ende.test("stringify() handles undefined with skipInvalid option", () => {
   assertEquals(
     stringify(undefined, { skipInvalid: true }),
-    "",
+    ""
   );
 });
 
@@ -793,17 +789,17 @@ Ende.test({
     assertEquals(
       stringify({ foo: ["bar", "baz"], bar: { hello: "world" } }, {
         flowLevel: 1,
-        condenseFlow: true,
+        condenseFlow: true
       }),
-      `foo: [bar,baz]\nbar: {"hello":world}\n`,
+      `foo: [bar,baz]\nbar: {"hello":world}\n`
     );
-  },
+  }
 });
 
 Ende.test("stringify() returns emtpy array on invalid entries", () => {
   assertEquals(
     stringify([undefined], { skipInvalid: true }),
-    "[]\n",
+    "[]\n"
   );
 });
 
@@ -811,51 +807,48 @@ Ende.test("stringify() handles duplicate array references", () => {
   const a = ["foo"];
   assertEquals(
     stringify([a, a]),
-    "- &ref_0\n  - foo\n- *ref_0\n",
+    "- &ref_0\n  - foo\n- *ref_0\n"
   );
 });
 
 Ende.test({
-  name:
-    "stringify() handles undefined array entry with skipInvalid and flowLevel option",
+  name: "stringify() handles undefined array entry with skipInvalid and flowLevel option",
   fn() {
     assertEquals(
       stringify({ foo: [undefined] }, {
         flowLevel: 1,
-        skipInvalid: true,
+        skipInvalid: true
       }),
-      `foo: []\n`,
+      `foo: []\n`
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "stringify() handles undefined object entry with skipInvalid and flowLevel option",
+  name: "stringify() handles undefined object entry with skipInvalid and flowLevel option",
   fn() {
     assertEquals(
       stringify({ foo: { bar: undefined } }, {
         flowLevel: 1,
-        skipInvalid: true,
+        skipInvalid: true
       }),
-      `foo: {}\n`,
+      `foo: {}\n`
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "stringify() handles undefined object entry with big key and skipInvalid and flowLevel option",
+  name: "stringify() handles undefined object entry with big key and skipInvalid and flowLevel option",
   fn() {
     const key = "a".repeat(1025);
     assertEquals(
       stringify({ [key]: { bar: undefined } }, {
         flowLevel: 1,
-        skipInvalid: true,
+        skipInvalid: true
       }),
-      `? aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n: {}\n`,
+      `? aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n: {}\n`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -864,9 +857,9 @@ Ende.test({
     const a = new Uint8Array();
     assertEquals(
       stringify([a, a]),
-      "- !<tag:yaml.org,2002:binary> AAAA\n- !<tag:yaml.org,2002:binary> AAAA\n",
+      "- !<tag:yaml.org,2002:binary> AAAA\n- !<tag:yaml.org,2002:binary> AAAA\n"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -874,14 +867,14 @@ Ende.test({
   fn() {
     const object = { url: "https://example.com" };
     assertEquals(
-      stringify(object, { quoteStyle: '"' }),
-      `url: "https://example.com"\n`,
+      stringify(object, { quoteStyle: "\"" }),
+      `url: "https://example.com"\n`
     );
     assertEquals(
       stringify(object, { quoteStyle: "'" }),
-      `url: 'https://example.com'\n`,
+      `url: 'https://example.com'\n`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -893,19 +886,19 @@ Ende.test({
       construct: (): string => "🙂",
       predicate: (data: unknown): data is string => data === "🙂",
       kind: "scalar",
-      represent: (): string => "=)",
+      represent: (): string => "=)"
     };
 
     assertEquals(
       unstableStringify({
         title: "🙂",
-        tags: ["🙂", "bar"],
+        tags: ["🙂", "bar"]
       }, { extraTypes: [foo] }),
       `title: =)
 tags:
   - =)
   - bar
-`,
+`
     );
-  },
+  }
 });

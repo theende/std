@@ -6,11 +6,11 @@
 import type { Type } from "../_type.ts";
 
 // [ 64, 65, 66 ] -> [ padding, CR, LF ]
-const BASE64_MAP =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r";
+const BASE64_MAP = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r";
 
 function resolveYamlBinary(data: string): boolean {
-  if (data === null) return false;
+  if (data === null)
+    return false;
 
   let code: number;
   let bitlen = 0;
@@ -22,10 +22,12 @@ function resolveYamlBinary(data: string): boolean {
     code = map.indexOf(data.charAt(idx));
 
     // Skip CR/LF
-    if (code > 64) continue;
+    if (code > 64)
+      continue;
 
     // Fail on illegal characters
-    if (code < 0) return false;
+    if (code < 0)
+      return false;
 
     bitlen += 6;
   }
@@ -124,5 +126,5 @@ export const binary: Type<"scalar", Uint8Array> = {
   kind: "scalar",
   predicate: isBinary,
   represent: representYamlBinary,
-  resolve: resolveYamlBinary,
+  resolve: resolveYamlBinary
 };

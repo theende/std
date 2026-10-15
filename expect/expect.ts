@@ -11,17 +11,17 @@ import type {
   Matcher,
   MatcherContext,
   MatcherKey,
-  Matchers,
+  Matchers
 } from "./_types.ts";
 import { AssertionError } from "@ende/assert/assertion-error";
 import {
   assertions,
   emitAssertionTrigger,
-  hasAssertions,
+  hasAssertions
 } from "./_assertions.ts";
 import {
   addCustomEqualityTesters,
-  getCustomEqualityTesters,
+  getCustomEqualityTesters
 } from "./_custom_equality_tester.ts";
 import { equal } from "./_equal.ts";
 import { getExtendMatchers, setExtendMatchers } from "./_extend.ts";
@@ -59,16 +59,16 @@ import {
   toMatchObject,
   toMatchSnapshot,
   toStrictEqual,
-  toThrow,
+  toThrow
 } from "./_matchers.ts";
 import { addSerializer } from "./_serializer.ts";
 import { isPromiseLike } from "./_utils.ts";
 import * as asymmetricMatchers from "./_asymmetric_matchers.ts";
 import type { SnapshotPlugin, Tester } from "./_types.ts";
 import {
-  type ExpectSnapshotState,
   getState as getSnapshotState,
   setState as setSnapshotState,
+  type ExpectSnapshotState
 } from "./_snapshot_state.ts";
 
 export type { AnyConstructor, Async, Expected } from "./_types.ts";
@@ -117,7 +117,7 @@ const matchers: Record<MatcherKey, Matcher> = {
   toReturnTimes: toHaveReturnedTimes,
   toReturnWith: toHaveReturnedWith,
   toStrictEqual,
-  toThrow,
+  toThrow
 };
 
 /**
@@ -156,7 +156,7 @@ const matchers: Record<MatcherKey, Matcher> = {
  */
 export function expect<T extends Expected = Expected>(
   value: unknown,
-  customMessage?: string,
+  customMessage?: string
 ): T {
   let isNot = false;
   let isPromised = false;
@@ -182,12 +182,12 @@ export function expect<T extends Expected = Expected>(
         }
 
         value = value.then(
-          (value) => {
+          value => {
             throw new AssertionError(
-              `Promise did not reject: resolved to ${value}`,
+              `Promise did not reject: resolved to ${value}`
             );
           },
-          (err) => err,
+          err => err
         );
         isPromised = true;
         return self;
@@ -196,14 +196,14 @@ export function expect<T extends Expected = Expected>(
       const extendMatchers: Matchers = getExtendMatchers();
       const allMatchers = {
         ...matchers,
-        ...extendMatchers,
+        ...extendMatchers
       };
       const matcher = allMatchers[name as MatcherKey] as Matcher;
       if (!matcher) {
         throw new TypeError(
-          typeof name === "string"
-            ? `matcher not found: ${name}`
-            : "matcher not found",
+          typeof name === "string" ?
+            `matcher not found: ${name}` :
+            "matcher not found"
         );
       }
 
@@ -214,7 +214,7 @@ export function expect<T extends Expected = Expected>(
             equal,
             isNot: false,
             customMessage,
-            customTesters: getCustomEqualityTesters(),
+            customTesters: getCustomEqualityTesters()
           };
           if (isNot) {
             context.isNot = true;
@@ -235,13 +235,11 @@ export function expect<T extends Expected = Expected>(
           emitAssertionTrigger();
         }
 
-        return isPromised
-          ? (value as Promise<unknown>).then((value: unknown) =>
-            applyMatcher(value, args)
-          )
-          : applyMatcher(value, args);
+        return isPromised ?
+          (value as Promise<unknown>).then((value: unknown) => applyMatcher(value, args)) :
+          applyMatcher(value, args);
       };
-    },
+    }
   });
 
   return self;
@@ -304,7 +302,7 @@ export function expect<T extends Expected = Expected>(
  * ```
  */
 expect.addEqualityTesters = addCustomEqualityTesters as (
-  newTesters: Tester[],
+  newTesters: Tester[]
 ) => void;
 /**
  * Extend `expect()` with custom provided matchers.
@@ -403,7 +401,7 @@ expect.anything = asymmetricMatchers.anything as () => ReturnType<
  * ```
  */
 expect.any = asymmetricMatchers.any as (
-  c: unknown,
+  c: unknown
 ) => ReturnType<typeof asymmetricMatchers.any>;
 /**
  * `expect.arrayContaining(array)` matches a received array which contains all of
@@ -430,7 +428,7 @@ expect.any = asymmetricMatchers.any as (
  */
 expect.arrayContaining = asymmetricMatchers.arrayContaining as (
   // deno-lint-ignore no-explicit-any
-  c: any[],
+  c: any[]
 ) => ReturnType<typeof asymmetricMatchers.arrayContaining>;
 /**
  * `expect.closeTo(number, numDigits?)` is useful when comparing floating point
@@ -458,7 +456,7 @@ expect.arrayContaining = asymmetricMatchers.arrayContaining as (
  */
 expect.closeTo = asymmetricMatchers.closeTo as (
   num: number,
-  numDigits?: number,
+  numDigits?: number
 ) => ReturnType<typeof asymmetricMatchers.closeTo>;
 /**
  * `expect.stringContaining(string)` matches the received value if it is a string
@@ -478,7 +476,7 @@ expect.closeTo = asymmetricMatchers.closeTo as (
  * ```
  */
 expect.stringContaining = asymmetricMatchers.stringContaining as (
-  str: string,
+  str: string
 ) => ReturnType<typeof asymmetricMatchers.stringContaining>;
 /**
  * `expect.stringMatching(string | regexp)` matches the received value if it is a
@@ -503,7 +501,7 @@ expect.stringContaining = asymmetricMatchers.stringContaining as (
  * ```
  */
 expect.stringMatching = asymmetricMatchers.stringMatching as (
-  pattern: string | RegExp,
+  pattern: string | RegExp
 ) => ReturnType<typeof asymmetricMatchers.stringMatching>;
 
 /**
@@ -560,7 +558,7 @@ expect.assertions = assertions as (num: number) => void;
  * ```
  */
 expect.objectContaining = asymmetricMatchers.objectContaining as (
-  obj: Record<string, unknown>,
+  obj: Record<string, unknown>
 ) => ReturnType<typeof asymmetricMatchers.objectContaining>;
 /**
  * `expect.not.arrayContaining` matches a received array which does not contain
@@ -607,7 +605,7 @@ expect.not = {
   arrayContaining: asymmetricMatchers.arrayNotContaining,
   objectContaining: asymmetricMatchers.objectNotContaining,
   stringContaining: asymmetricMatchers.stringNotContaining,
-  stringMatching: asymmetricMatchers.stringNotMatching,
+  stringMatching: asymmetricMatchers.stringNotMatching
 };
 /**
  * `expect.addSnapshotSerializer` adds a module that formats application-specific data structures.
@@ -631,7 +629,7 @@ expect.not = {
  * ```
  */
 expect.addSnapshotSerializer = addSerializer as (
-  plugin: SnapshotPlugin,
+  plugin: SnapshotPlugin
 ) => void;
 /**
  * `expect.setState` sets the state for snapshot matchers. This must be called
@@ -654,7 +652,7 @@ expect.addSnapshotSerializer = addSerializer as (
  * ```
  */
 expect.setState = setSnapshotState as (
-  state: Partial<ExpectSnapshotState>,
+  state: Partial<ExpectSnapshotState>
 ) => void;
 /**
  * `expect.getState` returns the current state for snapshot matchers.

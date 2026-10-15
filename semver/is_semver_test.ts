@@ -6,7 +6,7 @@ import { isSemVer } from "./is_semver.ts";
 
 Ende.test({
   name: "isSemVer() handles invalid input",
-  fn: async (t) => {
+  fn: async t => {
     const versions: [unknown][] = [
       [null],
       [undefined],
@@ -29,7 +29,7 @@ Ende.test({
       [{ major: 0, minor: 0, patch: 0, build: [""], prerelease: [] }],
       [{ major: 0, minor: 0, patch: 0, build: [], prerelease: [""] }],
       [{ major: 0, minor: 0, patch: 0, build: [], prerelease: [-1] }],
-      [{ major: 0, minor: 0, patch: 0, build: [], prerelease: [Number.NaN] }],
+      [{ major: 0, minor: 0, patch: 0, build: [], prerelease: [Number.NaN] }]
     ];
     for (const [v] of versions) {
       await t.step(`${Ende.inspect(v)}`, () => {
@@ -37,12 +37,12 @@ Ende.test({
         assert(!actual);
       });
     }
-  },
+  }
 });
 
 Ende.test({
   name: "isSemVer()",
-  fn: async (t) => {
+  fn: async t => {
     const versions: [unknown][] = [
       [{ major: 0, minor: 0, patch: 0 }],
       [{ major: 0, minor: 0, patch: 0, prerelease: [] }],
@@ -54,7 +54,7 @@ Ende.test({
         minor: 0,
         patch: 0,
         prerelease: undefined,
-        build: undefined,
+        build: undefined
       }],
       [{ major: 0, minor: 0, patch: 0, build: [], prerelease: [] }],
       [{ extra: 1, major: 0, minor: 0, patch: 0, build: [], prerelease: [] }],
@@ -62,7 +62,7 @@ Ende.test({
       [{ major: 0, minor: 0, patch: 0, build: [], prerelease: ["abc"] }],
       [{ major: 0, minor: 0, patch: 0, build: [], prerelease: ["abc", 0] }],
 
-      [ANY],
+      [ANY]
     ];
     for (const [v] of versions) {
       await t.step(
@@ -70,8 +70,8 @@ Ende.test({
         () => {
           const actual = isSemVer(v);
           assert(actual);
-        },
+        }
       );
     }
-  },
+  }
 });

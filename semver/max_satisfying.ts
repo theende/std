@@ -26,11 +26,12 @@ import { greaterThan } from "./greater_than.ts";
  */
 export function maxSatisfying(
   versions: SemVer[],
-  range: Range,
+  range: Range
 ): SemVer | undefined {
   let max;
   for (const version of versions) {
-    if (!satisfies(version, range)) continue;
+    if (!satisfies(version, range))
+      continue;
     max = max && greaterThan(max, version) ? max : version;
   }
   return max;

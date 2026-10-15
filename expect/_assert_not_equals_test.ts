@@ -7,14 +7,14 @@ import { assert, AssertionError } from "@ende/assert";
 import { assertEquals } from "./_assert_equals.ts";
 import { assertNotEquals } from "./_assert_not_equals.ts";
 
-Ende.test("assertNotEquals() passes when values are not equals", function () {
+Ende.test("assertNotEquals() passes when values are not equals", function() {
   const a = { foo: "bar" };
   const b = { bar: "foo" };
   assertNotEquals<unknown>(a, b);
   assertNotEquals("Denosaurus", "Tyrannosaurus");
   assertNotEquals(
     new Date(2019, 0, 3, 4, 20, 1, 10),
-    new Date(2019, 0, 3, 4, 20, 1, 20),
+    new Date(2019, 0, 3, 4, 20, 1, 20)
   );
   assertNotEquals(new Date("invalid"), new Date(2019, 0, 3, 4, 20, 1, 20));
   let didThrow;

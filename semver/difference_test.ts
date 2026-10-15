@@ -6,7 +6,7 @@ import { parse } from "./parse.ts";
 import type { ReleaseType } from "./types.ts";
 import { difference } from "./difference.ts";
 
-Ende.test("difference()", async (t) => {
+Ende.test("difference()", async t => {
   const versions: [string, string, ReleaseType | undefined][] = [
     ["1.2.3", "0.2.3", "major"],
     ["1.4.5", "0.2.3", "major"],
@@ -19,7 +19,7 @@ Ende.test("difference()", async (t) => {
     ["0.0.1", "0.0.1-pre-2", "prerelease"],
     ["1.1.0", "1.1.0-pre", "prerelease"],
     ["1.1.0-pre-1", "1.1.0-pre-2", "prerelease"],
-    ["1.0.0", "1.0.0", undefined],
+    ["1.0.0", "1.0.0", undefined]
   ];
 
   for (const [v0, v1, expected] of versions) {

@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertMatch,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import * as path from "@ende/path";
 import { ensureSymlink, ensureSymlinkSync } from "./ensure_symlink.ts";
@@ -14,9 +14,9 @@ import { ensureSymlink, ensureSymlinkSync } from "./ensure_symlink.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
-Ende.test("ensureSymlink() rejects if file does not exist", async function () {
+Ende.test("ensureSymlink() rejects if file does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_symlink_",
+    prefix: "ende_std_ensure_symlink_"
   });
   const testDir = path.join(tempDirPath, "link_file_1");
   const testFile = path.join(testDir, "test.txt");
@@ -24,7 +24,7 @@ Ende.test("ensureSymlink() rejects if file does not exist", async function () {
   await assertRejects(
     async () => {
       await ensureSymlink(testFile, path.join(testDir, "test1.txt"));
-    },
+    }
   );
 
   await assertRejects(
@@ -32,15 +32,15 @@ Ende.test("ensureSymlink() rejects if file does not exist", async function () {
       await Ende.stat(testFile).then(() => {
         throw new Error("test file should exist.");
       });
-    },
+    }
   );
 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlinkSync() throws if file does not exist", function () {
+Ende.test("ensureSymlinkSync() throws if file does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_symlink_sync_",
+    prefix: "ende_std_ensure_symlink_sync_"
   });
   const testDir = path.join(tempDirPath, "link_file_2");
   const testFile = path.join(testDir, "test.txt");
@@ -57,9 +57,9 @@ Ende.test("ensureSymlinkSync() throws if file does not exist", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlink() ensures linkName links to target", async function () {
+Ende.test("ensureSymlink() ensures linkName links to target", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_symlink_",
+    prefix: "ende_std_ensure_symlink_"
   });
   const testDir = path.join(tempDirPath, "link_file_3");
   const testFile = path.join(testDir, "test.txt");
@@ -80,9 +80,9 @@ Ende.test("ensureSymlink() ensures linkName links to target", async function () 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlinkSync() ensures linkName links to target", function () {
+Ende.test("ensureSymlinkSync() ensures linkName links to target", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_symlink_sync_",
+    prefix: "ende_std_ensure_symlink_sync_"
   });
   const testDir = path.join(tempDirPath, "link_file_4");
   const testFile = path.join(testDir, "test.txt");
@@ -103,9 +103,9 @@ Ende.test("ensureSymlinkSync() ensures linkName links to target", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlink() rejects if the linkName path already exist", async function () {
+Ende.test("ensureSymlink() rejects if the linkName path already exist", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_symlink_",
+    prefix: "ende_std_ensure_symlink_"
   });
   const testDir = path.join(tempDirPath, "link_file_5");
   const linkFile = path.join(testDir, "test.txt");
@@ -122,17 +122,17 @@ Ende.test("ensureSymlink() rejects if the linkName path already exist", async fu
   await assertRejects(
     async () => {
       await ensureSymlink(targetFile, linkFile);
-    },
+    }
   );
   await assertRejects(
     async () => {
       await ensureSymlink(targetFile, linkDir);
-    },
+    }
   );
   await assertRejects(
     async () => {
       await ensureSymlink(targetFile, linkSymlink);
-    },
+    }
   );
 
   assertEquals(await Ende.readTextFile(linkFile), "linkFile");
@@ -143,9 +143,9 @@ Ende.test("ensureSymlink() rejects if the linkName path already exist", async fu
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlinkSync() throws if the linkName path already exist", function () {
+Ende.test("ensureSymlinkSync() throws if the linkName path already exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_symlink_sync_",
+    prefix: "ende_std_ensure_symlink_sync_"
   });
   const testDir = path.join(tempDirPath, "link_file_6");
   const linkFile = path.join(testDir, "test.txt");
@@ -177,9 +177,9 @@ Ende.test("ensureSymlinkSync() throws if the linkName path already exist", funct
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlink() ensures dir linkName links to dir target", async function () {
+Ende.test("ensureSymlink() ensures dir linkName links to dir target", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_symlink_",
+    prefix: "ende_std_ensure_symlink_"
   });
   const testDir = path.join(tempDirPath, "link_file_origin_3");
   const linkDir = path.join(tempDirPath, "link_file_link_3");
@@ -202,9 +202,9 @@ Ende.test("ensureSymlink() ensures dir linkName links to dir target", async func
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlinkSync() ensures dir linkName links to dir target", function () {
+Ende.test("ensureSymlinkSync() ensures dir linkName links to dir target", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_symlink_sync_",
+    prefix: "ende_std_ensure_symlink_sync_"
   });
   const testDir = path.join(tempDirPath, "link_file_origin_3");
   const linkDir = path.join(tempDirPath, "link_file_link_3");
@@ -227,9 +227,9 @@ Ende.test("ensureSymlinkSync() ensures dir linkName links to dir target", functi
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlink() creates symlink with relative target", async function () {
+Ende.test("ensureSymlink() creates symlink with relative target", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_symlink_",
+    prefix: "ende_std_ensure_symlink_"
   });
   const testDir = path.join(tempDirPath, "symlink-relative");
   const testLinkName = path.join(testDir, "link.txt");
@@ -252,9 +252,9 @@ Ende.test("ensureSymlink() creates symlink with relative target", async function
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("ensureSymlinkSync() creates symlink with relative target", function () {
+Ende.test("ensureSymlinkSync() creates symlink with relative target", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_symlink_sync_",
+    prefix: "ende_std_ensure_symlink_sync_"
   });
   const testDir = path.join(tempDirPath, "symlink-relative-sync");
   const testLinkName = path.join(testDir, "link.txt");
@@ -282,11 +282,11 @@ Ende.test("ensureSymlink() rejects when the target path doesn't exist", async ()
     async () => {
       await ensureSymlink("non-existent-target", "non-existent-link");
     },
-    Ende.errors.NotFound,
+    Ende.errors.NotFound
   );
   assertMatch(
     e.message,
-    /^Cannot ensure symlink as the target path does not exist: .*non-existent-target$/,
+    /^Cannot ensure symlink as the target path does not exist: .*non-existent-target$/
   );
 });
 
@@ -296,16 +296,16 @@ Ende.test("ensureSymlinkSync() throws when the target path doesn't exist", () =>
   }, Ende.errors.NotFound);
   assertMatch(
     e.message,
-    /^Cannot ensure symlink as the target path does not exist: .*non-existent-target$/,
+    /^Cannot ensure symlink as the target path does not exist: .*non-existent-target$/
   );
 });
 
 Ende.test("ensureSymlink() works with URLs", {
   // TODO(kt3k): The 2nd test case doesn't pass on Windows. Fix it.
-  ignore: Ende.build.os === "windows",
+  ignore: Ende.build.os === "windows"
 }, async () => {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_symlink_",
+    prefix: "ende_std_ensure_symlink_"
   });
   const testDir = path.join(tempDirPath, "link_file_with_url");
   const testFile = path.join(testDir, "test.txt");
@@ -358,9 +358,9 @@ Ende.test(
         await ensureSymlink(testFile, linkFile);
       },
       // deno-lint-ignore no-explicit-any
-      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied
     );
-  },
+  }
 );
 
 Ende.test(
@@ -375,7 +375,7 @@ Ende.test(
         ensureSymlinkSync(testFile, linkFile);
       },
       // deno-lint-ignore no-explicit-any
-      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied
     );
-  },
+  }
 );

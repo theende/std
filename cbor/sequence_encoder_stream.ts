@@ -88,8 +88,7 @@ import type { CborStreamInput } from "./types.ts";
  * }
  * ```
  */
-export class CborSequenceEncoderStream
-  implements TransformStream<CborStreamInput, Uint8Array> {
+export class CborSequenceEncoderStream implements TransformStream<CborStreamInput, Uint8Array> {
   #readable: ReadableStream<Uint8Array>;
   #writable: WritableStream<CborStreamInput>;
   /**
@@ -101,13 +100,13 @@ export class CborSequenceEncoderStream
       CborStreamInput
     >();
     this.#readable = toByteStream(
-      ReadableStream.from(this.#encodeFromReadable(readable)),
+      ReadableStream.from(this.#encodeFromReadable(readable))
     );
     this.#writable = writable;
   }
 
   async *#encodeFromReadable(
-    readable: ReadableStream<CborStreamInput>,
+    readable: ReadableStream<CborStreamInput>
   ): AsyncGenerator<Uint8Array> {
     for await (const x of readable) {
       for await (const y of this.#encode(x)) {
@@ -117,7 +116,7 @@ export class CborSequenceEncoderStream
   }
 
   async *#encode(
-    x: CborStreamInput,
+    x: CborStreamInput
   ): AsyncGenerator<Uint8Array> {
     if (
       x instanceof CborByteEncoderStream ||
@@ -137,24 +136,29 @@ export class CborSequenceEncoderStream
         yield y;
       }
     } else if (typeof x === "object" && x !== null) {
-      if (x instanceof Date || x instanceof Uint8Array) yield encodeCbor(x);
+      if (x instanceof Date || x instanceof Uint8Array)
+        yield encodeCbor(x);
       else {
         for await (const y of this.#encodeObject(x)) {
           yield y;
         }
       }
-    } else yield encodeCbor(x);
+    } else
+      yield encodeCbor(x);
   }
 
   async *#encodeArray(x: CborStreamInput[]): AsyncGenerator<Uint8Array> {
-    if (x.length < 24) yield new Uint8Array([0b100_00000 + x.length]);
-    else if (x.length < 2 ** 8) yield new Uint8Array([0b100_11000, x.length]);
+    if (x.length < 24)
+      yield new Uint8Array([0b100_00000 + x.length]);
+    else if (x.length < 2 ** 8)
+      yield new Uint8Array([0b100_11000, x.length]);
     else if (x.length < 2 ** 16) {
       yield new Uint8Array([0b100_11001, ...numberToArray(2, x.length)]);
     } else if (x.length < 2 ** 32) {
       yield new Uint8Array([0b100_11010, ...numberToArray(4, x.length)]);
     } // Can safely assume `x.length < 2 ** 64` as JavaScript doesn't support an `Array` being that large.
-    else yield new Uint8Array([0b100_11011, ...numberToArray(8, x.length)]);
+    else
+      yield new Uint8Array([0b100_11011, ...numberToArray(8, x.length)]);
     for (const y of x) {
       for await (const z of this.#encode(y)) {
         yield z;
@@ -163,17 +167,20 @@ export class CborSequenceEncoderStream
   }
 
   async *#encodeObject(
-    x: { [k: string]: CborStreamInput },
+    x: { [k: string]: CborStreamInput; }
   ): AsyncGenerator<Uint8Array> {
     const len = Object.keys(x).length;
-    if (len < 24) yield new Uint8Array([0b101_00000 + len]);
-    else if (len < 2 ** 8) yield new Uint8Array([0b101_11000, len]);
+    if (len < 24)
+      yield new Uint8Array([0b101_00000 + len]);
+    else if (len < 2 ** 8)
+      yield new Uint8Array([0b101_11000, len]);
     else if (len < 2 ** 16) {
       yield new Uint8Array([0b101_11001, ...numberToArray(2, len)]);
     } else if (len < 2 ** 32) {
       yield new Uint8Array([0b101_11010, ...numberToArray(4, len)]);
     } // Can safely assume `len < 2 ** 64` as JavaScript doesn't support an `Object` being that Large.
-    else yield new Uint8Array([0b101_11011, ...numberToArray(8, len)]);
+    else
+      yield new Uint8Array([0b101_11011, ...numberToArray(8, len)]);
     for (const [k, v] of Object.entries(x)) {
       yield encodeCbor(k);
       for await (const y of this.#encode(v)) {
@@ -186,12 +193,12 @@ export class CborSequenceEncoderStream
     const tagNumber = BigInt(x.tagNumber);
     if (tagNumber < 0n) {
       throw new RangeError(
-        `Cannot encode Tag Item: Tag Number (${x.tagNumber}) is less than zero`,
+        `Cannot encode Tag Item: Tag Number (${x.tagNumber}) is less than zero`
       );
     }
     if (tagNumber > 2n ** 64n) {
       throw new RangeError(
-        `Cannot encode Tag Item: Tag Number (${x.tagNumber}) exceeds 2 ** 64 - 1`,
+        `Cannot encode Tag Item: Tag Number (${x.tagNumber}) exceeds 2 ** 64 - 1`
       );
     }
 
@@ -285,7 +292,7 @@ export class CborSequenceEncoderStream
    * @returns A {@link CborSequenceEncoderStream} instance of the encoded data.
    */
   static from(
-    asyncIterable: AsyncIterable<CborStreamInput> | Iterable<CborStreamInput>,
+    asyncIterable: AsyncIterable<CborStreamInput> | Iterable<CborStreamInput>
   ): CborSequenceEncoderStream {
     const encoder = new CborSequenceEncoderStream();
     ReadableStream.from(asyncIterable).pipeTo(encoder.writable);

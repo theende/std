@@ -3,7 +3,7 @@
 import { assertEquals, assertThrows } from "@ende/assert";
 import { parse } from "./parse.ts";
 
-Ende.test("parse() handles major", async (t) => {
+Ende.test("parse() handles major", async t => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -13,7 +13,7 @@ Ende.test("parse() handles major", async (t) => {
     [" 3.2.3-pre ", 3],
     ["v5.2.3", 5],
     [" v8.2.3 ", 8],
-    ["\t13.2.3", 13],
+    ["\t13.2.3", 13]
   ];
 
   for (const [v, expected] of versions) {
@@ -24,7 +24,7 @@ Ende.test("parse() handles major", async (t) => {
   }
 });
 
-Ende.test("parse() handles minor", async (t) => {
+Ende.test("parse() handles minor", async t => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -34,7 +34,7 @@ Ende.test("parse() handles minor", async (t) => {
     [" 1.3.3-pre ", 3],
     ["v1.5.3", 5],
     [" v1.8.3 ", 8],
-    ["\t1.13.3", 13],
+    ["\t1.13.3", 13]
   ];
 
   for (const [v, expected] of versions) {
@@ -45,7 +45,7 @@ Ende.test("parse() handles minor", async (t) => {
   }
 });
 
-Ende.test("parse() handles patch", async (t) => {
+Ende.test("parse() handles patch", async t => {
   // [range, version]
   // Version should be detectable despite extra characters
   const versions: [string, number][] = [
@@ -55,7 +55,7 @@ Ende.test("parse() handles patch", async (t) => {
     [" 1.2.3-pre ", 3],
     ["v1.2.5", 5],
     [" v1.2.8 ", 8],
-    ["\t1.2.13", 13],
+    ["\t1.2.13", 13]
   ];
   for (const [v, expected] of versions) {
     await t.step(v, () => {
@@ -66,7 +66,7 @@ Ende.test("parse() handles patch", async (t) => {
   }
 });
 
-Ende.test("parse() handles prerelease", async (t) => {
+Ende.test("parse() handles prerelease", async t => {
   // [prereleaseParts, version]
   const versions: [string, (string | number)[]][] = [
     ["1.2.2-alpha.1", ["alpha", 1]],
@@ -76,7 +76,7 @@ Ende.test("parse() handles prerelease", async (t) => {
     ["1.2.2-alpha.1", ["alpha", 1]],
     ["1.2.0-1b3-4", ["1b3-4"]],
     ["1.2.0-3.6-pre2", [3, "6-pre2"]],
-    ["2.0.0", []],
+    ["2.0.0", []]
   ];
 
   for (const [v, expected] of versions) {
@@ -84,7 +84,7 @@ Ende.test("parse() handles prerelease", async (t) => {
       const semver = parse(v);
       assertEquals(
         semver.prerelease,
-        expected,
+        expected
       );
     });
   }
@@ -92,7 +92,7 @@ Ende.test("parse() handles prerelease", async (t) => {
 
 Ende.test({
   name: "parse() throws on bad versions",
-  fn: async (t) => {
+  fn: async t => {
     const versions: [unknown][] = [
       ["1.2." + new Array(256).join("1")], // too long
       ["1.2." + new Array(100).join("1")], // too big
@@ -106,32 +106,32 @@ Ende.test({
       [""],
       ["not a version"],
       ["∞.∞.∞"],
-      ["NaN.NaN.NaN"],
+      ["NaN.NaN.NaN"]
     ];
     for (const [v] of versions) {
       await t.step(`${JSON.stringify(v)}`, () => {
         assertThrows(() => parse(v as string));
       });
     }
-  },
+  }
 });
 
-Ende.test("parse() throws on invalid versions", async (t) => {
+Ende.test("parse() throws on invalid versions", async t => {
   const versions = ["1.2.3.4", "NOT VALID", 1.2, null, "Infinity.NaN.Infinity"];
 
   for (const v of versions) {
     await t.step(`invalid ${v}`, () => {
       assertThrows(
-        function () {
+        function() {
           parse(v as string);
         },
-        TypeError,
+        TypeError
       );
     });
   }
 });
 
-Ende.test("parse() handles big numeric prerelease", function () {
+Ende.test("parse() handles big numeric prerelease", function() {
   const r = parse(`1.2.3-beta.${Number.MAX_SAFE_INTEGER}0`);
   assertEquals(r.prerelease, ["beta", "90071992547409910"]);
 });

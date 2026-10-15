@@ -37,11 +37,13 @@ export function longestCommonPrefix(strs: ArrayLike<string>): string {
 
   let end = 0;
   for (; end < maxLength; ++end) {
-    if (a[end] !== b[end]) break;
+    if (a[end] !== b[end])
+      break;
   }
 
   // strip lone surrogates at end (unless both prefixes end with the same lone surrogate)
-  if (end && [a, b].some((s) => s.codePointAt(end - 1)! > 0xffff)) --end;
+  if (end && [a, b].some(s => s.codePointAt(end - 1)! > 0xffff))
+    --end;
 
   return a.slice(0, end);
 }

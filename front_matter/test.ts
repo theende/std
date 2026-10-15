@@ -67,7 +67,8 @@ export type { Format };
  * ```
  */
 export function test(str: string, formats?: Format[]): boolean {
-  if (!formats) formats = [...EXTRACT_REGEXP_MAP.keys()] as Format[];
+  if (!formats)
+    formats = [...EXTRACT_REGEXP_MAP.keys()] as Format[];
 
   for (const format of formats) {
     const regexp = EXTRACT_REGEXP_MAP.get(format);

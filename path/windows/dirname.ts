@@ -8,7 +8,7 @@ import { stripTrailingSeparators } from "../_common/strip_trailing_separators.ts
 import {
   isPathSeparator,
   isPosixPathSeparator,
-  isWindowsDeviceRoot,
+  isWindowsDeviceRoot
 } from "./_util.ts";
 import { fromFileUrl } from "./from_file_url.ts";
 
@@ -54,21 +54,24 @@ export function dirname(path: string | URL): string {
         let last = j;
         // Match 1 or more non-path separators
         for (; j < len; ++j) {
-          if (isPathSeparator(path.charCodeAt(j))) break;
+          if (isPathSeparator(path.charCodeAt(j)))
+            break;
         }
         if (j < len && j !== last) {
           // Matched!
           last = j;
           // Match 1 or more path separators
           for (; j < len; ++j) {
-            if (!isPathSeparator(path.charCodeAt(j))) break;
+            if (!isPathSeparator(path.charCodeAt(j)))
+              break;
           }
           if (j < len && j !== last) {
             // Matched!
             last = j;
             // Match 1 or more non-path separators
             for (; j < len; ++j) {
-              if (isPathSeparator(path.charCodeAt(j))) break;
+              if (isPathSeparator(path.charCodeAt(j)))
+                break;
             }
             if (j === len) {
               // We matched a UNC root only
@@ -90,7 +93,8 @@ export function dirname(path: string | URL): string {
       if (path.charCodeAt(1) === CHAR_COLON) {
         rootEnd = offset = 2;
         if (len > 2) {
-          if (isPathSeparator(path.charCodeAt(2))) rootEnd = offset = 3;
+          if (isPathSeparator(path.charCodeAt(2)))
+            rootEnd = offset = 3;
         }
       }
     }
@@ -113,8 +117,10 @@ export function dirname(path: string | URL): string {
   }
 
   if (end === -1) {
-    if (rootEnd === -1) return ".";
-    else end = rootEnd;
+    if (rootEnd === -1)
+      return ".";
+    else
+      end = rootEnd;
   }
   return stripTrailingSeparators(path.slice(0, end), isPosixPathSeparator);
 }

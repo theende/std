@@ -9,14 +9,14 @@ const rawToEntityEntries = [
   ["&", "&amp;"],
   ["<", "&lt;"],
   [">", "&gt;"],
-  ['"', "&quot;"],
-  ["'", "&#39;"],
+  ["\"", "&quot;"],
+  ["'", "&#39;"]
 ] as const;
 
 const defaultEntityList: EntityList = Object.fromEntries([
   ...rawToEntityEntries.map(([raw, entity]) => [entity, raw]),
   ["&apos;", "'"],
-  ["&nbsp;", "\xa0"],
+  ["&nbsp;", "\xa0"]
 ]);
 
 const rawToEntity = new Map<string, string>(rawToEntityEntries);
@@ -42,14 +42,14 @@ const rawRe = new RegExp(`[${[...rawToEntity.keys()].join("")}]`, "g");
  * @returns The escaped string.
  */
 export function escape(str: string): string {
-  return str.replaceAll(rawRe, (m) => rawToEntity.get(m)!);
+  return str.replaceAll(rawRe, m => rawToEntity.get(m)!);
 }
 
 /** Options for {@linkcode unescape}. */
-export type UnescapeOptions = { entityList: EntityList };
+export type UnescapeOptions = { entityList: EntityList; };
 
 const defaultUnescapeOptions: UnescapeOptions = {
-  entityList: defaultEntityList,
+  entityList: defaultEntityList
 };
 
 const MAX_CODE_POINT = 0x10ffff;
@@ -91,7 +91,7 @@ const entityListRegexCache = new WeakMap<EntityList, RegExp>();
  */
 export function unescape(
   str: string,
-  options: Partial<UnescapeOptions> = {},
+  options: Partial<UnescapeOptions> = {}
 ): string {
   const { entityList } = { ...defaultUnescapeOptions, ...options };
 
@@ -100,18 +100,19 @@ export function unescape(
   if (!entityRe) {
     entityRe = new RegExp(
       `(${
-        Object.keys(entityList)
+        Object
+          .keys(entityList)
           .sort((a, b) => b.length - a.length)
           .join("|")
       })`,
-      "g",
+      "g"
     );
 
     entityListRegexCache.set(entityList, entityRe);
   }
 
   return str
-    .replaceAll(entityRe, (m) => entityList[m]!)
+    .replaceAll(entityRe, m => entityList[m]!)
     .replaceAll(DEC_ENTITY_REGEXP, (_, dec) => codePointStrToChar(dec, 10))
     .replaceAll(HEX_ENTITY_REGEXP, (_, hex) => codePointStrToChar(hex, 16));
 }

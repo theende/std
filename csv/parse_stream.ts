@@ -4,9 +4,9 @@
 
 import {
   convertRowToObject,
-  type LineReader,
   parseRecord,
-  type ParseResult,
+  type LineReader,
+  type ParseResult
 } from "./_io.ts";
 import { TextDelimiterStream } from "@ende/streams/text-delimiter-stream";
 
@@ -98,8 +98,8 @@ function stripLastCR(s: string): string {
 }
 
 /** Row return type. */
-export type RowType<T> = T extends undefined ? string[]
-  : ParseResult<CsvParseStreamOptions, T>[number];
+export type RowType<T> = T extends undefined ? string[] :
+  ParseResult<CsvParseStreamOptions, T>[number];
 
 /**
  * `CsvParseStream` transforms a stream of CSV-encoded text into a stream of
@@ -340,7 +340,7 @@ export type RowType<T> = T extends undefined ? string[]
  * @typeParam T The type of options for the stream.
  */
 export class CsvParseStream<
-  const T extends CsvParseStreamOptions | undefined = undefined,
+  const T extends CsvParseStreamOptions | undefined = undefined
 > implements TransformStream<string, RowType<T>> {
   readonly #readable: ReadableStream<
     string[] | Record<string, string | unknown>
@@ -372,7 +372,7 @@ export class CsvParseStream<
     this.#options = {
       ...options,
       separator: options?.separator ?? ",",
-      trimLeadingSpace: options?.trimLeadingSpace ?? false,
+      trimLeadingSpace: options?.trimLeadingSpace ?? false
     };
 
     if (
@@ -390,15 +390,15 @@ export class CsvParseStream<
     this.#lines = new TextDelimiterStream("\n");
     this.#lineReader = new StreamLineReader(this.#lines.readable.getReader());
     this.#readable = new ReadableStream({
-      pull: (controller) => this.#pull(controller),
-      cancel: () => this.#lineReader.cancel(),
+      pull: controller => this.#pull(controller),
+      cancel: () => this.#lineReader.cancel()
     });
   }
 
   async #pull(
     controller: ReadableStreamDefaultController<
       string[] | Record<string, string | unknown>
-    >,
+    >
   ): Promise<void> {
     const line = await this.#lineReader.readLine();
     if (line === "") {
@@ -417,7 +417,7 @@ export class CsvParseStream<
       line,
       this.#lineReader,
       this.#options,
-      this.#zeroBasedLineIndex,
+      this.#zeroBasedLineIndex
     );
 
     if (this.#isFirstRow) {
@@ -449,9 +449,7 @@ export class CsvParseStream<
       record.length !== this.#fieldsPerRecord
     ) {
       throw new SyntaxError(
-        `Syntax error on line ${
-          this.#zeroBasedLineIndex + 1
-        }: expected ${this.#fieldsPerRecord} fields but got ${record.length}`,
+        `Syntax error on line ${this.#zeroBasedLineIndex + 1}: expected ${this.#fieldsPerRecord} fields but got ${record.length}`
       );
     }
 
@@ -461,7 +459,7 @@ export class CsvParseStream<
         controller.enqueue(convertRowToObject(
           record,
           this.#headers,
-          this.#zeroBasedLineIndex,
+          this.#zeroBasedLineIndex
         ));
       } else {
         controller.enqueue(record);

@@ -89,7 +89,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    * @returns A slice holding the unread portion of the buffer.
    */
   bytes(options = { copy: true }): Uint8Array {
-    if (options.copy === false) return this.#buf.subarray(this.#off);
+    if (options.copy === false)
+      return this.#buf.subarray(this.#off);
     return this.#buf.slice(this.#off);
   }
 
@@ -361,7 +362,7 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
       copy(this.#buf.subarray(this.#off), this.#buf);
     } else if (c + n > MAX_SIZE) {
       throw new Error(
-        `The buffer cannot be grown beyond the maximum size of "${MAX_SIZE}"`,
+        `The buffer cannot be grown beyond the maximum size of "${MAX_SIZE}"`
       );
     } else {
       // Not enough space anywhere, we need to allocate.
@@ -433,9 +434,9 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
       const shouldGrow = this.capacity - this.length < MIN_READ;
       // read into tmp buffer if there's not enough room
       // otherwise read directly into the internal buffer
-      const buf = shouldGrow
-        ? tmp
-        : new Uint8Array(this.#buf.buffer, this.length);
+      const buf = shouldGrow ?
+        tmp :
+        new Uint8Array(this.#buf.buffer, this.length);
 
       const nread = await r.read(buf);
       if (nread === null) {
@@ -443,8 +444,10 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
       }
 
       // write will grow if needed
-      if (shouldGrow) this.writeSync(buf.subarray(0, nread));
-      else this.#reslice(this.length + nread);
+      if (shouldGrow)
+        this.writeSync(buf.subarray(0, nread));
+      else
+        this.#reslice(this.length + nread);
 
       n += nread;
     }
@@ -479,9 +482,9 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
       const shouldGrow = this.capacity - this.length < MIN_READ;
       // read into tmp buffer if there's not enough room
       // otherwise read directly into the internal buffer
-      const buf = shouldGrow
-        ? tmp
-        : new Uint8Array(this.#buf.buffer, this.length);
+      const buf = shouldGrow ?
+        tmp :
+        new Uint8Array(this.#buf.buffer, this.length);
 
       const nread = r.readSync(buf);
       if (nread === null) {
@@ -489,8 +492,10 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
       }
 
       // write will grow if needed
-      if (shouldGrow) this.writeSync(buf.subarray(0, nread));
-      else this.#reslice(this.length + nread);
+      if (shouldGrow)
+        this.writeSync(buf.subarray(0, nread));
+      else
+        this.#reslice(this.length + nread);
 
       n += nread;
     }

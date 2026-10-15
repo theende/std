@@ -64,14 +64,14 @@ const UTF8_ENCODER = new TextEncoder();
  * @see {@link https://www.rfc-editor.org/rfc/rfc9651#section-3.3}
  */
 export type BareItem =
-  | { type: "integer"; value: number }
-  | { type: "decimal"; value: number }
-  | { type: "string"; value: string }
-  | { type: "token"; value: string }
-  | { type: "binary"; value: Uint8Array }
-  | { type: "boolean"; value: boolean }
-  | { type: "date"; value: Date }
-  | { type: "displaystring"; value: string };
+  | { type: "integer"; value: number; }
+  | { type: "decimal"; value: number; }
+  | { type: "string"; value: string; }
+  | { type: "token"; value: string; }
+  | { type: "binary"; value: Uint8Array; }
+  | { type: "boolean"; value: boolean; }
+  | { type: "date"; value: Date; }
+  | { type: "displaystring"; value: string; };
 
 /**
  * Parameters attached to an Item or Inner List.
@@ -155,7 +155,7 @@ export type Dictionary = ReadonlyMap<string, Item | InnerList>;
  * assertEquals(integer(42), { type: "integer", value: 42 });
  * ```
  */
-export function integer(value: number): Extract<BareItem, { type: "integer" }> {
+export function integer(value: number): Extract<BareItem, { type: "integer"; }> {
   return { type: "integer", value };
 }
 
@@ -176,7 +176,7 @@ export function integer(value: number): Extract<BareItem, { type: "integer" }> {
  * assertEquals(decimal(3.14), { type: "decimal", value: 3.14 });
  * ```
  */
-export function decimal(value: number): Extract<BareItem, { type: "decimal" }> {
+export function decimal(value: number): Extract<BareItem, { type: "decimal"; }> {
   return { type: "decimal", value };
 }
 
@@ -197,7 +197,7 @@ export function decimal(value: number): Extract<BareItem, { type: "decimal" }> {
  * assertEquals(string("hello"), { type: "string", value: "hello" });
  * ```
  */
-export function string(value: string): Extract<BareItem, { type: "string" }> {
+export function string(value: string): Extract<BareItem, { type: "string"; }> {
   return { type: "string", value };
 }
 
@@ -218,7 +218,7 @@ export function string(value: string): Extract<BareItem, { type: "string" }> {
  * assertEquals(token("foo"), { type: "token", value: "foo" });
  * ```
  */
-export function token(value: string): Extract<BareItem, { type: "token" }> {
+export function token(value: string): Extract<BareItem, { type: "token"; }> {
   return { type: "token", value };
 }
 
@@ -240,8 +240,8 @@ export function token(value: string): Extract<BareItem, { type: "token" }> {
  * ```
  */
 export function binary(
-  value: Uint8Array,
-): Extract<BareItem, { type: "binary" }> {
+  value: Uint8Array
+): Extract<BareItem, { type: "binary"; }> {
   return { type: "binary", value };
 }
 
@@ -262,8 +262,8 @@ export function binary(
  * ```
  */
 export function boolean(
-  value: boolean,
-): Extract<BareItem, { type: "boolean" }> {
+  value: boolean
+): Extract<BareItem, { type: "boolean"; }> {
   return { type: "boolean", value };
 }
 
@@ -285,7 +285,7 @@ export function boolean(
  * assertEquals(date(d), { type: "date", value: d });
  * ```
  */
-export function date(value: Date): Extract<BareItem, { type: "date" }> {
+export function date(value: Date): Extract<BareItem, { type: "date"; }> {
   return { type: "date", value };
 }
 
@@ -306,8 +306,8 @@ export function date(value: Date): Extract<BareItem, { type: "date" }> {
  * ```
  */
 export function displayString(
-  value: string,
-): Extract<BareItem, { type: "displaystring" }> {
+  value: string
+): Extract<BareItem, { type: "displaystring"; }> {
   return { type: "displaystring", value };
 }
 
@@ -338,7 +338,7 @@ export function displayString(
  */
 export function item(
   value: BareItem,
-  parameters?: Iterable<[string, BareItem]>,
+  parameters?: Iterable<[string, BareItem]>
 ): Item {
   return { value, parameters: new Map(parameters) };
 }
@@ -365,7 +365,7 @@ export function item(
  */
 export function innerList(
   items: Item[],
-  parameters?: Iterable<[string, BareItem]>,
+  parameters?: Iterable<[string, BareItem]>
 ): InnerList {
   return { items, parameters: new Map(parameters) };
 }
@@ -415,7 +415,7 @@ export function isItem(member: Item | InnerList): member is Item {
  * ```
  */
 export function isInnerList(
-  member: Item | InnerList,
+  member: Item | InnerList
 ): member is InnerList {
   return "items" in member;
 }
@@ -491,9 +491,12 @@ const TCHAR_LOOKUP: boolean[] = (() => {
 // Pre-computed lookup table for base64 characters (A-Z, a-z, 0-9, +, /, =)
 const BASE64_LOOKUP: boolean[] = (() => {
   const table: boolean[] = new Array(128).fill(false);
-  for (let i = CHAR_CODE_UPPER_A; i <= CHAR_CODE_UPPER_Z; i++) table[i] = true;
-  for (let i = CHAR_CODE_LOWER_A; i <= CHAR_CODE_LOWER_Z; i++) table[i] = true;
-  for (let i = CHAR_CODE_0; i <= CHAR_CODE_9; i++) table[i] = true;
+  for (let i = CHAR_CODE_UPPER_A; i <= CHAR_CODE_UPPER_Z; i++)
+    table[i] = true;
+  for (let i = CHAR_CODE_LOWER_A; i <= CHAR_CODE_LOWER_Z; i++)
+    table[i] = true;
+  for (let i = CHAR_CODE_0; i <= CHAR_CODE_9; i++)
+    table[i] = true;
   table[43] = true; // +
   table[47] = true; // /
   table[61] = true; // =
@@ -575,7 +578,7 @@ export function parseList(input: string): List {
   skipSP(state);
   if (!isEof(state)) {
     throw new SyntaxError(
-      `Invalid structured field: unexpected character at position ${state.pos}`,
+      `Invalid structured field: unexpected character at position ${state.pos}`
     );
   }
   return list;
@@ -593,14 +596,14 @@ function parseListInternal(state: ParserState): List {
     }
     if (peek(state) !== ",") {
       throw new SyntaxError(
-        `Invalid structured field: expected ',' at position ${state.pos}`,
+        `Invalid structured field: expected ',' at position ${state.pos}`
       );
     }
     consume(state); // consume ','
     skipOWS(state);
     if (isEof(state)) {
       throw new SyntaxError(
-        "Invalid structured field: trailing comma in list",
+        "Invalid structured field: trailing comma in list"
       );
     }
   }
@@ -635,7 +638,7 @@ export function parseDictionary(input: string): Dictionary {
   skipSP(state);
   if (!isEof(state)) {
     throw new SyntaxError(
-      `Invalid structured field: unexpected character at position ${state.pos}`,
+      `Invalid structured field: unexpected character at position ${state.pos}`
     );
   }
   return dict;
@@ -656,7 +659,7 @@ function parseDictionaryInternal(state: ParserState): Dictionary {
       const parameters = parseParameters(state);
       member = {
         value: { type: "boolean", value: true },
-        parameters,
+        parameters
       };
     }
 
@@ -667,14 +670,14 @@ function parseDictionaryInternal(state: ParserState): Dictionary {
     }
     if (peek(state) !== ",") {
       throw new SyntaxError(
-        `Invalid structured field: expected ',' at position ${state.pos}`,
+        `Invalid structured field: expected ',' at position ${state.pos}`
       );
     }
     consume(state); // consume ','
     skipOWS(state);
     if (isEof(state)) {
       throw new SyntaxError(
-        "Invalid structured field: trailing comma in dictionary",
+        "Invalid structured field: trailing comma in dictionary"
       );
     }
   }
@@ -709,7 +712,7 @@ export function parseItem(input: string): Item {
   skipSP(state);
   if (!isEof(state)) {
     throw new SyntaxError(
-      `Invalid structured field: unexpected character at position ${state.pos}`,
+      `Invalid structured field: unexpected character at position ${state.pos}`
     );
   }
   return item;
@@ -725,7 +728,7 @@ function parseItemOrInnerList(state: ParserState): Item | InnerList {
 function parseInnerList(state: ParserState): InnerList {
   if (consume(state) !== "(") {
     throw new SyntaxError(
-      `Invalid structured field: expected '(' at position ${state.pos - 1}`,
+      `Invalid structured field: expected '(' at position ${state.pos - 1}`
     );
   }
 
@@ -744,13 +747,13 @@ function parseInnerList(state: ParserState): InnerList {
     const c = peek(state);
     if (c !== " " && c !== ")") {
       throw new SyntaxError(
-        `Invalid structured field: expected SP or ')' at position ${state.pos}`,
+        `Invalid structured field: expected SP or ')' at position ${state.pos}`
       );
     }
   }
 
   throw new SyntaxError(
-    "Invalid structured field: unterminated inner list",
+    "Invalid structured field: unterminated inner list"
   );
 }
 
@@ -766,7 +769,7 @@ function parseBareItem(state: ParserState): BareItem {
   if (c === "-" || isDigit(c)) {
     return parseIntegerOrDecimal(state);
   }
-  if (c === '"') {
+  if (c === "\"") {
     return parseString(state);
   }
   if (c === ":") {
@@ -786,7 +789,7 @@ function parseBareItem(state: ParserState): BareItem {
   }
 
   throw new SyntaxError(
-    `Invalid structured field: unexpected character '${c}' at position ${state.pos}`,
+    `Invalid structured field: unexpected character '${c}' at position ${state.pos}`
   );
 }
 
@@ -800,7 +803,7 @@ function parseIntegerOrDecimal(state: ParserState): BareItem {
 
   if (!isDigit(peek(state))) {
     throw new SyntaxError(
-      `Invalid structured field: expected digit at position ${state.pos}`,
+      `Invalid structured field: expected digit at position ${state.pos}`
     );
   }
 
@@ -811,7 +814,7 @@ function parseIntegerOrDecimal(state: ParserState): BareItem {
   const intLen = state.pos - intStart;
   if (intLen > MAX_INTEGER_DIGITS) {
     throw new SyntaxError(
-      "Invalid structured field: integer too long",
+      "Invalid structured field: integer too long"
     );
   }
 
@@ -819,7 +822,7 @@ function parseIntegerOrDecimal(state: ParserState): BareItem {
     state.pos++; // consume '.'
     if (intLen > MAX_DECIMAL_INTEGER_DIGITS) {
       throw new SyntaxError(
-        "Invalid structured field: decimal integer part too long",
+        "Invalid structured field: decimal integer part too long"
       );
     }
 
@@ -830,13 +833,13 @@ function parseIntegerOrDecimal(state: ParserState): BareItem {
     const fracLen = state.pos - fracStart;
     if (fracLen > MAX_DECIMAL_FRACTIONAL_DIGITS) {
       throw new SyntaxError(
-        "Invalid structured field: decimal fractional part too long",
+        "Invalid structured field: decimal fractional part too long"
       );
     }
 
     if (fracLen === 0) {
       throw new SyntaxError(
-        "Invalid structured field: decimal requires fractional digits",
+        "Invalid structured field: decimal requires fractional digits"
       );
     }
 
@@ -848,7 +851,7 @@ function parseIntegerOrDecimal(state: ParserState): BareItem {
 
   if (value < -MAX_INTEGER || value > MAX_INTEGER) {
     throw new SyntaxError(
-      "Invalid structured field: integer out of range",
+      "Invalid structured field: integer out of range"
     );
   }
 
@@ -856,9 +859,9 @@ function parseIntegerOrDecimal(state: ParserState): BareItem {
 }
 
 function parseString(state: ParserState): BareItem {
-  if (consume(state) !== '"') {
+  if (consume(state) !== "\"") {
     throw new SyntaxError(
-      `Invalid structured field: expected '"' at position ${state.pos - 1}`,
+      `Invalid structured field: expected '"' at position ${state.pos - 1}`
     );
   }
 
@@ -869,12 +872,13 @@ function parseString(state: ParserState): BareItem {
   let firstSpecial = startPos;
   while (firstSpecial < input.length) {
     const c = input[firstSpecial]!;
-    if (c === '"' || c === "\\") break;
+    if (c === "\"" || c === "\\")
+      break;
     // Validate printable ASCII
     const code = c.charCodeAt(0);
     if (code < 0x20 || code > 0x7e) {
       throw new SyntaxError(
-        `Invalid structured field: invalid character in string at position ${firstSpecial}`,
+        `Invalid structured field: invalid character in string at position ${firstSpecial}`
       );
     }
     firstSpecial++;
@@ -886,7 +890,7 @@ function parseString(state: ParserState): BareItem {
   }
 
   // Fast path: no escapes, just a closing quote
-  if (input[firstSpecial] === '"') {
+  if (input[firstSpecial] === "\"") {
     state.pos = firstSpecial + 1;
     return { type: "string", value: input.slice(startPos, firstSpecial) };
   }
@@ -900,24 +904,20 @@ function parseString(state: ParserState): BareItem {
 
     if (c === "\\") {
       const escaped = consume(state);
-      if (escaped !== '"' && escaped !== "\\") {
+      if (escaped !== "\"" && escaped !== "\\") {
         throw new SyntaxError(
-          `Invalid structured field: invalid escape sequence at position ${
-            state.pos - 1
-          }`,
+          `Invalid structured field: invalid escape sequence at position ${state.pos - 1}`
         );
       }
       value += escaped;
-    } else if (c === '"') {
+    } else if (c === "\"") {
       return { type: "string", value };
     } else {
       // Must be printable ASCII (0x20-0x7E) excluding 0x22 (") and 0x5C (\)
       const code = c.charCodeAt(0);
       if (code < 0x20 || code > 0x7e) {
         throw new SyntaxError(
-          `Invalid structured field: invalid character in string at position ${
-            state.pos - 1
-          }`,
+          `Invalid structured field: invalid character in string at position ${state.pos - 1}`
         );
       }
       value += c;
@@ -925,7 +925,7 @@ function parseString(state: ParserState): BareItem {
   }
 
   throw new SyntaxError(
-    "Invalid structured field: unterminated string",
+    "Invalid structured field: unterminated string"
   );
 }
 
@@ -933,7 +933,7 @@ function parseToken(state: ParserState): BareItem {
   const first = peek(state);
   if (!isAlpha(first) && first !== "*") {
     throw new SyntaxError(
-      `Invalid structured field: invalid token start at position ${state.pos}`,
+      `Invalid structured field: invalid token start at position ${state.pos}`
     );
   }
 
@@ -954,7 +954,7 @@ function parseToken(state: ParserState): BareItem {
 function parseBinary(state: ParserState): BareItem {
   if (consume(state) !== ":") {
     throw new SyntaxError(
-      `Invalid structured field: expected ':' at position ${state.pos - 1}`,
+      `Invalid structured field: expected ':' at position ${state.pos - 1}`
     );
   }
 
@@ -965,7 +965,7 @@ function parseBinary(state: ParserState): BareItem {
   while (state.pos < input.length && input[state.pos] !== ":") {
     if (!isBase64Char(input[state.pos]!)) {
       throw new SyntaxError(
-        `Invalid structured field: invalid base64 character at position ${state.pos}`,
+        `Invalid structured field: invalid base64 character at position ${state.pos}`
       );
     }
     state.pos++;
@@ -973,7 +973,7 @@ function parseBinary(state: ParserState): BareItem {
 
   if (state.pos >= input.length) {
     throw new SyntaxError(
-      "Invalid structured field: unterminated binary",
+      "Invalid structured field: unterminated binary"
     );
   }
 
@@ -985,7 +985,7 @@ function parseBinary(state: ParserState): BareItem {
     return { type: "binary", value };
   } catch {
     throw new SyntaxError(
-      "Invalid structured field: invalid base64 encoding",
+      "Invalid structured field: invalid base64 encoding"
     );
   }
 }
@@ -993,7 +993,7 @@ function parseBinary(state: ParserState): BareItem {
 function parseBoolean(state: ParserState): BareItem {
   if (consume(state) !== "?") {
     throw new SyntaxError(
-      `Invalid structured field: expected '?' at position ${state.pos - 1}`,
+      `Invalid structured field: expected '?' at position ${state.pos - 1}`
     );
   }
 
@@ -1006,23 +1006,21 @@ function parseBoolean(state: ParserState): BareItem {
   }
 
   throw new SyntaxError(
-    `Invalid structured field: expected '0' or '1' at position ${
-      state.pos - 1
-    }`,
+    `Invalid structured field: expected '0' or '1' at position ${state.pos - 1}`
   );
 }
 
 function parseDate(state: ParserState): BareItem {
   if (consume(state) !== "@") {
     throw new SyntaxError(
-      `Invalid structured field: expected '@' at position ${state.pos - 1}`,
+      `Invalid structured field: expected '@' at position ${state.pos - 1}`
     );
   }
 
   const intItem = parseIntegerOrDecimal(state);
   if (intItem.type !== "integer") {
     throw new SyntaxError(
-      "Invalid structured field: date must be an integer",
+      "Invalid structured field: date must be an integer"
     );
   }
 
@@ -1033,12 +1031,12 @@ function parseDate(state: ParserState): BareItem {
 function parseDisplayString(state: ParserState): BareItem {
   if (consume(state) !== "%") {
     throw new SyntaxError(
-      `Invalid structured field: expected '%' at position ${state.pos - 1}`,
+      `Invalid structured field: expected '%' at position ${state.pos - 1}`
     );
   }
-  if (consume(state) !== '"') {
+  if (consume(state) !== "\"") {
     throw new SyntaxError(
-      `Invalid structured field: expected '"' at position ${state.pos - 1}`,
+      `Invalid structured field: expected '"' at position ${state.pos - 1}`
     );
   }
 
@@ -1046,14 +1044,14 @@ function parseDisplayString(state: ParserState): BareItem {
   while (!isEof(state)) {
     const c = consume(state);
 
-    if (c === '"') {
+    if (c === "\"") {
       // Decode UTF-8 bytes to string
       try {
         const value = UTF8_DECODER.decode(new Uint8Array(bytes));
         return { type: "displaystring", value };
       } catch {
         throw new SyntaxError(
-          "Invalid structured field: invalid UTF-8 in display string",
+          "Invalid structured field: invalid UTF-8 in display string"
         );
       }
     } else if (c === "%") {
@@ -1062,9 +1060,7 @@ function parseDisplayString(state: ParserState): BareItem {
       const hex2 = consume(state);
       if (!isLcHexDigit(hex1) || !isLcHexDigit(hex2)) {
         throw new SyntaxError(
-          `Invalid structured field: invalid percent encoding at position ${
-            state.pos - 2
-          }`,
+          `Invalid structured field: invalid percent encoding at position ${state.pos - 2}`
         );
       }
       bytes.push(parseInt(hex1 + hex2, 16));
@@ -1081,9 +1077,7 @@ function parseDisplayString(state: ParserState): BareItem {
         (code >= 0x5c && code <= 0x7e); // \-~ (includes \ per conformance tests)
       if (!isAllowed) {
         throw new SyntaxError(
-          `Invalid structured field: invalid character in display string at position ${
-            state.pos - 1
-          }`,
+          `Invalid structured field: invalid character in display string at position ${state.pos - 1}`
         );
       }
       bytes.push(code);
@@ -1091,14 +1085,14 @@ function parseDisplayString(state: ParserState): BareItem {
   }
 
   throw new SyntaxError(
-    "Invalid structured field: unterminated display string",
+    "Invalid structured field: unterminated display string"
   );
 }
 
 function parseKey(state: ParserState): string {
   if (!isKeyStart(peek(state))) {
     throw new SyntaxError(
-      `Invalid structured field: invalid key start at position ${state.pos}`,
+      `Invalid structured field: invalid key start at position ${state.pos}`
     );
   }
 
@@ -1332,7 +1326,7 @@ function serializeString(value: string): string {
   }
 
   // Slow path: escape \ and "
-  const escaped = value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  const escaped = value.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
   return `"${escaped}"`;
 }
 
@@ -1378,7 +1372,7 @@ function serializeDate(value: Date): string {
 function serializeDisplayString(value: string): string {
   const bytes = UTF8_ENCODER.encode(value);
 
-  let result = '%"';
+  let result = "%\"";
   for (const byte of bytes) {
     if (byte === 0x25) {
       // % -> %25
@@ -1394,7 +1388,7 @@ function serializeDisplayString(value: string): string {
       result += "%" + byte.toString(16).padStart(2, "0");
     }
   }
-  result += '"';
+  result += "\"";
 
   return result;
 }

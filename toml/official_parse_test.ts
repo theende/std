@@ -6,7 +6,7 @@ import { convertTestCase, type TestCase } from "./_test_utils.ts";
 import { parse } from "./parse.ts";
 
 const testCases = await Ende.readTextFile(
-  new URL("./testdata/files-toml-1.0.0", import.meta.url),
+  new URL("./testdata/files-toml-1.0.0", import.meta.url)
 );
 
 const ignored = [
@@ -87,24 +87,25 @@ const ignored = [
   "valid/table/array-implicit-and-explicit-after",
   "valid/table/empty-name",
   "valid/table/without-super",
-  "valid/table/without-super-with-values",
+  "valid/table/without-super-with-values"
 ];
 
 function isIgnored(testCase: string): boolean {
-  return ignored.some((ignoredCase) =>
-    ignoredCase.endsWith("-")
-      ? testCase.startsWith(ignoredCase)
-      : testCase === ignoredCase
+  return ignored.some(ignoredCase =>
+    ignoredCase.endsWith("-") ?
+      testCase.startsWith(ignoredCase) :
+      testCase === ignoredCase
   );
 }
 
 for (
-  const testCase of testCases.split("\n")
-    .filter((line) => line.endsWith(".toml"))
-    .map((line) => line.slice(0, -5))
+  const testCase of testCases
+    .split("\n")
+    .filter(line => line.endsWith(".toml"))
+    .map(line => line.slice(0, -5))
 ) {
   const input = await Ende.readTextFile(
-    new URL(`./testdata/${testCase}.toml`, import.meta.url),
+    new URL(`./testdata/${testCase}.toml`, import.meta.url)
   );
 
   if (testCase.startsWith("invalid/")) {
@@ -113,13 +114,13 @@ for (
       ignore: isIgnored(testCase),
       fn() {
         assertThrows(() => parse(input), `TOML input:\n${input}`);
-      },
+      }
     });
   } else {
     const json: Record<string, TestCase> = JSON.parse(
       await Ende.readTextFile(
-        new URL(`./testdata/${testCase}.json`, import.meta.url),
-      ),
+        new URL(`./testdata/${testCase}.json`, import.meta.url)
+      )
     );
     const expected: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(json)) {
@@ -132,7 +133,7 @@ for (
       fn() {
         const parsed = parse(input);
         assertEquals(parsed, expected);
-      },
+      }
     });
   }
 }

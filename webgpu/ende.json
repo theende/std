@@ -1,11 +1,11 @@
 {
-  "name": "@ende/webgpu",
-  "version": "0.224.9",
   "exports": {
     ".": "./mod.ts",
     "./create-capture": "./create_capture.ts",
     "./describe-texture-format": "./describe_texture_format.ts",
     "./row-padding": "./row_padding.ts",
     "./texture-with-data": "./texture_with_data.ts"
-  }
+  },
+  "name": "@ende/webgpu",
+  "version": "2026.10.15"
 }

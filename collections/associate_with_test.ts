@@ -6,8 +6,8 @@ import { associateWith } from "./associate_with.ts";
 
 function associateWithTest<T>(
   input: [readonly string[], (el: string) => T],
-  expected: { [x: string]: T },
-  message?: string,
+  expected: { [x: string]: T; },
+  message?: string
 ) {
   const actual = associateWith(...input);
   assertEquals(actual, expected, message);
@@ -17,17 +17,17 @@ Ende.test({
   name: "associateWith() handles no mutation",
   fn() {
     const arrayA = ["Foo", "Bar"];
-    associateWith(arrayA, (it) => it.charAt(0));
+    associateWith(arrayA, it => it.charAt(0));
 
     assertEquals(arrayA, ["Foo", "Bar"]);
-  },
+  }
 });
 
 Ende.test({
   name: "associateWith() handles empty input",
   fn() {
     associateWithTest([[], () => "abc"], {});
-  },
+  }
 });
 
 Ende.test({
@@ -38,47 +38,47 @@ Ende.test({
         [
           "Kim",
           "Lara",
-          "Jonathan",
+          "Jonathan"
         ],
-        (it) => it.length,
+        it => it.length
       ],
       {
-        "Kim": 3,
-        "Lara": 4,
-        "Jonathan": 8,
-      },
+        Kim: 3,
+        Lara: 4,
+        Jonathan: 8
+      }
     );
     associateWithTest(
       [
         [
           "Kim@example.org",
           "Lara@example.org",
-          "Jonathan@example.org",
+          "Jonathan@example.org"
         ],
-        (it) => it.replace("org", "com"),
+        it => it.replace("org", "com")
       ],
       {
         "Kim@example.org": "Kim@example.com",
         "Lara@example.org": "Lara@example.com",
-        "Jonathan@example.org": "Jonathan@example.com",
-      },
+        "Jonathan@example.org": "Jonathan@example.com"
+      }
     );
     associateWithTest<boolean>(
       [
         [
           "Kim",
           "Lara",
-          "Jonathan",
+          "Jonathan"
         ],
-        (it) => /m/.test(it),
+        it => /m/.test(it)
       ],
       {
-        "Kim": true,
-        "Lara": false,
-        "Jonathan": false,
-      },
+        Kim: true,
+        Lara: false,
+        Jonathan: false
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -87,14 +87,14 @@ Ende.test({
     associateWithTest(
       [
         ["Kim", "Marija", "Karl", "Jonathan", "Marija"],
-        (it) => it.charAt(0),
+        it => it.charAt(0)
       ],
       {
-        "Jonathan": "J",
-        "Karl": "K",
-        "Kim": "K",
-        "Marija": "M",
-      },
+        Jonathan: "J",
+        Karl: "K",
+        Kim: "K",
+        Marija: "M"
+      }
     );
-  },
+  }
 });

@@ -25,7 +25,7 @@ export class AssertionState {
       assertionCount: undefined,
       assertionCheck: false,
       assertionTriggered: false,
-      assertionTriggeredCount: 0,
+      assertionTriggeredCount: 0
     };
 
     if (typeof globalThis?.addEventListener === "function") {
@@ -47,7 +47,7 @@ export class AssertionState {
       this.#state.assertionCount !== undefined
     ) {
       throw new Error(
-        "AssertionCounter was not cleaned up: If tests are not otherwise failing, ensure `expect.hasAssertion` and `expect.assertions` are only run in bdd tests",
+        "AssertionCounter was not cleaned up: If tests are not otherwise failing, ensure `expect.hasAssertion` and `expect.assertions` are only run in bdd tests"
       );
     }
   }
@@ -192,7 +192,7 @@ export class AssertionState {
       assertionCount: undefined,
       assertionCheck: false,
       assertionTriggered: false,
-      assertionTriggeredCount: 0,
+      assertionTriggeredCount: 0
     };
   }
 

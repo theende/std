@@ -98,10 +98,10 @@ const FORMATS: GPUTextureFormat[] = [
   "astc-12x10-unorm",
   "astc-12x10-unorm-srgb",
   "astc-12x12-unorm",
-  "astc-12x12-unorm-srgb",
+  "astc-12x12-unorm-srgb"
 ] as const;
 
-Ende.test("describeTextureFormat()", async (t) => {
+Ende.test("describeTextureFormat()", async t => {
   for (const format of FORMATS) {
     await t.step(format, () => {
       describeTextureFormat(format);

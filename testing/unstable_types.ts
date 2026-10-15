@@ -24,6 +24,5 @@
  * assertType<IsMutuallyAssignable<string | (string & RegExpMatchArray), string>>(true);
  * ```
  */
-export type IsMutuallyAssignable<A, E> = [E] extends [A]
-  ? [A] extends [E] ? true : false
-  : false;
+export type IsMutuallyAssignable<A, E> = [E] extends [A] ? [A] extends [E] ? true : false :
+  false;

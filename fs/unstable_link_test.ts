@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertExists,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { link, linkSync } from "./unstable_link.ts";
 import { AlreadyExists, NotFound } from "./unstable_errors.js";

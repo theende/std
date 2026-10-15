@@ -10,7 +10,7 @@ import {
   CHAR_LOWERCASE_A,
   CHAR_LOWERCASE_Z,
   CHAR_UPPERCASE_A,
-  CHAR_UPPERCASE_Z,
+  CHAR_UPPERCASE_Z
 } from "../_common/constants.ts";
 
 export function isPosixPathSeparator(code: number): boolean {

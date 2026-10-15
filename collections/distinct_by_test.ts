@@ -8,7 +8,7 @@ function distinctByTest<I>(
   array: Array<I>,
   selector: (element: I) => unknown,
   expected: Array<I>,
-  message?: string,
+  message?: string
 ) {
   const actual = distinctBy(array, selector);
   assertEquals(actual, expected, message);
@@ -20,9 +20,9 @@ Ende.test({
     distinctByTest(
       [],
       () => {},
-      [],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -31,9 +31,9 @@ Ende.test({
     distinctByTest(
       [25, "asdf", true],
       () => {},
-      [25],
+      [25]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,15 +41,15 @@ Ende.test({
   fn() {
     distinctByTest(
       [true, "asdf", 4, "asdf", true],
-      (it) => it,
-      [true, "asdf", 4],
+      it => it,
+      [true, "asdf", 4]
     );
     distinctByTest(
       [null, undefined, null, "foo", undefined],
-      (it) => it,
-      [null, undefined, "foo"],
+      it => it,
+      [null, undefined, "foo"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -58,38 +58,38 @@ Ende.test({
     const objects = [{ foo: "bar" }, { foo: "bar" }];
     distinctByTest(
       objects,
-      (it) => it,
-      objects,
+      it => it,
+      objects
     );
 
     const arrays = [[], []];
     distinctByTest(
       arrays,
-      (it) => it,
-      arrays,
+      it => it,
+      arrays
     );
 
     const nans = [NaN, NaN];
     distinctByTest(
       nans,
-      (it) => it,
-      [nans[0]],
+      it => it,
+      [nans[0]]
     );
 
     const noops = [() => {}, () => {}];
     distinctByTest(
       noops,
-      (it) => it,
-      noops,
+      it => it,
+      noops
     );
 
     const sets = [new Set(), new Set()];
     distinctByTest(
       sets,
-      (it) => it,
-      sets,
+      it => it,
+      sets
     );
-  },
+  }
 });
 
 Ende.test({
@@ -103,20 +103,20 @@ Ende.test({
 
     distinctByTest(
       people,
-      (it) => it.name.charAt(0),
-      [kim, arthur],
+      it => it.name.charAt(0),
+      [kim, arthur]
     );
     distinctByTest(
       people,
-      (it) => it.age,
-      [kim, anna],
+      it => it.age,
+      [kim, anna]
     );
     distinctByTest(
       people,
-      (it) => it.name.length,
-      [kim, arthur, anna],
+      it => it.name.length,
+      [kim, arthur, anna]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -124,8 +124,8 @@ Ende.test({
   fn() {
     const result = distinctBy(
       [25, "asdf", true],
-      (_, index) => index > 1,
+      (_, index) => index > 1
     );
     assertEquals(result, [25, true]);
-  },
+  }
 });

@@ -62,7 +62,7 @@ export async function parseRecord(
   reader: LineReader,
   options: ReadOptions,
   zeroBasedRecordStartLine: number,
-  zeroBasedLine: number = zeroBasedRecordStartLine,
+  zeroBasedLine: number = zeroBasedRecordStartLine
 ): Promise<Array<string>> {
   // line starting with comment character is ignored
   if (options.comment && fullLine[0] === options.comment) {
@@ -74,7 +74,7 @@ export async function parseRecord(
   }
 
   let line = fullLine;
-  const quote = '"';
+  const quote = "\"";
   const quoteLen = quote.length;
   const separatorLen = options.separator.length;
   let recordBuffer = "";
@@ -96,14 +96,14 @@ export async function parseRecord(
         const j = field.indexOf(quote);
         if (j >= 0) {
           const col = codePointLength(
-            fullLine.slice(0, fullLine.length - line.slice(j).length),
+            fullLine.slice(0, fullLine.length - line.slice(j).length)
           );
           throw new SyntaxError(
             createBareQuoteErrorMessage(
               zeroBasedRecordStartLine,
               zeroBasedLine,
-              col,
-            ),
+              col
+            )
           );
         }
       }
@@ -142,14 +142,14 @@ export async function parseRecord(
           } else {
             // `"*` sequence (invalid non-escaped quote).
             const col = codePointLength(
-              fullLine.slice(0, fullLine.length - line.length - quoteLen),
+              fullLine.slice(0, fullLine.length - line.length - quoteLen)
             );
             throw new SyntaxError(
               createQuoteErrorMessage(
                 zeroBasedRecordStartLine,
                 zeroBasedLine,
-                col,
-              ),
+                col
+              )
             );
           }
         } else if (line.length > 0 || !reader.isEOF()) {
@@ -166,8 +166,8 @@ export async function parseRecord(
                 createQuoteErrorMessage(
                   zeroBasedRecordStartLine,
                   zeroBasedLine,
-                  col,
-                ),
+                  col
+                )
               );
             }
             fieldIndexes.push(recordBuffer.length);
@@ -183,8 +183,8 @@ export async function parseRecord(
               createQuoteErrorMessage(
                 zeroBasedRecordStartLine,
                 zeroBasedLine,
-                col,
-              ),
+                col
+              )
             );
           }
           fieldIndexes.push(recordBuffer.length);
@@ -205,22 +205,18 @@ export async function parseRecord(
 export function createBareQuoteErrorMessage(
   zeroBasedRecordStartLine: number,
   zeroBasedLine: number,
-  zeroBasedColumn: number,
+  zeroBasedColumn: number
 ) {
-  return `Syntax error on line ${
-    zeroBasedRecordStartLine + 1
-  }; parse error on line ${zeroBasedLine + 1}, column ${
+  return `Syntax error on line ${zeroBasedRecordStartLine + 1}; parse error on line ${zeroBasedLine + 1}, column ${
     zeroBasedColumn + 1
   }: bare " in non-quoted-field`;
 }
 export function createQuoteErrorMessage(
   zeroBasedRecordStartLine: number,
   zeroBasedLine: number,
-  zeroBasedColumn: number,
+  zeroBasedColumn: number
 ) {
-  return `Syntax error on line ${
-    zeroBasedRecordStartLine + 1
-  }; parse error on line ${zeroBasedLine + 1}, column ${
+  return `Syntax error on line ${zeroBasedRecordStartLine + 1}; parse error on line ${zeroBasedLine + 1}, column ${
     zeroBasedColumn + 1
   }: extraneous or missing " in quoted-field`;
 }
@@ -228,13 +224,11 @@ export function createQuoteErrorMessage(
 export function convertRowToObject(
   row: readonly string[],
   headers: readonly string[],
-  zeroBasedLine: number,
+  zeroBasedLine: number
 ) {
   if (row.length !== headers.length) {
     throw new Error(
-      `Syntax error on line ${
-        zeroBasedLine + 1
-      }: The record has ${row.length} fields, but the header has ${headers.length} fields`,
+      `Syntax error on line ${zeroBasedLine + 1}: The record has ${row.length} fields, but the header has ${headers.length} fields`
     );
   }
   const out: Record<string, unknown> = {};
@@ -247,16 +241,13 @@ export function convertRowToObject(
 /** Parse result type for {@linkcode parse} and {@linkcode CsvParseStream}. */
 export type ParseResult<ParseOptions, T> =
   // If `columns` option is specified, the return type is Record type.
-  T extends ParseOptions & { columns: readonly (infer C extends string)[] }
-    ? RecordWithColumn<C>[]
+  T extends ParseOptions & { columns: readonly (infer C extends string)[]; } ? RecordWithColumn<C>[] :
     // If `skipFirstRow` option is specified, the return type is Record type.
-    : T extends ParseOptions & { skipFirstRow: true } ? Record<string, string>[]
+    T extends ParseOptions & { skipFirstRow: true; } ? Record<string, string>[] :
     // If `columns` and `skipFirstRow` option is _not_ specified, the return type is string[][].
-    : T extends
-      ParseOptions & { columns?: undefined; skipFirstRow?: false | undefined }
-      ? string[][]
+    T extends ParseOptions & { columns?: undefined; skipFirstRow?: false | undefined; } ? string[][] :
     // else, the return type is Record type or string[][].
-    : Record<string, string>[] | string[][];
+    Record<string, string>[] | string[][];
 
 /**
  * Record type with column type.
@@ -267,6 +258,5 @@ export type ParseResult<ParseOptions, T> =
  * type RecordWithColumn<string> => Record<string, string | undefined>
  * ```
  */
-export type RecordWithColumn<C extends string> = string extends C
-  ? Record<string, string>
-  : Record<C, string>;
+export type RecordWithColumn<C extends string> = string extends C ? Record<string, string> :
+  Record<C, string>;

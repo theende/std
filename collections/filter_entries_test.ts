@@ -7,7 +7,7 @@ import { filterEntries } from "./filter_entries.ts";
 function filterEntriesTest<T>(
   input: [Record<string, T>, (entry: [string, T]) => boolean],
   expected: Record<string, T>,
-  message?: string,
+  message?: string
 ) {
   const actual = filterEntries(...input);
   assertEquals(actual, expected, message);
@@ -20,7 +20,7 @@ Ende.test({
     filterEntries(object, ([key]) => key !== "a");
 
     assertEquals(object, { a: 5, b: true });
-  },
+  }
 });
 
 Ende.test({
@@ -28,9 +28,9 @@ Ende.test({
   fn() {
     filterEntriesTest(
       [{}, () => true],
-      {},
+      {}
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
         {
           foo: true,
           bar: "lorem",
-          1: -5,
+          1: -5
         },
-        () => true,
+        () => true
       ],
       {
         foo: true,
         bar: "lorem",
-        1: -5,
-      },
+        1: -5
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -60,11 +60,11 @@ Ende.test({
     filterEntriesTest(
       [
         { test: "foo", "": [] },
-        () => false,
+        () => false
       ],
-      {},
+      {}
     );
-  },
+  }
 });
 
 Ende.test({
@@ -73,35 +73,35 @@ Ende.test({
     filterEntriesTest(
       [
         {
-          "Anna": 22,
-          "Kim": 24,
-          "Karen": 33,
-          "Claudio": 11,
-          "Karl": 45,
+          Anna: 22,
+          Kim: 24,
+          Karen: 33,
+          Claudio: 11,
+          Karl: 45
         },
-        ([name, age]) => name.startsWith("K") && age > 30,
+        ([name, age]) => name.startsWith("K") && age > 30
       ],
       {
-        "Karen": 33,
-        "Karl": 45,
-      },
+        Karen: 33,
+        Karl: 45
+      }
     );
     filterEntriesTest(
       [
         {
-          "A": true,
-          "b": "foo",
-          "C": 5,
-          "d": -2,
-          "": false,
+          A: true,
+          b: "foo",
+          C: 5,
+          d: -2,
+          "": false
         },
-        ([key]) => key.toUpperCase() === key,
+        ([key]) => key.toUpperCase() === key
       ],
       {
-        "A": true,
-        "C": 5,
-        "": false,
-      },
+        A: true,
+        C: 5,
+        "": false
+      }
     );
-  },
+  }
 });

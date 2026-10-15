@@ -42,8 +42,8 @@ expanded-description: with some --- crazy stuff in it`,
     attrs: {
       title: "Three dashes marks the spot",
       tags: ["yaml", "front-matter", "dashes"],
-      "expanded-description": "with some --- crazy stuff in it",
-    },
+      "expanded-description": "with some --- crazy stuff in it"
+    }
   };
 
   const content = extract<Record<string, unknown>>(input);
@@ -75,8 +75,8 @@ expanded-description: with some --- crazy stuff in it`,
     attrs: {
       title: "Three dashes marks the spot",
       tags: ["yaml", "front-matter", "dashes"],
-      "expanded-description": "with some --- crazy stuff in it",
-    },
+      "expanded-description": "with some --- crazy stuff in it"
+    }
   };
 
   const content = extract<Record<string, unknown>>(input);
@@ -93,30 +93,30 @@ Ende.test("(unstable)extractYaml() parses with schema options", () => {
   assertEquals(
     unstableExtract("---\ndate: 2024-08-20\n---\n", { schema: "json" }).attrs,
     {
-      date: "2024-08-20",
-    },
+      date: "2024-08-20"
+    }
   );
 });
 
 Ende.test("extractYaml() handles empty frontMatter", () => {
   assertEquals(
     extract("---\n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
 
   assertEquals(
     extract("---\n\n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
   assertEquals(
     extract("---\n   \n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
 
   assertThrows(
     () => extract("---yaml\nfoo: bar\n---body"),
     TypeError,
-    "Unexpected end of input",
+    "Unexpected end of input"
   );
 });
 
@@ -124,6 +124,6 @@ Ende.test("extractYaml() throws at missing newline before body", () => {
   assertThrows(
     () => extract("---yaml\nfoo: bar\n---body"),
     TypeError,
-    "Unexpected end of input",
+    "Unexpected end of input"
   );
 });

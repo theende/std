@@ -92,7 +92,7 @@ function calculateMonthsDifference(from: Date, to: Date): number {
 export function difference(
   from: Date,
   to: Date,
-  options?: DifferenceOptions,
+  options?: DifferenceOptions
 ): DifferenceFormat {
   [from, to] = from < to ? [from, to] : [to, from];
   const uniqueUnits = options?.units ? [...new Set(options?.units)] : [
@@ -104,7 +104,7 @@ export function difference(
     "weeks",
     "months",
     "quarters",
-    "years",
+    "years"
   ];
 
   const differenceInMs = Math.abs(from.getTime() - to.getTime());
@@ -134,15 +134,18 @@ export function difference(
         differences.weeks = Math.floor(differenceInMs / WEEK);
         break;
       case "months":
-        if (months === null) months = calculateMonthsDifference(from, to);
+        if (months === null)
+          months = calculateMonthsDifference(from, to);
         differences.months = months;
         break;
       case "quarters":
-        if (months === null) months = calculateMonthsDifference(from, to);
+        if (months === null)
+          months = calculateMonthsDifference(from, to);
         differences.quarters = Math.floor(months / 3);
         break;
       case "years":
-        if (months === null) months = calculateMonthsDifference(from, to);
+        if (months === null)
+          months = calculateMonthsDifference(from, to);
         differences.years = Math.floor(months / 12);
         break;
     }

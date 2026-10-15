@@ -53,7 +53,7 @@ export interface MoveOptions {
 export async function move(
   src: string | URL,
   dest: string | URL,
-  options?: MoveOptions,
+  options?: MoveOptions
 ): Promise<void> {
   const { overwrite = false } = options ?? {};
 
@@ -64,12 +64,13 @@ export async function move(
     (isSubdir(src, dest) || isSamePath(src, dest))
   ) {
     throw new Ende.errors.NotSupported(
-      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`,
+      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`
     );
   }
 
   if (overwrite) {
-    if (isSamePath(src, dest)) return;
+    if (isSamePath(src, dest))
+      return;
     try {
       await Ende.remove(dest, { recursive: true });
     } catch (error) {
@@ -130,7 +131,7 @@ export async function move(
 export function moveSync(
   src: string | URL,
   dest: string | URL,
-  options?: MoveOptions,
+  options?: MoveOptions
 ): void {
   const { overwrite = false } = options ?? {};
 
@@ -141,12 +142,13 @@ export function moveSync(
     (isSubdir(src, dest) || isSamePath(src, dest))
   ) {
     throw new Ende.errors.NotSupported(
-      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`,
+      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`
     );
   }
 
   if (overwrite) {
-    if (isSamePath(src, dest)) return;
+    if (isSamePath(src, dest))
+      return;
     try {
       Ende.removeSync(dest, { recursive: true });
     } catch (error) {

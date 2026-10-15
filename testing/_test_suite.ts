@@ -7,7 +7,7 @@ import { AssertionError } from "@ende/assert/assertion-error";
 export const globalSanitizersState = {
   sanitizeExit: undefined as boolean | undefined,
   sanitizeOps: undefined as boolean | undefined,
-  sanitizeResources: undefined as boolean | undefined,
+  sanitizeResources: undefined as boolean | undefined
 };
 const assertionState = getAssertionState();
 
@@ -93,12 +93,12 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
     const { suite } = describe;
     if (suite && !TestSuiteInternal.suites.has(suite.symbol)) {
       throw new Error(
-        "Cannot construct Test Suite: suite does not represent a registered test suite",
+        "Cannot construct Test Suite: suite does not represent a registered test suite"
       );
     }
-    const testSuite = suite
-      ? TestSuiteInternal.suites.get(suite.symbol)
-      : TestSuiteInternal.current;
+    const testSuite = suite ?
+      TestSuiteInternal.suites.get(suite.symbol) :
+      TestSuiteInternal.current;
     this.symbol = Symbol();
     TestSuiteInternal.suites.set(this.symbol, this);
 
@@ -110,12 +110,12 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
         permissions,
         sanitizeExit = globalSanitizersState.sanitizeExit,
         sanitizeOps = globalSanitizersState.sanitizeOps,
-        sanitizeResources = globalSanitizersState.sanitizeResources,
+        sanitizeResources = globalSanitizersState.sanitizeResources
       } = describe;
       const options: Ende.TestDefinition = {
         name,
         fn: async () => {},
-        ignore: true,
+        ignore: true
       };
       if (only !== undefined) {
         options.only = only;
@@ -144,7 +144,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
         const value = fn() as any;
         if (value instanceof Promise) {
           throw new Error(
-            'Returning a Promise from "describe" is not supported: tests must be defined synchronously',
+            "Returning a Promise from \"describe\" is not supported: tests must be defined synchronously"
           );
         }
       } finally {
@@ -161,7 +161,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
         permissions,
         sanitizeExit = globalSanitizersState.sanitizeExit,
         sanitizeOps = globalSanitizersState.sanitizeOps,
-        sanitizeResources = globalSanitizersState.sanitizeResources,
+        sanitizeResources = globalSanitizersState.sanitizeResources
       } = describe;
       let { only } = describe;
       if (!ignore && this.hasOnlyStep) {
@@ -169,7 +169,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
       }
       const options: Ende.TestDefinition = {
         name,
-        fn: async (t) => {
+        fn: async t => {
           TestSuiteInternal.runningCount++;
           try {
             const context = {} as T;
@@ -198,7 +198,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
           } finally {
             TestSuiteInternal.runningCount--;
           }
-        },
+        }
       };
       if (ignore !== undefined) {
         options.ignore = ignore;
@@ -301,7 +301,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
   /** This is used internally to add steps to a test suite. */
   static addStep<T>(
     suite: TestSuiteInternal<T>,
-    step: TestSuiteInternal<T> | ItDefinition<T>,
+    step: TestSuiteInternal<T> | ItDefinition<T>
   ) {
     if (!suite.hasOnlyStep) {
       if (step instanceof TestSuiteInternal) {
@@ -309,7 +309,8 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
           TestSuiteInternal.addingOnlyStep(suite);
         }
       } else {
-        if (step.only) TestSuiteInternal.addingOnlyStep(suite);
+        if (step.only)
+          TestSuiteInternal.addingOnlyStep(suite);
       }
     }
 
@@ -324,12 +325,12 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
   static setHook<T>(
     suite: TestSuiteInternal<T>,
     name: HookNames,
-    fn: (this: T) => void | Promise<void>,
+    fn: (this: T) => void | Promise<void>
   ) {
     if (suite.describe[name]) {
       if (typeof suite.describe[name] === "function") {
         suite.describe[name] = [
-          suite.describe[name] as ((this: T) => void | Promise<void>),
+          suite.describe[name] as ((this: T) => void | Promise<void>)
         ];
       }
       (suite.describe[name] as ((this: T) => void | Promise<void>)[]).push(fn);
@@ -342,7 +343,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
   static async run<T>(
     suite: TestSuiteInternal<T>,
     context: T,
-    t: Ende.TestContext,
+    t: Ende.TestContext
   ) {
     const hasOnly = suite.hasOnlyStep || suite.describe.only || false;
     for (const step of suite.steps) {
@@ -360,16 +361,16 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
         permissions,
         sanitizeExit = globalSanitizersState.sanitizeExit,
         sanitizeOps = globalSanitizersState.sanitizeOps,
-        sanitizeResources = globalSanitizersState.sanitizeResources,
+        sanitizeResources = globalSanitizersState.sanitizeResources
       } = step instanceof TestSuiteInternal ? step.describe : step;
 
       const options: Ende.TestStepDefinition = {
         name,
-        fn: async (t) => {
+        fn: async t => {
           if (permissions) {
             throw new Error(
               // deno-lint-ignore ende-style-guide/error-message
-              "permissions option not available for nested tests",
+              "permissions option not available for nested tests"
             );
           }
           context = { ...context };
@@ -399,7 +400,7 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
           } else {
             await TestSuiteInternal.runTest(t, fn!, context);
           }
-        },
+        }
       };
       if (ignore !== undefined) {
         options.ignore = ignore;
@@ -421,12 +422,13 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
     t: Ende.TestContext,
     fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
     context: T,
-    activeIndex = 0,
+    activeIndex = 0
   ) {
     const suite = TestSuiteInternal.active[activeIndex];
     const testSuite = suite && TestSuiteInternal.suites.get(suite);
     if (testSuite) {
-      if (activeIndex === 0) context = { ...context };
+      if (activeIndex === 0)
+        context = { ...context };
       const { beforeEach } = testSuite.describe;
       if (typeof beforeEach === "function") {
         await beforeEach.call(context);
@@ -454,16 +456,14 @@ export class TestSuiteInternal<T> implements TestSuite<T> {
     try {
       if (assertionState.checkAssertionErrorState()) {
         throw new AssertionError(
-          "Expected at least one assertion to be called but received none",
+          "Expected at least one assertion to be called but received none"
         );
       }
 
       if (assertionState.checkAssertionCountSatisfied()) {
         throw new AssertionError(
-          `Expected exactly ${assertionState.assertionCount} ${
-            assertionState.assertionCount === 1 ? "assertion" : "assertions"
-          } to be called, ` +
-            `but received ${assertionState.assertionTriggeredCount}`,
+          `Expected exactly ${assertionState.assertionCount} ${assertionState.assertionCount === 1 ? "assertion" : "assertions"} to be called, ` +
+            `but received ${assertionState.assertionTriggeredCount}`
         );
       }
     } finally {

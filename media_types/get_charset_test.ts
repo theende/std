@@ -14,10 +14,10 @@ Ende.test({
       ["text/html", "UTF-8"],
       ["application/foo", undefined],
       ["application/news-checkgroups", "US-ASCII"],
-      ["application/news-checkgroups; charset=UTF-8", "UTF-8"],
+      ["application/news-checkgroups; charset=UTF-8", "UTF-8"]
     ] as const;
     for (const [fixture, expected] of fixtures) {
       assertEquals(getCharset(fixture), expected);
     }
-  },
+  }
 });

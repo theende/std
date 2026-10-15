@@ -21,7 +21,7 @@ import type { XmlName } from "./types.ts";
  */
 export function isIllegalXmlLiteralChar(
   code: number,
-  xml11: boolean,
+  xml11: boolean
 ): boolean {
   if (xml11) {
     // XML 1.1 RestrictedChar + NULL + noncharacters
@@ -46,7 +46,7 @@ export function isIllegalXmlLiteralChar(
  */
 export const LINE_ENDING_REGEXP: Record<"1.0" | "1.1", RegExp> = {
   "1.0": /\r\n?/g,
-  "1.1": /\r[\n\x85]?|\x85|\u2028/g,
+  "1.1": /\r[\n\x85]?|\x85|\u2028/g
 };
 
 /**
@@ -176,7 +176,7 @@ function isValidEncName(encoding: string): boolean {
  * @returns Validation result with parsed values or error message
  */
 export function validateXmlDeclaration(
-  content: string,
+  content: string
 ): XmlDeclarationValidationResult | XmlDeclarationValidationError {
   // Fast-path: version is required and must be first, quick check before full parse
   const trimmed = content.trimStart();
@@ -188,12 +188,12 @@ export function validateXmlDeclaration(
       const name = trimmed.slice(0, 7);
       return {
         valid: false,
-        error: `'${name}' must be lowercase in XML declaration`,
+        error: `'${name}' must be lowercase in XML declaration`
       };
     }
     return {
       valid: false,
-      error: "Missing required 'version' attribute in XML declaration",
+      error: "Missing required 'version' attribute in XML declaration"
     };
   }
 
@@ -235,7 +235,7 @@ export function validateXmlDeclaration(
       if (foundVersion) {
         return {
           valid: false,
-          error: "Duplicate 'version' attribute in XML declaration",
+          error: "Duplicate 'version' attribute in XML declaration"
         };
       }
       foundVersion = true;
@@ -243,13 +243,13 @@ export function validateXmlDeclaration(
       if (foundEncoding) {
         return {
           valid: false,
-          error: "Duplicate 'encoding' attribute in XML declaration",
+          error: "Duplicate 'encoding' attribute in XML declaration"
         };
       }
       if (foundStandalone) {
         return {
           valid: false,
-          error: "'encoding' must come before 'standalone' in XML declaration",
+          error: "'encoding' must come before 'standalone' in XML declaration"
         };
       }
       foundEncoding = true;
@@ -257,7 +257,7 @@ export function validateXmlDeclaration(
       if (foundStandalone) {
         return {
           valid: false,
-          error: "Duplicate 'standalone' attribute in XML declaration",
+          error: "Duplicate 'standalone' attribute in XML declaration"
         };
       }
       foundStandalone = true;
@@ -269,12 +269,12 @@ export function validateXmlDeclaration(
       // Case-sensitive check - these must be lowercase
       return {
         valid: false,
-        error: `'${name}' must be lowercase in XML declaration`,
+        error: `'${name}' must be lowercase in XML declaration`
       };
     } else {
       return {
         valid: false,
-        error: `Unknown attribute '${name}' in XML declaration`,
+        error: `Unknown attribute '${name}' in XML declaration`
       };
     }
 
@@ -287,7 +287,7 @@ export function validateXmlDeclaration(
     if (pos >= len || content.charCodeAt(pos) !== 0x3D) {
       return {
         valid: false,
-        error: `Expected '=' after '${name}' in XML declaration`,
+        error: `Expected '=' after '${name}' in XML declaration`
       };
     }
     pos++; // Skip =
@@ -301,14 +301,14 @@ export function validateXmlDeclaration(
     if (pos >= len) {
       return {
         valid: false,
-        error: `Expected quoted value for '${name}' in XML declaration`,
+        error: `Expected quoted value for '${name}' in XML declaration`
       };
     }
     const quote = content.charCodeAt(pos);
     if (quote !== 0x22 && quote !== 0x27) { // " or '
       return {
         valid: false,
-        error: `Expected quote for '${name}' value in XML declaration`,
+        error: `Expected quote for '${name}' value in XML declaration`
       };
     }
     pos++; // Skip opening quote
@@ -321,7 +321,7 @@ export function validateXmlDeclaration(
     if (pos >= len) {
       return {
         valid: false,
-        error: `Unterminated ${name} value in XML declaration`,
+        error: `Unterminated ${name} value in XML declaration`
       };
     }
     const value = content.slice(valueStart, pos);
@@ -332,8 +332,7 @@ export function validateXmlDeclaration(
       if (!isValidVersionNum(value)) {
         return {
           valid: false,
-          error:
-            `Invalid version '${value}': must match '1.' followed by digits`,
+          error: `Invalid version '${value}': must match '1.' followed by digits`
         };
       }
       version = value;
@@ -341,8 +340,7 @@ export function validateXmlDeclaration(
       if (!isValidEncName(value)) {
         return {
           valid: false,
-          error:
-            `Invalid encoding name '${value}': must start with a letter and contain only letters, digits, '.', '_', '-'`,
+          error: `Invalid encoding name '${value}': must start with a letter and contain only letters, digits, '.', '_', '-'`
         };
       }
       encoding = value;
@@ -350,7 +348,7 @@ export function validateXmlDeclaration(
       if (value !== "yes" && value !== "no") {
         return {
           valid: false,
-          error: `Invalid standalone value '${value}': must be 'yes' or 'no'`,
+          error: `Invalid standalone value '${value}': must be 'yes' or 'no'`
         };
       }
       standalone = value;
@@ -368,7 +366,7 @@ export function validateXmlDeclaration(
     if (pos < len && !hadWhitespace) {
       return {
         valid: false,
-        error: "Missing whitespace between attributes in XML declaration",
+        error: "Missing whitespace between attributes in XML declaration"
       };
     }
   }
@@ -377,7 +375,7 @@ export function validateXmlDeclaration(
     valid: true,
     version: version!,
     ...(encoding !== undefined && { encoding }),
-    ...(standalone !== undefined && { standalone }),
+    ...(standalone !== undefined && { standalone })
   };
 }
 
@@ -457,7 +455,7 @@ export function validateQName(name: string, colonIndex: number): string | null {
 export function validateNamespaceBinding(
   attrName: string,
   attrValue: string,
-  xml11: boolean,
+  xml11: boolean
 ): string | null {
   const colonIndex = attrName.indexOf(":");
   const isDefaultNs = attrName === "xmlns";
@@ -514,7 +512,7 @@ export function validateNamespaceBinding(
  */
 export function validatePubidLiteral(
   value: string,
-  quote: string,
+  quote: string
 ): string | null {
   for (let i = 0; i < value.length; i++) {
     const code = value.charCodeAt(i);
@@ -530,12 +528,10 @@ export function validatePubidLiteral(
       ch === "=" || ch === "?" || ch === ";" || ch === "!" ||
       ch === "*" || ch === "#" || ch === "@" || ch === "$" ||
       ch === "_" || ch === "%" ||
-      (ch === "'" && quote === '"'); // ' only allowed if quoted with "
+      (ch === "'" && quote === "\""); // ' only allowed if quoted with "
 
     if (!isValid) {
-      return `Invalid character '${ch}' (U+${
-        code.toString(16).toUpperCase().padStart(4, "0")
-      }) in public ID literal`;
+      return `Invalid character '${ch}' (U+${code.toString(16).toUpperCase().padStart(4, "0")}) in public ID literal`;
     }
   }
   return null;
@@ -556,6 +552,6 @@ export function parseName(name: string, uri?: string): XmlName {
     raw: name,
     prefix: name.slice(0, colonIndex),
     local: name.slice(colonIndex + 1),
-    ...(uri !== undefined && { uri }),
+    ...(uri !== undefined && { uri })
   };
 }

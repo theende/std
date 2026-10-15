@@ -33,22 +33,26 @@ export function relative(from: string, to: string): string {
   const fromOrig = resolve(from);
   const toOrig = resolve(to);
 
-  if (fromOrig === toOrig) return "";
+  if (fromOrig === toOrig)
+    return "";
 
   from = fromOrig.toLowerCase();
   to = toOrig.toLowerCase();
 
-  if (from === to) return "";
+  if (from === to)
+    return "";
 
   // Trim any leading backslashes
   let fromStart = 0;
   let fromEnd = from.length;
   for (; fromStart < fromEnd; ++fromStart) {
-    if (from.charCodeAt(fromStart) !== CHAR_BACKWARD_SLASH) break;
+    if (from.charCodeAt(fromStart) !== CHAR_BACKWARD_SLASH)
+      break;
   }
   // Trim trailing backslashes (applicable to UNC paths only)
   for (; fromEnd - 1 > fromStart; --fromEnd) {
-    if (from.charCodeAt(fromEnd - 1) !== CHAR_BACKWARD_SLASH) break;
+    if (from.charCodeAt(fromEnd - 1) !== CHAR_BACKWARD_SLASH)
+      break;
   }
   const fromLen = fromEnd - fromStart;
 
@@ -56,11 +60,13 @@ export function relative(from: string, to: string): string {
   let toStart = 0;
   let toEnd = to.length;
   for (; toStart < toEnd; ++toStart) {
-    if (to.charCodeAt(toStart) !== CHAR_BACKWARD_SLASH) break;
+    if (to.charCodeAt(toStart) !== CHAR_BACKWARD_SLASH)
+      break;
   }
   // Trim trailing backslashes (applicable to UNC paths only)
   for (; toEnd - 1 > toStart; --toEnd) {
-    if (to.charCodeAt(toEnd - 1) !== CHAR_BACKWARD_SLASH) break;
+    if (to.charCodeAt(toEnd - 1) !== CHAR_BACKWARD_SLASH)
+      break;
   }
   const toLen = toEnd - toStart;
 
@@ -96,8 +102,10 @@ export function relative(from: string, to: string): string {
     }
     const fromCode = from.charCodeAt(fromStart + i);
     const toCode = to.charCodeAt(toStart + i);
-    if (fromCode !== toCode) break;
-    else if (fromCode === CHAR_BACKWARD_SLASH) lastCommonSep = i;
+    if (fromCode !== toCode)
+      break;
+    else if (fromCode === CHAR_BACKWARD_SLASH)
+      lastCommonSep = i;
   }
 
   // We found a mismatch before the first common path separator was seen, so
@@ -107,13 +115,16 @@ export function relative(from: string, to: string): string {
   }
 
   let out = "";
-  if (lastCommonSep === -1) lastCommonSep = 0;
+  if (lastCommonSep === -1)
+    lastCommonSep = 0;
   // Generate the relative path based on the path difference between `to` and
   // `from`
   for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
     if (i === fromEnd || from.charCodeAt(i) === CHAR_BACKWARD_SLASH) {
-      if (out.length === 0) out += "..";
-      else out += "\\..";
+      if (out.length === 0)
+        out += "..";
+      else
+        out += "\\..";
     }
   }
 
@@ -123,7 +134,8 @@ export function relative(from: string, to: string): string {
     return out + toOrig.slice(toStart + lastCommonSep, toEnd);
   } else {
     toStart += lastCommonSep;
-    if (toOrig.charCodeAt(toStart) === CHAR_BACKWARD_SLASH) ++toStart;
+    if (toOrig.charCodeAt(toStart) === CHAR_BACKWARD_SLASH)
+      ++toStart;
     return toOrig.slice(toStart, toEnd);
   }
 }

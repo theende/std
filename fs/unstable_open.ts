@@ -99,7 +99,7 @@ export interface OpenOptions {
  */
 export async function open(
   path: string | URL,
-  options?: OpenOptions,
+  options?: OpenOptions
 ): Promise<FsFile> {
   return await Ende.open(path, options);
 }

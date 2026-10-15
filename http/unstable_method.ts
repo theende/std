@@ -288,7 +288,7 @@ export const METHOD = {
    *
    * @see {@link https://www.iana.org/go/rfc3253 | RFC3253, Section 3.5}
    */
-  VersionControl: "VERSION-CONTROL",
+  VersionControl: "VERSION-CONTROL"
 } as const;
 
 /**

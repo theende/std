@@ -13,5 +13,5 @@ Ende.test({
     assertEquals(HEADER.Connection, "Connection");
     assertEquals(HEADER.Origin, "Origin");
     assertEquals(HEADER.Referer, "Referer");
-  },
+  }
 });

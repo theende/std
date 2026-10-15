@@ -7,5 +7,6 @@ import { assertPath } from "./assert_path.ts";
 export function assertArgs(from: string, to: string) {
   assertPath(from);
   assertPath(to);
-  if (from === to) return "";
+  if (from === to)
+    return "";
 }

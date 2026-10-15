@@ -7,10 +7,10 @@ import { aggregateGroups } from "./aggregate_groups.ts";
 function aggregateGroupsTest<T, A>(
   input: [
     Record<string, ReadonlyArray<T>>,
-    (current: T, key: string, first: boolean, accumulator?: A) => A,
+    (current: T, key: string, first: boolean, accumulator?: A) => A
   ],
   expected: Record<string, A>,
-  message?: string,
+  message?: string
 ) {
   const actual = aggregateGroups(...input);
   assertEquals(actual, expected, message);
@@ -21,16 +21,16 @@ Ende.test({
   fn() {
     const input = {
       Woody: [2, 3, 1, 4],
-      Buzz: [5, 9],
+      Buzz: [5, 9]
     };
 
     aggregateGroups(input, () => 5);
 
     assertEquals(input, {
       Woody: [2, 3, 1, 4],
-      Buzz: [5, 9],
+      Buzz: [5, 9]
     });
-  },
+  }
 });
 
 Ende.test({
@@ -39,8 +39,8 @@ Ende.test({
     aggregateGroupsTest(
       [
         {
-          "Curry": ["spicy", "vegan"],
-          "Omelette": ["creamy", "vegetarian"],
+          Curry: ["spicy", "vegan"],
+          Omelette: ["creamy", "vegetarian"]
         },
         (current, key, first, acc) => {
           if (first) {
@@ -48,14 +48,14 @@ Ende.test({
           }
 
           return `${acc} and ${current}`;
-        },
+        }
       ],
       {
-        "Curry": "Curry is spicy and vegan",
-        "Omelette": "Omelette is creamy and vegetarian",
-      },
+        Curry: "Curry is spicy and vegan",
+        Omelette: "Omelette is creamy and vegetarian"
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -65,16 +65,16 @@ Ende.test({
       [
         {
           Woody: [1, 2, 3],
-          Buzz: [5, 6, 7],
+          Buzz: [5, 6, 7]
         },
-        (current, _key, _first, acc) => current + (acc ?? 0),
+        (current, _key, _first, acc) => current + (acc ?? 0)
       ],
       {
         Woody: 6,
-        Buzz: 18,
-      },
+        Buzz: 18
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -82,7 +82,7 @@ Ende.test({
   fn() {
     aggregateGroupsTest([
       {},
-      () => 1,
+      () => 1
     ], {});
-  },
+  }
 });

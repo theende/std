@@ -13,7 +13,8 @@
  */
 function equalsNaive(a: Uint8Array, b: Uint8Array): boolean {
   for (let i = 0; i < b.length; i++) {
-    if (a[i] !== b[i]) return false;
+    if (a[i] !== b[i])
+      return false;
   }
   return true;
 }
@@ -33,21 +34,24 @@ function equals32Bit(a: Uint8Array, b: Uint8Array): boolean {
   const compactA = new Uint32Array(
     a.buffer,
     a.byteOffset + compactOffset,
-    compactLen,
+    compactLen
   );
   const compactB = new Uint32Array(
     b.buffer,
     b.byteOffset + compactOffset,
-    compactLen,
+    compactLen
   );
   for (let i = 0; i < compactOffset; i++) {
-    if (a[i] !== b[i]) return false;
+    if (a[i] !== b[i])
+      return false;
   }
   for (let i = 0; i < compactA.length; i++) {
-    if (compactA[i] !== compactB[i]) return false;
+    if (compactA[i] !== compactB[i])
+      return false;
   }
   for (let i = compactOffset + compactLen * 4; i < len; i++) {
-    if (a[i] !== b[i]) return false;
+    if (a[i] !== b[i])
+      return false;
   }
   return true;
 }
@@ -85,7 +89,7 @@ export function equals(a: Uint8Array, b: Uint8Array): boolean {
     return false;
   }
   return a.length >= THRESHOLD_32_BIT &&
-      (a.byteOffset % 4) === (b.byteOffset % 4)
-    ? equals32Bit(a, b)
-    : equalsNaive(a, b);
+      (a.byteOffset % 4) === (b.byteOffset % 4) ?
+    equals32Bit(a, b) :
+    equalsNaive(a, b);
 }

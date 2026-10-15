@@ -12,7 +12,7 @@ import { fromFileUrl } from "@ende/path/from-file-url";
  * @returns The path as a string.
  */
 export function toPathString(
-  pathUrl: string | URL,
+  pathUrl: string | URL
 ): string {
   return pathUrl instanceof URL ? fromFileUrl(pathUrl) : pathUrl;
 }

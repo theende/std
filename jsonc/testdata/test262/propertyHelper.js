@@ -31,7 +31,7 @@ defines:
 function verifyProperty(obj, name, desc, options) {
   assert(
     arguments.length > 2,
-    'verifyProperty should receive at least 3 arguments: obj, name, and descriptor'
+    "verifyProperty should receive at least 3 arguments: obj, name, and descriptor"
   );
 
   var originalDesc = Object.getOwnPropertyDescriptor(obj, name);
@@ -68,34 +68,40 @@ function verifyProperty(obj, name, desc, options) {
 
   var failures = [];
 
-  if (Object.prototype.hasOwnProperty.call(desc, 'value')) {
+  if (Object.prototype.hasOwnProperty.call(desc, "value")) {
     if (!isSameValue(desc.value, originalDesc.value)) {
       failures.push("descriptor value should be " + desc.value);
     }
   }
 
-  if (Object.prototype.hasOwnProperty.call(desc, 'enumerable')) {
-    if (desc.enumerable !== originalDesc.enumerable ||
-        desc.enumerable !== isEnumerable(obj, name)) {
-      failures.push('descriptor should ' + (desc.enumerable ? '' : 'not ') + 'be enumerable');
+  if (Object.prototype.hasOwnProperty.call(desc, "enumerable")) {
+    if (
+      desc.enumerable !== originalDesc.enumerable ||
+      desc.enumerable !== isEnumerable(obj, name)
+    ) {
+      failures.push("descriptor should " + (desc.enumerable ? "" : "not ") + "be enumerable");
     }
   }
 
-  if (Object.prototype.hasOwnProperty.call(desc, 'writable')) {
-    if (desc.writable !== originalDesc.writable ||
-        desc.writable !== isWritable(obj, name)) {
-      failures.push('descriptor should ' + (desc.writable ? '' : 'not ') + 'be writable');
+  if (Object.prototype.hasOwnProperty.call(desc, "writable")) {
+    if (
+      desc.writable !== originalDesc.writable ||
+      desc.writable !== isWritable(obj, name)
+    ) {
+      failures.push("descriptor should " + (desc.writable ? "" : "not ") + "be writable");
     }
   }
 
-  if (Object.prototype.hasOwnProperty.call(desc, 'configurable')) {
-    if (desc.configurable !== originalDesc.configurable ||
-        desc.configurable !== isConfigurable(obj, name)) {
-      failures.push('descriptor should ' + (desc.configurable ? '' : 'not ') + 'be configurable');
+  if (Object.prototype.hasOwnProperty.call(desc, "configurable")) {
+    if (
+      desc.configurable !== originalDesc.configurable ||
+      desc.configurable !== isConfigurable(obj, name)
+    ) {
+      failures.push("descriptor should " + (desc.configurable ? "" : "not ") + "be configurable");
     }
   }
 
-  assert(!failures.length, failures.join('; '));
+  assert(!failures.length, failures.join("; "));
 
   if (options && options.restore) {
     Object.defineProperty(obj, name, originalDesc);
@@ -137,8 +143,10 @@ function isEnumerable(obj, name) {
 }
 
 function isSameValue(a, b) {
-  if (a === 0 && b === 0) return 1 / a === 1 / b;
-  if (a !== a && b !== b) return true;
+  if (a === 0 && b === 0)
+    return 1 / a === 1 / b;
+  if (a !== a && b !== b)
+    return true;
 
   return a === b;
 }
@@ -179,15 +187,16 @@ function isWritable(obj, name, verifyProp, value) {
 
 function verifyEqualTo(obj, name, value) {
   if (!isSameValue(obj[name], value)) {
-    $ERROR("Expected obj[" + String(name) + "] to equal " + value +
-           ", actually " + obj[name]);
+    $ERROR(
+      "Expected obj[" + String(name) + "] to equal " + value +
+        ", actually " + obj[name]
+    );
   }
 }
 
 function verifyWritable(obj, name, verifyProp, value) {
   if (!verifyProp) {
-    assert(Object.getOwnPropertyDescriptor(obj, name).writable,
-         "Expected obj[" + String(name) + "] to have writable:true.");
+    assert(Object.getOwnPropertyDescriptor(obj, name).writable, "Expected obj[" + String(name) + "] to have writable:true.");
   }
   if (!isWritable(obj, name, verifyProp, value)) {
     $ERROR("Expected obj[" + String(name) + "] to be writable, but was not.");
@@ -196,8 +205,7 @@ function verifyWritable(obj, name, verifyProp, value) {
 
 function verifyNotWritable(obj, name, verifyProp, value) {
   if (!verifyProp) {
-    assert(!Object.getOwnPropertyDescriptor(obj, name).writable,
-         "Expected obj[" + String(name) + "] to have writable:false.");
+    assert(!Object.getOwnPropertyDescriptor(obj, name).writable, "Expected obj[" + String(name) + "] to have writable:false.");
   }
   if (isWritable(obj, name, verifyProp)) {
     $ERROR("Expected obj[" + String(name) + "] NOT to be writable, but was.");
@@ -205,32 +213,28 @@ function verifyNotWritable(obj, name, verifyProp, value) {
 }
 
 function verifyEnumerable(obj, name) {
-  assert(Object.getOwnPropertyDescriptor(obj, name).enumerable,
-       "Expected obj[" + String(name) + "] to have enumerable:true.");
+  assert(Object.getOwnPropertyDescriptor(obj, name).enumerable, "Expected obj[" + String(name) + "] to have enumerable:true.");
   if (!isEnumerable(obj, name)) {
     $ERROR("Expected obj[" + String(name) + "] to be enumerable, but was not.");
   }
 }
 
 function verifyNotEnumerable(obj, name) {
-  assert(!Object.getOwnPropertyDescriptor(obj, name).enumerable,
-       "Expected obj[" + String(name) + "] to have enumerable:false.");
+  assert(!Object.getOwnPropertyDescriptor(obj, name).enumerable, "Expected obj[" + String(name) + "] to have enumerable:false.");
   if (isEnumerable(obj, name)) {
     $ERROR("Expected obj[" + String(name) + "] NOT to be enumerable, but was.");
   }
 }
 
 function verifyConfigurable(obj, name) {
-  assert(Object.getOwnPropertyDescriptor(obj, name).configurable,
-       "Expected obj[" + String(name) + "] to have configurable:true.");
+  assert(Object.getOwnPropertyDescriptor(obj, name).configurable, "Expected obj[" + String(name) + "] to have configurable:true.");
   if (!isConfigurable(obj, name)) {
     $ERROR("Expected obj[" + String(name) + "] to be configurable, but was not.");
   }
 }
 
 function verifyNotConfigurable(obj, name) {
-  assert(!Object.getOwnPropertyDescriptor(obj, name).configurable,
-       "Expected obj[" + String(name) + "] to have configurable:false.");
+  assert(!Object.getOwnPropertyDescriptor(obj, name).configurable, "Expected obj[" + String(name) + "] to have configurable:false.");
   if (isConfigurable(obj, name)) {
     $ERROR("Expected obj[" + String(name) + "] NOT to be configurable, but was.");
   }

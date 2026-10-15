@@ -9,7 +9,7 @@ import {
   assert,
   assertEquals,
   assertStringIncludes,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { stringify } from "./stringify.ts";
 
@@ -24,13 +24,13 @@ Ende.test({
       fn() {
         const columns = ["a"];
         const data = [["foo"], ["bar"]];
-        const errorMessage = 'Property accessor is not of type "number"';
+        const errorMessage = "Property accessor is not of type \"number\"";
         assertThrows(
           () => stringify(data, { columns }),
           TypeError,
-          errorMessage,
+          errorMessage
         );
-      },
+      }
     });
     await t.step(
       {
@@ -41,17 +41,18 @@ Ende.test({
           const data = [["foo"], ["bar"]];
           const errorMessage = [
             "Separator cannot include the following strings:",
-            '  - U+0022: Quotation mark (")',
-            "  - U+000D U+000A: Carriage Return + Line Feed (\\r\\n)",
-          ].join("\n");
-          const options = { separator: '"', columns };
+            "  - U+0022: Quotation mark (\")",
+            "  - U+000D U+000A: Carriage Return + Line Feed (\\r\\n)"
+          ]
+            .join("\n");
+          const options = { separator: "\"", columns };
           assertThrows(
             () => stringify(data, options),
             TypeError,
-            errorMessage,
+            errorMessage
           );
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -61,17 +62,18 @@ Ende.test({
           const data = [["foo"], ["bar"]];
           const errorMessage = [
             "Separator cannot include the following strings:",
-            '  - U+0022: Quotation mark (")',
-            "  - U+000D U+000A: Carriage Return + Line Feed (\\r\\n)",
-          ].join("\n");
+            "  - U+0022: Quotation mark (\")",
+            "  - U+000D U+000A: Carriage Return + Line Feed (\\r\\n)"
+          ]
+            .join("\n");
           const options = { separator: "\r\n", columns };
           assertThrows(
             () => stringify(data, options),
             TypeError,
-            errorMessage,
+            errorMessage
           );
-        },
-      },
+        }
+      }
     );
 
     await t.step(
@@ -82,10 +84,10 @@ Ende.test({
           assertThrows(
             () => stringify(data),
             TypeError,
-            "No property accessor function was provided for object",
+            "No property accessor function was provided for object"
           );
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -96,8 +98,8 @@ Ende.test({
           const data: string[][] = [];
           const output = "";
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -108,8 +110,8 @@ Ende.test({
           const output = ``;
           const options = { headers: false, columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -119,8 +121,8 @@ Ende.test({
           const data: string[][] = [];
           const output = `a${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -132,8 +134,8 @@ Ende.test({
           const output = ``;
           const options = { headers: false, columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -144,8 +146,8 @@ Ende.test({
           const output = `0\r1${CRLF}foo\rbar${CRLF}baz\rqux${CRLF}`;
           const options = { separator: "\r", columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -157,8 +159,8 @@ Ende.test({
           const output = `0\n1${CRLF}foo\nbar${CRLF}baz\nqux${CRLF}`;
           const options = { separator: "\n", columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -168,8 +170,8 @@ Ende.test({
           const data = [{ 1: 1 }, { 1: 2 }];
           const output = `1${CRLF}1${CRLF}2${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -181,8 +183,8 @@ Ende.test({
           const output = `foo${CRLF}bar${CRLF}`;
           const options = { headers: false, columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -192,8 +194,8 @@ Ende.test({
           const data = [["key", "foo"], ["key", "bar"]];
           const output = `1${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -204,8 +206,8 @@ Ende.test({
           const data = [{ 1: 1 }, { 1: 2 }];
           const output = `1${CRLF}1${CRLF}2${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -215,8 +217,8 @@ Ende.test({
           const data = [["key", "foo"], ["key", "bar"]];
           const output = `1${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -227,8 +229,8 @@ Ende.test({
           const data = [["key", ["key", "foo"]], ["key", ["key", "bar"]]];
           const output = `1${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -238,8 +240,8 @@ Ende.test({
           const data = [{ value: "foo" }, { value: "bar" }];
           const output = `value${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -249,8 +251,8 @@ Ende.test({
           const data = [{ value: "foo" }, { value: "bar" }];
           const output = `value${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -260,8 +262,8 @@ Ende.test({
           const data = [{ msg: { value: "foo" } }, { msg: { value: "bar" } }];
           const output = `value${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -271,8 +273,8 @@ Ende.test({
           const data = [{ msg: { value: "foo" } }, { msg: { value: "bar" } }];
           const output = `value${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -281,14 +283,14 @@ Ende.test({
           const columns = [
             {
               header: "Value",
-              prop: ["msg", "value"],
-            },
+              prop: ["msg", "value"]
+            }
           ];
           const data = [{ msg: { value: "foo" } }, { msg: { value: "bar" } }];
           const output = `Value${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
 
     await t.step(
@@ -297,11 +299,10 @@ Ende.test({
         fn() {
           const columns = [0];
           const data = [[{ value: "foo" }], [{ value: "bar" }]];
-          const output =
-            `0${CRLF}"{""value"":""foo""}"${CRLF}"{""value"":""bar""}"${CRLF}`;
+          const output = `0${CRLF}"{""value"":""foo""}"${CRLF}"{""value"":""bar""}"${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -310,13 +311,12 @@ Ende.test({
           const columns = [0];
           const data = [
             [[{ value: "foo" }, { value: "bar" }]],
-            [[{ value: "baz" }, { value: "qux" }]],
+            [[{ value: "baz" }, { value: "qux" }]]
           ];
-          const output =
-            `0${CRLF}"[{""value"":""foo""},{""value"":""bar""}]"${CRLF}"[{""value"":""baz""},{""value"":""qux""}]"${CRLF}`;
+          const output = `0${CRLF}"[{""value"":""foo""},{""value"":""bar""}]"${CRLF}"[{""value"":""baz""},{""value"":""qux""}]"${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -324,11 +324,10 @@ Ende.test({
         fn() {
           const columns = [0];
           const data = [[["foo", "bar"]], [["baz", "qux"]]];
-          const output =
-            `0${CRLF}"[""foo"",""bar""]"${CRLF}"[""baz"",""qux""]"${CRLF}`;
+          const output = `0${CRLF}"[""foo"",""bar""]"${CRLF}"[""baz"",""qux""]"${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -337,12 +336,11 @@ Ende.test({
         fn() {
           const columns = [0];
           const data = [[["foo", "bar"]], [["baz", "qux"]]];
-          const output =
-            `0${CRLF}"[""foo"",""bar""]"${CRLF}"[""baz"",""qux""]"${CRLF}`;
+          const output = `0${CRLF}"[""foo"",""bar""]"${CRLF}"[""baz"",""qux""]"${CRLF}`;
           const options = { separator: "\t", columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -352,8 +350,8 @@ Ende.test({
           const data = [[], []];
           const output = `0${CRLF}${CRLF}${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -363,8 +361,8 @@ Ende.test({
           const data = [[null], [null]];
           const output = `0${CRLF}${CRLF}${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -375,8 +373,8 @@ Ende.test({
           const output = `0${CRLF}${CRLF}${CRLF}`;
           // deno-lint-ignore no-explicit-any
           assertEquals(stringify(data as any, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -386,8 +384,8 @@ Ende.test({
           const data = [[0xa], [0xb]];
           const output = `0${CRLF}10${CRLF}11${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -397,8 +395,8 @@ Ende.test({
           const data = [[BigInt("1")], [BigInt("2")]];
           const output = `0${CRLF}1${CRLF}2${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -408,8 +406,8 @@ Ende.test({
           const data = [[true], [false]];
           const output = `0${CRLF}true${CRLF}false${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -419,8 +417,8 @@ Ende.test({
           const data = [["foo"], ["bar"]];
           const output = `0${CRLF}foo${CRLF}bar${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -430,8 +428,8 @@ Ende.test({
           const data = [[Symbol("foo")], [Symbol("bar")]];
           const output = `0${CRLF}Symbol(foo)${CRLF}Symbol(bar)${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -441,19 +439,19 @@ Ende.test({
           const data = [[(n: number) => n]];
           const output = `0${CRLF}(n)=>n${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
         name: "Value with double quote",
         fn() {
           const columns = [0];
-          const data = [['foo"']];
+          const data = [["foo\""]];
           const output = `0${CRLF}"foo"""${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -463,8 +461,8 @@ Ende.test({
           const data = [["foo\r\n"]];
           const output = `0${CRLF}"foo\r\n"${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -474,8 +472,8 @@ Ende.test({
           const data = [["foo\r"]];
           const output = `0${CRLF}foo\r${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -485,8 +483,8 @@ Ende.test({
           const data = [["foo\n"]];
           const output = `0${CRLF}"foo\n"${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -496,8 +494,8 @@ Ende.test({
           const data = [["foo,"]];
           const output = `0${CRLF}"foo,"${CRLF}`;
           assertEquals(stringify(data, { columns }), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -509,8 +507,8 @@ Ende.test({
 
           const options = { separator: "\t", columns };
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step({
       name: "Valid data, no columns",
@@ -519,7 +517,7 @@ Ende.test({
         const output = `1,2,3${CRLF}4,5,6${CRLF}`;
 
         assertEquals(stringify(data), output);
-      },
+      }
     });
     await t.step({
       name: "The case when each item is single data, no columns",
@@ -529,7 +527,7 @@ Ende.test({
 
         // deno-lint-ignore no-explicit-any
         assertEquals(stringify(data as any), output);
-      },
+      }
     });
     await t.step(
       {
@@ -540,8 +538,8 @@ Ende.test({
           const options = { headers: false, bom: true };
           assertStringIncludes(stringify(data, options), BYTE_ORDER_MARK);
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -552,8 +550,8 @@ Ende.test({
           const options = { headers: false };
           assert(!stringify(data, options).includes(BYTE_ORDER_MARK));
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step(
       {
@@ -564,8 +562,8 @@ Ende.test({
           const options = { headers: false, bom: false };
           assert(!stringify(data, options).includes(BYTE_ORDER_MARK));
           assertEquals(stringify(data, options), output);
-        },
-      },
+        }
+      }
     );
     await t.step({
       name: "`as const` row data and options pass type checking",
@@ -577,7 +575,7 @@ Ende.test({
         void (() => {
           stringify(data, options);
         });
-      },
+      }
     });
-  },
+  }
 });

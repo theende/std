@@ -129,7 +129,7 @@ export type ConfigureGlobalSanitizersOptions = {
  * individual `Ende.test()` calls instead.
  */
 export function configureGlobalSanitizers(
-  options: ConfigureGlobalSanitizersOptions,
+  options: ConfigureGlobalSanitizersOptions
 ): void {
   globalSanitizersState.sanitizeOps = options.sanitizeOps;
   globalSanitizersState.sanitizeResources = options.sanitizeResources;

@@ -35,7 +35,7 @@ import { basename as windowsBasename } from "./windows/basename.ts";
  * @throws {TypeError} If `path` is a `URL` instance whose protocol is not `file:`.
  */
 export function basename(path: string | URL, suffix = ""): string {
-  return isWindows
-    ? windowsBasename(path, suffix)
-    : posixBasename(path, suffix);
+  return isWindows ?
+    windowsBasename(path, suffix) :
+    posixBasename(path, suffix);
 }

@@ -4,7 +4,7 @@ import { assertEquals } from "@ende/assert";
 import { binarySearch } from "./unstable_binary_search.ts";
 import { assertSpyCalls, spy } from "@ende/testing/mock";
 
-Ende.test("binarySearch() gives exact or non-exact indexes", async (t) => {
+Ende.test("binarySearch() gives exact or non-exact indexes", async t => {
   await t.step("examples", () => {
     assertEquals(binarySearch([0, 1], 0), 0);
     assertEquals(binarySearch([0, 1], 1), 1);

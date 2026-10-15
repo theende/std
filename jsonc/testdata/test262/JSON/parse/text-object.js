@@ -17,11 +17,11 @@ info: |
 
 var hint = JSON.parse({
   toString: function() {
-    return '"string"';
+    return "\"string\"";
   },
   valueOf: function() {
-    return '"default_or_number"';
-  },
+    return "\"default_or_number\"";
+  }
 });
 
-assert.sameValue(hint, 'string');
+assert.sameValue(hint, "string");

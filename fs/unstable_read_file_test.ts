@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertRejects,
   assertThrows,
-  unreachable,
+  unreachable
 } from "@ende/assert";
 import { readFile, readFileSync } from "./unstable_read_file.ts";
 import { NotFound } from "./unstable_errors.js";
@@ -58,7 +58,7 @@ Ende.test(
     }, Error);
 
     assertEquals(error, ac.signal.reason);
-  },
+  }
 );
 
 Ende.test(
@@ -74,7 +74,7 @@ Ende.test(
     } catch (error) {
       assertEquals(error, ac.signal.reason);
     }
-  },
+  }
 );
 
 Ende.test("readFile() handles cleanup of an AbortController", async () => {

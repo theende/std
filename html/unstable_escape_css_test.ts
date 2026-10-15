@@ -32,17 +32,16 @@ export const testCases = [
   { input: "\u{10ffff}", expected: "\u{10ffff}" },
   {
     input: "<style>\r\n<!-- -->\r\n</style>",
-    expected: String.raw`\<style\>\d \a \<\!--\ --\>\d \a \<\/style\>`,
+    expected: String.raw`\<style\>\d \a \<\!--\ --\>\d \a \<\/style\>`
   },
   {
-    input:
-      " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
+    input: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
     expected: String
-      .raw`\ \!\"\#\$\%\&\'\(\)\*\+\,-\.\/0123456789\:\;\<\=\>\?\@ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\\\]\^_\`abcdefghijklmnopqrstuvwxyz\{\|\}\~`,
-  },
+      .raw`\ \!\"\#\$\%\&\'\(\)\*\+\,-\.\/0123456789\:\;\<\=\>\?\@ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\\\]\^_\`abcdefghijklmnopqrstuvwxyz\{\|\}\~`
+  }
 ];
 
-Ende.test("escapeCss() gives same results as CSS.escape in browser", async (t) => {
+Ende.test("escapeCss() gives same results as CSS.escape in browser", async t => {
   for (const { input, expected } of testCases) {
     await t.step(JSON.stringify(input), () => {
       const result = escapeCss(input);

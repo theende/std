@@ -8,17 +8,17 @@ Ende.test("mergeReadableStreams()", async () => {
   const textStream = ReadableStream.from([
     "qwertzuiopasd",
     "mnbvcxylkjhgfds",
-    "apoiuztrewq0987654321",
+    "apoiuztrewq0987654321"
   ]);
 
   const textStream2 = ReadableStream.from([
     "mnbvcxylkjhgfds",
     "apoiuztrewq0987654321",
-    "qwertzuiopasd",
+    "qwertzuiopasd"
   ]);
 
   const buf = await Array.fromAsync(
-    mergeReadableStreams(textStream, textStream2),
+    mergeReadableStreams(textStream, textStream2)
   );
 
   assertEquals(buf.sort(), [
@@ -27,7 +27,7 @@ Ende.test("mergeReadableStreams()", async () => {
     "mnbvcxylkjhgfds",
     "mnbvcxylkjhgfds",
     "qwertzuiopasd",
-    "qwertzuiopasd",
+    "qwertzuiopasd"
   ]);
 });
 

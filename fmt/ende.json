@@ -1,10 +1,10 @@
 {
-  "name": "@ende/fmt",
-  "version": "1.0.10",
   "exports": {
     "./bytes": "./bytes.ts",
     "./colors": "./colors.ts",
     "./duration": "./duration.ts",
     "./printf": "./printf.ts"
-  }
+  },
+  "name": "@ende/fmt",
+  "version": "2026.10.15"
 }

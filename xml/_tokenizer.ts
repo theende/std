@@ -12,19 +12,19 @@
  */
 
 import {
+  XmlSyntaxError,
   type XmlContentCallback,
   type XmlDeclarationCallback,
   type XmlDoctypeCallback,
   type XmlPosition,
-  type XmlProcessingInstructionCallback,
-  XmlSyntaxError,
+  type XmlProcessingInstructionCallback
 } from "./types.ts";
 import {
   isIllegalXmlLiteralChar,
   isReservedPiTarget,
   LINE_ENDING_REGEXP,
   validatePubidLiteral,
-  validateXmlDeclaration,
+  validateXmlDeclaration
 } from "./_common.ts";
 import { isNameChar, isNameStartChar } from "./_name_chars.ts";
 
@@ -40,7 +40,7 @@ export interface XmlTokenCallbacks {
     name: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void;
 
   /** Called for each attribute in a start tag. */
@@ -197,7 +197,7 @@ const State = {
   /** After ? in DTD PI, expecting > */
   DTD_PI_QUESTION: 44,
   /** Inside parameter entity reference %name; */
-  DTD_PE_REF: 45,
+  DTD_PE_REF: 45
 } as const;
 
 type StateType = typeof State[keyof typeof State];
@@ -250,9 +250,12 @@ C0_VALID[0x0D] = 1; // CR
  * with a single array access.
  */
 const ASCII_NAME_CHAR = new Uint8Array(128);
-for (let i = 0x61; i <= 0x7A; i++) ASCII_NAME_CHAR[i] = 1; // a-z
-for (let i = 0x41; i <= 0x5A; i++) ASCII_NAME_CHAR[i] = 1; // A-Z
-for (let i = 0x30; i <= 0x39; i++) ASCII_NAME_CHAR[i] = 1; // 0-9
+for (let i = 0x61; i <= 0x7A; i++)
+  ASCII_NAME_CHAR[i] = 1; // a-z
+for (let i = 0x41; i <= 0x5A; i++)
+  ASCII_NAME_CHAR[i] = 1; // A-Z
+for (let i = 0x30; i <= 0x39; i++)
+  ASCII_NAME_CHAR[i] = 1; // 0-9
 ASCII_NAME_CHAR[0x5F] = 1; // _
 ASCII_NAME_CHAR[0x3A] = 1; // :
 ASCII_NAME_CHAR[0x2D] = 1; // -
@@ -265,8 +268,10 @@ ASCII_NAME_CHAR[0x2E] = 1; // .
  * call sites, avoiding tuple allocation for 99%+ of real XML.
  */
 const ASCII_NAME_START_CHAR = new Uint8Array(128);
-for (let i = 0x61; i <= 0x7A; i++) ASCII_NAME_START_CHAR[i] = 1; // a-z
-for (let i = 0x41; i <= 0x5A; i++) ASCII_NAME_START_CHAR[i] = 1; // A-Z
+for (let i = 0x61; i <= 0x7A; i++)
+  ASCII_NAME_START_CHAR[i] = 1; // a-z
+for (let i = 0x41; i <= 0x5A; i++)
+  ASCII_NAME_START_CHAR[i] = 1; // A-Z
 ASCII_NAME_START_CHAR[0x5F] = 1; // _
 ASCII_NAME_START_CHAR[0x3A] = 1; // :
 
@@ -390,7 +395,8 @@ export class XmlTokenizer {
   }
 
   #saveTokenPosition(): void {
-    if (!this.#trackPosition) return;
+    if (!this.#trackPosition)
+      return;
     this.#tokenLine = this.#line;
     this.#tokenColumn = this.#column;
     this.#tokenOffset = this.#offset;
@@ -399,9 +405,9 @@ export class XmlTokenizer {
   #error(message: string): never {
     throw new XmlSyntaxError(
       message,
-      this.#trackPosition
-        ? { line: this.#line, column: this.#column, offset: this.#offset }
-        : NO_POSITION,
+      this.#trackPosition ?
+        { line: this.#line, column: this.#column, offset: this.#offset } :
+        NO_POSITION
     );
   }
 
@@ -439,7 +445,7 @@ export class XmlTokenizer {
    */
   #getCodePoint(
     buffer: string,
-    index: number,
+    index: number
   ): [codePoint: number, charCount: number] {
     const code = buffer.charCodeAt(index);
     // Check for high surrogate (0xD800-0xDBFF)
@@ -462,7 +468,7 @@ export class XmlTokenizer {
    */
   #isNameStartCharAt(
     buffer: string,
-    index: number,
+    index: number
   ): [isValid: boolean, charCount: number] {
     const [codePoint, charCount] = this.#getCodePoint(buffer, index);
     return [this.#isNameStartCharCode(codePoint), charCount];
@@ -475,7 +481,7 @@ export class XmlTokenizer {
    */
   #isNameCharAt(
     buffer: string,
-    index: number,
+    index: number
   ): [isValid: boolean, charCount: number] {
     const [codePoint, charCount] = this.#getCodePoint(buffer, index);
     return [this.#isNameCharCode(codePoint), charCount];
@@ -487,14 +493,16 @@ export class XmlTokenizer {
   }
 
   #flushText(): void {
-    if (this.#textStartIdx === -1) return;
+    if (this.#textStartIdx === -1)
+      return;
 
     const content = this.#textPartial +
       this.#buffer.slice(this.#textStartIdx, this.#bufferIndex);
     this.#textStartIdx = -1;
     this.#textPartial = "";
 
-    if (content.length === 0) return;
+    if (content.length === 0)
+      return;
 
     // Reject illegal literal characters.
     // The position-tracking path already validates inline in
@@ -502,17 +510,15 @@ export class XmlTokenizer {
     // no-position-tracking path (avoids redundant scan of every text
     // node when positions are tracked).
     if (!this.#trackPosition) {
-      const illegalRegex = this.#xml11
-        ? ILLEGAL_XML_11_CHAR_REGEXP
-        : ILLEGAL_XML_CHAR_REGEXP;
+      const illegalRegex = this.#xml11 ?
+        ILLEGAL_XML_11_CHAR_REGEXP :
+        ILLEGAL_XML_CHAR_REGEXP;
       if (illegalRegex.test(content)) {
         for (let i = 0; i < content.length; i++) {
           const code = content.charCodeAt(i);
           if (this.#isIllegalLiteralChar(code)) {
             this.#error(
-              `Illegal XML character U+${
-                code.toString(16).toUpperCase().padStart(4, "0")
-              }`,
+              `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
             );
           }
         }
@@ -529,7 +535,7 @@ export class XmlTokenizer {
       content,
       this.#textStartLine,
       this.#textStartColumn,
-      this.#textStartOffset,
+      this.#textStartOffset
     );
   }
 
@@ -611,10 +617,14 @@ export class XmlTokenizer {
     // At chunk boundaries their startIdx always equals bufferIndex (the
     // main loop fully consumes the buffer), so the range is empty and
     // there is nothing to copy — just reset the indices for the next chunk.
-    if (this.#cdataStartIdx !== -1) this.#cdataStartIdx = 0;
-    if (this.#commentStartIdx !== -1) this.#commentStartIdx = 0;
-    if (this.#piContentStartIdx !== -1) this.#piContentStartIdx = 0;
-    if (this.#attrStartIdx !== -1) this.#attrStartIdx = 0;
+    if (this.#cdataStartIdx !== -1)
+      this.#cdataStartIdx = 0;
+    if (this.#commentStartIdx !== -1)
+      this.#commentStartIdx = 0;
+    if (this.#piContentStartIdx !== -1)
+      this.#piContentStartIdx = 0;
+    if (this.#attrStartIdx !== -1)
+      this.#attrStartIdx = 0;
   }
 
   #advanceWithCode(code: number): void {
@@ -635,7 +645,8 @@ export class XmlTokenizer {
    * This is more efficient than char-by-char for regions with sparse newlines.
    */
   #updatePositionForRegion(buffer: string, start: number, end: number): void {
-    if (!this.#trackPosition) return;
+    if (!this.#trackPosition)
+      return;
 
     let pos = start;
     while (pos < end) {
@@ -655,14 +666,14 @@ export class XmlTokenizer {
 
   #normalizeLineEndings(chunk: string): string {
     const version = this.#xml11 ? "1.1" : "1.0";
-    const needsNormalization = this.#xml11
-      ? chunk.includes("\r") || chunk.includes("\x85") ||
-        chunk.includes("\u2028")
-      : chunk.includes("\r");
+    const needsNormalization = this.#xml11 ?
+      chunk.includes("\r") || chunk.includes("\x85") ||
+      chunk.includes("\u2028") :
+      chunk.includes("\r");
 
-    return needsNormalization
-      ? chunk.replace(LINE_ENDING_REGEXP[version], "\n")
-      : chunk;
+    return needsNormalization ?
+      chunk.replace(LINE_ENDING_REGEXP[version], "\n") :
+      chunk;
   }
 
   /**
@@ -673,7 +684,8 @@ export class XmlTokenizer {
     const kw = this.#entityCurrentKeyword;
     this.#entityCurrentKeyword = "";
 
-    if (!kw) return;
+    if (!kw)
+      return;
 
     // Fast path: check exact matches first (most common case)
     if (kw === "SYSTEM") {
@@ -697,7 +709,7 @@ export class XmlTokenizer {
       }
       if (!this.#entityExternalType) {
         this.#error(
-          "NDATA can only follow SYSTEM or PUBLIC in ENTITY declaration",
+          "NDATA can only follow SYSTEM or PUBLIC in ENTITY declaration"
         );
       }
       // Whitespace is required before NDATA - already handled by sawWhitespace check
@@ -721,7 +733,7 @@ export class XmlTokenizer {
     // Case variants like "XML", "xMl" are reserved and invalid
     if (target !== "xml") {
       this.#error(
-        `Processing instruction target '${target}' is reserved; 'xml' must be lowercase (XML 1.0 §2.6)`,
+        `Processing instruction target '${target}' is reserved; 'xml' must be lowercase (XML 1.0 §2.6)`
       );
     }
 
@@ -731,7 +743,7 @@ export class XmlTokenizer {
     // verify the offset is correct (handles BOM case)
     if (!this.#xmlDeclAllowed) {
       this.#error(
-        "XML declaration must appear at the start of the document (XML 1.0 §2.8)",
+        "XML declaration must appear at the start of the document (XML 1.0 §2.8)"
       );
     }
     // If position tracking is enabled, also verify exact offset
@@ -739,7 +751,7 @@ export class XmlTokenizer {
       const allowedOffset = this.#firstCharWasBOM ? 1 : 0;
       if (this.#tokenOffset !== allowedOffset) {
         this.#error(
-          "XML declaration must appear at the start of the document (XML 1.0 §2.8)",
+          "XML declaration must appear at the start of the document (XML 1.0 §2.8)"
         );
       }
     }
@@ -758,7 +770,7 @@ export class XmlTokenizer {
       result.standalone,
       this.#tokenLine,
       this.#tokenColumn,
-      this.#tokenOffset,
+      this.#tokenOffset
     );
   }
 
@@ -832,9 +844,7 @@ export class XmlTokenizer {
           this.#column = column;
           this.#offset = offset;
           this.#error(
-            `Illegal XML character U+${
-              code.toString(16).toUpperCase().padStart(4, "0")
-            }`,
+            `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
           );
         }
 
@@ -884,8 +894,10 @@ export class XmlTokenizer {
     // No function calls, no private-field access.
     while (idx < bufferLen) {
       const code = buffer.charCodeAt(idx);
-      if (code >= 0x80) break;
-      if (!ASCII_NAME_CHAR[code]) break;
+      if (code >= 0x80)
+        break;
+      if (!ASCII_NAME_CHAR[code])
+        break;
       idx++;
     }
 
@@ -894,11 +906,13 @@ export class XmlTokenizer {
       while (idx < bufferLen) {
         const code = buffer.charCodeAt(idx);
         if (code < 0x80) {
-          if (!ASCII_NAME_CHAR[code]) break;
+          if (!ASCII_NAME_CHAR[code])
+            break;
           idx++;
         } else {
           const [isValid, charCount] = this.#isNameCharAt(buffer, idx);
-          if (!isValid) break;
+          if (!isValid)
+            break;
           idx += charCount;
         }
       }
@@ -932,7 +946,7 @@ export class XmlTokenizer {
       // Check both the accumulated partial and new content for "--"
       if (this.#commentPartial.includes("--") || newContent.includes("--")) {
         this.#error(
-          `Cannot use '--' within comments (XML 1.0 §2.5)`,
+          `Cannot use '--' within comments (XML 1.0 §2.5)`
         );
       }
 
@@ -941,7 +955,7 @@ export class XmlTokenizer {
         this.#commentPartial.endsWith("-") && newContent.startsWith("-")
       ) {
         this.#error(
-          `Cannot use '--' within comments (XML 1.0 §2.5)`,
+          `Cannot use '--' within comments (XML 1.0 §2.5)`
         );
       }
 
@@ -953,7 +967,7 @@ export class XmlTokenizer {
       ) {
         this.#bufferIndex = endIdx - 1;
         this.#error(
-          `Cannot use '-' immediately before '-->' (XML 1.0 §2.5)`,
+          `Cannot use '-' immediately before '-->' (XML 1.0 §2.5)`
         );
       }
       // Also check if partial ends with dash and new content is empty
@@ -961,12 +975,12 @@ export class XmlTokenizer {
         newContent.length === 0 &&
         this.#commentPartial.length > 0 &&
         this.#commentPartial.charCodeAt(
-            this.#commentPartial.length - 1,
+            this.#commentPartial.length - 1
           ) === CC_DASH
       ) {
         this.#bufferIndex = endIdx - 1;
         this.#error(
-          `Cannot use '-' immediately before '-->' (XML 1.0 §2.5)`,
+          `Cannot use '-' immediately before '-->' (XML 1.0 §2.5)`
         );
       }
 
@@ -975,9 +989,7 @@ export class XmlTokenizer {
         if (this.#isIllegalLiteralChar(code)) {
           this.#bufferIndex = i;
           this.#error(
-            `Illegal XML character U+${
-              code.toString(16).toUpperCase().padStart(4, "0")
-            }`,
+            `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
           );
         }
       }
@@ -995,7 +1007,7 @@ export class XmlTokenizer {
         content,
         this.#tokenLine,
         this.#tokenColumn,
-        this.#tokenOffset,
+        this.#tokenOffset
       );
 
       this.#commentStartIdx = -1;
@@ -1027,7 +1039,7 @@ export class XmlTokenizer {
       // XML 1.0 §2.5: "--" is not permitted within comments
       if (region.includes("--")) {
         this.#error(
-          `Cannot use '--' within comments (XML 1.0 §2.5)`,
+          `Cannot use '--' within comments (XML 1.0 §2.5)`
         );
       }
 
@@ -1036,9 +1048,7 @@ export class XmlTokenizer {
         if (this.#isIllegalLiteralChar(code)) {
           this.#bufferIndex = i;
           this.#error(
-            `Illegal XML character U+${
-              code.toString(16).toUpperCase().padStart(4, "0")
-            }`,
+            `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
           );
         }
       }
@@ -1067,9 +1077,7 @@ export class XmlTokenizer {
         if (this.#isIllegalLiteralChar(charCode)) {
           this.#bufferIndex = i;
           this.#error(
-            `Illegal XML character U+${
-              charCode.toString(16).toUpperCase().padStart(4, "0")
-            } in processing instruction`,
+            `Illegal XML character U+${charCode.toString(16).toUpperCase().padStart(4, "0")} in processing instruction`
           );
         }
       }
@@ -1092,7 +1100,7 @@ export class XmlTokenizer {
           content.trim(),
           this.#tokenLine,
           this.#tokenColumn,
-          this.#tokenOffset,
+          this.#tokenOffset
         );
       }
 
@@ -1120,9 +1128,7 @@ export class XmlTokenizer {
         if (this.#isIllegalLiteralChar(charCode)) {
           this.#bufferIndex = i;
           this.#error(
-            `Illegal XML character U+${
-              charCode.toString(16).toUpperCase().padStart(4, "0")
-            } in processing instruction`,
+            `Illegal XML character U+${charCode.toString(16).toUpperCase().padStart(4, "0")} in processing instruction`
           );
         }
       }
@@ -1153,9 +1159,7 @@ export class XmlTokenizer {
         if (this.#isIllegalLiteralChar(code)) {
           this.#bufferIndex = i;
           this.#error(
-            `Illegal XML character U+${
-              code.toString(16).toUpperCase().padStart(4, "0")
-            }`,
+            `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
           );
         }
       }
@@ -1171,7 +1175,7 @@ export class XmlTokenizer {
         content,
         this.#tokenLine,
         this.#tokenColumn,
-        this.#tokenOffset,
+        this.#tokenOffset
       );
 
       this.#cdataStartIdx = -1;
@@ -1203,9 +1207,7 @@ export class XmlTokenizer {
         if (this.#isIllegalLiteralChar(code)) {
           this.#bufferIndex = i;
           this.#error(
-            `Illegal XML character U+${
-              code.toString(16).toUpperCase().padStart(4, "0")
-            }`,
+            `Illegal XML character U+${code.toString(16).toUpperCase().padStart(4, "0")}`
           );
         }
       }
@@ -1229,7 +1231,7 @@ export class XmlTokenizer {
   #captureAttributeValue(
     buffer: string,
     bufferLen: number,
-    quoteCode: number,
+    quoteCode: number
   ): boolean {
     const quoteChar = String.fromCharCode(quoteCode);
     const idx = this.#bufferIndex;
@@ -1337,7 +1339,7 @@ export class XmlTokenizer {
               this.#getTagName(),
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#advanceWithCode(termCode);
             this.#state = State.AFTER_TAG_NAME;
@@ -1346,7 +1348,7 @@ export class XmlTokenizer {
               this.#getTagName(),
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#callbacks.onStartTagClose?.(false);
             this.#advanceWithCode(termCode);
@@ -1356,15 +1358,13 @@ export class XmlTokenizer {
               this.#getTagName(),
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#advanceWithCode(termCode);
             this.#state = State.EXPECT_SELF_CLOSE_GT;
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(termCode)
-              }' in tag name`,
+              `Unexpected character '${String.fromCharCode(termCode)}' in tag name`
             );
           }
           break;
@@ -1380,9 +1380,7 @@ export class XmlTokenizer {
             if (code < 0x80) {
               if (!ASCII_NAME_START_CHAR[code]) {
                 this.#error(
-                  `Unexpected character '${
-                    String.fromCharCode(code)
-                  }' in end tag`,
+                  `Unexpected character '${String.fromCharCode(code)}' in end tag`
                 );
               }
               this.#advanceWithCode(code);
@@ -1390,13 +1388,11 @@ export class XmlTokenizer {
               // Non-ASCII: surrogate-aware check (rare)
               const [isValid, charCount] = this.#isNameStartCharAt(
                 buffer,
-                this.#bufferIndex,
+                this.#bufferIndex
               );
               if (!isValid) {
                 this.#error(
-                  `Unexpected character '${
-                    String.fromCharCode(code)
-                  }' in end tag`,
+                  `Unexpected character '${String.fromCharCode(code)}' in end tag`
                 );
               }
               for (let i = 0; i < charCount; i++) {
@@ -1425,15 +1421,13 @@ export class XmlTokenizer {
               this.#getTagName(),
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#advanceWithCode(termCode);
             this.#state = State.INITIAL;
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(termCode)
-              }' in end tag`,
+              `Unexpected character '${String.fromCharCode(termCode)}' in end tag`
             );
           }
           break;
@@ -1445,7 +1439,7 @@ export class XmlTokenizer {
             // Found closing quote at bufferIndex
             this.#callbacks.onAttribute?.(
               this.#attrNamePartial,
-              this.#getAttrValue(),
+              this.#getAttrValue()
             );
             this.#attrNamePartial = "";
             this.#advanceWithCode(CC_DQUOTE);
@@ -1468,7 +1462,8 @@ export class XmlTokenizer {
               if (
                 wsCode !== CC_SPACE && wsCode !== CC_TAB &&
                 wsCode !== CC_LF && wsCode !== CC_CR
-              ) break;
+              )
+                break;
               this.#advanceWithCode(wsCode);
             }
           } else if (code === CC_GT) {
@@ -1481,9 +1476,9 @@ export class XmlTokenizer {
             this.#advanceWithCode(code);
             this.#state = State.EXPECT_SELF_CLOSE_GT;
           } else if (
-            code < 0x80
-              ? ASCII_NAME_START_CHAR[code]
-              : this.#isNameStartCharCode(code)
+            code < 0x80 ?
+              ASCII_NAME_START_CHAR[code] :
+              this.#isNameStartCharCode(code)
           ) {
             // XML 1.0 §3.1: Whitespace is required between attributes
             if (this.#needsAttrWhitespace) {
@@ -1495,9 +1490,7 @@ export class XmlTokenizer {
             this.#state = State.ATTRIBUTE_NAME;
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(code)
-              }' after tag name`,
+              `Unexpected character '${String.fromCharCode(code)}' after tag name`
             );
           }
           break;
@@ -1527,9 +1520,7 @@ export class XmlTokenizer {
             this.#state = State.BEFORE_ATTRIBUTE_VALUE;
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(termCode)
-              }' in attribute name`,
+              `Unexpected character '${String.fromCharCode(termCode)}' in attribute name`
             );
           }
           break;
@@ -1553,7 +1544,7 @@ export class XmlTokenizer {
             // ASCII fast path: lookup table avoids function call + tuple allocation
             if (!ASCII_NAME_START_CHAR[code]) {
               this.#error(
-                `Unexpected character '${String.fromCharCode(code)}' after '<'`,
+                `Unexpected character '${String.fromCharCode(code)}' after '<'`
               );
             }
             this.#tagNameStartIdx = this.#bufferIndex;
@@ -1564,7 +1555,7 @@ export class XmlTokenizer {
             // Non-ASCII: surrogate-aware check (rare)
             const [isValid, charCount] = this.#isNameStartCharAt(
               buffer,
-              this.#bufferIndex,
+              this.#bufferIndex
             );
             if (isValid) {
               this.#tagNameStartIdx = this.#bufferIndex;
@@ -1575,7 +1566,7 @@ export class XmlTokenizer {
               this.#state = State.TAG_NAME;
             } else {
               this.#error(
-                `Unexpected character '${String.fromCharCode(code)}' after '<'`,
+                `Unexpected character '${String.fromCharCode(code)}' after '<'`
               );
             }
           }
@@ -1634,14 +1625,14 @@ export class XmlTokenizer {
               this.#tagNamePartial,
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#tagNamePartial = "";
             this.#advanceWithCode(code);
             this.#state = State.INITIAL;
           } else {
             this.#error(
-              `Unexpected character '${String.fromCharCode(code)}' in end tag`,
+              `Unexpected character '${String.fromCharCode(code)}' in end tag`
             );
           }
           break;
@@ -1653,7 +1644,7 @@ export class XmlTokenizer {
             // Found closing quote at bufferIndex
             this.#callbacks.onAttribute?.(
               this.#attrNamePartial,
-              this.#getAttrValue(),
+              this.#getAttrValue()
             );
             this.#attrNamePartial = "";
             this.#advanceWithCode(CC_SQUOTE);
@@ -1681,7 +1672,7 @@ export class XmlTokenizer {
           // After batch capture, only trailing `-` chars remain
           this.#commentPartial += buffer.slice(
             this.#commentStartIdx,
-            this.#bufferIndex,
+            this.#bufferIndex
           );
           this.#advanceWithCode(commentCode);
           this.#commentStartIdx = this.#bufferIndex;
@@ -1703,7 +1694,7 @@ export class XmlTokenizer {
           // After batch capture, only trailing `]` chars remain
           this.#cdataPartial += buffer.slice(
             this.#cdataStartIdx,
-            this.#bufferIndex,
+            this.#bufferIndex
           );
           this.#advanceWithCode(cdataCode);
           this.#cdataStartIdx = this.#bufferIndex;
@@ -1723,7 +1714,7 @@ export class XmlTokenizer {
           // After batch capture, only a trailing `?` remains
           this.#piContentPartial += buffer.slice(
             this.#piContentStartIdx,
-            this.#bufferIndex,
+            this.#bufferIndex
           );
           this.#piContentStartIdx = -1;
           this.#advanceWithCode(buffer.charCodeAt(this.#bufferIndex));
@@ -1783,18 +1774,18 @@ export class XmlTokenizer {
             // Check before emitting
             if (this.#commentPartial.includes("--")) {
               this.#error(
-                `Cannot use '--' within comments (XML 1.0 §2.5)`,
+                `Cannot use '--' within comments (XML 1.0 §2.5)`
               );
             }
             // Check for trailing dash (e.g., "<!--->" or "<!-- comment --->")
             if (
               this.#commentPartial.length > 0 &&
               this.#commentPartial.charCodeAt(
-                  this.#commentPartial.length - 1,
+                  this.#commentPartial.length - 1
                 ) === CC_DASH
             ) {
               this.#error(
-                `Cannot use '-' immediately before '-->' (XML 1.0 §2.5)`,
+                `Cannot use '-' immediately before '-->' (XML 1.0 §2.5)`
               );
             }
             // Any comment before XML declaration invalidates XMLDecl position
@@ -1803,7 +1794,7 @@ export class XmlTokenizer {
               this.#commentPartial,
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#commentStartIdx = -1;
             this.#commentPartial = "";
@@ -1818,7 +1809,7 @@ export class XmlTokenizer {
             // XML 1.0 §2.5: After "--", only ">" or "-" is allowed.
             // Any other character means "--" appears within the comment content.
             this.#error(
-              `Cannot use '--' within comments (XML 1.0 §2.5)`,
+              `Cannot use '--' within comments (XML 1.0 §2.5)`
             );
           }
           break;
@@ -1856,7 +1847,7 @@ export class XmlTokenizer {
               this.#cdataPartial,
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#cdataStartIdx = -1;
             this.#cdataPartial = "";
@@ -1888,9 +1879,7 @@ export class XmlTokenizer {
               this.#error("Missing processing instruction target");
             } else {
               this.#error(
-                `Invalid character '${
-                  String.fromCharCode(code)
-                }' at start of processing instruction target`,
+                `Invalid character '${String.fromCharCode(code)}' at start of processing instruction target`
               );
             }
           } else if (this.#isNameCharCode(code)) {
@@ -1911,9 +1900,7 @@ export class XmlTokenizer {
             this.#state = State.PI_TARGET_QUESTION;
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(code)
-              }' in processing instruction target`,
+              `Unexpected character '${String.fromCharCode(code)}' in processing instruction target`
             );
           }
           break;
@@ -1931,7 +1918,7 @@ export class XmlTokenizer {
                 "",
                 this.#tokenLine,
                 this.#tokenColumn,
-                this.#tokenOffset,
+                this.#tokenOffset
               );
             }
             this.#piTargetPartial = "";
@@ -1939,9 +1926,7 @@ export class XmlTokenizer {
             this.#state = State.INITIAL;
           } else {
             this.#error(
-              `Expected '>' after '?' in processing instruction, got '${
-                String.fromCharCode(code)
-              }'`,
+              `Expected '>' after '?' in processing instruction, got '${String.fromCharCode(code)}'`
             );
           }
           break;
@@ -1952,7 +1937,7 @@ export class XmlTokenizer {
             if (isReservedPiTarget(this.#piTargetPartial)) {
               this.#emitDeclaration(
                 this.#piTargetPartial,
-                this.#piContentPartial,
+                this.#piContentPartial
               );
             } else {
               // Any PI before XML declaration invalidates XMLDecl position
@@ -1962,7 +1947,7 @@ export class XmlTokenizer {
                 this.#piContentPartial.trim(),
                 this.#tokenLine,
                 this.#tokenColumn,
-                this.#tokenOffset,
+                this.#tokenOffset
               );
             }
             this.#piTargetPartial = "";
@@ -2014,7 +1999,7 @@ export class XmlTokenizer {
               undefined,
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#advanceWithCode(code);
             this.#state = State.INITIAL;
@@ -2030,9 +2015,7 @@ export class XmlTokenizer {
             this.#advanceWithCode(code);
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(code)
-              }' in DOCTYPE name`,
+              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE name`
             );
           }
           break;
@@ -2048,7 +2031,7 @@ export class XmlTokenizer {
               this.#doctypeSystemId || undefined,
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#advanceWithCode(code);
             this.#state = State.INITIAL;
@@ -2068,41 +2051,43 @@ export class XmlTokenizer {
             // Check if this is 'public' (wrong case)
             if (
               this.#bufferIndex + 5 < this.#buffer.length &&
-              this.#buffer.slice(
-                  this.#bufferIndex,
-                  this.#bufferIndex + 6,
-                ).toLowerCase() === "public"
+              this
+                  .#buffer
+                  .slice(
+                    this.#bufferIndex,
+                    this.#bufferIndex + 6
+                  )
+                  .toLowerCase() === "public"
             ) {
               this.#error(
-                `'${
-                  this.#buffer.slice(this.#bufferIndex, this.#bufferIndex + 6)
-                }' must be uppercase 'PUBLIC'`,
+                `'${this.#buffer.slice(this.#bufferIndex, this.#bufferIndex + 6)}' must be uppercase 'PUBLIC'`
               );
             }
             this.#error(
-              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE`,
+              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE`
             );
           } else if (code === 115) { // 's' lowercase
             // Check if this is 'system' (wrong case)
             if (
               this.#bufferIndex + 5 < this.#buffer.length &&
-              this.#buffer.slice(
-                  this.#bufferIndex,
-                  this.#bufferIndex + 6,
-                ).toLowerCase() === "system"
+              this
+                  .#buffer
+                  .slice(
+                    this.#bufferIndex,
+                    this.#bufferIndex + 6
+                  )
+                  .toLowerCase() === "system"
             ) {
               this.#error(
-                `'${
-                  this.#buffer.slice(this.#bufferIndex, this.#bufferIndex + 6)
-                }' must be uppercase 'SYSTEM'`,
+                `'${this.#buffer.slice(this.#bufferIndex, this.#bufferIndex + 6)}' must be uppercase 'SYSTEM'`
               );
             }
             this.#error(
-              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE`,
+              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE`
             );
           } else {
             this.#error(
-              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE`,
+              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE`
             );
           }
           break;
@@ -2128,9 +2113,10 @@ export class XmlTokenizer {
             this.#doctypePublicId = this.#readDoctypeQuotedString();
             const pubidError = validatePubidLiteral(
               this.#doctypePublicId,
-              this.#doctypeQuoteChar,
+              this.#doctypeQuoteChar
             );
-            if (pubidError) this.#error(pubidError);
+            if (pubidError)
+              this.#error(pubidError);
             this.#state = State.DOCTYPE_AFTER_PUBLIC_ID;
           } else {
             this.#error(`Expected quote to start public ID`);
@@ -2153,7 +2139,7 @@ export class XmlTokenizer {
               undefined,
               this.#tokenLine,
               this.#tokenColumn,
-              this.#tokenOffset,
+              this.#tokenOffset
             );
             this.#advanceWithCode(code);
             this.#state = State.INITIAL;
@@ -2203,16 +2189,14 @@ export class XmlTokenizer {
           } else if (code === CC_LBRACKET) {
             // Conditional sections (INCLUDE/IGNORE) are only allowed in external subset
             this.#error(
-              "Conditional sections (INCLUDE/IGNORE) are not allowed in internal DTD subset",
+              "Conditional sections (INCLUDE/IGNORE) are not allowed in internal DTD subset"
             );
           } else if (code === 37) { // % - parameter entity reference
             this.#advanceWithCode(code);
             this.#state = State.DTD_PE_REF;
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(code)
-              }' in DOCTYPE internal subset`,
+              `Unexpected character '${String.fromCharCode(code)}' in DOCTYPE internal subset`
             );
           }
           break;
@@ -2250,7 +2234,7 @@ export class XmlTokenizer {
               this.#state = State.DTD_COMMENT_START;
             } else {
               this.#error(
-                `Unexpected '-' in declaration keyword '${this.#dtdDeclKeyword}'`,
+                `Unexpected '-' in declaration keyword '${this.#dtdDeclKeyword}'`
               );
             }
           } else if (this.#isWhitespaceCode(code)) {
@@ -2283,9 +2267,7 @@ export class XmlTokenizer {
             this.#advanceWithCode(code);
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(code)
-              }' in declaration keyword`,
+              `Unexpected character '${String.fromCharCode(code)}' in declaration keyword`
             );
           }
           break;
@@ -2303,14 +2285,14 @@ export class XmlTokenizer {
                 this.#entityQuotedLiterals < 2
               ) {
                 this.#error(
-                  "PUBLIC identifier requires both public ID and system ID literals",
+                  "PUBLIC identifier requires both public ID and system ID literals"
                 );
               }
               // Emit entity if applicable
               if (!this.#isParameterEntity && this.#entityName) {
                 this.#callbacks.onEntityDeclaration?.(
                   this.#entityName,
-                  "",
+                  ""
                 );
               }
             }
@@ -2321,7 +2303,7 @@ export class XmlTokenizer {
             // String literal - must have whitespace before (except after opening paren)
             if (!this.#dtdDeclSawWhitespace && this.#dtdDeclParenDepth === 0) {
               this.#error(
-                `Missing whitespace before quoted string in DTD declaration`,
+                `Missing whitespace before quoted string in DTD declaration`
               );
             }
             // Process any pending keyword before the quote
@@ -2357,7 +2339,7 @@ export class XmlTokenizer {
             // Nested parens like ((a|b)) are valid without whitespace between them
             if (!this.#dtdDeclSawWhitespace && this.#dtdDeclParenDepth === 0) {
               this.#error(
-                `Missing whitespace before '(' in DTD declaration`,
+                `Missing whitespace before '(' in DTD declaration`
               );
             }
             this.#dtdDeclParenDepth++;
@@ -2426,7 +2408,7 @@ export class XmlTokenizer {
               this.#buffer.charCodeAt(this.#bufferIndex + 1) === CC_DASH
             ) {
               this.#error(
-                "SGML-style comments (--) are not allowed in XML declarations",
+                "SGML-style comments (--) are not allowed in XML declarations"
               );
             }
             // Hyphen in name (valid in NameChar but not NameStartChar)
@@ -2438,9 +2420,7 @@ export class XmlTokenizer {
             this.#advanceWithCode(code);
           } else {
             this.#error(
-              `Unexpected character '${
-                String.fromCharCode(code)
-              }' in DTD declaration`,
+              `Unexpected character '${String.fromCharCode(code)}' in DTD declaration`
             );
           }
           // Transition from name to value phase when whitespace follows the name
@@ -2458,9 +2438,10 @@ export class XmlTokenizer {
             if (this.#dtdStringIsPubid) {
               const pubidError = validatePubidLiteral(
                 this.#dtdStringValue,
-                this.#dtdDeclQuoteChar,
+                this.#dtdDeclQuoteChar
               );
-              if (pubidError) this.#error(pubidError);
+              if (pubidError)
+                this.#error(pubidError);
             }
             // For ENTITY declarations, mark value capture as done
             if (this.#isEntityDecl && this.#entityParsePhase === "value") {
@@ -2518,7 +2499,7 @@ export class XmlTokenizer {
             // Any other character (including '-') means '--' appears
             // within the comment content, which is not allowed.
             this.#error(
-              `Cannot use '--' within XML comments (XML 1.0 §2.5)`,
+              `Cannot use '--' within XML comments (XML 1.0 §2.5)`
             );
           }
           break;

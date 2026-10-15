@@ -24,7 +24,7 @@ import type { Reader } from "./types.ts";
  * @returns The reader
  */
 export function readerFromStreamReader(
-  streamReader: ReadableStreamDefaultReader<Uint8Array>,
+  streamReader: ReadableStreamDefaultReader<Uint8Array>
 ): Reader {
   const buffer = new Buffer();
 
@@ -40,6 +40,6 @@ export function readerFromStreamReader(
       }
 
       return buffer.read(p);
-    },
+    }
   };
 }

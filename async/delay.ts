@@ -14,7 +14,7 @@ export interface DelayOptions {
 }
 
 // Make type available in browser environments; we catch the `ReferenceError` below
-declare const Ende: { unrefTimer(id: number): void };
+declare const Ende: { unrefTimer(id: number): void; };
 
 /**
  * Resolve a {@linkcode Promise} after a given amount of milliseconds.
@@ -51,7 +51,8 @@ declare const Ende: { unrefTimer(id: number): void };
  */
 export function delay(ms: number, options: DelayOptions = {}): Promise<void> {
   const { signal, persistent = true } = options;
-  if (signal?.aborted) return Promise.reject(signal.reason);
+  if (signal?.aborted)
+    return Promise.reject(signal.reason);
   return new Promise((resolve, reject) => {
     const abort = () => {
       clearTimeout(+i);
@@ -82,8 +83,8 @@ const I32_MAX = 2 ** 31 - 1;
 
 function setArbitraryLengthTimeout(
   callback: () => void,
-  delay: number,
-): { valueOf(): number } {
+  delay: number
+): { valueOf(): number; } {
   // ensure non-negative integer (but > I32_MAX is OK, even if Infinity)
   delay = Math.trunc(Math.max(delay, 0) || 0);
 
@@ -97,9 +98,9 @@ function setArbitraryLengthTimeout(
 
   const queueTimeout = () => {
     const currentDelay = delay - (Date.now() - start);
-    timeoutId = currentDelay > I32_MAX
-      ? Number(setTimeout(queueTimeout, I32_MAX))
-      : Number(setTimeout(callback, currentDelay));
+    timeoutId = currentDelay > I32_MAX ?
+      Number(setTimeout(queueTimeout, I32_MAX)) :
+      Number(setTimeout(callback, currentDelay));
   };
 
   queueTimeout();

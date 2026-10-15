@@ -47,6 +47,7 @@ import type { CborType } from "./types.ts";
  * @returns A {@link CborType} representing the decoded data.
  */
 export function decodeCbor(input: Uint8Array): CborType {
-  if (!input.length) throw new RangeError("Cannot decode empty Uint8Array");
+  if (!input.length)
+    throw new RangeError("Cannot decode empty Uint8Array");
   return decode(input, 0)[0];
 }

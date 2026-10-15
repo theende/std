@@ -6,7 +6,7 @@ import { invert, type InvertResult } from "./invert.ts";
 
 function invertTest<T extends Record<PropertyKey, PropertyKey>>(
   input: Readonly<T>,
-  expected: InvertResult<T>,
+  expected: InvertResult<T>
 ) {
   const actual = invert(input);
   assertEquals(actual, expected);
@@ -29,13 +29,13 @@ Ende.test("invert() handles nested input", () => {
   invertTest({ a: { b: "c" } }, { "[object Object]": "a" });
   // @ts-expect-error - testing invalid input
   invertTest({ a: "x", b: Object }, {
-    "x": "a",
-    [Object.toString()]: "b",
+    x: "a",
+    [Object.toString()]: "b"
   });
   // @ts-expect-error - testing invalid input
-  invertTest({ a: "x", b: ["y", "z"] }, { "x": "a", "y,z": "b" });
+  invertTest({ a: "x", b: ["y", "z"] }, { x: "a", "y,z": "b" });
   // @ts-expect-error - testing invalid input
-  invertTest({ a: "x", b: null }, { "x": "a", "null": "b" });
+  invertTest({ a: "x", b: null }, { x: "a", null: "b" });
   // @ts-expect-error - testing invalid input
-  invertTest({ a: "x", b: undefined }, { "x": "a", "undefined": "b" });
+  invertTest({ a: "x", b: undefined }, { x: "a", undefined: "b" });
 });

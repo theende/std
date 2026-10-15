@@ -41,7 +41,7 @@ import { mapValues } from "./map_values.ts";
 export function reduceGroups<T, A>(
   record: Readonly<Record<string, ReadonlyArray<T>>>,
   reducer: (accumulator: A, current: T) => A,
-  initialValue: A,
+  initialValue: A
 ): Record<string, A> {
-  return mapValues(record, (value) => value.reduce(reducer, initialValue));
+  return mapValues(record, value => value.reduce(reducer, initialValue));
 }

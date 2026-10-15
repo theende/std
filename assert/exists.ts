@@ -21,12 +21,11 @@ import { AssertionError } from "./assertion_error.ts";
  */
 export function assertExists<T>(
   actual: T,
-  msg?: string,
+  msg?: string
 ): asserts actual is NonNullable<T> {
   if (actual === undefined || actual === null) {
     const msgSuffix = msg ? `: ${msg}` : ".";
-    msg =
-      `Expected actual: "${actual}" to not be null or undefined${msgSuffix}`;
+    msg = `Expected actual: "${actual}" to not be null or undefined${msgSuffix}`;
     throw new AssertionError(msg);
   }
 }

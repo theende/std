@@ -28,10 +28,12 @@
 export function intersect<T>(...iterables: Iterable<T>[]): T[] {
   const [iterable, ...otherIterables] = iterables;
   let set = new Set(iterable);
-  if (set.size === 0) return [];
+  if (set.size === 0)
+    return [];
   for (const iterable of otherIterables) {
     set = set.intersection(new Set(iterable));
-    if (set.size === 0) return [];
+    if (set.size === 0)
+      return [];
   }
   return [...set];
 }

@@ -26,7 +26,7 @@ import type { SymlinkOptions } from "./unstable_types.ts";
 export async function symlink(
   oldpath: string | URL,
   newpath: string | URL,
-  options?: SymlinkOptions,
+  options?: SymlinkOptions
 ): Promise<void> {
   return await Ende.symlink(oldpath, newpath, options);
 }
@@ -54,7 +54,7 @@ export async function symlink(
 export function symlinkSync(
   oldpath: string | URL,
   newpath: string | URL,
-  options?: SymlinkOptions,
+  options?: SymlinkOptions
 ): void {
   return Ende.symlinkSync(oldpath, newpath, options);
 }

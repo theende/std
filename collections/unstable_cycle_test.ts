@@ -12,10 +12,11 @@ Ende.test({
 
     for (const num of cyclic) {
       result.push(num);
-      if (result.length === 7) break;
+      if (result.length === 7)
+        break;
     }
     assertEquals(result, [1, 2, 3, 1, 2, 3, 1]);
-  },
+  }
 });
 
 Ende.test({
@@ -26,10 +27,11 @@ Ende.test({
 
     for (const ch of cyclic) {
       result.push(ch);
-      if (result.length === 5) break;
+      if (result.length === 5)
+        break;
     }
     assertEquals(result, ["a", "b", "a", "b", "a"]);
-  },
+  }
 });
 
 Ende.test({
@@ -40,10 +42,11 @@ Ende.test({
 
     for (const num of cyclic) {
       result.push(num);
-      if (result.length === 4) break;
+      if (result.length === 4)
+        break;
     }
     assertEquals(result, [42, 42, 42, 42]);
-  },
+  }
 });
 
 Ende.test({
@@ -55,9 +58,10 @@ Ende.test({
     const result = [];
     for (const num of cyclic) {
       result.push(num);
-      if (result.length === 5) break;
+      if (result.length === 5)
+        break;
     }
 
     assertEquals(input, [1, 2, 3]);
-  },
+  }
 });

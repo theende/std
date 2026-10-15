@@ -6,11 +6,11 @@ import { longestCommonPrefix } from "./unstable_longest_common_prefix.ts";
 const WHITE_SPACE = String.raw`\t\v\f\ufeff\p{Space_Separator}`;
 const INDENT_REGEXP = new RegExp(
   String.raw`^[${WHITE_SPACE}]+`,
-  "u",
+  "u"
 );
 const WHITE_SPACE_ONLY_LINE_REGEXP = new RegExp(
   String.raw`^[${WHITE_SPACE}]+$`,
-  "mu",
+  "mu"
 );
 
 /**
@@ -79,25 +79,27 @@ export function dedent(
   const ignoreFirstUnindented = !joinedTemplate.startsWith("\n");
   const trimmedTemplate = joinedTemplate.replace(/^\n/, "").replace(
     /\n[\t ]*$/,
-    "",
+    ""
   );
   const lines = trimmedTemplate.split("\n");
 
-  const linesToCheck = lines.slice(
-    ignoreFirstUnindented && !INDENT_REGEXP.test(lines[0] ?? "") ? 1 : 0,
-  )
-    .filter((l) => l.length > 0 && !WHITE_SPACE_ONLY_LINE_REGEXP.test(l));
+  const linesToCheck = lines
+    .slice(
+      ignoreFirstUnindented && !INDENT_REGEXP.test(lines[0] ?? "") ? 1 : 0
+    )
+    .filter(l => l.length > 0 && !WHITE_SPACE_ONLY_LINE_REGEXP.test(l));
 
   const commonPrefix = longestCommonPrefix(linesToCheck);
   const indent = commonPrefix.match(INDENT_REGEXP)?.[0];
 
-  const inputString = typeof input === "string"
-    ? input
-    : String.raw({ raw: input }, ...values);
+  const inputString = typeof input === "string" ?
+    input :
+    String.raw({ raw: input }, ...values);
   const trimmedInput = inputString.replace(/^\n/, "").replace(/\n[\t ]*$/, "");
 
   // No lines to indent
-  if (!indent) return trimmedInput;
+  if (!indent)
+    return trimmedInput;
 
   const minIndentRegex = new RegExp(String.raw`^${indent}`, "gmu");
   return trimmedInput
@@ -105,8 +107,8 @@ export function dedent(
     .replaceAll(
       new RegExp(
         WHITE_SPACE_ONLY_LINE_REGEXP,
-        WHITE_SPACE_ONLY_LINE_REGEXP.flags + "g",
+        WHITE_SPACE_ONLY_LINE_REGEXP.flags + "g"
       ),
-      "",
+      ""
     );
 }

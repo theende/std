@@ -165,7 +165,7 @@ export interface RetryOptions {
  */
 export async function retry<T>(
   fn: (() => Promise<T>) | (() => T),
-  options?: RetryOptions,
+  options?: RetryOptions
 ): Promise<T> {
   const {
     multiplier = 2,
@@ -174,37 +174,37 @@ export async function retry<T>(
     minTimeout = 1000,
     jitter = 1,
     isRetriable = () => true,
-    signal,
+    signal
   } = options ?? {};
 
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1) {
     throw new RangeError(
-      `Cannot retry as 'maxAttempts' must be a positive integer: current value is ${maxAttempts}`,
+      `Cannot retry as 'maxAttempts' must be a positive integer: current value is ${maxAttempts}`
     );
   }
   if (!Number.isFinite(multiplier) || multiplier < 1) {
     throw new RangeError(
-      `Cannot retry as 'multiplier' must be a finite number >= 1: current value is ${multiplier}`,
+      `Cannot retry as 'multiplier' must be a finite number >= 1: current value is ${multiplier}`
     );
   }
   if (Number.isNaN(maxTimeout) || maxTimeout <= 0) {
     throw new RangeError(
-      `Cannot retry as 'maxTimeout' must be a positive number: current value is ${maxTimeout}`,
+      `Cannot retry as 'maxTimeout' must be a positive number: current value is ${maxTimeout}`
     );
   }
   if (Number.isNaN(minTimeout) || minTimeout < 0) {
     throw new RangeError(
-      `Cannot retry as 'minTimeout' must be >= 0: current value is ${minTimeout}`,
+      `Cannot retry as 'minTimeout' must be >= 0: current value is ${minTimeout}`
     );
   }
   if (minTimeout > maxTimeout) {
     throw new RangeError(
-      `Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=${minTimeout}', 'maxTimeout=${maxTimeout}'`,
+      `Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=${minTimeout}', 'maxTimeout=${maxTimeout}'`
     );
   }
   if (Number.isNaN(jitter) || jitter < 0 || jitter > 1) {
     throw new RangeError(
-      `Cannot retry as 'jitter' must be between 0 and 1: current value is ${jitter}`,
+      `Cannot retry as 'jitter' must be between 0 and 1: current value is ${jitter}`
     );
   }
 
@@ -228,7 +228,7 @@ export async function retry<T>(
         minTimeout,
         attempt,
         multiplier,
-        jitter,
+        jitter
       );
       await delay(timeout, signal ? { signal } : undefined);
     }

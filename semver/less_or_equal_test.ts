@@ -6,7 +6,7 @@ import { lessOrEqual } from "./less_or_equal.ts";
 
 Ende.test({
   name: "lessOrEqual()",
-  fn: async (t) => {
+  fn: async t => {
     // [version1, version2]
     // version1 should be less than version2
     const versions: [string, string][] = [
@@ -29,7 +29,7 @@ Ende.test({
       ["1.2.3-a", "1.2.3-a.b"],
       ["1.2.3-a.b.c.5.d.100", "1.2.3-a.b.c.10.d.5"],
       ["1.2.3-r100", "1.2.3-r2"],
-      ["1.2.3-R2", "1.2.3-r100"],
+      ["1.2.3-R2", "1.2.3-r100"]
     ];
 
     for (const [v0, v1] of versions) {
@@ -40,5 +40,5 @@ Ende.test({
         assertEquals(actual, true);
       });
     }
-  },
+  }
 });

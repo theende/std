@@ -36,10 +36,10 @@ Ende.test("generate() generates a UUIDv7 matching the example test vector", () =
     0x0C,
     0x07,
     0x39,
-    0x8F,
+    0x8F
   ]);
   type Uint8Array_ = ReturnType<Uint8Array["slice"]>;
-  using _getRandomValuesStub = stub(crypto, "getRandomValues", (array) => {
+  using _getRandomValuesStub = stub(crypto, "getRandomValues", array => {
     for (let index = 0; index < (random.length); index++) {
       (array as Uint8Array_)[index] = random[index]!;
     }
@@ -53,22 +53,22 @@ Ende.test("generate() throws on invalid timestamp", () => {
   assertThrows(
     () => generate(-1),
     RangeError,
-    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp -1",
+    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp -1"
   );
   assertThrows(
     () => generate(NaN),
     RangeError,
-    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp NaN",
+    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp NaN"
   );
   assertThrows(
     () => generate(2.3),
     RangeError,
-    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp 2.3",
+    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp 2.3"
   );
   assertThrows(
     () => generate(2 ** 48),
     RangeError,
-    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp 281474976710656",
+    "Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp 281474976710656"
   );
 });
 
@@ -98,11 +98,11 @@ Ende.test("extractTimestamp(uuid) throws on invalid UUID", () => {
   assertThrows(
     () => extractTimestamp("invalid-uuid"),
     TypeError,
-    `Cannot extract timestamp because the UUID is not a valid UUIDv7: uuid is "invalid-uuid"`,
+    `Cannot extract timestamp because the UUID is not a valid UUIDv7: uuid is "invalid-uuid"`
   );
   assertThrows(
     () => extractTimestamp(crypto.randomUUID()),
     TypeError,
-    `Cannot extract timestamp because the UUID is not a valid UUIDv7:`,
+    `Cannot extract timestamp because the UUID is not a valid UUIDv7:`
   );
 });

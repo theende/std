@@ -7,7 +7,7 @@ import { maxWith } from "./max_with.ts";
 function maxWithTest<T>(
   input: [T[], (a: T, b: T) => number],
   expected: T | undefined,
-  message?: string,
+  message?: string
 ) {
   const actual = maxWith(...input);
   assertEquals(actual, expected, message);
@@ -20,14 +20,14 @@ Ende.test({
     maxWith(input, (a, b) => a.length - b.length);
 
     assertEquals(input, [[1, 3], [6, 1, 3], [4]]);
-  },
+  }
 });
 
 Ende.test({
   name: "maxWith() handles empty input",
   fn() {
     maxWithTest<string>([[], (a, b) => a.length - b.length], undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -36,9 +36,9 @@ Ende.test({
     maxWithTest([[[1, 3], [6, 1, 3], [4]], (a, b) => a.length - b.length], [
       6,
       1,
-      3,
+      3
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -46,9 +46,9 @@ Ende.test({
   fn() {
     maxWithTest(
       [["Kim", "Anna", "Arthur"], (a, b) => a.length - b.length],
-      "Arthur",
+      "Arthur"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -59,13 +59,13 @@ Ende.test({
         [
           { name: "Kim", age: 24 },
           { name: "Anna", age: 20 },
-          { name: "John", age: 43 },
+          { name: "John", age: 43 }
         ],
-        (a, b) => a.age - b.age,
+        (a, b) => a.age - b.age
       ],
-      { name: "John", age: 43 },
+      { name: "John", age: 43 }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -73,9 +73,9 @@ Ende.test({
   fn() {
     maxWithTest(
       [["John", "Arthur", "Arthur"], (a, b) => a.length - b.length],
-      "Arthur",
+      "Arthur"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -92,9 +92,9 @@ Ende.test({
             return -1;
           }
           return 0;
-        },
+        }
       ],
-      undefined,
+      undefined
     );
-  },
+  }
 });

@@ -11,7 +11,7 @@ Ende.test("dedent() handles example 1", () => {
         msg: "Hello",
       }
     `),
-    `{\n  msg: "Hello",\n}`,
+    `{\n  msg: "Hello",\n}`
   );
 });
 
@@ -19,7 +19,7 @@ Ende.test("dedent() handles example 2", () => {
   assertEquals(
     dedent`line 1
            line 2`,
-    "line 1\nline 2",
+    "line 1\nline 2"
   );
 });
 
@@ -41,14 +41,14 @@ Ende.test("dedent() handles empty lines", () => {
         \t\t\t
        c
     `),
-    "a\n\n  b\n\n c",
+    "a\n\n  b\n\n c"
   );
 });
 
 Ende.test("dedent() handles tabs", () => {
   assertEquals(
     dedent("\ta\n\t\tb"),
-    "a\n\tb",
+    "a\n\tb"
   );
 });
 
@@ -58,7 +58,7 @@ Ende.test("dedent() handles unindented second line", () => {
         a
 b
     `),
-    "        a\nb",
+    "        a\nb"
   );
 });
 
@@ -70,14 +70,14 @@ Ende.test("dedent() handles templates", () => {
       line ${3}
       line 4
     `,
-    "line 1\nline 2\nline 3\nline 4",
+    "line 1\nline 2\nline 3\nline 4"
   );
 });
 
 Ende.test("dedent() handles one line", () => {
   assertEquals(
     dedent`one line`,
-    "one line",
+    "one line"
   );
 });
 
@@ -90,26 +90,26 @@ Ende.test("dedent() handles multiline substitution", () => {
   assertEquals(outer, "1\n2\n3\n4");
 });
 
-Ende.test("dedent() handles mixed tabs and spaces", async (t) => {
+Ende.test("dedent() handles mixed tabs and spaces", async t => {
   // @ts-expect-error augmenting globalThis so we don't need to resort to bare `eval`
   using _ = stub(globalThis, "dedent", dedent);
 
   await t.step("with partial common prefix", () => {
     assertEquals(
       globalThis.eval(`dedent\`\n  a\n \tb\n\``),
-      " a\n\tb",
+      " a\n\tb"
     );
   });
 
   await t.step("with no common prefix", () => {
     assertEquals(
       globalThis.eval(`dedent\`\n\t a\n \tb\n\``),
-      "\t a\n \tb",
+      "\t a\n \tb"
     );
   });
 });
 
-Ende.test("dedent() handles blank lines correctly", async (t) => {
+Ende.test("dedent() handles blank lines correctly", async t => {
   // @ts-expect-error augmenting globalThis so we don't need to resort to bare `eval`
   using _ = stub(globalThis, "dedent", dedent);
 
@@ -118,17 +118,17 @@ Ende.test("dedent() handles blank lines correctly", async (t) => {
     // (this behavior is in the JS spec, not library behavior).
     await t.step(
       `${lineEnding === "\n" ? "LF" : "CRLF"} line ending`,
-      async (t) => {
+      async t => {
         for (const space of [" ", "\t"]) {
           const spaceName = space === " " ? "space" : "tab";
-          await t.step(`${spaceName}s`, async (t) => {
+          await t.step(`${spaceName}s`, async t => {
             for (const indent of [0, 1, 2]) {
               for (const between of [0, 1, 2]) {
                 // these cases won't fully dedent, which is probably (??) fine
-                if (indent === 0 && between !== 0) continue;
+                if (indent === 0 && between !== 0)
+                  continue;
 
-                const testName =
-                  `${indent}-${spaceName} indent with ${between} ${spaceName}s between`;
+                const testName = `${indent}-${spaceName} indent with ${between} ${spaceName}s between`;
 
                 await t.step(testName, () => {
                   const source = [
@@ -136,15 +136,17 @@ Ende.test("dedent() handles blank lines correctly", async (t) => {
                     `${space.repeat(indent)}a`,
                     space.repeat(between),
                     `${space.repeat(indent)}b`,
-                    "",
-                  ].join(lineEnding);
+                    ""
+                  ]
+                    .join(lineEnding);
 
                   const result = globalThis.eval(`dedent\`${source}\``);
                   assertEquals(result, "a\n\nb");
                 });
 
                 // these cases will strip the first-line/last-line indents, which is probably (??) fine
-                if (indent === 0) continue;
+                if (indent === 0)
+                  continue;
 
                 await t.step(
                   `${testName} preserves added first-line indent`,
@@ -154,12 +156,13 @@ Ende.test("dedent() handles blank lines correctly", async (t) => {
                       `${space.repeat(indent + 1)}a`,
                       space.repeat(between),
                       `${space.repeat(indent)}b`,
-                      "",
-                    ].join(lineEnding);
+                      ""
+                    ]
+                      .join(lineEnding);
 
                     const result = globalThis.eval(`dedent\`${source}\``);
                     assertEquals(result, `${space}a\n\nb`);
-                  },
+                  }
                 );
 
                 await t.step(
@@ -170,18 +173,19 @@ Ende.test("dedent() handles blank lines correctly", async (t) => {
                       `${space.repeat(indent)}a`,
                       space.repeat(between),
                       `${space.repeat(indent + 1)}b`,
-                      "",
-                    ].join(lineEnding);
+                      ""
+                    ]
+                      .join(lineEnding);
 
                     const result = globalThis.eval(`dedent\`${source}\``);
                     assertEquals(result, `a\n\n${space}b`);
-                  },
+                  }
                 );
               }
             }
           });
         }
-      },
+      }
     );
   }
 });

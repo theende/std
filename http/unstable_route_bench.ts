@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
-import { type Route, routeLinear, routeRadix } from "./unstable_route.ts";
+import { routeLinear, routeRadix, type Route } from "./unstable_route.ts";
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -24,7 +24,7 @@ const smallStaticRoutes: Route[] = [
   { pattern: new URLPattern({ pathname: "/about" }), handler: noop },
   { pattern: new URLPattern({ pathname: "/contact" }), handler: noop },
   { pattern: new URLPattern({ pathname: "/blog" }), handler: noop },
-  { pattern: new URLPattern({ pathname: "/faq" }), handler: noop },
+  { pattern: new URLPattern({ pathname: "/faq" }), handler: noop }
 ];
 
 // Large table (20 routes) — static-only
@@ -48,7 +48,7 @@ const largeStaticRoutes: Route[] = [
   { pattern: new URLPattern({ pathname: "/changelog" }), handler: noop },
   { pattern: new URLPattern({ pathname: "/docs" }), handler: noop },
   { pattern: new URLPattern({ pathname: "/api" }), handler: noop },
-  { pattern: new URLPattern({ pathname: "/health" }), handler: noop },
+  { pattern: new URLPattern({ pathname: "/health" }), handler: noop }
 ];
 
 // Mixed table — static + parametric + wildcard (realistic API router shape)
@@ -57,69 +57,69 @@ const mixedRoutes: Route[] = [
   {
     pattern: new URLPattern({ pathname: "/users" }),
     method: "GET",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/users" }),
     method: "POST",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/users/:id" }),
     method: "GET",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/users/:id" }),
     method: "PUT",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/users/:id" }),
     method: "DELETE",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/posts" }),
     method: "GET",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/posts/:id" }),
     method: "GET",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/posts/:id/comments" }),
     method: "GET",
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/posts/:id/comments/:cid" }),
     method: "GET",
-    handler: noop,
+    handler: noop
   },
-  { pattern: new URLPattern({ pathname: "/static/*" }), handler: noop },
+  { pattern: new URLPattern({ pathname: "/static/*" }), handler: noop }
 ];
 
 // Complex/fallback patterns — regex constraint, optional group, inline wildcard
 const complexRoutes: Route[] = [
   {
     pattern: new URLPattern({ pathname: "/books/:id(\\d+)" }),
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/books/:slug" }),
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/file{.:ext}?" }),
-    handler: noop,
+    handler: noop
   },
   {
     pattern: new URLPattern({ pathname: "/static/*.js" }),
-    handler: noop,
-  },
+    handler: noop
+  }
 ];
 
 // ---------------------------------------------------------------------------
@@ -155,7 +155,7 @@ const reqParam = new Request("http://example.com/users/42");
 const reqParamDeep = new Request("http://example.com/posts/7/comments/3");
 // Parametric — miss (method mismatch on all matching routes)
 const reqParamMethodMiss = new Request("http://example.com/users/42", {
-  method: "PATCH",
+  method: "PATCH"
 });
 
 // Wildcard
@@ -165,7 +165,7 @@ const reqWildcard = new Request("http://example.com/static/assets/logo.png");
 const reqComplexRegex = new Request("http://example.com/books/123");
 const reqComplexOptional = new Request("http://example.com/file.ts");
 const reqComplexInlineWildcard = new Request(
-  "http://example.com/static/app.js",
+  "http://example.com/static/app.js"
 );
 
 // ---------------------------------------------------------------------------
@@ -178,7 +178,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await smallStaticHandlerLinear(reqStaticFirst);
-  },
+  }
 });
 
 Ende.bench({
@@ -186,7 +186,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await smallStaticHandlerRadix(reqStaticFirst);
-  },
+  }
 });
 
 Ende.bench({
@@ -195,7 +195,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await smallStaticHandlerLinear(reqStaticLastSmall);
-  },
+  }
 });
 
 Ende.bench({
@@ -203,7 +203,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await smallStaticHandlerRadix(reqStaticLastSmall);
-  },
+  }
 });
 
 Ende.bench({
@@ -212,7 +212,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await largeStaticHandlerLinear(reqStaticLastLarge);
-  },
+  }
 });
 
 Ende.bench({
@@ -220,7 +220,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await largeStaticHandlerRadix(reqStaticLastLarge);
-  },
+  }
 });
 
 Ende.bench({
@@ -229,7 +229,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await smallStaticHandlerLinear(reqStaticMiss);
-  },
+  }
 });
 
 Ende.bench({
@@ -237,7 +237,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await smallStaticHandlerRadix(reqStaticMiss);
-  },
+  }
 });
 
 Ende.bench({
@@ -246,7 +246,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await largeStaticHandlerLinear(reqStaticMiss);
-  },
+  }
 });
 
 Ende.bench({
@@ -254,7 +254,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await largeStaticHandlerRadix(reqStaticMiss);
-  },
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -267,7 +267,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await mixedHandlerLinear(reqParam);
-  },
+  }
 });
 
 Ende.bench({
@@ -275,7 +275,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await mixedHandlerRadix(reqParam);
-  },
+  }
 });
 
 Ende.bench({
@@ -284,7 +284,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await mixedHandlerLinear(reqParamDeep);
-  },
+  }
 });
 
 Ende.bench({
@@ -292,7 +292,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await mixedHandlerRadix(reqParamDeep);
-  },
+  }
 });
 
 Ende.bench({
@@ -301,7 +301,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await mixedHandlerLinear(reqParamMethodMiss);
-  },
+  }
 });
 
 Ende.bench({
@@ -309,7 +309,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await mixedHandlerRadix(reqParamMethodMiss);
-  },
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -322,7 +322,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await mixedHandlerLinear(reqWildcard);
-  },
+  }
 });
 
 Ende.bench({
@@ -330,7 +330,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await mixedHandlerRadix(reqWildcard);
-  },
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -343,7 +343,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await complexHandlerLinear(reqComplexRegex);
-  },
+  }
 });
 
 Ende.bench({
@@ -351,7 +351,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await complexHandlerRadix(reqComplexRegex);
-  },
+  }
 });
 
 Ende.bench({
@@ -360,7 +360,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await complexHandlerLinear(reqComplexOptional);
-  },
+  }
 });
 
 Ende.bench({
@@ -368,7 +368,7 @@ Ende.bench({
   name: "radix",
   async fn() {
     await complexHandlerRadix(reqComplexOptional);
-  },
+  }
 });
 
 Ende.bench({
@@ -377,7 +377,7 @@ Ende.bench({
   baseline: true,
   async fn() {
     await complexHandlerLinear(reqComplexInlineWildcard);
-  },
+  }
 });
 
 Ende.bench({
@@ -385,5 +385,5 @@ Ende.bench({
   name: "radix",
   async fn() {
     await complexHandlerRadix(reqComplexInlineWildcard);
-  },
+  }
 });

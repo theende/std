@@ -94,7 +94,8 @@ export function decodeVarint(buf: Uint8Array, offset = 0): [bigint, number] {
   let i = offset;
 
   // If the buffer is empty Throw
-  if (buf.length === 0) throw new RangeError("Cannot read empty buffer");
+  if (buf.length === 0)
+    throw new RangeError("Cannot read empty buffer");
 
   let byte;
   do {
@@ -136,7 +137,7 @@ export function decodeVarint(buf: Uint8Array, offset = 0): [bigint, number] {
   // If `i` is bigger than the buffer it means we overread the buffer and the varint is malformed
   if ((nRead === 10 && intermediate > -1) || nRead === 11 || i > buf.length) {
     throw new RangeError(
-      "Cannot decode the varint input: Malformed or overflow varint",
+      "Cannot decode the varint input: Malformed or overflow varint"
     );
   }
 
@@ -182,10 +183,11 @@ export function decodeVarint32(buf: Uint8Array, offset = 0): [number, number] {
   ) {
     const byte = buf[i]!;
     decoded += (byte & REST) * Math.pow(2, shift);
-    if (!(byte & MSB)) return [decoded, i + 1];
+    if (!(byte & MSB))
+      return [decoded, i + 1];
   }
   throw new RangeError(
-    "Cannot decode the varint input: Malformed or overflow varint",
+    "Cannot decode the varint input: Malformed or overflow varint"
   );
 }
 
@@ -220,17 +222,17 @@ export function decodeVarint32(buf: Uint8Array, offset = 0): [number, number] {
 export function encodeVarint(
   num: bigint | number,
   buf: Uint8Array = new Uint8Array(MaxVarintLen64),
-  offset = 0,
+  offset = 0
 ): [Uint8Array_, number] {
   num = BigInt(num);
   if (num < 0n) {
     throw new RangeError(
-      `Cannot encode the input into varint as it should be non-negative integer: received ${num}`,
+      `Cannot encode the input into varint as it should be non-negative integer: received ${num}`
     );
   }
   if (num > MaxUint64) {
     throw new RangeError(
-      `Cannot encode the input ${num} into varint as it overflows uint64`,
+      `Cannot encode the input ${num} into varint as it overflows uint64`
     );
   }
   for (
@@ -247,6 +249,6 @@ export function encodeVarint(
     num >>= SHIFTN;
   }
   throw new RangeError(
-    "Cannot encode the input into varint: the provided buffer is too small",
+    "Cannot encode the input into varint: the provided buffer is too small"
   );
 }

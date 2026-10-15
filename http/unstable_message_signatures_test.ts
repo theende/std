@@ -5,7 +5,7 @@ import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
 import {
   createSignatureBase,
   signMessage,
-  verifyMessage,
+  verifyMessage
 } from "./unstable_message_signatures.ts";
 import type { SignatureAlgorithm } from "./unstable_message_signatures.ts";
 
@@ -17,20 +17,19 @@ const NOW = Math.floor(Date.now() / 1000);
 
 function makeRequest(
   url = "https://example.com/foo?param=Value&Pet=dog",
-  init?: RequestInit,
+  init?: RequestInit
 ): Request {
   return new Request(url, {
     method: "POST",
     headers: {
-      "Host": "example.com",
-      "Date": "Tue, 20 Apr 2021 02:07:55 GMT",
+      Host: "example.com",
+      Date: "Tue, 20 Apr 2021 02:07:55 GMT",
       "Content-Type": "application/json",
-      "Content-Digest":
-        "sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrIiYllu7BNNyealdVLvRwEmTHWXvJwew==:",
-      "Content-Length": "18",
+      "Content-Digest": "sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrIiYllu7BNNyealdVLvRwEmTHWXvJwew==:",
+      "Content-Length": "18"
     },
-    body: '{"hello": "world"}',
-    ...init,
+    body: "{\"hello\": \"world\"}",
+    ...init
   });
 }
 
@@ -40,24 +39,24 @@ const KEY_GENERATORS: Record<string, KeyGenerator> = {
   ed25519: () =>
     crypto.subtle.generateKey("Ed25519", true, [
       "sign",
-      "verify",
+      "verify"
     ]) as Promise<CryptoKeyPair>,
   "hmac-sha256": () =>
     crypto.subtle.generateKey({ name: "HMAC", hash: "SHA-256" }, true, [
       "sign",
-      "verify",
+      "verify"
     ]),
   "ecdsa-p256-sha256": () =>
     crypto.subtle.generateKey(
       { name: "ECDSA", namedCurve: "P-256" },
       true,
-      ["sign", "verify"],
+      ["sign", "verify"]
     ) as Promise<CryptoKeyPair>,
   "ecdsa-p384-sha384": () =>
     crypto.subtle.generateKey(
       { name: "ECDSA", namedCurve: "P-384" },
       true,
-      ["sign", "verify"],
+      ["sign", "verify"]
     ) as Promise<CryptoKeyPair>,
   "rsa-pss-sha512": () =>
     crypto.subtle.generateKey(
@@ -65,10 +64,10 @@ const KEY_GENERATORS: Record<string, KeyGenerator> = {
         name: "RSA-PSS",
         modulusLength: 2048,
         publicExponent: new Uint8Array([1, 0, 1]),
-        hash: "SHA-512",
+        hash: "SHA-512"
       },
       true,
-      ["sign", "verify"],
+      ["sign", "verify"]
     ) as Promise<CryptoKeyPair>,
   "rsa-v1_5-sha256": () =>
     crypto.subtle.generateKey(
@@ -76,17 +75,18 @@ const KEY_GENERATORS: Record<string, KeyGenerator> = {
         name: "RSASSA-PKCS1-v1_5",
         modulusLength: 2048,
         publicExponent: new Uint8Array([1, 0, 1]),
-        hash: "SHA-256",
+        hash: "SHA-256"
       },
       true,
-      ["sign", "verify"],
-    ) as Promise<CryptoKeyPair>,
+      ["sign", "verify"]
+    ) as Promise<CryptoKeyPair>
 };
 
 function keys(
-  keyOrPair: CryptoKeyPair | CryptoKey,
-): { privateKey: CryptoKey; publicKey: CryptoKey } {
-  if ("privateKey" in keyOrPair) return keyOrPair;
+  keyOrPair: CryptoKeyPair | CryptoKey
+): { privateKey: CryptoKey; publicKey: CryptoKey; } {
+  if ("privateKey" in keyOrPair)
+    return keyOrPair;
   return { privateKey: keyOrPair, publicKey: keyOrPair };
 }
 
@@ -97,7 +97,7 @@ function keys(
 Ende.test("createSignatureBase() resolves all request-derived components", () => {
   const request = new Request(
     "https://www.example.com/path?param=value",
-    { method: "POST" },
+    { method: "POST" }
   );
   const base = createSignatureBase({
     message: request,
@@ -110,43 +110,43 @@ Ende.test("createSignatureBase() resolves all request-derived components", () =>
         "@request-target",
         "@path",
         "@query",
-        { name: "@query-param", parameters: { name: "param" } },
+        { name: "@query-param", parameters: { name: "param" } }
       ],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
   const lines = base.split("\n");
-  assertEquals(lines[0], '"@method": POST');
+  assertEquals(lines[0], "\"@method\": POST");
   assertEquals(
     lines[1],
-    '"@target-uri": https://www.example.com/path?param=value',
+    "\"@target-uri\": https://www.example.com/path?param=value"
   );
-  assertEquals(lines[2], '"@authority": www.example.com');
-  assertEquals(lines[3], '"@scheme": https');
-  assertEquals(lines[4], '"@request-target": /path?param=value');
-  assertEquals(lines[5], '"@path": /path');
-  assertEquals(lines[6], '"@query": ?param=value');
-  assertEquals(lines[7], '"@query-param";name="param": value');
+  assertEquals(lines[2], "\"@authority\": www.example.com");
+  assertEquals(lines[3], "\"@scheme\": https");
+  assertEquals(lines[4], "\"@request-target\": /path?param=value");
+  assertEquals(lines[5], "\"@path\": /path");
+  assertEquals(lines[6], "\"@query\": ?param=value");
+  assertEquals(lines[7], "\"@query-param\";name=\"param\": value");
 });
 
 Ende.test("createSignatureBase() normalizes empty path to / and absent query to ?", () => {
   const request = new Request("https://example.com");
   const base = createSignatureBase({
     message: request,
-    params: { components: ["@path", "@query"], created: 1618884473 },
+    params: { components: ["@path", "@query"], created: 1618884473 }
   });
   const lines = base.split("\n");
-  assertEquals(lines[0], '"@path": /');
-  assertEquals(lines[1], '"@query": ?');
+  assertEquals(lines[0], "\"@path\": /");
+  assertEquals(lines[1], "\"@query\": ?");
 });
 
 Ende.test("createSignatureBase() resolves @status from response", () => {
   const response = new Response(null, { status: 200 });
   const base = createSignatureBase({
     message: response,
-    params: { components: ["@status"], created: 1618884473 },
+    params: { components: ["@status"], created: 1618884473 }
   });
-  assertEquals(base.split("\n")[0], '"@status": 200');
+  assertEquals(base.split("\n")[0], "\"@status\": 200");
 });
 
 // =============================================================================
@@ -161,8 +161,8 @@ Ende.test("createSignatureBase() resolves plain header, ;sf, ;key item, ;key inn
       "List-Dict": "items=(1 2 3), other=4",
       "Example-Header": "value, with, lots",
       "X-Num": "42",
-      "X-List": "1,    2,   3",
-    },
+      "X-List": "1,    2,   3"
+    }
   });
 
   // ;sf — dictionary
@@ -170,12 +170,12 @@ Ende.test("createSignatureBase() resolves plain header, ;sf, ;key item, ;key inn
     message: request,
     params: {
       components: [{ name: "example-dict", parameters: { sf: true } }],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
   assertEquals(
     sfDict.split("\n")[0],
-    '"example-dict";sf: a=1, b=2;x=1;y=2, c=(a b c)',
+    "\"example-dict\";sf: a=1, b=2;x=1;y=2, c=(a b c)"
   );
 
   // ;sf — list fallback (header fails Dictionary parse, succeeds as List)
@@ -183,50 +183,50 @@ Ende.test("createSignatureBase() resolves plain header, ;sf, ;key item, ;key inn
     message: request,
     params: {
       components: [{ name: "x-list", parameters: { sf: true } }],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
-  assertEquals(sfList.split("\n")[0], '"x-list";sf: 1, 2, 3');
+  assertEquals(sfList.split("\n")[0], "\"x-list\";sf: 1, 2, 3");
 
   // ;sf — item fallback
   const sfItem = createSignatureBase({
     message: request,
     params: {
       components: [{ name: "x-num", parameters: { sf: true } }],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
-  assertEquals(sfItem.split("\n")[0], '"x-num";sf: 42');
+  assertEquals(sfItem.split("\n")[0], "\"x-num\";sf: 42");
 
   // ;key — scalar member
   const keyScalar = createSignatureBase({
     message: request,
     params: {
       components: [{ name: "example-dict", parameters: { key: "a" } }],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
-  assertEquals(keyScalar.split("\n")[0], '"example-dict";key="a": 1');
+  assertEquals(keyScalar.split("\n")[0], "\"example-dict\";key=\"a\": 1");
 
   // ;key — inner list member
   const keyList = createSignatureBase({
     message: request,
     params: {
       components: [{ name: "list-dict", parameters: { key: "items" } }],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
-  assertEquals(keyList.split("\n")[0], '"list-dict";key="items": (1 2 3)');
+  assertEquals(keyList.split("\n")[0], "\"list-dict\";key=\"items\": (1 2 3)");
 
   // ;bs
   const bs = createSignatureBase({
     message: request,
     params: {
       components: [{ name: "example-header", parameters: { bs: true } }],
-      created: 1618884473,
-    },
+      created: 1618884473
+    }
   });
-  assertEquals(bs.split("\n")[0]!.startsWith('"example-header";bs: :'), true);
+  assertEquals(bs.split("\n")[0]!.startsWith("\"example-header\";bs: :"), true);
 });
 
 // =============================================================================
@@ -241,15 +241,15 @@ Ende.test("createSignatureBase() resolves ;req from related request", () => {
     params: {
       components: [
         "@status",
-        { name: "@method", parameters: { req: true } },
+        { name: "@method", parameters: { req: true } }
       ],
-      created: 1618884473,
+      created: 1618884473
     },
-    request,
+    request
   });
   const lines = base.split("\n");
-  assertEquals(lines[0], '"@status": 200');
-  assertEquals(lines[1], '"@method";req: POST');
+  assertEquals(lines[0], "\"@status\": 200");
+  assertEquals(lines[1], "\"@method\";req: POST");
 });
 
 // =============================================================================
@@ -267,22 +267,23 @@ Ende.test("createSignatureBase() builds correct base for RFC 9421 section 2.5 ex
         "@path",
         "content-digest",
         "content-length",
-        "content-type",
+        "content-type"
       ],
       created: 1618884473,
-      keyId: "test-key-rsa-pss",
-    },
+      keyId: "test-key-rsa-pss"
+    }
   });
 
   const expected = [
-    '"@method": POST',
-    '"@authority": example.com',
-    '"@path": /foo',
-    '"content-digest": sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrIiYllu7BNNyealdVLvRwEmTHWXvJwew==:',
-    '"content-length": 18',
-    '"content-type": application/json',
-    '"@signature-params": ("@method" "@authority" "@path" "content-digest" "content-length" "content-type");created=1618884473;keyid="test-key-rsa-pss"',
-  ].join("\n");
+    "\"@method\": POST",
+    "\"@authority\": example.com",
+    "\"@path\": /foo",
+    "\"content-digest\": sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrIiYllu7BNNyealdVLvRwEmTHWXvJwew==:",
+    "\"content-length\": 18",
+    "\"content-type\": application/json",
+    "\"@signature-params\": (\"@method\" \"@authority\" \"@path\" \"content-digest\" \"content-length\" \"content-type\");created=1618884473;keyid=\"test-key-rsa-pss\""
+  ]
+    .join("\n");
 
   assertEquals(base, expected);
 });
@@ -293,7 +294,7 @@ Ende.test("createSignatureBase() builds correct base for RFC 9421 section 2.5 ex
 
 Ende.test("createSignatureBase() rejects invalid component configurations", () => {
   const request = new Request("https://example.com/", {
-    headers: { "Example": "value", "Content-Type": "text/plain" },
+    headers: { Example: "value", "Content-Type": "text/plain" }
   });
   const response = new Response(null, { status: 200 });
 
@@ -302,10 +303,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: request,
-        params: { components: ["x-nonexistent"] },
+        params: { components: ["x-nonexistent"] }
       }),
     TypeError,
-    'Missing "x-nonexistent" header field',
+    "Missing \"x-nonexistent\" header field"
   );
 
   // Unknown derived component
@@ -313,10 +314,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: request,
-        params: { components: ["@unknown"] },
+        params: { components: ["@unknown"] }
       }),
     TypeError,
-    'Unknown derived component "@unknown"',
+    "Unknown derived component \"@unknown\""
   );
 
   // @status on request
@@ -324,10 +325,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: request,
-        params: { components: ["@status"] },
+        params: { components: ["@status"] }
       }),
     TypeError,
-    'Cannot use "@status" on a request message',
+    "Cannot use \"@status\" on a request message"
   );
 
   // Request-only component on response
@@ -335,10 +336,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: response,
-        params: { components: ["@method"] },
+        params: { components: ["@method"] }
       }),
     TypeError,
-    'Cannot use "@method" on a response message',
+    "Cannot use \"@method\" on a response message"
   );
 
   // ;bs + ;sf
@@ -348,12 +349,12 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
         message: request,
         params: {
           components: [
-            { name: "example", parameters: { bs: true, sf: true } },
-          ],
-        },
+            { name: "example", parameters: { bs: true, sf: true } }
+          ]
+        }
       }),
     TypeError,
-    'Cannot combine "bs" and "sf"',
+    "Cannot combine \"bs\" and \"sf\""
   );
 
   // ;bs + ;key
@@ -363,12 +364,12 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
         message: request,
         params: {
           components: [
-            { name: "example", parameters: { bs: true, key: "a" } },
-          ],
-        },
+            { name: "example", parameters: { bs: true, key: "a" } }
+          ]
+        }
       }),
     TypeError,
-    'Cannot combine "bs" and "key"',
+    "Cannot combine \"bs\" and \"key\""
   );
 
   // ;tr unsupported
@@ -377,11 +378,11 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
       createSignatureBase({
         message: request,
         params: {
-          components: [{ name: "example", parameters: { tr: true } }],
-        },
+          components: [{ name: "example", parameters: { tr: true } }]
+        }
       }),
     TypeError,
-    "Trailer field resolution",
+    "Trailer field resolution"
   );
 
   // ;req on a request
@@ -390,11 +391,11 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
       createSignatureBase({
         message: request,
         params: {
-          components: [{ name: "@method", parameters: { req: true } }],
-        },
+          components: [{ name: "@method", parameters: { req: true } }]
+        }
       }),
     TypeError,
-    'Cannot use "req" parameter',
+    "Cannot use \"req\" parameter"
   );
 
   // ;req without related request
@@ -403,11 +404,11 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
       createSignatureBase({
         message: response,
         params: {
-          components: [{ name: "@method", parameters: { req: true } }],
-        },
+          components: [{ name: "@method", parameters: { req: true } }]
+        }
       }),
     TypeError,
-    "no related request provided",
+    "no related request provided"
   );
 
   // Duplicate component
@@ -415,10 +416,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: request,
-        params: { components: ["content-type", "content-type"] },
+        params: { components: ["content-type", "content-type"] }
       }),
     TypeError,
-    "Duplicate component identifier",
+    "Duplicate component identifier"
   );
 
   // @signature-params in components
@@ -426,10 +427,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: request,
-        params: { components: ["@signature-params"] },
+        params: { components: ["@signature-params"] }
       }),
     TypeError,
-    '"@signature-params" must not be listed',
+    "\"@signature-params\" must not be listed"
   );
 
   // Uppercase component name
@@ -437,10 +438,10 @@ Ende.test("createSignatureBase() rejects invalid component configurations", () =
     () =>
       createSignatureBase({
         message: request,
-        params: { components: ["Content-Type"] },
+        params: { components: ["Content-Type"] }
       }),
     TypeError,
-    "must be lowercase",
+    "must be lowercase"
   );
 });
 
@@ -450,10 +451,10 @@ Ende.test("createSignatureBase() rejects @query-param edge cases", () => {
     () =>
       createSignatureBase({
         message: new Request("https://example.com/path?foo=bar"),
-        params: { components: [{ name: "@query-param" }] },
+        params: { components: [{ name: "@query-param" }] }
       }),
     TypeError,
-    'requires "name" parameter',
+    "requires \"name\" parameter"
   );
 
   // Non-existent parameter
@@ -463,12 +464,12 @@ Ende.test("createSignatureBase() rejects @query-param edge cases", () => {
         message: new Request("https://example.com/path?foo=bar"),
         params: {
           components: [
-            { name: "@query-param", parameters: { name: "nonexistent" } },
-          ],
-        },
+            { name: "@query-param", parameters: { name: "nonexistent" } }
+          ]
+        }
       }),
     TypeError,
-    "not found in request URL",
+    "not found in request URL"
   );
 
   // Duplicate parameter
@@ -478,12 +479,12 @@ Ende.test("createSignatureBase() rejects @query-param edge cases", () => {
         message: new Request("https://example.com/path?foo=1&foo=2"),
         params: {
           components: [
-            { name: "@query-param", parameters: { name: "foo" } },
-          ],
-        },
+            { name: "@query-param", parameters: { name: "foo" } }
+          ]
+        }
       }),
     TypeError,
-    "occurs multiple times",
+    "occurs multiple times"
   );
 });
 
@@ -493,14 +494,14 @@ Ende.test("createSignatureBase() rejects ;sf and ;key errors", () => {
     () =>
       createSignatureBase({
         message: new Request("https://example.com/", {
-          headers: { "X-Bad": "@@@ not a structured field @@@" },
+          headers: { "X-Bad": "@@@ not a structured field @@@" }
         }),
         params: {
-          components: [{ name: "x-bad", parameters: { sf: true } }],
-        },
+          components: [{ name: "x-bad", parameters: { sf: true } }]
+        }
       }),
     TypeError,
-    'Cannot apply "sf" parameter',
+    "Cannot apply \"sf\" parameter"
   );
 
   // ;key with non-dictionary header
@@ -508,14 +509,14 @@ Ende.test("createSignatureBase() rejects ;sf and ;key errors", () => {
     () =>
       createSignatureBase({
         message: new Request("https://example.com/", {
-          headers: { "X-Simple": "just a plain value" },
+          headers: { "X-Simple": "just a plain value" }
         }),
         params: {
-          components: [{ name: "x-simple", parameters: { key: "a" } }],
-        },
+          components: [{ name: "x-simple", parameters: { key: "a" } }]
+        }
       }),
     TypeError,
-    'Cannot parse "x-simple" as Dictionary',
+    "Cannot parse \"x-simple\" as Dictionary"
   );
 
   // ;key with missing key
@@ -523,16 +524,16 @@ Ende.test("createSignatureBase() rejects ;sf and ;key errors", () => {
     () =>
       createSignatureBase({
         message: new Request("https://example.com/", {
-          headers: { "Example-Dict": "a=1, b=2" },
+          headers: { "Example-Dict": "a=1, b=2" }
         }),
         params: {
           components: [
-            { name: "example-dict", parameters: { key: "nonexistent" } },
-          ],
-        },
+            { name: "example-dict", parameters: { key: "nonexistent" } }
+          ]
+        }
       }),
     TypeError,
-    'Dictionary key "nonexistent" not found',
+    "Dictionary key \"nonexistent\" not found"
   );
 });
 
@@ -547,7 +548,7 @@ for (
     "ecdsa-p256-sha256",
     "ecdsa-p384-sha384",
     "rsa-pss-sha512",
-    "rsa-v1_5-sha256",
+    "rsa-v1_5-sha256"
   ] as const
 ) {
   Ende.test(`signMessage() and verifyMessage() round-trip with ${algorithm}`, async () => {
@@ -560,9 +561,9 @@ for (
       params: {
         components: ["@method", "@authority"],
         keyId: `test-${algorithm}`,
-        created: NOW,
+        created: NOW
       },
-      key: privateKey,
+      key: privateKey
     });
 
     const results = await verifyMessage(signed, () => publicKey);
@@ -583,33 +584,33 @@ Ende.test("signMessage() preserves headers, defaults label, and returns correct 
   // Request: preserves existing headers, defaults label to "sig"
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "X-Custom": "preserved" },
+    headers: { "X-Custom": "preserved" }
   });
   const signedReq = await signMessage({
     message: request,
     params: { components: ["@method"], keyId: "k", created: NOW },
-    key: privateKey,
+    key: privateKey
   });
   assertEquals(signedReq instanceof Request, true);
   assertEquals(signedReq.headers.get("X-Custom"), "preserved");
   assertEquals(
     signedReq.headers.get("Signature-Input")!.startsWith("sig="),
-    true,
+    true
   );
 
   // Response: returns Response type, signs correctly
   const response = new Response("body", {
     status: 200,
-    headers: { "Content-Type": "text/plain" },
+    headers: { "Content-Type": "text/plain" }
   });
   const signedRes = await signMessage({
     message: response,
     params: {
       components: ["@status", "content-type"],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
   assertEquals(signedRes instanceof Response, true);
   assertEquals(signedRes.status, 200);
@@ -630,12 +631,12 @@ Ende.test("signMessage() rejects invalid params", async () => {
         message: request,
         params: {
           components: ["@method"],
-          algorithm: "invalid" as SignatureAlgorithm,
+          algorithm: "invalid" as SignatureAlgorithm
         },
-        key: privateKey,
+        key: privateKey
       }),
     TypeError,
-    "Unsupported signature algorithm",
+    "Unsupported signature algorithm"
   );
 
   // Invalid label
@@ -647,12 +648,12 @@ Ende.test("signMessage() rejects invalid params", async () => {
           components: ["@method"],
           keyId: "k",
           label: "INVALID",
-          created: NOW,
+          created: NOW
         },
-        key: privateKey,
+        key: privateKey
       }),
     TypeError,
-    "Invalid signature label",
+    "Invalid signature label"
   );
 
   // Negative created
@@ -661,10 +662,10 @@ Ende.test("signMessage() rejects invalid params", async () => {
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: -1 },
-        key: privateKey,
+        key: privateKey
       }),
     RangeError,
-    "created must be a non-negative integer",
+    "created must be a non-negative integer"
   );
 
   // Negative expires
@@ -676,12 +677,12 @@ Ende.test("signMessage() rejects invalid params", async () => {
           components: ["@method"],
           keyId: "k",
           created: NOW,
-          expires: -1,
+          expires: -1
         },
-        key: privateKey,
+        key: privateKey
       }),
     RangeError,
-    "expires must be a non-negative integer",
+    "expires must be a non-negative integer"
   );
 
   // Unsupported ECDSA curve
@@ -689,17 +690,17 @@ Ende.test("signMessage() rejects invalid params", async () => {
     algorithm: { name: "ECDSA", namedCurve: "P-521" },
     type: "private",
     extractable: false,
-    usages: ["sign"],
+    usages: ["sign"]
   } as unknown as CryptoKey;
   await assertRejects(
     () =>
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: fakeEcdsaKey,
+        key: fakeEcdsaKey
       }),
     TypeError,
-    'Unsupported ECDSA curve: "P-521"',
+    "Unsupported ECDSA curve: \"P-521\""
   );
 
   // Unsupported HMAC hash
@@ -707,17 +708,17 @@ Ende.test("signMessage() rejects invalid params", async () => {
     algorithm: { name: "HMAC", hash: { name: "SHA-512" } },
     type: "secret",
     extractable: false,
-    usages: ["sign"],
+    usages: ["sign"]
   } as unknown as CryptoKey;
   await assertRejects(
     () =>
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: fakeHmacKey,
+        key: fakeHmacKey
       }),
     TypeError,
-    'Unsupported HMAC hash: "SHA-512"',
+    "Unsupported HMAC hash: \"SHA-512\""
   );
 
   // Unsupported RSA-PSS hash
@@ -725,17 +726,17 @@ Ende.test("signMessage() rejects invalid params", async () => {
     algorithm: { name: "RSA-PSS", hash: { name: "SHA-256" } },
     type: "private",
     extractable: false,
-    usages: ["sign"],
+    usages: ["sign"]
   } as unknown as CryptoKey;
   await assertRejects(
     () =>
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: fakeRsaPssKey,
+        key: fakeRsaPssKey
       }),
     TypeError,
-    'Unsupported RSA-PSS hash: "SHA-256"',
+    "Unsupported RSA-PSS hash: \"SHA-256\""
   );
 
   // Unsupported RSASSA-PKCS1-v1_5 hash
@@ -743,17 +744,17 @@ Ende.test("signMessage() rejects invalid params", async () => {
     algorithm: { name: "RSASSA-PKCS1-v1_5", hash: { name: "SHA-512" } },
     type: "private",
     extractable: false,
-    usages: ["sign"],
+    usages: ["sign"]
   } as unknown as CryptoKey;
   await assertRejects(
     () =>
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: fakePkcs1Key,
+        key: fakePkcs1Key
       }),
     TypeError,
-    'Unsupported RSASSA-PKCS1-v1_5 hash: "SHA-512"',
+    "Unsupported RSASSA-PKCS1-v1_5 hash: \"SHA-512\""
   );
 
   // Completely unknown algorithm name
@@ -761,17 +762,17 @@ Ende.test("signMessage() rejects invalid params", async () => {
     algorithm: { name: "X-Custom" },
     type: "private",
     extractable: false,
-    usages: ["sign"],
+    usages: ["sign"]
   } as unknown as CryptoKey;
   await assertRejects(
     () =>
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: fakeUnknownKey,
+        key: fakeUnknownKey
       }),
     TypeError,
-    'Cannot infer signature algorithm from key: "X-Custom"',
+    "Cannot infer signature algorithm from key: \"X-Custom\""
   );
 });
 
@@ -793,9 +794,9 @@ Ende.test("signMessage() and verifyMessage() round-trip preserves nonce, tag, an
       created: NOW,
       expires: NOW + 3600,
       nonce: "abc123",
-      tag: "my-app",
+      tag: "my-app"
     },
-    key: privateKey,
+    key: privateKey
   });
 
   const results = await verifyMessage(signed, () => publicKey);
@@ -821,9 +822,9 @@ Ende.test("signMessage() supports multiple signatures with different labels", as
       components: ["@method"],
       keyId: "key1",
       label: "sig1",
-      created: NOW,
+      created: NOW
     },
-    key: k1.privateKey,
+    key: k1.privateKey
   });
   const signed2 = await signMessage({
     message: signed1,
@@ -831,9 +832,9 @@ Ende.test("signMessage() supports multiple signatures with different labels", as
       components: ["@method", "@authority"],
       keyId: "key2",
       label: "sig2",
-      created: NOW,
+      created: NOW
     },
-    key: k2.privateKey,
+    key: k2.privateKey
   });
 
   const sigInput = signed2.headers.get("Signature-Input")!;
@@ -842,7 +843,7 @@ Ende.test("signMessage() supports multiple signatures with different labels", as
 
   const results = await verifyMessage(
     signed2,
-    (keyId) => keyId === "key1" ? k1.publicKey : k2.publicKey,
+    keyId => keyId === "key1" ? k1.publicKey : k2.publicKey
   );
   assertEquals(results.length, 2);
 });
@@ -854,7 +855,7 @@ Ende.test("signMessage() rejects duplicate labels on already-signed messages", a
   const signed = await signMessage({
     message: request,
     params: { components: ["@method"], keyId: "k", created: NOW },
-    key: privateKey,
+    key: privateKey
   });
 
   // Default label collision ("sig" on both calls).
@@ -863,10 +864,10 @@ Ende.test("signMessage() rejects duplicate labels on already-signed messages", a
       signMessage({
         message: signed,
         params: { components: ["@authority"], keyId: "k", created: NOW },
-        key: privateKey,
+        key: privateKey
       }),
     TypeError,
-    'Signature label "sig" is already present',
+    "Signature label \"sig\" is already present"
   );
 
   // Explicit label collision.
@@ -876,9 +877,9 @@ Ende.test("signMessage() rejects duplicate labels on already-signed messages", a
       components: ["@method"],
       keyId: "k",
       label: "proxy",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () =>
@@ -888,12 +889,12 @@ Ende.test("signMessage() rejects duplicate labels on already-signed messages", a
           components: ["@authority"],
           keyId: "k",
           label: "proxy",
-          created: NOW,
+          created: NOW
         },
-        key: privateKey,
+        key: privateKey
       }),
     TypeError,
-    'Signature label "proxy" is already present',
+    "Signature label \"proxy\" is already present"
   );
 });
 
@@ -901,7 +902,7 @@ Ende.test("signMessage() rejects messages with malformed Signature-Input header"
   const { privateKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "Signature-Input": "!!not a valid dictionary!!" },
+    headers: { "Signature-Input": "!!not a valid dictionary!!" }
   });
 
   await assertRejects(
@@ -909,10 +910,10 @@ Ende.test("signMessage() rejects messages with malformed Signature-Input header"
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: privateKey,
+        key: privateKey
       }),
     TypeError,
-    'Cannot parse existing "Signature-Input" header',
+    "Cannot parse existing \"Signature-Input\" header"
   );
 });
 
@@ -924,7 +925,7 @@ Ende.test("signMessage() rejects label collision in Signature header alone", asy
   // further corrupt it.
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "Signature": "sig=:AAAA:" },
+    headers: { Signature: "sig=:AAAA:" }
   });
 
   await assertRejects(
@@ -932,10 +933,10 @@ Ende.test("signMessage() rejects label collision in Signature header alone", asy
       signMessage({
         message: request,
         params: { components: ["@method"], keyId: "k", created: NOW },
-        key: privateKey,
+        key: privateKey
       }),
     TypeError,
-    'Signature label "sig" is already present in the "Signature" header',
+    "Signature label \"sig\" is already present in the \"Signature\" header"
   );
 });
 
@@ -948,7 +949,7 @@ Ende.test("verifyMessage() rejects tampered message and wrong key", async () => 
   const k2 = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }
   });
 
   const signed = await signMessage({
@@ -956,28 +957,28 @@ Ende.test("verifyMessage() rejects tampered message and wrong key", async () => 
     params: {
       components: ["@method", "content-type"],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: k1.privateKey,
+    key: k1.privateKey
   });
 
   // Tampered header
   const tampered = new Request(signed.url, {
     method: signed.method,
-    headers: new Headers(signed.headers),
+    headers: new Headers(signed.headers)
   });
   tampered.headers.set("Content-Type", "text/plain");
   await assertRejects(
     () => verifyMessage(tampered, () => k1.publicKey),
     Error,
-    "Signature verification failed",
+    "Signature verification failed"
   );
 
   // Wrong key
   await assertRejects(
     () => verifyMessage(signed, () => k2.publicKey),
     Error,
-    "Signature verification failed",
+    "Signature verification failed"
   );
 });
 
@@ -992,24 +993,24 @@ Ende.test("verifyMessage() enforces maxAge, requiredComponents, labels, and expi
   const old = await signMessage({
     message: new Request("https://example.com/", { method: "GET" }),
     params: { components: ["@method"], keyId: "k", created: NOW - 3600 },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () => verifyMessage(old, () => publicKey, { maxAge: 60 }),
     Error,
-    "has expired",
+    "has expired"
   );
 
   // maxAge without created
   const noCreated = await signMessage({
     message: new Request("https://example.com/", { method: "GET" }),
     params: { components: ["@method"], keyId: "k" },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () => verifyMessage(noCreated, () => publicKey, { maxAge: 60 }),
     Error,
-    'no "created" timestamp but maxAge was requested',
+    "no \"created\" timestamp but maxAge was requested"
   );
 
   // Expired via expires param
@@ -1019,29 +1020,29 @@ Ende.test("verifyMessage() enforces maxAge, requiredComponents, labels, and expi
       components: ["@method"],
       keyId: "k",
       created: 1000,
-      expires: 1001,
+      expires: 1001
     },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () => verifyMessage(expired, () => publicKey),
     Error,
-    'past "expires" timestamp',
+    "past \"expires\" timestamp"
   );
 
   // Required component not covered
   const minimal = await signMessage({
     message: new Request("https://example.com/", { method: "GET" }),
     params: { components: ["@method"], keyId: "k", created: NOW },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () =>
       verifyMessage(minimal, () => publicKey, {
-        requiredComponents: ["@authority"],
+        requiredComponents: ["@authority"]
       }),
     Error,
-    "does not cover required component",
+    "does not cover required component"
   );
 
   // Labels filter — match vs no match
@@ -1051,16 +1052,16 @@ Ende.test("verifyMessage() enforces maxAge, requiredComponents, labels, and expi
       components: ["@method"],
       keyId: "k",
       label: "mysig",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
   const matched = await verifyMessage(labeled, () => publicKey, {
-    labels: ["mysig"],
+    labels: ["mysig"]
   });
   assertEquals(matched.length, 1);
   const unmatched = await verifyMessage(labeled, () => publicKey, {
-    labels: ["other"],
+    labels: ["other"]
   });
   assertEquals(unmatched.length, 0);
 });
@@ -1076,7 +1077,7 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
   const signed = await signMessage({
     message: new Request("https://example.com/", { method: "GET" }),
     params: { components: ["@method"], keyId: "k", created: NOW },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () =>
@@ -1084,7 +1085,7 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
         throw new Error("unreachable");
       }, { maxAge: -1 }),
     RangeError,
-    "maxAge must be a non-negative integer",
+    "maxAge must be a non-negative integer"
   );
 
   // Missing Signature-Input
@@ -1094,10 +1095,10 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
         new Request("https://example.com/", { method: "GET" }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    'Missing "Signature-Input" header',
+    "Missing \"Signature-Input\" header"
   );
 
   // Missing Signature
@@ -1106,14 +1107,14 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
       verifyMessage(
         new Request("https://example.com/", {
           method: "GET",
-          headers: { "Signature-Input": 'sig=("@method");created=1618884473' },
+          headers: { "Signature-Input": "sig=(\"@method\");created=1618884473" }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    'Missing "Signature" header',
+    "Missing \"Signature\" header"
   );
 
   // Label in Signature-Input but not Signature
@@ -1123,16 +1124,16 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
         new Request("https://example.com/", {
           method: "GET",
           headers: {
-            "Signature-Input": 'sig=("@method");created=1618884473',
-            "Signature": "other=:AAAA:",
-          },
+            "Signature-Input": "sig=(\"@method\");created=1618884473",
+            Signature: "other=:AAAA:"
+          }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "found in Signature-Input but missing in Signature",
+    "found in Signature-Input but missing in Signature"
   );
 
   // Label in Signature but not Signature-Input
@@ -1142,16 +1143,16 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
         new Request("https://example.com/", {
           method: "GET",
           headers: {
-            "Signature-Input": 'sig=("@method");created=1618884473',
-            "Signature": "sig=:AAAA:, extra=:BBBB:",
-          },
+            "Signature-Input": "sig=(\"@method\");created=1618884473",
+            Signature: "sig=:AAAA:, extra=:BBBB:"
+          }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "found in Signature but missing in Signature-Input",
+    "found in Signature but missing in Signature-Input"
   );
 
   // Signature-Input member is not an inner list
@@ -1160,26 +1161,26 @@ Ende.test("verifyMessage() rejects invalid inputs and malformed headers", async 
       verifyMessage(
         new Request("https://example.com/", {
           method: "GET",
-          headers: { "Signature-Input": "sig=42", "Signature": "sig=:AAAA:" },
+          headers: { "Signature-Input": "sig=42", Signature: "sig=:AAAA:" }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "is not an Inner List",
+    "is not an Inner List"
   );
 
   // keyLookup returns null
   const signedForNull = await signMessage({
     message: new Request("https://example.com/", { method: "GET" }),
     params: { components: ["@method"], keyId: "unknown", created: NOW },
-    key: privateKey,
+    key: privateKey
   });
   await assertRejects(
     () => verifyMessage(signedForNull, () => null),
     TypeError,
-    "Key not found",
+    "Key not found"
   );
 });
 
@@ -1191,7 +1192,7 @@ Ende.test("verifyMessage() round-trips with ;sf component parameter", async () =
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "Example-Dict": "a=1, b=2;x=1;y=2, c=(a b c)" },
+    headers: { "Example-Dict": "a=1, b=2;x=1;y=2, c=(a b c)" }
   });
 
   const signed = await signMessage({
@@ -1199,12 +1200,12 @@ Ende.test("verifyMessage() round-trips with ;sf component parameter", async () =
     params: {
       components: [
         "@method",
-        { name: "example-dict", parameters: { sf: true } },
+        { name: "example-dict", parameters: { sf: true } }
       ],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
 
   const results = await verifyMessage(signed, () => publicKey);
@@ -1218,7 +1219,7 @@ Ende.test("verifyMessage() round-trips with ;key component parameter", async () 
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "Example-Dict": "a=1, b=2" },
+    headers: { "Example-Dict": "a=1, b=2" }
   });
 
   const signed = await signMessage({
@@ -1226,12 +1227,12 @@ Ende.test("verifyMessage() round-trips with ;key component parameter", async () 
     params: {
       components: [
         "@method",
-        { name: "example-dict", parameters: { key: "a" } },
+        { name: "example-dict", parameters: { key: "a" } }
       ],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
 
   const results = await verifyMessage(signed, () => publicKey);
@@ -1244,7 +1245,7 @@ Ende.test("verifyMessage() round-trips with ;bs component parameter", async () =
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/", {
     method: "GET",
-    headers: { "X-Value": "some-value" },
+    headers: { "X-Value": "some-value" }
   });
 
   const signed = await signMessage({
@@ -1252,12 +1253,12 @@ Ende.test("verifyMessage() round-trips with ;bs component parameter", async () =
     params: {
       components: [
         "@method",
-        { name: "x-value", parameters: { bs: true } },
+        { name: "x-value", parameters: { bs: true } }
       ],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
 
   const results = await verifyMessage(signed, () => publicKey);
@@ -1269,7 +1270,7 @@ Ende.test("verifyMessage() round-trips with ;bs component parameter", async () =
 Ende.test("verifyMessage() round-trips with ;name component parameter (@query-param)", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/path?foo=bar", {
-    method: "GET",
+    method: "GET"
   });
 
   const signed = await signMessage({
@@ -1277,12 +1278,12 @@ Ende.test("verifyMessage() round-trips with ;name component parameter (@query-pa
     params: {
       components: [
         "@method",
-        { name: "@query-param", parameters: { name: "foo" } },
+        { name: "@query-param", parameters: { name: "foo" } }
       ],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
 
   const results = await verifyMessage(signed, () => publicKey);
@@ -1304,13 +1305,13 @@ Ende.test("verifyMessage() passes when all requiredComponents are covered", asyn
     params: {
       components: ["@method", "@authority"],
       keyId: "k",
-      created: NOW,
+      created: NOW
     },
-    key: privateKey,
+    key: privateKey
   });
 
   const results = await verifyMessage(signed, () => publicKey, {
-    requiredComponents: ["@method"],
+    requiredComponents: ["@method"]
   });
   assertEquals(results.length, 1);
 });
@@ -1326,16 +1327,16 @@ Ende.test("verifyMessage() rejects Signature member that is not an Item", async 
         new Request("https://example.com/", {
           method: "GET",
           headers: {
-            "Signature-Input": 'sig=("@method");created=1618884473',
-            "Signature": "sig=(1 2 3)",
-          },
+            "Signature-Input": "sig=(\"@method\");created=1618884473",
+            Signature: "sig=(1 2 3)"
+          }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "is not an Item",
+    "is not an Item"
   );
 });
 
@@ -1346,16 +1347,16 @@ Ende.test("verifyMessage() rejects Signature member that is not a Byte Sequence"
         new Request("https://example.com/", {
           method: "GET",
           headers: {
-            "Signature-Input": 'sig=("@method");created=1618884473',
-            "Signature": "sig=42",
-          },
+            "Signature-Input": "sig=(\"@method\");created=1618884473",
+            Signature: "sig=42"
+          }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "is not a Byte Sequence",
+    "is not a Byte Sequence"
   );
 });
 
@@ -1366,18 +1367,17 @@ Ende.test("verifyMessage() parses ;tr parameter then rejects during base constru
         new Request("https://example.com/", {
           method: "GET",
           headers: {
-            "Example": "value",
-            "Signature-Input":
-              'sig=("example";tr);created=1618884473;keyid="k"',
-            "Signature": "sig=:AAAA:",
-          },
+            Example: "value",
+            "Signature-Input": "sig=(\"example\";tr);created=1618884473;keyid=\"k\"",
+            Signature: "sig=:AAAA:"
+          }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "Trailer field resolution",
+    "Trailer field resolution"
   );
 });
 
@@ -1389,15 +1389,15 @@ Ende.test("verifyMessage() rejects non-string component identifier in Signature-
           method: "GET",
           headers: {
             "Signature-Input": "sig=(42);created=1618884473",
-            "Signature": "sig=:AAAA:",
-          },
+            Signature: "sig=:AAAA:"
+          }
         }),
         () => {
           throw new Error("unreachable");
-        },
+        }
       ),
     TypeError,
-    "is not a String",
+    "is not a String"
   );
 });
 
@@ -1408,9 +1408,9 @@ Ende.test("verifyMessage() rejects non-string component identifier in Signature-
 Ende.test("verifyMessage() verifies response signature with ;req components", async () => {
   const { privateKey, publicKey } = keys(await KEY_GENERATORS["ed25519"]!());
   const request = new Request("https://example.com/foo", { method: "POST" });
-  const response = new Response('{"ok":true}', {
+  const response = new Response("{\"ok\":true}", {
     status: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }
   });
 
   const signed = await signMessage({
@@ -1420,13 +1420,13 @@ Ende.test("verifyMessage() verifies response signature with ;req components", as
         "@status",
         "content-type",
         { name: "@method", parameters: { req: true } },
-        { name: "@path", parameters: { req: true } },
+        { name: "@path", parameters: { req: true } }
       ],
       keyId: "server-key",
-      created: NOW,
+      created: NOW
     },
     key: privateKey,
-    request,
+    request
   });
 
   const results = await verifyMessage(signed, () => publicKey, { request });

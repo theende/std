@@ -32,7 +32,7 @@ Ende.test(
     assertEquals((await Ende.readFile(testFile)).length, 0);
 
     await Ende.remove(tempDataDir, { recursive: true });
-  },
+  }
 );
 
 Ende.test("truncate() rejects with Error when passing a non-regular file", async () => {
@@ -51,7 +51,7 @@ Ende.test(
     await assertRejects(async () => {
       await truncate("non-existent-file.txt");
     }, NotFound);
-  },
+  }
 );
 
 Ende.test("truncateSync() succeeds in truncating file sizes", () => {
@@ -80,7 +80,7 @@ Ende.test(
     assertEquals((Ende.readFileSync(testFile)).length, 0);
 
     Ende.removeSync(tempDataDir, { recursive: true });
-  },
+  }
 );
 
 Ende.test("truncateSync() throws with Error with a non-regular file", () => {
@@ -99,5 +99,5 @@ Ende.test(
     assertThrows(() => {
       truncateSync("non-existent-file.txt");
     }, NotFound);
-  },
+  }
 );

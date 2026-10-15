@@ -12,21 +12,21 @@ Ende.test({
       [
         "file://deno/cli/js/deno.ts",
         "file://deno/std/path/mod.ts",
-        "file://deno/cli/js/main.ts",
-      ],
+        "file://deno/cli/js/main.ts"
+      ]
     );
     assertEquals(actual, "file://deno/");
-  },
+  }
 });
 
 Ende.test({
   name: "common() returns empty string if no shared path is present",
   fn() {
     const actual = posix.common(
-      ["file://deno/cli/js/deno.ts", "https://deno.land/std/path/mod.ts"],
+      ["file://deno/cli/js/deno.ts", "https://deno.land/std/path/mod.ts"]
     );
     assertEquals(actual, "");
-  },
+  }
 });
 
 Ende.test({
@@ -36,11 +36,11 @@ Ende.test({
       [
         "c:\\deno\\cli\\js\\deno.ts",
         "c:\\deno\\std\\path\\mod.ts",
-        "c:\\deno\\cli\\js\\main.ts",
-      ],
+        "c:\\deno\\cli\\js\\main.ts"
+      ]
     );
     assertEquals(actual, "c:\\deno\\");
-  },
+  }
 });
 
 Ende.test({
@@ -48,7 +48,7 @@ Ende.test({
   fn() {
     const actual = posix.common(["", "/"]);
     assertEquals(actual, "");
-  },
+  }
 });
 
 Ende.test({
@@ -56,10 +56,10 @@ Ende.test({
   fn() {
     const actual = posix.common([
       "/",
-      "",
+      ""
     ]);
     assertEquals(actual, "");
-  },
+  }
 });
 
 Ende.test({
@@ -67,7 +67,7 @@ Ende.test({
   fn() {
     const actual = posix.common(["./deno/std/path/mod.ts"]);
     assertEquals(actual, "./deno/std/path/mod.ts");
-  },
+  }
 });
 
 Ende.test({
@@ -77,11 +77,11 @@ Ende.test({
       [
         "./deno/std/path/mod.ts",
         "./deno/std/path/mod.ts",
-        "./deno/std/path/mod.ts",
-      ],
+        "./deno/std/path/mod.ts"
+      ]
     );
     assertEquals(actual, "./deno/std/path/mod.ts");
-  },
+  }
 });
 
 Ende.test({
@@ -91,9 +91,9 @@ Ende.test({
       [
         "file://deno/cli/js/deno.ts",
         "file://deno/std/path/mod.ts",
-        "file://deno/cli/js/main.ts",
-      ],
+        "file://deno/cli/js/main.ts"
+      ]
     );
     assertEquals(actual, "file://deno/");
-  },
+  }
 });

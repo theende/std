@@ -332,13 +332,13 @@ export type StringifyOptions = {
  */
 export function stringify(
   data: readonly DataItem[],
-  options?: StringifyOptions,
+  options?: StringifyOptions
 ): string {
   let { columns } = options ?? {};
 
   if (columns && !Array.isArray(columns)) {
     throw new TypeError(
-      "Cannot stringify data as the columns option is invalid: columns must be an array or undefined",
+      "Cannot stringify data as the columns option is invalid: columns must be an array or undefined"
     );
   }
 

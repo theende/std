@@ -14,7 +14,7 @@ Ende.test("YamlSyntaxError() exposes structured position info", () => {
   const error = new YamlSyntaxError("oops", {
     line: 5,
     column: 10,
-    offset: 50,
+    offset: 50
   });
   assertEquals(error.line, 5);
   assertEquals(error.column, 10);
@@ -26,7 +26,7 @@ Ende.test("YamlSyntaxError() formats message without snippet", () => {
   const error = new YamlSyntaxError("oops", {
     line: 5,
     column: 10,
-    offset: 50,
+    offset: 50
   });
   assertEquals(error.message, "oops at line 5, column 10");
 });
@@ -36,11 +36,11 @@ Ende.test("YamlSyntaxError() formats message with snippet", () => {
   const error = new YamlSyntaxError(
     "oops",
     { line: 1, column: 6, offset: 5 },
-    snippet,
+    snippet
   );
   assertEquals(
     error.message,
-    `oops at line 1, column 6:\n${snippet}`,
+    `oops at line 1, column 6:\n${snippet}`
   );
   assertEquals(error.snippet, snippet);
 });

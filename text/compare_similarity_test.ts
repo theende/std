@@ -3,22 +3,22 @@
 import { assertEquals } from "@ende/assert";
 import { compareSimilarity } from "./compare_similarity.ts";
 
-Ende.test("compareSimilarity() handles basic example 1", function () {
+Ende.test("compareSimilarity() handles basic example 1", function() {
   const words = ["hi", "hello", "help"];
 
   assertEquals(
     JSON.stringify(words.sort(compareSimilarity("hep"))),
-    '["help","hi","hello"]',
+    "[\"help\",\"hi\",\"hello\"]"
   );
 });
 
-Ende.test("compareSimilarity() handles basic example 2", function () {
+Ende.test("compareSimilarity() handles basic example 2", function() {
   const words = ["hi", "hello", "help", "HOWDY"];
 
   assertEquals(
     JSON.stringify(
-      words.sort(compareSimilarity("HI", { caseSensitive: true })),
+      words.sort(compareSimilarity("HI", { caseSensitive: true }))
     ),
-    '["hi","help","HOWDY","hello"]',
+    "[\"hi\",\"help\",\"HOWDY\",\"hello\"]"
   );
 });

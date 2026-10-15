@@ -13,6 +13,8 @@
   },
   "unstable": ["webgpu", "fs"],
   "tasks": {
+    "format": "dprint fmt",
+    "format:check": "dprint check",
     "test": "ende test -A --parallel --trace-leaks --coverage --doc --clean --ignore=_tools/,_tmp/",
     "test:with-unsafe-proto": "ende test --unstable-unsafe-proto --no-check -A --parallel --doc --ignore=_tools/,_tmp/",
     "test:tools": "ende test -A --doc _tools/",

@@ -142,7 +142,7 @@ function formatToFormatParts(format: string) {
 }
 
 function sortDateTimeFormatParts(
-  parts: DateTimeFormatPart[],
+  parts: DateTimeFormatPart[]
 ): DateTimeFormatPart[] {
   let result: DateTimeFormatPart[] = [];
   const typeArray = [
@@ -152,10 +152,10 @@ function sortDateTimeFormatParts(
     "hour",
     "minute",
     "second",
-    "fractionalSecond",
+    "fractionalSecond"
   ];
   for (const type of typeArray) {
-    const current = parts.findIndex((el) => el.type === type);
+    const current = parts.findIndex(el => el.type === type);
     if (current !== -1) {
       result = result.concat(parts.splice(current, 1));
     }
@@ -193,7 +193,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `FormatterError: value "${part.value}" is not supported`,
+                `FormatterError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -211,7 +211,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `FormatterError: value "${part.value}" is not supported`,
+                `FormatterError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -229,7 +229,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `FormatterError: value "${part.value}" is not supported`,
+                `FormatterError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -237,8 +237,10 @@ export class DateTimeFormatter {
         case "hour": {
           let value = utc ? date.getUTCHours() : date.getHours();
           if (part.hour12) {
-            if (value === 0) value = 12;
-            else if (value > 12) value -= 12;
+            if (value === 0)
+              value = 12;
+            else if (value > 12)
+              value -= 12;
           }
           switch (part.value) {
             case "numeric": {
@@ -251,7 +253,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `FormatterError: value "${part.value}" is not supported`,
+                `FormatterError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -269,7 +271,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `FormatterError: value "${part.value}" is not supported`,
+                `FormatterError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -287,15 +289,15 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `FormatterError: value "${part.value}" is not supported`,
+                `FormatterError: value "${part.value}" is not supported`
               );
           }
           break;
         }
         case "fractionalSecond": {
-          const value = utc
-            ? date.getUTCMilliseconds()
-            : date.getMilliseconds();
+          const value = utc ?
+            date.getUTCMilliseconds() :
+            date.getMilliseconds();
           string += digits(value, 3).slice(0, Number(part.value));
           break;
         }
@@ -343,7 +345,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `ParserError: value "${part.value}" is not supported`,
+                `ParserError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -377,7 +379,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `ParserError: value "${part.value}" is not supported`,
+                `ParserError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -396,7 +398,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `ParserError: value "${part.value}" is not supported`,
+                `ParserError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -410,7 +412,7 @@ export class DateTimeFormatter {
                 // TODO(iuioiua): Replace with throwing an error
                 // deno-lint-ignore no-console
                 console.error(
-                  `Trying to parse hour greater than 12, use 'H' instead of 'h'.`,
+                  `Trying to parse hour greater than 12, use 'H' instead of 'h'.`
                 );
               }
               break;
@@ -422,7 +424,7 @@ export class DateTimeFormatter {
                 // TODO(iuioiua): Replace with throwing an error
                 // deno-lint-ignore no-console
                 console.error(
-                  `Trying to parse hour greater than 12, use 'HH' instead of 'hh'.`,
+                  `Trying to parse hour greater than 12, use 'HH' instead of 'hh'.`
                 );
               }
               break;
@@ -430,7 +432,7 @@ export class DateTimeFormatter {
             default:
               // TODO(iuioiua): Correct error type and message
               throw new Error(
-                `ParserError: value "${part.value}" is not supported`,
+                `ParserError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -449,7 +451,7 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `ParserError: value "${part.value}" is not supported`,
+                `ParserError: value "${part.value}" is not supported`
               );
           }
           break;
@@ -468,13 +470,14 @@ export class DateTimeFormatter {
             }
             default:
               throw new Error(
-                `ParserError: value "${part.value}" is not supported`,
+                `ParserError: value "${part.value}" is not supported`
               );
           }
           break;
         }
         case "fractionalSecond": {
-          value = new RegExp(`^\\d{${part.value}}`).exec(string)
+          value = new RegExp(`^\\d{${part.value}}`)
+            .exec(string)
             ?.[0] as string;
           length = value?.length;
           break;
@@ -519,7 +522,7 @@ export class DateTimeFormatter {
         case "literal": {
           if (!string.startsWith(part.value as string)) {
             throw new Error(
-              `Literal "${part.value}" not found "${string.slice(0, 25)}"`,
+              `Literal "${part.value}" not found "${string.slice(0, 25)}"`
             );
           }
           value = part.value as string;
@@ -529,7 +532,7 @@ export class DateTimeFormatter {
 
         default:
           throw new Error(
-            `Cannot format the date, the value (${part.value}) of the type (${part.type}) is given`,
+            `Cannot format the date, the value (${part.value}) of the type (${part.type}) is given`
           );
       }
 
@@ -538,9 +541,9 @@ export class DateTimeFormatter {
           `Cannot format value: The value is not valid for part { ${type} ${value} } ${
             string.slice(
               0,
-              25,
+              25
             )
-          }`,
+          }`
         );
       }
       parts.push({ type, value });
@@ -550,7 +553,7 @@ export class DateTimeFormatter {
 
     if (string.length) {
       throw new Error(
-        `datetime string was not fully parsed! ${string.slice(0, 25)}`,
+        `datetime string was not fully parsed! ${string.slice(0, 25)}`
       );
     }
 
@@ -562,10 +565,10 @@ export class DateTimeFormatter {
 
     const date = new Date();
     const utc = parts.find(
-      (part) => part.type === "timeZoneName" && part.value === "UTC",
+      part => part.type === "timeZoneName" && part.value === "UTC"
     );
 
-    const dayPart = parts.find((part) => part.type === "day");
+    const dayPart = parts.find(part => part.type === "day");
 
     utc ? date.setUTCHours(0, 0, 0, 0) : date.setHours(0, 0, 0, 0);
     for (const part of parts) {
@@ -578,9 +581,9 @@ export class DateTimeFormatter {
         case "month": {
           const value = Number(part.value) - 1;
           if (dayPart) {
-            utc
-              ? date.setUTCMonth(value, Number(dayPart.value))
-              : date.setMonth(value, Number(dayPart.value));
+            utc ?
+              date.setUTCMonth(value, Number(dayPart.value)) :
+              date.setMonth(value, Number(dayPart.value));
           } else {
             utc ? date.setUTCMonth(value) : date.setMonth(value);
           }
@@ -594,7 +597,7 @@ export class DateTimeFormatter {
         case "hour": {
           let value = Number(part.value);
           const dayPeriod = parts.find(
-            (part: DateTimeFormatPart) => part.type === "dayPeriod",
+            (part: DateTimeFormatPart) => part.type === "dayPeriod"
           );
           if (dayPeriod) {
             switch (dayPeriod.value.toUpperCase()) {
@@ -610,7 +613,7 @@ export class DateTimeFormatter {
                 break;
               default:
                 throw new Error(
-                  `dayPeriod '${dayPeriod.value}' is not supported.`,
+                  `dayPeriod '${dayPeriod.value}' is not supported.`
                 );
             }
           }

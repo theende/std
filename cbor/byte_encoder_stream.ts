@@ -37,8 +37,7 @@ import { numberToArray } from "./_common.ts";
  * }
  * ```
  */
-export class CborByteEncoderStream
-  implements TransformStream<Uint8Array, Uint8Array> {
+export class CborByteEncoderStream implements TransformStream<Uint8Array, Uint8Array> {
   #readable: ReadableStream<Uint8Array>;
   #writable: WritableStream<Uint8Array>;
   /**
@@ -49,10 +48,11 @@ export class CborByteEncoderStream
       Uint8Array,
       Uint8Array
     >();
-    this.#readable = toByteStream(ReadableStream.from(async function* () {
+    this.#readable = toByteStream(ReadableStream.from(async function*() {
       yield new Uint8Array([0b010_11111]);
       for await (const x of readable) {
-        if (x.length < 24) yield new Uint8Array([0b010_00000 + x.length]);
+        if (x.length < 24)
+          yield new Uint8Array([0b010_00000 + x.length]);
         else if (x.length < 2 ** 8) {
           yield new Uint8Array([0b010_11000, x.length]);
         } else if (x.length < 2 ** 16) {
@@ -60,7 +60,8 @@ export class CborByteEncoderStream
         } else if (x.length < 2 ** 32) {
           yield new Uint8Array([0b010_11010, ...numberToArray(4, x.length)]);
         } // Can safely assume `x.length < 2 ** 64` as JavaScript doesn't support a `Uint8Array` being that large.
-        else yield new Uint8Array([0b010_11011, ...numberToArray(8, x.length)]);
+        else
+          yield new Uint8Array([0b010_11011, ...numberToArray(8, x.length)]);
         yield x;
       }
       yield new Uint8Array([0b111_11111]);
@@ -101,7 +102,7 @@ export class CborByteEncoderStream
    * @returns A {@link CborByteEncoderStream} instance of the encoded data.
    */
   static from(
-    asyncIterable: AsyncIterable<Uint8Array> | Iterable<Uint8Array>,
+    asyncIterable: AsyncIterable<Uint8Array> | Iterable<Uint8Array>
   ): CborByteEncoderStream {
     const encoder = new CborByteEncoderStream();
     ReadableStream.from(asyncIterable).pipeTo(encoder.writable);

@@ -973,5 +973,5 @@ export const enum CursorStyle {
   BlinkingUnderline = 3,
   SteadyUnderline = 4,
   BlinkingBar = 5,
-  SteadyBar = 6,
+  SteadyBar = 6
 }

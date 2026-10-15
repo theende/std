@@ -39,23 +39,25 @@ Ende.test("Deque constructor copies from an existing deque", () => {
 
 Ende.test("Deque constructor with >8 non-array elements rounds capacity up", () => {
   function* gen() {
-    for (let i = 0; i < 12; i++) yield i;
+    for (let i = 0; i < 12; i++)
+      yield i;
   }
   const deque = new Deque(gen());
   assertEquals(deque.length, 12);
-  for (let i = 0; i < 12; i++) assertEquals(deque.at(i), i);
+  for (let i = 0; i < 12; i++)
+    assertEquals(deque.at(i), i);
 });
 
 Ende.test("Deque constructor throws TypeError for non-iterable source", () => {
   assertThrows(
     () => new Deque(42 as unknown as Iterable<number>),
     TypeError,
-    "Cannot construct a Deque",
+    "Cannot construct a Deque"
   );
   assertThrows(
     () => new Deque({} as unknown as Iterable<unknown>),
     TypeError,
-    "Cannot construct a Deque",
+    "Cannot construct a Deque"
   );
 });
 
@@ -81,20 +83,26 @@ Ende.test("Deque.popFront() returns undefined when empty", () => {
 
 Ende.test("Deque.pushBack() grows via #growInPlace when head is 0", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 100; i++) deque.pushBack(i);
+  for (let i = 0; i < 100; i++)
+    deque.pushBack(i);
   assertEquals(deque.length, 100);
-  for (let i = 0; i < 100; i++) assertEquals(deque.at(i), i);
+  for (let i = 0; i < 100; i++)
+    assertEquals(deque.at(i), i);
 });
 
 Ende.test("Deque.pushBack() grows via #grow when head is not 0", () => {
   const deque = new Deque<number>();
   // Advance head away from 0
-  for (let i = 0; i < 4; i++) deque.pushBack(i);
-  for (let i = 0; i < 4; i++) deque.popFront();
+  for (let i = 0; i < 4; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 4; i++)
+    deque.popFront();
   // Now head != 0; fill to trigger grow
-  for (let i = 0; i < 20; i++) deque.pushBack(i);
+  for (let i = 0; i < 20; i++)
+    deque.pushBack(i);
   assertEquals(deque.length, 20);
-  for (let i = 0; i < 20; i++) assertEquals(deque.at(i), i);
+  for (let i = 0; i < 20; i++)
+    assertEquals(deque.at(i), i);
 });
 
 Ende.test("Deque.pushBack() grows during rest-args with head != 0", () => {
@@ -103,21 +111,25 @@ Ende.test("Deque.pushBack() grows during rest-args with head != 0", () => {
   deque.pushBack(0);
   deque.popFront();
   // Fill to 7 of 8 capacity
-  for (let i = 0; i < 7; i++) deque.pushBack(i);
+  for (let i = 0; i < 7; i++)
+    deque.pushBack(i);
   // First arg fills slot 8 (triggers grow with head != 0), rest args continue
   deque.pushBack(7, 8, 9);
   assertEquals(deque.length, 10);
-  for (let i = 0; i < 10; i++) assertEquals(deque.at(i), i);
+  for (let i = 0; i < 10; i++)
+    assertEquals(deque.at(i), i);
 });
 
 Ende.test("Deque.pushBack() grows during rest-args with head == 0", () => {
   const deque = new Deque<number>();
   // Head stays at 0; fill to 7 of 8 capacity
-  for (let i = 0; i < 7; i++) deque.pushBack(i);
+  for (let i = 0; i < 7; i++)
+    deque.pushBack(i);
   // First arg fills slot 8 (triggers growInPlace), rest args continue
   deque.pushBack(7, 8, 9);
   assertEquals(deque.length, 10);
-  for (let i = 0; i < 10; i++) assertEquals(deque.at(i), i);
+  for (let i = 0; i < 10; i++)
+    assertEquals(deque.at(i), i);
 });
 
 // -- pushFront / popBack --
@@ -143,7 +155,7 @@ Ende.test("Deque.pushFront() triggers grow with many args", () => {
   const deque = new Deque<number>();
   const args = Array.from({ length: 20 }, (_, i) => i) as [
     number,
-    ...number[],
+    ...number[]
   ];
   deque.pushFront(...args);
   assertEquals([...deque], args);
@@ -152,7 +164,8 @@ Ende.test("Deque.pushFront() triggers grow with many args", () => {
 Ende.test("Deque.pushFront() grows on final value when buffer is full", () => {
   const deque = new Deque<number>();
   // Fill 7 of 8 slots from the back
-  for (let i = 2; i < 9; i++) deque.pushBack(i);
+  for (let i = 2; i < 9; i++)
+    deque.pushBack(i);
   // pushFront(0, 1): rest arg "1" fills slot 8, then "0" triggers grow
   deque.pushFront(0, 1);
   assertEquals([...deque], [0, 1, 2, 3, 4, 5, 6, 7, 8]);
@@ -264,7 +277,7 @@ Ende.test("Deque.from() copies an existing deque", () => {
 });
 
 Ende.test("Deque.from() with map transforms elements", () => {
-  const deque = Deque.from([1, 2, 3], { map: (v) => v * 10 });
+  const deque = Deque.from([1, 2, 3], { map: v => v * 10 });
   assertEquals([...deque], [10, 20, 30]);
   const withIndex = Deque.from(["a", "b", "c"], { map: (v, i) => `${v}${i}` });
   assertEquals([...withIndex], ["a0", "b1", "c2"]);
@@ -272,17 +285,17 @@ Ende.test("Deque.from() with map transforms elements", () => {
 
 Ende.test("Deque.from() with map on existing deque", () => {
   const original = new Deque([1, 2, 3]);
-  const mapped = Deque.from(original, { map: (v) => v.toString() });
+  const mapped = Deque.from(original, { map: v => v.toString() });
   assertEquals([...mapped], ["1", "2", "3"]);
 });
 
 Ende.test("Deque.from() uses thisArg for map function", () => {
   const math = new MyMath();
   const deque = Deque.from([1, 2, 3], {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(v, 10);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...deque], [10, 20, 30]);
 });
@@ -296,12 +309,12 @@ Ende.test("Deque.from() throws TypeError for invalid collection", () => {
   assertThrows(
     () => Deque.from(null as unknown as Iterable<number>),
     TypeError,
-    "Cannot create a Deque",
+    "Cannot create a Deque"
   );
   assertThrows(
     () => Deque.from(42 as unknown as Iterable<number>),
     TypeError,
-    "Cannot create a Deque",
+    "Cannot create a Deque"
   );
 });
 
@@ -309,8 +322,10 @@ Ende.test("Deque.from() throws TypeError for invalid collection", () => {
 
 Ende.test("Deque shrinks buffer when length drops below quarter capacity", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 128; i++) deque.pushBack(i);
-  for (let i = 0; i < 126; i++) deque.popFront();
+  for (let i = 0; i < 128; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 126; i++)
+    deque.popFront();
   assertEquals(deque.length, 2);
   assertEquals(deque.popFront(), 126);
   assertEquals(deque.popFront(), 127);
@@ -322,8 +337,10 @@ Ende.test("Deque maintains correctness across ring-buffer wrap-around", () => {
   const deque = new Deque<number>();
   // Rotate head around the buffer
   for (let round = 0; round < 5; round++) {
-    for (let i = 0; i < 6; i++) deque.pushBack(round * 10 + i);
-    for (let i = 0; i < 6; i++) deque.popFront();
+    for (let i = 0; i < 6; i++)
+      deque.pushBack(round * 10 + i);
+    for (let i = 0; i < 6; i++)
+      deque.popFront();
   }
   assertEquals(deque.isEmpty(), true);
 
@@ -335,8 +352,10 @@ Ende.test("Deque maintains correctness across ring-buffer wrap-around", () => {
 
   // pushFront after wrap-around
   deque.clear();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushFront(3, 2, 1);
   assertEquals([...deque], [3, 2, 1]);
 });
@@ -345,48 +364,52 @@ Ende.test("Deque maintains correctness across ring-buffer wrap-around", () => {
 
 Ende.test("Deque.removeFirst() returns undefined when no match", () => {
   const deque = new Deque([1, 2, 3]);
-  assertStrictEquals(deque.removeFirst((v) => v === 99), undefined);
+  assertStrictEquals(deque.removeFirst(v => v === 99), undefined);
   assertEquals([...deque], [1, 2, 3]);
 });
 
 Ende.test("Deque.removeFirst() removes only the first match", () => {
   const deque = new Deque([1, 2, 2, 3]);
-  assertEquals(deque.removeFirst((v) => v === 2), 2);
+  assertEquals(deque.removeFirst(v => v === 2), 2);
   assertEquals([...deque], [1, 2, 3]);
 });
 
 Ende.test("Deque.removeFirst() shifts front side for front-half match", () => {
   const deque = new Deque([10, 20, 30, 40, 50]);
-  assertEquals(deque.removeFirst((v) => v === 10), 10);
+  assertEquals(deque.removeFirst(v => v === 10), 10);
   assertEquals([...deque], [20, 30, 40, 50]);
 });
 
 Ende.test("Deque.removeFirst() shifts back side for back-half match", () => {
   const deque = new Deque([10, 20, 30, 40, 50]);
-  assertEquals(deque.removeFirst((v) => v === 50), 50);
+  assertEquals(deque.removeFirst(v => v === 50), 50);
   assertEquals([...deque], [10, 20, 30, 40]);
 });
 
 Ende.test("Deque.removeFirst() works after wrap-around", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushBack(10, 20, 30, 40, 50);
-  assertEquals(deque.removeFirst((v) => v === 30), 30);
+  assertEquals(deque.removeFirst(v => v === 30), 30);
   assertEquals([...deque], [10, 20, 40, 50]);
 });
 
 Ende.test("Deque.removeFirst() on single-element deque", () => {
   const deque = new Deque([42]);
-  assertEquals(deque.removeFirst((v) => v === 42), 42);
+  assertEquals(deque.removeFirst(v => v === 42), 42);
   assertEquals(deque.length, 0);
 });
 
 Ende.test("Deque.removeFirst() triggers shrink on large deque", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 128; i++) deque.pushBack(i);
-  for (let i = 0; i < 112; i++) deque.popFront();
-  assertEquals(deque.removeFirst((v) => v === 120), 120);
+  for (let i = 0; i < 128; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 112; i++)
+    deque.popFront();
+  assertEquals(deque.removeFirst(v => v === 120), 120);
   assertEquals(deque.length, 15);
   assertEquals(deque.at(0), 112);
 });
@@ -406,12 +429,12 @@ Ende.test("Deque.removeFirst() passes index to predicate", () => {
 
 Ende.test("Deque.find() returns the first matching element", () => {
   const deque = new Deque([1, 2, 3, 4]);
-  assertEquals(deque.find((v) => v % 2 === 0), 2);
+  assertEquals(deque.find(v => v % 2 === 0), 2);
 });
 
 Ende.test("Deque.find() returns undefined when no match", () => {
   const deque = new Deque([1, 2, 3]);
-  assertStrictEquals(deque.find((v) => v > 10), undefined);
+  assertStrictEquals(deque.find(v => v > 10), undefined);
 });
 
 Ende.test("Deque.find() passes index to predicate", () => {
@@ -426,37 +449,41 @@ Ende.test("Deque.find() passes index to predicate", () => {
 
 Ende.test("Deque.find() works after wrap-around", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushBack(10, 20, 30);
-  assertEquals(deque.find((v) => v === 20), 20);
+  assertEquals(deque.find(v => v === 20), 20);
 });
 
 // -- findIndex() --
 
 Ende.test("Deque.findIndex() returns the index of the first match", () => {
   const deque = new Deque([1, 2, 3, 4]);
-  assertEquals(deque.findIndex((v) => v % 2 === 0), 1);
+  assertEquals(deque.findIndex(v => v % 2 === 0), 1);
 });
 
 Ende.test("Deque.findIndex() returns -1 when no match", () => {
   const deque = new Deque([1, 2, 3]);
-  assertEquals(deque.findIndex((v) => v > 10), -1);
+  assertEquals(deque.findIndex(v => v > 10), -1);
 });
 
 Ende.test("Deque.findIndex() works after wrap-around", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushBack(10, 20, 30);
-  assertEquals(deque.findIndex((v) => v === 30), 2);
+  assertEquals(deque.findIndex(v => v === 30), 2);
 });
 
 // -- retain() --
 
 Ende.test("Deque.retain() keeps only matching elements", () => {
   const deque = new Deque([1, 2, 3, 4, 5, 6]);
-  deque.retain((v) => v % 2 !== 0);
+  deque.retain(v => v % 2 !== 0);
   assertEquals([...deque], [1, 3, 5]);
 });
 
@@ -475,10 +502,12 @@ Ende.test("Deque.retain() keeps all when predicate always returns true", () => {
 
 Ende.test("Deque.retain() works after wrap-around", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushBack(10, 20, 30, 40, 50);
-  deque.retain((v) => v >= 30);
+  deque.retain(v => v >= 30);
   assertEquals([...deque], [30, 40, 50]);
 });
 
@@ -490,8 +519,9 @@ Ende.test("Deque.retain() passes index to predicate", () => {
 
 Ende.test("Deque.retain() triggers shrink on large deque", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 128; i++) deque.pushBack(i);
-  deque.retain((v) => v >= 120);
+  for (let i = 0; i < 128; i++)
+    deque.pushBack(i);
+  deque.retain(v => v >= 120);
   assertEquals(deque.length, 8);
   assertEquals(deque.at(0), 120);
   assertEquals(deque.at(7), 127);
@@ -520,8 +550,10 @@ Ende.test("Deque.includes() finds NaN via SameValueZero", () => {
 
 Ende.test("Deque.includes() works after wrap-around", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushBack(10, 20, 30);
   assertEquals(deque.includes(20), true);
   assertEquals(deque.includes(99), false);
@@ -570,8 +602,10 @@ Ende.test("Deque.removeAt() on single-element deque", () => {
 
 Ende.test("Deque.removeAt() works after wrap-around", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 6; i++) deque.pushBack(i);
-  for (let i = 0; i < 6; i++) deque.popFront();
+  for (let i = 0; i < 6; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 6; i++)
+    deque.popFront();
   deque.pushBack(10, 20, 30, 40, 50);
   assertEquals(deque.removeAt(2), 30);
   assertEquals([...deque], [10, 20, 40, 50]);
@@ -591,8 +625,10 @@ Ende.test("Deque.removeAt() shifts back side for back-half index", () => {
 
 Ende.test("Deque.removeAt() triggers shrink on large deque", () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < 128; i++) deque.pushBack(i);
-  for (let i = 0; i < 112; i++) deque.popFront();
+  for (let i = 0; i < 128; i++)
+    deque.pushBack(i);
+  for (let i = 0; i < 112; i++)
+    deque.popFront();
   assertEquals(deque.removeAt(8), 120);
   assertEquals(deque.length, 15);
   assertEquals(deque.at(0), 112);
@@ -611,7 +647,7 @@ Ende.test("Deque has correct Symbol.toStringTag", () => {
 Ende.test("ReadonlyDeque exposes read-only methods", () => {
   const deque: ReadonlyDeque<number> = new Deque([1, 2, 3, 4]);
   assertEquals(deque.includes(3), true);
-  assertEquals(deque.find((v) => v === 3), 3);
-  assertEquals(deque.findIndex((v) => v === 3), 2);
+  assertEquals(deque.find(v => v === 3), 3);
+  assertEquals(deque.findIndex(v => v === 3), 2);
   assertEquals(deque[Symbol.toStringTag], "Deque");
 });

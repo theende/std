@@ -8,7 +8,7 @@ Ende.test("toBytes() concatenates multiple chunks", async () => {
   const stream = ReadableStream.from([
     new Uint8Array([1, 2, 3, 4, 5]),
     new Uint8Array([6, 7]),
-    new Uint8Array([8, 9]),
+    new Uint8Array([8, 9])
   ]);
 
   const bytes = await toBytes(stream);
@@ -25,12 +25,12 @@ Ende.test("toBytes() rejects when stream errors", async () => {
   const stream = new ReadableStream({
     start(controller) {
       controller.error(new Error("boom"));
-    },
+    }
   });
 
   await assertRejects(
     () => toBytes(stream),
     Error,
-    "boom",
+    "boom"
   );
 });

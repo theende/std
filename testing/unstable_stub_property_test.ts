@@ -9,22 +9,22 @@ const PROP = "foo";
 const ORIGINAL_VALUE = "bar";
 const STUBBED_VALUE = "baz";
 
-type Obj = { [PROP]?: string };
+type Obj = { [PROP]?: string; };
 
 Ende.test("stubProperty() stubs properties and returns them to their original values", () => {
   const descriptors: (TypedPropertyDescriptor<string> | undefined)[] = [
     undefined,
     {
       get: () => ORIGINAL_VALUE,
-      configurable: true,
+      configurable: true
     },
     {
       set: () => {},
-      configurable: true,
+      configurable: true
     },
     { value: ORIGINAL_VALUE, writable: true, configurable: true },
     { value: ORIGINAL_VALUE, writable: true, configurable: false },
-    { value: ORIGINAL_VALUE, writable: false, configurable: true },
+    { value: ORIGINAL_VALUE, writable: false, configurable: true }
   ];
 
   const Empty = () => class Empty {};
@@ -53,13 +53,14 @@ Ende.test("stubProperty() stubs properties and returns them to their original va
     () => Val().prototype,
     () => Get().prototype,
     () => Empty().prototype,
-    () => Object.create({ [PROP]: ORIGINAL_VALUE }),
+    () => Object.create({ [PROP]: ORIGINAL_VALUE })
   ];
 
   for (const getObj of objCreators) {
     for (const descriptor of descriptors) {
       const obj = getObj();
-      if (descriptor != null) Object.defineProperty(obj, PROP, descriptor);
+      if (descriptor != null)
+        Object.defineProperty(obj, PROP, descriptor);
 
       const initialDescriptor = Object.getOwnPropertyDescriptor(obj, PROP);
       const initialValue = obj[PROP];
@@ -72,7 +73,7 @@ Ende.test("stubProperty() stubs properties and returns them to their original va
       assertEquals(obj[PROP], initialValue);
       assertEquals(
         Object.getOwnPropertyDescriptor(obj, PROP),
-        initialDescriptor,
+        initialDescriptor
       );
     }
   }
@@ -85,13 +86,13 @@ Ende.test("stubProperty() throws if property is not configurable or writable", (
         Object.defineProperty(
           {} as Obj,
           PROP,
-          { value: ORIGINAL_VALUE },
+          { value: ORIGINAL_VALUE }
         ),
         PROP,
-        STUBBED_VALUE,
+        STUBBED_VALUE
       ),
     TypeError,
-    'Cannot stub property "foo" because it is not configurable or writable.',
+    "Cannot stub property \"foo\" because it is not configurable or writable."
   );
 
   assertThrows(
@@ -99,9 +100,9 @@ Ende.test("stubProperty() throws if property is not configurable or writable", (
       stubProperty(
         Object.freeze({ [PROP]: ORIGINAL_VALUE } as Obj),
         PROP,
-        STUBBED_VALUE,
+        STUBBED_VALUE
       ),
     TypeError,
-    'Cannot stub property "foo" because it is not configurable or writable.',
+    "Cannot stub property \"foo\" because it is not configurable or writable."
   );
 });

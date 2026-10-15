@@ -38,7 +38,7 @@ import type { DIFF_CONTEXT_LENGTH } from "@ende/internal/truncate-build-message"
 export function assertStrictEquals<T>(
   actual: unknown,
   expected: T,
-  msg?: string,
+  msg?: string
 ): asserts actual is T {
   const args: Parameters<typeof _assertStrictEquals> = [actual, expected, msg];
   // @ts-expect-error extra arg

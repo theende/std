@@ -1,6 +1,4 @@
 {
-  "name": "@ende/io",
-  "version": "0.225.3",
   "exports": {
     ".": "./mod.ts",
     "./buffer": "./buffer.ts",
@@ -12,5 +10,7 @@
     "./to-writable-stream": "./to_writable_stream.ts",
     "./types": "./types.ts",
     "./write-all": "./write_all.ts"
-  }
+  },
+  "name": "@ende/io",
+  "version": "2026.10.15"
 }

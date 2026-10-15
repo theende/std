@@ -7,7 +7,7 @@ import {
   isComment,
   isElement,
   isText,
-  XmlSyntaxError,
+  XmlSyntaxError
 } from "./types.ts";
 import type { XmlNode } from "./types.ts";
 
@@ -20,7 +20,7 @@ Ende.test("isElement() returns true for element nodes", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [],
+    children: []
   };
   assertEquals(isElement(node), true);
 });
@@ -45,7 +45,7 @@ Ende.test("isText() returns false for non-text nodes", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [],
+    children: []
   };
   const cdata: XmlNode = { type: "cdata", text: "data" };
   const comment: XmlNode = { type: "comment", text: "note" };
@@ -65,7 +65,7 @@ Ende.test("isCData() returns false for non-CDATA nodes", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [],
+    children: []
   };
   const text: XmlNode = { type: "text", text: "hello" };
   const comment: XmlNode = { type: "comment", text: "note" };
@@ -85,7 +85,7 @@ Ende.test("isComment() returns false for non-comment nodes", () => {
     type: "element",
     name: { raw: "root", local: "root" },
     attributes: {},
-    children: [],
+    children: []
   };
   const text: XmlNode = { type: "text", text: "hello" };
   const cdata: XmlNode = { type: "cdata", text: "data" };
@@ -103,7 +103,7 @@ Ende.test("XmlSyntaxError contains position information", () => {
   const error = new XmlSyntaxError("Test error", {
     line: 5,
     column: 10,
-    offset: 50,
+    offset: 50
   });
 
   assertEquals(error.line, 5);
@@ -117,7 +117,7 @@ Ende.test("XmlSyntaxError omits position from message when line is 0", () => {
   const error = new XmlSyntaxError("Test error", {
     line: 0,
     column: 0,
-    offset: 0,
+    offset: 0
   });
 
   assertEquals(error.message, "Test error");
@@ -141,7 +141,7 @@ Ende.test("type guards work for filtering arrays", () => {
       type: "element",
       name: { raw: "a", local: "a" },
       attributes: {},
-      children: [],
+      children: []
     },
     { type: "text", text: "hello" },
     { type: "cdata", text: "data" },
@@ -150,8 +150,8 @@ Ende.test("type guards work for filtering arrays", () => {
       type: "element",
       name: { raw: "b", local: "b" },
       attributes: {},
-      children: [],
-    },
+      children: []
+    }
   ];
 
   const elements = nodes.filter(isElement);

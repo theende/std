@@ -41,7 +41,7 @@
  */
 export function distinctBy<T, D>(
   array: Iterable<T>,
-  discriminator: (el: T, index: number) => D,
+  discriminator: (el: T, index: number) => D
 ): T[] {
   const keys = new Set<D>();
   const result: T[] = [];

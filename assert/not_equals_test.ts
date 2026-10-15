@@ -7,7 +7,7 @@ Ende.test("assertNotEquals()", () => {
   assertNotEquals("Denosaurus", "Tyrannosaurus");
   assertNotEquals(
     new Date(2019, 0, 3, 4, 20, 1, 10),
-    new Date(2019, 0, 3, 4, 20, 1, 20),
+    new Date(2019, 0, 3, 4, 20, 1, 20)
   );
   assertNotEquals(new Date("invalid"), new Date(2019, 0, 3, 4, 20, 1, 20));
 });
@@ -18,7 +18,7 @@ Ende.test("assertNotEquals() throws", () => {
       assertNotEquals("foo", "foo");
     },
     AssertionError,
-    'Expected actual: "foo" not to be: "foo".',
+    "Expected actual: \"foo\" not to be: \"foo\"."
   );
   assertThrows(
     () => {
@@ -29,7 +29,7 @@ Ende.test("assertNotEquals() throws", () => {
   foo: 1,
 } not to be: {
   foo: 1,
-}.`,
+}.`
   );
 });
 
@@ -39,6 +39,6 @@ Ende.test("assertNotEquals() throws with custom message", () => {
       assertNotEquals("foo", "foo", "CUSTOM MESSAGE");
     },
     AssertionError,
-    'Expected actual: "foo" not to be: "foo": CUSTOM MESSAGE',
+    "Expected actual: \"foo\" not to be: \"foo\": CUSTOM MESSAGE"
   );
 });

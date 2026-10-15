@@ -8,21 +8,19 @@ import {
   gray,
   green,
   red,
-  white,
+  white
 } from "@ende/fmt/colors";
 import { buildMessage, createColor, createSign } from "./build_message.ts";
 import { truncateDiff } from "@ende/internal/truncate-build-message";
 import type { DiffResult } from "@ende/internal/types";
 
-Ende.test("buildMessage()", async (t) => {
+Ende.test("buildMessage()", async t => {
   const prelude = [
     "",
     "",
-    `    ${gray(bold("[Diff]"))} ${red(bold("Actual"))} / ${
-      green(bold("Expected"))
-    }`,
+    `    ${gray(bold("[Diff]"))} ${red(bold("Actual"))} / ${green(bold("Expected"))}`,
     "",
-    "",
+    ""
   ];
 
   await t.step("basic", () => {
@@ -30,9 +28,9 @@ Ende.test("buildMessage()", async (t) => {
     assertEquals(
       buildMessage([
         { type: "added", value: "foo" },
-        { type: "removed", value: "bar" },
+        { type: "removed", value: "bar" }
       ]),
-      [...prelude, green(bold("+   foo")), red(bold("-   bar")), ""],
+      [...prelude, green(bold("+   foo")), red(bold("-   bar")), ""]
     );
   });
 
@@ -54,11 +52,10 @@ Ende.test("buildMessage()", async (t) => {
           { type: "common", value: "bar 5" },
           { type: "common", value: "bar 6" },
           { type: "removed", value: "baz" },
-          { type: "common", value: "bar" },
+          { type: "common", value: "bar" }
         ],
         {},
-        (diffResult: ReadonlyArray<DiffResult<string>>, stringDiff: boolean) =>
-          truncateDiff(diffResult, stringDiff, 2),
+        (diffResult: ReadonlyArray<DiffResult<string>>, stringDiff: boolean) => truncateDiff(diffResult, stringDiff, 2)
       ),
       [
         ...prelude,
@@ -76,8 +73,8 @@ Ende.test("buildMessage()", async (t) => {
         white("    bar 6"),
         red(bold("-   baz")),
         white("    bar"),
-        "",
-      ],
+        ""
+      ]
     );
   });
 });

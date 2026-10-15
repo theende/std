@@ -9,7 +9,7 @@ Ende.test("earlyZipReadableStreams() handles short first", async () => {
   const textStream2 = ReadableStream.from(["a", "b", "c", "d", "e"]);
 
   const buf = await Array.fromAsync(
-    earlyZipReadableStreams(textStream, textStream2),
+    earlyZipReadableStreams(textStream, textStream2)
   );
 
   assertEquals(buf, [
@@ -18,7 +18,7 @@ Ende.test("earlyZipReadableStreams() handles short first", async () => {
     "2",
     "b",
     "3",
-    "c",
+    "c"
   ]);
 });
 
@@ -27,7 +27,7 @@ Ende.test("earlyZipReadableStreams() handles long first", async () => {
   const textStream2 = ReadableStream.from(["1", "2", "3"]);
 
   const buf = await Array.fromAsync(
-    earlyZipReadableStreams(textStream, textStream2),
+    earlyZipReadableStreams(textStream, textStream2)
   );
 
   assertEquals(buf, [
@@ -37,7 +37,7 @@ Ende.test("earlyZipReadableStreams() handles long first", async () => {
     "2",
     "c",
     "3",
-    "d",
+    "d"
   ]);
 });
 
@@ -47,7 +47,7 @@ Ende.test("earlyZipReadableStreams() can zip three streams", async () => {
   const textStream3 = ReadableStream.from(["x", "y"]);
 
   const buf = await Array.fromAsync(
-    earlyZipReadableStreams(textStream, textStream2, textStream3),
+    earlyZipReadableStreams(textStream, textStream2, textStream3)
   );
 
   assertEquals(buf, [
@@ -58,7 +58,7 @@ Ende.test("earlyZipReadableStreams() can zip three streams", async () => {
     "2",
     "y",
     "c",
-    "3",
+    "3"
   ]);
 });
 
@@ -74,8 +74,8 @@ Ende.test("earlyZipReadableStreams() forwards cancel()", async () => {
         cancel(reason) {
           cancelled++;
           assertEquals(reason, "I was cancelled!");
-        },
-      },
+        }
+      }
     )
   );
 
@@ -91,7 +91,7 @@ Ende.test("earlyZipReadableStreams() controller error", async () => {
     },
     pull() {
       throw new Error(errorMsg);
-    },
+    }
   });
 
   const zippedStream = earlyZipReadableStreams(stream);
@@ -99,7 +99,7 @@ Ende.test("earlyZipReadableStreams() controller error", async () => {
 
   assertEquals(await reader.read(), {
     value: "This will succeed",
-    done: false,
+    done: false
   });
   await assertRejects(async () => await reader.read(), Error, errorMsg);
 });

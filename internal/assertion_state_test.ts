@@ -50,12 +50,12 @@ Ende.test({
           import { AssertionState } from "@ende/internal/assertion-state";
           const assertionState = new AssertionState();
           assertionState.setAssertionCount(0);
-        `,
-      ],
+        `
+      ]
     });
     const { stderr } = await command.output();
     const errorMessage = stripAnsiCode(new TextDecoder().decode(stderr));
     // TODO(WWRS): Test for the expected message when Ende displays it instead of "Uncaught null"
     assertStringIncludes(errorMessage, "error: Uncaught");
-  },
+  }
 });

@@ -7,7 +7,7 @@ import { isWindows } from "@ende/internal/os";
 
 import { globToRegExp as posixGlobToRegExp } from "./posix/glob_to_regexp.ts";
 import {
-  globToRegExp as windowsGlobToRegExp,
+  globToRegExp as windowsGlobToRegExp
 } from "./windows/glob_to_regexp.ts";
 
 export type { GlobOptions };
@@ -87,9 +87,9 @@ export type { GlobOptions };
  */
 export function globToRegExp(
   glob: string,
-  options: GlobOptions = {},
+  options: GlobOptions = {}
 ): RegExp {
-  return isWindows
-    ? windowsGlobToRegExp(glob, options)
-    : posixGlobToRegExp(glob, options);
+  return isWindows ?
+    windowsGlobToRegExp(glob, options) :
+    posixGlobToRegExp(glob, options);
 }

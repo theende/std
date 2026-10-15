@@ -1,6 +1,4 @@
 {
-  "name": "@ende/datetime",
-  "version": "0.225.7",
   "exports": {
     ".": "./mod.ts",
     "./constants": "./constants.ts",
@@ -10,5 +8,7 @@
     "./is-leap": "./is_leap.ts",
     "./parse": "./parse.ts",
     "./week-of-year": "./week_of_year.ts"
-  }
+  },
+  "name": "@ende/datetime",
+  "version": "2026.10.15"
 }

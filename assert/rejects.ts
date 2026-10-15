@@ -23,7 +23,7 @@ import { assertIsError } from "./is_error.ts";
  */
 export function assertRejects(
   fn: () => PromiseLike<unknown>,
-  msg?: string,
+  msg?: string
 ): Promise<unknown>;
 /**
  * Executes a function which returns a promise, expecting it to reject.
@@ -50,21 +50,21 @@ export function assertRejects(
 export function assertRejects<E extends Error = Error>(
   fn: () => PromiseLike<unknown>,
   // deno-lint-ignore no-explicit-any
-  ErrorClass: abstract new (...args: any[]) => E,
+  ErrorClass: abstract new(...args: any[]) => E,
   msgIncludes?: string,
-  msg?: string,
+  msg?: string
 ): Promise<E>;
 export async function assertRejects<E extends Error = Error>(
   fn: () => PromiseLike<unknown>,
   errorClassOrMsg?:
     // deno-lint-ignore no-explicit-any
-    | (abstract new (...args: any[]) => E)
+    | (abstract new(...args: any[]) => E)
     | string,
   msgIncludesOrMsg?: string,
-  msg?: string,
+  msg?: string
 ): Promise<E | Error | unknown> {
   // deno-lint-ignore no-explicit-any
-  let ErrorClass: (abstract new (...args: any[]) => E) | undefined;
+  let ErrorClass: (abstract new(...args: any[]) => E) | undefined;
   let msgIncludes: string | undefined;
   let err;
 
@@ -98,7 +98,7 @@ export async function assertRejects<E extends Error = Error>(
   } catch (error) {
     if (!isPromiseReturned) {
       throw new AssertionError(
-        `Function throws when expected to reject${msgSuffix}`,
+        `Function throws when expected to reject${msgSuffix}`
       );
     }
     if (ErrorClass) {
@@ -109,7 +109,7 @@ export async function assertRejects<E extends Error = Error>(
         error,
         ErrorClass,
         msgIncludes,
-        msg,
+        msg
       );
     }
     err = error;
@@ -117,7 +117,7 @@ export async function assertRejects<E extends Error = Error>(
   }
   if (!doesThrow) {
     throw new AssertionError(
-      `Expected function to reject${msgSuffix}`,
+      `Expected function to reject${msgSuffix}`
     );
   }
   return err;

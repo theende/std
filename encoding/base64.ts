@@ -53,11 +53,13 @@ alphabet.forEach((byte, i) => rAlphabet[byte] = i);
 export function encodeBase64(data: ArrayBuffer | Uint8Array | string): string {
   if (typeof data === "string") {
     data = new TextEncoder().encode(data) as Uint8Array_;
-  } else if (data instanceof ArrayBuffer) data = new Uint8Array(data).slice();
-  else data = data.slice();
+  } else if (data instanceof ArrayBuffer)
+    data = new Uint8Array(data).slice();
+  else
+    data = data.slice();
   const [output, i] = detach(
     data as Uint8Array_,
-    calcSizeBase64((data as Uint8Array_).length),
+    calcSizeBase64((data as Uint8Array_).length)
   );
   encode(output, i, 0, alphabet, padding);
   return new TextDecoder().decode(output);

@@ -13,11 +13,15 @@ import { CborSequenceEncoderStream } from "./sequence_encoder_stream.ts";
 Ende.test("CborByteDecodedStream() consuming indefinite length byte string", async () => {
   const size = random(0, 24);
 
-  const reader = CborByteEncoderStream.from([
-    new Uint8Array(size),
-    new Uint8Array(size * 2),
-    new Uint8Array(size * 3),
-  ]).readable.pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = CborByteEncoderStream
+    .from([
+      new Uint8Array(size),
+      new Uint8Array(size * 2),
+      new Uint8Array(size * 3)
+    ])
+    .readable
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   const { done, value } = await reader.read();
   assert(done === false);
@@ -25,7 +29,7 @@ Ende.test("CborByteDecodedStream() consuming indefinite length byte string", asy
   assertEquals(await Array.fromAsync(value), [
     new Uint8Array(size),
     new Uint8Array(size * 2),
-    new Uint8Array(size * 3),
+    new Uint8Array(size * 3)
   ]);
 
   assert((await reader.read()).done === true);
@@ -36,8 +40,10 @@ Ende.test("CborByteDecodedStream() consuming large definite length byte string",
   // Uint8Array needs to be 2 ** 32 bytes+ to be decoded via a CborByteDecodedStream.
   const size = random(2 ** 32, 2 ** 33);
 
-  const reader = ReadableStream.from([encodeCbor(new Uint8Array(size))])
-    .pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = ReadableStream
+    .from([encodeCbor(new Uint8Array(size))])
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   const { done, value } = await reader.read();
   assert(done === false);
@@ -51,16 +57,18 @@ Ende.test("CborByteDecodedStream() consuming large definite length byte string",
 Ende.test("CborByteDecodedStream() being cancelled", async () => {
   const size = random(0, 24);
 
-  const reader = ReadableStream.from([
-    CborByteEncoderStream.from([
-      new Uint8Array(size),
-      new Uint8Array(size * 2),
-      new Uint8Array(size * 3),
-    ]),
-    0,
-  ])
+  const reader = ReadableStream
+    .from([
+      CborByteEncoderStream.from([
+        new Uint8Array(size),
+        new Uint8Array(size * 2),
+        new Uint8Array(size * 3)
+      ]),
+      0
+    ])
     .pipeThrough(new CborSequenceEncoderStream())
-    .pipeThrough(new CborSequenceDecoderStream()).getReader();
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   {
     const { done, value } = await reader.read();

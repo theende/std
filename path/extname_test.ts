@@ -50,11 +50,11 @@ const pairs = [
   ["file/", ""],
   ["file//", ""],
   ["file./", "."],
-  ["file.//", "."],
+  ["file.//", "."]
 ] as const;
 
-Ende.test("posix.extname()", function () {
-  pairs.forEach(function (p) {
+Ende.test("posix.extname()", function() {
+  pairs.forEach(function(p) {
     const input = p[0];
     const expected = p[1];
     assertEquals(expected, posix.extname(input));
@@ -72,16 +72,16 @@ Ende.test("posix.extname()", function () {
 
   assertEquals(
     posix.extname(new URL("file:///home/user/Documents/image.png")),
-    ".png",
+    ".png"
   );
   assertEquals(
     posix.extname(new URL("file:///home/user/Documents")),
-    "",
+    ""
   );
 });
 
-Ende.test("windows.extname()", function () {
-  pairs.forEach(function (p) {
+Ende.test("windows.extname()", function() {
+  pairs.forEach(function(p) {
     const input = p[0].replace(slashRE, "\\");
     const expected = p[1];
     assertEquals(expected, windows.extname(input));
@@ -100,10 +100,10 @@ Ende.test("windows.extname()", function () {
 
   assertEquals(
     windows.extname(new URL("file:///C:/home/user/Documents/image.png")),
-    ".png",
+    ".png"
   );
   assertEquals(
     windows.extname(new URL("file:///C:/home/user/Documents")),
-    "",
+    ""
   );
 });

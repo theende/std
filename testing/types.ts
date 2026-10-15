@@ -41,7 +41,7 @@
  */
 export function assertType<T extends boolean>(
   // deno-lint-ignore no-unused-vars
-  expectTrue: T,
+  expectTrue: T
 ) {}
 
 /**
@@ -111,10 +111,10 @@ export type Assert<T extends boolean, Expected extends T> = never;
  * @typeParam T The type to check if it has the specified type `U`.
  * @typeParam U The type to check if it is in the type `T`.
  */
-export type Has<T, U> = IsAny<T> extends true ? true
-  : IsAny<U> extends true ? false
-  : Extract<T, U> extends never ? false
-  : true;
+export type Has<T, U> = IsAny<T> extends true ? true :
+  IsAny<U> extends true ? false :
+  Extract<T, U> extends never ? false :
+  true;
 
 /**
  * Checks if type `T` does not have the specified type `U`.
@@ -154,8 +154,8 @@ export type NotHas<T, U> = Has<T, U> extends false ? true : false;
  *
  * @typeParam T The type to check if it is nullable.
  */
-export type IsNullable<T> = Extract<T, null | undefined> extends never ? false
-  : true;
+export type IsNullable<T> = Extract<T, null | undefined> extends never ? false :
+  true;
 
 /**
  * Checks if type `T` exactly matches type `U`.
@@ -184,24 +184,22 @@ export type IsExact<T, U> = ParametersAndReturnTypeMatches<
 > extends true ? ParametersAndReturnTypeMatches<
     FlatType<DeepPrepareIsExact<T>>,
     FlatType<DeepPrepareIsExact<U>>
-  > extends true ? true
-  : false
-  : false;
+  > extends true ? true :
+  false :
+  false;
 
 /** @internal */
 export type DeepPrepareIsExact<T, VisitedTypes = never> = {
   // make optional properties required
-  [P in keyof T]-?: IsAny<T[P]> extends true ? AnyBrand
-    : DeepPrepareIsExactProp<T[P], T, VisitedTypes>;
+  [P in keyof T]-?: IsAny<T[P]> extends true ? AnyBrand :
+    DeepPrepareIsExactProp<T[P], T, VisitedTypes>;
 };
 
 /** @internal */
-export type DeepPrepareIsExactProp<Prop, Parent, VisitedTypes> = Prop extends
-  VisitedTypes
-  // recursive, bail
-  ? Prop
+export type DeepPrepareIsExactProp<Prop, Parent, VisitedTypes> = Prop extends VisitedTypes ? // recursive, bail
+  Prop :
   // not recursive, keep going and add the parent type as a visited type
-  : DeepPrepareIsExact<Prop, VisitedTypes | Parent>;
+  DeepPrepareIsExact<Prop, VisitedTypes | Parent>;
 
 /**
  * Checks if type `T` is the `any` type.
@@ -247,9 +245,8 @@ export type IsNever<T> = [T] extends [never] ? true : false;
  *
  * @typeParam T The type to check if it is the `unknown` type.
  */
-export type IsUnknown<T> = unknown extends T
-  ? ([T] extends [null] ? false : true)
-  : false;
+export type IsUnknown<T> = unknown extends T ? ([T] extends [null] ? false : true) :
+  false;
 
 /**
  * The internal utility type to match the given types as return types.
@@ -287,13 +284,12 @@ export type AnyToBrand<T> = IsAny<T> extends true ? AnyBrand : T;
  *
  * @internal
  */
-export type AnyBrand = { __conditionalTypeChecksAny__: undefined };
+export type AnyBrand = { __conditionalTypeChecksAny__: undefined; };
 
 /**
  * The utility type to flatten record types.
  *
  * @internal
  */
-export type FlatType<T> = T extends Record<PropertyKey, unknown>
-  ? { [K in keyof T]: FlatType<T[K]> }
-  : T;
+export type FlatType<T> = T extends Record<PropertyKey, unknown> ? { [K in keyof T]: FlatType<T[K]>; } :
+  T;

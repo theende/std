@@ -28,28 +28,27 @@ import { compare } from "./compare.ts";
  * @returns `true` if the SemVer is less than the range, `false` otherwise.
  */
 export function lessThanRange(version: SemVer, range: Range): boolean {
-  return range.every((comparatorSet) =>
-    lessThanComparatorSet(version, comparatorSet)
-  );
+  return range.every(comparatorSet => lessThanComparatorSet(version, comparatorSet));
 }
 
 function lessThanComparatorSet(version: SemVer, comparatorSet: Comparator[]) {
   // If the comparator set contains wildcard, then the semver is not greater than the range.
-  if (comparatorSet.some(isWildcardComparator)) return false;
+  if (comparatorSet.some(isWildcardComparator))
+    return false;
   // If the SemVer satisfies the comparator set, then it's not less than the range.
-  if (testComparatorSet(version, comparatorSet)) return false;
+  if (testComparatorSet(version, comparatorSet))
+    return false;
   // If the SemVer is greater than any of the comparator set, then it's not less than the range.
   if (
-    comparatorSet.some((comparator) =>
-      greaterThanComparator(version, comparator)
-    )
-  ) return false;
+    comparatorSet.some(comparator => greaterThanComparator(version, comparator))
+  )
+    return false;
   return true;
 }
 
 function greaterThanComparator(
   version: SemVer,
-  comparator: Comparator,
+  comparator: Comparator
 ): boolean {
   const cmp = compare(version, comparator);
   switch (comparator.operator) {

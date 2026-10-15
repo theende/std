@@ -12,7 +12,7 @@ const INITIAL_INCREMENT = 11634580027462260723n;
  */
 export function seedBytesFromUint64(
   u64: bigint,
-  bytes: Uint8Array_,
+  bytes: Uint8Array_
 ): Uint8Array_ {
   return new Pcg32({ state: u64, increment: INITIAL_INCREMENT })
     // We advance the state first (to get away from the input value,

@@ -24,8 +24,7 @@ try {
 
 // Skip these tests on linux CI, because the vulkan emulator is not good enough
 // yet, and skip on macOS CI because these do not have virtual GPUs.
-const isLinuxOrMacCI =
-  (Ende.build.os === "linux" || Ende.build.os === "darwin") && isCI;
+const isLinuxOrMacCI = (Ende.build.os === "linux" || Ende.build.os === "darwin") && isCI;
 // Skip these tests in WSL because it doesn't have good GPU support.
 const isWsl = await checkIsWsl();
 

@@ -78,14 +78,14 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
    */
   constructor(
     delimiter: Uint8Array,
-    options: DelimiterStreamOptions = {},
+    options: DelimiterStreamOptions = {}
   ) {
     super({
       transform: (chunk, controller) =>
-        delimiter.length === 1
-          ? this.#handleChar(chunk, controller)
-          : this.#handle(chunk, controller),
-      flush: (controller) => this.#flush(controller),
+        delimiter.length === 1 ?
+          this.#handleChar(chunk, controller) :
+          this.#handle(chunk, controller),
+      flush: controller => this.#flush(controller)
     });
 
     this.#delimiter = delimiter;
@@ -95,7 +95,7 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
 
   #handle(
     chunk: Uint8Array,
-    controller: TransformStreamDefaultController<Uint8Array>,
+    controller: TransformStreamDefaultController<Uint8Array>
   ) {
     const bufs = this.#bufs;
     const length = chunk.byteLength;
@@ -115,9 +115,9 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
           // Full match
           matchIndex = 0;
           const delimiterStartIndex = inspectIndex - delimLen;
-          const delimitedChunkEnd = disposition === "suffix"
-            ? inspectIndex
-            : delimiterStartIndex;
+          const delimitedChunkEnd = disposition === "suffix" ?
+            inspectIndex :
+            delimiterStartIndex;
           if (delimitedChunkEnd <= 0 && bufs.length === 0) {
             // Our chunk started with a delimiter and no previous chunks exist:
             // Enqueue an empty chunk.
@@ -128,9 +128,9 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
             controller.enqueue(chunk.subarray(chunkStart, delimitedChunkEnd));
             // Our chunk may have more than one delimiter; we must remember where
             // the next delimited chunk begins.
-            chunkStart = disposition === "prefix"
-              ? delimiterStartIndex
-              : inspectIndex;
+            chunkStart = disposition === "prefix" ?
+              delimiterStartIndex :
+              inspectIndex;
           } else if (delimitedChunkEnd === 0 && bufs.length > 0) {
             // Our chunk started with a delimiter, previous chunks are passed as
             // they are (with concatenation).
@@ -177,12 +177,12 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
             const result = concat([...bufs, chunkSliced]);
             bufs.length = 0;
             controller.enqueue(result);
-            chunkStart = disposition === "prefix"
-              ? delimitedChunkEnd
-              : inspectIndex;
+            chunkStart = disposition === "prefix" ?
+              delimitedChunkEnd :
+              inspectIndex;
           } else {
             throw new Error(
-              "This should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
+              "This should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues"
             );
           }
         }
@@ -217,7 +217,7 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
    */
   #handleChar(
     chunk: Uint8Array,
-    controller: TransformStreamDefaultController<Uint8Array>,
+    controller: TransformStreamDefaultController<Uint8Array>
   ) {
     const bufs = this.#bufs;
     const length = chunk.byteLength;
@@ -232,9 +232,9 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
         /**
          * Always non-negative
          */
-        const delimitedChunkEnd = disposition === "suffix"
-          ? inspectIndex
-          : inspectIndex - 1;
+        const delimitedChunkEnd = disposition === "suffix" ?
+          inspectIndex :
+          inspectIndex - 1;
         if (delimitedChunkEnd === 0 && bufs.length === 0) {
           // Our chunk started with a delimiter and no previous chunks exist:
           // Enqueue an empty chunk.
@@ -245,9 +245,9 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
           controller.enqueue(chunk.subarray(chunkStart, delimitedChunkEnd));
           // Our chunk may have more than one delimiter; we must remember where
           // the next delimited chunk begins.
-          chunkStart = disposition === "prefix"
-            ? inspectIndex - 1
-            : inspectIndex;
+          chunkStart = disposition === "prefix" ?
+            inspectIndex - 1 :
+            inspectIndex;
         } else if (delimitedChunkEnd === 0 && bufs.length > 0) {
           // Our chunk started with a delimiter, previous chunks are passed as
           // they are (with concatenation).
@@ -271,13 +271,13 @@ export class DelimiterStream extends TransformStream<Uint8Array, Uint8Array> {
           const chunkSliced = chunk.subarray(chunkStart, delimitedChunkEnd);
           const result = concat([...bufs, chunkSliced]);
           bufs.length = 0;
-          chunkStart = disposition === "prefix"
-            ? delimitedChunkEnd
-            : inspectIndex;
+          chunkStart = disposition === "prefix" ?
+            delimitedChunkEnd :
+            inspectIndex;
           controller.enqueue(result);
         } else {
           throw new Error(
-            "This should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
+            "This should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues"
           );
         }
       } else {

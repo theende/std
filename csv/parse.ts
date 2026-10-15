@@ -8,7 +8,7 @@ import {
   createQuoteErrorMessage,
   type ParseResult,
   type ReadOptions,
-  type RecordWithColumn,
+  type RecordWithColumn
 } from "./_io.ts";
 import { codePointLength } from "./_shared.ts";
 
@@ -31,18 +31,19 @@ class Parser {
     trimLeadingSpace = false,
     comment,
     lazyQuotes,
-    fieldsPerRecord,
+    fieldsPerRecord
   }: ReadOptions = {}) {
     this.#options = {
       separator,
       trimLeadingSpace,
       comment,
       lazyQuotes,
-      fieldsPerRecord,
+      fieldsPerRecord
     };
   }
   #readLine(): string | null {
-    if (this.#isEOF()) return null;
+    if (this.#isEOF())
+      return null;
 
     let buffer = "";
     let hadNewline = false;
@@ -73,7 +74,8 @@ class Parser {
   }
   #parseRecord(zeroBasedStartLine: number): string[] | null {
     let fullLine = this.#readLine();
-    if (fullLine === null) return null;
+    if (fullLine === null)
+      return null;
     if (fullLine.length === 0) {
       return [];
     }
@@ -86,7 +88,7 @@ class Parser {
     }
 
     let line = fullLine;
-    const quote = '"';
+    const quote = "\"";
     const quoteLen = quote.length;
     const separatorLen = this.#options.separator.length;
     let recordBuffer = "";
@@ -108,14 +110,14 @@ class Parser {
           const j = field.indexOf(quote);
           if (j >= 0) {
             const col = codePointLength(
-              fullLine.slice(0, fullLine.length - line.slice(j).length),
+              fullLine.slice(0, fullLine.length - line.slice(j).length)
             );
             throw new SyntaxError(
               createBareQuoteErrorMessage(
                 zeroBasedStartLine,
                 zeroBasedLine,
-                col,
-              ),
+                col
+              )
             );
           }
         }
@@ -154,10 +156,10 @@ class Parser {
             } else {
               // `"*` sequence (invalid non-escaped quote).
               const col = codePointLength(
-                fullLine.slice(0, fullLine.length - line.length - quoteLen),
+                fullLine.slice(0, fullLine.length - line.length - quoteLen)
               );
               throw new SyntaxError(
-                createQuoteErrorMessage(zeroBasedStartLine, zeroBasedLine, col),
+                createQuoteErrorMessage(zeroBasedStartLine, zeroBasedLine, col)
               );
             }
           } else if (line.length > 0 || !(this.#isEOF())) {
@@ -174,8 +176,8 @@ class Parser {
                   createQuoteErrorMessage(
                     zeroBasedStartLine,
                     zeroBasedLine,
-                    col,
-                  ),
+                    col
+                  )
                 );
               }
               fieldIndexes.push(recordBuffer.length);
@@ -188,7 +190,7 @@ class Parser {
             if (!this.#options.lazyQuotes) {
               const col = codePointLength(fullLine);
               throw new SyntaxError(
-                createQuoteErrorMessage(zeroBasedStartLine, zeroBasedLine, col),
+                createQuoteErrorMessage(zeroBasedStartLine, zeroBasedLine, col)
               );
             }
             fieldIndexes.push(recordBuffer.length);
@@ -214,7 +216,7 @@ class Parser {
     let first = true;
     let lineIndex = 0;
 
-    const INVALID_RUNE = ["\r", "\n", '"'];
+    const INVALID_RUNE = ["\r", "\n", "\""];
 
     const options = this.#options;
     if (
@@ -247,7 +249,8 @@ class Parser {
 
     while (true) {
       const r = this.#parseRecord(lineIndex);
-      if (r === null) break;
+      if (r === null)
+        break;
       lineResult = r;
       lineIndex++;
       // If fieldsPerRecord is 0, Read sets it to
@@ -262,7 +265,7 @@ class Parser {
       if (lineResult.length > 0) {
         if (typeof _nbFields === "number" && _nbFields !== lineResult.length) {
           throw new SyntaxError(
-            `Syntax error on line ${lineIndex}: expected ${_nbFields} fields but got ${lineResult.length}`,
+            `Syntax error on line ${lineIndex}: expected ${_nbFields} fields but got ${lineResult.length}`
           );
         }
         result.push(lineResult);
@@ -499,11 +502,11 @@ export function parse(input: string): string[][];
  */
 export function parse<const T extends ParseOptions>(
   input: string,
-  options: T,
+  options: T
 ): ParseResult<ParseOptions, T>;
 export function parse<const T extends ParseOptions>(
   input: string,
-  options: T = { skipFirstRow: false } as T,
+  options: T = { skipFirstRow: false } as T
 ): ParseResult<ParseOptions, T> {
   const parser = new Parser(options);
   const r = parser.parse(input);

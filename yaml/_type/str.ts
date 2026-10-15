@@ -9,5 +9,5 @@ export const str: Type<"scalar", string> = {
   tag: "tag:yaml.org,2002:str",
   kind: "scalar",
   resolve: (): boolean => true,
-  construct: (data: string | null): string => data !== null ? data : "",
+  construct: (data: string | null): string => data !== null ? data : ""
 };

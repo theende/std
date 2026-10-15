@@ -35,15 +35,15 @@ import type { Uint8Array_ } from "./_types.ts";
 export type { Uint8Array_ };
 import {
   alphabet,
-  type Base32Alphabet,
-  type Base32Options,
   calcSizeBase32,
   decode,
   encode,
   padding,
   rAlphabet,
+  type Base32Alphabet,
+  type Base32Options
 } from "./_common32.ts";
-export { type Base32Alphabet, type Base32Options, calcSizeBase32 };
+export { calcSizeBase32, type Base32Alphabet, type Base32Options };
 import { detach } from "./_common_detach.ts";
 
 /**
@@ -106,7 +106,7 @@ import { detach } from "./_common_detach.ts";
  */
 export function encodeBase32(
   input: string | Uint8Array_ | ArrayBuffer,
-  options: Base32Options = {},
+  options: Base32Options = {}
 ): string {
   options.alphabet ??= "base32";
   if (typeof input === "string") {
@@ -116,7 +116,7 @@ export function encodeBase32(
   }
   const [output, i] = detach(
     input as Uint8Array_,
-    calcSizeBase32((input as Uint8Array_).length),
+    calcSizeBase32((input as Uint8Array_).length)
   );
   encode(output, i, 0, alphabet[options.alphabet], padding);
   return new TextDecoder().decode(output);
@@ -158,7 +158,7 @@ export function encodeBase32(
 export function encodeIntoBase32(
   input: string | Uint8Array_ | ArrayBuffer,
   output: Uint8Array_,
-  options: Base32Options = {},
+  options: Base32Options = {}
 ): number {
   options.alphabet ??= "base32";
   if (typeof input === "string") {
@@ -211,7 +211,7 @@ export function encodeIntoBase32(
  */
 export function decodeBase32(
   input: string | Uint8Array_,
-  options: Base32Options = {},
+  options: Base32Options = {}
 ): Uint8Array_ {
   options.alphabet ??= "base32";
   if (typeof input === "string") {
@@ -219,6 +219,6 @@ export function decodeBase32(
   }
   return input.subarray(
     0,
-    decode(input, 0, 0, rAlphabet[options.alphabet], padding),
+    decode(input, 0, 0, rAlphabet[options.alphabet], padding)
   );
 }

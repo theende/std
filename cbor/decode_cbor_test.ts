@@ -70,22 +70,22 @@ Ende.test("decodeCbor() decoding strings", () => {
   const textDecoder = new TextDecoder();
 
   let text = textDecoder.decode(
-    new Uint8Array(random(0, 24)).map((_) => random(97, 123)),
+    new Uint8Array(random(0, 24)).map(_ => random(97, 123))
   ); // Range: `a` - `z`
   assertEquals(decodeCbor(encodeCbor(text)), text);
 
   text = textDecoder.decode(
-    new Uint8Array(random(24, 2 ** 8)).map((_) => random(97, 123)),
+    new Uint8Array(random(24, 2 ** 8)).map(_ => random(97, 123))
   ); // Range: `a` - `z`
   assertEquals(decodeCbor(encodeCbor(text)), text);
 
   text = textDecoder.decode(
-    new Uint8Array(random(2 ** 8, 2 ** 16)).map((_) => random(97, 123)),
+    new Uint8Array(random(2 ** 8, 2 ** 16)).map(_ => random(97, 123))
   ); // Range: `a` - `z`
   assertEquals(decodeCbor(encodeCbor(text)), text);
 
   text = textDecoder.decode(
-    new Uint8Array(random(2 ** 16, 2 ** 17)).map((_) => random(97, 123)),
+    new Uint8Array(random(2 ** 16, 2 ** 17)).map(_ => random(97, 123))
   ); // Range: `a` - `z`
   assertEquals(decodeCbor(encodeCbor(text)), text);
 
@@ -93,16 +93,16 @@ Ende.test("decodeCbor() decoding strings", () => {
 });
 
 Ende.test("decodeCbor() decoding Uint8Arrays", () => {
-  let bytes = new Uint8Array(random(0, 24)).map((_) => random(0, 256));
+  let bytes = new Uint8Array(random(0, 24)).map(_ => random(0, 256));
   assertEquals(decodeCbor(encodeCbor(bytes)), bytes);
 
-  bytes = new Uint8Array(random(24, 2 ** 8)).map((_) => random(0, 256));
+  bytes = new Uint8Array(random(24, 2 ** 8)).map(_ => random(0, 256));
   assertEquals(decodeCbor(encodeCbor(bytes)), bytes);
 
-  bytes = new Uint8Array(random(2 ** 8, 2 ** 16)).map((_) => random(0, 256));
+  bytes = new Uint8Array(random(2 ** 8, 2 ** 16)).map(_ => random(0, 256));
   assertEquals(decodeCbor(encodeCbor(bytes)), bytes);
 
-  bytes = new Uint8Array(random(2 ** 16, 2 ** 17)).map((_) => random(0, 256));
+  bytes = new Uint8Array(random(2 ** 16, 2 ** 17)).map(_ => random(0, 256));
   assertEquals(decodeCbor(encodeCbor(bytes)), bytes);
 
   // Can't test the next bracket up due to JavaScript limitations.
@@ -131,7 +131,7 @@ Ende.test("decodeCbor() decoding Maps", () => {
   let map = new Map(
     new Array(pairs)
       .fill(0)
-      .map((_, i) => [i, i]),
+      .map((_, i) => [i, i])
   );
   assertEquals(decodeCbor(encodeCbor(map)), map);
 
@@ -139,7 +139,7 @@ Ende.test("decodeCbor() decoding Maps", () => {
   map = new Map(
     new Array(pairs)
       .fill(0)
-      .map((_, i) => [i, i]),
+      .map((_, i) => [i, i])
   );
   assertEquals(decodeCbor(encodeCbor(map)), map);
 
@@ -147,7 +147,7 @@ Ende.test("decodeCbor() decoding Maps", () => {
   map = new Map(
     new Array(pairs)
       .fill(0)
-      .map((_, i) => [i, i]),
+      .map((_, i) => [i, i])
   );
   assertEquals(decodeCbor(encodeCbor(map)), map);
 
@@ -155,7 +155,7 @@ Ende.test("decodeCbor() decoding Maps", () => {
   map = new Map(
     new Array(pairs)
       .fill(0)
-      .map((_, i) => [i, i]),
+      .map((_, i) => [i, i])
   );
   assertEquals(decodeCbor(encodeCbor(map)), map);
 
@@ -163,20 +163,16 @@ Ende.test("decodeCbor() decoding Maps", () => {
 });
 
 Ende.test("decodeCbor() decoding arrays", () => {
-  let array = new Array(random(0, 24)).fill(0).map((_) => random(0, 2 ** 32));
+  let array = new Array(random(0, 24)).fill(0).map(_ => random(0, 2 ** 32));
   assertEquals(decodeCbor(encodeCbor(array)), array);
 
-  array = new Array(random(24, 2 ** 8)).fill(0).map((_) => random(0, 2 ** 32));
+  array = new Array(random(24, 2 ** 8)).fill(0).map(_ => random(0, 2 ** 32));
   assertEquals(decodeCbor(encodeCbor(array)), array);
 
-  array = new Array(random(2 ** 8, 2 ** 16)).fill(0).map((_) =>
-    random(0, 2 ** 32)
-  );
+  array = new Array(random(2 ** 8, 2 ** 16)).fill(0).map(_ => random(0, 2 ** 32));
   assertEquals(decodeCbor(encodeCbor(array)), array);
 
-  array = new Array(random(2 ** 16, 2 ** 17)).fill(0).map((_) =>
-    random(0, 2 ** 32)
-  );
+  array = new Array(random(2 ** 16, 2 ** 17)).fill(0).map(_ => random(0, 2 ** 32));
   assertEquals(decodeCbor(encodeCbor(array)), array);
 
   // Can't test the next bracket up due to JavaScript limitations.
@@ -185,7 +181,7 @@ Ende.test("decodeCbor() decoding arrays", () => {
 Ende.test("decodeCbor() decoding objects", () => {
   let pairs = random(0, 24);
   let object = Object.fromEntries(
-    new Array(pairs).fill(0).map((_, i) => [i, i]),
+    new Array(pairs).fill(0).map((_, i) => [i, i])
   );
   assertEquals(decodeCbor(encodeCbor(object)), object);
 
@@ -207,7 +203,7 @@ Ende.test("decodeCbor() decoding objects", () => {
 Ende.test("decodeCbor() decoding CborTag()", () => {
   const tag = new CborTag(
     4,
-    new Uint8Array(random(0, 24)).map((_) => random(0, 256)),
+    new Uint8Array(random(0, 24)).map(_ => random(0, 256))
   );
   assertEquals(decodeCbor(encodeCbor(tag)), tag);
 });
@@ -218,7 +214,7 @@ Ende.test("decodeCbor() rejecting empty encoded data", () => {
       decodeCbor(new Uint8Array(0));
     },
     RangeError,
-    "Cannot decode empty Uint8Array",
+    "Cannot decode empty Uint8Array"
   );
 });
 
@@ -228,48 +224,48 @@ Ende.test("decodeCbor() rejecting majorType 0 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b000_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b000_11100)",
+    "Cannot decode value (0b000_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b000_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b000_11101)",
+    "Cannot decode value (0b000_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b000_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b000_11110)",
+    "Cannot decode value (0b000_11110)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b000_11111,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b000_11111)",
+    "Cannot decode value (0b000_11111)"
   );
 });
 
@@ -279,48 +275,48 @@ Ende.test("decodeCbor() rejecting majorType 1 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b001_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b001_11100)",
+    "Cannot decode value (0b001_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b001_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b001_11101)",
+    "Cannot decode value (0b001_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b001_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b001_11110)",
+    "Cannot decode value (0b001_11110)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b001_11111,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b001_11111)",
+    "Cannot decode value (0b001_11111)"
   );
 });
 
@@ -330,36 +326,36 @@ Ende.test("decodeCbor() rejecting majorType 2 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b010_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b010_11100)",
+    "Cannot decode value (0b010_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b010_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b010_11101)",
+    "Cannot decode value (0b010_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b010_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b010_11110)",
+    "Cannot decode value (0b010_11110)"
   );
 });
 
@@ -369,28 +365,28 @@ Ende.test("decodeCbor() rejecting majorType 2 due to invalid indefinite length b
       decodeCbor(Uint8Array.from([0b010_11111]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b010_11111, 0b000_00000]));
     },
     TypeError,
-    "Cannot decode value (0b000_00000) inside an indefinite length byte string",
+    "Cannot decode value (0b000_00000) inside an indefinite length byte string"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b010_11111, 0b010_11111]));
     },
     TypeError,
-    "Indefinite length byte strings cannot contain indefinite length byte strings",
+    "Indefinite length byte strings cannot contain indefinite length byte strings"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b010_11111, 0b010_00000]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
 });
 
@@ -400,36 +396,36 @@ Ende.test("decodeCbor() rejecting majorType 3 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b011_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b011_11100)",
+    "Cannot decode value (0b011_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b011_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b011_11101)",
+    "Cannot decode value (0b011_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b011_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b011_11110)",
+    "Cannot decode value (0b011_11110)"
   );
 });
 
@@ -439,28 +435,28 @@ Ende.test("decodeCbor() rejecting majorType 3 due to invalid indefinite length t
       decodeCbor(Uint8Array.from([0b011_11111]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b011_11111, 0b000_00000]));
     },
     TypeError,
-    "Cannot decode value (0b000_00000) inside an indefinite length text string",
+    "Cannot decode value (0b000_00000) inside an indefinite length text string"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b011_11111, 0b011_11111]));
     },
     TypeError,
-    "Indefinite length text strings cannot contain indefinite length text strings",
+    "Indefinite length text strings cannot contain indefinite length text strings"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b011_11111, 0b011_00000]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
 });
 
@@ -470,36 +466,36 @@ Ende.test("decodeCbor() rejecting majorType 4 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b100_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b100_11100)",
+    "Cannot decode value (0b100_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b100_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b100_11101)",
+    "Cannot decode value (0b100_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b100_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b100_11110)",
+    "Cannot decode value (0b100_11110)"
   );
 });
 
@@ -509,14 +505,14 @@ Ende.test("decodeCbor() rejecting majorType 4 due to invalid indefinite length a
       decodeCbor(Uint8Array.from([0b100_11111]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b100_11111, 0b000_00000]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
 });
 
@@ -526,36 +522,36 @@ Ende.test("decodeCbor() rejecting majorType 5 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b101_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b101_11100)",
+    "Cannot decode value (0b101_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b101_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b101_11101)",
+    "Cannot decode value (0b101_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b101_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b101_11110)",
+    "Cannot decode value (0b101_11110)"
   );
 });
 
@@ -565,7 +561,7 @@ Ende.test("decodeCbor() rejecting majorType 5 due to maps having invalid keys", 
       decodeCbor(Uint8Array.from([0b101_00001, 0b000_00000, 0b000_00000]));
     },
     TypeError,
-    'Cannot decode key of type (number): This implementation only supports "text string" keys',
+    "Cannot decode key of type (number): This implementation only supports \"text string\" keys"
   );
   assertThrows(
     () => {
@@ -577,12 +573,12 @@ Ende.test("decodeCbor() rejecting majorType 5 due to maps having invalid keys", 
           0b000_00000,
           0b011_00001,
           48,
-          0b000_00001,
-        ]),
+          0b000_00001
+        ])
       );
     },
     TypeError,
-    "A Map cannot have duplicate keys: Key (0) already exists",
+    "A Map cannot have duplicate keys: Key (0) already exists"
   );
 });
 
@@ -592,16 +588,16 @@ Ende.test("decodeCbor() rejecting majorType 5 due to invalid indefinite length m
       decodeCbor(Uint8Array.from([0b101_11111]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
   assertThrows(
     () => {
       decodeCbor(
-        Uint8Array.from([0b101_11111, 0b000_00000, 0b000_00000, 0b111_11111]),
+        Uint8Array.from([0b101_11111, 0b000_00000, 0b000_00000, 0b111_11111])
       );
     },
     TypeError,
-    'Cannot decode key of type (number): This implementation only supports "text string" keys',
+    "Cannot decode key of type (number): This implementation only supports \"text string\" keys"
   );
   assertThrows(
     () => {
@@ -614,12 +610,12 @@ Ende.test("decodeCbor() rejecting majorType 5 due to invalid indefinite length m
           0b011_00001,
           48,
           0b000_00001,
-          0b111_11111,
-        ]),
+          0b111_11111
+        ])
       );
     },
     TypeError,
-    "A Map cannot have duplicate keys: Key (0) already exists",
+    "A Map cannot have duplicate keys: Key (0) already exists"
   );
   assertThrows(
     () => {
@@ -628,12 +624,12 @@ Ende.test("decodeCbor() rejecting majorType 5 due to invalid indefinite length m
           0b101_11111,
           0b011_00001,
           48,
-          0b000_00000,
-        ]),
+          0b000_00000
+        ])
       );
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
 });
 
@@ -643,26 +639,26 @@ Ende.test("decodeCbor() rejecting majorType 6 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b110_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b110_11100)",
+    "Cannot decode value (0b110_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b110_00000, 0b000_00000]));
     },
     TypeError,
-    'Invalid TagItem: Expected a "text string"',
+    "Invalid TagItem: Expected a \"text string\""
   );
   assertThrows(
     () => {
       decodeCbor(Uint8Array.from([0b110_00001, 0b010_00000]));
     },
     TypeError,
-    'Invalid TagItem: Expected a "integer" or "float"',
+    "Invalid TagItem: Expected a \"integer\" or \"float\""
   );
 });
 
@@ -672,36 +668,36 @@ Ende.test("decodeCbor() rejecting majorType 7 due to additional information", ()
       decodeCbor(
         Uint8Array.from([
           0b111_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b111_11100)",
+    "Cannot decode value (0b111_11100)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b111_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b111_11101)",
+    "Cannot decode value (0b111_11101)"
   );
   assertThrows(
     () => {
       decodeCbor(
         Uint8Array.from([
           0b111_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b111_11110)",
+    "Cannot decode value (0b111_11110)"
   );
 });
 
@@ -709,12 +705,12 @@ Ende.test("decodeCbor() rejecting tagNumber 2 & 3 due to invalid tagContent", ()
   assertThrows(
     () => decodeCbor(encodeCbor(new CborTag(2, "a string is invalid"))),
     TypeError,
-    'Invalid TagItem: Expected a "byte string"',
+    "Invalid TagItem: Expected a \"byte string\""
   );
   assertThrows(
     () => decodeCbor(encodeCbor(new CborTag(3, "a string is invalid"))),
     TypeError,
-    'Invalid TagItem: Expected a "byte string"',
+    "Invalid TagItem: Expected a \"byte string\""
   );
 });
 
@@ -727,12 +723,12 @@ Ende.test("decodeCbor() rejecting tagNumber 259 due to additional information", 
           1,
           3,
           0b101_11100,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b101_11100)",
+    "Cannot decode value (0b101_11100)"
   );
   assertThrows(
     () => {
@@ -742,12 +738,12 @@ Ende.test("decodeCbor() rejecting tagNumber 259 due to additional information", 
           1,
           3,
           0b101_11101,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b101_11101)",
+    "Cannot decode value (0b101_11101)"
   );
   assertThrows(
     () => {
@@ -757,12 +753,12 @@ Ende.test("decodeCbor() rejecting tagNumber 259 due to additional information", 
           1,
           3,
           0b101_11110,
-          ...new Array(random(0, 64)).fill(0).map((_) => random(0, 256)),
-        ]),
+          ...new Array(random(0, 64)).fill(0).map(_ => random(0, 256))
+        ])
       );
     },
     RangeError,
-    "Cannot decode value (0b101_11110)",
+    "Cannot decode value (0b101_11110)"
   );
 });
 
@@ -780,12 +776,12 @@ Ende.test("decodeCbor() rejecting TagNumber 259 due to maps having invalid keys"
           0b000_00000,
           0b011_00001,
           48,
-          0b000_00001,
-        ]),
+          0b000_00001
+        ])
       );
     },
     TypeError,
-    "A Map cannot have duplicate keys: Key (0) already exists",
+    "A Map cannot have duplicate keys: Key (0) already exists"
   );
 });
 
@@ -795,7 +791,7 @@ Ende.test("decodeCbor() rejecting tagNumber 259 due to invalid indefinite length
       decodeCbor(Uint8Array.from([217, 1, 3, 0b101_11111]));
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
   assertThrows(
     () => {
@@ -811,12 +807,12 @@ Ende.test("decodeCbor() rejecting tagNumber 259 due to invalid indefinite length
           0b011_00001,
           48,
           0b000_00001,
-          0b111_11111,
-        ]),
+          0b111_11111
+        ])
       );
     },
     TypeError,
-    "A Map cannot have duplicate keys: Key (0) already exists",
+    "A Map cannot have duplicate keys: Key (0) already exists"
   );
   assertThrows(
     () => {
@@ -828,12 +824,12 @@ Ende.test("decodeCbor() rejecting tagNumber 259 due to invalid indefinite length
           0b101_11111,
           0b011_00001,
           48,
-          0b000_00000,
-        ]),
+          0b000_00000
+        ])
       );
     },
     RangeError,
-    "More bytes were expected",
+    "More bytes were expected"
   );
 });
 

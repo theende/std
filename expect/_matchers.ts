@@ -24,11 +24,11 @@ import {
   buildEqualOptions,
   getObjectSubset,
   iterableEquality,
-  subsetEquality,
+  subsetEquality
 } from "./_utils.ts";
 import {
   buildEqualErrorMessage,
-  buildNotEqualErrorMessage,
+  buildNotEqualErrorMessage
 } from "./_build_message.ts";
 import {
   escapeStringForJs,
@@ -39,7 +39,7 @@ import {
   pushInlineUpdate,
   registerInlineTeardown,
   serialize,
-  SnapshotContext,
+  SnapshotContext
 } from "./_snapshot_state.ts";
 
 export function toBe(context: MatcherContext, expect: unknown): MatchResult {
@@ -52,7 +52,7 @@ export function toBe(context: MatcherContext, expect: unknown): MatchResult {
 
 export function toEqual(
   context: MatcherContext,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   const v = context.value;
   const e = expected;
@@ -60,8 +60,8 @@ export function toEqual(
     ...context,
     customTesters: [
       ...context.customTesters,
-      iterableEquality,
-    ],
+      iterableEquality
+    ]
   });
 
   if (context.isNot) {
@@ -73,15 +73,15 @@ export function toEqual(
 
 export function toStrictEqual(
   context: MatcherContext,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   const equalsOptions = buildEqualOptions({
     ...context,
     strictCheck: true,
     customTesters: [
       ...context.customTesters,
-      iterableEquality,
-    ],
+      iterableEquality
+    ]
   });
 
   if (context.isNot) {
@@ -94,12 +94,12 @@ export function toStrictEqual(
 export function toBeCloseTo(
   context: MatcherContext,
   expected: number,
-  numDigits = 2,
+  numDigits = 2
 ): MatchResult {
   if (numDigits < 0) {
     throw new Error(
       "toBeCloseTo second argument must be a non-negative integer. Got " +
-        numDigits,
+        numDigits
     );
   }
   const tolerance = 0.5 * Math.pow(10, -numDigits);
@@ -108,22 +108,20 @@ export function toBeCloseTo(
 
   if (context.isNot) {
     if (pass) {
-      const defaultMessage =
-        `Expected the value ${value} not to be close to ${expected} (using ${numDigits} digits), but it is`;
+      const defaultMessage = `Expected the value ${value} not to be close to ${expected} (using ${numDigits} digits), but it is`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!pass) {
-      const defaultMessage =
-        `Expected the value ${value} to be close to ${expected} (using ${numDigits} digits), but it is not`;
+      const defaultMessage = `Expected the value ${value} to be close to ${expected} (using ${numDigits} digits), but it is not`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -142,7 +140,7 @@ export function toBeUndefined(context: MatcherContext): MatchResult {
     assertNotStrictEquals(
       context.value,
       undefined,
-      context.customMessage,
+      context.customMessage
     );
   } else {
     assertStrictEquals(context.value, undefined, context.customMessage);
@@ -150,50 +148,50 @@ export function toBeUndefined(context: MatcherContext): MatchResult {
 }
 
 export function toBeFalsy(
-  context: MatcherContext,
+  context: MatcherContext
 ): MatchResult {
   const isFalsy = !(context.value);
   if (context.isNot) {
     if (isFalsy) {
       const defaultMessage = `Expected ${context.value} to NOT be falsy`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!isFalsy) {
       const defaultMessage = `Expected ${context.value} to be falsy`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
 }
 
 export function toBeTruthy(
-  context: MatcherContext,
+  context: MatcherContext
 ): MatchResult {
   const isTruthy = !!(context.value);
   if (context.isNot) {
     if (isTruthy) {
       const defaultMessage = `Expected ${context.value} to NOT be truthy`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!isTruthy) {
       const defaultMessage = `Expected ${context.value} to be truthy`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -201,27 +199,25 @@ export function toBeTruthy(
 
 export function toBeGreaterThanOrEqual(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const isGreaterOrEqual = Number(context.value) >= Number(expected);
   if (context.isNot) {
     if (isGreaterOrEqual) {
-      const defaultMessage =
-        `Expected ${context.value} to NOT be greater than or equal ${expected}`;
+      const defaultMessage = `Expected ${context.value} to NOT be greater than or equal ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!isGreaterOrEqual) {
-      const defaultMessage =
-        `Expected ${context.value} to be greater than or equal ${expected}`;
+      const defaultMessage = `Expected ${context.value} to be greater than or equal ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -229,27 +225,25 @@ export function toBeGreaterThanOrEqual(
 
 export function toBeGreaterThan(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const isGreater = Number(context.value) > Number(expected);
   if (context.isNot) {
     if (isGreater) {
-      const defaultMessage =
-        `Expected ${context.value} to NOT be greater than ${expected}`;
+      const defaultMessage = `Expected ${context.value} to NOT be greater than ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!isGreater) {
-      const defaultMessage =
-        `Expected ${context.value} to be greater than ${expected}`;
+      const defaultMessage = `Expected ${context.value} to be greater than ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -257,7 +251,7 @@ export function toBeGreaterThan(
 
 export function toBeInstanceOf<T extends AnyConstructor>(
   context: MatcherContext,
-  expected: T,
+  expected: T
 ): MatchResult {
   if (context.isNot) {
     assertNotInstanceOf(context.value, expected);
@@ -267,54 +261,50 @@ export function toBeInstanceOf<T extends AnyConstructor>(
 }
 export function toBeLessThanOrEqual(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const isLower = Number(context.value) <= Number(expected);
   if (context.isNot) {
     if (isLower) {
-      const defaultMessage =
-        `Expected ${context.value} to NOT be lower than or equal ${expected}`;
+      const defaultMessage = `Expected ${context.value} to NOT be lower than or equal ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!isLower) {
-      const defaultMessage =
-        `Expected ${context.value} to be lower than or equal ${expected}`;
+      const defaultMessage = `Expected ${context.value} to be lower than or equal ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
 }
 export function toBeLessThan(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const isLower = Number(context.value) < Number(expected);
   if (context.isNot) {
     if (isLower) {
-      const defaultMessage =
-        `Expected ${context.value} to NOT be lower than ${expected}`;
+      const defaultMessage = `Expected ${context.value} to NOT be lower than ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!isLower) {
-      const defaultMessage =
-        `Expected ${context.value} to be lower than ${expected}`;
+      const defaultMessage = `Expected ${context.value} to be lower than ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -327,8 +317,8 @@ export function toBeNaN(context: MatcherContext): MatchResult {
       true,
       {
         ...equalsOptions,
-        msg: equalsOptions.msg || `Expected ${context.value} to not be NaN`,
-      },
+        msg: equalsOptions.msg || `Expected ${context.value} to not be NaN`
+      }
     );
   } else {
     assertEquals(
@@ -336,8 +326,8 @@ export function toBeNaN(context: MatcherContext): MatchResult {
       true,
       {
         ...equalsOptions,
-        msg: equalsOptions.msg || `Expected ${context.value} to be NaN`,
-      },
+        msg: equalsOptions.msg || `Expected ${context.value} to be NaN`
+      }
     );
   }
 }
@@ -347,20 +337,20 @@ export function toBeNull(context: MatcherContext): MatchResult {
     assertNotStrictEquals(
       context.value as number,
       null,
-      context.customMessage || `Expected ${context.value} to not be null`,
+      context.customMessage || `Expected ${context.value} to not be null`
     );
   } else {
     assertStrictEquals(
       context.value as number,
       null,
-      context.customMessage || `Expected ${context.value} to be null`,
+      context.customMessage || `Expected ${context.value} to be null`
     );
   }
 }
 
 export function toHaveLength(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const { value } = context;
   // deno-lint-ignore no-explicit-any
@@ -369,22 +359,20 @@ export function toHaveLength(
 
   if (context.isNot) {
     if (hasLength) {
-      const defaultMessage =
-        `Expected value not to have length ${expected}, but it does`;
+      const defaultMessage = `Expected value not to have length ${expected}, but it does`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!hasLength) {
-      const defaultMessage =
-        `Expected value to have length ${expected}, but it does not: the value has length ${maybeLength}`;
+      const defaultMessage = `Expected value to have length ${expected}, but it does not: the value has length ${maybeLength}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -393,7 +381,7 @@ export function toHaveLength(
 export function toHaveProperty(
   context: MatcherContext,
   propName: string | string[],
-  v?: unknown,
+  v?: unknown
 ): MatchResult {
   const { value } = context;
 
@@ -432,24 +420,20 @@ export function toHaveProperty(
 
   if (context.isNot) {
     if (hasProperty) {
-      const defaultMessage = `Expected the value not to have the property ${
-        propPath.join(".")
-      }${ofValue}, but it does`;
+      const defaultMessage = `Expected the value not to have the property ${propPath.join(".")}${ofValue}, but it does`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!hasProperty) {
-      const defaultMessage = `Expected the value to have the property ${
-        propPath.join(".")
-      }${ofValue}, but it does not`;
+      const defaultMessage = `Expected the value to have the property ${propPath.join(".")}${ofValue}, but it does not`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -457,7 +441,7 @@ export function toHaveProperty(
 
 export function toContain(
   context: MatcherContext,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   // deno-lint-ignore no-explicit-any
   const doesContain = (context.value as any)?.includes?.(expected);
@@ -467,22 +451,20 @@ export function toContain(
 
   if (context.isNot) {
     if (doesContain) {
-      const defaultMessage =
-        `The value ${fmtValue} contains the expected item ${fmtExpected}`;
+      const defaultMessage = `The value ${fmtValue} contains the expected item ${fmtExpected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!doesContain) {
-      const defaultMessage =
-        `The value ${fmtValue} doesn't contain the expected item ${fmtExpected}`;
+      const defaultMessage = `The value ${fmtValue} doesn't contain the expected item ${fmtExpected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -490,7 +472,7 @@ export function toContain(
 
 export function toContainEqual(
   context: MatcherContext,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   const { value } = context;
   assertIsIterable(value);
@@ -504,7 +486,8 @@ export function toContainEqual(
   }
 
   const prettyStringify = (js: unknown) =>
-    JSON.stringify(js, null, "\t")
+    JSON
+      .stringify(js, null, "\t")
       .replace(/\"|\n|\t/g, "")
       .slice(0, 100);
 
@@ -517,9 +500,9 @@ export function toContainEqual(
 Value: ${fmtValue}
 Expected: ${fmtExpected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
@@ -528,9 +511,9 @@ Expected: ${fmtExpected}`;
 Value: ${fmtValue}
 Expected: ${fmtExpected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -548,13 +531,13 @@ function assertIsIterable(value: any): asserts value is Iterable<unknown> {
 
 export function toMatch(
   context: MatcherContext,
-  expected: RegExp,
+  expected: RegExp
 ): MatchResult {
   if (context.isNot) {
     assertNotMatch(
       String(context.value),
       expected,
-      context.customMessage,
+      context.customMessage
     );
   } else {
     assertMatch(String(context.value), expected, context.customMessage);
@@ -563,7 +546,7 @@ export function toMatch(
 
 export function toMatchObject(
   context: MatcherContext,
-  expected: Record<PropertyKey, unknown> | Record<PropertyKey, unknown>[],
+  expected: Record<PropertyKey, unknown> | Record<PropertyKey, unknown>[]
 ): MatchResult {
   const received = context.value;
 
@@ -571,17 +554,17 @@ export function toMatchObject(
 
   if (typeof received !== "object" || received === null) {
     throw new AssertionError(
-      context.customMessage
-        ? `${context.customMessage}: ${defaultMsg}`
-        : defaultMsg,
+      context.customMessage ?
+        `${context.customMessage}: ${defaultMsg}` :
+        defaultMsg
     );
   }
 
   if (typeof expected !== "object" || expected === null) {
     throw new AssertionError(
-      context.customMessage
-        ? `${context.customMessage}: ${defaultMsg}`
-        : defaultMsg,
+      context.customMessage ?
+        `${context.customMessage}: ${defaultMsg}` :
+        defaultMsg
     );
   }
 
@@ -590,17 +573,17 @@ export function toMatchObject(
     customTesters: [
       ...context.customTesters,
       iterableEquality,
-      subsetEquality,
-    ],
+      subsetEquality
+    ]
   });
 
   const triggerError = () => {
     if (context.isNot) {
       const defaultMessage = buildNotEqualErrorMessage(received, expected);
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     } else {
       const subset = getObjectSubset(received, expected, context.customTesters);
@@ -608,12 +591,12 @@ export function toMatchObject(
       // "Values are not equal." headline so the failure message describes
       // what actually went wrong (see #6999).
       const defaultMessage = buildEqualErrorMessage(subset, expected, {
-        summary: "Object does not match the expected pattern.",
+        summary: "Object does not match the expected pattern."
       });
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   };
@@ -629,22 +612,20 @@ export function toHaveBeenCalled(context: MatcherContext): MatchResult {
 
   if (context.isNot) {
     if (hasBeenCalled) {
-      const defaultMessage =
-        `Expected mock function not to be called, but it was called ${calls.length} time(s)`;
+      const defaultMessage = `Expected mock function not to be called, but it was called ${calls.length} time(s)`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!hasBeenCalled) {
-      const defaultMessage =
-        "Expected mock function to be called, but it was not called";
+      const defaultMessage = "Expected mock function to be called, but it was not called";
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -652,28 +633,26 @@ export function toHaveBeenCalled(context: MatcherContext): MatchResult {
 
 export function toHaveBeenCalledTimes(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const calls = getMockCalls(context.value);
 
   if (context.isNot) {
     if (calls.length === expected) {
-      const defaultMessage =
-        `Expected mock function not to be called ${expected} time(s), but it was`;
+      const defaultMessage = `Expected mock function not to be called ${expected} time(s), but it was`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (calls.length !== expected) {
-      const defaultMessage =
-        `Expected mock function to be called ${expected} time(s), but it was called ${calls.length} time(s)`;
+      const defaultMessage = `Expected mock function to be called ${expected} time(s), but it was called ${calls.length} time(s)`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -684,35 +663,29 @@ export function toHaveBeenCalledWith(
   ...expected: unknown[]
 ): MatchResult {
   const calls = getMockCalls(context.value);
-  const hasBeenCalled = calls.some((call) => equal(call.args, expected));
+  const hasBeenCalled = calls.some(call => equal(call.args, expected));
 
   if (context.isNot) {
     if (hasBeenCalled) {
-      const defaultMessage = `Expected mock function not to be called with ${
-        inspectArgs(expected)
-      }, but it was`;
+      const defaultMessage = `Expected mock function not to be called with ${inspectArgs(expected)}, but it was`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!hasBeenCalled) {
       let otherCalls = "";
       if (calls.length > 0) {
-        otherCalls = `\n  Other calls:\n     ${
-          calls.map((call) => inspectArgs(call.args)).join("\n    ")
-        }`;
+        otherCalls = `\n  Other calls:\n     ${calls.map(call => inspectArgs(call.args)).join("\n    ")}`;
       }
 
-      const defaultMessage = `Expected mock function to be called with ${
-        inspectArgs(expected)
-      }, but it was not.${otherCalls}`;
+      const defaultMessage = `Expected mock function to be called with ${inspectArgs(expected)}, but it was not.${otherCalls}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -727,36 +700,31 @@ export function toHaveBeenLastCalledWith(
 
   if (context.isNot) {
     if (hasBeenCalled) {
-      const defaultMessage =
-        `Expected mock function not to be last called with ${
-          inspectArgs(expected)
-        }, but it was`;
+      const defaultMessage = `Expected mock function not to be last called with ${inspectArgs(expected)}, but it was`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!hasBeenCalled) {
       const lastCall = calls.at(-1);
       if (!lastCall) {
-        const defaultMessage = `Expected mock function to be last called with ${
-          inspectArgs(expected)
-        }, but it was not`;
+        const defaultMessage = `Expected mock function to be last called with ${inspectArgs(expected)}, but it was not`;
         throw new AssertionError(
-          context.customMessage
-            ? `${context.customMessage}: ${defaultMessage}`
-            : defaultMessage,
+          context.customMessage ?
+            `${context.customMessage}: ${defaultMessage}` :
+            defaultMessage
         );
       } else {
-        const defaultMessage = `Expected mock function to be last called with ${
-          inspectArgs(expected)
-        }, but it was last called with ${inspectArgs(lastCall.args)}`;
+        const defaultMessage = `Expected mock function to be last called with ${inspectArgs(expected)}, but it was last called with ${
+          inspectArgs(lastCall.args)
+        }`;
         throw new AssertionError(
-          context.customMessage
-            ? `${context.customMessage}: ${defaultMessage}`
-            : defaultMessage,
+          context.customMessage ?
+            `${context.customMessage}: ${defaultMessage}` :
+            defaultMessage
         );
       }
     }
@@ -779,38 +747,31 @@ export function toHaveBeenNthCalledWith(
 
   if (context.isNot) {
     if (hasBeenCalled) {
-      const defaultMessage =
-        `Expected the n-th call (n=${nth}) of mock function is not with ${
-          inspectArgs(expected)
-        }, but it was`;
+      const defaultMessage = `Expected the n-th call (n=${nth}) of mock function is not with ${inspectArgs(expected)}, but it was`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!hasBeenCalled) {
       const nthCall = calls[callIndex];
       if (!nthCall) {
-        const defaultMessage =
-          `Expected the n-th call (n=${nth}) of mock function is with ${
-            inspectArgs(expected)
-          }, but the n-th call does not exist`;
+        const defaultMessage = `Expected the n-th call (n=${nth}) of mock function is with ${inspectArgs(expected)}, but the n-th call does not exist`;
         throw new AssertionError(
-          context.customMessage
-            ? `${context.customMessage}: ${defaultMessage}`
-            : defaultMessage,
+          context.customMessage ?
+            `${context.customMessage}: ${defaultMessage}` :
+            defaultMessage
         );
       } else {
-        const defaultMessage =
-          `Expected the n-th call (n=${nth}) of mock function is with ${
-            inspectArgs(expected)
-          }, but it was with ${inspectArgs(nthCall.args)}`;
+        const defaultMessage = `Expected the n-th call (n=${nth}) of mock function is with ${inspectArgs(expected)}, but it was with ${
+          inspectArgs(nthCall.args)
+        }`;
         throw new AssertionError(
-          context.customMessage
-            ? `${context.customMessage}: ${defaultMessage}`
-            : defaultMessage,
+          context.customMessage ?
+            `${context.customMessage}: ${defaultMessage}` :
+            defaultMessage
         );
       }
     }
@@ -819,26 +780,24 @@ export function toHaveBeenNthCalledWith(
 
 export function toHaveReturned(context: MatcherContext): MatchResult {
   const calls = getMockCalls(context.value);
-  const returned = calls.filter((call) => call.returns);
+  const returned = calls.filter(call => call.returns);
 
   if (context.isNot) {
     if (returned.length > 0) {
-      const defaultMessage =
-        `Expected the mock function to not have returned, but it returned ${returned.length} times`;
+      const defaultMessage = `Expected the mock function to not have returned, but it returned ${returned.length} times`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (returned.length === 0) {
-      const defaultMessage =
-        `Expected the mock function to have returned, but it did not return`;
+      const defaultMessage = `Expected the mock function to have returned, but it did not return`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -846,65 +805,55 @@ export function toHaveReturned(context: MatcherContext): MatchResult {
 
 export function toHaveReturnedTimes(
   context: MatcherContext,
-  expected: number,
+  expected: number
 ): MatchResult {
   const calls = getMockCalls(context.value);
-  const returned = calls.filter((call) => call.returns);
+  const returned = calls.filter(call => call.returns);
 
   if (context.isNot) {
     if (returned.length === expected) {
-      const defaultMessage =
-        `Expected the mock function to not have returned ${expected} times, but it returned ${returned.length} times`;
+      const defaultMessage = `Expected the mock function to not have returned ${expected} times, but it returned ${returned.length} times`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (returned.length !== expected) {
-      const defaultMessage =
-        `Expected the mock function to have returned ${expected} times, but it returned ${returned.length} times`;
+      const defaultMessage = `Expected the mock function to have returned ${expected} times, but it returned ${returned.length} times`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
 }
 export function toHaveReturnedWith(
   context: MatcherContext,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   const calls = getMockCalls(context.value);
-  const returned = calls.filter((call) => call.returns);
-  const returnedWithExpected = returned.some((call) =>
-    equal(call.returned, expected)
-  );
+  const returned = calls.filter(call => call.returns);
+  const returnedWithExpected = returned.some(call => equal(call.returned, expected));
 
   if (context.isNot) {
     if (returnedWithExpected) {
-      const defaultMessage =
-        `Expected the mock function to not have returned with ${
-          inspectArg(expected)
-        }, but it did`;
+      const defaultMessage = `Expected the mock function to not have returned with ${inspectArg(expected)}, but it did`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!returnedWithExpected) {
-      const defaultMessage =
-        `Expected the mock function to have returned with ${
-          inspectArg(expected)
-        }, but it did not`;
+      const defaultMessage = `Expected the mock function to have returned with ${inspectArg(expected)}, but it did not`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -912,35 +861,29 @@ export function toHaveReturnedWith(
 
 export function toHaveLastReturnedWith(
   context: MatcherContext,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   const calls = getMockCalls(context.value);
-  const returned = calls.filter((call) => call.returns);
+  const returned = calls.filter(call => call.returns);
   const lastReturnedWithExpected = returned.length > 0 &&
     equal(returned.at(-1)?.returned, expected);
 
   if (context.isNot) {
     if (lastReturnedWithExpected) {
-      const defaultMessage =
-        `Expected the mock function to not have last returned with ${
-          inspectArg(expected)
-        }, but it did`;
+      const defaultMessage = `Expected the mock function to not have last returned with ${inspectArg(expected)}, but it did`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!lastReturnedWithExpected) {
-      const defaultMessage =
-        `Expected the mock function to have last returned with ${
-          inspectArg(expected)
-        }, but it did not`;
+      const defaultMessage = `Expected the mock function to have last returned with ${inspectArg(expected)}, but it did not`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -949,14 +892,14 @@ export function toHaveLastReturnedWith(
 export function toHaveNthReturnedWith(
   context: MatcherContext,
   nth: number,
-  expected: unknown,
+  expected: unknown
 ): MatchResult {
   if (nth < 1) {
     throw new Error(`nth(${nth}) must be greater than 0`);
   }
 
   const calls = getMockCalls(context.value);
-  const returned = calls.filter((call) => call.returns);
+  const returned = calls.filter(call => call.returns);
   const returnIndex = nth - 1;
   const maybeNthReturned = returned[returnIndex];
   const nthReturnedWithExpected = maybeNthReturned &&
@@ -964,26 +907,20 @@ export function toHaveNthReturnedWith(
 
   if (context.isNot) {
     if (nthReturnedWithExpected) {
-      const defaultMessage =
-        `Expected the mock function to not have n-th (n=${nth}) returned with ${
-          inspectArg(expected)
-        }, but it did`;
+      const defaultMessage = `Expected the mock function to not have n-th (n=${nth}) returned with ${inspectArg(expected)}, but it did`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   } else {
     if (!nthReturnedWithExpected) {
-      const defaultMessage =
-        `Expected the mock function to have n-th (n=${nth}) returned with ${
-          inspectArg(expected)
-        }, but it did not`;
+      const defaultMessage = `Expected the mock function to have n-th (n=${nth}) returned with ${inspectArg(expected)}, but it did not`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     }
   }
@@ -992,7 +929,7 @@ export function toHaveNthReturnedWith(
 export function toThrow<E extends Error = Error>(
   context: MatcherContext,
   // deno-lint-ignore no-explicit-any
-  expected?: string | RegExp | E | (new (...args: any[]) => E),
+  expected?: string | RegExp | E | (new(...args: any[]) => E)
 ): MatchResult {
   if (typeof context.value === "function") {
     try {
@@ -1003,7 +940,7 @@ export function toThrow<E extends Error = Error>(
   }
 
   // deno-lint-ignore no-explicit-any
-  type ErrorClass = new (...args: any[]) => Error;
+  type ErrorClass = new(...args: any[]) => Error;
   let expectClass: undefined | ErrorClass = undefined;
   let expectMessage: undefined | string | RegExp = undefined;
   if (expected instanceof Error) {
@@ -1024,14 +961,14 @@ export function toThrow<E extends Error = Error>(
         context.value,
         expectClass,
         expectMessage,
-        context.customMessage,
+        context.customMessage
       );
       isError = true;
       const defaultMessage = `Expected to NOT throw ${expected}`;
       throw new AssertionError(
-        context.customMessage
-          ? `${context.customMessage}: ${defaultMessage}`
-          : defaultMessage,
+        context.customMessage ?
+          `${context.customMessage}: ${defaultMessage}` :
+          defaultMessage
       );
     } catch (e) {
       if (isError) {
@@ -1044,7 +981,7 @@ export function toThrow<E extends Error = Error>(
     context.value,
     expectClass,
     expectMessage,
-    context.customMessage,
+    context.customMessage
   );
 }
 
@@ -1055,7 +992,7 @@ export function toThrow<E extends Error = Error>(
  */
 function parseSnapshotArgs(
   first?: Record<string, unknown> | string,
-  second?: string,
+  second?: string
 ): {
   propertyMatchers: Record<string, unknown> | undefined;
   stringArg: string | undefined;
@@ -1077,11 +1014,11 @@ function parseSnapshotArgs(
 function applyPropertyMatchers(
   context: MatcherContext,
   propertyMatchers: Record<string, unknown>,
-  matcherName: string,
+  matcherName: string
 ): unknown {
   if (typeof context.value !== "object" || context.value === null) {
     throw new AssertionError(
-      `Property matchers can only be used with object values in ${matcherName}`,
+      `Property matchers can only be used with object values in ${matcherName}`
     );
   }
   const pass = equal(context.value, propertyMatchers, {
@@ -1089,21 +1026,21 @@ function applyPropertyMatchers(
     customTesters: [
       ...context.customTesters,
       iterableEquality,
-      subsetEquality,
-    ],
+      subsetEquality
+    ]
   });
   if (!pass) {
     throw new AssertionError(
       buildEqualErrorMessage(
         context.value,
         propertyMatchers,
-        { msg: `${matcherName}: Property matchers did not match` },
-      ),
+        { msg: `${matcherName}: Property matchers did not match` }
+      )
     );
   }
   return replaceAsymmetricMatchers(
     context.value as Record<string, unknown>,
-    propertyMatchers,
+    propertyMatchers
   );
 }
 
@@ -1112,17 +1049,17 @@ function throwSnapshotMismatch(
   actual: string,
   expected: string,
   label: string,
-  updateHint: string,
+  updateHint: string
 ): never {
   const stringDiff = !actual.includes("\n");
-  const diffResult = stringDiff
-    ? diffStr(actual, expected)
-    : diff(actual.split("\n"), expected.split("\n"));
+  const diffResult = stringDiff ?
+    diffStr(actual, expected) :
+    diff(actual.split("\n"), expected.split("\n"));
   const diffMsg = buildMessage(diffResult, { stringDiff }).join("\n");
   throw new AssertionError(
     `${label} does not match:\n${diffMsg}\n` +
       `To update ${label.toLowerCase()}s, run:\n` +
-      `    ${updateHint}\n`,
+      `    ${updateHint}\n`
   );
 }
 
@@ -1134,7 +1071,7 @@ function throwSnapshotMismatch(
 export function toMatchSnapshot(
   context: MatcherContext,
   propertyMatchersOrHint?: Record<string, unknown> | string,
-  maybeHint?: string,
+  maybeHint?: string
 ): MatchResult {
   if (context.isNot) {
     throw new AssertionError("Snapshot matchers do not support `.not`");
@@ -1142,7 +1079,7 @@ export function toMatchSnapshot(
 
   const { propertyMatchers, stringArg: hint } = parseSnapshotArgs(
     propertyMatchersOrHint,
-    maybeHint,
+    maybeHint
   );
 
   // Determine test file path
@@ -1151,7 +1088,7 @@ export function toMatchSnapshot(
   if (!testFilePath) {
     throw new Error(
       "toMatchSnapshot: Unable to determine test file path. " +
-        "Set it using expect.setState({ testPath: import.meta.url }).",
+        "Set it using expect.setState({ testPath: import.meta.url })."
     );
   }
 
@@ -1160,7 +1097,7 @@ export function toMatchSnapshot(
   if (!testName) {
     throw new Error(
       "toMatchSnapshot: Unable to determine test name. " +
-        "Set it using expect.setState({ currentTestName: '<test name>' }).",
+        "Set it using expect.setState({ currentTestName: '<test name>' })."
     );
   }
 
@@ -1170,9 +1107,9 @@ export function toMatchSnapshot(
   const count = snapshotCtx.getCount(snapshotName);
   const key = `${snapshotName} ${count}`;
 
-  const valueToSerialize = propertyMatchers
-    ? applyPropertyMatchers(context, propertyMatchers, "toMatchSnapshot")
-    : context.value;
+  const valueToSerialize = propertyMatchers ?
+    applyPropertyMatchers(context, propertyMatchers, "toMatchSnapshot") :
+    context.value;
 
   const actualSnapshot = serialize(valueToSerialize);
   snapshotCtx.pushToUpdateQueue(key);
@@ -1190,7 +1127,7 @@ export function toMatchSnapshot(
       throw new AssertionError(
         `Missing snapshot: ${key}\n` +
           "To create snapshots, run:\n" +
-          "    ende test --allow-read --allow-write [files]... -- --update\n",
+          "    ende test --allow-read --allow-write [files]... -- --update\n"
       );
     }
 
@@ -1200,7 +1137,7 @@ export function toMatchSnapshot(
         actualSnapshot,
         expectedSnapshot,
         "Snapshot",
-        "ende test --allow-read --allow-write [files]... -- --update",
+        "ende test --allow-read --allow-write [files]... -- --update"
       );
     }
   }
@@ -1214,7 +1151,7 @@ export function toMatchSnapshot(
 export function toMatchInlineSnapshot(
   context: MatcherContext,
   propertyMatchersOrSnapshot?: Record<string, unknown> | string,
-  maybeSnapshot?: string,
+  maybeSnapshot?: string
 ): MatchResult {
   if (context.isNot) {
     throw new AssertionError("Snapshot matchers do not support `.not`");
@@ -1222,16 +1159,16 @@ export function toMatchInlineSnapshot(
 
   const { propertyMatchers, stringArg: inlineSnapshot } = parseSnapshotArgs(
     propertyMatchersOrSnapshot,
-    maybeSnapshot,
+    maybeSnapshot
   );
 
-  const valueToSerialize = propertyMatchers
-    ? applyPropertyMatchers(
+  const valueToSerialize = propertyMatchers ?
+    applyPropertyMatchers(
       context,
       propertyMatchers,
-      "toMatchInlineSnapshot",
-    )
-    : context.value;
+      "toMatchInlineSnapshot"
+    ) :
+    context.value;
 
   const actualSnapshot = serialize(valueToSerialize);
 
@@ -1250,7 +1187,7 @@ export function toMatchInlineSnapshot(
     if (!getIsUpdate()) {
       throw new AssertionError(
         "Missing inline snapshot argument. To create inline snapshots, run:\n" +
-          "    ende test --allow-read --allow-write [files]... -- --update\n",
+          "    ende test --allow-read --allow-write [files]... -- --update\n"
       );
     }
     const callSite = getInlineCallSite(toMatchInlineSnapshot);
@@ -1274,7 +1211,7 @@ export function toMatchInlineSnapshot(
         actualSnapshot,
         trimmedInlineSnapshot,
         "Inline snapshot",
-        "ende test --allow-read --allow-write [files]... -- --update",
+        "ende test --allow-read --allow-write [files]... -- --update"
       );
     }
   }
@@ -1287,7 +1224,7 @@ export function toMatchInlineSnapshot(
 function replaceAsymmetricMatchers(
   obj: Record<string, unknown>,
   // deno-lint-ignore no-explicit-any
-  matchers: Record<string, any>,
+  matchers: Record<string, any>
 ): Record<string, unknown> {
   const result = { ...obj };
   for (const key of Object.keys(matchers)) {
@@ -1307,7 +1244,7 @@ function replaceAsymmetricMatchers(
       // Recurse into nested objects
       result[key] = replaceAsymmetricMatchers(
         obj[key] as Record<string, unknown>,
-        matcher,
+        matcher
       );
     }
   }

@@ -34,7 +34,7 @@ export function encode(
   buffer: Uint8Array_,
   i: number,
   o: number,
-  alphabet: Uint8Array,
+  alphabet: Uint8Array
 ): number {
   for (; i < buffer.length; ++i) {
     const x = buffer[i]!;
@@ -48,13 +48,11 @@ export function decode(
   buffer: Uint8Array_,
   i: number,
   o: number,
-  alphabet: Uint8Array,
+  alphabet: Uint8Array
 ): number {
   if ((buffer.length - o) % 2 === 1) {
     throw new RangeError(
-      `Cannot decode input as hex: Length (${
-        buffer.length - o
-      }) must be divisible by 2`,
+      `Cannot decode input as hex: Length (${buffer.length - o}) must be divisible by 2`
     );
   }
 
@@ -70,9 +68,7 @@ function getByte(char: number, alphabet: Uint8Array): number {
   const byte = alphabet[char] ?? 16;
   if (byte === 16) { // alphabet.Hex.length
     throw new TypeError(
-      `Cannot decode input as hex: Invalid character (${
-        String.fromCharCode(char)
-      })`,
+      `Cannot decode input as hex: Invalid character (${String.fromCharCode(char)})`
     );
   }
   return byte;

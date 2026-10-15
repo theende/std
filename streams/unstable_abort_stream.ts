@@ -43,9 +43,11 @@ export class AbortStream<T> extends TransformStream<T, T> {
   constructor(signal: AbortSignal) {
     super({
       transform(chunk, controller) {
-        if (signal.aborted) controller.error(signal.reason);
-        else controller.enqueue(chunk);
-      },
+        if (signal.aborted)
+          controller.error(signal.reason);
+        else
+          controller.enqueue(chunk);
+      }
     });
   }
 }

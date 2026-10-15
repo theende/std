@@ -28,9 +28,10 @@ export function join(path?: URL | string, ...paths: string[]): string {
     path = fromFileUrl(path);
   }
   paths = path ? [path, ...paths] : paths;
-  paths.forEach((path) => assertPath(path));
-  paths = paths.filter((path) => path.length > 0);
-  if (paths.length === 0) return ".";
+  paths.forEach(path => assertPath(path));
+  paths = paths.filter(path => path.length > 0);
+  if (paths.length === 0)
+    return ".";
 
   // Make sure that the joined path doesn't start with two slashes, because
   // normalize() will mistake it for an UNC path then.
@@ -55,7 +56,8 @@ export function join(path?: URL | string, ...paths: string[]): string {
       if (isPathSeparator(firstPart.charCodeAt(1))) {
         ++slashCount;
         if (firstLen > 2) {
-          if (isPathSeparator(firstPart.charCodeAt(2))) ++slashCount;
+          if (isPathSeparator(firstPart.charCodeAt(2)))
+            ++slashCount;
           else {
             // We matched a UNC path in the first part
             needsReplace = false;
@@ -68,11 +70,13 @@ export function join(path?: URL | string, ...paths: string[]): string {
   if (needsReplace) {
     // Find any more consecutive slashes we need to replace
     for (; slashCount < joined.length; ++slashCount) {
-      if (!isPathSeparator(joined.charCodeAt(slashCount))) break;
+      if (!isPathSeparator(joined.charCodeAt(slashCount)))
+        break;
     }
 
     // Replace the slashes if needed
-    if (slashCount >= 2) joined = `\\${joined.slice(slashCount)}`;
+    if (slashCount >= 2)
+      joined = `\\${joined.slice(slashCount)}`;
   }
 
   return normalize(joined);

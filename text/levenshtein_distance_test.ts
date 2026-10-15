@@ -27,13 +27,13 @@ Ende.test("levenshteinDistance() handles long strings", () => {
   assertEquals(
     levenshteinDistance(
       "the quick brown fox jumps over the lazy dog",
-      "the lazy dog is jumped over by the quick brown fox",
+      "the lazy dog is jumped over by the quick brown fox"
     ),
-    30,
+    30
   );
 });
 
-Ende.test("levenshteinDistance() handles code points above U+FFFF", async (t) => {
+Ende.test("levenshteinDistance() handles code points above U+FFFF", async t => {
   await t.step("one of inputs is empty fast path", () => {
     assertLevenshteinBidi("💩", "", 1);
     assertLevenshteinBidi("\u{10FFFF}", "", 1);

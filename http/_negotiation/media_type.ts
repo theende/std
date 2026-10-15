@@ -35,7 +35,7 @@ import { compareSpecs, isQuality, type Specificity } from "./common.ts";
 interface MediaTypeSpecificity extends Specificity {
   type: string;
   subtype: string;
-  params: { [param: string]: string | undefined };
+  params: { [param: string]: string | undefined; };
 }
 
 const simpleMediaTypeRegExp = /^\s*([^\s\/;]+)\/([^;\s]+)\s*(?:;(.*))?$/;
@@ -47,7 +47,7 @@ function splitKeyValuePair(str: string): [string, string | undefined] {
 
 function parseMediaType(
   str: string,
-  i: number,
+  i: number
 ): MediaTypeSpecificity | undefined {
   const match = simpleMediaTypeRegExp.exec(str);
 
@@ -60,17 +60,17 @@ function parseMediaType(
     return;
   }
 
-  const params: { [param: string]: string | undefined } = Object.create(null);
+  const params: { [param: string]: string | undefined; } = Object.create(null);
   let q = 1;
   if (parameters) {
-    const kvps = parameters.split(";").map((p) => p.trim()).map(
-      splitKeyValuePair,
+    const kvps = parameters.split(";").map(p => p.trim()).map(
+      splitKeyValuePair
     );
 
     for (const [key, val] of kvps) {
-      const value = val && val[0] === `"` && val[val.length - 1] === `"`
-        ? val.slice(1, val.length - 1)
-        : val;
+      const value = val && val[0] === `"` && val[val.length - 1] === `"` ?
+        val.slice(1, val.length - 1) :
+        val;
 
       if (key === "q" && value) {
         q = parseFloat(value);
@@ -85,7 +85,7 @@ function parseMediaType(
 }
 
 function parseAccept(accept: string): MediaTypeSpecificity[] {
-  const accepts = accept.split(",").map((p) => p.trim());
+  const accepts = accept.split(",").map(p => p.trim());
 
   const mediaTypes: MediaTypeSpecificity[] = [];
   for (const [index, accept] of accepts.entries()) {
@@ -106,7 +106,7 @@ function getFullType(spec: MediaTypeSpecificity) {
 function specify(
   type: string,
   spec: MediaTypeSpecificity,
-  index: number,
+  index: number
 ): Specificity | undefined {
   const p = parseMediaType(type, index);
 
@@ -131,7 +131,7 @@ function specify(
   const keys = Object.keys(spec.params);
   if (keys.length) {
     if (
-      keys.every((key) =>
+      keys.every(key =>
         (spec.params[key] ?? "").toLowerCase() ===
           (p.params[key] ?? "").toLowerCase()
       )
@@ -146,14 +146,14 @@ function specify(
     i: index,
     o: spec.o,
     q: spec.q,
-    s,
+    s
   };
 }
 
 function getMediaTypePriority(
   type: string,
   accepted: MediaTypeSpecificity[],
-  index: number,
+  index: number
 ) {
   let priority: Specificity = { o: -1, q: 0, s: 0, i: index };
 
@@ -175,7 +175,7 @@ function getMediaTypePriority(
 
 export function preferredMediaTypes(
   accept?: string | null,
-  provided?: string[],
+  provided?: string[]
 ): string[] {
   const accepts = parseAccept(accept === undefined ? "*/*" : accept ?? "");
 
@@ -193,5 +193,5 @@ export function preferredMediaTypes(
   return priorities
     .filter(isQuality)
     .sort(compareSpecs)
-    .map((priority) => provided[priorities.indexOf(priority)]!);
+    .map(priority => provided[priorities.indexOf(priority)]!);
 }

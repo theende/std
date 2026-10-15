@@ -11,7 +11,7 @@ export function normalizeString(
   path: string,
   allowAboveRoot: boolean,
   separator: string,
-  isPathSeparator: (code: number) => boolean,
+  isPathSeparator: (code: number) => boolean
 ): string {
   let res = "";
   let lastSegmentLength = 0;
@@ -19,9 +19,12 @@ export function normalizeString(
   let dots = 0;
   let code: number | undefined;
   for (let i = 0; i <= path.length; ++i) {
-    if (i < path.length) code = path.charCodeAt(i);
-    else if (isPathSeparator(code!)) break;
-    else code = CHAR_FORWARD_SLASH;
+    if (i < path.length)
+      code = path.charCodeAt(i);
+    else if (isPathSeparator(code!))
+      break;
+    else
+      code = CHAR_FORWARD_SLASH;
 
     if (isPathSeparator(code!)) {
       if (lastSlash === i - 1 || dots === 1) {
@@ -54,13 +57,17 @@ export function normalizeString(
           }
         }
         if (allowAboveRoot) {
-          if (res.length > 0) res += `${separator}..`;
-          else res = "..";
+          if (res.length > 0)
+            res += `${separator}..`;
+          else
+            res = "..";
           lastSegmentLength = 2;
         }
       } else {
-        if (res.length > 0) res += separator + path.slice(lastSlash + 1, i);
-        else res = path.slice(lastSlash + 1, i);
+        if (res.length > 0)
+          res += separator + path.slice(lastSlash + 1, i);
+        else
+          res = path.slice(lastSlash + 1, i);
         lastSegmentLength = i - lastSlash - 1;
       }
       lastSlash = i;

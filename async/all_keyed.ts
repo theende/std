@@ -7,9 +7,7 @@
 // so we only need to filter symbol keys for enumerability. See also assert/equal.ts.
 function getEnumerableKeys(obj: object): PropertyKey[] {
   const stringKeys = Object.keys(obj);
-  const symbolKeys = Object.getOwnPropertySymbols(obj).filter((key) =>
-    Object.prototype.propertyIsEnumerable.call(obj, key)
-  );
+  const symbolKeys = Object.getOwnPropertySymbols(obj).filter(key => Object.prototype.propertyIsEnumerable.call(obj, key));
   return [...stringKeys, ...symbolKeys];
 }
 
@@ -91,12 +89,12 @@ export type SettledRecord<T extends Record<PropertyKey, unknown>> = {
  * ```
  */
 export function allKeyed<T extends Record<PropertyKey, unknown>>(
-  record: PromiseRecord<T>,
+  record: PromiseRecord<T>
 ): Promise<T> {
   const keys = getEnumerableKeys(record);
-  const values = keys.map((key) => record[key as keyof typeof record]);
+  const values = keys.map(key => record[key as keyof typeof record]);
 
-  return Promise.all(values).then((resolved) => {
+  return Promise.all(values).then(resolved => {
     const result = Object.create(null) as T;
     for (let i = 0; i < keys.length; i++) {
       result[keys[i] as keyof T] = resolved[i] as T[keyof T];
@@ -164,12 +162,12 @@ export function allKeyed<T extends Record<PropertyKey, unknown>>(
  * ```
  */
 export function allSettledKeyed<T extends Record<PropertyKey, unknown>>(
-  record: PromiseRecord<T>,
+  record: PromiseRecord<T>
 ): Promise<SettledRecord<T>> {
   const keys = getEnumerableKeys(record);
-  const values = keys.map((key) => record[key as keyof typeof record]);
+  const values = keys.map(key => record[key as keyof typeof record]);
 
-  return Promise.allSettled(values).then((settled) => {
+  return Promise.allSettled(values).then(settled => {
     const result = Object.create(null) as SettledRecord<T>;
     for (let i = 0; i < keys.length; i++) {
       result[keys[i] as keyof T] = settled[i] as PromiseSettledResult<

@@ -87,7 +87,7 @@ export class LimitedTransformStream<T> extends TransformStream<T, T> {
    */
   constructor(
     size: number,
-    options: LimitedTransformStreamOptions = { error: false },
+    options: LimitedTransformStreamOptions = { error: false }
   ) {
     super({
       transform: (chunk, controller) => {
@@ -101,7 +101,7 @@ export class LimitedTransformStream<T> extends TransformStream<T, T> {
           this.#read++;
           controller.enqueue(chunk);
         }
-      },
+      }
     });
   }
 }

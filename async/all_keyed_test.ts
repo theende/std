@@ -5,7 +5,7 @@ import {
   assertEquals,
   assertFalse,
   assertRejects,
-  assertStrictEquals,
+  assertStrictEquals
 } from "@ende/assert";
 
 // allKeyed tests
@@ -14,7 +14,7 @@ Ende.test("allKeyed() resolves record of promises", async () => {
   const result = await allKeyed({
     a: Promise.resolve(1),
     b: Promise.resolve("two"),
-    c: Promise.resolve(true),
+    c: Promise.resolve(true)
   });
 
   assertEquals(result, { a: 1, b: "two", c: true });
@@ -24,13 +24,13 @@ Ende.test("allKeyed() handles mixed promises and plain values", async () => {
   const result = await allKeyed({
     promise: Promise.resolve(42),
     plain: "static",
-    anotherPromise: Promise.resolve([1, 2, 3]),
+    anotherPromise: Promise.resolve([1, 2, 3])
   });
 
   assertEquals(result, {
     promise: 42,
     plain: "static",
-    anotherPromise: [1, 2, 3],
+    anotherPromise: [1, 2, 3]
   });
 });
 
@@ -47,10 +47,10 @@ Ende.test("allKeyed() rejects on first rejection", async () => {
       allKeyed({
         a: Promise.resolve(1),
         b: Promise.reject(error),
-        c: Promise.resolve(3),
+        c: Promise.resolve(3)
       }),
     Error,
-    "test error",
+    "test error"
   );
 });
 
@@ -58,7 +58,7 @@ Ende.test("allKeyed() preserves symbol keys", async () => {
   const sym = Symbol("test");
   const result = await allKeyed({
     [sym]: Promise.resolve("symbol value"),
-    regular: Promise.resolve("regular value"),
+    regular: Promise.resolve("regular value")
   });
 
   assertEquals(result[sym], "symbol value");
@@ -69,11 +69,11 @@ Ende.test("allKeyed() ignores non-enumerable properties", async () => {
   const record = Object.create(null);
   Object.defineProperty(record, "enumerable", {
     value: Promise.resolve("visible"),
-    enumerable: true,
+    enumerable: true
   });
   Object.defineProperty(record, "nonEnumerable", {
     value: Promise.resolve("hidden"),
-    enumerable: false,
+    enumerable: false
   });
 
   const result = await allKeyed(record);
@@ -87,12 +87,12 @@ Ende.test("allKeyed() ignores non-enumerable properties", async () => {
 Ende.test("allSettledKeyed() resolves all promises", async () => {
   const result = await allSettledKeyed({
     a: Promise.resolve(1),
-    b: Promise.resolve("two"),
+    b: Promise.resolve("two")
   });
 
   assertEquals(result, {
     a: { status: "fulfilled", value: 1 },
-    b: { status: "fulfilled", value: "two" },
+    b: { status: "fulfilled", value: "two" }
   });
 });
 
@@ -100,7 +100,7 @@ Ende.test("allSettledKeyed() handles mixed fulfilled and rejected", async () => 
   const error = new Error("rejection reason");
   const result = await allSettledKeyed({
     success: Promise.resolve("ok"),
-    failure: Promise.reject(error),
+    failure: Promise.reject(error)
   });
 
   assertEquals(result.success, { status: "fulfilled", value: "ok" });
@@ -114,7 +114,7 @@ Ende.test("allSettledKeyed() handles all rejections without throwing", async () 
 
   const result = await allSettledKeyed({
     a: Promise.reject(error1),
-    b: Promise.reject(error2),
+    b: Promise.reject(error2)
   });
 
   assertEquals(result.a.status, "rejected");
@@ -132,7 +132,7 @@ Ende.test("allSettledKeyed() preserves symbol keys", async () => {
   const sym = Symbol("test");
   const result = await allSettledKeyed({
     [sym]: Promise.resolve("symbol"),
-    regular: Promise.reject(new Error("fail")),
+    regular: Promise.reject(new Error("fail"))
   });
 
   assertEquals(result[sym], { status: "fulfilled", value: "symbol" });
@@ -159,7 +159,7 @@ Ende.test("allKeyed() preserves numeric key order", async () => {
   const result = await allKeyed({
     "2": Promise.resolve("two"),
     "1": Promise.resolve("one"),
-    "10": Promise.resolve("ten"),
+    "10": Promise.resolve("ten")
   });
 
   assertEquals(Object.keys(result), ["1", "2", "10"]);
@@ -184,11 +184,11 @@ Ende.test("allKeyed() ignores non-enumerable symbol keys", async () => {
   const record: Record<PropertyKey, Promise<string>> = {};
   Object.defineProperty(record, sym, {
     value: Promise.resolve("hidden"),
-    enumerable: false,
+    enumerable: false
   });
   Object.defineProperty(record, "visible", {
     value: Promise.resolve("visible"),
-    enumerable: true,
+    enumerable: true
   });
 
   const result = await allKeyed(record);
@@ -201,7 +201,7 @@ Ende.test("allKeyed() resolves custom thenables", async () => {
   const thenable = {
     then(resolve: (value: number) => void) {
       resolve(99);
-    },
+    }
   } as PromiseLike<number>;
   const result = await allKeyed({ val: thenable });
 
@@ -212,7 +212,7 @@ Ende.test("allSettledKeyed() resolves custom thenables", async () => {
   const thenable = {
     then(resolve: (value: string) => void) {
       resolve("from thenable");
-    },
+    }
   } as PromiseLike<string>;
   const result = await allSettledKeyed({ val: thenable });
 

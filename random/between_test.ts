@@ -9,14 +9,14 @@ import {
   assertGreaterOrEqual,
   assertLessOrEqual,
   assertNotEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 
 Ende.test("randomBetween() generates a random number between the provided minimum and maximum values", () => {
   const prng = randomSeeded(0n);
   const results = Array.from(
     { length: 1e4 },
-    () => randomBetween(1, 10, { prng }),
+    () => randomBetween(1, 10, { prng })
   );
 
   const min = Math.min(...results);
@@ -35,12 +35,12 @@ Ende.test("randomBetween() throws if min or max are NaN", () => {
   assertThrows(
     () => randomBetween(NaN, 1),
     RangeError,
-    "Cannot generate a random number: min cannot be NaN",
+    "Cannot generate a random number: min cannot be NaN"
   );
   assertThrows(
     () => randomBetween(1, NaN),
     RangeError,
-    "Cannot generate a random number: max cannot be NaN",
+    "Cannot generate a random number: max cannot be NaN"
   );
 });
 
@@ -48,12 +48,12 @@ Ende.test("randomBetween() throws if min or max are +/-Infinity", () => {
   assertThrows(
     () => randomBetween(-Infinity, 1),
     RangeError,
-    "Cannot generate a random number: min cannot be -Infinity",
+    "Cannot generate a random number: min cannot be -Infinity"
   );
   assertThrows(
     () => randomBetween(1, Infinity),
     RangeError,
-    "Cannot generate a random number: max cannot be Infinity",
+    "Cannot generate a random number: max cannot be Infinity"
   );
 });
 
@@ -61,7 +61,7 @@ Ende.test("randomBetween() throws if max is less than min", () => {
   assertThrows(
     () => randomBetween(10, 1),
     RangeError,
-    "Cannot generate a random number as max must be greater than or equal to min: max=1, min=10",
+    "Cannot generate a random number as max must be greater than or equal to min: max=1, min=10"
   );
 });
 
@@ -69,13 +69,13 @@ Ende.test("randomBetween() allows negative min and max", () => {
   const prng = randomSeeded(0n);
   const results = Array.from(
     { length: 3 },
-    () => randomBetween(-10, -1, { prng }),
+    () => randomBetween(-10, -1, { prng })
   );
 
   assertEquals(results, [
     -9.374074870022014,
     -1.1224633122328669,
-    -9.295748566510156,
+    -9.295748566510156
   ]);
 });
 
@@ -83,13 +83,13 @@ Ende.test("randomBetween() allows non-integer min and max", () => {
   const prng = randomSeeded(0n);
   const results = Array.from(
     { length: 3 },
-    () => randomBetween(1.5, 2.5, { prng }),
+    () => randomBetween(1.5, 2.5, { prng })
   );
 
   assertEquals(results, [
     1.5695472366642207,
     2.4863929653074592,
-    1.5782501592766494,
+    1.5782501592766494
   ]);
 });
 
@@ -109,7 +109,7 @@ Ende.test("randomBetween() doesn't overflow even for min = -Number.MAX_VALUE; ma
     const result = randomBetween(
       -Number.MAX_VALUE,
       Number.MAX_VALUE,
-      { prng: () => val! },
+      { prng: () => val! }
     );
     assert(Number.isFinite(result));
   }

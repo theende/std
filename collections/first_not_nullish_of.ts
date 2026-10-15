@@ -46,7 +46,7 @@
  */
 export function firstNotNullishOf<T, O>(
   array: Iterable<T>,
-  selector: (item: T, index: number) => O | undefined | null,
+  selector: (item: T, index: number) => O | undefined | null
 ): NonNullable<O> | undefined {
   let index = 0;
   for (const current of array) {

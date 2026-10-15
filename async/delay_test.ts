@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertInstanceOf,
   assertRejects,
-  assertStrictEquals,
+  assertStrictEquals
 } from "@ende/assert";
 import { assertSpyCalls, stub } from "@ende/testing/mock";
 import { FakeTime } from "@ende/testing/time";
@@ -52,7 +52,7 @@ Ende.test("delay() handles abort", async () => {
   assertIsDefaultAbortReason(cause);
 });
 
-Ende.test("delay() checks abort reason", async (ctx) => {
+Ende.test("delay() checks abort reason", async ctx => {
   async function assertRejectsReason(reason: unknown) {
     const start = new Date();
     const abort = new AbortController();
@@ -70,8 +70,9 @@ Ende.test("delay() checks abort reason", async (ctx) => {
       null,
       new Error("Timeout cancelled"),
       new DOMException("Timeout cancelled", "AbortError"),
-      new DOMException("The signal has been aborted", "AbortError"),
-    ].map(assertRejectsReason));
+      new DOMException("The signal has been aborted", "AbortError")
+    ]
+      .map(assertRejectsReason));
   });
 
   await ctx.step("undefined", async () => {
@@ -129,7 +130,7 @@ Ende.test("delay() handles persistent option", async () => {
   await Promise.all([
     delay(0, { persistent: false }),
     // Longer, persistent timer to ensure the process doesn't actually exit early (this would cause a test failure)
-    delay(1),
+    delay(1)
   ]);
   assertSpyCalls(unrefTimer, 1);
 });
@@ -152,13 +153,13 @@ Ende.test({
     await assertRejects(
       () => delay(100, { persistent: false }),
       TypeError,
-      "Error!",
+      "Error!"
     );
 
     assertSpyCalls(unrefTimer, 1);
   },
   sanitizeResources: false,
-  sanitizeOps: false,
+  sanitizeOps: false
 });
 
 Ende.test({
@@ -169,19 +170,19 @@ Ende.test({
         0x7fffffff,
         0x80000000,
         Number.MAX_SAFE_INTEGER,
-        Infinity,
+        Infinity
       ]
     ) {
       await t.step(`delay(${bigNum})`, async () => {
         const result = await Promise.race(
-          [1, bigNum].map((n) => delay(n).then(() => n)),
+          [1, bigNum].map(n => delay(n).then(() => n))
         );
         assertEquals(result, 1);
       });
     }
   },
   sanitizeResources: false,
-  sanitizeOps: false,
+  sanitizeOps: false
 });
 
 Ende.test({
@@ -195,13 +196,13 @@ Ende.test({
     assertIsDefaultAbortReason(cause);
   },
   sanitizeResources: false,
-  sanitizeOps: false,
+  sanitizeOps: false
 });
 
 async function advanceUntilComplete<T>(
   time: FakeTime,
   tickMs: number,
-  task: () => Promise<T>,
+  task: () => Promise<T>
 ): Promise<T> {
   let done = false;
 
@@ -213,7 +214,8 @@ async function advanceUntilComplete<T>(
     }
   })();
 
-  while (!done) await time.tickAsync(tickMs);
+  while (!done)
+    await time.tickAsync(tickMs);
 
   return result;
 }
@@ -224,5 +226,5 @@ Ende.test({
     using time = new FakeTime(0);
     await advanceUntilComplete(time, 2 ** 30, () => delay(2 ** 32));
     assertEquals(time.now, 2 ** 32);
-  },
+  }
 });

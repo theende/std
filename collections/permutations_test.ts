@@ -7,7 +7,7 @@ import { permutations } from "./permutations.ts";
 function permutationsTest<T>(
   input: [Array<T>],
   expected: Array<Array<T>>,
-  message?: string,
+  message?: string
 ) {
   const actual = permutations(...input);
   assertEquals(actual, expected, message);
@@ -20,7 +20,7 @@ Ende.test({
     permutations(array);
 
     assertEquals(array, [1, 2, 3]);
-  },
+  }
 });
 
 Ende.test({
@@ -28,9 +28,9 @@ Ende.test({
   fn() {
     permutationsTest(
       [[]],
-      [],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -38,17 +38,17 @@ Ende.test({
   fn() {
     permutationsTest(
       [
-        [true],
+        [true]
       ],
-      [[true]],
+      [[true]]
     );
     permutationsTest(
       [
-        [undefined],
+        [undefined]
       ],
-      [[undefined]],
+      [[undefined]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -56,9 +56,9 @@ Ende.test({
   fn() {
     permutationsTest(
       [[1, 1]],
-      [[1, 1], [1, 1]],
+      [[1, 1], [1, 1]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -72,8 +72,8 @@ Ende.test({
         ["c", "a", "b"],
         ["a", "c", "b"],
         ["b", "c", "a"],
-        ["c", "b", "a"],
-      ],
+        ["c", "b", "a"]
+      ]
     );
     permutationsTest(
       [[true, false, true]],
@@ -83,8 +83,8 @@ Ende.test({
         [true, true, false],
         [true, true, false],
         [false, true, true],
-        [true, false, true],
-      ],
+        [true, false, true]
+      ]
     );
-  },
+  }
 });

@@ -35,8 +35,8 @@ tags = ['toml', 'front-matter']
     attrs: {
       title: "Three dashes followed by the format marks the spot",
       tags: ["toml", "front-matter"],
-      "expanded-description": "with some ---toml 👌 crazy stuff in it",
-    },
+      "expanded-description": "with some ---toml 👌 crazy stuff in it"
+    }
   };
   assertEquals(actual, expected);
 });
@@ -57,20 +57,20 @@ Also = '+++toml this shouldn't be a problem'
     content.frontMatter,
     `title = 'Three pluses followed by the format marks the spot'
 tags = ['toml', 'front-matter']
-'expanded-description' = 'with some +++toml 👌 crazy stuff in it'`,
+'expanded-description' = 'with some +++toml 👌 crazy stuff in it'`
   );
   assertEquals(
     content.body,
-    "don't break\n+++\nAlso = '+++toml this shouldn't be a problem'\n",
+    "don't break\n+++\nAlso = '+++toml this shouldn't be a problem'\n"
   );
   assertEquals(
     content.attrs.title,
-    "Three pluses followed by the format marks the spot",
+    "Three pluses followed by the format marks the spot"
   );
   assertEquals(content.attrs.tags, ["toml", "front-matter"]);
   assertEquals(
     content.attrs["expanded-description"],
-    "with some +++toml 👌 crazy stuff in it",
+    "with some +++toml 👌 crazy stuff in it"
   );
 });
 
@@ -83,22 +83,22 @@ Ende.test("extractToml() allows whitespaces after the header", () => {
 Ende.test("extractToml() handles empty frontMatter", () => {
   assertEquals(
     extract("---toml\n---"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
   assertEquals(
     extract("---toml\n\n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
   assertEquals(
     extract("---toml\n   \n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
 });
 
 Ende.test("extractToml() throws at missing newline before body", () => {
   assertThrows(
-    () => extract('---toml\nfoo = "bar"\n---body'),
+    () => extract("---toml\nfoo = \"bar\"\n---body"),
     TypeError,
-    "Unexpected end of input",
+    "Unexpected end of input"
   );
 });

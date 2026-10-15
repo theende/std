@@ -2,27 +2,27 @@
 // Copyright 2026 the Ende authors. MIT license.
 import { assertEquals } from "@ende/assert";
 import {
-  type ServerSentEventParsedMessage,
   ServerSentEventParseStream,
+  type ServerSentEventParsedMessage
 } from "./server_sent_event_parse_stream.ts";
 import {
-  type ServerSentEventMessage,
   ServerSentEventStream,
+  type ServerSentEventMessage
 } from "./server_sent_event_stream.ts";
 
 /** Helper to parse SSE from raw string chunks */
 function parseStream(
-  chunks: string[],
+  chunks: string[]
 ): ReadableStream<ServerSentEventParsedMessage> {
   const encoder = new TextEncoder();
   return ReadableStream
-    .from(chunks.map((chunk) => encoder.encode(chunk)))
+    .from(chunks.map(chunk => encoder.encode(chunk)))
     .pipeThrough(new ServerSentEventParseStream());
 }
 
 /** Helper to roundtrip through encode then decode */
 function roundtrip(
-  messages: ServerSentEventMessage[],
+  messages: ServerSentEventMessage[]
 ): ReadableStream<ServerSentEventParsedMessage> {
   return ReadableStream
     .from(messages)
@@ -32,7 +32,7 @@ function roundtrip(
 
 Ende.test("ServerSentEventParseStream parses data field", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: hello\n\n",
+    "data: hello\n\n"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -40,7 +40,7 @@ Ende.test("ServerSentEventParseStream parses data field", async () => {
 
 Ende.test("ServerSentEventParseStream parses data field without space after colon", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data:hello\n\n",
+    "data:hello\n\n"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -48,7 +48,7 @@ Ende.test("ServerSentEventParseStream parses data field without space after colo
 
 Ende.test("ServerSentEventParseStream parses multiple data lines", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: line1\ndata: line2\ndata: line3\n\n",
+    "data: line1\ndata: line2\ndata: line3\n\n"
   ]));
 
   assertEquals(result, [{ data: "line1\nline2\nline3" }]);
@@ -56,7 +56,7 @@ Ende.test("ServerSentEventParseStream parses multiple data lines", async () => {
 
 Ende.test("ServerSentEventParseStream parses event field", async () => {
   const result = await Array.fromAsync(parseStream([
-    "event: update\ndata: payload\n\n",
+    "event: update\ndata: payload\n\n"
   ]));
 
   assertEquals(result, [{ event: "update", data: "payload" }]);
@@ -64,7 +64,7 @@ Ende.test("ServerSentEventParseStream parses event field", async () => {
 
 Ende.test("ServerSentEventParseStream parses id field", async () => {
   const result = await Array.fromAsync(parseStream([
-    "id: 123\ndata: payload\n\n",
+    "id: 123\ndata: payload\n\n"
   ]));
 
   assertEquals(result, [{ id: "123", data: "payload" }]);
@@ -72,7 +72,7 @@ Ende.test("ServerSentEventParseStream parses id field", async () => {
 
 Ende.test("ServerSentEventParseStream ignores id with null character", async () => {
   const result = await Array.fromAsync(parseStream([
-    "id: abc\0def\ndata: test\n\n",
+    "id: abc\0def\ndata: test\n\n"
   ]));
 
   assertEquals(result, [{ data: "test" }]);
@@ -80,7 +80,7 @@ Ende.test("ServerSentEventParseStream ignores id with null character", async () 
 
 Ende.test("ServerSentEventParseStream parses retry field", async () => {
   const result = await Array.fromAsync(parseStream([
-    "retry: 3000\n\n",
+    "retry: 3000\n\n"
   ]));
 
   assertEquals(result, [{ retry: 3000 }]);
@@ -88,7 +88,7 @@ Ende.test("ServerSentEventParseStream parses retry field", async () => {
 
 Ende.test("ServerSentEventParseStream ignores non-numeric retry", async () => {
   const result = await Array.fromAsync(parseStream([
-    "retry: abc\ndata: test\n\n",
+    "retry: abc\ndata: test\n\n"
   ]));
 
   assertEquals(result, [{ data: "test" }]);
@@ -96,7 +96,7 @@ Ende.test("ServerSentEventParseStream ignores non-numeric retry", async () => {
 
 Ende.test("ServerSentEventParseStream parses comment lines", async () => {
   const result = await Array.fromAsync(parseStream([
-    ":this is a comment\n\n",
+    ":this is a comment\n\n"
   ]));
 
   assertEquals(result, [{ comment: "this is a comment" }]);
@@ -104,7 +104,7 @@ Ende.test("ServerSentEventParseStream parses comment lines", async () => {
 
 Ende.test("ServerSentEventParseStream parses multiple comment lines", async () => {
   const result = await Array.fromAsync(parseStream([
-    ":comment 1\n:comment 2\n\n",
+    ":comment 1\n:comment 2\n\n"
   ]));
 
   assertEquals(result, [{ comment: "comment 1\ncomment 2" }]);
@@ -112,7 +112,7 @@ Ende.test("ServerSentEventParseStream parses multiple comment lines", async () =
 
 Ende.test("ServerSentEventParseStream parses all fields together", async () => {
   const result = await Array.fromAsync(parseStream([
-    ":comment\nevent: type\ndata: payload\nid: 1\nretry: 1000\n\n",
+    ":comment\nevent: type\ndata: payload\nid: 1\nretry: 1000\n\n"
   ]));
 
   assertEquals(result, [{
@@ -120,13 +120,13 @@ Ende.test("ServerSentEventParseStream parses all fields together", async () => {
     event: "type",
     data: "payload",
     id: "1",
-    retry: 1000,
+    retry: 1000
   }]);
 });
 
 Ende.test("ServerSentEventParseStream handles multiple messages", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: first\n\ndata: second\n\n",
+    "data: first\n\ndata: second\n\n"
   ]));
 
   assertEquals(result, [{ data: "first" }, { data: "second" }]);
@@ -137,7 +137,7 @@ Ende.test("ServerSentEventParseStream handles chunked input", async () => {
     "da",
     "ta: hel",
     "lo\n",
-    "\n",
+    "\n"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -145,7 +145,7 @@ Ende.test("ServerSentEventParseStream handles chunked input", async () => {
 
 Ende.test("ServerSentEventParseStream handles CRLF line endings", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: hello\r\n\r\n",
+    "data: hello\r\n\r\n"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -153,7 +153,7 @@ Ende.test("ServerSentEventParseStream handles CRLF line endings", async () => {
 
 Ende.test("ServerSentEventParseStream handles CR line endings", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: hello\r\r",
+    "data: hello\r\r"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -161,7 +161,7 @@ Ende.test("ServerSentEventParseStream handles CR line endings", async () => {
 
 Ende.test("ServerSentEventParseStream handles mixed line endings", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: one\ndata: two\r\ndata: three\r\n\n",
+    "data: one\ndata: two\r\ndata: three\r\n\n"
   ]));
 
   assertEquals(result, [{ data: "one\ntwo\nthree" }]);
@@ -171,7 +171,7 @@ Ende.test("ServerSentEventParseStream handles CRLF split across chunks", async (
   // \r at end of chunk 1, \n at start of chunk 2 should be ONE line ending
   const result = await Array.fromAsync(parseStream([
     ":comment\r",
-    "\ndata: hello\n\n",
+    "\ndata: hello\n\n"
   ]));
 
   assertEquals(result, [{ comment: "comment", data: "hello" }]);
@@ -181,7 +181,7 @@ Ende.test("ServerSentEventParseStream handles standalone CR at chunk boundary", 
   // \r at end of chunk 1 followed by non-\n should be a line ending
   const result = await Array.fromAsync(parseStream([
     "data: one\r",
-    "data: two\n\n",
+    "data: two\n\n"
   ]));
 
   assertEquals(result, [{ data: "one\ntwo" }]);
@@ -189,7 +189,7 @@ Ende.test("ServerSentEventParseStream handles standalone CR at chunk boundary", 
 
 Ende.test("ServerSentEventParseStream handles trailing CR at end of stream", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data: hello\r",
+    "data: hello\r"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -197,7 +197,7 @@ Ende.test("ServerSentEventParseStream handles trailing CR at end of stream", asy
 
 Ende.test("ServerSentEventParseStream strips BOM from start", async () => {
   const result = await Array.fromAsync(parseStream([
-    "\uFEFFdata: hello\n\n",
+    "\uFEFFdata: hello\n\n"
   ]));
 
   assertEquals(result, [{ data: "hello" }]);
@@ -205,7 +205,7 @@ Ende.test("ServerSentEventParseStream strips BOM from start", async () => {
 
 Ende.test("ServerSentEventParseStream ignores empty messages", async () => {
   const result = await Array.fromAsync(parseStream([
-    "\n\ndata: real\n\n\n\n",
+    "\n\ndata: real\n\n\n\n"
   ]));
 
   assertEquals(result, [{ data: "real" }]);
@@ -213,7 +213,7 @@ Ende.test("ServerSentEventParseStream ignores empty messages", async () => {
 
 Ende.test("ServerSentEventParseStream ignores unknown fields", async () => {
   const result = await Array.fromAsync(parseStream([
-    "unknown: value\ndata: test\n\n",
+    "unknown: value\ndata: test\n\n"
   ]));
 
   assertEquals(result, [{ data: "test" }]);
@@ -221,7 +221,7 @@ Ende.test("ServerSentEventParseStream ignores unknown fields", async () => {
 
 Ende.test("ServerSentEventParseStream handles field without colon", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data\n\n",
+    "data\n\n"
   ]));
 
   assertEquals(result, [{ data: "" }]);
@@ -229,7 +229,7 @@ Ende.test("ServerSentEventParseStream handles field without colon", async () => 
 
 Ende.test("ServerSentEventParseStream handles empty data value", async () => {
   const result = await Array.fromAsync(parseStream([
-    "data:\n\n",
+    "data:\n\n"
   ]));
 
   assertEquals(result, [{ data: "" }]);
@@ -238,7 +238,7 @@ Ende.test("ServerSentEventParseStream handles empty data value", async () => {
 Ende.test("ServerSentEventParseStream handles data with leading space preserved", async () => {
   // Only ONE space after colon is removed
   const result = await Array.fromAsync(parseStream([
-    "data:  two spaces\n\n",
+    "data:  two spaces\n\n"
   ]));
 
   assertEquals(result, [{ data: " two spaces" }]);
@@ -247,7 +247,7 @@ Ende.test("ServerSentEventParseStream handles data with leading space preserved"
 Ende.test("ServerSentEventParseStream handles flush with pending message", async () => {
   // No trailing newlines - message should be dispatched on flush
   const result = await Array.fromAsync(parseStream([
-    "data: final",
+    "data: final"
   ]));
 
   assertEquals(result, [{ data: "final" }]);
@@ -259,7 +259,7 @@ Ende.test("ServerSentEventParseStream roundtrip with ServerSentEventStream", asy
     { event: "update", data: "world" },
     { id: "1", data: "with id" },
     { retry: 3000 },
-    { comment: "a comment" },
+    { comment: "a comment" }
   ];
 
   const result = await Array.fromAsync(roundtrip(original));
@@ -269,7 +269,7 @@ Ende.test("ServerSentEventParseStream roundtrip with ServerSentEventStream", asy
 
 Ende.test("ServerSentEventParseStream roundtrip with multiline data", async () => {
   const original: ServerSentEventMessage[] = [
-    { data: "line1\nline2\nline3" },
+    { data: "line1\nline2\nline3" }
   ];
 
   const result = await Array.fromAsync(roundtrip(original));
@@ -284,8 +284,8 @@ Ende.test("ServerSentEventParseStream roundtrip with all fields", async () => {
       event: "message",
       data: "payload",
       id: "123",
-      retry: 5000,
-    },
+      retry: 5000
+    }
   ];
 
   const result = await Array.fromAsync(roundtrip(original));
@@ -313,7 +313,8 @@ Ende.test("ServerSentEventParseStream handles multi-byte UTF-8 split across chun
   const chunk1 = full.slice(0, 8); // "data: " (6) + first 2 bytes of emoji
   const chunk2 = full.slice(8); // last 2 bytes of emoji + "\n\n"
 
-  const stream = ReadableStream.from([chunk1, chunk2])
+  const stream = ReadableStream
+    .from([chunk1, chunk2])
     .pipeThrough(new ServerSentEventParseStream());
 
   const result = await Array.fromAsync(stream);
@@ -323,21 +324,23 @@ Ende.test("ServerSentEventParseStream handles multi-byte UTF-8 split across chun
 
 Ende.test("ServerSentEventParseStream handles multi-byte UTF-8 in various positions", async () => {
   const result = await Array.fromAsync(parseStream([
-    "event: 日本語\ndata: Привет мир\nid: 中文\n\n",
+    "event: 日本語\ndata: Привет мир\nid: 中文\n\n"
   ]));
 
   assertEquals(result, [{
     event: "日本語",
     data: "Привет мир",
-    id: "中文",
+    id: "中文"
   }]);
 });
 
 Ende.test("ServerSentEventParseStream ignoreComments option filters out comments", async () => {
   const encoder = new TextEncoder();
-  const stream = ReadableStream.from([
-    encoder.encode(":keepalive\ndata: hello\n\n"),
-  ]).pipeThrough(new ServerSentEventParseStream({ ignoreComments: true }));
+  const stream = ReadableStream
+    .from([
+      encoder.encode(":keepalive\ndata: hello\n\n")
+    ])
+    .pipeThrough(new ServerSentEventParseStream({ ignoreComments: true }));
 
   const result = await Array.fromAsync(stream);
 
@@ -346,9 +349,11 @@ Ende.test("ServerSentEventParseStream ignoreComments option filters out comments
 
 Ende.test("ServerSentEventParseStream ignoreComments option filters multiple comments", async () => {
   const encoder = new TextEncoder();
-  const stream = ReadableStream.from([
-    encoder.encode(":comment1\n:comment2\nevent: update\ndata: test\n\n"),
-  ]).pipeThrough(new ServerSentEventParseStream({ ignoreComments: true }));
+  const stream = ReadableStream
+    .from([
+      encoder.encode(":comment1\n:comment2\nevent: update\ndata: test\n\n")
+    ])
+    .pipeThrough(new ServerSentEventParseStream({ ignoreComments: true }));
 
   const result = await Array.fromAsync(stream);
 
@@ -357,9 +362,11 @@ Ende.test("ServerSentEventParseStream ignoreComments option filters multiple com
 
 Ende.test("ServerSentEventParseStream ignoreComments with comment-only message produces no output", async () => {
   const encoder = new TextEncoder();
-  const stream = ReadableStream.from([
-    encoder.encode(":just a comment\n\n"),
-  ]).pipeThrough(new ServerSentEventParseStream({ ignoreComments: true }));
+  const stream = ReadableStream
+    .from([
+      encoder.encode(":just a comment\n\n")
+    ])
+    .pipeThrough(new ServerSentEventParseStream({ ignoreComments: true }));
 
   const result = await Array.fromAsync(stream);
 

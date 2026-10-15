@@ -38,7 +38,8 @@ export function bytesToUuid(bytes: number[] | Uint8Array): string {
     // when concatenating strings with "+" operator. See:
     // - https://issues.chromium.org/issues/42206473
     // - https://github.com/uuidjs/uuid/pull/434
-  ).toLowerCase();
+  )
+    .toLowerCase();
 }
 
 /**

@@ -7,7 +7,7 @@ import { zip } from "./zip.ts";
 function zip1Test<T>(
   input: [Array<T>],
   expected: Array<[T]>,
-  message?: string,
+  message?: string
 ) {
   const actual = zip(...input);
   assertEquals(actual, expected, message);
@@ -17,22 +17,22 @@ Ende.test({
   name: "zip() handles a single empty array",
   fn() {
     assertEquals(zip([]), []);
-  },
+  }
 });
 
 Ende.test({
   name: "zip() handles one array",
   fn() {
     zip1Test([
-      [1, 2, 3],
+      [1, 2, 3]
     ], [[1], [2], [3]]);
-  },
+  }
 });
 
 function zipTest<T, U>(
   input: [ReadonlyArray<T>, ReadonlyArray<U>],
   expected: Array<[T, U]>,
-  message?: string,
+  message?: string
 ) {
   const actual = zip(...input);
   assertEquals(actual, expected, message);
@@ -41,7 +41,7 @@ function zipTest<T, U>(
 function zip3Test<T, U, V>(
   input: [Array<T>, Array<U>, Array<V>],
   expected: Array<[T, U, V]>,
-  message?: string,
+  message?: string
 ) {
   const actual = zip(...input);
   assertEquals(actual, expected, message);
@@ -53,9 +53,9 @@ Ende.test({
     zip3Test([
       [1, 2, 3],
       [4, 5, 6],
-      [7, 8, 9],
+      [7, 8, 9]
     ], [[1, 4, 7], [2, 5, 8], [3, 6, 9]]);
-  },
+  }
 });
 
 Ende.test({
@@ -64,9 +64,9 @@ Ende.test({
     zip3Test([
       [1, 2],
       [4, 5, 6],
-      [7, 8, 9],
+      [7, 8, 9]
     ], [[1, 4, 7], [2, 5, 8]]);
-  },
+  }
 });
 
 Ende.test({
@@ -78,7 +78,7 @@ Ende.test({
 
     assertEquals(arrayA, [1, 4, 5]);
     assertEquals(arrayB, ["foo", "bar"]);
-  },
+  }
 });
 
 Ende.test({
@@ -86,18 +86,18 @@ Ende.test({
   fn() {
     zipTest(
       [[], []],
-      [],
+      []
     );
     zipTest(
       [[1, 2, 3], []],
-      [],
+      []
     );
     zipTest(
       [[], [{}, []]],
-      [],
+      []
     );
     assertEquals(zip(), []);
-  },
+  }
 });
 
 Ende.test({
@@ -106,25 +106,25 @@ Ende.test({
     zipTest(
       [
         [1, 4, 5],
-        ["foo", "bar", "lorem"],
+        ["foo", "bar", "lorem"]
       ],
       [
         [1, "foo"],
         [4, "bar"],
-        [5, "lorem"],
-      ],
+        [5, "lorem"]
+      ]
     );
     zipTest(
       [
         [2.2, false],
-        ["test", true],
+        ["test", true]
       ],
       [
         [2.2, "test"],
-        [false, true],
-      ],
+        [false, true]
+      ]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -133,21 +133,21 @@ Ende.test({
     zipTest(
       [
         [1],
-        ["foo", "bar", "lorem"],
+        ["foo", "bar", "lorem"]
       ],
-      [[1, "foo"]],
+      [[1, "foo"]]
     );
     zipTest(
       [
         [2.2, false],
-        ["test", true, {}],
+        ["test", true, {}]
       ],
       [
         [2.2, "test"],
-        [false, true],
-      ],
+        [false, true]
+      ]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -156,21 +156,21 @@ Ende.test({
     zipTest(
       [
         [1, 4, 5],
-        ["foo"],
+        ["foo"]
       ],
-      [[1, "foo"]],
+      [[1, "foo"]]
     );
     zipTest(
       [
         [2.2, false, "test"],
-        ["test", true],
+        ["test", true]
       ],
       [
         [2.2, "test"],
-        [false, true],
-      ],
+        [false, true]
+      ]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -182,9 +182,9 @@ Ende.test({
     assertEquals(result, [
       [1, "a"],
       [undefined, "b"],
-      [3, "c"],
+      [3, "c"]
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -197,9 +197,9 @@ Ende.test({
     }
     assertEquals(
       zip(numbers(), ["a", "b", "c"]),
-      [[1, "a"], [2, "b"], [3, "c"]],
+      [[1, "a"], [2, "b"], [3, "c"]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -207,9 +207,9 @@ Ende.test({
   fn() {
     assertEquals(
       zip(new Set([1, 2, 3]), ["a", "b", "c"]),
-      [[1, "a"], [2, "b"], [3, "c"]],
+      [[1, "a"], [2, "b"], [3, "c"]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -217,7 +217,7 @@ Ende.test({
   fn() {
     assertEquals(
       zip(new Set([1, 2, 3])),
-      [[1], [2], [3]],
+      [[1], [2], [3]]
     );
     function* gen() {
       yield "a";
@@ -225,9 +225,9 @@ Ende.test({
     }
     assertEquals(
       zip(gen()),
-      [["a"], ["b"]],
+      [["a"], ["b"]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -239,7 +239,7 @@ Ende.test({
     }
     assertEquals(
       zip(numbers(), ["a", "b", "c"]),
-      [[1, "a"], [2, "b"]],
+      [[1, "a"], [2, "b"]]
     );
-  },
+  }
 });

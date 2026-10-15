@@ -42,7 +42,7 @@ export class Semaphore {
   constructor(max: number = 1) {
     if (!Number.isInteger(max) || max < 1) {
       throw new TypeError(
-        `Cannot create semaphore as 'max' must be a positive integer: received ${max}`,
+        `Cannot create semaphore as 'max' must be a positive integer: received ${max}`
       );
     }
     this.#count = this.#max = max;
@@ -83,7 +83,7 @@ export class Semaphore {
       this.#count--;
       return Promise.resolve(disposable);
     }
-    return new Promise((res) => {
+    return new Promise(res => {
       const node: Node = { res: () => res(disposable), next: undefined };
       if (this.#tail) {
         this.#tail = this.#tail.next = node;
@@ -140,7 +140,8 @@ export class Semaphore {
     if (this.#head) {
       this.#head.res();
       this.#head = this.#head.next;
-      if (!this.#head) this.#tail = undefined;
+      if (!this.#head)
+        this.#tail = undefined;
     } else if (this.#count < this.#max) {
       this.#count++;
     }

@@ -30,7 +30,8 @@ export type ReadonlyDeque<T> = Pick<
 
 /** Round up to the smallest power of two >= n (at least {@linkcode MIN_CAPACITY}). */
 function nextPowerOfTwo(n: number): number {
-  if (n <= MIN_CAPACITY) return MIN_CAPACITY;
+  if (n <= MIN_CAPACITY)
+    return MIN_CAPACITY;
   n--;
   n |= n >>> 1;
   n |= n >>> 2;
@@ -133,7 +134,7 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
       !(Symbol.iterator in Object(source))
     ) {
       throw new TypeError(
-        "Cannot construct a Deque: the 'source' parameter is not iterable, did you mean to call Deque.from?",
+        "Cannot construct a Deque: the 'source' parameter is not iterable, did you mean to call Deque.from?"
       );
     }
     // Fast path: copy array directly without iterator protocol overhead
@@ -141,7 +142,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
       const len = source.length;
       const capacity = nextPowerOfTwo(len);
       const buffer = new Array(capacity);
-      for (let i = 0; i < len; i++) buffer[i] = source[i];
+      for (let i = 0; i < len; i++)
+        buffer[i] = source[i];
       this.#buffer = buffer;
       this.#head = 0;
       this.#length = len;
@@ -276,7 +278,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns The back element, or `undefined` if empty.
    */
   popBack(): T | undefined {
-    if (this.#length === 0) return undefined;
+    if (this.#length === 0)
+      return undefined;
     this.#length--;
     const index = (this.#head + this.#length) & this.#mask;
     const value = this.#buffer[index];
@@ -301,7 +304,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns The front element, or `undefined` if empty.
    */
   popFront(): T | undefined {
-    if (this.#length === 0) return undefined;
+    if (this.#length === 0)
+      return undefined;
     const value = this.#buffer[this.#head];
     this.#buffer[this.#head] = undefined;
     this.#head = (this.#head + 1) & this.#mask;
@@ -331,7 +335,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    */
   removeFirst(predicate: (value: T, index: number) => boolean): T | undefined {
     const i = this.#findIndex(predicate);
-    if (i === -1) return undefined;
+    if (i === -1)
+      return undefined;
     return this.#removeAtUnchecked(i);
   }
 
@@ -365,8 +370,10 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns The removed element, or `undefined` if the index is out of range.
    */
   removeAt(index: number): T | undefined {
-    if (index < 0) index += this.#length;
-    if (index < 0 || index >= this.#length) return undefined;
+    if (index < 0)
+      index += this.#length;
+    if (index < 0 || index >= this.#length)
+      return undefined;
     return this.#removeAtUnchecked(index);
   }
 
@@ -390,7 +397,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    */
   find(predicate: (value: T, index: number) => boolean): T | undefined {
     const i = this.#findIndex(predicate);
-    if (i === -1) return undefined;
+    if (i === -1)
+      return undefined;
     return this.#buffer[(this.#head + i) & this.#mask] as T;
   }
 
@@ -433,7 +441,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns The front element, or `undefined` if empty.
    */
   peekFront(): T | undefined {
-    if (this.#length === 0) return undefined;
+    if (this.#length === 0)
+      return undefined;
     return this.#buffer[this.#head];
   }
 
@@ -454,7 +463,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns The back element, or `undefined` if empty.
    */
   peekBack(): T | undefined {
-    if (this.#length === 0) return undefined;
+    if (this.#length === 0)
+      return undefined;
     return this.#buffer[(this.#head + this.#length - 1) & this.#mask];
   }
 
@@ -478,8 +488,10 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns The element at the index, or `undefined` if out of range.
    */
   at(index: number): T | undefined {
-    if (index < 0) index += this.#length;
-    if (index < 0 || index >= this.#length) return undefined;
+    if (index < 0)
+      index += this.#length;
+    if (index < 0 || index >= this.#length)
+      return undefined;
     return this.#buffer[(this.#head + index) & this.#mask];
   }
 
@@ -519,12 +531,14 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
     // SameValueZero: === for everything except NaN
     for (let i = 0; i < firstLen; i++) {
       const el = buf[head + i];
-      if (el === value || (el !== el && value !== value)) return true;
+      if (el === value || (el !== el && value !== value))
+        return true;
     }
     const rem = len - firstLen;
     for (let i = 0; i < rem; i++) {
       const el = buf[i];
-      if (el === value || (el !== el && value !== value)) return true;
+      if (el === value || (el !== el && value !== value))
+        return true;
     }
     return false;
   }
@@ -573,7 +587,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
     let write = 0;
     for (let read = 0; read < this.#length; read++) {
       const val = this.#buffer[(this.#head + read) & this.#mask] as T;
-      if (!predicate(val, read)) continue;
+      if (!predicate(val, read))
+        continue;
       if (write !== read) {
         this.#buffer[(this.#head + write) & this.#mask] = val;
       }
@@ -608,9 +623,11 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
     const cap = this.#mask + 1;
     const result = new Array<T>(len);
     const firstLen = Math.min(len, cap - head);
-    for (let i = 0; i < firstLen; i++) result[i] = buf[head + i] as T;
+    for (let i = 0; i < firstLen; i++)
+      result[i] = buf[head + i] as T;
     const rem = len - firstLen;
-    for (let i = 0; i < rem; i++) result[firstLen + i] = buf[i] as T;
+    for (let i = 0; i < rem; i++)
+      result[firstLen + i] = buf[i] as T;
     return result;
   }
 
@@ -641,7 +658,7 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    * @returns A new deque containing the values from the collection.
    */
   static from<T>(
-    collection: ArrayLike<T> | Iterable<T> | Deque<T>,
+    collection: ArrayLike<T> | Iterable<T> | Deque<T>
   ): Deque<T>;
   /**
    * Create a new deque from an array-like, iterable, or existing deque, with
@@ -668,14 +685,14 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
     options: {
       map: (value: T, index: number) => U;
       thisArg?: V;
-    },
+    }
   ): Deque<U>;
   static from<T, U, V>(
     collection: ArrayLike<T> | Iterable<T> | Deque<T>,
     options?: {
       map?: (value: T, index: number) => U;
       thisArg?: V;
-    },
+    }
   ): Deque<U> {
     if (
       collection === null || collection === undefined ||
@@ -686,7 +703,7 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
       )
     ) {
       throw new TypeError(
-        "Cannot create a Deque: the 'collection' parameter is not iterable or array-like",
+        "Cannot create a Deque: the 'collection' parameter is not iterable or array-like"
       );
     }
     const result = new Deque<U>();
@@ -697,7 +714,7 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
         const capacity = nextPowerOfTwo(collection.#length);
         result.#buffer = Deque.#copyBuffer(
           collection,
-          capacity,
+          capacity
         ) as (U | undefined)[];
         result.#head = 0;
         result.#length = collection.#length;
@@ -709,9 +726,9 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
       unmappedValues = collection;
     }
 
-    const mapped: U[] = options?.map
-      ? Array.from(unmappedValues, options.map, options.thisArg)
-      : Array.from(unmappedValues as ArrayLike<U> & Iterable<U>);
+    const mapped: U[] = options?.map ?
+      Array.from(unmappedValues, options.map, options.thisArg) :
+      Array.from(unmappedValues as ArrayLike<U> & Iterable<U>);
 
     const capacity = nextPowerOfTwo(mapped.length);
     result.#buffer = new Array(capacity);
@@ -786,9 +803,11 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
     const len = source.#length;
     const srcCap = source.#mask + 1;
     const firstLen = Math.min(len, srcCap - head);
-    for (let i = 0; i < firstLen; i++) buffer[i] = src[head + i];
+    for (let i = 0; i < firstLen; i++)
+      buffer[i] = src[head + i];
     const rem = len - firstLen;
-    for (let i = 0; i < rem; i++) buffer[firstLen + i] = src[i];
+    for (let i = 0; i < rem; i++)
+      buffer[firstLen + i] = src[i];
     return buffer;
   }
 
@@ -842,9 +861,12 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
   }
 
   #maybeGrow(): void {
-    if (this.#length < this.#capacity) return;
-    if (this.#head === 0) this.#growWithoutCopying();
-    else this.#grow();
+    if (this.#length < this.#capacity)
+      return;
+    if (this.#head === 0)
+      this.#growWithoutCopying();
+    else
+      this.#grow();
   }
 
   #grow(): void {

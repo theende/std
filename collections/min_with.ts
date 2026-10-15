@@ -27,7 +27,7 @@
  */
 export function minWith<T>(
   array: Iterable<T>,
-  comparator: (a: T, b: T) => number,
+  comparator: (a: T, b: T) => number
 ): T | undefined {
   let min: T | undefined;
   let isFirst = true;

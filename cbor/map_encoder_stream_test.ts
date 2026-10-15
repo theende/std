@@ -14,13 +14,13 @@ Ende.test("CborMapEncoderStream() correctly encoding", async () => {
   const expectedOutput = concat([
     new Uint8Array([0b101_11111]),
     ...maps.map(([k, v]) => [encodeCbor(k), encodeCbor(v as CborType)]).flat(),
-    new Uint8Array([0b111_11111]),
+    new Uint8Array([0b111_11111])
   ]);
 
   const actualOutput = concat(
     await Array.fromAsync(
-      ReadableStream.from(maps).pipeThrough(new CborMapEncoderStream()),
-    ),
+      ReadableStream.from(maps).pipeThrough(new CborMapEncoderStream())
+    )
   );
 
   assertEquals(actualOutput, expectedOutput);
@@ -32,13 +32,13 @@ Ende.test("CborMapEncoderStream.from() correctly encoding", async () => {
   const expectedOutput = concat([
     new Uint8Array([0b101_11111]),
     ...maps.map(([k, v]) => [encodeCbor(k), encodeCbor(v as CborType)]).flat(),
-    new Uint8Array([0b111_11111]),
+    new Uint8Array([0b111_11111])
   ]);
 
   const actualOutput = concat(
     await Array.fromAsync(
-      CborMapEncoderStream.from(maps).readable,
-    ),
+      CborMapEncoderStream.from(maps).readable
+    )
   );
 
   assertEquals(actualOutput, expectedOutput);

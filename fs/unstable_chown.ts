@@ -26,7 +26,7 @@
 export async function chown(
   path: string | URL,
   uid: number | null,
-  gid: number | null,
+  gid: number | null
 ): Promise<void> {
   await Ende.chown(path, uid, gid);
 }
@@ -56,7 +56,7 @@ export async function chown(
 export function chownSync(
   path: string | URL,
   uid: number | null,
-  gid: number | null,
+  gid: number | null
 ): void {
   Ende.chownSync(path, uid, gid);
 }

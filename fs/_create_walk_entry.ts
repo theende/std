@@ -26,7 +26,7 @@ export function createWalkEntrySync(path: string | URL): WalkEntry {
     name,
     isFile: info.isFile,
     isDirectory: info.isDirectory,
-    isSymlink: info.isSymlink,
+    isSymlink: info.isSymlink
   };
 }
 
@@ -41,6 +41,6 @@ export async function createWalkEntry(path: string | URL): Promise<WalkEntry> {
     name,
     isFile: info.isFile,
     isDirectory: info.isDirectory,
-    isSymlink: info.isSymlink,
+    isSymlink: info.isSymlink
   };
 }

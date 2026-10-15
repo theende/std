@@ -7,11 +7,11 @@ import { ProgressBarStream } from "./unstable_progress_bar_stream.ts";
 async function* getData(
   loops: number,
   bufferSize: number,
-  delay = 5,
+  delay = 5
 ): AsyncGenerator<Uint8Array> {
   for (let i = 0; i < loops; ++i) {
     yield new Uint8Array(bufferSize);
-    await new Promise((a) => setTimeout(a, delay));
+    await new Promise(a => setTimeout(a, delay));
   }
 }
 
@@ -26,11 +26,12 @@ Ende.test("ProgressBarStream() flushes", async () => {
           writable,
           max: 10 * 1000,
           keepOpen: false,
-          interval: 1,
-        }),
+          interval: 1
+        })
       )
     // deno-lint-ignore no-empty
-  ) {}
+  ) {
+  }
 
   assertEquals((await new Response(readable).bytes()).subarray(-1)[0], 10);
 });
@@ -45,8 +46,8 @@ Ende.test("ProgressBarStream() cancels", async () => {
         writable,
         max: 10 * 1000,
         keepOpen: false,
-        interval: 1,
-      }),
+        interval: 1
+      })
     )
     .cancel();
 

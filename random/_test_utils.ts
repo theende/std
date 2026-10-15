@@ -21,7 +21,7 @@ const numberTypes = [
   "BigUint64",
   "Float16",
   "Float32",
-  "Float64",
+  "Float64"
 ] as const;
 
 export function mockLittleEndian(littleEndian: boolean) {
@@ -44,7 +44,7 @@ export function mockLittleEndian(littleEndian: boolean) {
         const dv = new DataView(
           target.buffer,
           target.byteOffset,
-          target.byteLength,
+          target.byteLength
         );
 
         const proxy: any = new Proxy(target, {
@@ -72,17 +72,15 @@ export function mockLittleEndian(littleEndian: boolean) {
             const i = Number(prop);
             dv[`set${type}`](i * target.BYTES_PER_ELEMENT, val, littleEndian);
             return true;
-          },
+          }
         });
 
         proxy[Symbol.for("nodejs.util.inspect.custom")] = (
           _: any,
           args: any,
-          inspect: typeof Ende.inspect,
+          inspect: typeof Ende.inspect
         ) => {
-          return `${
-            littleEndian ? "LE" : "BE"
-          }_${TypedArray.name}(${proxy.length}) ${inspect([...proxy], args)}`;
+          return `${littleEndian ? "LE" : "BE"}_${TypedArray.name}(${proxy.length}) ${inspect([...proxy], args)}`;
         };
 
         if (

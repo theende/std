@@ -45,7 +45,7 @@ const NARROW_UNIT_NAME_MAP = new Map<DurationPartUnit, string>([
   ["seconds", "s"],
   ["milliseconds", "ms"],
   ["microseconds", "µs"],
-  ["nanoseconds", "ns"],
+  ["nanoseconds", "ns"]
 ]);
 
 const FULL_UNIT_NAME_MAP = new Map<DurationPartUnit, string>([
@@ -55,19 +55,19 @@ const FULL_UNIT_NAME_MAP = new Map<DurationPartUnit, string>([
   ["seconds", "second"],
   ["milliseconds", "millisecond"],
   ["microseconds", "microsecond"],
-  ["nanoseconds", "nanosecond"],
+  ["nanoseconds", "nanosecond"]
 ]);
 
 /** Get key with pluralization */
 function getPluralizedKey(unit: DurationPartUnit, value: number) {
-  return value === 1
-    ? FULL_UNIT_NAME_MAP.get(unit)
-    : `${FULL_UNIT_NAME_MAP.get(unit)}s`;
+  return value === 1 ?
+    FULL_UNIT_NAME_MAP.get(unit) :
+    `${FULL_UNIT_NAME_MAP.get(unit)}s`;
 }
 
 /** Parse milliseconds into a duration. */
 function millisecondsToDurationParts(
-  ms: number,
+  ms: number
 ): DurationPart[] {
   // Duration cannot be negative
   const millis = Math.abs(ms);
@@ -79,7 +79,7 @@ function millisecondsToDurationParts(
     { unit: "seconds", value: Math.trunc(millis / 1000) % 60 },
     { unit: "milliseconds", value: Math.trunc(millis) % 1000 },
     { unit: "microseconds", value: +millisFraction.slice(0, 3) },
-    { unit: "nanoseconds", value: +millisFraction.slice(3, 6) },
+    { unit: "nanoseconds", value: +millisFraction.slice(3, 6) }
   ];
 }
 
@@ -129,11 +129,11 @@ export interface FormatOptions {
  */
 export function format(
   ms: number,
-  options?: FormatOptions,
+  options?: FormatOptions
 ): string {
   const {
     style = "narrow",
-    ignoreZero = false,
+    ignoreZero = false
   } = options ?? {};
 
   const parts = millisecondsToDurationParts(ms);
@@ -141,29 +141,33 @@ export function format(
   switch (style) {
     case "narrow": {
       let arr = parts;
-      if (ignoreZero) arr = arr.filter((x) => x.value);
+      if (ignoreZero)
+        arr = arr.filter(x => x.value);
       return arr
-        .map((x) => `${x.value}${NARROW_UNIT_NAME_MAP.get(x.unit)}`)
+        .map(x => `${x.value}${NARROW_UNIT_NAME_MAP.get(x.unit)}`)
         .join(" ");
     }
     case "full": {
       let arr = parts;
-      if (ignoreZero) arr = arr.filter((x) => x.value);
+      if (ignoreZero)
+        arr = arr.filter(x => x.value);
       return arr
-        .map((x) => `${x.value} ${getPluralizedKey(x.unit, x.value)}`)
+        .map(x => `${x.value} ${getPluralizedKey(x.unit, x.value)}`)
         .join(", ");
     }
     case "digital": {
-      const arr = parts.map((x) =>
-        ["milliseconds", "microseconds", "nanoseconds"].includes(x.unit)
-          ? addZero(x.value, 3)
-          : addZero(x.value, 2)
+      const arr = parts.map(x =>
+        ["milliseconds", "microseconds", "nanoseconds"].includes(x.unit) ?
+          addZero(x.value, 3) :
+          addZero(x.value, 2)
       );
       if (ignoreZero) {
         let cont = true;
         while (cont) {
-          if (!Number(arr[arr.length - 1])) arr.pop();
-          else cont = false;
+          if (!Number(arr[arr.length - 1]))
+            arr.pop();
+          else
+            cont = false;
         }
       }
       return arr.join(":");

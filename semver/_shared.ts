@@ -5,7 +5,7 @@ import type { Comparator } from "./types.ts";
 
 export function compareNumber(
   a: number,
-  b: number,
+  b: number
 ): 1 | 0 | -1 {
   if (isNaN(a) || isNaN(b)) {
     throw new Error("Cannot compare against non-numbers");
@@ -15,35 +15,44 @@ export function compareNumber(
 
 export function checkIdentifier(
   v1: ReadonlyArray<string | number> = [],
-  v2: ReadonlyArray<string | number> = [],
+  v2: ReadonlyArray<string | number> = []
 ): 1 | 0 | -1 {
   // NOT having a prerelease is > having one
   // But NOT having a build is < having one
-  if (v1.length && !v2.length) return -1;
-  if (!v1.length && v2.length) return 1;
+  if (v1.length && !v2.length)
+    return -1;
+  if (!v1.length && v2.length)
+    return 1;
   return 0;
 }
 
 export function compareIdentifier(
   v1: ReadonlyArray<string | number> = [],
-  v2: ReadonlyArray<string | number> = [],
+  v2: ReadonlyArray<string | number> = []
 ): 1 | 0 | -1 {
   const length = Math.max(v1.length, v2.length);
   for (let i = 0; i < length; i++) {
     const a = v1[i];
     const b = v2[i];
     // same length is equal
-    if (a === undefined && b === undefined) return 0;
+    if (a === undefined && b === undefined)
+      return 0;
     // longer > shorter
-    if (b === undefined) return 1;
+    if (b === undefined)
+      return 1;
     // shorter < longer
-    if (a === undefined) return -1;
+    if (a === undefined)
+      return -1;
     // string > number
-    if (typeof a === "string" && typeof b === "number") return 1;
+    if (typeof a === "string" && typeof b === "number")
+      return 1;
     // number < string
-    if (typeof a === "number" && typeof b === "string") return -1;
-    if (a < b) return -1;
-    if (a > b) return 1;
+    if (typeof a === "number" && typeof b === "string")
+      return -1;
+    if (a < b)
+      return -1;
+    if (a > b)
+      return 1;
     // If they're equal, continue comparing segments.
   }
   return 0;
@@ -62,21 +71,18 @@ const NON_NUMERIC_IDENTIFIER = "\\d*[a-zA-Z-][a-zA-Z0-9-]*";
 /**
  * Three dot-separated numeric identifiers.
  */
-const VERSION_CORE =
-  `(?<major>${NUMERIC_IDENTIFIER})\\.(?<minor>${NUMERIC_IDENTIFIER})\\.(?<patch>${NUMERIC_IDENTIFIER})`;
+const VERSION_CORE = `(?<major>${NUMERIC_IDENTIFIER})\\.(?<minor>${NUMERIC_IDENTIFIER})\\.(?<patch>${NUMERIC_IDENTIFIER})`;
 
 /**
  * A numeric identifier, or a non-numeric identifier.
  */
-const PRERELEASE_IDENTIFIER =
-  `(?:${NUMERIC_IDENTIFIER}|${NON_NUMERIC_IDENTIFIER})`;
+const PRERELEASE_IDENTIFIER = `(?:${NUMERIC_IDENTIFIER}|${NON_NUMERIC_IDENTIFIER})`;
 
 /**
  * A hyphen, followed by one or more dot-separated pre-release version identifiers.
  * @example "-pre.release"
  */
-const PRERELEASE =
-  `(?:-(?<prerelease>${PRERELEASE_IDENTIFIER}(?:\\.${PRERELEASE_IDENTIFIER})*))`;
+const PRERELEASE = `(?:-(?<prerelease>${PRERELEASE_IDENTIFIER}(?:\\.${PRERELEASE_IDENTIFIER})*))`;
 
 /**
  * Any combination of digits, letters, or hyphens.
@@ -87,8 +93,7 @@ const BUILD_IDENTIFIER = "[0-9A-Za-z-]+";
  * A plus sign, followed by one or more period-separated build metadata identifiers.
  * @example "+build.meta"
  */
-const BUILD =
-  `(?:\\+(?<buildmetadata>${BUILD_IDENTIFIER}(?:\\.${BUILD_IDENTIFIER})*))`;
+const BUILD = `(?:\\+(?<buildmetadata>${BUILD_IDENTIFIER}(?:\\.${BUILD_IDENTIFIER})*))`;
 
 /**
  * A version, followed optionally by a pre-release version and build metadata.
@@ -123,7 +128,7 @@ export const XRANGE =
  * @example "~1.x.x", "^1.2.*", ">=1.2.3"
  */
 export const OPERATOR_XRANGE_REGEXP = new RegExp(
-  `^(?<operator>~>?|\\^|${COMPARATOR})\\s*${XRANGE}$`,
+  `^(?<operator>~>?|\\^|${COMPARATOR})\\s*${XRANGE}$`
 );
 
 /**
@@ -131,7 +136,7 @@ export const OPERATOR_XRANGE_REGEXP = new RegExp(
  * @example ">1.2.3"
  */
 export const COMPARATOR_REGEXP = new RegExp(
-  `^(?<operator>${COMPARATOR})\\s*(${FULL_VERSION})$|^$`,
+  `^(?<operator>${COMPARATOR})\\s*(${FULL_VERSION})$|^$`
 );
 
 /**
@@ -178,7 +183,8 @@ export function parsePrerelease(prerelease: string) {
     .map((id: string) => {
       if (NUMERIC_IDENTIFIER_REGEXP.test(id)) {
         const number = Number(id);
-        if (isValidNumber(number)) return number;
+        if (isValidNumber(number))
+          return number;
       }
       return id;
     });
@@ -190,7 +196,8 @@ export function parseBuild(buildmetadata: string) {
 
 export function parseNumber(input: string, errorMessage: string) {
   const number = Number(input);
-  if (!isValidNumber(number)) throw new TypeError(errorMessage);
+  if (!isValidNumber(number))
+    throw new TypeError(errorMessage);
   return number;
 }
 

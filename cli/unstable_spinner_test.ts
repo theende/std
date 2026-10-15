@@ -20,13 +20,13 @@ Ende.test("Spinner can start and stop", async () => {
       "\r\x1b[K⠧\x1b[0m Loading...",
       "\r\x1b[K⠇\x1b[0m Loading...",
       "\r\x1b[K⠏\x1b[0m Loading...",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
 
     let resolvePromise: (value: void | PromiseLike<void>) => void;
-    const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+    const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
     stub(
       Ende.stdout,
@@ -34,9 +34,10 @@ Ende.test("Spinner can start and stop", async () => {
       (data: Uint8Array) => {
         const output = decoder.decode(data);
         actualOutput.push(output);
-        if (actualOutput.length === expectedOutput.length - 1) resolvePromise();
+        if (actualOutput.length === expectedOutput.length - 1)
+          resolvePromise();
         return data.length;
-      },
+      }
     );
 
     const spinner = new Spinner({ message: "Loading..." });
@@ -62,13 +63,13 @@ Ende.test("Spinner constructor accepts spinner", async () => {
       "\r\x1b[K7\x1b[0m ",
       "\r\x1b[K8\x1b[0m ",
       "\r\x1b[K9\x1b[0m ",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
 
     let resolvePromise: (value: void | PromiseLike<void>) => void;
-    const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+    const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
     stub(
       Ende.stdout,
@@ -76,13 +77,14 @@ Ende.test("Spinner constructor accepts spinner", async () => {
       (data: Uint8Array) => {
         const output = decoder.decode(data);
         actualOutput.push(output);
-        if (actualOutput.length === expectedOutput.length - 1) resolvePromise();
+        if (actualOutput.length === expectedOutput.length - 1)
+          resolvePromise();
         return data.length;
-      },
+      }
     );
 
     const spinner = new Spinner({
-      spinner: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      spinner: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     });
     spinner.start();
     await promise;
@@ -99,13 +101,13 @@ Ende.test("Spinner constructor accepts message", async () => {
       "\r\x1b[K⠋\x1b[0m Spinning with Deno 🦕",
       "\r\x1b[K⠙\x1b[0m Spinning with Deno 🦕",
       "\r\x1b[K⠹\x1b[0m Spinning with Deno 🦕",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
 
     let resolvePromise: (value: void | PromiseLike<void>) => void;
-    const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+    const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
     stub(
       Ende.stdout,
@@ -113,9 +115,10 @@ Ende.test("Spinner constructor accepts message", async () => {
       (data: Uint8Array) => {
         const output = decoder.decode(data);
         actualOutput.push(output);
-        if (actualOutput.length === expectedOutput.length - 1) resolvePromise();
+        if (actualOutput.length === expectedOutput.length - 1)
+          resolvePromise();
         return data.length;
-      },
+      }
     );
 
     const spinner = new Spinner({ message: "Spinning with Deno 🦕" });
@@ -136,7 +139,7 @@ Ende.test("Spinner constructor accepts interval", async () => {
       "\r\x1b[K⠙\x1b[0m ",
       "\r\x1b[K⠹\x1b[0m ",
       "\r\x1b[K⠸\x1b[0m ",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
@@ -148,7 +151,7 @@ Ende.test("Spinner constructor accepts interval", async () => {
         const output = decoder.decode(data);
         actualOutput.push(output);
         return data.length;
-      },
+      }
     );
 
     const spinner = new Spinner({ interval: 300 });
@@ -174,13 +177,13 @@ Ende.test("Spinner constructor accepts output", async () => {
       "\r\x1b[K⠧\x1b[0m ",
       "\r\x1b[K⠇\x1b[0m ",
       "\r\x1b[K⠏\x1b[0m ",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
 
     let resolvePromise: (value: void | PromiseLike<void>) => void;
-    const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+    const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
     stub(
       Ende.stderr,
@@ -188,9 +191,10 @@ Ende.test("Spinner constructor accepts output", async () => {
       (data: Uint8Array) => {
         const output = decoder.decode(data);
         actualOutput.push(output);
-        if (actualOutput.length === expectedOutput.length - 1) resolvePromise();
+        if (actualOutput.length === expectedOutput.length - 1)
+          resolvePromise();
         return data.length;
-      },
+      }
     );
 
     const spinner = new Spinner({ output: Ende.stderr });
@@ -203,19 +207,19 @@ Ende.test("Spinner constructor accepts output", async () => {
   }
 });
 
-Ende.test("Spinner constructor accepts each color", async (t) => {
+Ende.test("Spinner constructor accepts each color", async t => {
   await t.step("black", async () => {
     try {
       const expectedOutput = [
         "\r\x1b[K\x1b[30m⠋\x1b[0m ",
         "\r\x1b[K\x1b[30m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -227,7 +231,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "black" });
@@ -244,13 +248,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[31m⠋\x1b[0m ",
         "\r\x1b[K\x1b[31m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -262,7 +266,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "red" });
@@ -279,13 +283,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[32m⠋\x1b[0m ",
         "\r\x1b[K\x1b[32m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -297,7 +301,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "green" });
@@ -314,13 +318,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[33m⠋\x1b[0m ",
         "\r\x1b[K\x1b[33m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -332,7 +336,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "yellow" });
@@ -349,13 +353,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[34m⠋\x1b[0m ",
         "\r\x1b[K\x1b[34m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -367,7 +371,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "blue" });
@@ -384,13 +388,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[35m⠋\x1b[0m ",
         "\r\x1b[K\x1b[35m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -402,7 +406,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "magenta" });
@@ -419,13 +423,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[36m⠋\x1b[0m ",
         "\r\x1b[K\x1b[36m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -437,7 +441,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "cyan" });
@@ -454,13 +458,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[37m⠋\x1b[0m ",
         "\r\x1b[K\x1b[37m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -472,7 +476,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "white" });
@@ -489,13 +493,13 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
       const expectedOutput = [
         "\r\x1b[K\x1b[90m⠋\x1b[0m ",
         "\r\x1b[K\x1b[90m⠙\x1b[0m ",
-        "\r\x1b[K",
+        "\r\x1b[K"
       ];
 
       const actualOutput: string[] = [];
 
       let resolvePromise: (value: void | PromiseLike<void>) => void;
-      const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+      const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
       stub(
         Ende.stdout,
@@ -507,7 +511,7 @@ Ende.test("Spinner constructor accepts each color", async (t) => {
             resolvePromise();
           }
           return data.length;
-        },
+        }
       );
 
       const spinner = new Spinner({ color: "gray" });
@@ -526,13 +530,13 @@ Ende.test("Spinner.color can set each color", async () => {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m ",
       "\r\x1b[K\x1b[30m⠙\x1b[0m ",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
 
     let resolvePromise: (value: void | PromiseLike<void>) => void;
-    const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+    const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
     const spinner = new Spinner();
 
@@ -543,9 +547,10 @@ Ende.test("Spinner.color can set each color", async () => {
         const output = decoder.decode(data);
         actualOutput.push(output);
         spinner.color = "black";
-        if (actualOutput.length === expectedOutput.length - 1) resolvePromise();
+        if (actualOutput.length === expectedOutput.length - 1)
+          resolvePromise();
         return data.length;
-      },
+      }
     );
 
     spinner.start();
@@ -593,13 +598,13 @@ Ende.test("Spinner.message can be updated", async () => {
     const expectedOutput = [
       "\r\x1b[K⠋\x1b[0m One dino 🦕",
       "\r\x1b[K⠙\x1b[0m Two dinos 🦕🦕",
-      "\r\x1b[K",
+      "\r\x1b[K"
     ];
 
     const actualOutput: string[] = [];
 
     let resolvePromise: (value: void | PromiseLike<void>) => void;
-    const promise = new Promise<void>((resolve) => resolvePromise = resolve);
+    const promise = new Promise<void>(resolve => resolvePromise = resolve);
 
     const spinner = new Spinner({ message: "One dino 🦕" });
 
@@ -610,9 +615,10 @@ Ende.test("Spinner.message can be updated", async () => {
         const output = decoder.decode(data);
         actualOutput.push(output);
         spinner.message = "Two dinos 🦕🦕";
-        if (actualOutput.length === expectedOutput.length - 1) resolvePromise();
+        if (actualOutput.length === expectedOutput.length - 1)
+          resolvePromise();
         return data.length;
-      },
+      }
     );
 
     spinner.start();

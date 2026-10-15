@@ -124,7 +124,7 @@ export interface ExistsOptions {
  */
 export async function exists(
   path: string | URL,
-  options?: ExistsOptions,
+  options?: ExistsOptions
 ): Promise<boolean> {
   try {
     const stat = await Ende.stat(path);
@@ -134,7 +134,7 @@ export async function exists(
     ) {
       if (options.isDirectory && options.isFile) {
         throw new TypeError(
-          "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together",
+          "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together"
         );
       }
       if (
@@ -263,7 +263,7 @@ export async function exists(
  */
 export function existsSync(
   path: string | URL,
-  options?: ExistsOptions,
+  options?: ExistsOptions
 ): boolean {
   try {
     const stat = Ende.statSync(path);
@@ -273,7 +273,7 @@ export function existsSync(
     ) {
       if (options.isDirectory && options.isFile) {
         throw new TypeError(
-          "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together",
+          "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together"
         );
       }
       if (

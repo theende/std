@@ -9,7 +9,7 @@ function isBlankChar(char: string | undefined) {
 }
 
 const primitives = new Map(
-  (["null", "true", "false"] as const).map((v) => [v[0], v]),
+  (["null", "true", "false"] as const).map(v => [v[0], v])
 );
 
 /**
@@ -33,8 +33,7 @@ const primitives = new Map(
  * ]);
  * ```
  */
-export class ConcatenatedJsonParseStream
-  implements TransformStream<string, JsonValue> {
+export class ConcatenatedJsonParseStream implements TransformStream<string, JsonValue> {
   /**
    * A writable stream of byte data.
    *
@@ -81,7 +80,7 @@ export class ConcatenatedJsonParseStream
    */
   constructor() {
     const { writable, readable } = toTransformStream(
-      this.#concatenatedJSONIterator,
+      this.#concatenatedJSONIterator
     );
     this.writable = writable;
     this.readable = readable;
@@ -124,7 +123,7 @@ export class ConcatenatedJsonParseStream
         }
 
         if (readingString) {
-          if (char === '"' && !escapeNext) {
+          if (char === "\"" && !escapeNext) {
             readingString = false;
 
             // When the nesting level is 0, it returns a string when '"' comes.
@@ -144,7 +143,7 @@ export class ConcatenatedJsonParseStream
         // example: '3.14{"foo": "bar"}' => 3.14, {foo: "bar"}
         if (
           hasValue && nestCount === 0 &&
-          (char === "{" || char === "[" || char === '"' || char === " " ||
+          (char === "{" || char === "[" || char === "\"" || char === " " ||
             char === "n" || char === "t" || char === "f")
         ) {
           yield parse(targetString + string.slice(sliceStart, i));
@@ -157,7 +156,7 @@ export class ConcatenatedJsonParseStream
         }
 
         switch (char) {
-          case '"':
+          case "\"":
             readingString = true;
             escapeNext = false;
             break;

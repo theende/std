@@ -44,11 +44,12 @@ export function mergeReadableStreams<T>(
   return new ReadableStream<T>({
     start(controller) {
       let mustClose = false;
-      Promise.all(resolvePromises.map(({ promise }) => promise))
+      Promise
+        .all(resolvePromises.map(({ promise }) => promise))
         .then(() => {
           controller.close();
         })
-        .catch((error) => {
+        .catch(error => {
           mustClose = true;
           controller.error(error);
         });
@@ -67,6 +68,6 @@ export function mergeReadableStreams<T>(
           }
         })();
       }
-    },
+    }
   });
 }

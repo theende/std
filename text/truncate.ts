@@ -85,15 +85,17 @@ export interface TruncateOptions {
 export function truncate(
   str: string,
   maxLength: number,
-  options?: TruncateOptions,
+  options?: TruncateOptions
 ): string {
   if (!Number.isInteger(maxLength) || maxLength < 0) {
     throw new RangeError(
-      `Cannot truncate: maxLength must be a non-negative integer, received ${maxLength}`,
+      `Cannot truncate: maxLength must be a non-negative integer, received ${maxLength}`
     );
   }
-  if (maxLength === 0) return "";
-  if (str.length <= maxLength) return str;
+  if (maxLength === 0)
+    return "";
+  if (str.length <= maxLength)
+    return str;
 
   const suffix = options?.suffix ?? "\u2026";
   const position = options?.position ?? "end";
@@ -120,7 +122,7 @@ export function truncate(
       return str.slice(0, adjustSplitBack(str, budget)) + suffix;
     default:
       throw new TypeError(
-        `Cannot truncate: position must be "end", "middle", or "start", received "${position}"`,
+        `Cannot truncate: position must be "end", "middle", or "start", received "${position}"`
       );
   }
 }
@@ -132,7 +134,8 @@ export function truncate(
 function adjustSplitBack(str: string, index: number): number {
   if (index > 0 && index < str.length) {
     const code = str.charCodeAt(index);
-    if (code >= 0xDC00 && code <= 0xDFFF) return index - 1;
+    if (code >= 0xDC00 && code <= 0xDFFF)
+      return index - 1;
   }
   return index;
 }
@@ -144,7 +147,8 @@ function adjustSplitBack(str: string, index: number): number {
 function adjustSplitForward(str: string, index: number): number {
   if (index > 0 && index < str.length) {
     const code = str.charCodeAt(index);
-    if (code >= 0xDC00 && code <= 0xDFFF) return index + 1;
+    if (code >= 0xDC00 && code <= 0xDFFF)
+      return index + 1;
   }
   return index;
 }

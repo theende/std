@@ -7,7 +7,7 @@ import { parseMediaType } from "./mod.ts";
 Ende.test({
   name: "parseMediaType()",
   fn() {
-    const nameFoo = { "name": "foo" };
+    const nameFoo = { name: "foo" };
     const fixtures: [string, string, Record<string, string> | undefined][] = [
       [`form-data; name="foo"`, "form-data", nameFoo],
       [` form-data ; name=foo`, "form-data", nameFoo],
@@ -17,14 +17,14 @@ Ende.test({
       [`form-data; key=value;  blah="value";name="foo" `, "form-data", {
         key: "value",
         blah: "value",
-        name: "foo",
+        name: "foo"
       }],
       [
         `application/x-stuff; title*=us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A`,
         "application/x-stuff",
         {
-          title: "This is ***fun***",
-        },
+          title: "This is ***fun***"
+        }
       ],
       [
         `message/external-body; access-type=URL; ` +
@@ -33,8 +33,8 @@ Ende.test({
         "message/external-body",
         {
           "access-type": "URL",
-          url: "ftp://cs.utk.edu/pub/moore/bulk-mailer/bulk-mailer.tar",
-        },
+          url: "ftp://cs.utk.edu/pub/moore/bulk-mailer/bulk-mailer.tar"
+        }
       ],
       [
         `application/x-stuff; ` +
@@ -43,54 +43,54 @@ Ende.test({
         `title*2="isn't it!"`,
         `application/x-stuff`,
         {
-          title: "This is even more ***fun*** isn't it!",
-        },
+          title: "This is even more ***fun*** isn't it!"
+        }
       ],
       [`attachment`, "attachment", undefined],
       [`ATTACHMENT`, "attachment", undefined],
       [`attachment; filename="foo.html"`, "attachment", {
-        filename: "foo.html",
+        filename: "foo.html"
       }],
       [`attachment; filename="f\\oo.html"`, "attachment", {
-        filename: "f\\oo.html",
+        filename: "f\\oo.html"
       }],
       [`attachment; filename="Here's a semicolon;.html"`, "attachment", {
-        filename: "Here's a semicolon;.html",
+        filename: "Here's a semicolon;.html"
       }],
       [`attachment; filename="foo-%c3%a4-%e2%82%ac.html"`, "attachment", {
-        filename: "foo-%c3%a4-%e2%82%ac.html",
+        filename: "foo-%c3%a4-%e2%82%ac.html"
       }],
       [
         `attachment; filename*=''foo-%c3%a4-%e2%82%ac.html`,
         "attachment",
-        undefined,
+        undefined
       ],
       [`attachment; filename*=UTF-8''foo-a%cc%88.html`, "attachment", {
-        filename: "foo-ä.html",
+        filename: "foo-ä.html"
       }],
       [`attachment; filename*0="foo."; filename*1="html"`, "attachment", {
-        filename: "foo.html",
+        filename: "foo.html"
       }],
       [`form-data; firstname="Брэд"; lastname="Фицпатрик"`, "form-data", {
         firstname: "Брэд",
-        lastname: "Фицпатрик",
+        lastname: "Фицпатрик"
       }],
       [
         `form-data; name="file"; filename="C:\\dev\\go\\robots.txt"`,
         "form-data",
-        { name: "file", filename: `C:\\dev\\go\\robots.txt` },
+        { name: "file", filename: `C:\\dev\\go\\robots.txt` }
       ],
       [
         `form-data; name="file"; filename="C:\\新建文件夹\\中文第二次测试.mp4"`,
         "form-data",
-        { name: "file", filename: `C:\\新建文件夹\\中文第二次测试.mp4` },
-      ],
+        { name: "file", filename: `C:\\新建文件夹\\中文第二次测试.mp4` }
+      ]
     ];
 
     for (const [fixture, mediaType, params] of fixtures) {
       assertEquals(parseMediaType(fixture), [mediaType, params]);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -98,7 +98,7 @@ Ende.test({
   fn() {
     const fixtures = [{ type: `form-data; foo`, invalid: "; foo" }, {
       type: `form-data; foo="bar"; baz`,
-      invalid: "; baz",
+      invalid: "; baz"
     }] as const;
     for (const fixture of fixtures) {
       assertThrows(
@@ -106,17 +106,17 @@ Ende.test({
           parseMediaType(fixture.type);
         },
         TypeError,
-        `Cannot parse media type: invalid parameter "${fixture.invalid}"`,
+        `Cannot parse media type: invalid parameter "${fixture.invalid}"`
       );
     }
-  },
+  }
 });
 
 Ende.test({
   name: "parseMediaType() throws on duplicate keys",
   fn() {
     const fixtures = [
-      `form-data; foo="bar"; foo="baz"`,
+      `form-data; foo="bar"; foo="baz"`
     ] as const;
     for (const fixture of fixtures) {
       assertThrows(
@@ -124,8 +124,8 @@ Ende.test({
           parseMediaType(fixture);
         },
         TypeError,
-        "Cannot parse media type: duplicate key",
+        "Cannot parse media type: duplicate key"
       );
     }
-  },
+  }
 });

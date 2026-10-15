@@ -23,7 +23,7 @@ export function stripSuffix(name: string, suffix: string): string {
 export function lastPathSegment(
   path: string,
   isSep: (char: number) => boolean,
-  start = 0,
+  start = 0
 ): string {
   let matchedNonSeparator = false;
   let end = path.length;
@@ -45,10 +45,11 @@ export function lastPathSegment(
 
 export function assertArgs(path: string, suffix: string) {
   assertPath(path);
-  if (path.length === 0) return path;
+  if (path.length === 0)
+    return path;
   if (typeof suffix !== "string") {
     throw new TypeError(
-      `Suffix must be a string, received "${JSON.stringify(suffix)}"`,
+      `Suffix must be a string, received "${JSON.stringify(suffix)}"`
     );
   }
 }

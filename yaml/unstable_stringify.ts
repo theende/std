@@ -41,11 +41,11 @@ export type StringifyOptions = StableStringifyOptions & {
  */
 export function stringify(
   data: unknown,
-  options: StringifyOptions = {},
+  options: StringifyOptions = {}
 ): string {
   const state = new DumperState({
     ...options,
-    schema: getSchema(options.schema, options.extraTypes),
+    schema: getSchema(options.schema, options.extraTypes)
   });
   return state.stringify(data);
 }

@@ -1,13 +1,13 @@
 {
-  "name": "@ende/html",
-  "version": "1.0.7",
   "exports": {
     ".": "./mod.ts",
     "./entities": "./entities.ts",
+    "./named-entity-list.json": "./named_entity_list.json",
     "./unstable-escape-css": "./unstable_escape_css.ts",
     "./unstable-escape-js": "./unstable_escape_js.ts",
-    "./unstable-is-valid-custom-element-name": "./unstable_is_valid_custom_element_name.ts",
-    "./named-entity-list.json": "./named_entity_list.json",
-    "./unstable-html": "./unstable_html.ts"
-  }
+    "./unstable-html": "./unstable_html.ts",
+    "./unstable-is-valid-custom-element-name": "./unstable_is_valid_custom_element_name.ts"
+  },
+  "name": "@ende/html",
+  "version": "2026.10.15"
 }

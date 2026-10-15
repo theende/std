@@ -8,64 +8,64 @@ Ende.test({
   name: "diff() with empty values",
   fn() {
     assertEquals(diff([], []), []);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a" vs "b"',
+  name: "diff() \"a\" vs \"b\"",
   fn() {
     assertEquals(diff(["a"], ["b"]), [
       { type: "removed", value: "a" },
-      { type: "added", value: "b" },
+      { type: "added", value: "b" }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a" vs "a"',
+  name: "diff() \"a\" vs \"a\"",
   fn() {
     assertEquals(diff(["a"], ["a"]), [{ type: "common", value: "a" }]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a" vs ""',
+  name: "diff() \"a\" vs \"\"",
   fn() {
     assertEquals(diff(["a"], []), [{ type: "removed", value: "a" }]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "" vs "a"',
+  name: "diff() \"\" vs \"a\"",
   fn() {
     assertEquals(diff([], ["a"]), [{ type: "added", value: "a" }]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a" vs "a, b"',
+  name: "diff() \"a\" vs \"a, b\"",
   fn() {
     assertEquals(diff(["a"], ["a", "b"]), [
       { type: "common", value: "a" },
-      { type: "added", value: "b" },
+      { type: "added", value: "b" }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a, x, c" vs "a, b, c"',
+  name: "diff() \"a, x, c\" vs \"a, b, c\"",
   fn() {
     assertEquals(diff(["a", "x", "c"], ["a", "b", "c"]), [
       { type: "common", value: "a" },
       { type: "removed", value: "x" },
       { type: "added", value: "b" },
-      { type: "common", value: "c" },
+      { type: "common", value: "c" }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "strength" vs "string"',
+  name: "diff() \"strength\" vs \"string\"",
   fn() {
     assertEquals(diff(Array.from("strength"), Array.from("string")), [
       { type: "common", value: "s" },
@@ -76,13 +76,13 @@ Ende.test({
       { type: "common", value: "n" },
       { type: "common", value: "g" },
       { type: "removed", value: "t" },
-      { type: "removed", value: "h" },
+      { type: "removed", value: "h" }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "strength" vs ""',
+  name: "diff() \"strength\" vs \"\"",
   fn() {
     assertEquals(diff(Array.from("strength"), Array.from("")), [
       { type: "removed", value: "s" },
@@ -92,13 +92,13 @@ Ende.test({
       { type: "removed", value: "n" },
       { type: "removed", value: "g" },
       { type: "removed", value: "t" },
-      { type: "removed", value: "h" },
+      { type: "removed", value: "h" }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "" vs "strength"',
+  name: "diff() \"\" vs \"strength\"",
   fn() {
     assertEquals(diff(Array.from(""), Array.from("strength")), [
       { type: "added", value: "s" },
@@ -108,20 +108,20 @@ Ende.test({
       { type: "added", value: "n" },
       { type: "added", value: "g" },
       { type: "added", value: "t" },
-      { type: "added", value: "h" },
+      { type: "added", value: "h" }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "abc", "c" vs "abc", "bcd", "c"',
+  name: "diff() \"abc\", \"c\" vs \"abc\", \"bcd\", \"c\"",
   fn() {
     assertEquals(diff(["abc", "c"], ["abc", "bcd", "c"]), [
       { type: "common", value: "abc" },
       { type: "added", value: "bcd" },
-      { type: "common", value: "c" },
+      { type: "common", value: "c" }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -129,7 +129,7 @@ Ende.test({
   fn() {
     const fp = { y: 0, id: 0 };
     assertEquals(assertFp(fp), undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -138,24 +138,24 @@ Ende.test({
     assertThrows(
       () => assertFp({ id: 0 }),
       Error,
-      "Unexpected value, expected 'FarthestPoint': received object",
+      "Unexpected value, expected 'FarthestPoint': received object"
     );
     assertThrows(
       () => assertFp({ y: 0 }),
       Error,
-      "Unexpected value, expected 'FarthestPoint': received object",
+      "Unexpected value, expected 'FarthestPoint': received object"
     );
     assertThrows(
       () => assertFp(undefined),
       Error,
-      "Unexpected value, expected 'FarthestPoint': received undefined",
+      "Unexpected value, expected 'FarthestPoint': received undefined"
     );
     assertThrows(
       () => assertFp(null),
       Error,
-      "Unexpected value, expected 'FarthestPoint': received object",
+      "Unexpected value, expected 'FarthestPoint': received object"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -163,13 +163,13 @@ Ende.test({
   fn() {
     assertEquals(
       backTrace([], [], { y: 0, id: 0 }, false, new Uint32Array(0), 0),
-      [],
+      []
     );
     assertEquals(
       backTrace(["a"], ["b"], { y: 1, id: 3 }, false, new Uint32Array(10), 5),
-      [],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -181,7 +181,7 @@ Ende.test({
     assertEquals(createCommon([1], [1]), [1]);
     assertEquals(createCommon([1, 2], [1]), [1]);
     assertEquals(createCommon([1], [1, 2]), [1]);
-  },
+  }
 });
 
 Ende.test({
@@ -195,15 +195,15 @@ Ende.test({
         0,
         0,
         { y: -1, id: 0 },
-        { y: -1, id: 0 },
+        { y: -1, id: 0 }
       ),
-      { y: 0, id: 0 },
+      { y: 0, id: 0 }
     );
-  },
+  }
 });
 
 Ende.test({
-  name: 'createFp() "isAdding"',
+  name: "createFp() \"isAdding\"",
   fn() {
     assertEquals(
       createFp(
@@ -213,15 +213,15 @@ Ende.test({
         0,
         0,
         { y: 0, id: 0 },
-        { y: -1, id: 0 },
+        { y: -1, id: 0 }
       ),
-      { y: 0, id: 1 },
+      { y: 0, id: 1 }
     );
-  },
+  }
 });
 
 Ende.test({
-  name: 'createFp() "!isAdding"',
+  name: "createFp() \"!isAdding\"",
   fn() {
     assertEquals(
       createFp(
@@ -231,11 +231,11 @@ Ende.test({
         0,
         0,
         { y: -1, id: 0 },
-        { y: 0, id: 0 },
+        { y: 0, id: 0 }
       ),
-      { y: -1, id: 1 },
+      { y: -1, id: 1 }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -244,7 +244,7 @@ Ende.test({
     assertThrows(
       () => createFp(0, 0, new Uint32Array(0), 0, 0),
       Error,
-      "Unexpected missing FarthestPoint",
+      "Unexpected missing FarthestPoint"
     );
-  },
+  }
 });

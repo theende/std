@@ -44,7 +44,7 @@
  */
 export function maxBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => number,
+  selector: (el: T, index: number) => number
 ): T | undefined;
 /**
  * Returns the first element that is the largest value of the given function or
@@ -77,7 +77,7 @@ export function maxBy<T>(
  */
 export function maxBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => string,
+  selector: (el: T, index: number) => string
 ): T | undefined;
 /**
  * Returns the first element that is the largest value of the given function or
@@ -110,7 +110,7 @@ export function maxBy<T>(
  */
 export function maxBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => bigint,
+  selector: (el: T, index: number) => bigint
 ): T | undefined;
 /**
  * Returns the first element that is the largest value of the given function or
@@ -143,7 +143,7 @@ export function maxBy<T>(
  */
 export function maxBy<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => Date,
+  selector: (el: T, index: number) => Date
 ): T | undefined;
 export function maxBy<T>(
   array: Iterable<T>,
@@ -151,11 +151,12 @@ export function maxBy<T>(
     | ((el: T, index: number) => number)
     | ((el: T, index: number) => string)
     | ((el: T, index: number) => bigint)
-    | ((el: T, index: number) => Date),
+    | ((el: T, index: number) => Date)
 ): T | undefined {
   if (Array.isArray(array)) {
     const length = array.length;
-    if (length === 0) return undefined;
+    if (length === 0)
+      return undefined;
 
     let max: T = array[0]!;
     let maxValue = selector(max, 0);
@@ -175,7 +176,8 @@ export function maxBy<T>(
   const iter = array[Symbol.iterator]();
   const first = iter.next();
 
-  if (first.done) return undefined;
+  if (first.done)
+    return undefined;
 
   let index = 0;
   let max: T = first.value;

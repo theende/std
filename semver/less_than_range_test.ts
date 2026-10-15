@@ -8,10 +8,10 @@ import {
   formatRange,
   lessThanRange,
   parse,
-  parseRange,
+  parseRange
 } from "./mod.ts";
 
-Ende.test("lessThanRange() checks if the SemVer is less than the range", async (t) => {
+Ende.test("lessThanRange() checks if the SemVer is less than the range", async t => {
   // From https://github.com/npm/node-semver/blob/692451bd6f75b38a71a99f39da405c94a5954a22/test/fixtures/version-lt-range.js
   const versionLtRange = [
     ["~1.2.2", "1.2.1"],
@@ -66,7 +66,7 @@ Ende.test("lessThanRange() checks if the SemVer is less than the range", async (
     ["^1", "1.0.0-0"],
     [">=0.7.x", "0.7.0-asdf"],
     [">=0.7.x", "0.6.2"],
-    [">1.2.3", "1.3.0-alpha"],
+    [">1.2.3", "1.3.0-alpha"]
   ] as const;
 
   for (const [range, version] of versionLtRange) {
@@ -156,7 +156,7 @@ Ende.test("lessThanRange() checks if the SemVer is less than the range", async (
     ["^0.1.0 || ~3.0.1 || >4 <=5.0.0", "3.5.0"],
     ["^1.0.0-alpha", "1.0.0-beta"],
     ["~1.0.0-alpha", "1.0.0-beta"],
-    ["=0.1.0", "1.0.0"],
+    ["=0.1.0", "1.0.0"]
     // Note: maybe worth considering adding support for `includePrerelease` option
     // [">1.2.3", "1.3.0-alpha", { includePrerelease: true }],
   ] as const;
@@ -177,7 +177,7 @@ Ende.test("lessThanRange() handles not equals operator", () => {
     minor: 0,
     patch: 0,
     prerelease: [],
-    build: [],
+    build: []
   };
   const range = [[{
     operator: "!=" as const,
@@ -185,7 +185,7 @@ Ende.test("lessThanRange() handles not equals operator", () => {
     minor: 0,
     patch: 0,
     prerelease: [],
-    build: [],
+    build: []
   }]];
   assertEquals(lessThanRange(version, range), false);
 });

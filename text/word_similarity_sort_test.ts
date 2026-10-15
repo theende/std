@@ -8,7 +8,7 @@ Ende.test("wordSimilaritySort() handles basic example", () => {
   const givenWord = "hep";
   assertEquals(
     wordSimilaritySort(givenWord, possibleWords),
-    ["help", "size", "blah", "length"],
+    ["help", "size", "blah", "length"]
   );
 });
 
@@ -17,7 +17,7 @@ Ende.test("wordSimilaritySort() with case-sensitive sorting", () => {
   const givenWord = "hep";
   assertEquals(
     wordSimilaritySort(givenWord, possibleWords, { caseSensitive: true }),
-    ["Size", "blah", "HELP", "length"],
+    ["Size", "blah", "HELP", "length"]
   );
 });
 
@@ -27,16 +27,16 @@ Ende.test("wordSimilaritySort() handles empty string", () => {
 
   assertEquals(
     wordSimilaritySort(givenWord, possibleWords),
-    ["", "size", "blah", "help", "length"],
+    ["", "size", "blah", "help", "length"]
   );
 });
 
-Ende.test("wordSimilaritySort() handles empty array", function () {
+Ende.test("wordSimilaritySort() handles empty array", function() {
   const possibleWords: string[] = [];
   const givenWord = "";
 
   assertEquals(
     wordSimilaritySort(givenWord, possibleWords),
-    [],
+    []
   );
 });

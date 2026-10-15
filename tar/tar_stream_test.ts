@@ -9,7 +9,7 @@ import {
   assertValidTarStreamOptions,
   TarStream,
   type TarStreamInput,
-  type Uint8Array_,
+  type Uint8Array_
 } from "./tar_stream.ts";
 import { UntarStream } from "./untar_stream.ts";
 import { assertThrows } from "@ende/assert/throws";
@@ -25,16 +25,16 @@ Ende.test("TarStream() outputs corrects length", async () => {
           path: "./potato/text.txt",
           size: 12,
           readable: ReadableStream
-            .from([new TextEncoder().encode("Hello World!")]),
+            .from([new TextEncoder().encode("Hello World!")])
         }, // 1024
         {
           type: "file",
           path: "./potato/ende.json",
           size: (await Ende.stat("ende.json")).size,
-          readable: (await Ende.open("ende.json")).readable,
-        }, // 512 + ceil(size / 512) * 512
+          readable: (await Ende.open("ende.json")).readable
+        } // 512 + ceil(size / 512) * 512
       ]) // 1024
-      .pipeThrough(new TarStream()),
+      .pipeThrough(new TarStream())
   )
     .bytes();
 
@@ -43,7 +43,7 @@ Ende.test("TarStream() outputs corrects length", async () => {
     512 +
       1024 +
       (512 + Math.ceil((await Ende.stat("ende.json")).size / 512) * 512) +
-      1024,
+      1024
   );
 });
 
@@ -57,16 +57,16 @@ Ende.test("TarStream() ends correctly", async () => {
           path: "./potato/text.txt",
           size: 12,
           readable: ReadableStream
-            .from([new TextEncoder().encode("Hello World!")]),
+            .from([new TextEncoder().encode("Hello World!")])
         }, // 1024
         {
           type: "file",
           path: "./potato/ende.json",
           size: (await Ende.stat("ende.json")).size,
-          readable: (await Ende.open("ende.json")).readable,
-        }, // 512 + ceil(size / 512) * 512
+          readable: (await Ende.open("ende.json")).readable
+        } // 512 + ceil(size / 512) * 512
       ]) // 1024
-      .pipeThrough(new TarStream()),
+      .pipeThrough(new TarStream())
   )
     .bytes();
 
@@ -85,15 +85,15 @@ Ende.test("TarStream() supports byte streams", async () => {
           size: 12,
           readable: ReadableStream
             .from([new TextEncoder().encode("Hello World!")]),
-          options: { mtime },
+          options: { mtime }
         }, // 1024
         {
           type: "file",
           path: "./potato/ende.json",
           size: (await Ende.stat("ende.json")).size,
           readable: (await Ende.open("ende.json")).readable,
-          options: { mtime },
-        }, // 512 + ceil(size / 512) * 512
+          options: { mtime }
+        } // 512 + ceil(size / 512) * 512
       ]) // 1024
       .pipeThrough(new TarStream());
   }
@@ -106,7 +106,8 @@ Ende.test("TarStream() supports byte streams", async () => {
       const { done, value } = await reader.read(new Uint8Array(i), { min: i });
       assert(value != undefined);
       chunks.push(value);
-      if (done) break;
+      if (done)
+        break;
     }
     const actual = concat(chunks);
     assertEquals(actual, expected, `Buffer Size: ${i}`);
@@ -133,22 +134,16 @@ Ende.test("assertValidTarStreamOptions()", () => {
 
   assertValidTarStreamOptions({ mtime: Math.floor(Date.now() / 1000) });
   assertThrows(() => assertValidTarStreamOptions({ mtime: NaN }));
-  assertThrows(() =>
-    assertValidTarStreamOptions({ mtime: -Math.floor(Date.now() / 1000) })
-  );
+  assertThrows(() => assertValidTarStreamOptions({ mtime: -Math.floor(Date.now() / 1000) }));
   assertThrows(() => assertValidTarStreamOptions({ mtime: Date.now() }));
 
   assertValidTarStreamOptions({ uname: "abc" });
   assertThrows(() => assertValidTarStreamOptions({ uname: "a".repeat(32) }));
-  assertThrows(() =>
-    assertValidTarStreamOptions({ uname: "\xF0\x9F\x92\xa9" })
-  );
+  assertThrows(() => assertValidTarStreamOptions({ uname: "\xF0\x9F\x92\xa9" }));
 
   assertValidTarStreamOptions({ gname: "abc" });
   assertThrows(() => assertValidTarStreamOptions({ gname: "a".repeat(32) }));
-  assertThrows(() =>
-    assertValidTarStreamOptions({ gname: "\xF0\x9F\x92\xa9" })
-  );
+  assertThrows(() => assertValidTarStreamOptions({ gname: "\xF0\x9F\x92\xa9" }));
 
   assertValidTarStreamOptions({ devmajor: "abc" });
   assertThrows(() => assertValidTarStreamOptions({ devmajor: "a".repeat(9) }));
@@ -162,18 +157,18 @@ Ende.test("assertValidPath()", () => {
   assertThrows(
     () => assertValidPath("a".repeat(300)),
     RangeError,
-    "Cannot parse the path as the path length cannot exceed 256 bytes: The path length is 300",
+    "Cannot parse the path as the path length cannot exceed 256 bytes: The path length is 300"
   );
   assertThrows(
     () => assertValidPath("a".repeat(120)),
     RangeError,
-    "Cannot parse the path as the file cannot exceed 100 bytes: The filename length is 120",
+    "Cannot parse the path as the file cannot exceed 100 bytes: The filename length is 120"
   );
   assertValidPath("a".repeat(75) + "/" + "b".repeat(75));
   assertThrows(
     () => assertValidPath("a".repeat(160) + "/" + "b".repeat(75)),
     TypeError,
-    "Cannot parse the path as the path needs to be split-able on a forward slash separator into [155, 100] bytes respectively",
+    "Cannot parse the path as the path needs to be split-able on a forward slash separator into [155, 100] bytes respectively"
   );
 });
 
@@ -188,15 +183,15 @@ Ende.test("TarStream() with negative size", async () => {
               path: "./potato/text.txt",
               size: -12,
               readable: ReadableStream.from([
-                new TextEncoder().encode("Hello World!"),
-              ]),
-            },
+                new TextEncoder().encode("Hello World!")
+              ])
+            }
           ])
-          .pipeThrough(new TarStream()),
+          .pipeThrough(new TarStream())
       )
         .bytes(),
     RangeError,
-    "Cannot add to the tar archive: The size cannot exceed 64 Gibs",
+    "Cannot add to the tar archive: The size cannot exceed 64 Gibs"
   );
 });
 
@@ -211,15 +206,15 @@ Ende.test("TarStream() with to big size", async () => {
               path: "./potato/text.txt",
               size: 8 ** 12 + 7,
               readable: ReadableStream.from([
-                new TextEncoder().encode("Hello World!"),
-              ]),
-            },
+                new TextEncoder().encode("Hello World!")
+              ])
+            }
           ])
-          .pipeThrough(new TarStream()),
+          .pipeThrough(new TarStream())
       )
         .bytes(),
     RangeError,
-    "Cannot add to the tar archive: The size cannot exceed 64 Gibs",
+    "Cannot add to the tar archive: The size cannot exceed 64 Gibs"
   );
 });
 
@@ -234,15 +229,15 @@ Ende.test("TarStream() with NaN size", async () => {
               path: "./potato/text.txt",
               size: NaN,
               readable: ReadableStream.from([
-                new TextEncoder().encode("Hello World!"),
-              ]),
-            },
+                new TextEncoder().encode("Hello World!")
+              ])
+            }
           ])
-          .pipeThrough(new TarStream()),
+          .pipeThrough(new TarStream())
       )
         .bytes(),
     RangeError,
-    "Cannot add to the tar archive: The size cannot exceed 64 Gibs",
+    "Cannot add to the tar archive: The size cannot exceed 64 Gibs"
   );
 });
 
@@ -257,15 +252,15 @@ Ende.test("TarStream() with mismatching sizes", async () => {
               path: "./potato/text.txt",
               size: 12,
               readable: ReadableStream.from([
-                new TextEncoder().encode("Hello World!~"),
-              ]),
-            },
+                new TextEncoder().encode("Hello World!~")
+              ])
+            }
           ])
-          .pipeThrough(new TarStream()),
+          .pipeThrough(new TarStream())
       )
         .bytes(),
     RangeError,
-    "Cannot add to the tar archive: The provided size (12) did not match bytes read from provided readable (13)",
+    "Cannot add to the tar archive: The provided size (12) did not match bytes read from provided readable (13)"
   );
 });
 
@@ -284,13 +279,13 @@ Ende.test("TarStream() decoding header", async () => {
           uname: "abc",
           gname: "def",
           devmajor: "123",
-          devminor: "456",
-        },
+          devminor: "456"
+        }
       }])
-      .pipeThrough(new TarStream()),
+      .pipeThrough(new TarStream())
   )
     .bytes();
-  const encode = function () {
+  const encode = function() {
     const encoder = new TextEncoder();
     return encoder.encode.bind(encoder);
   }();
@@ -298,32 +293,32 @@ Ende.test("TarStream() decoding header", async () => {
   // name
   assertEquals(
     buffer.subarray(0, 100),
-    encode("b".repeat(75) + "\0".repeat(25)),
+    encode("b".repeat(75) + "\0".repeat(25))
   );
   // mode
   assertEquals(
     buffer.subarray(100, 108),
-    encode((0o123).toString(8).padStart(6, "0") + " \0"),
+    encode((0o123).toString(8).padStart(6, "0") + " \0")
   );
   // uid
   assertEquals(
     buffer.subarray(108, 116),
-    encode((0o456).toString(8).padStart(6, "0") + " \0"),
+    encode((0o456).toString(8).padStart(6, "0") + " \0")
   );
   // gid
   assertEquals(
     buffer.subarray(116, 124),
-    encode((0o701).toString(8).padStart(6, "0") + " \0"),
+    encode((0o701).toString(8).padStart(6, "0") + " \0")
   );
   // size
   assertEquals(
     buffer.subarray(124, 136),
-    encode((0).toString(8).padStart(11, "0") + " "),
+    encode((0).toString(8).padStart(11, "0") + " ")
   );
   // mtime
   assertEquals(
     buffer.subarray(136, 148),
-    encode(mtime.toString(8).padStart(11, "0") + " "),
+    encode(mtime.toString(8).padStart(11, "0") + " ")
   );
   // checksum
   const checksum = buffer.slice(148, 156);
@@ -335,8 +330,8 @@ Ende.test("TarStream() decoding header", async () => {
         .subarray(0, 512)
         .reduce((x, y) => x + y)
         .toString(8)
-        .padStart(6, "0") + "\0 ",
-    ),
+        .padStart(6, "0") + "\0 "
+    )
   );
   // typeflag
   assertEquals(buffer[156], 53);
@@ -349,32 +344,32 @@ Ende.test("TarStream() decoding header", async () => {
   // uname
   assertEquals(
     buffer.subarray(265, 297),
-    encode("abc" + "\0".repeat(28) + "\0"),
+    encode("abc" + "\0".repeat(28) + "\0")
   );
   // gname
   assertEquals(
     buffer.subarray(297, 329),
-    encode("def" + "\0".repeat(28) + "\0"),
+    encode("def" + "\0".repeat(28) + "\0")
   );
   // devmajor
   assertEquals(
     buffer.subarray(329, 337),
-    encode("123" + "\0".repeat(5)),
+    encode("123" + "\0".repeat(5))
   );
   // devminor
   assertEquals(
     buffer.subarray(337, 345),
-    encode("456" + "\0".repeat(5)),
+    encode("456" + "\0".repeat(5))
   );
   // prefix
   assertEquals(
     buffer.subarray(345, 500),
-    encode("a".repeat(75) + "\0".repeat(80)),
+    encode("a".repeat(75) + "\0".repeat(80))
   );
   // pad
   assertEquals(
     buffer.subarray(500, 512),
-    new Uint8Array(12),
+    new Uint8Array(12)
   );
 });
 
@@ -385,11 +380,12 @@ Ende.test("TarStream() with symlink", async () => {
         {
           type: "symlink",
           path: "./link",
-          linkname: "./target",
-        },
+          linkname: "./target"
+        }
       ])
-      .pipeThrough(new TarStream()),
-  ).bytes();
+      .pipeThrough(new TarStream())
+  )
+    .bytes();
 
   // 512 (header) + 1024 (end padding)
   assertEquals(buffer.length, 512 + 1024);
@@ -399,10 +395,11 @@ Ende.test("TarStream() symlink has correct typeflag", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
-        { type: "symlink", path: "./link", linkname: "./target" },
+        { type: "symlink", path: "./link", linkname: "./target" }
       ])
-      .pipeThrough(new TarStream()),
-  ).bytes();
+      .pipeThrough(new TarStream())
+  )
+    .bytes();
 
   // typeflag at byte 156 should be 50 (ASCII '2' for symlink)
   assertEquals(buffer[156], 50);
@@ -412,10 +409,11 @@ Ende.test("TarStream() symlink writes linkname to header", async () => {
   const buffer = await new Response(
     ReadableStream
       .from<TarStreamInput>([
-        { type: "symlink", path: "./link", linkname: "./target" },
+        { type: "symlink", path: "./link", linkname: "./target" }
       ])
-      .pipeThrough(new TarStream()),
-  ).bytes();
+      .pipeThrough(new TarStream())
+  )
+    .bytes();
 
   const decoder = new TextDecoder();
   const linkname = decoder.decode(buffer.subarray(157, 257)).split("\0")[0];
@@ -423,13 +421,14 @@ Ende.test("TarStream() symlink writes linkname to header", async () => {
 });
 
 Ende.test("TarStream() symlink round-trip", async () => {
-  const readable = ReadableStream.from<TarStreamInput>([
-    {
-      type: "symlink",
-      path: "./mylink",
-      linkname: "./target/file.txt",
-    },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      {
+        type: "symlink",
+        path: "./mylink",
+        linkname: "./target/file.txt"
+      }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
@@ -448,12 +447,13 @@ Ende.test("TarStream() rejects empty linkname", async () => {
       await new Response(
         ReadableStream
           .from<TarStreamInput>([
-            { type: "symlink", path: "./link", linkname: "" },
+            { type: "symlink", path: "./link", linkname: "" }
           ])
-          .pipeThrough(new TarStream()),
-      ).bytes(),
+          .pipeThrough(new TarStream())
+      )
+        .bytes(),
     TypeError,
-    "Cannot add to the tar archive: Invalid Linkname provided",
+    "Cannot add to the tar archive: Invalid Linkname provided"
   );
 });
 
@@ -463,21 +463,23 @@ Ende.test("TarStream() rejects linkname exceeding 100 bytes", async () => {
       await new Response(
         ReadableStream
           .from<TarStreamInput>([
-            { type: "symlink", path: "./link", linkname: "a".repeat(101) },
+            { type: "symlink", path: "./link", linkname: "a".repeat(101) }
           ])
-          .pipeThrough(new TarStream()),
-      ).bytes(),
+          .pipeThrough(new TarStream())
+      )
+        .bytes(),
     TypeError,
-    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes",
+    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes"
   );
 });
 
 Ende.test("TarStream() symlink with non-ASCII linkname round-trip", async () => {
   const linkname = "target/\u3042";
 
-  const readable = ReadableStream.from<TarStreamInput>([
-    { type: "symlink", path: "./link", linkname },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      { type: "symlink", path: "./link", linkname }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
@@ -489,9 +491,10 @@ Ende.test("TarStream() symlink with non-ASCII linkname round-trip", async () => 
 Ende.test("TarStream() accepts exactly 100 byte linkname", async () => {
   const linkname = "a".repeat(100);
 
-  const readable = ReadableStream.from<TarStreamInput>([
-    { type: "symlink", path: "./link", linkname },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      { type: "symlink", path: "./link", linkname }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
@@ -503,20 +506,21 @@ Ende.test("TarStream() accepts exactly 100 byte linkname", async () => {
 Ende.test("TarStream() mixed archive with files, dirs, and symlinks", async () => {
   const text = new TextEncoder().encode("Hello World!");
 
-  const readable = ReadableStream.from<TarStreamInput>([
-    { type: "directory", path: "./dir" },
-    {
-      type: "file",
-      path: "./dir/file.txt",
-      size: text.length,
-      readable: ReadableStream.from([text.slice()]),
-    },
-    { type: "symlink", path: "./link-to-file", linkname: "./dir/file.txt" },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      { type: "directory", path: "./dir" },
+      {
+        type: "file",
+        path: "./dir/file.txt",
+        size: text.length,
+        readable: ReadableStream.from([text.slice()])
+      },
+      { type: "symlink", path: "./link-to-file", linkname: "./dir/file.txt" }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
-  const entries: { path: string; typeflag: string }[] = [];
+  const entries: { path: string; typeflag: string; }[] = [];
   for await (const entry of readable) {
     entries.push({ path: entry.path, typeflag: entry.header.typeflag });
     await entry.readable?.cancel();
@@ -525,7 +529,7 @@ Ende.test("TarStream() mixed archive with files, dirs, and symlinks", async () =
   assertEquals(entries, [
     { path: "./dir", typeflag: "5" },
     { path: "./dir/file.txt", typeflag: "0" },
-    { path: "./link-to-file", typeflag: "2" },
+    { path: "./link-to-file", typeflag: "2" }
   ]);
 });
 
@@ -538,21 +542,21 @@ Ende.test("assertValidLinkname()", () => {
   assertThrows(
     () => assertValidLinkname(""),
     TypeError,
-    "Cannot add to the tar archive: Invalid Linkname provided",
+    "Cannot add to the tar archive: Invalid Linkname provided"
   );
   assertThrows(
     () => assertValidLinkname("a".repeat(101)),
     TypeError,
-    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes",
+    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes"
   );
   assertThrows(
     () => assertValidLinkname("\u00e4".repeat(51)),
     TypeError,
-    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes",
+    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes"
   );
   assertThrows(
     () => assertValidLinkname("あ".repeat(34)),
     TypeError,
-    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes",
+    "Cannot add to the tar archive: Linkname cannot exceed 100 bytes"
   );
 });

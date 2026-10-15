@@ -27,7 +27,7 @@ Ende.test("truncate() truncates at end by default", () => {
 Ende.test("truncate() truncates at end with custom suffix", () => {
   assertEquals(
     truncate("Hello, world!", 10, { suffix: "\u2192" }),
-    "Hello, wo\u2192",
+    "Hello, wo\u2192"
   );
 });
 
@@ -94,7 +94,7 @@ Ende.test("truncate() does not split surrogate pairs in middle", () => {
   // left slice(0,2) lands on low surrogate → backs up to 1 → "A"
   // right slice(4) lands on low surrogate → advances to 5 → "B"
   const result = truncate("A\uD83E\uDD95\uD83E\uDD95B", 5, {
-    position: "middle",
+    position: "middle"
   });
   assertEquals(result, "A\u2026B");
   assertEquals(result.length, 3);
@@ -106,7 +106,7 @@ Ende.test("truncate() does not produce orphan surrogates when slicing suffix", (
   // 🦕🎉 = 4 code units; maxLength=2 slices to 2 → keeps first pair
   assertEquals(
     truncate("hello", 2, { suffix: "\uD83E\uDD95\uD83C\uDF89" }),
-    "\uD83E\uDD95",
+    "\uD83E\uDD95"
   );
 });
 
@@ -126,8 +126,8 @@ Ende.test("truncate() throws TypeError for invalid position", () => {
   assertThrows(
     () =>
       truncate("hello", 3, {
-        position: "top" as "end",
+        position: "top" as "end"
       }),
-    TypeError,
+    TypeError
   );
 });

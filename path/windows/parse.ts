@@ -36,7 +36,8 @@ export function parse(path: string): ParsedPath {
   const ret: ParsedPath = { root: "", dir: "", base: "", ext: "", name: "" };
 
   const len = path.length;
-  if (len === 0) return ret;
+  if (len === 0)
+    return ret;
 
   let rootEnd = 0;
   let code = path.charCodeAt(0);
@@ -53,21 +54,24 @@ export function parse(path: string): ParsedPath {
         let last = j;
         // Match 1 or more non-path separators
         for (; j < len; ++j) {
-          if (isPathSeparator(path.charCodeAt(j))) break;
+          if (isPathSeparator(path.charCodeAt(j)))
+            break;
         }
         if (j < len && j !== last) {
           // Matched!
           last = j;
           // Match 1 or more path separators
           for (; j < len; ++j) {
-            if (!isPathSeparator(path.charCodeAt(j))) break;
+            if (!isPathSeparator(path.charCodeAt(j)))
+              break;
           }
           if (j < len && j !== last) {
             // Matched!
             last = j;
             // Match 1 or more non-path separators
             for (; j < len; ++j) {
-              if (isPathSeparator(path.charCodeAt(j))) break;
+              if (isPathSeparator(path.charCodeAt(j)))
+                break;
             }
             if (j === len) {
               // We matched a UNC root only
@@ -113,7 +117,8 @@ export function parse(path: string): ParsedPath {
     return ret;
   }
 
-  if (rootEnd > 0) ret.root = path.slice(0, rootEnd);
+  if (rootEnd > 0)
+    ret.root = path.slice(0, rootEnd);
 
   let startDot = -1;
   let startPart = rootEnd;
@@ -145,8 +150,10 @@ export function parse(path: string): ParsedPath {
     }
     if (code === CHAR_DOT) {
       // If this is our first dot, mark it as the start of our extension
-      if (startDot === -1) startDot = i;
-      else if (preDotState !== 1) preDotState = 1;
+      if (startDot === -1)
+        startDot = i;
+      else if (preDotState !== 1)
+        preDotState = 1;
     } else if (startDot !== -1) {
       // We saw a non-dot and non-path separator before our dot, so we should
       // have a good chance at having a non-empty extension
@@ -179,7 +186,8 @@ export function parse(path: string): ParsedPath {
   // trailing slash (`C:\abc\def` -> `C:\abc`).
   if (startPart > 0 && startPart !== rootEnd) {
     ret.dir = path.slice(0, startPart - 1);
-  } else ret.dir = ret.root;
+  } else
+    ret.dir = ret.root;
 
   return ret;
 }

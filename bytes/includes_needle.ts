@@ -43,7 +43,7 @@ import { indexOfNeedle } from "./index_of_needle.ts";
 export function includesNeedle(
   source: Uint8Array,
   needle: Uint8Array,
-  start = 0,
+  start = 0
 ): boolean {
   return indexOfNeedle(source, needle, start) !== -1;
 }

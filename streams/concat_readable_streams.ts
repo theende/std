@@ -45,8 +45,8 @@ export function concatReadableStreams<T>(
       reader.releaseLock();
     },
     async cancel(reason) {
-      const promises = streams.map((stream) => stream.cancel(reason));
+      const promises = streams.map(stream => stream.cancel(reason));
       await Promise.allSettled(promises);
-    },
+    }
   });
 }

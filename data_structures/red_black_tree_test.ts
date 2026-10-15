@@ -3,30 +3,30 @@
 import { assertEquals, assertStrictEquals, assertThrows } from "@ende/assert";
 import { RedBlackTree } from "./red_black_tree.ts";
 import { ascend, descend } from "./comparators.ts";
-import { type Container, MyMath } from "./_test_utils.ts";
+import { MyMath, type Container } from "./_test_utils.ts";
 
 Ende.test("RedBlackTree throws if compare is not a function", () => {
   assertThrows(
     () => new RedBlackTree({} as (a: number, b: number) => number),
     TypeError,
-    "Cannot construct a RedBlackTree: the 'compare' parameter is not a function, did you mean to call RedBlackTree.from?",
+    "Cannot construct a RedBlackTree: the 'compare' parameter is not a function, did you mean to call RedBlackTree.from?"
   );
 });
 
 Ende.test("RedBlackTree works as expected with default ascend comparator", () => {
   const trees = [
     new RedBlackTree(),
-    new RedBlackTree(),
+    new RedBlackTree()
   ] as const;
   const values: number[] = [-10, 9, -1, 100, 1, 0, -100, 10, -9];
 
   const expectedMin: number[][] = [
     [-10, -10, -10, -10, -10, -10, -100, -100, -100],
-    [-9, -9, -100, -100, -100, -100, -100, -100, -100],
+    [-9, -9, -100, -100, -100, -100, -100, -100, -100]
   ];
   const expectedMax: number[][] = [
     [-10, 9, 9, 100, 100, 100, 100, 100, 100],
-    [-9, 10, 10, 10, 10, 100, 100, 100, 100],
+    [-9, 10, 10, 10, 10, 100, 100, 100, 100]
   ];
   for (const [i, tree] of trees.entries()) {
     assertEquals(tree.size, 0);
@@ -53,21 +53,21 @@ Ende.test("RedBlackTree works as expected with default ascend comparator", () =>
   for (const tree of trees) {
     assertEquals(
       [...tree.lnrValues()],
-      [-100, -10, -9, -1, 0, 1, 9, 10, 100],
+      [-100, -10, -9, -1, 0, 1, 9, 10, 100]
     );
     assertEquals(tree.size, values.length);
     assertEquals(tree.isEmpty(), false);
 
     assertEquals(
       [...tree],
-      [-100, -10, -9, -1, 0, 1, 9, 10, 100],
+      [-100, -10, -9, -1, 0, 1, 9, 10, 100]
     );
     assertEquals(tree.size, values.length);
     assertEquals(tree.isEmpty(), false);
 
     assertEquals(
       [...tree.rnlValues()],
-      [100, 10, 9, 1, 0, -1, -9, -10, -100],
+      [100, 10, 9, 1, 0, -1, -9, -10, -100]
     );
     assertEquals(tree.size, values.length);
     assertEquals(tree.isEmpty(), false);
@@ -75,11 +75,11 @@ Ende.test("RedBlackTree works as expected with default ascend comparator", () =>
 
   assertEquals(
     [...trees[0].nlrValues()],
-    [-1, -10, -100, -9, 9, 1, 0, 100, 10],
+    [-1, -10, -100, -9, 9, 1, 0, 100, 10]
   );
   assertEquals(
     [...trees[1].nlrValues()],
-    [-9, -100, -10, 1, 0, -1, 10, 9, 100],
+    [-9, -100, -10, 1, 0, -1, 10, 9, 100]
   );
   for (const tree of trees) {
     assertEquals(tree.size, values.length);
@@ -88,11 +88,11 @@ Ende.test("RedBlackTree works as expected with default ascend comparator", () =>
 
   assertEquals(
     [...trees[0].lrnValues()],
-    [-100, -9, -10, 0, 1, 10, 100, 9, -1],
+    [-100, -9, -10, 0, 1, 10, 100, 9, -1]
   );
   assertEquals(
     [...trees[1].lrnValues()],
-    [-10, -100, -1, 0, 9, 100, 10, 1, -9],
+    [-10, -100, -1, 0, 9, 100, 10, 1, -9]
   );
   for (const tree of trees) {
     assertEquals(tree.size, values.length);
@@ -101,11 +101,11 @@ Ende.test("RedBlackTree works as expected with default ascend comparator", () =>
 
   assertEquals(
     [...trees[0].lvlValues()],
-    [-1, -10, 9, -100, -9, 1, 100, 0, 10],
+    [-1, -10, 9, -100, -9, 1, 100, 0, 10]
   );
   assertEquals(
     [...trees[1].lvlValues()],
-    [-9, -100, 1, -10, 0, 10, -1, 9, 100],
+    [-9, -100, 1, -10, 0, 10, -1, 9, 100]
   );
   for (const tree of trees) {
     assertEquals(tree.size, values.length);
@@ -136,17 +136,17 @@ Ende.test("RedBlackTree works as expected with default ascend comparator", () =>
 Ende.test("RedBlackTree works as exepcted with descend comparator", () => {
   const trees = [
     new RedBlackTree(descend),
-    new RedBlackTree(descend),
+    new RedBlackTree(descend)
   ] as const;
   const values: number[] = [-10, 9, -1, 100, 1, 0, -100, 10, -9];
 
   const expectedMin: number[][] = [
     [-10, 9, 9, 100, 100, 100, 100, 100, 100],
-    [-9, 10, 10, 10, 10, 100, 100, 100, 100, 100],
+    [-9, 10, 10, 10, 10, 100, 100, 100, 100, 100]
   ];
   const expectedMax: number[][] = [
     [-10, -10, -10, -10, -10, -10, -100, -100, -100],
-    [-9, -9, -100, -100, -100, -100, -100, -100, -100],
+    [-9, -9, -100, -100, -100, -100, -100, -100, -100]
   ];
   for (const [i, tree] of trees.entries()) {
     assertEquals(tree.size, 0);
@@ -173,21 +173,21 @@ Ende.test("RedBlackTree works as exepcted with descend comparator", () => {
   for (const tree of trees) {
     assertEquals(
       [...tree.lnrValues()],
-      [100, 10, 9, 1, 0, -1, -9, -10, -100],
+      [100, 10, 9, 1, 0, -1, -9, -10, -100]
     );
     assertEquals(tree.size, values.length);
     assertEquals(tree.isEmpty(), false);
 
     assertEquals(
       [...tree],
-      [100, 10, 9, 1, 0, -1, -9, -10, -100],
+      [100, 10, 9, 1, 0, -1, -9, -10, -100]
     );
     assertEquals(tree.size, values.length);
     assertEquals(tree.isEmpty(), false);
 
     assertEquals(
       [...tree.rnlValues()],
-      [-100, -10, -9, -1, 0, 1, 9, 10, 100],
+      [-100, -10, -9, -1, 0, 1, 9, 10, 100]
     );
     assertEquals(tree.size, values.length);
     assertEquals(tree.isEmpty(), false);
@@ -195,11 +195,11 @@ Ende.test("RedBlackTree works as exepcted with descend comparator", () => {
 
   assertEquals(
     [...trees[0].nlrValues()],
-    [-1, 9, 100, 10, 1, 0, -10, -9, -100],
+    [-1, 9, 100, 10, 1, 0, -10, -9, -100]
   );
   assertEquals(
     [...trees[1].nlrValues()],
-    [-9, 1, 10, 100, 9, 0, -1, -100, -10],
+    [-9, 1, 10, 100, 9, 0, -1, -100, -10]
   );
   for (const tree of trees) {
     assertEquals(tree.size, values.length);
@@ -208,11 +208,11 @@ Ende.test("RedBlackTree works as exepcted with descend comparator", () => {
 
   assertEquals(
     [...trees[0].lrnValues()],
-    [10, 100, 0, 1, 9, -9, -100, -10, -1],
+    [10, 100, 0, 1, 9, -9, -100, -10, -1]
   );
   assertEquals(
     [...trees[1].lrnValues()],
-    [100, 9, 10, -1, 0, 1, -10, -100, -9],
+    [100, 9, 10, -1, 0, 1, -10, -100, -9]
   );
   for (const tree of trees) {
     assertEquals(tree.size, values.length);
@@ -221,11 +221,11 @@ Ende.test("RedBlackTree works as exepcted with descend comparator", () => {
 
   assertEquals(
     [...trees[0].lvlValues()],
-    [-1, 9, -10, 100, 1, -9, -100, 10, 0],
+    [-1, 9, -10, 100, 1, -9, -100, 10, 0]
   );
   assertEquals(
     [...trees[1].lvlValues()],
-    [-9, 1, -100, 10, 0, -10, 100, 9, -1],
+    [-9, 1, -100, 10, 0, -10, 100, 9, -1]
   );
   for (const tree of trees) {
     assertEquals(tree.size, values.length);
@@ -256,7 +256,7 @@ Ende.test("RedBlackTree works as exepcted with descend comparator", () => {
 Ende.test("RedBlackTree works with object items", () => {
   const tree: RedBlackTree<Container> = new RedBlackTree((
     a: Container,
-    b: Container,
+    b: Container
   ) => ascend(a.id, b.id));
   const ids: number[] = [-10, 9, -1, 100, 1, 0, -100, 10, -9];
 
@@ -273,20 +273,20 @@ Ende.test("RedBlackTree works with object items", () => {
     const newContainer: Container = { id, values: [] };
     assertEquals(
       tree.find({ id } as Container),
-      { id, values: [i - 1, i, i + 1] },
+      { id, values: [i - 1, i, i + 1] }
     );
     assertEquals(tree.insert(newContainer), false);
     assertEquals(
       tree.find({ id, values: [] }),
-      { id, values: [i - 1, i, i + 1] },
+      { id, values: [i - 1, i, i + 1] }
     );
     assertEquals(tree.size, ids.length);
     assertEquals(tree.isEmpty(), false);
   }
 
   assertEquals(
-    [...tree].map((container) => container.id),
-    [-100, -10, -9, -1, 0, 1, 9, 10, 100],
+    [...tree].map(container => container.id),
+    [-100, -10, -9, -1, 0, 1, 9, 10, 100]
   );
   assertEquals(tree.size, ids.length);
   assertEquals(tree.isEmpty(), false);
@@ -297,16 +297,16 @@ Ende.test("RedBlackTree works with object items", () => {
     assertEquals(tree.isEmpty(), false);
     assertEquals(
       tree.find({ id, values: [] }),
-      { id, values: [i - 1, i, i + 1] },
+      { id, values: [i - 1, i, i + 1] }
     );
 
     assertEquals(tree.remove({ id, values: [] }), true);
     expected.splice(expected.indexOf(id), 1);
-    assertEquals([...tree].map((container) => container.id), expected);
+    assertEquals([...tree].map(container => container.id), expected);
     assertEquals(tree.find({ id, values: [] }), null);
 
     assertEquals(tree.remove({ id, values: [] }), false);
-    assertEquals([...tree].map((container) => container.id), expected);
+    assertEquals([...tree].map(container => container.id), expected);
     assertEquals(tree.find({ id, values: [] }), null);
   }
   assertEquals(tree.size, 0);
@@ -350,7 +350,7 @@ Ende.test("RedBlackTree.from() handles Iterable", () => {
   assertEquals([...tree.lvlValues()], [-1, 9, -10, 100, 1, -9, -100, 10, 0]);
 
   tree = RedBlackTree.from(values, {
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...tree], expected.map((v: number) => 2 * v));
   assertEquals([...tree.nlrValues()], [-2, -20, -200, -18, 18, 2, 0, 200, 20]);
@@ -358,10 +358,10 @@ Ende.test("RedBlackTree.from() handles Iterable", () => {
 
   const math = new MyMath();
   tree = RedBlackTree.from(values, {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals(values, originalValues);
   assertEquals([...tree], expected.map((v: number) => 3 * v));
@@ -370,7 +370,7 @@ Ende.test("RedBlackTree.from() handles Iterable", () => {
 
   tree = RedBlackTree.from(values, {
     compare: descend,
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals(values, originalValues);
   assertEquals([...tree].reverse(), expected.map((v: number) => 2 * v));
@@ -379,10 +379,10 @@ Ende.test("RedBlackTree.from() handles Iterable", () => {
 
   tree = RedBlackTree.from(values, {
     compare: descend,
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals(values, originalValues);
   assertEquals([...tree].reverse(), expected.map((v: number) => 3 * v));
@@ -394,7 +394,8 @@ Ende.test("RedBlackTree.from() handles default ascend comparator", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [-100, -10, -9, -1, 0, 1, 9, 10, 100];
   const originalTree: RedBlackTree<number> = new RedBlackTree();
-  for (const value of values) originalTree.insert(value);
+  for (const value of values)
+    originalTree.insert(value);
   let tree: RedBlackTree<number> = RedBlackTree.from(originalTree);
   assertEquals(originalTree.size, tree.size);
   assertEquals([...originalTree], expected);
@@ -409,7 +410,7 @@ Ende.test("RedBlackTree.from() handles default ascend comparator", () => {
   assertEquals([...tree.lvlValues()], [-1, 1, -10, 10, 0, -9, -100, 100, 9]);
 
   tree = RedBlackTree.from(originalTree, {
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree], expected.map((v: number) => 2 * v));
@@ -418,10 +419,10 @@ Ende.test("RedBlackTree.from() handles default ascend comparator", () => {
 
   const math = new MyMath();
   tree = RedBlackTree.from(originalTree, {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree], expected.map((v: number) => 3 * v));
@@ -430,7 +431,7 @@ Ende.test("RedBlackTree.from() handles default ascend comparator", () => {
 
   tree = RedBlackTree.from(originalTree, {
     compare: descend,
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree].reverse(), expected.map((v: number) => 2 * v));
@@ -439,10 +440,10 @@ Ende.test("RedBlackTree.from() handles default ascend comparator", () => {
 
   tree = RedBlackTree.from(originalTree, {
     compare: descend,
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree].reverse(), expected.map((v: number) => 3 * v));
@@ -472,7 +473,8 @@ Ende.test("RedBlackTree.from() handles descend comparator", () => {
   const values: number[] = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const expected: number[] = [100, 10, 9, 1, 0, -1, -9, -10, -100];
   const originalTree: RedBlackTree<number> = new RedBlackTree(descend);
-  for (const value of values) originalTree.insert(value);
+  for (const value of values)
+    originalTree.insert(value);
   let tree: RedBlackTree<number> = RedBlackTree.from(originalTree);
   assertEquals(originalTree.size, tree.size);
   assertEquals([...originalTree], expected);
@@ -487,7 +489,7 @@ Ende.test("RedBlackTree.from() handles descend comparator", () => {
   assertEquals([...tree.lvlValues()], [1, -1, 10, -10, 0, 9, 100, -100, -9]);
 
   tree = RedBlackTree.from(originalTree, {
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree], expected.map((v: number) => 2 * v));
@@ -496,10 +498,10 @@ Ende.test("RedBlackTree.from() handles descend comparator", () => {
 
   const math = new MyMath();
   tree = RedBlackTree.from(originalTree, {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree], expected.map((v: number) => 3 * v));
@@ -508,7 +510,7 @@ Ende.test("RedBlackTree.from() handles descend comparator", () => {
 
   tree = RedBlackTree.from(originalTree, {
     compare: ascend,
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree].reverse(), expected.map((v: number) => 2 * v));
@@ -517,10 +519,10 @@ Ende.test("RedBlackTree.from() handles descend comparator", () => {
 
   tree = RedBlackTree.from(originalTree, {
     compare: ascend,
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...originalTree], expected);
   assertEquals([...tree].reverse(), expected.map((v: number) => 3 * v));
@@ -1549,7 +1551,7 @@ Ende.test("RedBlackTree removes rebalance right", () => {
 Ende.test("RedBlackTree works with README example", () => {
   const values = [3, 10, 13, 4, 6, 7, 1, 14];
   const tree = new RedBlackTree<number>();
-  values.forEach((value) => tree.insert(value));
+  values.forEach(value => tree.insert(value));
   assertEquals([...tree], [1, 3, 4, 6, 7, 10, 13, 14]);
   assertEquals(tree.min(), 1);
   assertEquals(tree.max(), 14);
@@ -1560,7 +1562,7 @@ Ende.test("RedBlackTree works with README example", () => {
   assertEquals([...tree], [1, 3, 4, 6, 10, 13, 14]);
 
   const invertedTree = new RedBlackTree<number>(descend);
-  values.forEach((value) => invertedTree.insert(value));
+  values.forEach(value => invertedTree.insert(value));
   assertEquals([...invertedTree], [14, 13, 10, 7, 6, 4, 3, 1]);
   assertEquals(invertedTree.min(), 14);
   assertEquals(invertedTree.max(), 1);
@@ -1570,11 +1572,9 @@ Ende.test("RedBlackTree works with README example", () => {
   assertEquals(invertedTree.remove(7), true);
   assertEquals([...invertedTree], [14, 13, 10, 6, 4, 3, 1]);
 
-  const words = new RedBlackTree<string>((a, b) =>
-    ascend(a.length, b.length) || ascend(a, b)
-  );
+  const words = new RedBlackTree<string>((a, b) => ascend(a.length, b.length) || ascend(a, b));
   ["truck", "car", "helicopter", "tank", "train", "suv", "semi", "van"]
-    .forEach((value) => words.insert(value));
+    .forEach(value => words.insert(value));
   assertEquals([...words], [
     "car",
     "suv",
@@ -1583,7 +1583,7 @@ Ende.test("RedBlackTree works with README example", () => {
     "tank",
     "train",
     "truck",
-    "helicopter",
+    "helicopter"
   ]);
   assertEquals(words.min(), "car");
   assertEquals(words.max(), "helicopter");
@@ -1598,6 +1598,6 @@ Ende.test("RedBlackTree works with README example", () => {
     "semi",
     "train",
     "truck",
-    "helicopter",
+    "helicopter"
   ]);
 });

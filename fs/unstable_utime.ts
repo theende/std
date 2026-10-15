@@ -34,7 +34,7 @@
 export async function utime(
   path: string | URL,
   atime: number | Date,
-  mtime: number | Date,
+  mtime: number | Date
 ): Promise<void> {
   await Ende.utime(path, atime, mtime);
 }
@@ -72,7 +72,7 @@ export async function utime(
 export function utimeSync(
   path: string | URL,
   atime: number | Date,
-  mtime: number | Date,
+  mtime: number | Date
 ): void {
   return Ende.utimeSync(path, atime, mtime);
 }

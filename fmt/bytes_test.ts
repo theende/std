@@ -60,17 +60,17 @@ Ende.test("format() handles locale option", () => {
 
   assertEquals(
     format(-0.4, { locale: ["unknown", "de", "en"] }),
-    "-0,4 B",
+    "-0,4 B"
   );
   assertEquals(format(0.4, { locale: ["unknown", "de", "en"] }), "0,4 B");
   assertEquals(format(1001, { locale: ["unknown", "de", "en"] }), "1 kB");
   assertEquals(
     format(10.1, { locale: ["unknown", "de", "en"] }),
-    "10,1 B",
+    "10,1 B"
   );
   assertEquals(
     format(1e30, { locale: ["unknown", "de", "en"] }),
-    "1.000.000 YB",
+    "1.000.000 YB"
   );
 
   assertEquals(format(-0.4, { locale: true }), `-0${decimal}4 B`);
@@ -102,8 +102,8 @@ Ende.test("format() handles locale option", () => {
   assertEquals(format(1e30, {}), "1000000 YB");
 });
 
-Ende.test("format() handles group separators", async (t) => {
-  const tests: { locale: string; expected: string }[] = [
+Ende.test("format() handles group separators", async t => {
+  const tests: { locale: string; expected: string; }[] = [
     { locale: "en-US", expected: "1,000,000 YB" },
     { locale: "es-ES", expected: "1.000.000 YB" },
 
@@ -115,7 +115,7 @@ Ende.test("format() handles group separators", async (t) => {
 
     // https://en.wikipedia.org/wiki/Indian_numbering_system
     { locale: "hi-IN", expected: "10,00,000 YB" },
-    { locale: "gu-IN", expected: "10,00,000 YB" },
+    { locale: "gu-IN", expected: "10,00,000 YB" }
   ];
 
   for (const { locale, expected } of tests) {
@@ -124,9 +124,9 @@ Ende.test("format() handles group separators", async (t) => {
       using _ = stub(
         Number.prototype,
         "toLocaleString",
-        function (loc) {
+        function(loc) {
           return toLocaleString.call(this, loc ?? locale);
-        },
+        }
       );
 
       // explicitly supplying the locale
@@ -180,62 +180,62 @@ Ende.test("format() handles bits and binary option", () => {
 Ende.test("format() handles fractional digits options", () => {
   assertEquals(
     format(1900, { maximumFractionDigits: 1 }),
-    `1${decimal}9 kB`,
+    `1${decimal}9 kB`
   );
   assertEquals(
     format(1900, { minimumFractionDigits: 3 }),
-    `1${decimal}900 kB`,
+    `1${decimal}900 kB`
   );
   assertEquals(
     format(1911, { maximumFractionDigits: 1 }),
-    `1${decimal}9 kB`,
+    `1${decimal}9 kB`
   );
   assertEquals(
     format(1111, { maximumFractionDigits: 2 }),
-    `1${decimal}11 kB`,
+    `1${decimal}11 kB`
   );
   assertEquals(
     format(1019, { maximumFractionDigits: 3 }),
-    `1${decimal}019 kB`,
+    `1${decimal}019 kB`
   );
   assertEquals(
     format(1001, { maximumFractionDigits: 3 }),
-    `1${decimal}001 kB`,
+    `1${decimal}001 kB`
   );
   assertEquals(
     format(1000, { minimumFractionDigits: 1, maximumFractionDigits: 3 }),
-    `1${decimal}0 kB`,
+    `1${decimal}0 kB`
   );
   assertEquals(
     format(3942, { minimumFractionDigits: 1, maximumFractionDigits: 2 }),
-    `3${decimal}94 kB`,
+    `3${decimal}94 kB`
   );
   assertEquals(
     format(4001, { maximumFractionDigits: 3, binary: true }),
-    `3${decimal}907 kiB`,
+    `3${decimal}907 kiB`
   );
   assertEquals(
     format(18717, { maximumFractionDigits: 2, binary: true }),
-    `18${decimal}28 kiB`,
+    `18${decimal}28 kiB`
   );
   assertEquals(
     format(18717, { maximumFractionDigits: 4, binary: true }),
-    `18${decimal}2783 kiB`,
+    `18${decimal}2783 kiB`
   );
   assertEquals(
     format(32768, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 3,
-      binary: true,
+      binary: true
     }),
-    `32${decimal}00 kiB`,
+    `32${decimal}00 kiB`
   );
   assertEquals(
     format(65536, {
       minimumFractionDigits: 1,
       maximumFractionDigits: 3,
-      binary: true,
+      binary: true
     }),
-    `64${decimal}0 kiB`,
+    `64${decimal}0 kiB`
   );
 });

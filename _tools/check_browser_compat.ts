@@ -23,9 +23,11 @@ async function isBrowserCompatible(filePath: string): Promise<boolean> {
       "--no-lock",
       "--config",
       "browser-compat.tsconfig.json",
-      filePath,
-    ],
-  }).output()).success;
+      filePath
+    ]
+  })
+    .output())
+    .success;
 }
 for await (const { path } of walk(ROOT, { exts: [".ts"], skip: SKIP })) {
   const source = await Ende.readTextFile(path);
@@ -34,7 +36,7 @@ for await (const { path } of walk(ROOT, { exts: [".ts"], skip: SKIP })) {
     await Ende.writeTextFile(
       path,
       source.slice(0, index + COPYRIGHT.length) + "\n" + DECLARATION +
-        source.slice(index + COPYRIGHT.length),
+        source.slice(index + COPYRIGHT.length)
     );
   }
 }

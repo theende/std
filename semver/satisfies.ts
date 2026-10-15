@@ -27,5 +27,5 @@ import { testComparatorSet } from "./_test_comparator_set.ts";
  * @returns true if the version is in the range
  */
 export function satisfies(version: SemVer, range: Range): boolean {
-  return range.some((set) => testComparatorSet(version, set));
+  return range.some(set => testComparatorSet(version, set));
 }

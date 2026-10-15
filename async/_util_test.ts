@@ -5,7 +5,7 @@ import { assertEquals } from "@ende/assert";
 
 // test util to ensure deterministic results during testing of backoff function by polyfilling Math.random
 function prngMulberry32(seed: number) {
-  return function () {
+  return function() {
     let t = (seed += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
@@ -16,7 +16,7 @@ function prngMulberry32(seed: number) {
 // random seed generated with crypto.getRandomValues(new Uint32Array(1))[0]
 const INITIAL_SEED = 3460544849;
 
-const expectedTimings: readonly (readonly number[] & { length: 10 })[] & {
+const expectedTimings: readonly (readonly number[] & { length: 10; })[] & {
   length: 10;
 } = [
   [31, 117, 344, 9, 1469, 1060, 920, 5094, 19564, 33292],
@@ -28,7 +28,7 @@ const expectedTimings: readonly (readonly number[] & { length: 10 })[] & {
   [25, 46, 341, 498, 602, 2349, 1366, 4399, 1680, 9275],
   [14, 174, 189, 309, 1461, 937, 1898, 2087, 9624, 18872],
   [65, 190, 382, 351, 826, 2502, 5657, 3967, 1063, 43754],
-  [89, 78, 222, 668, 1027, 1397, 1293, 8295, 14077, 33602],
+  [89, 78, 222, 668, 1027, 1397, 1293, 8295, 14077, 33602]
 ] as const;
 
 Ende.test("exponentialBackoffWithJitter()", () => {

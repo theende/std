@@ -4,16 +4,17 @@
 import { assertEquals, assertRejects } from "@ende/assert";
 import {
   JsonStringifyStream,
-  type StringifyStreamOptions,
+  type StringifyStreamOptions
 } from "./stringify_stream.ts";
 
 async function assertValidStringify(
   transformer: typeof JsonStringifyStream,
   chunks: unknown[],
   expect: string[],
-  options?: StringifyStreamOptions,
+  options?: StringifyStreamOptions
 ) {
-  const r = ReadableStream.from(chunks)
+  const r = ReadableStream
+    .from(chunks)
     .pipeThrough(new transformer(options));
   const res = await Array.fromAsync(r);
   assertEquals(res, expect);
@@ -24,15 +25,16 @@ async function assertInvalidStringify(
   chunks: unknown[],
   options: StringifyStreamOptions,
   // deno-lint-ignore no-explicit-any
-  ErrorClass: new (...args: any[]) => Error,
-  msgIncludes: string | undefined,
+  ErrorClass: new(...args: any[]) => Error,
+  msgIncludes: string | undefined
 ) {
-  const r = ReadableStream.from(chunks)
+  const r = ReadableStream
+    .from(chunks)
     .pipeThrough(new transformer(options));
   await assertRejects(
     async () => await Array.fromAsync(r),
     ErrorClass,
-    msgIncludes,
+    msgIncludes
   );
 }
 
@@ -42,9 +44,9 @@ Ende.test({
     await assertValidStringify(
       JsonStringifyStream,
       [{ foo: "bar" }, { foo: "bar" }],
-      ['{"foo":"bar"}\n', '{"foo":"bar"}\n'],
+      ["{\"foo\":\"bar\"}\n", "{\"foo\":\"bar\"}\n"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -57,9 +59,9 @@ Ende.test({
       [cyclic],
       {},
       TypeError,
-      "Converting circular structure to JSON",
+      "Converting circular structure to JSON"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -69,10 +71,10 @@ Ende.test({
       JsonStringifyStream,
       [{ foo: "bar" }, { foo: "bar" }],
       [
-        '[[prefix]]{"foo":"bar"}[[suffix]]',
-        '[[prefix]]{"foo":"bar"}[[suffix]]',
+        "[[prefix]]{\"foo\":\"bar\"}[[suffix]]",
+        "[[prefix]]{\"foo\":\"bar\"}[[suffix]]"
       ],
-      { prefix: "[[prefix]]", suffix: "[[suffix]]" },
+      { prefix: "[[prefix]]", suffix: "[[suffix]]" }
     );
-  },
+  }
 });

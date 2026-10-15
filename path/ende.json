@@ -1,6 +1,4 @@
 {
-  "name": "@ende/path",
-  "version": "1.1.6",
   "exports": {
     ".": "./mod.ts",
     "./basename": "./basename.ts",
@@ -63,5 +61,7 @@
     "./windows/resolve": "./windows/resolve.ts",
     "./windows/to-file-url": "./windows/to_file_url.ts",
     "./windows/to-namespaced-path": "./windows/to_namespaced_path.ts"
-  }
+  },
+  "name": "@ende/path",
+  "version": "2026.10.15"
 }

@@ -409,8 +409,7 @@ export const HEADER = {
    *
    * @see {@link https://html.spec.whatwg.org/multipage/origin.html#cross-origin-embedder-policy-report-only | HTML}
    */
-  CrossOriginEmbedderPolicyReportOnly:
-    "Cross-Origin-Embedder-Policy-Report-Only",
+  CrossOriginEmbedderPolicyReportOnly: "Cross-Origin-Embedder-Policy-Report-Only",
 
   /**
    * HTTP Header Cross-Origin-Opener-Policy
@@ -1190,7 +1189,7 @@ export const HEADER = {
    *
    * @see {@link https://html.spec.whatwg.org/multipage/browsing-the-web.html#x-frame-options | HTML}
    */
-  XFrameOptions: "X-Frame-Options",
+  XFrameOptions: "X-Frame-Options"
 } as const;
 
 /**

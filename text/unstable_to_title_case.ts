@@ -16,7 +16,7 @@ export type { TrailingCase } from "./_title_case_util.ts";
 export type ExcludeWordFilter = (
   value: Intl.SegmentData,
   index: number,
-  array: Intl.SegmentData[],
+  array: Intl.SegmentData[]
 ) => boolean;
 
 /**
@@ -67,18 +67,18 @@ export function toTitleCase(input: string, options?: TitleCaseOptions): string {
   // [3.13.2 Default Case Conversion `toTitlecase`](https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#G34078)
   // toTitlecase(X): Find the word boundaries in X according to Unicode Standard Annex #29, “Unicode Text Segmentation.”
   const segments = [...opts.words.segment(input)];
-  const words = segments.filter((x) => x.isWordLike);
+  const words = segments.filter(x => x.isWordLike);
   const exclude = toExcludeFilter(options?.exclude);
   let out = "";
   let i = 0;
 
   for (const s of segments) {
     if (s.isWordLike) {
-      out += !exclude(s, i++, words)
-        ? titleCaseSegment(s.segment, opts)
-        : opts.trailingCase === "lower"
-        ? s.segment.toLocaleLowerCase(opts.locale)
-        : s.segment;
+      out += !exclude(s, i++, words) ?
+        titleCaseSegment(s.segment, opts) :
+        opts.trailingCase === "lower" ?
+        s.segment.toLocaleLowerCase(opts.locale) :
+        s.segment;
     } else {
       out += s.segment;
     }
@@ -93,16 +93,20 @@ function excludeStopWords(stopWords: readonly string[]): ExcludeWordFilter {
 }
 
 function toExcludeFilter(exclude?: ExcludeWordConfig): ExcludeWordFilter {
-  if (exclude == null) return () => false;
-  if (typeof exclude === "function") return exclude;
-  if (isStrings(exclude)) return excludeStopWords(exclude);
+  if (exclude == null)
+    return () => false;
+  if (typeof exclude === "function")
+    return exclude;
+  if (isStrings(exclude))
+    return excludeStopWords(exclude);
 
   const filters = exclude
-    .map((x) => typeof x === "function" ? x : excludeStopWords(x));
+    .map(x => typeof x === "function" ? x : excludeStopWords(x));
 
   return (s, i, w) => {
     for (const filter of filters) {
-      if (filter(s, i, w)) return true;
+      if (filter(s, i, w))
+        return true;
     }
     return false;
   };

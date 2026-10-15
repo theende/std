@@ -6,10 +6,10 @@ import {
   assertSpyCallArg,
   assertSpyCalls,
   MockError,
-  returnsNext,
+  returnsNext
 } from "./mock.ts";
 import { Point, type PointWithExtra } from "./_test_utils.ts";
-import { type Stub, stub } from "./unstable_stub.ts";
+import { stub, type Stub } from "./unstable_stub.ts";
 
 Ende.test("stub()", () => {
   const point = new Point(2, 3);
@@ -21,7 +21,7 @@ Ende.test("stub()", () => {
   assertSpyCall(func, 0, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 1);
 
@@ -29,7 +29,7 @@ Ende.test("stub()", () => {
   assertSpyCall(func, 1, {
     self: point,
     args: [],
-    returned: undefined,
+    returned: undefined
   });
   assertSpyCalls(func, 2);
 
@@ -43,7 +43,7 @@ Ende.test("stub()", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -59,7 +59,7 @@ Ende.test("stub() works on function", () => {
   assertSpyCall(func, 0, {
     self: point,
     args: [],
-    returned: 1,
+    returned: 1
   });
   assertSpyCalls(func, 1);
 
@@ -67,7 +67,7 @@ Ende.test("stub() works on function", () => {
   assertSpyCall(func, 1, {
     self: point,
     args: [],
-    returned: "b",
+    returned: "b"
   });
   assertSpyCalls(func, 2);
 
@@ -81,7 +81,7 @@ Ende.test("stub() works on function", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -89,9 +89,9 @@ Ende.test("stub() works on getter", () => {
   const point = new Point(5, 6);
   const returns = [1, 2, 3, 4];
   const func = stub(point, "x", {
-    get: function () {
+    get: function() {
       return returns.shift();
-    },
+    }
   });
 
   assertSpyCalls(func.get, 0);
@@ -100,7 +100,7 @@ Ende.test("stub() works on getter", () => {
   assertSpyCall(func.get, 0, {
     self: point,
     args: [],
-    returned: 1,
+    returned: 1
   });
   assertSpyCalls(func.get, 1);
 
@@ -108,7 +108,7 @@ Ende.test("stub() works on getter", () => {
   assertSpyCall(func.get, 1, {
     self: point,
     args: [],
-    returned: 2,
+    returned: 2
   });
   assertSpyCalls(func.get, 2);
 
@@ -119,16 +119,16 @@ Ende.test("stub() works on getter", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
 Ende.test("stub() works on setter", () => {
   const point = new Point(5, 6);
   const func = stub(point, "x", {
-    set: function (value: number) {
+    set: function(value: number) {
       point.y = value;
-    },
+    }
   });
 
   assertSpyCalls(func.set, 0);
@@ -152,7 +152,7 @@ Ende.test("stub() works on setter", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -160,12 +160,12 @@ Ende.test("stub() works on getter and setter", () => {
   const point = new Point(5, 6);
   const returns = [1, 2, 3, 4];
   const func = stub(point, "x", {
-    get: function () {
+    get: function() {
       return returns.shift();
     },
-    set: function (value: number) {
+    set: function(value: number) {
       point.y = value;
-    },
+    }
   });
 
   assertSpyCalls(func.set, 0);
@@ -182,7 +182,7 @@ Ende.test("stub() works on getter and setter", () => {
   assertSpyCall(func.get, 0, {
     self: point,
     args: [],
-    returned: 1,
+    returned: 1
   });
 
   point.x = 15;
@@ -195,7 +195,7 @@ Ende.test("stub() works on getter and setter", () => {
   assertSpyCall(func.get, 1, {
     self: point,
     args: [],
-    returned: 2,
+    returned: 2
   });
 
   assertEquals(func.restored, false);
@@ -204,7 +204,7 @@ Ende.test("stub() works on getter and setter", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(point.x, 5);
   assertEquals(func.restored, true);
@@ -223,7 +223,7 @@ Ende.test("stub() supports explicit resource management", () => {
     assertSpyCall(func, 0, {
       self: point,
       args: [],
-      returned: 1,
+      returned: 1
     });
     assertSpyCalls(func, 1);
 
@@ -231,7 +231,7 @@ Ende.test("stub() supports explicit resource management", () => {
     assertSpyCall(func, 1, {
       self: point,
       args: [],
-      returned: "b",
+      returned: "b"
     });
     assertSpyCalls(func, 2);
 
@@ -245,10 +245,11 @@ Ende.test("stub() supports explicit resource management", () => {
     assertEquals(point.action, Point.prototype.action);
     assertThrows(
       () => {
-        if (funcRef) funcRef.restore();
+        if (funcRef)
+          funcRef.restore();
       },
       MockError,
-      "Cannot restore: instance method already restored",
+      "Cannot restore: instance method already restored"
     );
     assertEquals(funcRef.restored, true);
   }
@@ -268,7 +269,7 @@ Ende.test("stub() handles non existent function", () => {
   assertSpyCall(func, 0, {
     self: castPoint,
     args: [],
-    returned: 1,
+    returned: 1
   });
   assertSpyCalls(func, 1);
 
@@ -276,7 +277,7 @@ Ende.test("stub() handles non existent function", () => {
   assertSpyCall(func, 1, {
     self: castPoint,
     args: [],
-    returned: 2,
+    returned: 2
   });
   assertSpyCalls(func, 2);
 
@@ -290,7 +291,7 @@ Ende.test("stub() handles non existent function", () => {
   assertThrows(
     () => func.restore(),
     MockError,
-    "Cannot restore: instance method already restored",
+    "Cannot restore: instance method already restored"
   );
   assertEquals(func.restored, true);
 });
@@ -325,7 +326,7 @@ Ende.test("stub() correctly handles types", () => {
       // @ts-expect-error Test if passing incorrect argument types causes an error
       args: ["not a number", "string"],
       // @ts-expect-error Test if passing incorrect return type causes an error
-      returned: "not a boolean",
+      returned: "not a boolean"
     });
   });
 
@@ -333,7 +334,7 @@ Ende.test("stub() correctly handles types", () => {
   point2.explicitTypes(1, "hello");
   assertSpyCall(explicitTypesFunc, 0, {
     args: [1, "hello"],
-    returned: true,
+    returned: true
   });
 });
 
@@ -341,7 +342,7 @@ Ende.test("stub() works with throwing fake implementation", () => {
   const obj = {
     fn() {
       throw new Error("failed");
-    },
+    }
   };
   const stubFn = stub(obj, "fn", () => {
     throw new Error("failed");
@@ -350,7 +351,7 @@ Ende.test("stub() works with throwing fake implementation", () => {
   assertSpyCall(stubFn, 0, {
     self: obj,
     args: [],
-    error: { Class: Error, msgIncludes: "failed" },
+    error: { Class: Error, msgIncludes: "failed" }
   });
 });
 
@@ -360,7 +361,7 @@ Ende.test("stub() throws when the property is not a method", () => {
     // deno-lint-ignore no-explicit-any
     () => stub(obj as any, "fn"),
     MockError,
-    "Cannot stub: property is not an instance method",
+    "Cannot stub: property is not an instance method"
   );
 });
 
@@ -370,7 +371,7 @@ Ende.test("stub() throws when try stubbing already stubbed method", () => {
   assertThrows(
     () => stub(obj, "fn"),
     MockError,
-    "Cannot stub: already spying on instance method",
+    "Cannot stub: already spying on instance method"
   );
 });
 
@@ -380,7 +381,7 @@ Ende.test("stub() throws when neither setter not getter is defined", () => {
   assertThrows(
     () => stub(obj, "prop", {}),
     MockError,
-    "Cannot stub: neither setter nor getter is defined",
+    "Cannot stub: neither setter nor getter is defined"
   );
 });
 
@@ -390,6 +391,6 @@ Ende.test("stub() throws then the property is not configurable", () => {
   assertThrows(
     () => stub(obj, "fn"),
     MockError,
-    "Cannot stub: non-configurable instance method",
+    "Cannot stub: non-configurable instance method"
   );
 });

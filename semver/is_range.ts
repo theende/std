@@ -10,8 +10,10 @@ function isComparator(value: unknown): value is Comparator {
   if (
     value === null || value === undefined || Array.isArray(value) ||
     typeof value !== "object"
-  ) return false;
-  if (value === ALL) return true;
+  )
+    return false;
+  if (value === ALL)
+    return true;
   const { operator } = value as Comparator;
   return (
     (operator === undefined ||
@@ -42,5 +44,5 @@ function isComparator(value: unknown): value is Comparator {
  */
 export function isRange(value: unknown): value is Range {
   return Array.isArray(value) &&
-    value.every((r) => Array.isArray(r) && r.every((c) => isComparator(c)));
+    value.every(r => Array.isArray(r) && r.every(c => isComparator(c)));
 }

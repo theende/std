@@ -40,7 +40,7 @@ Ende.test("concat() handles an array of Uint8Array", () => {
   const a: readonly Uint8Array[] = [
     new Uint8Array([0, 1, 2, 3]),
     new Uint8Array([4, 5, 6]),
-    new Uint8Array([7, 8, 9]),
+    new Uint8Array([7, 8, 9])
   ];
   const joined = concat(a);
   const expected = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);

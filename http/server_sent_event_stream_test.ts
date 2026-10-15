@@ -2,12 +2,12 @@
 // Copyright 2026 the Ende authors. MIT license.
 import { assertEquals, assertRejects } from "@ende/assert";
 import {
-  type ServerSentEventMessage,
   ServerSentEventStream,
+  type ServerSentEventMessage
 } from "./server_sent_event_stream.ts";
 
 function createStream(
-  messages: ServerSentEventMessage[],
+  messages: ServerSentEventMessage[]
 ): ReadableStream<string> {
   return ReadableStream
     .from<ServerSentEventMessage>(messages)
@@ -22,26 +22,26 @@ Ende.test("ServerSentEventStream enqueues a stringified server-sent event messag
       event: "b",
       data: "c\nd\re\r\nf",
       id: "123",
-      retry: 456,
+      retry: 456
     },
     {
-      comment: "a",
+      comment: "a"
     },
     {
-      event: "b",
+      event: "b"
     },
     {
-      data: "c\nd\re\r\nf",
+      data: "c\nd\re\r\nf"
     },
     {
-      id: "123",
+      id: "123"
     },
     {
-      id: 123,
+      id: 123
     },
     {
-      retry: 456,
-    },
+      retry: 456
+    }
   ]);
   const clientMessages = await Array.fromAsync(stream);
 
@@ -54,8 +54,8 @@ Ende.test("ServerSentEventStream enqueues a stringified server-sent event messag
       "data:c\ndata:d\ndata:e\ndata:f\n\n",
       "id:123\n\n",
       "id:123\n\n",
-      "retry:456\n\n",
-    ],
+      "retry:456\n\n"
+    ]
   );
 });
 
@@ -72,7 +72,7 @@ Ende.test("ServerSentEventStream serializes empty string fields", async () => {
     { event: "" },
     { data: "" },
     { id: 0 },
-    { retry: 0 },
+    { retry: 0 }
   ]);
   const result = await Array.fromAsync(stream);
 
@@ -81,7 +81,7 @@ Ende.test("ServerSentEventStream serializes empty string fields", async () => {
     "event:\n\n",
     "data:\n\n",
     "id:0\n\n",
-    "retry:0\n\n",
+    "retry:0\n\n"
   ]);
 });
 
@@ -90,37 +90,37 @@ Ende.test("ServerSentEventStream throws if single-line fields contain a newline"
   await assertRejects(
     async () => await createStream([{ event: "a\n" }]).getReader().read(),
     SyntaxError,
-    "`message.event` cannot contain a newline",
+    "`message.event` cannot contain a newline"
   );
 
   await assertRejects(
     async () => await createStream([{ event: "a\r" }]).getReader().read(),
     SyntaxError,
-    "`message.event` cannot contain a newline",
+    "`message.event` cannot contain a newline"
   );
 
   await assertRejects(
     async () => await createStream([{ event: "a\n\r" }]).getReader().read(),
     SyntaxError,
-    "`message.event` cannot contain a newline",
+    "`message.event` cannot contain a newline"
   );
 
   // ID
   await assertRejects(
     async () => await createStream([{ id: "a\n" }]).getReader().read(),
     SyntaxError,
-    "`message.id` cannot contain a newline",
+    "`message.id` cannot contain a newline"
   );
 
   await assertRejects(
     async () => await createStream([{ id: "a\r" }]).getReader().read(),
     SyntaxError,
-    "`message.id` cannot contain a newline",
+    "`message.id` cannot contain a newline"
   );
 
   await assertRejects(
     async () => await createStream([{ id: "a\n\r" }]).getReader().read(),
     SyntaxError,
-    "`message.id` cannot contain a newline",
+    "`message.id` cannot contain a newline"
   );
 });

@@ -19,11 +19,11 @@ Ende.test("_format()", () => {
   assertEquals(_format("/", { dir: "/foo/bar", base: "baz" }), "/foo/bar/baz");
   assertEquals(
     _format("/", { dir: "/foo/bar", base: "baz", ext: ".js" }),
-    "/foo/bar/baz",
+    "/foo/bar/baz"
   );
   assertEquals(
     _format("/", { dir: "/foo/bar", name: "baz", ext: ".js" }),
-    "/foo/bar/baz.js",
+    "/foo/bar/baz.js"
   );
 });
 
@@ -38,18 +38,18 @@ Ende.test("assertArg() throws", () => {
     // @ts-expect-error - testing invalid input
     () => assertArg(null),
     TypeError,
-    `The "pathObject" argument must be of type Object, received type "object"`,
+    `The "pathObject" argument must be of type Object, received type "object"`
   );
   assertThrows(
     // @ts-expect-error - testing invalid input
     () => assertArg(undefined),
     TypeError,
-    `The "pathObject" argument must be of type Object, received type "undefined"`,
+    `The "pathObject" argument must be of type Object, received type "undefined"`
   );
   assertThrows(
     // @ts-expect-error - testing invalid input
     () => assertArg(""),
     TypeError,
-    `The "pathObject" argument must be of type Object, received type "string"`,
+    `The "pathObject" argument must be of type Object, received type "string"`
   );
 });

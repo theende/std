@@ -15,7 +15,7 @@ Ende.test("generate() generates UUIDs in version 5 format", async () => {
   for (let i = 0; i < 10000; i++) {
     const u = await generate(
       NAMESPACE,
-      new TextEncoder().encode(i.toString()),
+      new TextEncoder().encode(i.toString())
     ) as string;
     assert(validate(u), `${u} is not a valid uuid v5`);
   }
@@ -29,7 +29,7 @@ Ende.test("generate() generates a name-based UUID using SHA-1 hash", async () =>
 Ende.test("validate() checks if a string is a valid v5 UUID", async () => {
   const u = await generate(
     "1b671a64-40d5-491e-99b0-da01ff1f3341",
-    new TextEncoder().encode("Hello, World"),
+    new TextEncoder().encode("Hello, World")
   );
   const t = "4b4f2adc-5b27-57b5-8e3a-c4c4bcf94f05";
   const n = "4b4f2adc-5b27-17b5-8e3a-c4c4bcf94f05";
@@ -43,12 +43,11 @@ Ende.test("generate() throws on invalid namespace", async () => {
   await assertRejects(
     async () => await generate("invalid-uuid", new Uint8Array()),
     TypeError,
-    "Cannot generate UUID: invalid namespace invalid-uuid",
+    "Cannot generate UUID: invalid namespace invalid-uuid"
   );
   await assertRejects(
-    async () =>
-      await generate("1b671a64-40d5-491e-99b0-da01ff1f334Z", new Uint8Array()),
+    async () => await generate("1b671a64-40d5-491e-99b0-da01ff1f334Z", new Uint8Array()),
     TypeError,
-    "Cannot generate UUID: invalid namespace 1b671a64-40d5-491e-99b0-da01ff1f334Z",
+    "Cannot generate UUID: invalid namespace 1b671a64-40d5-491e-99b0-da01ff1f334Z"
   );
 });

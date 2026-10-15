@@ -30,7 +30,7 @@ import type { WriteFileOptions } from "./unstable_types.ts";
 export async function writeFile(
   path: string | URL,
   data: Uint8Array | ReadableStream<Uint8Array>,
-  options?: WriteFileOptions,
+  options?: WriteFileOptions
 ): Promise<void> {
   await Ende.writeFile(path, data, { ...options });
 }
@@ -62,7 +62,7 @@ export async function writeFile(
 export function writeFileSync(
   path: string | URL,
   data: Uint8Array,
-  options?: WriteFileOptions,
+  options?: WriteFileOptions
 ): void {
   Ende.writeFileSync(path, data, { ...options });
 }

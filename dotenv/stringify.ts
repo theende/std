@@ -26,7 +26,7 @@ export function stringify(object: Record<string, string>): string {
     if (key.startsWith("#")) {
       // deno-lint-ignore no-console
       console.warn(
-        `key starts with a '#' indicates a comment and is ignored: '${key}'`,
+        `key starts with a '#' indicates a comment and is ignored: '${key}'`
       );
       continue;
     } else if (

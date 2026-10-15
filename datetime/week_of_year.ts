@@ -13,7 +13,7 @@ const Day = {
   Wed: 3,
   Thu: 4,
   Fri: 5,
-  Sat: 6,
+  Sat: 6
 } as const;
 
 /**
@@ -34,7 +34,7 @@ const Day = {
  */
 export function weekOfYear(date: Date): number {
   const workingDate = new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   );
 
   const day = workingDate.getUTCDay();

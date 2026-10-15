@@ -8,7 +8,7 @@ import { SnapshotContext } from "./_snapshot_state.ts";
 function withTestName(name: string, fn: () => void) {
   expect.setState({
     currentTestName: name,
-    testPath: import.meta.url,
+    testPath: import.meta.url
   });
   try {
     fn();
@@ -26,7 +26,7 @@ Ende.test("expect().toMatchSnapshot() throws without currentTestName", () => {
       expect("foo").toMatchSnapshot();
     },
     Error,
-    "Unable to determine test name",
+    "Unable to determine test name"
   );
   expect.setState({ currentTestName: undefined, testPath: undefined });
 });
@@ -38,7 +38,7 @@ Ende.test("expect().not.toMatchSnapshot() throws", () => {
         expect("foo").not.toMatchSnapshot();
       },
       AssertionError,
-      "Snapshot matchers do not support `.not`",
+      "Snapshot matchers do not support `.not`"
     );
   });
 });
@@ -50,7 +50,7 @@ Ende.test("expect().toMatchSnapshot() throws on missing snapshot in assert mode"
         expect("foo").toMatchSnapshot();
       },
       AssertionError,
-      "Missing snapshot",
+      "Missing snapshot"
     );
   });
 });
@@ -62,7 +62,7 @@ Ende.test("expect().toMatchSnapshot() with hint throws on missing snapshot", () 
         expect("bar").toMatchSnapshot("my hint");
       },
       AssertionError,
-      "Missing snapshot: hint test: my hint 1",
+      "Missing snapshot: hint test: my hint 1"
     );
   });
 });
@@ -74,7 +74,7 @@ Ende.test("expect().toMatchSnapshot() with property matchers rejects non-object 
         expect("string value").toMatchSnapshot({ id: expect.any(Number) });
       },
       AssertionError,
-      "Property matchers can only be used with object values in toMatchSnapshot",
+      "Property matchers can only be used with object values in toMatchSnapshot"
     );
   });
 });
@@ -84,11 +84,11 @@ Ende.test("expect().toMatchSnapshot() with property matchers rejects non-matchin
     assertThrows(
       () => {
         expect({ id: "not a number" }).toMatchSnapshot({
-          id: expect.any(Number),
+          id: expect.any(Number)
         });
       },
       AssertionError,
-      "Property matchers did not match",
+      "Property matchers did not match"
     );
   });
 });
@@ -103,12 +103,12 @@ Ende.test("expect().toMatchSnapshot() detects snapshot mismatch", () => {
   Ende.mkdirSync(snapshotDir);
   Ende.writeTextFileSync(
     snapshotFile,
-    `export const snapshot = {};\n\nsnapshot[\`mismatch test 1\`] = \`"old value"\`;\n`,
+    `export const snapshot = {};\n\nsnapshot[\`mismatch test 1\`] = \`"old value"\`;\n`
   );
 
   expect.setState({
     currentTestName: "mismatch test",
-    testPath: testFile,
+    testPath: testFile
   });
 
   try {
@@ -117,7 +117,7 @@ Ende.test("expect().toMatchSnapshot() detects snapshot mismatch", () => {
         expect("new value").toMatchSnapshot();
       },
       AssertionError,
-      "Snapshot does not match",
+      "Snapshot does not match"
     );
   } finally {
     expect.setState({ currentTestName: undefined, testPath: undefined });
@@ -135,12 +135,12 @@ Ende.test("expect().toMatchSnapshot() matches existing snapshot", () => {
   Ende.mkdirSync(snapshotDir);
   Ende.writeTextFileSync(
     snapshotFile,
-    `export const snapshot = {};\n\nsnapshot[\`match test 1\`] = \`"hello"\`;\n`,
+    `export const snapshot = {};\n\nsnapshot[\`match test 1\`] = \`"hello"\`;\n`
   );
 
   expect.setState({
     currentTestName: "match test",
-    testPath: testFile,
+    testPath: testFile
   });
 
   try {
@@ -162,12 +162,12 @@ Ende.test("expect().toMatchSnapshot() matches multi-line snapshot", () => {
   Ende.mkdirSync(snapshotDir);
   Ende.writeTextFileSync(
     snapshotFile,
-    `export const snapshot = {};\n\nsnapshot[\`object test 1\`] = \`\n{\n  bar: 2,\n  foo: 1,\n}\n\`;\n`,
+    `export const snapshot = {};\n\nsnapshot[\`object test 1\`] = \`\n{\n  bar: 2,\n  foo: 1,\n}\n\`;\n`
   );
 
   expect.setState({
     currentTestName: "object test",
-    testPath: testFile,
+    testPath: testFile
   });
 
   try {
@@ -196,13 +196,14 @@ Ende.test("expect().toMatchSnapshot() multiple snapshots per test use counter", 
       `snapshot[\`multi test 2\`] = \`"second"\`;`,
       ``,
       `snapshot[\`multi test 3\`] = \`"third"\`;`,
-      ``,
-    ].join("\n"),
+      ``
+    ]
+      .join("\n")
   );
 
   expect.setState({
     currentTestName: "multi test",
-    testPath: testFile,
+    testPath: testFile
   });
 
   try {
@@ -225,12 +226,12 @@ Ende.test("expect().toMatchSnapshot() with hint in snapshot key", () => {
   Ende.mkdirSync(snapshotDir);
   Ende.writeTextFileSync(
     snapshotFile,
-    `export const snapshot = {};\n\nsnapshot[\`hint test: my hint 1\`] = \`"hinted"\`;\n`,
+    `export const snapshot = {};\n\nsnapshot[\`hint test: my hint 1\`] = \`"hinted"\`;\n`
   );
 
   expect.setState({
     currentTestName: "hint test",
-    testPath: testFile,
+    testPath: testFile
   });
 
   try {

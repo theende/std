@@ -8,7 +8,7 @@ import { fromFileUrl } from "../../../path/mod.ts";
 const sta = await Deno.readTextFile(new URL("./sta.js", import.meta.url));
 const assert = await Deno.readTextFile(new URL("./assert.js", import.meta.url));
 const propertyHelper = await Deno.readTextFile(
-  new URL("./propertyHelper.js", import.meta.url),
+  new URL("./propertyHelper.js", import.meta.url)
 );
 const jsoncModule = new URL("../../parse.ts", import.meta.url);
 for await (
@@ -32,6 +32,6 @@ for await (
         ${await Deno.readTextFile(dirEntry.path)}
       `;
       await import(`data:text/javascript,${encodeURIComponent(testcode)}`);
-    },
+    }
   });
 }

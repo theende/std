@@ -8,13 +8,13 @@ export function __wbg_set_wasm(val) {
   wasm = val;
 }
 
-const lTextDecoder = typeof TextDecoder === "undefined"
-  ? (0, module.require)("util").TextDecoder
-  : TextDecoder;
+const lTextDecoder = typeof TextDecoder === "undefined" ?
+  (0, module.require)("util").TextDecoder :
+  TextDecoder;
 
 let cachedTextDecoder = new lTextDecoder("utf-8", {
   ignoreBOM: true,
-  fatal: true,
+  fatal: true
 });
 
 cachedTextDecoder.decode();
@@ -33,28 +33,28 @@ function getUint8ArrayMemory0() {
 function getStringFromWasm0(ptr, len) {
   ptr = ptr >>> 0;
   return cachedTextDecoder.decode(
-    getUint8ArrayMemory0().subarray(ptr, ptr + len),
+    getUint8ArrayMemory0().subarray(ptr, ptr + len)
   );
 }
 
 let WASM_VECTOR_LEN = 0;
 
-const lTextEncoder = typeof TextEncoder === "undefined"
-  ? (0, module.require)("util").TextEncoder
-  : TextEncoder;
+const lTextEncoder = typeof TextEncoder === "undefined" ?
+  (0, module.require)("util").TextEncoder :
+  TextEncoder;
 
 let cachedTextEncoder = new lTextEncoder("utf-8");
 
-const encodeString = typeof cachedTextEncoder.encodeInto === "function"
-  ? function (arg, view) {
+const encodeString = typeof cachedTextEncoder.encodeInto === "function" ?
+  function(arg, view) {
     return cachedTextEncoder.encodeInto(arg, view);
-  }
-  : function (arg, view) {
+  } :
+  function(arg, view) {
     const buf = cachedTextEncoder.encode(arg);
     view.set(buf);
     return {
       read: arg.length,
-      written: buf.length,
+      written: buf.length
     };
   };
 
@@ -76,7 +76,8 @@ function passStringToWasm0(arg, malloc, realloc) {
 
   for (; offset < len; offset++) {
     const code = arg.charCodeAt(offset);
-    if (code > 0x7F) break;
+    if (code > 0x7F)
+      break;
     mem[ptr + offset] = code;
   }
 
@@ -128,14 +129,14 @@ export function digest(algorithm, data, length) {
   const ptr0 = passStringToWasm0(
     algorithm,
     wasm.__wbindgen_malloc,
-    wasm.__wbindgen_realloc,
+    wasm.__wbindgen_realloc
   );
   const len0 = WASM_VECTOR_LEN;
   const ret = wasm.digest(
     ptr0,
     len0,
     data,
-    isLikeNone(length) ? 0x100000001 : length >>> 0,
+    isLikeNone(length) ? 0x100000001 : length >>> 0
   );
   if (ret[3]) {
     throw takeFromExternrefTable0(ret[2]);
@@ -145,11 +146,9 @@ export function digest(algorithm, data, length) {
   return v2;
 }
 
-const DigestContextFinalization = (typeof FinalizationRegistry === "undefined")
-  ? { register: () => {}, unregister: () => {} }
-  : new FinalizationRegistry((ptr) =>
-    wasm.__wbg_digestcontext_free(ptr >>> 0, 1)
-  );
+const DigestContextFinalization = (typeof FinalizationRegistry === "undefined") ?
+  { register: () => {}, unregister: () => {} } :
+  new FinalizationRegistry(ptr => wasm.__wbg_digestcontext_free(ptr >>> 0, 1));
 /**
  * A context for incrementally computing a digest using a given hash algorithm.
  */
@@ -176,7 +175,7 @@ export class DigestContext {
     const ptr0 = passStringToWasm0(
       algorithm,
       wasm.__wbindgen_malloc,
-      wasm.__wbindgen_realloc,
+      wasm.__wbindgen_realloc
     );
     const len0 = WASM_VECTOR_LEN;
     const ret = wasm.digestcontext_new(ptr0, len0);
@@ -219,7 +218,7 @@ export class DigestContext {
     const ptr = this.__destroy_into_raw();
     const ret = wasm.digestcontext_digestAndDrop(
       ptr,
-      isLikeNone(length) ? 0x100000001 : length >>> 0,
+      isLikeNone(length) ? 0x100000001 : length >>> 0
     );
     if (ret[3]) {
       throw takeFromExternrefTable0(ret[2]);
@@ -268,7 +267,7 @@ export function __wbg_new_b08a00743b8ae2f3(arg0, arg1) {
 export function __wbg_newwithbyteoffsetandlength_d97e637ebe145a9a(
   arg0,
   arg1,
-  arg2,
+  arg2
 ) {
   const ret = new Uint8Array(arg0, arg1 >>> 0, arg2 >>> 0);
   return ret;

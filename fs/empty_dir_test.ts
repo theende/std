@@ -4,12 +4,12 @@ import {
   assertEquals,
   assertRejects,
   assertStringIncludes,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import * as path from "@ende/path";
 import { emptyDir, emptyDirSync } from "./empty_dir.ts";
 
-Ende.test("emptyDir() creates a new dir if it does not exist", async function () {
+Ende.test("emptyDir() creates a new dir if it does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_empty_dir_" });
   const testDir = path.join(tempDirPath, "empty_dir_test_1");
   const testNestDir = path.join(testDir, "nest");
@@ -26,9 +26,9 @@ Ende.test("emptyDir() creates a new dir if it does not exist", async function ()
   }
 });
 
-Ende.test("emptyDirSync() creates a new dir if it does not exist", function () {
+Ende.test("emptyDirSync() creates a new dir if it does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_empty_dir_sync_",
+    prefix: "ende_std_empty_dir_sync_"
   });
   const testDir = path.join(tempDirPath, "empty_dir_test_2");
   const testNestDir = path.join(testDir, "nest");
@@ -45,7 +45,7 @@ Ende.test("emptyDirSync() creates a new dir if it does not exist", function () {
   }
 });
 
-Ende.test("emptyDir() empties nested dirs and files", async function () {
+Ende.test("emptyDir() empties nested dirs and files", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_empty_dir_" });
   const testDir = path.join(tempDirPath, "empty_dir_test_3");
   const testNestDir = path.join(testDir, "nest");
@@ -74,14 +74,14 @@ Ende.test("emptyDir() empties nested dirs and files", async function () {
     await assertRejects(
       async () => {
         await Ende.stat(testNestDir);
-      },
+      }
     );
 
     // test file have been removed
     await assertRejects(
       async () => {
         await Ende.stat(testDirFile);
-      },
+      }
     );
   } finally {
     // Cleanup and remove test directory.
@@ -89,9 +89,9 @@ Ende.test("emptyDir() empties nested dirs and files", async function () {
   }
 });
 
-Ende.test("emptyDirSync() empties nested dirs and files", function () {
+Ende.test("emptyDirSync() empties nested dirs and files", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_empty_dir_sync_",
+    prefix: "ende_std_empty_dir_sync_"
   });
   const testDir = path.join(tempDirPath, "empty_dir_test_4");
   const testNestDir = path.join(testDir, "nest");
@@ -146,63 +146,63 @@ const scenes: Scenes[] = [
     read: false,
     write: false,
     async: true,
-    output: "run again with the --allow-read flag",
+    output: "run again with the --allow-read flag"
   },
   {
     read: false,
     write: false,
     async: false,
-    output: "run again with the --allow-read flag",
+    output: "run again with the --allow-read flag"
   },
   // 2
   {
     read: true,
     write: false,
     async: true,
-    output: "run again with the --allow-write flag",
+    output: "run again with the --allow-write flag"
   },
   {
     read: true,
     write: false,
     async: false,
-    output: "run again with the --allow-write flag",
+    output: "run again with the --allow-write flag"
   },
   // 3
   {
     read: false,
     write: true,
     async: true,
-    output: "run again with the --allow-read flag",
+    output: "run again with the --allow-read flag"
   },
   {
     read: false,
     write: true,
     async: false,
-    output: "run again with the --allow-read flag",
+    output: "run again with the --allow-read flag"
   },
   // 4
   {
     read: true,
     write: true,
     async: true,
-    output: "success",
+    output: "success"
   },
   {
     read: true,
     write: true,
     async: false,
-    output: "success",
-  },
+    output: "success"
+  }
 ];
 for (const s of scenes) {
   let title = `${s.async ? "emptyDir()" : "emptyDirSync()"}`;
   title += ` test ("testdata/testfolder") ${s.read ? "with" : "without"}`;
   title += ` --allow-read & ${s.write ? "with" : "without"} --allow-write`;
-  Ende.test(`${title} permission`, async function (): Promise<
+  Ende.test(`${title} permission`, async function(): Promise<
     void
   > {
     const tempDirPath = await Ende.makeTempDir({
-      prefix: "ende_std_empty_dir_permissions_",
+      prefix: "ende_std_empty_dir_permissions_"
     });
     try {
       const testfolder = path.join(tempDirPath, "testfolder");
@@ -210,7 +210,7 @@ for (const s of scenes) {
 
       await Ende.writeTextFile(
         path.join(testfolder, "child.txt"),
-        "hello world",
+        "hello world"
       );
 
       try {
@@ -218,7 +218,7 @@ for (const s of scenes) {
           "run",
           "--no-lock",
           "--quiet",
-          "--no-prompt",
+          "--no-prompt"
         ];
 
         if (s.read) {
@@ -232,8 +232,8 @@ for (const s of scenes) {
         args.push(
           path.join(
             testdataDir,
-            s.async ? "empty_dir.ts" : "empty_dir_sync.ts",
-          ),
+            s.async ? "empty_dir.ts" : "empty_dir_sync.ts"
+          )
         );
 
         // Passing the testfolder path as an argument to empty_dir.ts and
@@ -242,7 +242,7 @@ for (const s of scenes) {
 
         const command = new Ende.Command(Ende.execPath(), {
           args,
-          stderr: "inherit",
+          stderr: "inherit"
         });
         const { stdout } = await command.output();
         assertStringIncludes(new TextDecoder().decode(stdout), s.output);

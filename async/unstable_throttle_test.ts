@@ -5,7 +5,7 @@ import {
   assertGreater,
   assertLess,
   assertNotEquals,
-  assertStrictEquals,
+  assertStrictEquals
 } from "@ende/assert";
 import { throttle, type ThrottledFunction } from "./unstable_throttle.ts";
 import { delay } from "./delay.ts";
@@ -54,7 +54,7 @@ Ende.test("throttle() handles flush", () => {
 
   let called = 0;
   let arg = "";
-  const t = throttle((_arg) => {
+  const t = throttle(_arg => {
     arg = _arg;
     called++;
   }, 100);
@@ -94,12 +94,12 @@ Ende.test("throttle() handles flush", () => {
 Ende.test("throttle() handles params and context", async () => {
   const params: Array<string | number> = [];
   const t: ThrottledFunction<[string, number]> = throttle(
-    function (param1: string, param2: number) {
+    function(param1: string, param2: number) {
       params.push(param1);
       params.push(param2);
       assertStrictEquals(t, this);
     },
-    100,
+    100
   );
   t("foo", 1);
   t("bar", 1);
@@ -113,19 +113,17 @@ Ende.test("throttle() handles params and context", async () => {
   assertEquals(t.throttling, false);
 });
 
-Ende.test("throttle() handles ensureLastCall option", async (t) => {
+Ende.test("throttle() handles ensureLastCall option", async t => {
   for (
     const options of [
       undefined,
       {},
       { ensureLastCall: false },
-      { ensureLastCall: true },
+      { ensureLastCall: true }
     ]
   ) {
     const ensure = options?.ensureLastCall === true;
-    const description = `${
-      ensure ? "Ensures" : "Doesn't ensure"
-    } last call when options set to ${JSON.stringify(options)}`;
+    const description = `${ensure ? "Ensures" : "Doesn't ensure"} last call when options set to ${JSON.stringify(options)}`;
 
     await t.step(description, () => {
       using time = new FakeTime();
@@ -133,7 +131,7 @@ Ende.test("throttle() handles ensureLastCall option", async (t) => {
       const fn = throttle(
         (x: string) => calls.push(x),
         100,
-        options,
+        options
       );
       fn("foo");
       fn("bar");
@@ -162,7 +160,7 @@ Ende.test("throttle() handles dynamic timeframe", () => {
     () => {
       time.tick(50 * ++calls);
     },
-    (n) => n,
+    n => n
   );
   fn();
   assertEquals(calls, 1);

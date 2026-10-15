@@ -21,6 +21,6 @@ import { assertArg } from "../_common/from_file_url.ts";
 export function fromFileUrl(url: URL | string): string {
   url = assertArg(url);
   return decodeURIComponent(
-    url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25"),
+    url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
   );
 }

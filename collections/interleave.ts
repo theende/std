@@ -48,19 +48,21 @@
  * ```
  */
 export function interleave<T extends unknown[]>(
-  ...iterables: { [K in keyof T]: Iterable<T[K]> }
+  ...iterables: { [K in keyof T]: Iterable<T[K]>; }
 ): T[number][] {
   const arrayCount = iterables.length;
-  if (arrayCount === 0) return [];
+  if (arrayCount === 0)
+    return [];
 
-  const arrays = iterables.map((it) => Array.isArray(it) ? it : Array.from(it));
+  const arrays = iterables.map(it => Array.isArray(it) ? it : Array.from(it));
 
   let maxLength = 0;
   let totalLength = 0;
   for (let i = 0; i < arrayCount; ++i) {
     const len = arrays[i]!.length;
     totalLength += len;
-    if (len > maxLength) maxLength = len;
+    if (len > maxLength)
+      maxLength = len;
   }
 
   const result: T[number][] = new Array(totalLength);

@@ -10,14 +10,14 @@ const BENCHMARKED_DIGEST_ALGORITHM_NAMES = [
   "SHA-512",
   "BLAKE3",
   "FNV32A",
-  "FNV64A",
+  "FNV64A"
 ] satisfies (typeof DIGEST_ALGORITHM_NAMES[number])[];
 
 const WEB_CRYPTO_DIGEST_ALGORITHM_NAMES = [
   "SHA-1",
   "SHA-256",
   "SHA-384",
-  "SHA-512",
+  "SHA-512"
 ] satisfies (typeof DIGEST_ALGORITHM_NAMES[number])[];
 
 for (
@@ -26,7 +26,7 @@ for (
     [262_144, "256 KiB"],
     [4_194_304, "4 MiB"],
     [67_108_864, "64 MiB"],
-    [524_291_328, "512 MiB"],
+    [524_291_328, "512 MiB"]
   ] as const
 ) {
   const buffer = new Uint8Array(length);
@@ -40,7 +40,7 @@ for (
       name: `${name} from std/crypto Wasm digesting ${humanLength}`,
       async fn() {
         await stdCrypto.subtle.digest(name, [buffer]);
-      },
+      }
     });
 
     if (
@@ -51,7 +51,7 @@ for (
         name: `${name} from runtime WebCrypto digesting ${humanLength}`,
         async fn() {
           await webCrypto.subtle.digest(name, buffer);
-        },
+        }
       });
     }
   }

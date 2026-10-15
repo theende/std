@@ -11,12 +11,12 @@ Ende.test("expect().resolves.toEqual()", async () => {
   assertThrows(
     () => expect(42).resolves.toEqual(42),
     AssertionError,
-    "Expected value must be PromiseLike",
+    "Expected value must be PromiseLike"
   );
   assertThrows(
     () => expect(null).resolves.toEqual(42),
     AssertionError,
-    "Expected value must be PromiseLike",
+    "Expected value must be PromiseLike"
   );
 });
 
@@ -27,12 +27,12 @@ Ende.test("expect().rejects.toEqual()", async () => {
   assertThrows(
     () => expect(42).rejects.toEqual(42),
     AssertionError,
-    "Expected value must be a PromiseLike",
+    "Expected value must be a PromiseLike"
   );
   await assertRejects(
     () => expect(Promise.resolve(42)).rejects.toEqual(42),
     AssertionError,
-    "Promise did not reject: resolved to 42",
+    "Promise did not reject: resolved to 42"
   );
 });
 
@@ -41,12 +41,12 @@ Ende.test("expect()[nonExistentMatcher]()", () => {
     // deno-lint-ignore no-explicit-any
     () => (expect(() => {}) as any)["nonExistentMatcher"](),
     TypeError,
-    "matcher not found: nonExistentMatcher",
+    "matcher not found: nonExistentMatcher"
   );
   assertThrows(
     // deno-lint-ignore no-explicit-any
     () => (expect(() => {}) as any)[Symbol()](),
     TypeError,
-    "matcher not found",
+    "matcher not found"
   );
 });

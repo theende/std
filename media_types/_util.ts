@@ -47,7 +47,7 @@ export function consumeValue(v: string): [value: string, rest: string] {
 }
 
 export function consumeMediaParam(
-  v: string,
+  v: string
 ): [key: string, value: string, rest: string] {
   let rest = v.trimStart();
   if (!rest.startsWith(";")) {

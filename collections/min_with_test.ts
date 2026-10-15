@@ -7,7 +7,7 @@ import { minWith } from "./min_with.ts";
 function minWithTest<T>(
   input: [T[], (a: T, b: T) => number],
   expected: T | undefined,
-  message?: string,
+  message?: string
 ) {
   const actual = minWith(...input);
   assertEquals(actual, expected, message);
@@ -20,21 +20,21 @@ Ende.test({
     minWith(input, (a, b) => a.length - b.length);
 
     assertEquals(input, [[1, 3], [6, 1, 3], [4]]);
-  },
+  }
 });
 
 Ende.test({
   name: "minWith() handles empty input",
   fn() {
     minWithTest<string>([[], (a, b) => a.length - b.length], undefined);
-  },
+  }
 });
 
 Ende.test({
   name: "minWith() handles array of arrays",
   fn() {
     minWithTest([[[1, 3], [6, 1, 3], [4]], (a, b) => a.length - b.length], [4]);
-  },
+  }
 });
 
 Ende.test({
@@ -42,9 +42,9 @@ Ende.test({
   fn() {
     minWithTest(
       [["Kim", "Anna", "John"], (a, b) => a.length - b.length],
-      "Kim",
+      "Kim"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -55,20 +55,20 @@ Ende.test({
         [
           { name: "Kim", age: 24 },
           { name: "Anna", age: 20 },
-          { name: "John", age: 43 },
+          { name: "John", age: 43 }
         ],
-        (a, b) => a.age - b.age,
+        (a, b) => a.age - b.age
       ],
-      { name: "Anna", age: 20 },
+      { name: "Anna", age: 20 }
     );
-  },
+  }
 });
 
 Ende.test({
   name: "minWith() handles duplicates",
   fn() {
     minWithTest([["John", "Kim", "Kim"], (a, b) => a.length - b.length], "Kim");
-  },
+  }
 });
 
 Ende.test({
@@ -85,9 +85,9 @@ Ende.test({
             return 1;
           }
           return 0;
-        },
+        }
       ],
-      undefined,
+      undefined
     );
-  },
+  }
 });

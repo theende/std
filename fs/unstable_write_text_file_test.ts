@@ -7,11 +7,11 @@ import {
   assertExists,
   assertRejects,
   assertThrows,
-  unreachable,
+  unreachable
 } from "@ende/assert";
 import {
   writeTextFile,
-  writeTextFileSync,
+  writeTextFileSync
 } from "./unstable_write_text_file.ts";
 import { AlreadyExists, NotFound } from "./unstable_errors.js";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
@@ -53,7 +53,7 @@ Ende.test("writeTextFile() writes with a ReadableStream object", async () => {
       controller.enqueue(", Standard");
       controller.enqueue(" Library");
       controller.close();
-    },
+    }
   });
 
   const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
@@ -134,7 +134,7 @@ Ende.test({
     assertEquals(fileStatAfter.mode & 0o777, 0o222);
 
     await remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("writeTextFile() handles an AbortSignal", async () => {
@@ -168,7 +168,7 @@ Ende.test(
     assertEquals(error, ac.signal.reason);
 
     await remove(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test(
@@ -188,7 +188,7 @@ Ende.test(
     }
 
     await remove(tempDirPath, { recursive: true });
-  },
+  }
 );
 
 Ende.test("writeTextFile() writes to a file successfully with an attached AbortSignal", async () => {
@@ -259,7 +259,7 @@ Ende.test({
     assertEquals(fileStatAfter.mode & 0o777, 0o222);
 
     removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("writeTextFileSync() handles 'append' to a file", () => {

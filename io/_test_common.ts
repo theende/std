@@ -12,7 +12,7 @@ export const bufsizes = [
   93,
   128,
   1024,
-  4096,
+  4096
 ];
 
 // N controls how many iterations of certain checks are performed.

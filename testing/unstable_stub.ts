@@ -2,13 +2,13 @@
 // Copyright 2026 the Ende authors. MIT license.
 import { isSpy, registerMock, unregisterMock } from "./_mock_utils.ts";
 import {
+  MockError,
+  spy,
   type GetParametersFromProp,
   type GetReturnFromProp,
   type MethodSpy,
-  MockError,
   type Spy,
-  spy,
-  type SpyCall,
+  type SpyCall
 } from "./mock.ts";
 
 /** An instance method replacement that records all calls made to it. */
@@ -18,7 +18,7 @@ export interface Stub<
   // deno-lint-ignore no-explicit-any
   Args extends unknown[] = any[],
   // deno-lint-ignore no-explicit-any
-  Return = any,
+  Return = any
 > extends MethodSpy<Self, Args, Return> {
   /** The function that is used instead of the original. */
   fake: (this: Self, ...args: Args) => Return;
@@ -56,10 +56,10 @@ export interface Stub<
  */
 export function stub<
   Self,
-  Prop extends keyof Self,
+  Prop extends keyof Self
 >(
   self: Self,
-  property: Prop,
+  property: Prop
 ): Stub<Self, GetParametersFromProp<Self, Prop>, GetReturnFromProp<Self, Prop>>;
 /**
  * Replaces an instance method with a Stub with the given implementation.
@@ -89,14 +89,14 @@ export function stub<
  */
 export function stub<
   Self,
-  Prop extends keyof Self,
+  Prop extends keyof Self
 >(
   self: Self,
   property: Prop,
   func: (
     this: Self,
     ...args: GetParametersFromProp<Self, Prop>
-  ) => GetReturnFromProp<Self, Prop>,
+  ) => GetReturnFromProp<Self, Prop>
 ): Stub<Self, GetParametersFromProp<Self, Prop>, GetReturnFromProp<Self, Prop>>;
 /**
  * Replaces an instance property setter or getter with a Stub with the given implementation.
@@ -131,7 +131,7 @@ export function stub<
 export function stub<Self, Prop extends keyof Self>(
   self: Self,
   property: Prop,
-  descriptor: Omit<PropertyDescriptor, "configurable">,
+  descriptor: Omit<PropertyDescriptor, "configurable">
 ):
   & Stub<
     Self,
@@ -155,7 +155,7 @@ export function stub<Self, Args extends unknown[], Return>(
   property: keyof Self,
   descriptorOrFunction?:
     | ((this: Self, ...args: Args) => Return)
-    | Omit<PropertyDescriptor, "configurable">,
+    | Omit<PropertyDescriptor, "configurable">
 ): Stub<Self, Args, Return> {
   if (
     self[property] !== undefined &&
@@ -175,7 +175,7 @@ export function stub<Self, Args extends unknown[], Return>(
     descriptorOrFunction.set === undefined
   ) {
     throw new MockError(
-      "Cannot stub: neither setter nor getter is defined",
+      "Cannot stub: neither setter nor getter is defined"
     );
   }
 
@@ -183,10 +183,9 @@ export function stub<Self, Args extends unknown[], Return>(
   if (propertyDescriptor && !propertyDescriptor.configurable) {
     throw new MockError("Cannot stub: non-configurable instance method");
   }
-  const fake =
-    descriptorOrFunction && typeof descriptorOrFunction === "function"
-      ? descriptorOrFunction
-      : ((() => {}) as (this: Self, ...args: Args) => Return);
+  const fake = descriptorOrFunction && typeof descriptorOrFunction === "function" ?
+    descriptorOrFunction :
+    ((() => {}) as (this: Self, ...args: Args) => Return);
 
   const original = self[property] as unknown as (
     this: Self,
@@ -194,9 +193,10 @@ export function stub<Self, Args extends unknown[], Return>(
   ) => Return;
   const calls: SpyCall<Self, Args, Return>[] = [];
   let restored = false;
-  const stub = function (this: Self, ...args: Args): Return {
+  const stub = function(this: Self, ...args: Args): Return {
     const call: SpyCall<Self, Args, Return> = { args };
-    if (this) call.self = this;
+    if (this)
+      call.self = this;
     try {
       call.returned = fake.apply(this, args);
     } catch (error) {
@@ -210,26 +210,26 @@ export function stub<Self, Args extends unknown[], Return>(
   Object.defineProperties(stub, {
     original: {
       enumerable: true,
-      value: original,
+      value: original
     },
     fake: {
       enumerable: true,
-      value: fake,
+      value: fake
     },
     calls: {
       enumerable: true,
-      value: calls,
+      value: calls
     },
     restored: {
       enumerable: true,
-      get: () => restored,
+      get: () => restored
     },
     restore: {
       enumerable: true,
       value: () => {
         if (restored) {
           throw new MockError(
-            "Cannot restore: instance method already restored",
+            "Cannot restore: instance method already restored"
           );
         }
         if (propertyDescriptor) {
@@ -239,43 +239,43 @@ export function stub<Self, Args extends unknown[], Return>(
         }
         restored = true;
         unregisterMock(stub);
-      },
+      }
     },
     [Symbol.dispose]: {
       value: () => {
         stub.restore();
-      },
-    },
+      }
+    }
   });
 
   if (descriptorOrFunction && typeof descriptorOrFunction !== "function") {
-    const getterSpy = descriptorOrFunction.get
-      ? spy(descriptorOrFunction.get)
-      : undefined;
-    const setterSpy = descriptorOrFunction.set
-      ? spy(descriptorOrFunction.set)
-      : undefined;
+    const getterSpy = descriptorOrFunction.get ?
+      spy(descriptorOrFunction.get) :
+      undefined;
+    const setterSpy = descriptorOrFunction.set ?
+      spy(descriptorOrFunction.set) :
+      undefined;
 
     Object.defineProperty(self, property, {
       configurable: true,
       enumerable: propertyDescriptor?.enumerable ?? false,
       get: getterSpy!,
-      set: setterSpy!,
+      set: setterSpy!
     });
     Object.defineProperty(stub, "get", {
       value: getterSpy,
-      enumerable: true,
+      enumerable: true
     });
     Object.defineProperty(stub, "set", {
       value: setterSpy,
-      enumerable: true,
+      enumerable: true
     });
   } else {
     Object.defineProperty(self, property, {
       configurable: true,
       enumerable: propertyDescriptor?.enumerable ?? false,
       writable: propertyDescriptor?.writable ?? false,
-      value: stub,
+      value: stub
     });
   }
 

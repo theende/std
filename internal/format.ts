@@ -13,7 +13,7 @@ export type InspectFn = (
     iterableLimit: number;
     getters: boolean;
     strAbbreviateSize: number;
-  },
+  }
 ) => string;
 
 /**
@@ -40,8 +40,8 @@ export function format(v: unknown): string {
 
   const inspect: InspectFn | undefined = Ende?.inspect;
 
-  return typeof inspect === "function"
-    ? inspect(v, {
+  return typeof inspect === "function" ?
+    inspect(v, {
       depth: Infinity,
       sorted: true,
       trailingComma: true,
@@ -49,15 +49,17 @@ export function format(v: unknown): string {
       iterableLimit: Infinity,
       // getters should be true in assertEquals.
       getters: true,
-      strAbbreviateSize: Infinity,
-    })
-    : basicInspect(v);
+      strAbbreviateSize: Infinity
+    }) :
+    basicInspect(v);
 }
 
 const formatters: ((v: unknown) => string | undefined)[] = [
-  (v) => {
-    if (typeof v === "undefined") return "undefined";
-    if (typeof v === "bigint") return `${v}n`;
+  v => {
+    if (typeof v === "undefined")
+      return "undefined";
+    if (typeof v === "bigint")
+      return `${v}n`;
 
     if (
       typeof v === "string" ||
@@ -70,8 +72,8 @@ const formatters: ((v: unknown) => string | undefined)[] = [
       return JSON.stringify(v, null, 2);
     }
   },
-  (v) => String(v),
-  (v) => Object.prototype.toString.call(v),
+  v => String(v),
+  v => Object.prototype.toString.call(v)
 ];
 
 // for environments lacking `Ende.inspect`
@@ -79,7 +81,8 @@ function basicInspect(v: unknown): string {
   for (const fmt of formatters) {
     try {
       const result = fmt(v);
-      if (typeof result === "string") return result;
+      if (typeof result === "string")
+        return result;
     } catch { /* try the next one */ }
   }
 

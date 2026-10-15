@@ -113,17 +113,18 @@ export interface LoadOptions {
  * notes.
  */
 export function loadSync(
-  options: LoadOptions = {},
+  options: LoadOptions = {}
 ): Record<string, string> {
   const {
     envPath = ".env",
-    export: _export = false,
+    export: _export = false
   } = options;
   const conf = envPath ? parseFileSync(envPath) : {};
 
   if (_export) {
     for (const [key, value] of Object.entries(conf)) {
-      if (Ende.env.get(key) !== undefined) continue;
+      if (Ende.env.get(key) !== undefined)
+        continue;
       Ende.env.set(key, value);
     }
   }
@@ -267,17 +268,18 @@ export function loadSync(
  * notes.
  */
 export async function load(
-  options: LoadOptions = {},
+  options: LoadOptions = {}
 ): Promise<Record<string, string>> {
   const {
     envPath = ".env",
-    export: _export = false,
+    export: _export = false
   } = options;
   const conf = envPath ? await parseFile(envPath) : {};
 
   if (_export) {
     for (const [key, value] of Object.entries(conf)) {
-      if (Ende.env.get(key) !== undefined) continue;
+      if (Ende.env.get(key) !== undefined)
+        continue;
       Ende.env.set(key, value);
     }
   }
@@ -286,23 +288,25 @@ export async function load(
 }
 
 function parseFileSync(
-  filepath: string | URL,
+  filepath: string | URL
 ): Record<string, string> {
   try {
     return parse(Ende.readTextFileSync(filepath));
   } catch (e) {
-    if (e instanceof Ende.errors.NotFound) return {};
+    if (e instanceof Ende.errors.NotFound)
+      return {};
     throw e;
   }
 }
 
 async function parseFile(
-  filepath: string | URL,
+  filepath: string | URL
 ): Promise<Record<string, string>> {
   try {
     return parse(await Ende.readTextFile(filepath));
   } catch (e) {
-    if (e instanceof Ende.errors.NotFound) return {};
+    if (e instanceof Ende.errors.NotFound)
+      return {};
     throw e;
   }
 }

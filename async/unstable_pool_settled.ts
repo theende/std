@@ -92,13 +92,13 @@ export interface PooledMapSettledOptions {
 export function pooledMapSettled<T, R>(
   array: Iterable<T> | AsyncIterable<T>,
   iteratorFn: (data: T) => R | Promise<R>,
-  options: PooledMapSettledOptions,
+  options: PooledMapSettledOptions
 ): AsyncIterableIterator<PromiseSettledResult<R>> {
   const { poolLimit, signal } = options;
 
   if (!Number.isInteger(poolLimit) || poolLimit < 1) {
     throw new RangeError(
-      `Cannot pool as 'poolLimit' must be a positive integer: received ${poolLimit}`,
+      `Cannot pool as 'poolLimit' must be a positive integer: received ${poolLimit}`
     );
   }
 
@@ -113,7 +113,7 @@ export function pooledMapSettled<T, R>(
   const res = new TransformStream<Promise<Settled | Sentinel>, Settled>({
     async transform(
       p: Promise<Settled | Sentinel>,
-      controller: TransformStreamDefaultController<Settled>,
+      controller: TransformStreamDefaultController<Settled>
     ) {
       const result = await p;
       if (result === ABORT_SENTINEL) {
@@ -125,7 +125,7 @@ export function pooledMapSettled<T, R>(
         return;
       }
       controller.enqueue(result);
-    },
+    }
   });
 
   (async () => {
@@ -143,7 +143,8 @@ export function pooledMapSettled<T, R>(
     }
 
     function raceWithSignal(): Promise<unknown> {
-      if (!abortDeferred) return Promise.race(executing);
+      if (!abortDeferred)
+        return Promise.race(executing);
       executing.add(abortDeferred.promise);
       return Promise.race(executing).finally(() => {
         executing.delete(abortDeferred!.promise);
@@ -151,33 +152,36 @@ export function pooledMapSettled<T, R>(
     }
 
     function settle(fn: () => R | Promise<R>): Promise<Settled> {
-      return Promise.resolve()
+      return Promise
+        .resolve()
         .then(fn)
         .then(
           (value): PromiseFulfilledResult<R> => ({
             status: "fulfilled",
-            value,
+            value
           }),
-          (reason): PromiseRejectedResult => ({ status: "rejected", reason }),
+          (reason): PromiseRejectedResult => ({ status: "rejected", reason })
         );
     }
 
     try {
       signal?.throwIfAborted();
 
-      const it = (Symbol.asyncIterator in Object(array))
-        ? (array as AsyncIterable<T>)[Symbol.asyncIterator]()
-        : (array as Iterable<T>)[Symbol.iterator]();
+      const it = (Symbol.asyncIterator in Object(array)) ?
+        (array as AsyncIterable<T>)[Symbol.asyncIterator]() :
+        (array as Iterable<T>)[Symbol.iterator]();
 
       try {
         while (true) {
           const nextPromise = Promise.resolve(it.next());
-          if (abortDeferred) nextPromise.catch(() => {});
-          const next = abortDeferred
-            ? await Promise.race([nextPromise, abortDeferred.promise])
-            : await nextPromise;
+          if (abortDeferred)
+            nextPromise.catch(() => {});
+          const next = abortDeferred ?
+            await Promise.race([nextPromise, abortDeferred.promise]) :
+            await nextPromise;
 
-          if (next.done) break;
+          if (next.done)
+            break;
           signal?.throwIfAborted();
 
           const item = next.value;
@@ -221,16 +225,17 @@ export function pooledMapSettled<T, R>(
 
   // Feature test until browser coverage is adequate
   return Symbol.asyncIterator in res.readable &&
-      typeof res.readable[Symbol.asyncIterator] === "function"
-    ? (res.readable[Symbol.asyncIterator] as () => AsyncIterableIterator<
+      typeof res.readable[Symbol.asyncIterator] === "function" ?
+    (res.readable[Symbol.asyncIterator] as () => AsyncIterableIterator<
       Settled
-    >)()
-    : (async function* () {
+    >)() :
+    (async function*() {
       const reader = res.readable.getReader();
       try {
         while (true) {
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done)
+            break;
           yield value;
         }
       } finally {

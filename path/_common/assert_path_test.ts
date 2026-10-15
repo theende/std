@@ -13,6 +13,6 @@ Ende.test("assertPath() throws", () => {
   assertThrows(
     () => assertPath(undefined),
     TypeError,
-    'Path must be a string, received "undefined"',
+    "Path must be a string, received \"undefined\""
   );
 });

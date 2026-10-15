@@ -6,7 +6,7 @@ import { assertEquals } from "@ende/assert";
 Ende.test("indexOfNeedle() handles repeating occurrence", () => {
   const i = indexOfNeedle(
     new Uint8Array([1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 3]),
-    new Uint8Array([0, 1, 2]),
+    new Uint8Array([0, 1, 2])
   );
   assertEquals(i, 2);
 });
@@ -31,7 +31,7 @@ Ende.test("indexOfNeedle() returns index of occurrence after start", () => {
   const i = indexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2]),
     new Uint8Array([0, 1]),
-    1,
+    1
   );
   assertEquals(i, 3);
 });
@@ -40,7 +40,7 @@ Ende.test("indexOfNeedle() returns -1 if occurrence is before start", () => {
   const i = indexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2]),
     new Uint8Array([0, 1]),
-    7,
+    7
   );
   assertEquals(i, -1);
 });
@@ -50,17 +50,17 @@ Ende.test("indexOfNeedle() handles start index less than 0", () => {
     indexOfNeedle(
       new Uint8Array([0, 1, 2, 0, 1, 2]),
       new Uint8Array([0, 1]),
-      3,
+      3
     ),
-    3,
+    3
   );
   assertEquals(
     indexOfNeedle(
       new Uint8Array([0, 1, 2, 1, 1, 2]),
       new Uint8Array([0, 1]),
-      3,
+      3
     ),
-    -1,
+    -1
   );
 });
 
@@ -69,16 +69,16 @@ Ende.test("indexOfNeedle() handles negative start index", () => {
     indexOfNeedle(
       new Uint8Array([0, 1, 2, 0, 1, 2]),
       new Uint8Array([0, 1]),
-      -3,
+      -3
     ),
-    3,
+    3
   );
   assertEquals(
     indexOfNeedle(
       new Uint8Array([0, 1, 2, 1, 1, 2]),
       new Uint8Array([0, 1]),
-      -3,
+      -3
     ),
-    -1,
+    -1
   );
 });

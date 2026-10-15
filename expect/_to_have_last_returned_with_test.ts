@@ -33,9 +33,11 @@ Ende.test("expect().toHaveLastReturnedWith() with custom error message", () => {
 
   expect(() => {
     expect(mockFn, msg).toHaveLastReturnedWith(4);
-  }).toThrow(new RegExp(`^${msg}`));
+  })
+    .toThrow(new RegExp(`^${msg}`));
 
   expect(() => {
     expect(mockFn, msg).not.toHaveLastReturnedWith(7);
-  }).toThrow(new RegExp(`^${msg}`));
+  })
+    .toThrow(new RegExp(`^${msg}`));
 });

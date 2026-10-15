@@ -7,7 +7,7 @@ export type ReplacerFunction = (
   key: string,
   // deno-lint-ignore no-explicit-any
   value: any,
-  section?: string,
+  section?: string
 ) => string;
 
 /** Options for {@linkcode stringify}. */
@@ -38,8 +38,10 @@ function isPlainObject(object: unknown): object is object {
 }
 
 function sort([_a, valA]: [string, unknown], [_b, valB]: [string, unknown]) {
-  if (isPlainObject(valA)) return 1;
-  if (isPlainObject(valB)) return -1;
+  if (isPlainObject(valA))
+    return 1;
+  if (isPlainObject(valB))
+    return -1;
   return 0;
 }
 
@@ -107,12 +109,12 @@ function defaultReplacer(_key: string, value: unknown, _section?: string) {
  */
 export function stringify(
   object: object,
-  options: StringifyOptions = {},
+  options: StringifyOptions = {}
 ): string {
   const {
     replacer = defaultReplacer,
     pretty = false,
-    lineBreak = "\n",
+    lineBreak = "\n"
   } = options;
   const assignment = pretty ? " = " : "=";
 

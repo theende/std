@@ -66,8 +66,8 @@ export class JsonParseStream extends TransformStream<string, JsonValue> {
           if (!isBlankSpace(chunk)) {
             controller.enqueue(parse(chunk));
           }
-        },
-      },
+        }
+      }
     );
   }
 }

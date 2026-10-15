@@ -29,7 +29,7 @@ export async function emptyDir(dir: string | URL) {
   try {
     const items = await Array.fromAsync(Ende.readDir(dir));
 
-    await Promise.all(items.map((item) => {
+    await Promise.all(items.map(item => {
       if (item && item.name) {
         const filepath = join(toPathString(dir), item.name);
         return Ende.remove(filepath, { recursive: true });

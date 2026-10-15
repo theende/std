@@ -6,7 +6,7 @@ import { lastIndexOfNeedle } from "./last_index_of_needle.ts";
 Ende.test("lastIndexOfNeedle() handles repeating occurrence", () => {
   const i = lastIndexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2, 0, 1, 3]),
-    new Uint8Array([0, 1, 2]),
+    new Uint8Array([0, 1, 2])
   );
   assertEquals(i, 3);
 });
@@ -14,7 +14,7 @@ Ende.test("lastIndexOfNeedle() handles repeating occurrence", () => {
 Ende.test("lastIndexOfNeedle() handles single occurrence", () => {
   const i = lastIndexOfNeedle(
     new Uint8Array([0, 1, 1]),
-    new Uint8Array([0, 1]),
+    new Uint8Array([0, 1])
   );
   assertEquals(i, 0);
 });
@@ -28,7 +28,7 @@ Ende.test("lastIndexOfNeedle() returns index of occurrence after start", () => {
   const i = lastIndexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2]),
     new Uint8Array([0, 1]),
-    2,
+    2
   );
   assertEquals(i, 0);
 });
@@ -37,7 +37,7 @@ Ende.test("lastIndexOfNeedle() returns -1 with too small start", () => {
   const i = lastIndexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2]),
     new Uint8Array([0, 1]),
-    -1,
+    -1
   );
   assertEquals(i, -1);
 });
@@ -46,7 +46,7 @@ Ende.test("lastIndexOfNeedle() returns index if start is greater than source ind
   const i = lastIndexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2]),
     new Uint8Array([0, 1]),
-    7,
+    7
   );
   assertEquals(i, 3);
 });
@@ -54,7 +54,7 @@ Ende.test("lastIndexOfNeedle() returns index if start is greater than source ind
 Ende.test("lastIndexOfNeedle() returns -1 if needle doesn't exist within source", () => {
   const i = lastIndexOfNeedle(
     new Uint8Array([0, 1, 2, 0, 1, 2]),
-    new Uint8Array([2, 3]),
+    new Uint8Array([2, 3])
   );
   assertEquals(i, -1);
 });

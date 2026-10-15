@@ -17,28 +17,28 @@ Ende.test("assertArgs() throws", () => {
     // @ts-expect-error - testing invalid input
     () => assertArgs(undefined, "bar"),
     TypeError,
-    'Path must be a string, received "undefined"',
+    "Path must be a string, received \"undefined\""
   );
   assertThrows(
     // @ts-expect-error - testing invalid input
     () => assertArgs("foo", undefined),
     TypeError,
-    'Suffix must be a string, received "undefined"',
+    "Suffix must be a string, received \"undefined\""
   );
 });
 
 Ende.test("lastPathSegment()", () => {
   assertEquals(
-    lastPathSegment("foo", (char) => char === CHAR_FORWARD_SLASH),
-    "foo",
+    lastPathSegment("foo", char => char === CHAR_FORWARD_SLASH),
+    "foo"
   );
   assertEquals(
-    lastPathSegment("foo/bar", (char) => char === CHAR_FORWARD_SLASH),
-    "bar",
+    lastPathSegment("foo/bar", char => char === CHAR_FORWARD_SLASH),
+    "bar"
   );
   assertEquals(
-    lastPathSegment("foo/bar/baz", (char) => char === CHAR_FORWARD_SLASH),
-    "baz",
+    lastPathSegment("foo/bar/baz", char => char === CHAR_FORWARD_SLASH),
+    "baz"
   );
 });
 

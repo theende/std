@@ -31,7 +31,7 @@ Ende.test("expect().toHaveBeenLastCalledWith() handles the case when the mock is
   assertThrows(
     () => expect(mockFn).toHaveBeenLastCalledWith(1, 2, 3),
     AssertionError,
-    "Expected mock function to be last called with 1, 2, 3, but it was not",
+    "Expected mock function to be last called with 1, 2, 3, but it was not"
   );
 });
 
@@ -44,9 +44,11 @@ Ende.test("expect().toHaveBeenLastCalledWith() with custom error message", () =>
 
   expect(() => {
     expect(mockFn, msg).toHaveBeenLastCalledWith(1, 2, 3);
-  }).toThrow(new RegExp(`^${msg}`));
+  })
+    .toThrow(new RegExp(`^${msg}`));
 
   expect(() => {
     expect(mockFn, msg).not.toHaveBeenLastCalledWith(4, 5, 6);
-  }).toThrow(new RegExp(`^${msg}`));
+  })
+    .toThrow(new RegExp(`^${msg}`));
 });

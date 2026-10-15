@@ -5,38 +5,39 @@ import { assertEquals, assertRejects } from "@ende/assert";
 import { toBytes } from "@ende/streams/to-bytes";
 import { TarStream, type TarStreamInput } from "./tar_stream.ts";
 import {
-  type OldStyleFormat,
-  type PosixUstarFormat,
   UntarStream,
+  type OldStyleFormat,
+  type PosixUstarFormat
 } from "./untar_stream.ts";
 
 Ende.test("expandTarArchiveCheckingHeaders", async () => {
   const text = new TextEncoder().encode("Hello World!");
   const seconds = Math.floor(Date.now() / 1000);
 
-  const readable = ReadableStream.from<TarStreamInput>([
-    {
-      type: "directory",
-      path: "./potato",
-      options: {
-        mode: 0o111111,
-        uid: 0o12,
-        gid: 0o21,
-        mtime: seconds,
-        uname: "potato",
-        gname: "cake",
-        devmajor: "ice",
-        devminor: "scream",
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      {
+        type: "directory",
+        path: "./potato",
+        options: {
+          mode: 0o111111,
+          uid: 0o12,
+          gid: 0o21,
+          mtime: seconds,
+          uname: "potato",
+          gname: "cake",
+          devmajor: "ice",
+          devminor: "scream"
+        }
       },
-    },
-    {
-      type: "file",
-      path: "./text.txt",
-      size: text.length,
-      readable: ReadableStream.from([text.slice()]),
-      options: { mtime: seconds },
-    },
-  ])
+      {
+        type: "file",
+        path: "./text.txt",
+        size: text.length,
+        readable: ReadableStream.from([text.slice()]),
+        options: { mtime: seconds }
+      }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
@@ -60,7 +61,7 @@ Ende.test("expandTarArchiveCheckingHeaders", async () => {
     linkname: "",
     magic: "ustar\0",
     version: "00",
-    prefix: "",
+    prefix: ""
   }, {
     name: "./text.txt",
     mode: 0o644,
@@ -76,31 +77,33 @@ Ende.test("expandTarArchiveCheckingHeaders", async () => {
     linkname: "",
     magic: "ustar\0",
     version: "00",
-    prefix: "",
+    prefix: ""
   }]);
 });
 
 Ende.test("expandTarArchiveCheckingBodies", async () => {
   const text = new TextEncoder().encode("Hello World!");
 
-  const readable = ReadableStream.from<TarStreamInput>([
-    {
-      type: "directory",
-      path: "./potato",
-    },
-    {
-      type: "file",
-      path: "./text.txt",
-      size: text.length,
-      readable: ReadableStream.from([text.slice()]),
-    },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      {
+        type: "directory",
+        path: "./potato"
+      },
+      {
+        type: "file",
+        path: "./text.txt",
+        size: text.length,
+        readable: ReadableStream.from([text.slice()])
+      }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
   let buffer: Uint8Array = new Uint8Array();
   for await (const item of readable) {
-    if (item.readable) buffer = await toBytes(item.readable);
+    if (item.readable)
+      buffer = await toBytes(item.readable);
   }
   assertEquals(buffer, text);
 });
@@ -109,131 +112,146 @@ Ende.test("UntarStream() with size equals to multiple of 512", async () => {
   const size = 512 * 3;
   const data = Uint8Array.from(
     { length: size },
-    () => Math.floor(Math.random() * 256),
+    () => Math.floor(Math.random() * 256)
   );
 
-  const readable = ReadableStream.from<TarStreamInput>([
-    {
-      type: "file",
-      path: "name",
-      size,
-      readable: ReadableStream.from([data.slice()]),
-    },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      {
+        type: "file",
+        path: "name",
+        size,
+        readable: ReadableStream.from([data.slice()])
+      }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(new UntarStream());
 
   let buffer: Uint8Array = new Uint8Array();
   for await (const entry of readable) {
-    if (entry.readable) buffer = await toBytes(entry.readable);
+    if (entry.readable)
+      buffer = await toBytes(entry.readable);
   }
   assertEquals(buffer, data);
 });
 
 Ende.test("UntarStream() with invalid size", async () => {
   const bytes = (await toBytes(
-    ReadableStream.from<TarStreamInput>([
-      {
-        type: "file",
-        path: "newFile.txt",
-        size: 512,
-        readable: ReadableStream.from([new Uint8Array(512).fill(97)]),
-      },
-    ])
-      .pipeThrough(new TarStream()),
-  )).slice(0, -100);
+    ReadableStream
+      .from<TarStreamInput>([
+        {
+          type: "file",
+          path: "newFile.txt",
+          size: 512,
+          readable: ReadableStream.from([new Uint8Array(512).fill(97)])
+        }
+      ])
+      .pipeThrough(new TarStream())
+  ))
+    .slice(0, -100);
 
-  const readable = ReadableStream.from([bytes])
+  const readable = ReadableStream
+    .from([bytes])
     .pipeThrough(new UntarStream());
 
   await assertRejects(
     async () => {
-      for await (const entry of readable) await entry.readable?.cancel();
+      for await (const entry of readable)
+        await entry.readable?.cancel();
     },
     RangeError,
-    "Cannot extract the tar archive: The tarball chunk has an unexpected number of bytes (412)",
+    "Cannot extract the tar archive: The tarball chunk has an unexpected number of bytes (412)"
   );
 });
 
 Ende.test("UntarStream() with invalid ending", async () => {
   const tarBytes = await toBytes(
-    ReadableStream.from<TarStreamInput>([
-      {
-        type: "file",
-        path: "newFile.txt",
-        size: 512,
-        readable: ReadableStream.from([new Uint8Array(512).fill(97)]),
-      },
-    ])
-      .pipeThrough(new TarStream()),
+    ReadableStream
+      .from<TarStreamInput>([
+        {
+          type: "file",
+          path: "newFile.txt",
+          size: 512,
+          readable: ReadableStream.from([new Uint8Array(512).fill(97)])
+        }
+      ])
+      .pipeThrough(new TarStream())
   );
   tarBytes[tarBytes.length - 1] = 1;
 
-  const readable = ReadableStream.from([tarBytes])
+  const readable = ReadableStream
+    .from([tarBytes])
     .pipeThrough(new UntarStream());
 
   await assertRejects(
     async () => {
-      for await (const entry of readable) await entry.readable?.cancel();
+      for await (const entry of readable)
+        await entry.readable?.cancel();
     },
     TypeError,
-    "Cannot extract the tar archive: The tarball has invalid ending",
+    "Cannot extract the tar archive: The tarball has invalid ending"
   );
 });
 
 Ende.test("UntarStream() with too small size", async () => {
-  const readable = ReadableStream.from([new Uint8Array(512)])
+  const readable = ReadableStream
+    .from([new Uint8Array(512)])
     .pipeThrough(new UntarStream());
 
   await assertRejects(
     async () => {
-      for await (const entry of readable) await entry.readable?.cancel();
+      for await (const entry of readable)
+        await entry.readable?.cancel();
     },
     RangeError,
-    "Cannot extract the tar archive: The tarball is too small to be valid",
+    "Cannot extract the tar archive: The tarball is too small to be valid"
   );
 });
 
 Ende.test("UntarStream() with invalid checksum", async () => {
   const tarBytes = await toBytes(
-    ReadableStream.from<TarStreamInput>([
-      {
-        type: "file",
-        path: "newFile.txt",
-        size: 512,
-        readable: ReadableStream.from([new Uint8Array(512).fill(97)]),
-      },
-    ])
-      .pipeThrough(new TarStream()),
+    ReadableStream
+      .from<TarStreamInput>([
+        {
+          type: "file",
+          path: "newFile.txt",
+          size: 512,
+          readable: ReadableStream.from([new Uint8Array(512).fill(97)])
+        }
+      ])
+      .pipeThrough(new TarStream())
   );
   tarBytes[148] = 97;
 
-  const readable = ReadableStream.from([tarBytes])
+  const readable = ReadableStream
+    .from([tarBytes])
     .pipeThrough(new UntarStream());
 
   await assertRejects(
     async () => {
-      for await (const entry of readable) await entry.readable?.cancel();
+      for await (const entry of readable)
+        await entry.readable?.cancel();
     },
     Error,
-    "Cannot extract the tar archive: An archive entry has invalid header checksum",
+    "Cannot extract the tar archive: An archive entry has invalid header checksum"
   );
 });
 
 Ende.test("UntarStream() with extra bytes", async () => {
-  const readable = ReadableStream.from<TarStreamInput>([
-    {
-      type: "directory",
-      path: "a",
-    },
-  ])
+  const readable = ReadableStream
+    .from<TarStreamInput>([
+      {
+        type: "directory",
+        path: "a"
+      }
+    ])
     .pipeThrough(new TarStream())
     .pipeThrough(
       new TransformStream({
         flush(controller) {
           controller.enqueue(new Uint8Array(512 * 2).fill(1));
-        },
-      }),
+        }
+      })
     )
     .pipeThrough(new UntarStream());
 
@@ -245,9 +263,11 @@ Ende.test("UntarStream() with extra bytes", async () => {
 
 Ende.test("UntarStream() with extra checksum digits", async () => {
   const bytes = await toBytes(
-    ReadableStream.from<TarStreamInput>([
-      { type: "directory", path: "a" },
-    ]).pipeThrough(new TarStream()),
+    ReadableStream
+      .from<TarStreamInput>([
+        { type: "directory", path: "a" }
+      ])
+      .pipeThrough(new TarStream())
   );
 
   for await (

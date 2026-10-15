@@ -5,7 +5,7 @@ import {
   assertEquals,
   assertExists,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { chmod, chmodSync } from "./unstable_chmod.ts";
 import { NotFound } from "./unstable_errors.js";
@@ -32,7 +32,7 @@ Ende.test({
 
     tempFh.close();
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
@@ -55,7 +55,7 @@ Ende.test({
     assertEquals(dirStatAfter.mode & 0o444, 0o444);
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
@@ -86,7 +86,7 @@ Ende.test({
 
     tempFh.close();
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("chmod() rejects with NotFound for a non-existent file", async () => {
@@ -116,7 +116,7 @@ Ende.test({
 
     tempFd.close();
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
@@ -139,7 +139,7 @@ Ende.test({
     assertEquals(dirStatAfter.mode & 0o444, 0o444);
 
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test({
@@ -170,7 +170,7 @@ Ende.test({
 
     tempFd.close();
     Ende.removeSync(tempDirPath, { recursive: true });
-  },
+  }
 });
 
 Ende.test("chmodSync() throws with NotFound for a non-existent file", () => {

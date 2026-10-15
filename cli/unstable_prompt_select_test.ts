@@ -18,7 +18,7 @@ Ende.test("promptSelect() handles CR", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -30,13 +30,13 @@ Ende.test("promptSelect() handles CR", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -47,13 +47,13 @@ Ende.test("promptSelect() handles CR", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     { label: "safari", value: 1 },
     { label: "chrome", value: 2 },
-    { label: "firefox", value: 3 },
+    { label: "firefox", value: 3 }
   ]);
 
   assertEquals(browser, { label: "safari", value: 1 });
@@ -84,7 +84,7 @@ Ende.test("promptSelect() handles arrow down", () => {
     "  safari\r\n",
     "  chrome\r\n",
     "❯ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -96,7 +96,7 @@ Ende.test("promptSelect() handles arrow down", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -104,7 +104,7 @@ Ende.test("promptSelect() handles arrow down", () => {
   const inputs = [
     "\u001B[B",
     "\u001B[B",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -115,13 +115,13 @@ Ende.test("promptSelect() handles arrow down", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "firefox");
@@ -152,7 +152,7 @@ Ende.test("promptSelect() handles arrow up", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -164,7 +164,7 @@ Ende.test("promptSelect() handles arrow up", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -172,7 +172,7 @@ Ende.test("promptSelect() handles arrow up", () => {
   const inputs = [
     "\u001B[B",
     "\u001B[A",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -183,13 +183,13 @@ Ende.test("promptSelect() handles arrow up", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "safari");
@@ -214,7 +214,7 @@ Ende.test("promptSelect() handles index underflow", () => {
     "  safari\r\n",
     "  chrome\r\n",
     "❯ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -226,14 +226,14 @@ Ende.test("promptSelect() handles index underflow", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
     "\u001B[A",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -244,13 +244,13 @@ Ende.test("promptSelect() handles index underflow", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "firefox");
@@ -287,7 +287,7 @@ Ende.test("promptSelect() handles index overflow", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -299,7 +299,7 @@ Ende.test("promptSelect() handles index overflow", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -308,7 +308,7 @@ Ende.test("promptSelect() handles index overflow", () => {
     "\u001B[B",
     "\u001B[B",
     "\u001B[B",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -319,13 +319,13 @@ Ende.test("promptSelect() handles index overflow", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "safari");
@@ -373,7 +373,7 @@ Ende.test("promptSelect() scrolls down and display lines correctly", () => {
     "  chrome\r\n",
     "  firefox\r\n",
     "  ...\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -385,7 +385,7 @@ Ende.test("promptSelect() scrolls down and display lines correctly", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -395,7 +395,7 @@ Ende.test("promptSelect() scrolls down and display lines correctly", () => {
     "\u001B[B",
     "\u001B[B",
     "\u001B[B",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -406,14 +406,14 @@ Ende.test("promptSelect() scrolls down and display lines correctly", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
     "firefox",
-    "brave",
+    "brave"
   ], { visibleLines: 3 });
 
   assertEquals(browser, "safari");
@@ -470,7 +470,7 @@ Ende.test("promptSelect() uses Ende.consoleSize().rows", () => {
     "  Canada\r\n",
     "  Portugal\r\n",
     "  India\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -482,7 +482,7 @@ Ende.test("promptSelect() uses Ende.consoleSize().rows", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -491,7 +491,7 @@ Ende.test("promptSelect() uses Ende.consoleSize().rows", () => {
     "\u001B[B",
     "\u001B[B",
     "\u001B[B",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -502,7 +502,7 @@ Ende.test("promptSelect() uses Ende.consoleSize().rows", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a Country:", [
@@ -513,7 +513,7 @@ Ende.test("promptSelect() uses Ende.consoleSize().rows", () => {
     "Mexico",
     "Canada",
     "Portugal",
-    "India",
+    "India"
   ]);
 
   assertEquals(browser, "USA");
@@ -557,7 +557,7 @@ Ende.test("promptSelect() display certain number of visibleLines", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  ...\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -569,7 +569,7 @@ Ende.test("promptSelect() display certain number of visibleLines", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -579,7 +579,7 @@ Ende.test("promptSelect() display certain number of visibleLines", () => {
     "\u001B[B",
     "\u001B[B",
     "\u001B[B",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -590,14 +590,14 @@ Ende.test("promptSelect() display certain number of visibleLines", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
     "firefox",
-    "brave",
+    "brave"
   ], { visibleLines: 2 });
 
   assertEquals(browser, "safari");
@@ -628,7 +628,7 @@ Ende.test("promptSelect() changes the indicator", () => {
     "   safari\r\n",
     "   chrome\r\n",
     "-> firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -640,7 +640,7 @@ Ende.test("promptSelect() changes the indicator", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -648,7 +648,7 @@ Ende.test("promptSelect() changes the indicator", () => {
   const inputs = [
     "\u001B[B",
     "\u001B[B",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -659,13 +659,13 @@ Ende.test("promptSelect() changes the indicator", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ], { indicator: "->" });
 
   assertEquals(browser, "firefox");
@@ -685,7 +685,7 @@ Ende.test("promptSelect() handles clear option", () => {
     "  firefox\r\n",
     "\x1b[4A",
     "\x1b[J",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -697,13 +697,13 @@ Ende.test("promptSelect() handles clear option", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -714,13 +714,13 @@ Ende.test("promptSelect() handles clear option", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ], { clear: true });
 
   assertEquals(browser, "safari");
@@ -744,13 +744,13 @@ Ende.test("promptSelect() returns null if Ende.stdin.isTerminal() is false", () 
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, null);
@@ -777,7 +777,7 @@ Ende.test("promptSelect() handles search", () => {
     "\x1b[J",
     "Please select a browser: (filter: ch)\r\n",
     "❯ chrome\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -789,7 +789,7 @@ Ende.test("promptSelect() handles search", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -797,7 +797,7 @@ Ende.test("promptSelect() handles search", () => {
   const inputs = [
     "c",
     "h",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -808,13 +808,13 @@ Ende.test("promptSelect() handles search", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "chrome");
@@ -844,7 +844,7 @@ Ende.test("promptSelect() handles search backspace", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -856,7 +856,7 @@ Ende.test("promptSelect() handles search backspace", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -864,7 +864,7 @@ Ende.test("promptSelect() handles search backspace", () => {
   const inputs = [
     "f",
     "\x7f",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -875,13 +875,13 @@ Ende.test("promptSelect() handles search backspace", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "safari");
@@ -923,7 +923,7 @@ Ende.test("promptSelect() handles search no matches", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -935,7 +935,7 @@ Ende.test("promptSelect() handles search no matches", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -947,7 +947,7 @@ Ende.test("promptSelect() handles search no matches", () => {
     "\x7f",
     "\x7f",
     "\x7f",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -958,13 +958,13 @@ Ende.test("promptSelect() handles search no matches", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browser, "safari");
@@ -983,7 +983,7 @@ Ende.test("promptSelect() handles ETX", () => {
     "exit",
     (() => {
       called = true;
-    }) as never,
+    }) as never
   );
 
   const expectedOutput = [
@@ -992,7 +992,7 @@ Ende.test("promptSelect() handles ETX", () => {
     "❯ safari\r\n",
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -1004,13 +1004,13 @@ Ende.test("promptSelect() handles ETX", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\x03",
+    "\x03"
   ];
 
   stub(
@@ -1021,13 +1021,13 @@ Ende.test("promptSelect() handles ETX", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const _browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(called, true);
@@ -1071,7 +1071,7 @@ Ende.test("promptSelect() supports search by typing", () => {
     "❯ safari\r\n", // the selection is reset when the search is changed
     "  chrome\r\n",
     "  firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -1083,7 +1083,7 @@ Ende.test("promptSelect() supports search by typing", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -1094,7 +1094,7 @@ Ende.test("promptSelect() supports search by typing", () => {
     "\u007F", // Backspace
     "\u001B[B", // Arrow down
     "\u007F", // Backspace
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -1105,13 +1105,13 @@ Ende.test("promptSelect() supports search by typing", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(expectedOutput, actualOutput);
@@ -1146,7 +1146,7 @@ Ende.test("promptSelect() handles fitToRemainingHeight option", () => {
     "  edge\r\n",
     "  opera\r\n",
     "  ...\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -1158,7 +1158,7 @@ Ende.test("promptSelect() handles fitToRemainingHeight option", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -1166,7 +1166,7 @@ Ende.test("promptSelect() handles fitToRemainingHeight option", () => {
   const inputs = [
     "\x1b[15;1R", // cursor position response: row 15, col 1
     "\u001B[B", // arrow down
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -1177,7 +1177,7 @@ Ende.test("promptSelect() handles fitToRemainingHeight option", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
@@ -1188,7 +1188,7 @@ Ende.test("promptSelect() handles fitToRemainingHeight option", () => {
     "edge",
     "opera",
     "vivaldi",
-    "tor",
+    "tor"
   ], { fitToRemainingHeight: true });
 
   assertEquals(browser, "chrome");
@@ -1208,7 +1208,7 @@ Ende.test("promptSelect() always shows at least one item when height is too smal
     "Please select a browser:\r\n",
     "❯ safari\r\n",
     "  ...\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -1220,13 +1220,13 @@ Ende.test("promptSelect() always shows at least one item when height is too smal
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -1237,7 +1237,7 @@ Ende.test("promptSelect() always shows at least one item when height is too smal
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptSelect("Please select a browser:", [
@@ -1245,7 +1245,7 @@ Ende.test("promptSelect() always shows at least one item when height is too smal
     "chrome",
     "firefox",
     "brave",
-    "edge",
+    "edge"
   ]);
 
   assertEquals(browser, "safari");

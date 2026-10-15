@@ -6,7 +6,7 @@ import {
   assert,
   assertEquals,
   assertStrictEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 
 import "./testdata/JSONTestSuite/test.ts";
@@ -21,13 +21,13 @@ function assertValidParse(text: string, expected: unknown) {
 function assertInvalidParse(
   text: string,
   // deno-lint-ignore no-explicit-any
-  ErrorClass: new (...args: any[]) => Error,
-  msgIncludes?: string,
+  ErrorClass: new(...args: any[]) => Error,
+  msgIncludes?: string
 ) {
   assertThrows(
     () => parse(text),
     ErrorClass,
-    msgIncludes,
+    msgIncludes
   );
 }
 
@@ -38,7 +38,7 @@ Ende.test({
     assertValidParse(`["aaa"//comment\n,"aaa"]`, ["aaa", "aaa"]);
     assertValidParse(`["aaa"//comment\r,"aaa"]`, ["aaa", "aaa"]);
     assertValidParse(`["aaa"//comment\n\r,"aaa"]`, ["aaa", "aaa"]);
-  },
+  }
 });
 
 Ende.test({
@@ -50,7 +50,7 @@ Ende.test({
     assertValidParse(`"aaa"/*comment\ncomment*/`, "aaa");
     assertInvalidParse(`"aaa"/*`, SyntaxError);
     assertInvalidParse(`"aaa"/*/`, SyntaxError);
-  },
+  }
 });
 
 Ende.test({
@@ -60,13 +60,13 @@ Ende.test({
     assertValidParse(`"🦕"`, "🦕");
     assertValidParse(
       `"\u543e\u8f29\u306f\u732b\u3067\u3042\u308b\u3002"`,
-      "\u543e\u8f29\u306f\u732b\u3067\u3042\u308b\u3002",
+      "\u543e\u8f29\u306f\u732b\u3067\u3042\u308b\u3002"
     );
     assertValidParse(
       `"\\" \\\\ \\/ \\b \\f \\n \\r \\t"`,
-      '" \\ \/ \b \f \n \r \t',
+      "\" \\ \/ \b \f \n \r \t"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -84,7 +84,7 @@ Ende.test({
     assertInvalidParse(`{"a":0{}`, SyntaxError);
     assertInvalidParse(`{"a":0[}`, SyntaxError);
     assertInvalidParse(`{"a":0:}`, SyntaxError);
-  },
+  }
 });
 
 Ende.test({
@@ -93,77 +93,77 @@ Ende.test({
     assertInvalidParse(
       `:::::`,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token ":" in JSONC at position 0',
+      "Cannot parse JSONC: unexpected token \":\" in JSONC at position 0"
     );
     assertInvalidParse(
       `[`,
       SyntaxError,
-      "Cannot parse JSONC: unexpected end of JSONC input",
+      "Cannot parse JSONC: unexpected end of JSONC input"
     );
     assertInvalidParse(
       `"abc`,
       SyntaxError,
-      "Cannot parse JSONC: unexpected end of JSONC input",
+      "Cannot parse JSONC: unexpected end of JSONC input"
     );
     assertInvalidParse(
       `{"a": "b`,
       SyntaxError,
-      "Cannot parse JSONC: unexpected end of JSONC input",
+      "Cannot parse JSONC: unexpected end of JSONC input"
     );
     assertInvalidParse(
       `[]100`,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token "100" in JSONC at position 2',
+      "Cannot parse JSONC: unexpected token \"100\" in JSONC at position 2"
     );
     assertInvalidParse(
       `[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]`,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..." in JSONC at position 1',
+      "Cannot parse JSONC: unexpected token \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...\" in JSONC at position 1"
     );
     assertInvalidParse(
       `}`,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token "}" in JSONC at position 0',
+      "Cannot parse JSONC: unexpected token \"}\" in JSONC at position 0"
     );
     assertInvalidParse(
       `]`,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token "]" in JSONC at position 0',
+      "Cannot parse JSONC: unexpected token \"]\" in JSONC at position 0"
     );
     assertInvalidParse(
       `,`,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token "," in JSONC at position 0',
+      "Cannot parse JSONC: unexpected token \",\" in JSONC at position 0"
     );
-  },
+  }
 });
 
 Ende.test({
   name: "parse() handles __proto__",
   fn() {
     // The result of JSON.parse and the result of JSONC.parse should match
-    const json = JSON.parse('{"__proto__": 100}');
-    const jsonc = parse('{"__proto__": 100}');
+    const json = JSON.parse("{\"__proto__\": 100}");
+    const jsonc = parse("{\"__proto__\": 100}");
     assertEquals(jsonc, json);
     assertEquals((jsonc as Record<string, number>).__proto__, 100);
     assertEquals((jsonc as Record<string, string>).__proto__, json.__proto__);
     assertStrictEquals(Object.getPrototypeOf(jsonc), Object.prototype);
     assertStrictEquals(
       Object.getPrototypeOf(jsonc),
-      Object.getPrototypeOf(json),
+      Object.getPrototypeOf(json)
     );
-  },
+  }
 });
 
 Ende.test({
   name: "parse() handles duplicate object key",
   fn() {
     // The result of JSON.parse and the result of JSONC.parse should match
-    const json = JSON.parse('{"aaa": 0, "aaa": 1}');
-    const jsonc = parse('{"aaa": 0, "aaa": 1}');
+    const json = JSON.parse("{\"aaa\": 0, \"aaa\": 1}");
+    const jsonc = parse("{\"aaa\": 0, \"aaa\": 1}");
     assertEquals(jsonc, { aaa: 1 });
     assertEquals(jsonc, json);
-  },
+  }
 });
 
 Ende.test({
@@ -173,28 +173,28 @@ Ende.test({
       // deno-lint-ignore no-explicit-any
       undefined as any,
       SyntaxError,
-      'Cannot parse JSONC: unexpected token "undefined" in JSONC at position 0',
+      "Cannot parse JSONC: unexpected token \"undefined\" in JSONC at position 0"
     );
     // deno-lint-ignore no-explicit-any
     assertValidParse(0 as any, 0);
-  },
+  }
 });
 
 Ende.test({
   name: "parse() handles consecutive backslash",
   fn() {
-    assertValidParse('"foo\\\\"', "foo\\");
+    assertValidParse("\"foo\\\\\"", "foo\\");
 
-    assertValidParse('  ["foo\\"", "bar"]', ['foo"', "bar"]);
-    assertInvalidParse('["foo\\\\"", "bar"]', SyntaxError);
-    assertValidParse('  ["foo\\\\\\"", "bar"]', ['foo\\"', "bar"]);
-    assertInvalidParse('["foo\\\\\\\\"", "bar"]', SyntaxError);
+    assertValidParse("  [\"foo\\\"\", \"bar\"]", ["foo\"", "bar"]);
+    assertInvalidParse("[\"foo\\\\\"\", \"bar\"]", SyntaxError);
+    assertValidParse("  [\"foo\\\\\\\"\", \"bar\"]", ["foo\\\"", "bar"]);
+    assertInvalidParse("[\"foo\\\\\\\\\"\", \"bar\"]", SyntaxError);
 
-    assertInvalidParse('["foo\\", "bar"]', SyntaxError);
-    assertValidParse('  ["foo\\\\", "bar"]', ["foo\\", "bar"]);
-    assertInvalidParse('["foo\\\\\\", "bar"]', SyntaxError);
-    assertValidParse('  ["foo\\\\\\\\", "bar"]', ["foo\\\\", "bar"]);
-  },
+    assertInvalidParse("[\"foo\\\", \"bar\"]", SyntaxError);
+    assertValidParse("  [\"foo\\\\\", \"bar\"]", ["foo\\", "bar"]);
+    assertInvalidParse("[\"foo\\\\\\\", \"bar\"]", SyntaxError);
+    assertValidParse("  [\"foo\\\\\\\\\", \"bar\"]", ["foo\\\\", "bar"]);
+  }
 });
 
 Ende.test({
@@ -218,11 +218,11 @@ Ende.test({
     const command = new Ende.Command(Ende.execPath(), {
       stdout: "inherit",
       stderr: "inherit",
-      args: ["eval", "--no-lock", testCode],
+      args: ["eval", "--no-lock", testCode]
     });
     const { success } = await command.output();
     assert(success);
-  },
+  }
 });
 
 Ende.test({
@@ -232,13 +232,13 @@ Ende.test({
       // deno-lint-ignore no-explicit-any
       () => new (parse as any)(""),
       TypeError,
-      "parse is not a constructor",
+      "parse is not a constructor"
     );
-  },
+  }
 });
 
 Ende.test("parse() handles lone continuation byte in key and tailing comma", () => {
-  assertEquals(parse('{"�":"0",}'), { "�": "0" });
+  assertEquals(parse("{\"�\":\"0\",}"), { "�": "0" });
 });
 
 /**
@@ -251,12 +251,12 @@ Ende.test("[jsonc] parse node-jsonc-parser:literals", () => {
   assertValidParse("true", true);
   assertValidParse("false", false);
   assertValidParse("null", null);
-  assertValidParse('"foo"', "foo");
+  assertValidParse("\"foo\"", "foo");
   assertValidParse(
-    '"\\"-\\\\-\\/-\\b-\\f-\\n-\\r-\\t"',
-    '"-\\-/-\b-\f-\n-\r-\t',
+    "\"\\\"-\\\\-\\/-\\b-\\f-\\n-\\r-\\t\"",
+    "\"-\\-/-\b-\f-\n-\r-\t"
   );
-  assertValidParse('"\\u00DC"', "Ü");
+  assertValidParse("\"\\u00DC\"", "Ü");
   assertValidParse("9", 9);
   assertValidParse("-9", -9);
   assertValidParse("0.129", 0.129);
@@ -268,44 +268,44 @@ Ende.test("[jsonc] parse node-jsonc-parser:literals", () => {
 
 Ende.test("[jsonc] parse node-jsonc-parser:objects", () => {
   assertValidParse("{}", {});
-  assertValidParse('{ "foo": true }', { foo: true });
-  assertValidParse('{ "bar": 8, "xoo": "foo" }', { bar: 8, xoo: "foo" });
-  assertValidParse('{ "hello": [], "world": {} }', { hello: [], world: {} });
-  assertValidParse('{ "a": false, "b": true, "c": [ 7.4 ] }', {
+  assertValidParse("{ \"foo\": true }", { foo: true });
+  assertValidParse("{ \"bar\": 8, \"xoo\": \"foo\" }", { bar: 8, xoo: "foo" });
+  assertValidParse("{ \"hello\": [], \"world\": {} }", { hello: [], world: {} });
+  assertValidParse("{ \"a\": false, \"b\": true, \"c\": [ 7.4 ] }", {
     a: false,
     b: true,
-    c: [7.4],
+    c: [7.4]
   });
   assertValidParse(
-    '{ "lineComment": "//", "blockComment": ["/*", "*/"], "brackets": [ ["{", "}"], ["[", "]"], ["(", ")"] ] }',
+    "{ \"lineComment\": \"//\", \"blockComment\": [\"/*\", \"*/\"], \"brackets\": [ [\"{\", \"}\"], [\"[\", \"]\"], [\"(\", \")\"] ] }",
     {
       lineComment: "//",
       blockComment: ["/*", "*/"],
-      brackets: [["{", "}"], ["[", "]"], ["(", ")"]],
-    },
+      brackets: [["{", "}"], ["[", "]"], ["(", ")"]]
+    }
   );
-  assertValidParse('{ "hello": [], "world": {} }', { hello: [], world: {} });
-  assertValidParse('{ "hello": { "again": { "inside": 5 }, "world": 1 }}', {
-    hello: { again: { inside: 5 }, world: 1 },
+  assertValidParse("{ \"hello\": [], \"world\": {} }", { hello: [], world: {} });
+  assertValidParse("{ \"hello\": { \"again\": { \"inside\": 5 }, \"world\": 1 }}", {
+    hello: { again: { inside: 5 }, world: 1 }
   });
-  assertValidParse('{ "foo": /*hello*/true }', { foo: true });
-  assertValidParse('{ "": true }', { "": true });
+  assertValidParse("{ \"foo\": /*hello*/true }", { foo: true });
+  assertValidParse("{ \"\": true }", { "": true });
 });
 
 Ende.test("[jsonc] parse node-jsonc-parser:arrays", () => {
   assertValidParse("[]", []);
   assertValidParse("[ [],  [ [] ]]", [[], [[]]]);
   assertValidParse("[ 1, 2, 3 ]", [1, 2, 3]);
-  assertValidParse('[ { "a": null } ]', [{ a: null }]);
+  assertValidParse("[ { \"a\": null } ]", [{ a: null }]);
 });
 
 Ende.test("[jsonc] parse node-jsonc-parser:objects with errors", () => {
   assertInvalidParse("{,}", SyntaxError);
-  assertInvalidParse('{ "bar": 8 "xoo": "foo" }', SyntaxError);
-  assertInvalidParse('{ ,"bar": 8 }', SyntaxError);
-  assertInvalidParse('{ ,"bar": 8, "foo" }', SyntaxError);
-  assertInvalidParse('{ "bar": 8, "foo": }', SyntaxError);
-  assertInvalidParse('{ 8, "foo": 9 }', SyntaxError);
+  assertInvalidParse("{ \"bar\": 8 \"xoo\": \"foo\" }", SyntaxError);
+  assertInvalidParse("{ ,\"bar\": 8 }", SyntaxError);
+  assertInvalidParse("{ ,\"bar\": 8, \"foo\" }", SyntaxError);
+  assertInvalidParse("{ \"bar\": 8, \"foo\": }", SyntaxError);
+  assertInvalidParse("{ 8, \"foo\": 9 }", SyntaxError);
 });
 
 Ende.test("[jsonc] parse node-jsonc-parser:array with errors", () => {
@@ -321,15 +321,15 @@ Ende.test("[jsonc] parse node-jsonc-parser:errors", () => {
 });
 
 Ende.test("[jsonc] parse node-jsonc-parser:trailing comma", () => {
-  assertValidParse('{ "hello": [], }', { hello: [] });
-  assertValidParse('{ "hello": [] }', { hello: [] });
+  assertValidParse("{ \"hello\": [], }", { hello: [] });
+  assertValidParse("{ \"hello\": [] }", { hello: [] });
   assertValidParse(
-    '{ "hello": [], "world": {}, }',
-    { hello: [], world: {} },
+    "{ \"hello\": [], \"world\": {}, }",
+    { hello: [], world: {} }
   );
   assertValidParse(
-    '{ "hello": [], "world": {} }',
-    { hello: [], world: {} },
+    "{ \"hello\": [], \"world\": {} }",
+    { hello: [], world: {} }
   );
   assertValidParse("[ 1, 2, ]", [1, 2]);
   assertValidParse("[ 1, 2 ]", [1, 2]);

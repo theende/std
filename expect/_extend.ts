@@ -12,6 +12,6 @@ export function getExtendMatchers() {
 export function setExtendMatchers(newExtendMatchers: Matchers) {
   extendMatchers = {
     ...extendMatchers,
-    ...newExtendMatchers,
+    ...newExtendMatchers
   };
 }

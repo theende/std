@@ -19,7 +19,6 @@ import { AssertionError } from "./assertion_error.ts";
  * @throws {AssertionError} If `expr` is falsy.
  */
 export function assert(expr: unknown, msg = ""): asserts expr {
-  if (!expr) {
+  if (!expr)
     throw new AssertionError(msg);
-  }
 }

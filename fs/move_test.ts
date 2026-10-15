@@ -4,7 +4,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import * as path from "@ende/path";
 import { move, moveSync } from "./move.ts";
@@ -12,7 +12,7 @@ import { ensureFile, ensureFileSync } from "./ensure_file.ts";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
 import { existsSync } from "./exists.ts";
 
-Ende.test("move() rejects if src dir does not exist", async function () {
+Ende.test("move() rejects if src dir does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const srcDir = path.join(tempDirPath, "move_test_src_1");
   const destDir = path.join(tempDirPath, "move_test_dest_1");
@@ -20,13 +20,13 @@ Ende.test("move() rejects if src dir does not exist", async function () {
   await assertRejects(
     async () => {
       await move(srcDir, destDir);
-    },
+    }
   );
 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("move() creates dest dir if it does not exist", async function () {
+Ende.test("move() creates dest dir if it does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const srcDir = path.join(tempDirPath, "move_test_src_2");
   const destDir = path.join(tempDirPath, "move_test_dest_2");
@@ -40,7 +40,7 @@ Ende.test("move() creates dest dir if it does not exist", async function () {
       throw new Error("should not throw error");
     },
     Error,
-    "should not throw error",
+    "should not throw error"
   );
 
   await Ende.remove(tempDirPath, { recursive: true });
@@ -48,7 +48,7 @@ Ende.test("move() creates dest dir if it does not exist", async function () {
 
 Ende.test(
   "move() creates dest dir if it does not exist and overwrite option is set to true",
-  async function () {
+  async function() {
     const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
     const srcDir = path.join(tempDirPath, "move_test_src_2");
     const destDir = path.join(tempDirPath, "move_test_dest_2");
@@ -62,14 +62,14 @@ Ende.test(
         throw new Error("should not throw error");
       },
       Error,
-      "should not throw error",
+      "should not throw error"
     );
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 );
 
-Ende.test("move() rejects if src file does not exist", async function () {
+Ende.test("move() rejects if src file does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const srcFile = path.join(tempDirPath, "move_test_src_3", "test.txt");
   const destFile = path.join(tempDirPath, "move_test_dest_3", "test.txt");
@@ -78,13 +78,13 @@ Ende.test("move() rejects if src file does not exist", async function () {
   await assertRejects(
     async () => {
       await move(srcFile, destFile);
-    },
+    }
   );
 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("move() moves file and can overwrite content", async function () {
+Ende.test("move() moves file and can overwrite content", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const srcDir = path.join(tempDirPath, "move_test_src_4");
   const destDir = path.join(tempDirPath, "move_test_dest_4");
@@ -99,7 +99,7 @@ Ende.test("move() moves file and can overwrite content", async function () {
   // write file content
   await Promise.all([
     Ende.writeFile(srcFile, srcContent),
-    Ende.writeFile(destFile, destContent),
+    Ende.writeFile(destFile, destContent)
   ]);
 
   // make sure the test file have been created
@@ -112,7 +112,7 @@ Ende.test("move() moves file and can overwrite content", async function () {
       await move(srcFile, destFile);
     },
     Error,
-    "dest already exists",
+    "dest already exists"
   );
 
   // move again with overwrite
@@ -122,7 +122,7 @@ Ende.test("move() moves file and can overwrite content", async function () {
       throw new Error("should not throw error");
     },
     Error,
-    "should not throw error",
+    "should not throw error"
   );
 
   await assertRejects(async () => await Ende.lstat(srcFile));
@@ -131,12 +131,12 @@ Ende.test("move() moves file and can overwrite content", async function () {
   // clean up
   await Promise.all([
     Ende.remove(srcDir, { recursive: true }),
-    Ende.remove(destDir, { recursive: true }),
+    Ende.remove(destDir, { recursive: true })
   ]);
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("move() moves dir", async function () {
+Ende.test("move() moves dir", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const srcDir = path.join(tempDirPath, "move_test_src_5");
   const destDir = path.join(tempDirPath, "move_test_dest_5");
@@ -162,7 +162,7 @@ Ende.test("move() moves dir", async function () {
 
 Ende.test(
   "move() moves files if src and dest exist and can overwrite content",
-  async function () {
+  async function() {
     const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
     const srcDir = path.join(tempDirPath, "move_test_src_6");
     const destDir = path.join(tempDirPath, "move_test_dest_6");
@@ -173,13 +173,13 @@ Ende.test(
 
     await Promise.all([
       Ende.mkdir(srcDir, { recursive: true }),
-      Ende.mkdir(destDir, { recursive: true }),
+      Ende.mkdir(destDir, { recursive: true })
     ]);
     assert(await Ende.lstat(srcDir));
     assert(await Ende.lstat(destDir));
     await Promise.all([
       Ende.writeFile(srcFile, srcContent),
-      Ende.writeFile(destFile, destContent),
+      Ende.writeFile(destFile, destContent)
     ]);
 
     await move(srcDir, destDir, { overwrite: true });
@@ -192,10 +192,10 @@ Ende.test(
     assertEquals(destFileContent, "src");
 
     await Ende.remove(tempDirPath, { recursive: true });
-  },
+  }
 );
 
-Ende.test("move() rejects when dest is its own sub dir", async function () {
+Ende.test("move() rejects when dest is its own sub dir", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const srcDir = path.join(tempDirPath, "move_test_src_7");
   const destDir = path.join(srcDir, "nest");
@@ -207,13 +207,13 @@ Ende.test("move() rejects when dest is its own sub dir", async function () {
       await move(srcDir, destDir);
     },
     Error,
-    `Cannot move '${srcDir}' to a subdirectory of itself, '${destDir}'.`,
+    `Cannot move '${srcDir}' to a subdirectory of itself, '${destDir}'.`
   );
 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() throws if src dir does not exist", function () {
+Ende.test("moveSync() throws if src dir does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_1");
   const destDir = path.join(tempDirPath, "move_sync_test_dest_1");
@@ -224,7 +224,7 @@ Ende.test("moveSync() throws if src dir does not exist", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() creates dest dir if it does not exist", function () {
+Ende.test("moveSync() creates dest dir if it does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_2");
   const destDir = path.join(tempDirPath, "move_sync_test_dest_2");
@@ -238,13 +238,13 @@ Ende.test("moveSync() creates dest dir if it does not exist", function () {
       throw new Error("should not throw error");
     },
     Error,
-    "should not throw error",
+    "should not throw error"
   );
 
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() creates dest dir if it does not exist and overwrite option is set to true", function () {
+Ende.test("moveSync() creates dest dir if it does not exist and overwrite option is set to true", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_2");
   const destDir = path.join(tempDirPath, "move_sync_test_dest_2");
@@ -258,13 +258,13 @@ Ende.test("moveSync() creates dest dir if it does not exist and overwrite option
       throw new Error("should not throw error");
     },
     Error,
-    "should not throw error",
+    "should not throw error"
   );
 
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() throws if src file does not exist", function () {
+Ende.test("moveSync() throws if src file does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcFile = path.join(tempDirPath, "move_sync_test_src_3", "test.txt");
   const destFile = path.join(tempDirPath, "move_sync_test_dest_3", "test.txt");
@@ -276,7 +276,7 @@ Ende.test("moveSync() throws if src file does not exist", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() moves file and can overwrite content", function () {
+Ende.test("moveSync() moves file and can overwrite content", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_4");
   const destDir = path.join(tempDirPath, "move_sync_test_dest_4");
@@ -303,7 +303,7 @@ Ende.test("moveSync() moves file and can overwrite content", function () {
       moveSync(srcFile, destFile);
     },
     Error,
-    "dest already exists",
+    "dest already exists"
   );
 
   // move again with overwrite
@@ -313,7 +313,7 @@ Ende.test("moveSync() moves file and can overwrite content", function () {
       throw new Error("should not throw error");
     },
     Error,
-    "should not throw error",
+    "should not throw error"
   );
 
   assertEquals(existsSync(srcFile), false);
@@ -323,7 +323,7 @@ Ende.test("moveSync() moves file and can overwrite content", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() moves dir", function () {
+Ende.test("moveSync() moves dir", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_5");
   const destDir = path.join(tempDirPath, "move_sync_test_dest_5");
@@ -347,7 +347,7 @@ Ende.test("moveSync() moves dir", function () {
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() moves files if src and dest exist and can overwrite content", function () {
+Ende.test("moveSync() moves files if src and dest exist and can overwrite content", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_6");
   const destDir = path.join(tempDirPath, "move_sync_test_dest_6");
@@ -375,7 +375,7 @@ Ende.test("moveSync() moves files if src and dest exist and can overwrite conten
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() throws when dest is its own sub dir", function () {
+Ende.test("moveSync() throws when dest is its own sub dir", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const srcDir = path.join(tempDirPath, "move_sync_test_src_7");
   const destDir = path.join(srcDir, "nest");
@@ -387,12 +387,12 @@ Ende.test("moveSync() throws when dest is its own sub dir", function () {
       moveSync(srcDir, destDir, { overwrite: true });
     },
     Error,
-    `Cannot move '${srcDir}' to a subdirectory of itself, '${destDir}'.`,
+    `Cannot move '${srcDir}' to a subdirectory of itself, '${destDir}'.`
   );
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("move() accepts overwrite option set to true for file content", async function () {
+Ende.test("move() accepts overwrite option set to true for file content", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const dir = path.join(tempDirPath, "move_same_file_1");
   const file = path.join(dir, "test.txt");
@@ -409,7 +409,7 @@ Ende.test("move() accepts overwrite option set to true for file content", async 
     [file, file],
     [file, url],
     [url, file],
-    [url, url],
+    [url, url]
   ] as const;
 
   for (const p of pairs) {
@@ -423,7 +423,7 @@ Ende.test("move() accepts overwrite option set to true for file content", async 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("move() accepts overwrite option set to true for directories", async function () {
+Ende.test("move() accepts overwrite option set to true for directories", async function() {
   const tempDirPath = await Ende.makeTempDir({ prefix: "ende_std_move_" });
   const dir = path.join(tempDirPath, "move_same_dir_1");
   const url = path.toFileUrl(dir);
@@ -437,7 +437,7 @@ Ende.test("move() accepts overwrite option set to true for directories", async f
     [dir, dir],
     [dir, url],
     [url, dir],
-    [url, url],
+    [url, url]
   ] as const;
 
   for (const p of pairs) {
@@ -449,14 +449,14 @@ Ende.test("move() accepts overwrite option set to true for directories", async f
         await move(src, dest);
       },
       Ende.errors.NotSupported,
-      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`,
+      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`
     );
   }
 
   await Ende.remove(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() accepts overwrite option set to true for file content", function () {
+Ende.test("moveSync() accepts overwrite option set to true for file content", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const dir = path.join(tempDirPath, "move_sync_same_file_1");
   const file = path.join(dir, "test.txt");
@@ -473,7 +473,7 @@ Ende.test("moveSync() accepts overwrite option set to true for file content", fu
     [file, file],
     [file, url],
     [url, file],
-    [url, url],
+    [url, url]
   ] as const;
 
   for (const p of pairs) {
@@ -487,7 +487,7 @@ Ende.test("moveSync() accepts overwrite option set to true for file content", fu
   Ende.removeSync(tempDirPath, { recursive: true });
 });
 
-Ende.test("moveSync() accepts overwrite option set to true for directories", function () {
+Ende.test("moveSync() accepts overwrite option set to true for directories", function() {
   const tempDirPath = Ende.makeTempDirSync({ prefix: "ende_std_move_sync_" });
   const dir = path.join(tempDirPath, "move_sync_same_dir_1");
   const url = path.toFileUrl(dir);
@@ -501,7 +501,7 @@ Ende.test("moveSync() accepts overwrite option set to true for directories", fun
     [dir, dir],
     [dir, url],
     [url, dir],
-    [url, url],
+    [url, url]
   ] as const;
 
   for (const p of pairs) {
@@ -513,7 +513,7 @@ Ende.test("moveSync() accepts overwrite option set to true for directories", fun
         moveSync(src, dest);
       },
       Ende.errors.NotSupported,
-      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`,
+      `Cannot move '${src}' to a subdirectory of itself, '${dest}'.`
     );
   }
 

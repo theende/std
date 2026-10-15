@@ -73,6 +73,6 @@ export function dirname(path: string | URL): string {
 
   return stripTrailingSeparators(
     path.slice(0, end),
-    isPosixPathSeparator,
+    isPosixPathSeparator
   );
 }

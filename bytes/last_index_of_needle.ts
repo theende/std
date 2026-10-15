@@ -45,7 +45,7 @@
 export function lastIndexOfNeedle(
   source: Uint8Array,
   needle: Uint8Array,
-  start: number = source.length - 1,
+  start: number = source.length - 1
 ): number {
   if (start < 0) {
     return -1;
@@ -55,7 +55,8 @@ export function lastIndexOfNeedle(
   }
   const e = needle[needle.length - 1];
   for (let i = start; i >= 0; i--) {
-    if (source[i] !== e) continue;
+    if (source[i] !== e)
+      continue;
     let matched = 1;
     let j = i;
     while (

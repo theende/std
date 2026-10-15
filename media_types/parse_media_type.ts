@@ -35,7 +35,7 @@ const SEMICOLON_REGEXP = /^\s*;\s*$/;
  * ```
  */
 export function parseMediaType(
-  type: string,
+  type: string
 ): [mediaType: string, params: Record<string, string> | undefined] {
   const [base] = type.split(";") as [string];
   const mediaType = base.toLowerCase().trim();
@@ -58,7 +58,7 @@ export function parseMediaType(
         break;
       }
       throw new TypeError(
-        `Cannot parse media type: invalid parameter "${type}"`,
+        `Cannot parse media type: invalid parameter "${type}"`
       );
     }
 

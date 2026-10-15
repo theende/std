@@ -49,7 +49,7 @@ const allFlags = GPUTextureUsage.COPY_SRC | GPUTextureUsage.COPY_DST |
  * @returns An object describing various properties for the provided format.
  */
 export function describeTextureFormat(
-  format: GPUTextureFormat,
+  format: GPUTextureFormat
 ): TextureFormatInfo {
   let info: [
     requiredFeatures: GPUFeatureName | undefined,
@@ -57,7 +57,7 @@ export function describeTextureFormat(
     usage: number,
     blockDimensions: [number, number],
     blockSize: number,
-    components: number,
+    components: number
   ];
 
   switch (format) {
@@ -364,7 +364,7 @@ export function describeTextureFormat(
     allowedUsages: info[2],
     blockDimensions: info[3],
     blockSize: info[4],
-    components: info[5],
+    components: info[5]
   };
   if (info[0] !== undefined) {
     ret.requiredFeature = info[0];

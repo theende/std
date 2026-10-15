@@ -7,7 +7,7 @@ import { SEPARATOR as SEP_POSIX } from "@ende/path/posix/constants";
 import { SEPARATOR as SEP_WIN32 } from "@ende/path/windows/constants";
 import { isSubdir } from "./_is_subdir.ts";
 
-Ende.test("isSubdir() returns a boolean indicating if dir is a subdir", function () {
+Ende.test("isSubdir() returns a boolean indicating if dir is a subdir", function() {
   const pairs = [
     ["", "", false, SEP_POSIX],
     [".", "", false, SEP_POSIX],
@@ -17,14 +17,14 @@ Ende.test("isSubdir() returns a boolean indicating if dir is a subdir", function
     ["first", "first/second", true, SEP_POSIX],
     ["../first", "../first/second", true, SEP_POSIX],
     ["c:\\first", "c:\\first", false, SEP_WIN32],
-    ["c:\\first", "c:\\first\\second", true, SEP_WIN32],
+    ["c:\\first", "c:\\first\\second", true, SEP_WIN32]
   ] as const;
 
-  pairs.forEach(function ([src, dest, expected, sep]) {
+  pairs.forEach(function([src, dest, expected, sep]) {
     assertEquals(
       isSubdir(src, dest, sep),
       expected,
-      `'${src}' should ${expected ? "" : "not"} be parent dir of '${dest}'`,
+      `'${src}' should ${expected ? "" : "not"} be parent dir of '${dest}'`
     );
   });
 });

@@ -13,10 +13,10 @@ Hello, world!`;
   const actual = extract(input);
   const expected = {
     attrs: {
-      foo: "bar",
+      foo: "bar"
     },
     body: "Hello, world!",
-    frontMatter: "foo: bar",
+    frontMatter: "foo: bar"
   };
   assertEquals(actual, expected);
 });
@@ -29,10 +29,10 @@ Hello, world!`;
   const actual = extract(input);
   const expected = {
     attrs: {
-      foo: "bar",
+      foo: "bar"
     },
     body: "Hello, world!",
-    frontMatter: 'foo = "bar"',
+    frontMatter: "foo = \"bar\""
   };
   assertEquals(actual, expected);
 });
@@ -49,7 +49,7 @@ Hello, world!`;
   const expected = {
     attrs: { foo: "bar" },
     body: "Hello, world!",
-    frontMatter: '{\n  "foo": "bar"\n}',
+    frontMatter: "{\n  \"foo\": \"bar\"\n}"
   };
   assertEquals(actual, expected);
 });
@@ -63,7 +63,7 @@ Hello, world!`;
   assertThrows(
     () => extract(input),
     TypeError,
-    "Unsupported front matter format",
+    "Unsupported front matter format"
   );
 });
 
@@ -73,12 +73,12 @@ Ende.test("extract() handles bom when recognizing format", () => {
   foo: bar
 ---
 Hello, world!
-`,
+`
   );
   const expected = {
     attrs: { foo: "bar" },
     body: "Hello, world!\n",
-    frontMatter: "foo: bar",
+    frontMatter: "foo: bar"
   };
   assertEquals(actual, expected);
 });

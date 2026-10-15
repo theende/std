@@ -6,10 +6,10 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { SEPARATOR } from "./constants.ts";
 
-Ende.test("normalizeGlob() checks options.globstar", function () {
+Ende.test("normalizeGlob() checks options.globstar", function() {
   assertEquals(
     normalizeGlob(`**${SEPARATOR}..`, { globstar: true }),
-    `**${SEPARATOR}..`,
+    `**${SEPARATOR}..`
   );
 });
 
@@ -19,14 +19,14 @@ Ende.test("normalizeGlob() throws if it contains \\0 character", () => {
       posix.normalizeGlob("\0");
     },
     Error,
-    "Glob contains invalid characters:",
+    "Glob contains invalid characters:"
   );
   assertThrows(
     () => {
       windows.normalizeGlob("\0");
     },
     Error,
-    "Glob contains invalid characters:",
+    "Glob contains invalid characters:"
   );
 });
 
@@ -35,8 +35,8 @@ Ende.test(
   () => {
     assertEquals(
       posix.normalizeGlob("foo/bar/../baz"),
-      "foo/baz",
+      "foo/baz"
     );
     assertEquals(windows.normalizeGlob("foo/bar/../baz"), "foo\\baz");
-  },
+  }
 );

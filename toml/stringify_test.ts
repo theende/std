@@ -8,8 +8,8 @@ Ende.test({
   name: "stringify() handles object value contains '='",
   fn() {
     const src = {
-      "a": "a = 1",
-      "helloooooooo": 1,
+      a: "a = 1",
+      helloooooooo: 1
     };
 
     const actual = stringify(src, { keyAlignment: true });
@@ -17,18 +17,18 @@ Ende.test({
 helloooooooo = 1
 `;
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
   name: "stringify() handles key alignment",
   fn() {
     const src = {
-      "a": 1,
-      "aa": 1,
-      "aaa": 1,
-      "aaaa": 1,
-      "aaaaa": 1,
+      a: 1,
+      aa: 1,
+      aaa: 1,
+      aaaa: 1,
+      aaaaa: 1
     };
     const actual = stringify(src, { keyAlignment: true });
     const expected = `a     = 1
@@ -38,7 +38,7 @@ aaaa  = 1
 aaaaa = 1
 `;
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -46,7 +46,7 @@ Ende.test({
   fn() {
     const src = {
       "": "a",
-      "b": { "": "c" },
+      b: { "": "c" }
     };
     const actual = stringify(src);
     const expected = `"" = "a"
@@ -55,15 +55,15 @@ Ende.test({
 "" = "c"
 `;
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
   name: "stringify() handles empty object",
   fn() {
     const src = {
-      "a": {},
-      "b": { "c": {} },
+      a: {},
+      b: { c: {} }
     };
     const actual = stringify(src);
     const expected = `
@@ -72,19 +72,19 @@ Ende.test({
 [b.c]
 `;
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
   name: "stringify() handles special keys in inline object",
   fn() {
     const src = {
-      "a": [{ "/": "b" }, "c"],
+      a: [{ "/": "b" }, "c"]
     };
     const actual = stringify(src);
-    const expected = 'a = [{"/" = "b"},"c"]\n';
+    const expected = "a = [{\"/\" = \"b\"},\"c\"]\n";
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -93,14 +93,14 @@ Ende.test({
     assertThrows(
       () => stringify({ a: [[null]] }),
       Error,
-      "Should never reach",
+      "Should never reach"
     );
     assertThrows(
       () => stringify({ a: [[undefined]] }),
       Error,
-      "Should never reach",
+      "Should never reach"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -110,15 +110,15 @@ Ende.test({
       foo: { bar: "deno" },
       this: { is: { nested: "denonono" } },
       "https://deno.land/std": {
-        $: "dollar",
+        $: "dollar"
       },
       "##": {
         deno: {
           "https://deno.land": {
             proto: "https",
-            ":80": "port",
-          },
-        },
+            ":80": "port"
+          }
+        }
       },
       arrayObjects: [{ stuff: "in" }, {}, { the: "array" }],
       deno: "is",
@@ -154,11 +154,11 @@ Ende.test({
       sf6: NaN,
       data: [
         ["gamma", "delta"],
-        [1, 2],
+        [1, 2]
       ],
       hosts: ["alpha", "omega"],
       bool: true,
-      bool2: false,
+      bool2: false
     };
     const expected = `deno = "is"
 not = "[node]"
@@ -219,7 +219,7 @@ the = "array"
 `;
     const actual = stringify(src);
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
@@ -234,9 +234,9 @@ Ende.test({
       nestedArray3: [[], [{ b: 1 }]],
       deepNested: {
         a: {
-          b: [1, { c: 2, d: [{ e: 3 }, true] }],
-        },
-      },
+          b: [1, { c: 2, d: [{ e: 3 }, true] }]
+        }
+      }
     };
     const expected = `emptyArray = []
 mixedArray1 = [1,{b = 2}]
@@ -250,19 +250,19 @@ b = [1,{c = 2,d = [{e = 3},true]}]
 `;
     const actual = stringify(src);
     assertEquals(actual, expected);
-  },
+  }
 });
 
 Ende.test({
   name: "stringify() handles string values",
   fn: () => {
     const src = {
-      '"': '"',
+      "\"": "\"",
       "'": "'",
       " ": " ",
       "\\": "\\",
       "\n": "\n",
-      "\t": "\t",
+      "\t": "\t"
     };
     const expected = `
 "\\"" = "\\""
@@ -271,8 +271,9 @@ Ende.test({
 "\\\\" = "\\\\"
 "\\n" = "\\n"
 "\\t" = "\\t"
-`.trim();
+`
+      .trim();
     const actual = stringify(src).trim();
     assertEquals(actual, expected);
-  },
+  }
 });

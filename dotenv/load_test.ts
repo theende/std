@@ -15,19 +15,19 @@ Ende.test({
         "--allow-read",
         "--allow-env",
         "--no-lock",
-        path.join(testdataDir, "./app_load.ts"),
+        path.join(testdataDir, "./app_load.ts")
       ],
       clearEnv: true,
-      cwd: testdataDir,
+      cwd: testdataDir
     });
     const { stdout } = await command.output();
 
     const decoder = new TextDecoder();
     assertEquals(
       decoder.decode(stdout).trim(),
-      "hello world",
+      "hello world"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -39,17 +39,17 @@ Ende.test({
         "--no-lock",
         "--allow-read",
         "--allow-env",
-        path.join(testdataDir, "./app_load_parent.ts"),
+        path.join(testdataDir, "./app_load_parent.ts")
       ],
       clearEnv: true,
-      cwd: testdataDir,
+      cwd: testdataDir
     });
     const { stdout } = await command.output();
 
     const decoder = new TextDecoder();
     assertEquals(
       decoder.decode(stdout).trim(),
-      "hello world",
+      "hello world"
     );
-  },
+  }
 });

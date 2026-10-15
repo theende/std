@@ -1,6 +1,4 @@
 {
-  "name": "@ende/testing",
-  "version": "1.0.21",
   "exports": {
     "./bdd": "./bdd.ts",
     "./mock": "./mock.ts",
@@ -12,5 +10,7 @@
     "./unstable-stub": "./unstable_stub.ts",
     "./unstable-stub-property": "./unstable_stub_property.ts",
     "./unstable-types": "./unstable_types.ts"
-  }
+  },
+  "name": "@ende/testing",
+  "version": "2026.10.15"
 }

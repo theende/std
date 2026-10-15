@@ -15,7 +15,7 @@ Ende.test("tryParseRange()", () => {
         minor: 2,
         patch: 3,
         prerelease: [],
-        build: [],
+        build: []
       },
       {
         operator: "<",
@@ -23,9 +23,9 @@ Ende.test("tryParseRange()", () => {
         minor: 2,
         patch: 4,
         prerelease: [],
-        build: [],
-      },
-    ],
+        build: []
+      }
+    ]
   ];
   assertEquals(actual, expected);
 });

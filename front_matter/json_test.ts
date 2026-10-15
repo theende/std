@@ -47,37 +47,37 @@ don't break
     attrs: {
       title: "Three dashes followed by the format marks the spot",
       tags: ["json", "front-matter"],
-      "expanded-description": "with some ---json 🙃 crazy stuff in it",
-    },
+      "expanded-description": "with some ---json 🙃 crazy stuff in it"
+    }
   };
   assertEquals(actual, expected);
 });
 
 Ende.test("extractJson() allows whitespaces after the header", () => {
-  assertEquals(extract('---json  \n{"foo": 0}\n---\n').attrs, { foo: 0 });
-  assertEquals(extract('= json =  \n{"foo": 0}\n---\n').attrs, { foo: 0 });
+  assertEquals(extract("---json  \n{\"foo\": 0}\n---\n").attrs, { foo: 0 });
+  assertEquals(extract("= json =  \n{\"foo\": 0}\n---\n").attrs, { foo: 0 });
 });
 
 Ende.test("extractJson() handles empty frontMatter", () => {
   assertEquals(
     extract("---json\n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
 
   assertEquals(
     extract("---json\n\n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
   assertEquals(
     extract("---json\n   \n---\n"),
-    { attrs: {}, body: "", frontMatter: "" },
+    { attrs: {}, body: "", frontMatter: "" }
   );
 });
 
 Ende.test("extractJson() throws at missing newline before body", () => {
   assertThrows(
-    () => extract('---json\n{ "foo": "bar" }\n---body'),
+    () => extract("---json\n{ \"foo\": \"bar\" }\n---body"),
     TypeError,
-    "Unexpected end of input",
+    "Unexpected end of input"
   );
 });

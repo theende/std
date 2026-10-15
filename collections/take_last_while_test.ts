@@ -6,14 +6,14 @@ import { takeLastWhile } from "./take_last_while.ts";
 
 Ende.test("takeLastWhile() handles num array", () => {
   const arr = [1, 2, 3, 4, 5, 6];
-  const actual = takeLastWhile(arr, (i) => i !== 4);
+  const actual = takeLastWhile(arr, i => i !== 4);
 
   assertEquals(actual, [5, 6]);
 });
 
 Ende.test("takeLastWhile() adds two to each num in predicate", () => {
   const arr = [1, 2, 3, 4, 5, 6];
-  const actual = takeLastWhile(arr, (i) => i + 2 !== 6);
+  const actual = takeLastWhile(arr, i => i + 2 !== 6);
 
   assertEquals(actual, [5, 6]);
 });
@@ -21,14 +21,14 @@ Ende.test("takeLastWhile() adds two to each num in predicate", () => {
 Ende.test("takeLastWhile() handles negatives", () => {
   const arr = [-1, -2, -3, -4, -5, -6];
 
-  const actual = takeLastWhile(arr, (i) => i < -4);
+  const actual = takeLastWhile(arr, i => i < -4);
   assertEquals(actual, [-5, -6]);
 });
 
 Ende.test("takeLastWhile() handles no mutation", () => {
   const arr = [1, 2, 3, 4, 5, 6];
 
-  const actual = takeLastWhile(arr, (i) => i !== 4);
+  const actual = takeLastWhile(arr, i => i !== 4);
   assertEquals(actual, [5, 6]);
   assertEquals(arr, [1, 2, 3, 4, 5, 6]);
 });
@@ -36,7 +36,7 @@ Ende.test("takeLastWhile() handles no mutation", () => {
 Ende.test("takeLastWhile() handles empty input array returns empty array", () => {
   const arr: number[] = [];
 
-  const actual = takeLastWhile(arr, (i) => i > 4);
+  const actual = takeLastWhile(arr, i => i > 4);
 
   assertEquals(actual, []);
 });
@@ -44,7 +44,7 @@ Ende.test("takeLastWhile() handles empty input array returns empty array", () =>
 Ende.test("takeLastWhile() returns empty array when the last element doesn't match the predicate", () => {
   const arr = [1, 2, 3, 4];
 
-  const actual = takeLastWhile(arr, (i) => i !== 4);
+  const actual = takeLastWhile(arr, i => i !== 4);
 
   assertEquals(actual, []);
 });
@@ -52,7 +52,7 @@ Ende.test("takeLastWhile() returns empty array when the last element doesn't mat
 Ende.test("takeLastWhile() returns the same array when all elements match the predicate", () => {
   const arr = [1, 2, 3, 4];
 
-  const actual = takeLastWhile(arr, (i) => i !== 400);
+  const actual = takeLastWhile(arr, i => i !== 400);
 
   assertEquals(actual, [1, 2, 3, 4]);
 });
@@ -66,7 +66,7 @@ Ende.test("takeLastWhile() handles generator", () => {
     yield 5;
     yield 6;
   }
-  const actual = takeLastWhile(gen(), (i) => i !== 4);
+  const actual = takeLastWhile(gen(), i => i !== 4);
   assertEquals(actual, [5, 6]);
 });
 
@@ -78,7 +78,7 @@ Ende.test("takeLastWhile() returns empty array when the last generator element d
     yield 4;
   }
 
-  const actual = takeLastWhile(gen(), (i) => i !== 4);
+  const actual = takeLastWhile(gen(), i => i !== 4);
   assertEquals(actual, []);
 });
 
@@ -89,19 +89,19 @@ Ende.test("takeLastWhile() returns the same array when all elements match the pr
     yield 3;
     yield 4;
   }
-  const actual = takeLastWhile(gen(), (i) => i !== 400);
+  const actual = takeLastWhile(gen(), i => i !== 400);
   assertEquals(actual, [1, 2, 3, 4]);
 });
 
 Ende.test("takeLastWhile() empty generator returns empty array", () => {
   function* gen(): Generator<number> {}
-  const actual = takeLastWhile(gen(), (i) => i > 4);
+  const actual = takeLastWhile(gen(), i => i > 4);
   assertEquals(actual, []);
 });
 
 Ende.test("takeLastWhile() gets from last matching element from an array", () => {
   const arr = [1, 2, 3, 4, 5, 6];
-  const actual = takeLastWhile(arr, (i) => i !== 2 && i !== 4);
+  const actual = takeLastWhile(arr, i => i !== 2 && i !== 4);
   assertEquals(actual, [5, 6]);
 });
 
@@ -114,7 +114,7 @@ Ende.test("takeLastWhile() gets from last matching element from a generator", ()
     yield 5;
     yield 6;
   }
-  const actual = takeLastWhile(gen(), (i) => i !== 2 && i !== 4);
+  const actual = takeLastWhile(gen(), i => i !== 2 && i !== 4);
   assertEquals(actual, [5, 6]);
 });
 

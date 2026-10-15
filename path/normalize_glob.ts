@@ -6,7 +6,7 @@ import type { GlobOptions } from "./_common/glob_to_reg_exp.ts";
 import { isWindows } from "@ende/internal/os";
 import { normalizeGlob as posixNormalizeGlob } from "./posix/normalize_glob.ts";
 import {
-  normalizeGlob as windowsNormalizeGlob,
+  normalizeGlob as windowsNormalizeGlob
 } from "./windows/normalize_glob.ts";
 
 export type { GlobOptions };
@@ -38,9 +38,9 @@ export type { GlobOptions };
  */
 export function normalizeGlob(
   glob: string,
-  options: GlobOptions = {},
+  options: GlobOptions = {}
 ): string {
-  return isWindows
-    ? windowsNormalizeGlob(glob, options)
-    : posixNormalizeGlob(glob, options);
+  return isWindows ?
+    windowsNormalizeGlob(glob, options) :
+    posixNormalizeGlob(glob, options);
 }

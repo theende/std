@@ -5,7 +5,7 @@ import { describeTextureFormat } from "./describe_texture_format.ts";
 import type { Uint8Array_ } from "./_types.ts";
 
 function textureDimensionArrayLayerCount(
-  texture: GPUTextureDescriptor,
+  texture: GPUTextureDescriptor
 ): number {
   switch (texture.dimension) {
     case "1d":
@@ -16,7 +16,7 @@ function textureDimensionArrayLayerCount(
       return normalizeExtent3D(texture.size).depthOrArrayLayers ?? 1;
     default:
       throw new TypeError(
-        `Cannot count texture dimension layer: dimension value is "${texture.dimension}"`,
+        `Cannot count texture dimension layer: dimension value is "${texture.dimension}"`
       );
   }
 }
@@ -25,11 +25,11 @@ function normalizeExtent3D(size: GPUExtent3D): GPUExtent3DDict {
   if (Array.isArray(size)) {
     if (size[0] === undefined) {
       throw new TypeError(
-        "Cannot normalize Extent3d: width is not defined",
+        "Cannot normalize Extent3d: width is not defined"
       );
     }
     const dict: GPUExtent3DDict = {
-      width: size[0],
+      width: size[0]
     };
     if (size[1] !== undefined) {
       dict.height = size[1];
@@ -45,21 +45,19 @@ function normalizeExtent3D(size: GPUExtent3D): GPUExtent3DDict {
 
 function extent3DPhysicalSize(
   size: GPUExtent3D,
-  format: GPUTextureFormat,
+  format: GPUTextureFormat
 ): GPUExtent3DDict {
-  const [blockWidth, blockHeight] =
-    describeTextureFormat(format).blockDimensions;
+  const [blockWidth, blockHeight] = describeTextureFormat(format).blockDimensions;
   const nSize = normalizeExtent3D(size);
 
   const width = Math.floor((nSize.width + blockWidth - 1) / blockWidth) *
     blockWidth;
-  const height =
-    Math.floor(((nSize.height ?? 1) + blockHeight - 1) / blockHeight) *
+  const height = Math.floor(((nSize.height ?? 1) + blockHeight - 1) / blockHeight) *
     blockHeight;
 
   const dict: GPUExtent3DDict = {
     width,
-    height,
+    height
   };
   if (nSize.depthOrArrayLayers !== undefined) {
     dict.depthOrArrayLayers = nSize.depthOrArrayLayers;
@@ -70,21 +68,21 @@ function extent3DPhysicalSize(
 function extent3DMipLevelSize(
   size: GPUExtent3D,
   level: number,
-  is3D: boolean,
+  is3D: boolean
 ): GPUExtent3DDict {
   const nSize = normalizeExtent3D(size);
   return {
     height: Math.max(1, nSize.width >> level),
     width: Math.max(1, (nSize.height ?? 1) >> level),
-    depthOrArrayLayers: is3D
-      ? Math.max(1, (nSize.depthOrArrayLayers ?? 1) >> level)
-      : (nSize.depthOrArrayLayers ?? 1),
+    depthOrArrayLayers: is3D ?
+      Math.max(1, (nSize.depthOrArrayLayers ?? 1) >> level) :
+      (nSize.depthOrArrayLayers ?? 1)
   };
 }
 
 function textureMipLevelSize(
   descriptor: GPUTextureDescriptor,
-  level: number,
+  level: number
 ): GPUExtent3DDict | undefined {
   if (level >= (descriptor.mipLevelCount ?? 1)) {
     return undefined;
@@ -93,7 +91,7 @@ function textureMipLevelSize(
   return extent3DMipLevelSize(
     descriptor.size,
     level,
-    descriptor.dimension === "3d",
+    descriptor.dimension === "3d"
   );
 }
 
@@ -126,7 +124,7 @@ function textureMipLevelSize(
 export function createTextureWithData(
   device: GPUDevice,
   descriptor: GPUTextureDescriptor,
-  data: Uint8Array_,
+  data: Uint8Array_
 ): GPUTexture {
   descriptor.usage |= GPUTextureUsage.COPY_DST;
 
@@ -144,10 +142,10 @@ export function createTextureWithData(
 
       const mipPhysical = extent3DPhysicalSize(mipSize, descriptor.format);
       const widthBlocks = Math.floor(
-        mipPhysical.width / formatInfo.blockDimensions[0],
+        mipPhysical.width / formatInfo.blockDimensions[0]
       );
       const heightBlocks = Math.floor(
-        mipPhysical.height! / formatInfo.blockDimensions[1],
+        mipPhysical.height! / formatInfo.blockDimensions[1]
       );
 
       const bytesPerRow = widthBlocks * formatInfo.blockSize;
@@ -162,15 +160,15 @@ export function createTextureWithData(
           origin: {
             x: 0,
             y: 0,
-            z: layer,
-          },
+            z: layer
+          }
         },
         data.subarray(binaryOffset, endOffset),
         {
           bytesPerRow,
-          rowsPerImage: heightBlocks,
+          rowsPerImage: heightBlocks
         },
-        mipPhysical,
+        mipPhysical
       );
 
       binaryOffset = endOffset;

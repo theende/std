@@ -26,10 +26,12 @@ and [architecture guide](./ARCHITECTURE.md) before contributing.
    - feat(log): handle nested messages
 
 <!--deno-fmt-ignore-start-->
+
 > [!TIP]
 > If creating a new package, please add the package name to the `scopes` list in
 > the [`title` workflow](./workflows/title.yml#L38). This must be done a pull
 > request that precedes the pull request that implements the new package.
+
 <!--deno-fmt-ignore-end-->
 
 ### PR titles and version bumps

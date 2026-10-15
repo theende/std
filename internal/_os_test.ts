@@ -8,7 +8,7 @@ import { stubProperty } from "@ende/testing/unstable-stub-property";
 // deno-lint-ignore no-explicit-any
 const global = globalThis as any;
 
-Ende.test("checkWindows() returns `true` on Windows on various runtimes", async (t) => {
+Ende.test("checkWindows() returns `true` on Windows on various runtimes", async t => {
   await t.step("Ende", () => {
     using stack = disposableStack();
     stack.use(stubProperty(global, "Ende", { build: { os: "windows" } }));
@@ -26,7 +26,7 @@ Ende.test("checkWindows() returns `true` on Windows on various runtimes", async 
   });
 });
 
-Ende.test("checkWindows() returns `false` on Linux on various runtimes", async (t) => {
+Ende.test("checkWindows() returns `false` on Linux on various runtimes", async t => {
   await t.step("Ende", () => {
     using stack = disposableStack();
     stack.use(stubProperty(global, "Ende", { build: { os: "linux" } }));

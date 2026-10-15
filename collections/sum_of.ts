@@ -43,7 +43,7 @@
  */
 export function sumOf<T>(
   array: Iterable<T>,
-  selector: (el: T, index: number) => number,
+  selector: (el: T, index: number) => number
 ): number {
   let sum = 0;
   let index = 0;

@@ -37,7 +37,7 @@ export function unzip<T, U>(pairs: readonly [T, U][]): [T[], U[]] {
 
   const result: [T[], U[]] = [
     new Array<T>(length),
-    new Array<U>(length),
+    new Array<U>(length)
   ];
 
   for (let i = 0; i < length; ++i) {

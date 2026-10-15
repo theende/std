@@ -5,14 +5,16 @@ import { toLines } from "./unstable_to_lines.ts";
 import { assertEquals } from "@ende/assert";
 
 Ende.test("toLines() parses simple input", async () => {
-  const stream = ReadableStream.from([
-    "qwertzu",
-    "iopasd\r\nmnbvc",
-    "xylk\rjhgfds\napoiuzt\r",
-    "qwr\r09ei\rqwrjiowqr\r",
-    "\nrewq0987\n\n654321",
-    "\nrewq0987\r\n\r\n654321\r",
-  ]).pipeThrough(new TextEncoderStream());
+  const stream = ReadableStream
+    .from([
+      "qwertzu",
+      "iopasd\r\nmnbvc",
+      "xylk\rjhgfds\napoiuzt\r",
+      "qwr\r09ei\rqwrjiowqr\r",
+      "\nrewq0987\n\n654321",
+      "\nrewq0987\r\n\r\n654321\r"
+    ])
+    .pipeThrough(new TextEncoderStream());
 
   assertEquals(await Array.fromAsync(toLines(stream)), [
     "qwertzuiopasd",
@@ -23,14 +25,14 @@ Ende.test("toLines() parses simple input", async () => {
     "654321",
     "rewq0987",
     "",
-    "654321\r",
+    "654321\r"
   ]);
 });
 
 Ende.test("toLines() parses large chunks", async () => {
   const totalLines = 20_000;
   const stream = ReadableStream.from(["\n".repeat(totalLines)]).pipeThrough(
-    new TextEncoderStream(),
+    new TextEncoderStream()
   );
   const lines = await Array.fromAsync(toLines(stream));
 

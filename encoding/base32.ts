@@ -33,7 +33,7 @@ export type { Uint8Array_ };
 const padding = "=".charCodeAt(0);
 const alphabet = new TextEncoder()
   .encode("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567");
-const rAlphabet = new Uint8Array(128).fill(32); //alphabet.length
+const rAlphabet = new Uint8Array(128).fill(32); // alphabet.length
 alphabet.forEach((byte, i) => rAlphabet[byte] = i);
 
 /**
@@ -55,11 +55,13 @@ alphabet.forEach((byte, i) => rAlphabet[byte] = i);
 export function encodeBase32(data: ArrayBuffer | Uint8Array | string): string {
   if (typeof data === "string") {
     data = new TextEncoder().encode(data) as Uint8Array_;
-  } else if (data instanceof ArrayBuffer) data = new Uint8Array(data).slice();
-  else data = data.slice();
+  } else if (data instanceof ArrayBuffer)
+    data = new Uint8Array(data).slice();
+  else
+    data = data.slice();
   const [output, i] = detach(
     data as Uint8Array_,
-    calcSizeBase32((data as Uint8Array_).length),
+    calcSizeBase32((data as Uint8Array_).length)
   );
   encode(output, i, 0, alphabet, padding);
   return new TextDecoder().decode(output);
@@ -88,7 +90,7 @@ export function decodeBase32(b32: string): Uint8Array_ {
   const output = new TextEncoder().encode(b32) as Uint8Array_;
   if (output.length % 8) {
     throw new TypeError(
-      `Invalid base32 string: length (${output.length}) must be a multiple of 8`,
+      `Invalid base32 string: length (${output.length}) must be a multiple of 8`
     );
   }
   // deno-lint-ignore no-explicit-any

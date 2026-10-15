@@ -18,7 +18,7 @@ Ende.test("equal() matches with different zero", () => {
   assert(equal({ msg: "hello", array: [0] }, { msg: "hello", array: [-0] }));
 });
 
-Ende.test("equal() matches when values are equal", function () {
+Ende.test("equal() matches when values are equal", function() {
   assert(equal("world", "world"));
   assert(!equal("hello", "world"));
   assertFalse(equal("hello", "world"));
@@ -32,20 +32,20 @@ Ende.test("equal() matches when values are equal", function () {
   assert(
     equal(
       { hello: "world", hi: { there: "everyone" } },
-      { hello: "world", hi: { there: "everyone" } },
-    ),
+      { hello: "world", hi: { there: "everyone" } }
+    )
   );
   assert(
     !equal(
       { hello: "world", hi: { there: "everyone" } },
-      { hello: "world", hi: { there: "everyone else" } },
-    ),
+      { hello: "world", hi: { there: "everyone else" } }
+    )
   );
   assertFalse(
     equal(
       { hello: "world", hi: { there: "everyone" } },
-      { hello: "world", hi: { there: "everyone else" } },
-    ),
+      { hello: "world", hi: { there: "everyone else" } }
+    )
   );
   assert(equal({ [Symbol.for("foo")]: "bar" }, { [Symbol.for("foo")]: "bar" }));
   assert(!equal({ [Symbol("foo")]: "bar" }, { [Symbol("foo")]: "bar" }));
@@ -60,14 +60,14 @@ Ende.test("equal() matches when values are equal", function () {
   assert(
     !equal(
       new Date(2019, 0, 3, 4, 20, 1, 10),
-      new Date(2019, 0, 3, 4, 20, 1, 20),
-    ),
+      new Date(2019, 0, 3, 4, 20, 1, 20)
+    )
   );
   assertFalse(
     equal(
       new Date(2019, 0, 3, 4, 20, 1, 10),
-      new Date(2019, 0, 3, 4, 20, 1, 20),
-    ),
+      new Date(2019, 0, 3, 4, 20, 1, 20)
+    )
   );
   assert(equal(new Date("Invalid"), new Date("Invalid")));
   assert(!equal(new Date("Invalid"), new Date(2019, 0, 3)));
@@ -89,37 +89,37 @@ Ende.test("equal() matches when values are equal", function () {
     equal(
       new Map([
         ["foo", "bar"],
-        ["baz", "baz"],
+        ["baz", "baz"]
       ]),
       new Map([
         ["foo", "bar"],
-        ["baz", "baz"],
-      ]),
-    ),
+        ["baz", "baz"]
+      ])
+    )
   );
   assert(
     equal(
       new Map([["foo", new Map([["bar", "baz"]])]]),
-      new Map([["foo", new Map([["bar", "baz"]])]]),
-    ),
+      new Map([["foo", new Map([["bar", "baz"]])]])
+    )
   );
   assert(
     equal(
       new Map([["foo", { bar: "baz" }]]),
-      new Map([["foo", { bar: "baz" }]]),
-    ),
+      new Map([["foo", { bar: "baz" }]])
+    )
   );
   assert(
     equal(
       new Map([
         ["foo", "bar"],
-        ["baz", "qux"],
+        ["baz", "qux"]
       ]),
       new Map([
         ["baz", "qux"],
-        ["foo", "bar"],
-      ]),
-    ),
+        ["foo", "bar"]
+      ])
+    )
   );
   assert(equal(new Map([["foo", ["bar"]]]), new Map([["foo", ["bar"]]])));
   assert(!equal(new Map([["foo", "bar"]]), new Map([["bar", "baz"]])));
@@ -130,24 +130,24 @@ Ende.test("equal() matches when values are equal", function () {
       new Map([["foo", "bar"]]),
       new Map([
         ["foo", "bar"],
-        ["bar", "baz"],
-      ]),
-    ),
+        ["bar", "baz"]
+      ])
+    )
   );
   assertFalse(
     equal(
       new Map([["foo", "bar"]]),
       new Map([
         ["foo", "bar"],
-        ["bar", "baz"],
-      ]),
-    ),
+        ["bar", "baz"]
+      ])
+    )
   );
   assert(
     !equal(
       new Map([["foo", new Map([["bar", "baz"]])]]),
-      new Map([["foo", new Map([["bar", "qux"]])]]),
-    ),
+      new Map([["foo", new Map([["bar", "qux"]])]])
+    )
   );
   assert(equal(new Map([[{ x: 1 }, true]]), new Map([[{ x: 1 }, true]])));
   assert(!equal(new Map([[{ x: 1 }, true]]), new Map([[{ x: 1 }, false]])));
@@ -165,25 +165,25 @@ Ende.test("equal() matches when values are equal", function () {
   assert(equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([1, 2, 3, 4])));
   assert(!equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([2, 1, 4, 3])));
   assertFalse(
-    equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([2, 1, 4, 3])),
+    equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([2, 1, 4, 3]))
   );
   assert(
-    equal(new URL("https://example.test"), new URL("https://example.test")),
+    equal(new URL("https://example.test"), new URL("https://example.test"))
   );
   assert(
     !equal(
       new URL("https://example.test"),
-      new URL("https://example.test/with-path"),
-    ),
+      new URL("https://example.test/with-path")
+    )
   );
   assertFalse(
     equal(
       new URL("https://example.test"),
-      new URL("https://example.test/with-path"),
-    ),
+      new URL("https://example.test/with-path")
+    )
   );
   assert(
-    equal({ a: undefined, b: undefined }, { a: undefined, c: undefined }),
+    equal({ a: undefined, b: undefined }, { a: undefined, c: undefined })
   );
   assert(equal({ a: undefined, b: undefined }, { a: undefined }));
   assertThrows(() => equal(new WeakMap(), new WeakMap()));
@@ -191,37 +191,37 @@ Ende.test("equal() matches when values are equal", function () {
   assert(!equal(new WeakMap(), new WeakSet()));
   assertFalse(equal(new WeakMap(), new WeakSet()));
   assert(
-    equal(new WeakRef({ hello: "world" }), new WeakRef({ hello: "world" })),
+    equal(new WeakRef({ hello: "world" }), new WeakRef({ hello: "world" }))
   );
   assert(
-    !equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" })),
+    !equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" }))
   );
   assertFalse(
-    equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" })),
+    equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" }))
   );
   assert(!equal({ hello: "world" }, new WeakRef({ hello: "world" })));
   assertFalse(equal({ hello: "world" }, new WeakRef({ hello: "world" })));
   assert(
     equal(
       new WeakRef({ hello: "world" }),
-      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" }),
-    ),
+      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" })
+    )
   );
   assert(
     !equal(
       new WeakRef({ hello: "world" }),
       new (class<T extends object> extends WeakRef<T> {
         foo = "bar";
-      })({ hello: "world" }),
-    ),
+      })({ hello: "world" })
+    )
   );
   assertFalse(
     equal(
       new WeakRef({ hello: "world" }),
       new (class<T extends object> extends WeakRef<T> {
         foo = "bar";
-      })({ hello: "world" }),
-    ),
+      })({ hello: "world" })
+    )
   );
 
   assert(
@@ -231,8 +231,8 @@ Ende.test("equal() matches when values are equal", function () {
       })(),
       new (class B {
         #hello = "world";
-      })(),
-    ),
+      })()
+    )
   );
 });
 
@@ -251,9 +251,9 @@ Ende.test("equal() does not match with different collection contents", () => {
 });
 
 Ende.test("equal() matches when values have circular references", () => {
-  const objA: { prop?: unknown } = {};
+  const objA: { prop?: unknown; } = {};
   objA.prop = objA;
-  const objB: { prop?: unknown } = {};
+  const objB: { prop?: unknown; } = {};
   objB.prop = objB;
   assert(equal(objA, objB));
 
@@ -271,8 +271,8 @@ Ende.test("equal() fast path for primitive keyed collections", () => {
   const set2 = new Set(arr);
   assert(equal(set1, set2));
 
-  const map1 = new Map(arr.map((v) => [v, v]));
-  const map2 = new Map(arr.map((v) => [v, v]));
+  const map1 = new Map(arr.map(v => [v, v]));
+  const map2 = new Map(arr.map(v => [v, v]));
   assert(equal(map1, map2));
 
   const set3 = new Set(arr);
@@ -280,9 +280,9 @@ Ende.test("equal() fast path for primitive keyed collections", () => {
   assertFalse(equal(set3, set4));
 
   // entries [...] 9998 => 9998, 9999 => 9999
-  const map3 = new Map(arr.map((v) => [v, v]));
+  const map3 = new Map(arr.map(v => [v, v]));
   // entries [...] 9998 => 9998, -1 => -1
-  const map4 = new Map(arr.with(-1, -1).map((v) => [v, v]));
+  const map4 = new Map(arr.with(-1, -1).map(v => [v, v]));
   assertFalse(equal(map3, map4));
 
   // entries [...] 9998 => 9998, 9999 => 9999
@@ -295,7 +295,7 @@ Ende.test("equal() fast path for primitive keyed collections", () => {
 Ende.test("equal() keyed collection edge cases", () => {
   assert(equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 2 }])));
   assertFalse(
-    equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 3 }])),
+    equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 3 }]))
   );
 
   const sym = Symbol();
@@ -307,27 +307,27 @@ Ende.test("equal() keyed collection edge cases", () => {
 
   assert(equal(
     new Map([[{ b: 2 }, 2], [{ a: 1 }, 1]]),
-    new Map([[{ a: 1 }, 1], [{ b: 2 }, 2]]),
+    new Map([[{ a: 1 }, 1], [{ b: 2 }, 2]])
   ));
   assertFalse(equal(
     new Map([[{ b: 2 }, 2], [{ a: 1 }, 1]]),
-    new Map([[{ a: 1 }, 1], [{ b: 2 }, 3]]),
+    new Map([[{ a: 1 }, 1], [{ b: 2 }, 3]])
   ));
   assertFalse(equal(
     new Map([[{ b: 2 }, 2], [{ a: 1 }, 1]]),
-    new Map([[{ a: 1 }, 1], [{ b: 3 }, 2]]),
+    new Map([[{ a: 1 }, 1], [{ b: 3 }, 2]])
   ));
 
   assert(equal(
     new Map([[2, { b: 2 }], [1, { a: 1 }]]),
-    new Map([[1, { a: 1 }], [2, { b: 2 }]]),
+    new Map([[1, { a: 1 }], [2, { b: 2 }]])
   ));
   assertFalse(equal(
     new Map([[2, { b: 2 }], [1, { a: 1 }]]),
-    new Map([[1, { a: 1 }], [3, { b: 2 }]]),
+    new Map([[1, { a: 1 }], [3, { b: 2 }]])
   ));
   assertFalse(equal(
     new Map([[2, { b: 2 }], [1, { a: 1 }]]),
-    new Map([[1, { a: 1 }], [2, { b: 3 }]]),
+    new Map([[1, { a: 1 }], [2, { b: 3 }]])
   ));
 });

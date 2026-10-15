@@ -23,7 +23,7 @@ Ende.test("deadline() throws DOMException", async () => {
     .then(() => "Hello");
   const error = await assertRejects(
     () => deadline(p, 100),
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "TimeoutError");
   controller.abort();
@@ -40,7 +40,7 @@ Ende.test("deadline() throws when promise is rejected", async () => {
       await deadline(p, 1000);
     },
     Error,
-    "booom",
+    "booom"
   );
   controller.abort();
 });
@@ -68,7 +68,7 @@ Ende.test("deadline() handles aborted signal after delay", async () => {
   abort.abort();
   const error = await assertRejects(
     () => promise,
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
   controller.abort();
@@ -84,7 +84,7 @@ Ende.test("deadline() handles already aborted signal", async () => {
   abort.abort();
   const error = await assertRejects(
     () => deadline(p, 100, { signal: abort.signal }),
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
   controller.abort();

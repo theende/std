@@ -24,11 +24,11 @@ Ende.test("_serializeArgList() serializes reference types", () => {
   assertEquals(getKey(sym), "undefined,{2}");
   assertEquals(
     getKey(obj, arr, sym),
-    "undefined,{0},{1},{2}",
+    "undefined,{0},{1},{2}"
   );
 });
 
-Ende.test("_serializeArgList() gives same results as SameValueZero algorithm", async (t) => {
+Ende.test("_serializeArgList() gives same results as SameValueZero algorithm", async t => {
   /**
    * [`SameValueZero`](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-samevaluezero),
    * used by [`Set`](https://tc39.es/ecma262/multipage/keyed-collections.html#sec-set-objects):
@@ -42,7 +42,7 @@ Ende.test("_serializeArgList() gives same results as SameValueZero algorithm", a
   const values = [
     1,
     "1",
-    '"1"',
+    "\"1\"",
     1n,
     0,
     -0,
@@ -57,13 +57,13 @@ Ende.test("_serializeArgList() gives same results as SameValueZero algorithm", a
     {},
     {},
     Symbol("x"),
-    Symbol.for("x"),
+    Symbol.for("x")
   ];
 
   await t.step("Serialization of values", () => {
     assertEquals(
       getKey(...values),
-      'undefined,1,"1","\\"1\\"",1n,0,0,0n,true,"true",null,undefined,Infinity,-Infinity,NaN,{0},{1},{2},Symbol.for("x")',
+      "undefined,1,\"1\",\"\\\"1\\\"\",1n,0,0,0n,true,\"true\",null,undefined,Infinity,-Infinity,NaN,{0},{1},{2},Symbol.for(\"x\")"
     );
   });
 
@@ -111,8 +111,8 @@ Ende.test("_serializeArgList() cleans up cache entries when finalization callbac
 
   const OriginalFinalizationRegistry = FinalizationRegistry;
   // deno-lint-ignore no-explicit-any
-  (globalThis as any).FinalizationRegistry = function (
-    cb: (keySegment: string) => void,
+  (globalThis as any).FinalizationRegistry = function(
+    cb: (keySegment: string) => void
   ) {
     cleanupCallback = cb;
     return { register() {}, unregister() {} };
@@ -163,7 +163,7 @@ Ende.test("_serializeArgList() allows garbage collection for weak keys", async (
       Object.assign(target, {
         onCleanup: () => {
           this.#cleanupCallback(heldValue);
-        },
+        }
       });
     }
   }
@@ -174,7 +174,7 @@ Ende.test("_serializeArgList() allows garbage collection for weak keys", async (
       onCleanup,
       [Symbol.dispose]() {
         this.onCleanup?.();
-      },
+      }
     };
   }
 

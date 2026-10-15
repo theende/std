@@ -8,7 +8,8 @@ import { runLengthDecode } from "./_run_length.ts";
 
 let tables: Uint8Array[] | null = null;
 function lookupWidth(cp: number) {
-  if (!tables) tables = data.tables.map(runLengthDecode);
+  if (!tables)
+    tables = data.tables.map(runLengthDecode);
   const t1Offset = tables[0]![(cp >> 13) & 0xff]!;
   const t2Offset = tables[1]![128 * t1Offset + ((cp >> 6) & 0x7f)]!;
   const packedWidths = tables[2]![16 * t2Offset + ((cp >> 2) & 0xf)]!;
@@ -20,7 +21,8 @@ function lookupWidth(cp: number) {
 
 const cache = new Map<string, number | null>();
 function charWidth(char: string) {
-  if (cache.has(char)) return cache.get(char)!;
+  if (cache.has(char))
+    return cache.get(char)!;
 
   const codePoint = char.codePointAt(0)!;
   let width: number | null = null;
@@ -76,5 +78,5 @@ function charWidth(char: string) {
  * {@linkcode unicodeWidth}.
  */
 export function unicodeWidth(str: string): number {
-  return [...str].map((ch) => charWidth(ch) ?? 0).reduce((a, b) => a + b, 0);
+  return [...str].map(ch => charWidth(ch) ?? 0).reduce((a, b) => a + b, 0);
 }

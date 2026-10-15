@@ -55,7 +55,7 @@ export class StaticLine {
     write(
       (this.#atTop ? "" : Ansi.shiftUpAndInsert()) +
         Ansi.setScrollableRegion(top, bottom) +
-        Ansi.setCursorPosition(bottom),
+        Ansi.setCursorPosition(bottom)
     );
   }
 
@@ -83,19 +83,20 @@ export class StaticLine {
    * ```
    */
   async write(line: string): Promise<void> {
-    if (this.#released) throw new ReferenceError("Line has been released");
+    if (this.#released)
+      throw new ReferenceError("Line has been released");
     await write(
       Ansi.SAVE_CURSOR +
         Ansi.DISABLE_ORIGIN_MODE +
         Ansi.DISABLE_AUTO_WRAP +
         Ansi.setCursorPosition(
-          this.#atTop
-            ? linesAtTop.indexOf(this.#id) + 1
-            : getRows() - linesAtBottom.indexOf(this.#id),
+          this.#atTop ?
+            linesAtTop.indexOf(this.#id) + 1 :
+            getRows() - linesAtBottom.indexOf(this.#id)
         ) +
         Ansi.ERASE_LINE +
         line +
-        Ansi.RESTORE_CURSOR,
+        Ansi.RESTORE_CURSOR
     );
   }
 
@@ -122,7 +123,8 @@ export class StaticLine {
    * ```
    */
   async releaseLine(): Promise<void> {
-    if (this.#released) return;
+    if (this.#released)
+      return;
     this.#released = true;
     const index = this.#lines.indexOf(this.#id);
     this.#lines.splice(index, 1);
@@ -131,22 +133,22 @@ export class StaticLine {
     const bottom = rows - linesAtBottom.length;
     await write(
       Ansi.SAVE_CURSOR +
-        (this.#atTop
-          ? (top - index
-            ? Ansi.setScrollableRegion(index + 1, top + 1) +
-              Ansi.shiftUpAndInsert()
-            : Ansi.setCursorPosition(index + 1) +
-              Ansi.ERASE_LINE)
-          : (rows - index - bottom
-            ? Ansi.setScrollableRegion(
+        (this.#atTop ?
+          (top - index ?
+            Ansi.setScrollableRegion(index + 1, top + 1) +
+            Ansi.shiftUpAndInsert() :
+            Ansi.setCursorPosition(index + 1) +
+            Ansi.ERASE_LINE) :
+          (rows - index - bottom ?
+            Ansi.setScrollableRegion(
               bottom,
-              rows - index,
+              rows - index
             ) +
-              Ansi.shiftDownAndInsert()
-            : Ansi.setCursorPosition(rows) +
-              Ansi.ERASE_LINE)) +
+            Ansi.shiftDownAndInsert() :
+            Ansi.setCursorPosition(rows) +
+            Ansi.ERASE_LINE)) +
         Ansi.setScrollableRegion(top, bottom) +
-        Ansi.RESTORE_CURSOR,
+        Ansi.RESTORE_CURSOR
     );
   }
 }

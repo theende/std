@@ -15,5 +15,5 @@ Ende.test({
     assertEquals(METHOD.Delete, "DELETE");
     assertEquals(METHOD.Options, "OPTIONS");
     assertEquals(METHOD.Label, "LABEL");
-  },
+  }
 });

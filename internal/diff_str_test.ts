@@ -5,36 +5,36 @@ import { createDetails, diffStr, tokenize, unescape } from "./diff_str.ts";
 import { assertEquals } from "@ende/assert";
 
 Ende.test({
-  name: 'diff() "a" vs "b" (diffstr)',
+  name: "diff() \"a\" vs \"b\" (diffstr)",
   fn() {
     const diffResult = diffStr("a", "b");
     assertEquals(diffResult, [
       {
         details: [
           { type: "removed", value: "a" },
-          { type: "common", value: "\n" },
+          { type: "common", value: "\n" }
         ],
         type: "removed",
-        value: "a\n",
+        value: "a\n"
       },
       {
         details: [
           { type: "added", value: "b" },
-          { type: "common", value: "\n" },
+          { type: "common", value: "\n" }
         ],
         type: "added",
-        value: "b\n",
-      },
+        value: "b\n"
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a b c d" vs "a b x d e" (diffStr)',
+  name: "diff() \"a b c d\" vs \"a b x d e\" (diffStr)",
   fn() {
     const diffResult = diffStr(
       [..."abcd"].join("\n"),
-      [..."abxde"].join("\n"),
+      [..."abxde"].join("\n")
     );
     assertEquals(diffResult, [
       { type: "common", value: "a\\n\n" },
@@ -45,8 +45,8 @@ Ende.test({
         details: [
           { type: "added", value: "x" },
           { type: "common", value: "\\n" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
@@ -54,8 +54,8 @@ Ende.test({
         details: [
           { type: "common", value: "d" },
           { type: "added", value: "\\n" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       { type: "added", value: "e\n" },
       {
@@ -64,23 +64,23 @@ Ende.test({
         details: [
           { type: "removed", value: "c" },
           { type: "common", value: "\\n" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "removed",
         value: "d\n",
         details: [
           { type: "common", value: "d" },
-          { type: "common", value: "\n" },
-        ],
-      },
+          { type: "common", value: "\n" }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
-  name: 'diff() "a b" vs "a  b" (diffstr)',
+  name: "diff() \"a b\" vs \"a  b\" (diffstr)",
   fn() {
     const diffResult = diffStr("a b", "a  b");
     assertEquals(diffResult, [
@@ -89,23 +89,23 @@ Ende.test({
           { type: "common", value: "a" },
           { type: "removed", value: " " },
           { type: "common", value: "b" },
-          { type: "common", value: "\n" },
+          { type: "common", value: "\n" }
         ],
         type: "removed",
-        value: "a b\n",
+        value: "a b\n"
       },
       {
         details: [
           { type: "common", value: "a" },
           { type: "added", value: "  " },
           { type: "common", value: "b" },
-          { type: "common", value: "\n" },
+          { type: "common", value: "\n" }
         ],
         type: "added",
-        value: "a  b\n",
-      },
+        value: "a  b\n"
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -119,21 +119,21 @@ Ende.test({
         details: [
           {
             type: "removed",
-            value: "3",
+            value: "3"
           },
           {
             type: "common",
-            value: ".",
+            value: "."
           },
           {
             type: "removed",
-            value: "14",
+            value: "14"
           },
           {
             type: "common",
-            value: "\n",
-          },
-        ],
+            value: "\n"
+          }
+        ]
       },
       {
         type: "added",
@@ -141,24 +141,24 @@ Ende.test({
         details: [
           {
             type: "added",
-            value: "2",
+            value: "2"
           },
           {
             type: "common",
-            value: ".",
+            value: "."
           },
           {
             type: "added",
-            value: "71",
+            value: "71"
           },
           {
             type: "common",
-            value: "\n",
-          },
-        ],
-      },
+            value: "\n"
+          }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -173,8 +173,8 @@ Ende.test({
           { type: "removed", value: "a" },
           { type: "removed", value: " " },
           { type: "removed", value: "b" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
@@ -183,11 +183,11 @@ Ende.test({
           { type: "added", value: "c" },
           { type: "added", value: " " },
           { type: "added", value: "d" },
-          { type: "common", value: "\n" },
-        ],
-      },
+          { type: "common", value: "\n" }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -202,8 +202,8 @@ Ende.test({
           { type: "removed", value: "a" },
           { type: "removed", value: " " },
           { type: "removed", value: "bc" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
@@ -212,11 +212,11 @@ Ende.test({
           { type: "added", value: "cd" },
           { type: "added", value: " " },
           { type: "added", value: "e" },
-          { type: "common", value: "\n" },
-        ],
-      },
+          { type: "common", value: "\n" }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -231,8 +231,8 @@ Ende.test({
           { type: "common", value: "a" },
           { type: "removed", value: "\\t" },
           { type: "common", value: "b" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
@@ -241,11 +241,11 @@ Ende.test({
           { type: "common", value: "a" },
           { type: "added", value: "\\f" },
           { type: "common", value: "b" },
-          { type: "common", value: "\n" },
-        ],
-      },
+          { type: "common", value: "\n" }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -260,8 +260,8 @@ Ende.test({
           { type: "common", value: "a" },
           { type: "removed", value: "\\\\" },
           { type: "removed", value: "tb" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
@@ -270,11 +270,11 @@ Ende.test({
           { type: "common", value: "a" },
           { type: "added", value: "\\t" },
           { type: "added", value: "b" },
-          { type: "common", value: "\n" },
-        ],
-      },
+          { type: "common", value: "\n" }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -290,8 +290,8 @@ Ende.test({
           { type: "common", value: "\\r" },
           { type: "removed", value: "\\t\\v" },
           { type: "common", value: "\\n" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
@@ -300,12 +300,12 @@ Ende.test({
           { type: "common", value: "\\r" },
           { type: "common", value: "\\n" },
           { type: "added", value: "\r" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
-      { type: "common", value: "\n" },
+      { type: "common", value: "\n" }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -315,26 +315,26 @@ Ende.test({
     assertEquals(diffResult, [
       {
         type: "removed",
-        value: "a\\n\n",
+        value: "a\\n\n"
       },
       {
         type: "removed",
         value: "a\n",
         details: [
           { type: "removed", value: "a" },
-          { type: "common", value: "\n" },
-        ],
+          { type: "common", value: "\n" }
+        ]
       },
       {
         type: "added",
         value: "e\n",
         details: [
           { type: "added", value: "e" },
-          { type: "common", value: "\n" },
-        ],
-      },
+          { type: "common", value: "\n" }
+        ]
+      }
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -343,15 +343,15 @@ Ende.test({
     const tokens = [
       { type: "added", value: "a" },
       { type: "removed", value: "b" },
-      { type: "common", value: "c" },
+      { type: "common", value: "c" }
     ] as const;
     for (const token of tokens) {
       assertEquals(
         createDetails(token, [...tokens]),
-        tokens.filter(({ type }) => type === token.type || type === "common"),
+        tokens.filter(({ type }) => type === token.type || type === "common")
       );
     }
-  },
+  }
 });
 
 Ende.test({
@@ -364,7 +364,7 @@ Ende.test({
     assertEquals(tokenize("a b", true), ["a", " ", "b"]);
     assertEquals(tokenize("abc bcd", true), ["abc", " ", "bcd"]);
     assertEquals(tokenize("abc ", true), ["abc", " "]);
-  },
+  }
 });
 
 Ende.test({
@@ -378,5 +378,5 @@ Ende.test({
     assertEquals(unescape("a\r"), "a\\r");
     assertEquals(unescape("a\n"), "a\\n\n");
     assertEquals(unescape("a\r\n"), "a\\r\\n\r\n");
-  },
+  }
 });

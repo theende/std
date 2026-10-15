@@ -7,7 +7,7 @@ const a = { foo: true, bar: false };
 const b = { ...a, baz: a };
 const c = { ...b, qux: b };
 const d = { corge: c, grault: c };
-const e = { foo: true } as { [key: string]: unknown };
+const e = { foo: true } as { [key: string]: unknown; };
 e.bar = e;
 const f = { [sym]: true, bar: false };
 interface R {
@@ -25,12 +25,12 @@ const n = {
   foo: new Set(["foo", "bar"]),
   bar: new Map([
     ["foo", 1],
-    ["bar", 2],
+    ["bar", 2]
   ]),
   baz: new Map([
     ["a", a],
-    ["b", b],
-  ]),
+    ["b", b]
+  ])
 };
 const o = { foo: [new Map([["bar", n.bar], ["baz", null]])] };
 const p = { bar: [new Set([1, 2, 3])] };
@@ -40,14 +40,14 @@ const r = { bar: [[1, [2, [q]]]] };
 
 Ende.test("assertObjectMatch() matches simple subset", () => {
   assertObjectMatch(a, {
-    foo: true,
+    foo: true
   });
 });
 
 Ende.test("assertObjectMatch() matches subset with another subset", () => {
   assertObjectMatch(b, {
     foo: true,
-    baz: { bar: false },
+    baz: { bar: false }
   });
 });
 
@@ -56,8 +56,8 @@ Ende.test("assertObjectMatch() matches subset with multiple subsets", () => {
     foo: true,
     baz: { bar: false },
     qux: {
-      baz: { foo: true },
-    },
+      baz: { foo: true }
+    }
   });
 });
 
@@ -65,12 +65,12 @@ Ende.test("assertObjectMatch() matches subset with same object reference as subs
   assertObjectMatch(d, {
     corge: {
       foo: true,
-      qux: { bar: false },
+      qux: { bar: false }
     },
     grault: {
       bar: false,
-      qux: { foo: true },
-    },
+      qux: { foo: true }
+    }
   });
 });
 
@@ -80,10 +80,10 @@ Ende.test("assertObjectMatch() matches subset with circular reference", () => {
     bar: {
       bar: {
         bar: {
-          foo: true,
-        },
-      },
-    },
+          foo: true
+        }
+      }
+    }
   });
   assertObjectMatch(q, { foo: [1, 2, [1, 2, [1, 2, [1, 2]]]] });
 });
@@ -94,7 +94,7 @@ Ende.test("assertObjectMatch() matches subset with interface", () => {
 
 Ende.test("assertObjectMatch() matches subset with same symbol", () => {
   assertObjectMatch(f, {
-    [sym]: true,
+    [sym]: true
   });
 });
 
@@ -104,7 +104,7 @@ Ende.test("assertObjectMatch() matches subset with array inside", () => {
   assertObjectMatch(h, { foo: [1, 2, 3] });
   assertObjectMatch(i, { foo: [{ bar: false }] });
   assertObjectMatch(i, {
-    foo: [{ bar: false }, { bar: { bar: { bar: { foo: true } } } }],
+    foo: [{ bar: false }, { bar: { bar: { bar: { foo: true } } } }]
   });
 });
 
@@ -125,7 +125,7 @@ Ende.test("assertObjectMatch() matches when expected has shared Date references"
   const startTime = new Date(timestamp);
   assertObjectMatch(
     { startTime: new Date(timestamp), data: [{ t: new Date(timestamp) }] },
-    { startTime, data: [{ t: startTime }] },
+    { startTime, data: [{ t: startTime }] }
   );
 });
 
@@ -134,9 +134,9 @@ Ende.test("assertObjectMatch() throws when date mismatches", () => {
     () =>
       assertObjectMatch(
         { startTime: new Date(1000) },
-        { startTime: new Date(2000) },
+        { startTime: new Date(2000) }
       ),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -155,14 +155,14 @@ Ende.test("assertObjectMatch() throws when a key is missing from subset", () => 
     () =>
       assertObjectMatch(
         {
-          foo: true,
+          foo: true
         },
         {
           foo: true,
-          bar: false,
-        },
+          bar: false
+        }
       ),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -170,9 +170,9 @@ Ende.test("assertObjectMatch() throws when simple subset mismatches", () => {
   assertThrows(
     () =>
       assertObjectMatch(a, {
-        foo: false,
+        foo: false
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -181,9 +181,9 @@ Ende.test("assertObjectMatch() throws when subset with another subset mismatches
     () =>
       assertObjectMatch(b, {
         foo: true,
-        baz: { bar: true },
+        baz: { bar: true }
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -194,10 +194,10 @@ Ende.test("assertObjectMatch() throws when subset with multiple subsets mismatch
         foo: true,
         baz: { bar: false },
         qux: {
-          baz: { foo: false },
-        },
+          baz: { foo: false }
+        }
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -207,14 +207,14 @@ Ende.test("assertObjectMatch() throws when subset with same object reference as 
       assertObjectMatch(d, {
         corge: {
           foo: true,
-          qux: { bar: true },
+          qux: { bar: true }
         },
         grault: {
           bar: false,
-          qux: { foo: false },
-        },
+          qux: { foo: false }
+        }
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -226,12 +226,12 @@ Ende.test("assertObjectMatch() throws when subset with circular reference mismat
         bar: {
           bar: {
             bar: {
-              foo: false,
-            },
-          },
-        },
+              foo: false
+            }
+          }
+        }
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -239,9 +239,9 @@ Ende.test("assertObjectMatch() throws when subset with symbol key mismatches oth
   assertThrows(
     () =>
       assertObjectMatch(f, {
-        [sym]: false,
+        [sym]: false
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -249,16 +249,16 @@ Ende.test("assertObjectMatch() throws when subset with array inside mismatches",
   assertThrows(
     () =>
       assertObjectMatch(i, {
-        foo: [1, 2, 3, 4],
+        foo: [1, 2, 3, 4]
       }),
-    AssertionError,
+    AssertionError
   );
   assertThrows(
     () =>
       assertObjectMatch(i, {
-        foo: [{ bar: true }, { foo: false }],
+        foo: [{ bar: true }, { foo: false }]
       }),
-    AssertionError,
+    AssertionError
   );
 });
 
@@ -284,8 +284,8 @@ Ende.test("assertObjectMatch() matches subsets of arrays", () => {
   assertObjectMatch(
     { positions: [[1, 2, 3, 4]] },
     {
-      positions: [[1, 2, 3]],
-    },
+      positions: [[1, 2, 3]]
+    }
   );
 });
 
@@ -294,38 +294,38 @@ Ende.test("assertObjectMatch() throws when regexp mismatches", () => {
   assertThrows(() => assertObjectMatch(m, { foo: /abc*/i }), AssertionError);
   assertThrows(
     () => assertObjectMatch(m, { bar: [/abc/m, /abc/g] }),
-    AssertionError,
+    AssertionError
   );
 });
 
 Ende.test("assertObjectMatch() throws when built-in data structures mismatches", () => {
   assertThrows(
     () => assertObjectMatch(n, { foo: new Set(["baz"]) }),
-    AssertionError,
+    AssertionError
   );
   assertThrows(
     () => assertObjectMatch(n, { bar: new Map([["bar", 3]]) }),
-    AssertionError,
+    AssertionError
   );
   assertThrows(
     () => assertObjectMatch(n, { baz: new Map([["a", { baz: true }]]) }),
-    AssertionError,
+    AssertionError
   );
 });
 
 Ende.test("assertObjectMatch() throws assertion error when in the first argument mismatches, rather than a TypeError: Invalid value used as weak map key", () => {
   assertThrows(
     () => assertObjectMatch({ foo: null }, { foo: { bar: 42 } }),
-    AssertionError,
+    AssertionError
   );
   assertObjectMatch({ foo: null, bar: null }, { foo: null });
   assertObjectMatch({ foo: undefined, bar: null }, { foo: undefined });
   assertThrows(
     () => assertObjectMatch({ foo: undefined, bar: null }, { foo: null }),
-    AssertionError,
+    AssertionError
   );
   assertThrows(
-    () => assertObjectMatch(n, { baz: new Map([["b", null]]) }),
+    () => assertObjectMatch(n, { baz: new Map([["b", null]]) })
   );
 });
 
@@ -334,7 +334,7 @@ Ende.test("assertObjectMatch() throws readable type error for non mappable primi
     // @ts-expect-error Argument of type 'null' is not assignable to parameter of type 'Record<PropertyKey, any>'
     () => assertObjectMatch(null, { foo: 42 }),
     TypeError,
-    "assertObjectMatch",
+    "assertObjectMatch"
   );
   // @ts-expect-error Argument of type 'null' is not assignable to parameter of type 'Record<PropertyKey, any>'
   assertThrows(() => assertObjectMatch(null, { foo: 42 }), TypeError, "null"); // since typeof null is "object", want to make sure user knows the bad value is "null"
@@ -342,7 +342,7 @@ Ende.test("assertObjectMatch() throws readable type error for non mappable primi
     // @ts-expect-error Argument of type 'undefined' is not assignable to parameter of type 'Record<PropertyKey, any>'
     () => assertObjectMatch(undefined, { foo: 42 }),
     TypeError,
-    "assertObjectMatch",
+    "assertObjectMatch"
   );
   // @ts-expect-error Argument of type 'number' is not assignable to parameter of type 'Record<PropertyKey, any>'
   assertThrows(() => assertObjectMatch(21, 42), TypeError, "assertObjectMatch");
@@ -350,7 +350,7 @@ Ende.test("assertObjectMatch() throws readable type error for non mappable primi
     // @ts-expect-error Argument of type 'string' is not assignable to parameter of type 'Record<PropertyKey, any>'
     () => assertObjectMatch("string", "string"),
     TypeError,
-    "assertObjectMatch",
+    "assertObjectMatch"
   );
 });
 
@@ -358,9 +358,9 @@ Ende.test("assertObjectMatch() prints inputs correctly", () => {
   const x = {
     command: "error",
     payload: {
-      message: "NodeNotFound",
+      message: "NodeNotFound"
     },
-    protocol: "graph",
+    protocol: "graph"
   };
 
   const y = {
@@ -369,14 +369,14 @@ Ende.test("assertObjectMatch() prints inputs correctly", () => {
     payload: {
       graph: "foo",
       metadata: {
-        description: "foo",
+        description: "foo"
       },
       name: "somegroup",
       nodes: [
         "somenode",
-        "someothernode",
-      ],
-    },
+        "someothernode"
+      ]
+    }
   };
 
   assertThrows(
@@ -398,7 +398,7 @@ Ende.test("assertObjectMatch() prints inputs correctly", () => {
 -       message: "NodeNotFound",
       },
       protocol: "graph",
-    }`,
+    }`
   );
 
   assertThrows(
@@ -409,7 +409,7 @@ Ende.test("assertObjectMatch() prints inputs correctly", () => {
 +       "bar",
 +     ],
 -     foo: [],
-    }`,
+    }`
   );
 
   const a = {};
@@ -417,12 +417,12 @@ Ende.test("assertObjectMatch() prints inputs correctly", () => {
 
   Object.defineProperty(a, "hello", {
     value: "world",
-    enumerable: false,
+    enumerable: false
   });
 
   Object.defineProperty(b, "foo", {
     value: "bar",
-    enumerable: false,
+    enumerable: false
   });
 
   assertThrows(
@@ -431,7 +431,7 @@ Ende.test("assertObjectMatch() prints inputs correctly", () => {
     `    {
 -     hello: "world",
 +     foo: "bar",
-    }`,
+    }`
   );
 });
 
@@ -450,7 +450,7 @@ Ende.test(
 -       polluted: true,
 +       polluted: false,
       },
-    }`,
+    }`
     );
-  },
+  }
 );

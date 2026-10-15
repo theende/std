@@ -8,8 +8,9 @@ import type { Type } from "../_type.ts";
 import { isPlainObject } from "../_utils.ts";
 
 function resolveYamlPairs(data: unknown[][]): boolean {
-  if (data === null) return true;
-  return data.every((it) => isPlainObject(it) && Object.keys(it).length === 1);
+  if (data === null)
+    return true;
+  return data.every(it => isPlainObject(it) && Object.keys(it).length === 1);
 }
 
 export const pairs: Type<"sequence"> = {
@@ -19,5 +20,5 @@ export const pairs: Type<"sequence"> = {
     return data?.flatMap(Object.entries) ?? [];
   },
   kind: "sequence",
-  resolve: resolveYamlPairs,
+  resolve: resolveYamlPairs
 };

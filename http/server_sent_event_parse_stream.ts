@@ -44,15 +44,16 @@ const NEWLINE_REGEXP = /\r\n|\r|\n/;
 function parseLine(
   line: string,
   message: ServerSentEventParsedMessage,
-  ignoreComments: boolean,
+  ignoreComments: boolean
 ): boolean {
   // Lines starting with colon are comments
   if (line[0] === ":") {
-    if (ignoreComments) return false;
+    if (ignoreComments)
+      return false;
     const value = line.slice(1);
-    message.comment = message.comment !== undefined
-      ? `${message.comment}\n${value}`
-      : value;
+    message.comment = message.comment !== undefined ?
+      `${message.comment}\n${value}` :
+      value;
     return true;
   }
 
@@ -68,9 +69,9 @@ function parseLine(
   } else {
     field = line.slice(0, colonIndex);
     // Remove single leading space from value if present
-    value = line[colonIndex + 1] === " "
-      ? line.slice(colonIndex + 2)
-      : line.slice(colonIndex + 1);
+    value = line[colonIndex + 1] === " " ?
+      line.slice(colonIndex + 2) :
+      line.slice(colonIndex + 1);
   }
 
   switch (field) {
@@ -79,9 +80,9 @@ function parseLine(
       return true;
     case "data":
       // Accumulate data with newlines between
-      message.data = message.data !== undefined
-        ? `${message.data}\n${value}`
-        : value;
+      message.data = message.data !== undefined ?
+        `${message.data}\n${value}` :
+        value;
       return true;
     case "id":
       // Per spec: ignore if value contains null character
@@ -163,8 +164,7 @@ function parseLine(
  * assertEquals(result, [{ data: "hello" }]);
  * ```
  */
-export class ServerSentEventParseStream
-  extends TransformStream<Uint8Array, ServerSentEventParsedMessage> {
+export class ServerSentEventParseStream extends TransformStream<Uint8Array, ServerSentEventParsedMessage> {
   /**
    * Constructs a new instance.
    *
@@ -235,7 +235,7 @@ export class ServerSentEventParseStream
         if (hasFields) {
           controller.enqueue(message);
         }
-      },
+      }
     });
   }
 }

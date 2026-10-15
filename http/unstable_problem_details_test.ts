@@ -9,7 +9,7 @@ import {
   parseProblemDetails,
   parseProblemDetailsResponse,
   type ProblemDetails,
-  type StandardProblemDetailsMember,
+  type StandardProblemDetailsMember
 } from "./unstable_problem_details.ts";
 
 // --- createProblemDetailsResponse ---
@@ -17,12 +17,12 @@ import {
 Ende.test("createProblemDetailsResponse() defaults type, title, Content-Type and response status", async () => {
   const response = createProblemDetailsResponse({
     status: 404,
-    detail: "No user found with ID 42",
+    detail: "No user found with ID 42"
   });
   assertEquals(response.status, 404);
   assertEquals(
     response.headers.get("Content-Type"),
-    "application/problem+json",
+    "application/problem+json"
   );
   const body = await response.json();
   assertEquals(body.type, "about:blank");
@@ -39,7 +39,7 @@ Ende.test("createProblemDetailsResponse() custom problem type with extensions", 
     detail: "Your account balance is too low",
     instance: "/account/12345/transactions/abc",
     balance: 30,
-    accounts: ["/account/12345", "/account/67890"],
+    accounts: ["/account/12345", "/account/67890"]
   });
   assertEquals(response.status, 403);
   const body = await response.json();
@@ -64,7 +64,7 @@ Ende.test("createProblemDetailsResponse() does not override explicit title for a
   const response = createProblemDetailsResponse({
     type: "about:blank",
     status: 404,
-    title: "Custom title",
+    title: "Custom title"
   });
   const body = await response.json();
   assertEquals(body.title, "Custom title");
@@ -73,7 +73,7 @@ Ende.test("createProblemDetailsResponse() does not override explicit title for a
 Ende.test("createProblemDetailsResponse() custom type does not auto-populate title from STATUS_TEXT", async () => {
   const response = createProblemDetailsResponse({
     type: "https://example.com/problems/out-of-stock",
-    status: 404,
+    status: 404
   });
   const body = await response.json();
   assertEquals(body.type, "https://example.com/problems/out-of-stock");
@@ -95,26 +95,26 @@ Ende.test("createProblemDetailsResponse() merges custom headers and overwrites C
     {
       headers: {
         "X-Request-Id": "abc-123",
-        "Content-Type": "application/json",
-      },
-    },
+        "Content-Type": "application/json"
+      }
+    }
   );
   assertEquals(response.headers.get("X-Request-Id"), "abc-123");
   assertEquals(
     response.headers.get("Content-Type"),
-    "application/problem+json",
+    "application/problem+json"
   );
 });
 
 Ende.test("createProblemDetailsResponse() options without headers uses fast path", () => {
   const response = createProblemDetailsResponse(
     { status: 400 },
-    {},
+    {}
   );
   assertEquals(response.status, 400);
   assertEquals(
     response.headers.get("Content-Type"),
-    "application/problem+json",
+    "application/problem+json"
   );
 });
 
@@ -124,7 +124,7 @@ Ende.test("createProblemDetailsResponse() all five standard members round-trip",
     status: 422,
     title: "Unprocessable Entity",
     detail: "Validation failed",
-    instance: "/orders/123",
+    instance: "/orders/123"
   });
   const body = await response.json();
   assertEquals(body.type, "about:blank");
@@ -141,16 +141,16 @@ Ende.test("createProblemDetailsResponse() throws RangeError for non-integer stat
       Infinity,
       -Infinity,
       3.14,
-      "500",
+      "500"
     ] as unknown[]
   ) {
     assertThrows(
       () =>
         createProblemDetailsResponse(
-          { status: value } as unknown as ProblemDetails,
+          { status: value } as unknown as ProblemDetails
         ),
       RangeError,
-      "Cannot create Problem Details response: status must be a finite integer",
+      "Cannot create Problem Details response: status must be a finite integer"
     );
   }
 });
@@ -158,7 +158,7 @@ Ende.test("createProblemDetailsResponse() throws RangeError for non-integer stat
 Ende.test("createProblemDetailsResponse() forwards statusText to the response", () => {
   const response = createProblemDetailsResponse(
     { status: 418 },
-    { statusText: "I'm a teapot, actually" },
+    { statusText: "I'm a teapot, actually" }
   );
   assertEquals(response.status, 418);
   assertEquals(response.statusText, "I'm a teapot, actually");
@@ -169,8 +169,8 @@ Ende.test("createProblemDetailsResponse() forwards statusText alongside custom h
     { status: 400 },
     {
       headers: { "X-Trace-Id": "trace-1" },
-      statusText: "Bad Input",
-    },
+      statusText: "Bad Input"
+    }
   );
   assertEquals(response.statusText, "Bad Input");
   assertEquals(response.headers.get("X-Trace-Id"), "trace-1");
@@ -186,14 +186,14 @@ Ende.test("createProblemDetailsResponse() leaves statusText empty when not provi
 // --- parseProblemDetails (plain value) ---
 
 Ende.test("parseProblemDetails() from plain object returns correct fields with extensions", () => {
-  const problem = parseProblemDetails<{ balance: number; accounts: string[] }>({
+  const problem = parseProblemDetails<{ balance: number; accounts: string[]; }>({
     type: "about:blank",
     status: 403,
     title: "Forbidden",
     detail: "Insufficient credit",
     instance: "/account/12345/transactions/abc",
     balance: 30,
-    accounts: ["/a", "/b"],
+    accounts: ["/a", "/b"]
   });
   assertEquals(problem.type, "about:blank");
   assertEquals(problem.status, 403);
@@ -205,7 +205,7 @@ Ende.test("parseProblemDetails() from plain object returns correct fields with e
 });
 
 Ende.test("parseProblemDetails() accepts unknown input and validates at runtime", () => {
-  const json: unknown = JSON.parse('{"status":400,"detail":"bad"}');
+  const json: unknown = JSON.parse("{\"status\":400,\"detail\":\"bad\"}");
   const problem = parseProblemDetails(json);
   assertEquals(problem.status, 400);
   assertEquals(problem.detail, "bad");
@@ -217,14 +217,14 @@ Ende.test("parseProblemDetails() ignores status when not a finite integer", () =
       "404",
       NaN,
       Infinity,
-      404.5,
+      404.5
     ] as unknown[]
   ) {
     const problem = parseProblemDetails({ status: value });
     assertEquals(
       problem.status,
       undefined,
-      `status=${value} should be ignored`,
+      `status=${value} should be ignored`
     );
   }
 });
@@ -235,7 +235,7 @@ Ende.test("parseProblemDetails() ignores standard string members with wrong type
     title: 999,
     detail: {},
     instance: null,
-    status: 400,
+    status: 400
   });
   assertEquals(problem.type, undefined);
   assertEquals(problem.title, undefined);
@@ -246,7 +246,7 @@ Ende.test("parseProblemDetails() ignores standard string members with wrong type
 
 Ende.test("parseProblemDetails() missing members remain absent", () => {
   const problem = parseProblemDetails({
-    detail: "Only detail",
+    detail: "Only detail"
   });
   assertEquals(problem.type, undefined);
   assertEquals(problem.status, undefined);
@@ -263,7 +263,7 @@ Ende.test("parseProblemDetails() excludes inherited prototype properties", () =>
   assertEquals(problem.status, 400);
   assertEquals(
     (problem as Record<string, unknown>).inherited,
-    undefined,
+    undefined
   );
 });
 
@@ -272,7 +272,7 @@ Ende.test("parseProblemDetails() preserves extension keys that look like standar
   // are not promoted into the extensions bag.
   const problem = parseProblemDetails({
     type: 123,
-    extra: "kept",
+    extra: "kept"
   });
   assertEquals(problem.type, undefined);
   assertEquals((problem as Record<string, unknown>).extra, "kept");
@@ -282,7 +282,7 @@ Ende.test("parseProblemDetails() throws TypeError for null input", () => {
   assertThrows(
     () => parseProblemDetails(null),
     TypeError,
-    "Cannot parse Problem Details: expected a JSON object",
+    "Cannot parse Problem Details: expected a JSON object"
   );
 });
 
@@ -290,7 +290,7 @@ Ende.test("parseProblemDetails() throws TypeError for array input", () => {
   assertThrows(
     () => parseProblemDetails([]),
     TypeError,
-    "Cannot parse Problem Details: expected a JSON object",
+    "Cannot parse Problem Details: expected a JSON object"
   );
 });
 
@@ -298,17 +298,17 @@ Ende.test("parseProblemDetails() throws TypeError for primitive input", () => {
   assertThrows(
     () => parseProblemDetails("string"),
     TypeError,
-    "Cannot parse Problem Details: expected a JSON object",
+    "Cannot parse Problem Details: expected a JSON object"
   );
   assertThrows(
     () => parseProblemDetails(42),
     TypeError,
-    "Cannot parse Problem Details: expected a JSON object",
+    "Cannot parse Problem Details: expected a JSON object"
   );
   assertThrows(
     () => parseProblemDetails(true),
     TypeError,
-    "Cannot parse Problem Details: expected a JSON object",
+    "Cannot parse Problem Details: expected a JSON object"
   );
 });
 
@@ -317,12 +317,12 @@ Ende.test("parseProblemDetails() throws TypeError for Response input", () => {
   // so without the guard it would silently return an empty ProblemDetails.
   const response = new Response(
     JSON.stringify({ status: 400, detail: "bad" }),
-    { headers: { "Content-Type": "application/problem+json" } },
+    { headers: { "Content-Type": "application/problem+json" } }
   );
   assertThrows(
     () => parseProblemDetails(response as unknown),
     TypeError,
-    "Cannot parse Problem Details: input is a Response, use parseProblemDetailsResponse instead",
+    "Cannot parse Problem Details: input is a Response, use parseProblemDetailsResponse instead"
   );
 });
 
@@ -334,11 +334,11 @@ Ende.test("parseProblemDetailsResponse() returns correct fields", async () => {
       type: "about:blank",
       status: 400,
       title: "Bad Request",
-      detail: "Invalid payload",
+      detail: "Invalid payload"
     }),
     {
-      headers: { "Content-Type": "application/problem+json" },
-    },
+      headers: { "Content-Type": "application/problem+json" }
+    }
   );
   const problem = await parseProblemDetailsResponse(response);
   assertEquals(problem.type, "about:blank");
@@ -349,11 +349,11 @@ Ende.test("parseProblemDetailsResponse() returns correct fields", async () => {
 
 Ende.test("parseProblemDetailsResponse() rejects with SyntaxError for non-JSON body", async () => {
   const response = new Response("not json", {
-    headers: { "Content-Type": "application/problem+json" },
+    headers: { "Content-Type": "application/problem+json" }
   });
   await assertRejects(
     () => parseProblemDetailsResponse(response),
-    SyntaxError,
+    SyntaxError
   );
 });
 
@@ -362,20 +362,20 @@ Ende.test("parseProblemDetailsResponse() rejects with TypeError for JSON array b
   await assertRejects(
     () => parseProblemDetailsResponse(response),
     TypeError,
-    "Cannot parse Problem Details: expected a JSON object",
+    "Cannot parse Problem Details: expected a JSON object"
   );
 });
 
 Ende.test("parseProblemDetailsResponse() rejects with TypeError for JSON primitive body", async () => {
-  for (const body of ["true", "42", '"hello"', "null"]) {
+  for (const body of ["true", "42", "\"hello\"", "null"]) {
     const response = new Response(body, {
-      headers: { "Content-Type": "application/problem+json" },
+      headers: { "Content-Type": "application/problem+json" }
     });
     await assertRejects(
       () => parseProblemDetailsResponse(response),
       TypeError,
       "Cannot parse Problem Details: expected a JSON object",
-      `body=${body} should be rejected`,
+      `body=${body} should be rejected`
     );
   }
 });
@@ -384,7 +384,7 @@ Ende.test("parseProblemDetailsResponse() rejects with TypeError for JSON primiti
 
 Ende.test("isProblemDetailsResponse() returns true for application/problem+json", () => {
   const response = new Response(null, {
-    headers: { "Content-Type": "application/problem+json" },
+    headers: { "Content-Type": "application/problem+json" }
   });
   assertEquals(isProblemDetailsResponse(response), true);
 });
@@ -392,22 +392,22 @@ Ende.test("isProblemDetailsResponse() returns true for application/problem+json"
 Ende.test("isProblemDetailsResponse() returns true with charset parameter", () => {
   const response = new Response(null, {
     headers: {
-      "Content-Type": "application/problem+json; charset=utf-8",
-    },
+      "Content-Type": "application/problem+json; charset=utf-8"
+    }
   });
   assertEquals(isProblemDetailsResponse(response), true);
 });
 
 Ende.test("isProblemDetailsResponse() returns false for application/json", () => {
   const response = new Response(null, {
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }
   });
   assertEquals(isProblemDetailsResponse(response), false);
 });
 
 Ende.test("isProblemDetailsResponse() returns false for application/problem+xml", () => {
   const response = new Response(null, {
-    headers: { "Content-Type": "application/problem+xml" },
+    headers: { "Content-Type": "application/problem+xml" }
   });
   assertEquals(isProblemDetailsResponse(response), false);
 });
@@ -419,7 +419,7 @@ Ende.test("isProblemDetailsResponse() returns false for missing Content-Type", (
 
 Ende.test("isProblemDetailsResponse() is case insensitive", () => {
   const response = new Response(null, {
-    headers: { "Content-Type": "APPLICATION/PROBLEM+JSON" },
+    headers: { "Content-Type": "APPLICATION/PROBLEM+JSON" }
   });
   assertEquals(isProblemDetailsResponse(response), true);
 });
@@ -430,10 +430,10 @@ Ende.test("createProblemDetailsResponse() then parseProblemDetailsResponse() rou
   const response = createProblemDetailsResponse({
     status: 422,
     detail: "Validation failed",
-    errors: [{ field: "email", message: "required" }],
+    errors: [{ field: "email", message: "required" }]
   });
   const parsed = await parseProblemDetailsResponse<
-    { errors: { field: string; message: string }[] }
+    { errors: { field: string; message: string; }[]; }
   >(response);
   assertEquals(parsed.type, "about:blank");
   assertEquals(parsed.status, 422);
@@ -447,7 +447,7 @@ Ende.test("createProblemDetailsResponse() then parseProblemDetailsResponse() rou
 Ende.test("parseProblemDetails() return type is ProblemDetails", () => {
   const problem = parseProblemDetails({
     status: 404,
-    detail: "Not found",
+    detail: "Not found"
   });
   assertType<IsExact<typeof problem, ProblemDetails>>(true);
 });
@@ -458,18 +458,18 @@ Ende.test("StandardProblemDetailsMember is the five standard keys", () => {
     "status",
     "title",
     "detail",
-    "instance",
+    "instance"
   ];
   assertType<IsExact<StandardProblemDetailsMember, (typeof keys)[number]>>(
-    true,
+    true
   );
 });
 
 Ende.test("createProblemDetailsResponse() accepts ProblemDetails with extensions", () => {
-  const pd: ProblemDetails<{ balance: number }> = {
+  const pd: ProblemDetails<{ balance: number; }> = {
     status: 403,
     detail: "Low balance",
-    balance: 30,
+    balance: 30
   };
   const response = createProblemDetailsResponse(pd);
   assertEquals(response.status, 403);

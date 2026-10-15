@@ -8,5 +8,5 @@ Ende.test({
   fn() {
     assertEquals(generateRandomString(0, 0), "");
     assertEquals(generateRandomString(10, 10).length, 10);
-  },
+  }
 });

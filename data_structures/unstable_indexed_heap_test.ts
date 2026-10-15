@@ -3,9 +3,9 @@
 import { assertEquals, assertThrows } from "@ende/assert";
 import { descend } from "./comparators.ts";
 import {
-  type HeapEntry,
   IndexedHeap,
-  type ReadonlyIndexedHeap,
+  type HeapEntry,
+  type ReadonlyIndexedHeap
 } from "./unstable_indexed_heap.ts";
 
 Ende.test("IndexedHeap push / pop / peek with ascending priorities", () => {
@@ -19,7 +19,7 @@ Ende.test("IndexedHeap push / pop / peek with ascending priorities", () => {
   for (
     const [key, priority] of [["d", 4], ["b", 2], ["e", 5], ["a", 1], [
       "c",
-      3,
+      3
     ]] as const
   ) {
     heap.push(key, priority);
@@ -38,7 +38,7 @@ Ende.test("IndexedHeap push / pop / peek with ascending priorities", () => {
     { key: "b", priority: 2 },
     { key: "c", priority: 3 },
     { key: "d", priority: 4 },
-    { key: "e", priority: 5 },
+    { key: "e", priority: 5 }
   ]);
   assertEquals(heap.size, 0);
   assertEquals(heap.peek(), undefined);
@@ -51,7 +51,7 @@ Ende.test("IndexedHeap push throws on duplicate key", () => {
   assertThrows(
     () => heap.push("a", 2),
     TypeError,
-    "Cannot push into IndexedHeap: key already exists",
+    "Cannot push into IndexedHeap: key already exists"
   );
 });
 
@@ -68,7 +68,7 @@ Ende.test("IndexedHeap delete root", () => {
 
   assertEquals([...heap.drain()], [
     { key: "b", priority: 2 },
-    { key: "c", priority: 3 },
+    { key: "c", priority: 3 }
   ]);
 });
 
@@ -98,7 +98,7 @@ Ende.test("IndexedHeap delete middle element triggers sift-down", () => {
     { key: "a", priority: 1 },
     { key: "c", priority: 3 },
     { key: "e", priority: 8 },
-    { key: "d", priority: 10 },
+    { key: "d", priority: 10 }
   ]);
 });
 
@@ -148,7 +148,7 @@ Ende.test("IndexedHeap delete triggers sift-up when replacement is smaller", () 
       ["c", 51],
       ["d", 52],
       ["e", 4],
-      ["f", 5],
+      ["f", 5]
     ] as const
   ) {
     heap.push(key, priority);
@@ -167,7 +167,7 @@ Ende.test("IndexedHeap delete triggers sift-up when replacement is smaller", () 
     { key: "e", priority: 4 },
     { key: "f", priority: 5 },
     { key: "a", priority: 50 },
-    { key: "d", priority: 52 },
+    { key: "d", priority: 52 }
   ]);
 });
 
@@ -194,7 +194,7 @@ Ende.test("IndexedHeap set increases priority and bubbles down", () => {
   assertEquals([...heap.drain()], [
     { key: "b", priority: 2 },
     { key: "c", priority: 3 },
-    { key: "a", priority: 100 },
+    { key: "a", priority: 100 }
   ]);
 });
 
@@ -225,7 +225,7 @@ Ende.test("IndexedHeap set decrease then increase same key", () => {
   assertEquals([...heap.drain()], [
     { key: "a", priority: 10 },
     { key: "b", priority: 20 },
-    { key: "c", priority: 50 },
+    { key: "c", priority: 50 }
   ]);
 });
 
@@ -284,7 +284,7 @@ Ende.test("IndexedHeap iterator is non-destructive", () => {
   const second = [...heap];
   assertEquals(second, first, "iterating again yields same entries");
 
-  const keys = first.map((e) => e.key).sort();
+  const keys = first.map(e => e.key).sort();
   assertEquals(keys, ["a", "b", "c"]);
 });
 
@@ -297,7 +297,7 @@ Ende.test("IndexedHeap drain() yields in ascending order", () => {
   assertEquals([...heap.drain()], [
     { key: "y", priority: 5 },
     { key: "x", priority: 10 },
-    { key: "z", priority: 15 },
+    { key: "z", priority: 15 }
   ]);
   assertEquals(heap.size, 0);
 });
@@ -317,19 +317,20 @@ Ende.test("IndexedHeap drain() retains remaining entries on early break", () => 
   const drained: HeapEntry<string>[] = [];
   for (const entry of heap.drain()) {
     drained.push(entry);
-    if (entry.key === "b") break;
+    if (entry.key === "b")
+      break;
   }
 
   assertEquals(drained, [
     { key: "a", priority: 1 },
-    { key: "b", priority: 2 },
+    { key: "b", priority: 2 }
   ]);
   assertEquals(heap.size, 2);
   assertEquals(heap.has("c"), true);
   assertEquals(heap.has("d"), true);
   assertEquals([...heap.drain()], [
     { key: "c", priority: 3 },
-    { key: "d", priority: 4 },
+    { key: "d", priority: 4 }
   ]);
 });
 
@@ -356,7 +357,7 @@ Ende.test("IndexedHeap peek returns a copy, not a reference", () => {
   heap.push("a", 10);
 
   const peeked = heap.peek()!;
-  (peeked as { priority: number }).priority = 999;
+  (peeked as { priority: number; }).priority = 999;
 
   assertEquals(heap.peek()!.priority, 10);
 });
@@ -396,7 +397,7 @@ Ende.test("IndexedHeap handles duplicate priorities", () => {
   for (const entry of results) {
     assertEquals(entry.priority, 5);
   }
-  assertEquals(results.map((e) => e.key).sort(), ["a", "b", "c"]);
+  assertEquals(results.map(e => e.key).sort(), ["a", "b", "c"]);
 });
 
 Ende.test("IndexedHeap with object keys uses reference identity", () => {
@@ -404,7 +405,7 @@ Ende.test("IndexedHeap with object keys uses reference identity", () => {
   const keyB = { id: "b" };
   const keyADuplicate = { id: "a" };
 
-  const heap = new IndexedHeap<{ id: string }>();
+  const heap = new IndexedHeap<{ id: string; }>();
   heap.push(keyA, 1);
   heap.push(keyB, 2);
   heap.push(keyADuplicate, 3);
@@ -428,7 +429,7 @@ Ende.test("IndexedHeap handles negative priorities", () => {
     { key: "a", priority: -10 },
     { key: "b", priority: -5 },
     { key: "c", priority: 0 },
-    { key: "d", priority: 5 },
+    { key: "d", priority: 5 }
   ]);
 });
 
@@ -441,7 +442,7 @@ Ende.test("IndexedHeap handles Infinity and -Infinity priorities", () => {
   assertEquals([...heap.drain()], [
     { key: "neg", priority: -Infinity },
     { key: "zero", priority: 0 },
-    { key: "pos", priority: Infinity },
+    { key: "pos", priority: Infinity }
   ]);
 });
 
@@ -463,7 +464,7 @@ Ende.test("IndexedHeap works correctly after clear and reuse", () => {
   assertEquals([...heap.drain()], [
     { key: "d", priority: 10 },
     { key: "e", priority: 20 },
-    { key: "c", priority: 30 },
+    { key: "c", priority: 30 }
   ]);
 });
 
@@ -487,7 +488,7 @@ Ende.test("IndexedHeap interleaved push, pop, set, delete", () => {
   assertEquals([...heap.drain()], [
     { key: "c", priority: 1 },
     { key: "e", priority: 3 },
-    { key: "d", priority: 5 },
+    { key: "d", priority: 5 }
   ]);
 });
 
@@ -507,7 +508,7 @@ Ende.test("IndexedHeap push throws on NaN priority", () => {
   assertThrows(
     () => heap.push("a", NaN),
     RangeError,
-    "Cannot set priority: value is NaN",
+    "Cannot set priority: value is NaN"
   );
   assertEquals(heap.size, 0);
 });
@@ -517,7 +518,7 @@ Ende.test("IndexedHeap set throws on NaN priority", () => {
   assertThrows(
     () => heap.set("a", NaN),
     RangeError,
-    "Cannot set priority: value is NaN",
+    "Cannot set priority: value is NaN"
   );
   assertEquals(heap.size, 0, "absent key not inserted on NaN");
 
@@ -525,12 +526,12 @@ Ende.test("IndexedHeap set throws on NaN priority", () => {
   assertThrows(
     () => heap.set("b", NaN),
     RangeError,
-    "Cannot set priority: value is NaN",
+    "Cannot set priority: value is NaN"
   );
   assertEquals(
     heap.getPriority("b"),
     1,
-    "existing key's priority unchanged on NaN",
+    "existing key's priority unchanged on NaN"
   );
 });
 
@@ -562,7 +563,7 @@ Ende.test("IndexedHeap constructor populates from an array of pairs", () => {
   assertEquals([...heap.drain()], [
     { key: "a", priority: 1 },
     { key: "b", priority: 2 },
-    { key: "c", priority: 3 },
+    { key: "c", priority: 3 }
   ]);
 });
 
@@ -594,7 +595,7 @@ Ende.test("IndexedHeap constructor throws on duplicate keys", () => {
   assertThrows(
     () => new IndexedHeap<string>([["a", 1], ["a", 2]]),
     TypeError,
-    "Cannot push into IndexedHeap: key already exists",
+    "Cannot push into IndexedHeap: key already exists"
   );
 });
 
@@ -602,13 +603,12 @@ Ende.test("IndexedHeap constructor throws on NaN priority", () => {
   assertThrows(
     () => new IndexedHeap<string>([["a", NaN]]),
     RangeError,
-    "Cannot set priority: value is NaN",
+    "Cannot set priority: value is NaN"
   );
 });
 
 Ende.test("IndexedHeap constructor throws TypeError on non-iterable input", () => {
-  const message =
-    "Cannot construct an IndexedHeap: the 'entries' parameter is not iterable, did you mean to call IndexedHeap.from?";
+  const message = "Cannot construct an IndexedHeap: the 'entries' parameter is not iterable, did you mean to call IndexedHeap.from?";
   // deno-lint-ignore no-explicit-any
   assertThrows(() => new IndexedHeap(42 as any), TypeError, message);
   // deno-lint-ignore no-explicit-any
@@ -624,13 +624,13 @@ Ende.test("IndexedHeap constructor redirects ArrayLike inputs to from()", () => 
   const arrayLike: ArrayLike<readonly [string, number]> = {
     length: 2,
     0: ["a", 1],
-    1: ["b", 2],
+    1: ["b", 2]
   };
   assertThrows(
     // deno-lint-ignore no-explicit-any
     () => new IndexedHeap(arrayLike as any),
     TypeError,
-    "did you mean to call IndexedHeap.from?",
+    "did you mean to call IndexedHeap.from?"
   );
 
   const heap = IndexedHeap.from(arrayLike);
@@ -645,7 +645,7 @@ Ende.test("IndexedHeap.from() creates heap from array of pairs", () => {
   assertEquals([...heap.drain()], [
     { key: "a", priority: 1 },
     { key: "b", priority: 2 },
-    { key: "c", priority: 3 },
+    { key: "c", priority: 3 }
   ]);
 });
 
@@ -693,7 +693,7 @@ Ende.test("IndexedHeap.from() throws on duplicate keys", () => {
   assertThrows(
     () => IndexedHeap.from<string>([["a", 1], ["a", 2]]),
     TypeError,
-    "Cannot push into IndexedHeap: key already exists",
+    "Cannot push into IndexedHeap: key already exists"
   );
 });
 
@@ -702,20 +702,19 @@ Ende.test("IndexedHeap.from() creates heap from an ArrayLike", () => {
     length: 3,
     0: ["c", 3],
     1: ["a", 1],
-    2: ["b", 2],
+    2: ["b", 2]
   };
   const heap = IndexedHeap.from(arrayLike);
   assertEquals(heap.size, 3);
   assertEquals([...heap.drain()], [
     { key: "a", priority: 1 },
     { key: "b", priority: 2 },
-    { key: "c", priority: 3 },
+    { key: "c", priority: 3 }
   ]);
 });
 
 Ende.test("IndexedHeap.from() throws TypeError on non-iterable, non-array-like input", () => {
-  const message =
-    "Cannot create an IndexedHeap: the 'collection' parameter is not iterable or array-like";
+  const message = "Cannot create an IndexedHeap: the 'collection' parameter is not iterable or array-like";
   // deno-lint-ignore no-explicit-any
   assertThrows(() => IndexedHeap.from(null as any), TypeError, message);
   // deno-lint-ignore no-explicit-any
@@ -737,7 +736,7 @@ Ende.test("IndexedHeap constructor rejects a string with a helpful error", () =>
     // deno-lint-ignore no-explicit-any
     () => new IndexedHeap("ab" as any),
     TypeError,
-    "the 'entries' parameter is not iterable, did you mean to call IndexedHeap.from?",
+    "the 'entries' parameter is not iterable, did you mean to call IndexedHeap.from?"
   );
 });
 
@@ -751,7 +750,7 @@ Ende.test("IndexedHeap.from() rejects a string with a helpful error", () => {
     // deno-lint-ignore no-explicit-any
     () => IndexedHeap.from("ab" as any),
     TypeError,
-    "the 'collection' parameter is not iterable or array-like",
+    "the 'collection' parameter is not iterable or array-like"
   );
 });
 
@@ -765,10 +764,10 @@ Ende.test("IndexedHeap toArray() returns all entries without modifying heap", ()
   assertEquals(arr.length, 3);
   assertEquals(heap.size, 3, "heap not modified");
 
-  const keys = arr.map((e) => e.key).sort();
+  const keys = arr.map(e => e.key).sort();
   assertEquals(keys, ["a", "b", "c"]);
 
-  const priorities = arr.map((e) => e.priority).sort();
+  const priorities = arr.map(e => e.priority).sort();
   assertEquals(priorities, [1, 2, 3]);
 });
 
@@ -782,7 +781,7 @@ Ende.test("IndexedHeap toArray() returns defensive copies", () => {
   heap.push("a", 10);
 
   const arr = heap.toArray();
-  (arr[0] as { priority: number }).priority = 999;
+  (arr[0] as { priority: number; }).priority = 999;
 
   assertEquals(heap.getPriority("a"), 10, "heap not affected by mutation");
 });
@@ -792,7 +791,7 @@ Ende.test("IndexedHeap iterator returns defensive copies", () => {
   heap.push("a", 10);
 
   for (const entry of heap) {
-    (entry as { priority: number }).priority = 999;
+    (entry as { priority: number; }).priority = 999;
   }
 
   assertEquals(heap.getPriority("a"), 10, "heap not affected by mutation");
@@ -819,39 +818,39 @@ Ende.test("IndexedHeap with descend acts as max-heap", () => {
 
   assertEquals(heap.peek(), { key: "b", priority: 5 });
   assertEquals(heap.pop(), { key: "b", priority: 5 });
-  assertEquals([...heap.drain()].map((e) => e.priority), [3, 1]);
+  assertEquals([...heap.drain()].map(e => e.priority), [3, 1]);
 });
 
 Ende.test("IndexedHeap constructor accepts compare option with initial entries", () => {
   const heap = new IndexedHeap<string>([["a", 1], ["b", 5], ["c", 3]], {
-    compare: descend,
+    compare: descend
   });
   assertEquals(heap.peek(), { key: "b", priority: 5 });
-  assertEquals([...heap.drain()].map((e) => e.priority), [5, 3, 1]);
+  assertEquals([...heap.drain()].map(e => e.priority), [5, 3, 1]);
 });
 
 Ende.test("IndexedHeap with tuple priority supports stable tie-breaking", () => {
   // Order primarily by score (smallest first), then by insertion counter
   // for ties. This is the canonical pattern for FIFO-within-priority.
   const heap = new IndexedHeap<string, [number, number]>(null, {
-    compare: (a, b) => a[0] - b[0] || a[1] - b[1],
+    compare: (a, b) => a[0] - b[0] || a[1] - b[1]
   });
   heap.push("first", [5, 0]);
   heap.push("second", [5, 1]);
   heap.push("third", [5, 2]);
   heap.push("urgent", [3, 99]);
 
-  assertEquals([...heap.drain()].map((e) => e.key), [
+  assertEquals([...heap.drain()].map(e => e.key), [
     "urgent",
     "first",
     "second",
-    "third",
+    "third"
   ]);
 });
 
 Ende.test("IndexedHeap with bigint priority handles values beyond MAX_SAFE_INTEGER", () => {
   const heap = new IndexedHeap<string, bigint>(null, {
-    compare: (a, b) => a < b ? -1 : a > b ? 1 : 0,
+    compare: (a, b) => a < b ? -1 : a > b ? 1 : 0
   });
   // 9_007_199_254_740_993n exceeds Number.MAX_SAFE_INTEGER (2^53 - 1).
   // A number-based heap would lose precision; bigint preserves it.
@@ -860,10 +859,10 @@ Ende.test("IndexedHeap with bigint priority handles values beyond MAX_SAFE_INTEG
   heap.push("medium", 100n);
 
   assertEquals(heap.peek(), { key: "small", priority: 1n });
-  assertEquals([...heap.drain()].map((e) => e.priority), [
+  assertEquals([...heap.drain()].map(e => e.priority), [
     1n,
     100n,
-    9_007_199_254_740_993n,
+    9_007_199_254_740_993n
   ]);
 });
 
@@ -879,7 +878,7 @@ Ende.test("IndexedHeap set and delete work under custom comparator", () => {
 
   // Decrease "c" to 1; under max-heap order, it bubbles down.
   heap.set("c", 1);
-  assertEquals([...heap.drain()].map((e) => e.priority), [100, 20, 1]);
+  assertEquals([...heap.drain()].map(e => e.priority), [100, 20, 1]);
 });
 
 Ende.test("IndexedHeap delete with replacement triggers correct sift under custom comparator", () => {
@@ -900,7 +899,7 @@ Ende.test("IndexedHeap delete with replacement triggers correct sift under custo
     ["c", 51],
     ["d", 52],
     ["e", 4],
-    ["f", 5],
+    ["f", 5]
   ], { compare: descend });
 
   assertEquals(heap.peek(), { key: "d", priority: 52 });
@@ -908,7 +907,7 @@ Ende.test("IndexedHeap delete with replacement triggers correct sift under custo
   assertEquals(heap.peek(), { key: "d", priority: 52 });
   assertEquals(heap.size, 6);
 
-  assertEquals([...heap.drain()].map((e) => e.priority), [52, 50, 5, 4, 3, 1]);
+  assertEquals([...heap.drain()].map(e => e.priority), [52, 50, 5, 4, 3, 1]);
 });
 
 Ende.test("IndexedHeap.from() inherits comparator from source heap", () => {
@@ -917,11 +916,11 @@ Ende.test("IndexedHeap.from() inherits comparator from source heap", () => {
   assertEquals(minCopy.peek(), { key: "a", priority: 1 });
 
   const maxHeap = new IndexedHeap<string>([["a", 1], ["b", 5], ["c", 3]], {
-    compare: descend,
+    compare: descend
   });
   const maxCopy = IndexedHeap.from(maxHeap);
   assertEquals(maxCopy.peek(), { key: "b", priority: 5 });
-  assertEquals([...maxCopy.drain()].map((e) => e.priority), [5, 3, 1]);
+  assertEquals([...maxCopy.drain()].map(e => e.priority), [5, 3, 1]);
 });
 
 Ende.test("IndexedHeap.from() with compare option overrides source comparator", () => {
@@ -930,42 +929,42 @@ Ende.test("IndexedHeap.from() with compare option overrides source comparator", 
 
   assertEquals(minHeap.peek(), { key: "a", priority: 1 }, "source unchanged");
   assertEquals(maxFromMin.peek(), { key: "b", priority: 5 });
-  assertEquals([...maxFromMin.drain()].map((e) => e.priority), [5, 3, 1]);
+  assertEquals([...maxFromMin.drain()].map(e => e.priority), [5, 3, 1]);
 });
 
 Ende.test("IndexedHeap.from() iterable input accepts compare option", () => {
   const heap = IndexedHeap.from<string>(
     [["a", 1], ["b", 5], ["c", 3]],
-    { compare: descend },
+    { compare: descend }
   );
   assertEquals(heap.peek(), { key: "b", priority: 5 });
-  assertEquals([...heap.drain()].map((e) => e.priority), [5, 3, 1]);
+  assertEquals([...heap.drain()].map(e => e.priority), [5, 3, 1]);
 });
 
 Ende.test("IndexedHeap throws TypeError when compare option is not a function", () => {
   assertThrows(
     () =>
       new IndexedHeap<string>(null, {
-        compare: 1 as unknown as (a: number, b: number) => number,
+        compare: 1 as unknown as (a: number, b: number) => number
       }),
     TypeError,
-    "the 'compare' option is not a function",
+    "the 'compare' option is not a function"
   );
   assertThrows(
     () =>
       new IndexedHeap<string>([["a", 1]], {
-        compare: "asc" as unknown as (a: number, b: number) => number,
+        compare: "asc" as unknown as (a: number, b: number) => number
       }),
     TypeError,
-    "the 'compare' option is not a function",
+    "the 'compare' option is not a function"
   );
   assertThrows(
     () =>
       IndexedHeap.from<string>([["a", 1]], {
-        compare: {} as unknown as (a: number, b: number) => number,
+        compare: {} as unknown as (a: number, b: number) => number
       }),
     TypeError,
-    "the 'compare' option is not a function",
+    "the 'compare' option is not a function"
   );
 });
 
@@ -986,16 +985,16 @@ Ende.test("IndexedHeap requires compare at the type level when priority is not a
   // @ts-expect-error - 'compare' is required when P is a tuple
   const _tupleHeap = new IndexedHeap<string, [number, number]>();
   // @ts-expect-error - 'compare' is required when P is an object
-  const _objHeap = new IndexedHeap<string, { score: number }>();
+  const _objHeap = new IndexedHeap<string, { score: number; }>();
   // @ts-expect-error - 'compare' is required when P is a tuple
   const _tupleFromIter = IndexedHeap.from<string, [number, number]>([]);
 
   // Supplying `compare` satisfies the requirement.
   const _tupleHeapOk = new IndexedHeap<string, [number, number]>(null, {
-    compare: (a, b) => a[0] - b[0] || a[1] - b[1],
+    compare: (a, b) => a[0] - b[0] || a[1] - b[1]
   });
-  const _objHeapOk = new IndexedHeap<string, { score: number }>([], {
-    compare: (a, b) => a.score - b.score,
+  const _objHeapOk = new IndexedHeap<string, { score: number; }>([], {
+    compare: (a, b) => a.score - b.score
   });
 
   // Copying from an existing IndexedHeap inherits the source's comparator,
@@ -1014,9 +1013,9 @@ Ende.test("IndexedHeap requires compare at the type level when priority is not a
       _tupleFromIter.size,
       _tupleHeapOk.size,
       _objHeapOk.size,
-      _tupleCopy.size,
+      _tupleCopy.size
     ],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0]
   );
 });
 
@@ -1026,13 +1025,13 @@ Ende.test("IndexedHeap peek wrapper is fresh; replacing priority is safe even wi
   // *contents* (e.g. `peeked.priority[0] = 0`) is undefined behavior — see
   // the class-level note on priority mutability.
   const heap = new IndexedHeap<string, [number, number]>(null, {
-    compare: (a, b) => a[0] - b[0] || a[1] - b[1],
+    compare: (a, b) => a[0] - b[0] || a[1] - b[1]
   });
   heap.push("a", [1, 0]);
   heap.push("b", [5, 0]);
 
   const peeked = heap.peek()!;
-  (peeked as { priority: [number, number] }).priority = [999, 999];
+  (peeked as { priority: [number, number]; }).priority = [999, 999];
   assertEquals(heap.peek()!.priority, [1, 0]);
 });
 
@@ -1081,9 +1080,7 @@ Ende.test("IndexedHeap.from() stress test: heapify + index consistency", () => {
   for (let i = 1; i < popped.length; i++) {
     if (popped[i]! < popped[i - 1]!) {
       throw new Error(
-        `Heap invariant violated after from(): ${popped[i - 1]} > ${
-          popped[i]
-        } at index ${i}`,
+        `Heap invariant violated after from(): ${popped[i - 1]} > ${popped[i]} at index ${i}`
       );
     }
   }
@@ -1108,9 +1105,7 @@ Ende.test("IndexedHeap stress test: push N, pop all, verify sorted", () => {
   for (let i = 1; i < popped.length; i++) {
     if (popped[i]! < popped[i - 1]!) {
       throw new Error(
-        `Heap invariant violated: ${popped[i - 1]} > ${
-          popped[i]
-        } at index ${i}`,
+        `Heap invariant violated: ${popped[i - 1]} > ${popped[i]} at index ${i}`
       );
     }
   }
@@ -1145,9 +1140,7 @@ Ende.test("IndexedHeap stress test: push N, delete random subset, pop rest", () 
   for (let i = 1; i < popped.length; i++) {
     if (popped[i]! < popped[i - 1]!) {
       throw new Error(
-        `Heap invariant violated after deletes: ${popped[i - 1]} > ${
-          popped[i]
-        } at index ${i}`,
+        `Heap invariant violated after deletes: ${popped[i - 1]} > ${popped[i]} at index ${i}`
       );
     }
   }

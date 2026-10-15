@@ -10,18 +10,17 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/", {
       headers: {
-        "accept":
-          "text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8",
-      },
+        accept: "text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8"
+      }
     });
     assertEquals(accepts(req), [
       "text/html",
       "application/xhtml+xml",
       "image/webp",
       "application/xml",
-      "*/*",
+      "*/*"
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -29,12 +28,11 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/", {
       headers: {
-        "accept":
-          "text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8",
-      },
+        accept: "text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8"
+      }
     });
     assertEquals(accepts(req, "text/html", "image/webp"), "text/html");
-  },
+  }
 });
 
 Ende.test({
@@ -42,11 +40,11 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/", {
       headers: {
-        "accept": "text/html, application/xhtml+xml, application/xml",
-      },
+        accept: "text/html, application/xhtml+xml, application/xml"
+      }
     });
     assertEquals(accepts(req, "application/json"), undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -54,7 +52,7 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/");
     assertEquals(accepts(req, "text/html", "image/webp"), "text/html");
-  },
+  }
 });
 
 Ende.test({
@@ -62,37 +60,37 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/");
     assertEquals(accepts(req), ["*/*"]);
-  },
+  }
 });
 
 Ende.test({
   name: "acceptsEncodings() handles no args",
   fn() {
     const req = new Request("https://example.com/", {
-      headers: { "accept-encoding": "deflate, gzip;q=1.0, *;q=0.5" },
+      headers: { "accept-encoding": "deflate, gzip;q=1.0, *;q=0.5" }
     });
     assertEquals(acceptsEncodings(req), ["deflate", "gzip", "*"]);
-  },
+  }
 });
 
 Ende.test({
   name: "acceptsEncodings() handles args",
   fn() {
     const req = new Request("https://example.com/", {
-      headers: { "accept-encoding": "deflate, gzip;q=1.0, *;q=0.5" },
+      headers: { "accept-encoding": "deflate, gzip;q=1.0, *;q=0.5" }
     });
     assertEquals(acceptsEncodings(req, "gzip", "identity"), "gzip");
-  },
+  }
 });
 
 Ende.test({
   name: "acceptsEncodings() handles no match",
   fn() {
     const req = new Request("https://example.com/", {
-      headers: { "accept-encoding": "deflate, gzip" },
+      headers: { "accept-encoding": "deflate, gzip" }
     });
     assertEquals(acceptsEncodings(req, "brotli"), undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -100,7 +98,7 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/");
     assertEquals(acceptsEncodings(req, "gzip", "identity"), "gzip");
-  },
+  }
 });
 
 Ende.test({
@@ -108,14 +106,14 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/");
     assertEquals(acceptsEncodings(req), ["*"]);
-  },
+  }
 });
 
 Ende.test({
   name: "acceptsEncodings() is locale independent",
   fn() {
     const req = new Request("https://example.com/", {
-      headers: { "accept-encoding": "GZIP" },
+      headers: { "accept-encoding": "GZIP" }
     });
     const encoding = "gzip";
 
@@ -131,14 +129,14 @@ Ende.test({
       using _ = stub(
         String.prototype,
         "toLocaleLowerCase",
-        function (locale) {
+        function(locale) {
           return toLocaleLowerCase.call(this, locale ?? "tr-TR");
-        },
+        }
       );
 
       assertEquals(acceptsEncodings(req, encoding), encoding);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -146,11 +144,11 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/", {
       headers: {
-        "accept-language": "fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5",
-      },
+        "accept-language": "fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5"
+      }
     });
     assertEquals(acceptsLanguages(req), ["fr-CH", "fr", "en", "de", "*"]);
-  },
+  }
 });
 
 Ende.test({
@@ -158,21 +156,21 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/", {
       headers: {
-        "accept-language": "fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5",
-      },
+        "accept-language": "fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5"
+      }
     });
     assertEquals(acceptsLanguages(req, "en-gb", "en-us", "en"), "en");
-  },
+  }
 });
 
 Ende.test({
   name: "acceptsLanguages() handles no match",
   fn() {
     const req = new Request("https://example.com/", {
-      headers: { "accept-language": "fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7" },
+      headers: { "accept-language": "fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7" }
     });
     assertEquals(acceptsLanguages(req, "zh"), undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -180,7 +178,7 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/");
     assertEquals(acceptsLanguages(req, "en-gb", "en-us", "en"), "en-gb");
-  },
+  }
 });
 
 Ende.test({
@@ -188,5 +186,5 @@ Ende.test({
   fn() {
     const req = new Request("https://example.com/");
     assertEquals(acceptsLanguages(req), ["*"]);
-  },
+  }
 });

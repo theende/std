@@ -7,7 +7,7 @@ import { chunk } from "./chunk.ts";
 function chunkTest<I>(
   input: [Array<I>, number],
   expected: Array<Array<I>>,
-  message?: string,
+  message?: string
 ) {
   const actual = chunk(...input);
   assertEquals(actual, expected, message);
@@ -22,7 +22,7 @@ Ende.test({
     chunk(array, 2);
 
     assertEquals(array, [1, 2, 3, 4]);
-  },
+  }
 });
 
 Ende.test({
@@ -31,29 +31,29 @@ Ende.test({
     assertThrows(
       () => chunk([], +.5),
       RangeError,
-      "Expected size to be an integer greater than 0 but found 0.5",
+      "Expected size to be an integer greater than 0 but found 0.5"
     );
     assertThrows(
       () => chunk([], -4.7),
       RangeError,
-      "Expected size to be an integer greater than 0 but found -4.7",
+      "Expected size to be an integer greater than 0 but found -4.7"
     );
     assertThrows(
       () => chunk([], -2),
       RangeError,
-      "Expected size to be an integer greater than 0 but found -2",
+      "Expected size to be an integer greater than 0 but found -2"
     );
     assertThrows(
       () => chunk([], +0),
       RangeError,
-      "Expected size to be an integer greater than 0 but found 0",
+      "Expected size to be an integer greater than 0 but found 0"
     );
     assertThrows(
       () => chunk([], -0),
       RangeError,
-      "Expected size to be an integer greater than 0 but found 0",
+      "Expected size to be an integer greater than 0 but found 0"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -61,9 +61,9 @@ Ende.test({
   fn() {
     chunkTest(
       [[], 1],
-      [],
+      []
     );
-  },
+  }
 });
 
 Ende.test({
@@ -71,13 +71,13 @@ Ende.test({
   fn() {
     chunkTest(
       [testArray, 1],
-      testArray.map((it) => [it]),
+      testArray.map(it => [it])
     );
     chunkTest(
       [["foo"], 1],
-      [["foo"]],
+      [["foo"]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -85,13 +85,13 @@ Ende.test({
   fn() {
     chunkTest(
       [testArray, 2],
-      [[1, 2], [3, 4], [5, 6]],
+      [[1, 2], [3, 4], [5, 6]]
     );
     chunkTest(
       [testArray, 3],
-      [[1, 2, 3], [4, 5, 6]],
+      [[1, 2, 3], [4, 5, 6]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -99,13 +99,13 @@ Ende.test({
   fn() {
     chunkTest(
       [testArray, 4],
-      [[1, 2, 3, 4], [5, 6]],
+      [[1, 2, 3, 4], [5, 6]]
     );
     chunkTest(
       [testArray, 5],
-      [[1, 2, 3, 4, 5], [6]],
+      [[1, 2, 3, 4, 5], [6]]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -113,13 +113,13 @@ Ende.test({
   fn() {
     chunkTest(
       [testArray, testArray.length],
-      [testArray],
+      [testArray]
     );
     chunkTest(
       [["foo"], 1],
-      [["foo"]],
+      [["foo"]]
     );
-  },
+  }
 });
 
 Ende.test("chunk() handles a generator", () => {
@@ -139,7 +139,7 @@ Ende.test("chunk() handles a generator", () => {
 Ende.test("chunk() handles a string", () => {
   assertEquals(chunk("abcdefg", 4), [
     ["a", "b", "c", "d"],
-    ["e", "f", "g"],
+    ["e", "f", "g"]
   ]);
 });
 
@@ -148,7 +148,7 @@ Ende.test("chunk() handles a Set", () => {
   assertEquals(chunk(set, 2), [
     [1, 2],
     [3, 4],
-    [5, 6],
+    [5, 6]
   ]);
 });
 
@@ -159,21 +159,21 @@ Ende.test("chunk() handles a Map", () => {
     ["c", 3],
     ["d", 4],
     ["e", 5],
-    ["f", 6],
+    ["f", 6]
   ]);
   assertEquals(chunk(map, 2), [
     [
       ["a", 1],
-      ["b", 2],
+      ["b", 2]
     ],
     [
       ["c", 3],
-      ["d", 4],
+      ["d", 4]
     ],
     [
       ["e", 5],
-      ["f", 6],
-    ],
+      ["f", 6]
+    ]
   ]);
 });
 
@@ -191,7 +191,7 @@ Ende.test("chunk() handles user-defined iterable", () => {
   assertEquals(chunk(new MyIterable(), 2), [
     [1, 2],
     [3, 4],
-    [5, 6],
+    [5, 6]
   ]);
 });
 
@@ -205,14 +205,14 @@ Ende.test("chunk() handles a TypedArrays", () => {
     Int16Array,
     Int32Array,
     Float32Array,
-    Float64Array,
+    Float64Array
   ];
   for (const TypedArray of typedArrays) {
     const array = new TypedArray([1, 2, 3, 4, 5, 6]);
     assertEquals(chunk(array, 2), [
       [1, 2],
       [3, 4],
-      [5, 6],
+      [5, 6]
     ]);
   }
 });
@@ -228,6 +228,6 @@ Ende.test("chunk() handles an array with empty slots", () => {
   expectedSecondChunk[0] = 3;
   assertEquals(chunk(arr, 2), [
     new Array(2),
-    expectedSecondChunk,
+    expectedSecondChunk
   ]);
 });

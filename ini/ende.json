@@ -1,9 +1,9 @@
 {
-  "name": "@ende/ini",
-  "version": "1.0.0-rc.9",
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
     "./stringify": "./stringify.ts"
-  }
+  },
+  "name": "@ende/ini",
+  "version": "2026.10.15"
 }

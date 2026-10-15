@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
-import { type ErrorStatus, STATUS_TEXT } from "./status.ts";
+import { STATUS_TEXT, type ErrorStatus } from "./status.ts";
 
 /**
  * Options for {@linkcode HttpError}.
@@ -153,7 +153,7 @@ export class HttpError extends Error {
   constructor(
     status: ErrorStatus,
     message: string = STATUS_TEXT[status],
-    options?: HttpErrorOptions,
+    options?: HttpErrorOptions
   ) {
     super(message, options);
     this.name = this.constructor.name;

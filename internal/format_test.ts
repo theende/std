@@ -20,13 +20,13 @@ ${green("+   d")}\\n
 ${green("+   e")}
 ${red("-   c")}\\n
 ${red("-   d")}
-`,
+`
   );
 });
 
 // Check that the diff formatter overrides some default behaviours of
 // `Ende.inspect()` which are problematic for diffing.
-Ende.test("format() overrides default behaviours of Ende.inspect", async (t) => {
+Ende.test("format() overrides default behaviours of Ende.inspect", async t => {
   // Wraps objects into multiple lines even when they are small. Prints trailing
   // commas.
   await t.step(
@@ -37,14 +37,14 @@ Ende.test("format() overrides default behaviours of Ende.inspect", async (t) => 
         `{
   a: 1,
   b: 2,
-}`,
-      ),
+}`
+      )
   );
 
   await t.step("format() sorts properties", () =>
     assertEquals(
       format({ b: 2, a: 1 }),
-      format({ a: 1, b: 2 }),
+      format({ a: 1, b: 2 })
     ));
 
   await t.step("format() wraps Object with getters", () =>
@@ -53,11 +53,11 @@ Ende.test("format() overrides default behaviours of Ende.inspect", async (t) => 
         enumerable: true,
         get() {
           return 1;
-        },
+        }
       })),
       `{
   a: [Getter: 1],
-}`,
+}`
     ));
 
   await t.step("format() wraps nested small objects", () =>
@@ -74,7 +74,7 @@ Ende.test("format() overrides default behaviours of Ende.inspect", async (t) => 
       "b",
     ],
   },
-]`,
+]`
     ));
 
   // Grouping is disabled.
@@ -89,24 +89,24 @@ Ende.test("format() overrides default behaviours of Ende.inspect", async (t) => 
   "i",
   "i",
   "i",
-]`,
+]`
     ));
 });
 
 Ende.test("format() doesn't truncate long strings in object", () => {
   const str = format({
     foo:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   });
   assertEquals(
     str,
     `{
   foo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-}`,
+}`
   );
 });
 
-Ende.test("format() has fallback if Ende.inspect is not available", async (t) => {
+Ende.test("format() has fallback if Ende.inspect is not available", async t => {
   // deno-lint-ignore no-explicit-any
   const global = globalThis as any;
 
@@ -114,16 +114,16 @@ Ende.test("format() has fallback if Ende.inspect is not available", async (t) =>
     using stack = disposableStack();
     stack.use(stubProperty(global, "Ende", undefined));
 
-    assertEquals(format([..."abcd"]), '[\n  "a",\n  "b",\n  "c",\n  "d"\n]');
-    assertEquals(format({ a: 1, b: 2 }), '{\n  "a": 1,\n  "b": 2\n}');
+    assertEquals(format([..."abcd"]), "[\n  \"a\",\n  \"b\",\n  \"c\",\n  \"d\"\n]");
+    assertEquals(format({ a: 1, b: 2 }), "{\n  \"a\": 1,\n  \"b\": 2\n}");
     assertEquals(format(1), "1");
-    assertEquals(format("1"), '"1"');
+    assertEquals(format("1"), "\"1\"");
     assertEquals(format(1n), "1n");
-    assertEquals(format("1n"), '"1n"');
+    assertEquals(format("1n"), "\"1n\"");
     assertEquals(format(true), "true");
-    assertEquals(format("true"), '"true"');
+    assertEquals(format("true"), "\"true\"");
     assertEquals(format(undefined), "undefined");
-    assertEquals(format("undefined"), '"undefined"');
+    assertEquals(format("undefined"), "\"undefined\"");
     assertEquals(format(Symbol("x")), "Symbol(x)");
     assertEquals(format(new Map()), "[object Map]");
 
@@ -133,7 +133,7 @@ Ende.test("format() has fallback if Ende.inspect is not available", async (t) =>
       },
       get [Symbol.toStringTag]() {
         throw new Error("This object cannot be stringified");
-      },
+      }
     };
 
     badlyBehavedObject.self = badlyBehavedObject;
@@ -144,7 +144,7 @@ Ende.test("format() has fallback if Ende.inspect is not available", async (t) =>
       // @ts-expect-error different types
       () => assertEquals(1, "1"),
       Error,
-      `${red("-   1")}\n${green('+   "1"')}`,
+      `${red("-   1")}\n${green("+   \"1\"")}`
     );
   });
 });

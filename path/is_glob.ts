@@ -19,8 +19,7 @@
  */
 export function isGlob(str: string): boolean {
   const chars: Record<string, string> = { "{": "}", "(": ")", "[": "]" };
-  const regex =
-    /\\(.)|(^!|\*|\?|[\].+)]\?|\[[^[\\\]]+\]|\{[^{\\}]+\}|\(\?[:!=][^\\)]+\)|\([^(|]+\|[^\\)]+\)|@\([^)]+\))/;
+  const regex = /\\(.)|(^!|\*|\?|[\].+)]\?|\[[^[\\\]]+\]|\{[^{\\}]+\}|\(\?[:!=][^\\)]+\)|\([^(|]+\|[^\\)]+\)|@\([^)]+\))/;
 
   if (str === "") {
     return false;
@@ -29,7 +28,8 @@ export function isGlob(str: string): boolean {
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(str))) {
-    if (match[2]) return true;
+    if (match[2])
+      return true;
     let idx = match.index + match[0].length;
 
     // if an open bracket/brace/paren is escaped,

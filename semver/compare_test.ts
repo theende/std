@@ -4,7 +4,7 @@ import { assertEquals, assertThrows } from "@ende/assert";
 import { parse } from "./parse.ts";
 import { compare } from "./compare.ts";
 
-Ende.test("compare() ignores build metadata", async (t) => {
+Ende.test("compare() ignores build metadata", async t => {
   // v+b > v
   const steps: [string, string, number][] = [
     ["1.0.0", "1.0.0+0", 0],
@@ -16,7 +16,7 @@ Ende.test("compare() ignores build metadata", async (t) => {
     ["1.0.0+0", "1.0.0+1", 0],
     ["1.0.0+0", "1.0.0+0", 0],
     ["1.0.0+1", "1.0.0+0", 0],
-    ["1.0.0+0001", "1.0.0+2", 0],
+    ["1.0.0+0001", "1.0.0+2", 0]
   ];
   for (const [v0, v1, expected] of steps) {
     await t.step(`${v0} and ${v1}`, () => {
@@ -30,7 +30,7 @@ Ende.test("compare() ignores build metadata", async (t) => {
 
 Ende.test({
   name: "compare() handles prerelease",
-  fn: async (t) => {
+  fn: async t => {
     const cases: [string, string, number][] = [
       ["1.2.3", "1.2.3", 0],
       ["1.2.3", "2.3.4", -1],
@@ -43,7 +43,7 @@ Ende.test({
       ["1.2.3-alpha.0.pr.1", "1.2.3-alpha.0.pr.2", -1],
       ["1.2.3-alpha.0.pr.1", "1.2.3-alpha.0.2", 1],
       ["1.2.3-alpha.0.pr.1", "1.2.3-alpha.pr.0", -1],
-      ["1.2.3-alpha.0.pr.1", "1.2.3-beta.0.pr.1", -1],
+      ["1.2.3-alpha.0.pr.1", "1.2.3-beta.0.pr.1", -1]
     ];
     for (const [v0, v1, expected] of cases) {
       const s0 = parse(v0);
@@ -53,7 +53,7 @@ Ende.test({
         assertEquals(actual, expected);
       });
     }
-  },
+  }
 });
 
 Ende.test({
@@ -64,10 +64,10 @@ Ende.test({
         compare({ major: NaN, minor: 0, patch: 0 }, {
           major: 1,
           minor: 0,
-          patch: 0,
+          patch: 0
         }),
       Error,
-      "Cannot compare against non-numbers",
+      "Cannot compare against non-numbers"
     );
 
     assertThrows(
@@ -75,12 +75,12 @@ Ende.test({
         compare({ major: 1, minor: 0, patch: 0 }, {
           major: 1,
           minor: NaN,
-          patch: 0,
+          patch: 0
         }),
       Error,
-      "Cannot compare against non-numbers",
+      "Cannot compare against non-numbers"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -91,14 +91,14 @@ Ende.test({
         major: 1,
         minor: 0,
         patch: 0,
-        prerelease: [undefined as unknown as string],
+        prerelease: [undefined as unknown as string]
       }, {
         major: 1,
         minor: 0,
         patch: 0,
-        prerelease: [undefined as unknown as string],
+        prerelease: [undefined as unknown as string]
       }),
-      0,
+      0
     );
-  },
+  }
 });

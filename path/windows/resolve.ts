@@ -34,11 +34,11 @@ export function resolve(...pathSegments: string[]): string {
       path = pathSegments[i]!;
     } else if (!resolvedDevice) {
       path = cwd(
-        "Resolved a drive-letter-less path without a current working directory (CWD)",
+        "Resolved a drive-letter-less path without a current working directory (CWD)"
       );
     } else {
       path = cwd(
-        "Resolved a relative path without a current working directory (CWD)",
+        "Resolved a relative path without a current working directory (CWD)"
       );
 
       // Verify that a cwd was found and that it actually points
@@ -56,7 +56,8 @@ export function resolve(...pathSegments: string[]): string {
     const len = path.length;
 
     // Skip empty entries
-    if (len === 0) continue;
+    if (len === 0)
+      continue;
 
     let rootEnd = 0;
     let device = "";
@@ -78,7 +79,8 @@ export function resolve(...pathSegments: string[]): string {
           let last = j;
           // Match 1 or more non-path separators
           for (; j < len; ++j) {
-            if (isPathSeparator(path.charCodeAt(j))) break;
+            if (isPathSeparator(path.charCodeAt(j)))
+              break;
           }
           if (j < len && j !== last) {
             const firstPart = path.slice(last, j);
@@ -86,14 +88,16 @@ export function resolve(...pathSegments: string[]): string {
             last = j;
             // Match 1 or more path separators
             for (; j < len; ++j) {
-              if (!isPathSeparator(path.charCodeAt(j))) break;
+              if (!isPathSeparator(path.charCodeAt(j)))
+                break;
             }
             if (j < len && j !== last) {
               // Matched!
               last = j;
               // Match 1 or more non-path separators
               for (; j < len; ++j) {
-                if (isPathSeparator(path.charCodeAt(j))) break;
+                if (isPathSeparator(path.charCodeAt(j)))
+                  break;
               }
               if (j === len) {
                 // We matched a UNC root only
@@ -149,7 +153,8 @@ export function resolve(...pathSegments: string[]): string {
       resolvedAbsolute = isAbsolute;
     }
 
-    if (resolvedAbsolute && resolvedDevice.length > 0) break;
+    if (resolvedAbsolute && resolvedDevice.length > 0)
+      break;
   }
 
   // At this point the path should be resolved to a full absolute path,
@@ -160,7 +165,7 @@ export function resolve(...pathSegments: string[]): string {
     resolvedTail,
     !resolvedAbsolute,
     "\\",
-    isPathSeparator,
+    isPathSeparator
   );
 
   return resolvedDevice + (resolvedAbsolute ? "\\" : "") + resolvedTail || ".";

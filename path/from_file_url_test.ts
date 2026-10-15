@@ -4,7 +4,7 @@ import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { assertEquals, assertThrows } from "@ende/assert";
 
-Ende.test("posix.fromFileUrl()", function () {
+Ende.test("posix.fromFileUrl()", function() {
   assertEquals(posix.fromFileUrl(new URL("file:///home/foo")), "/home/foo");
   assertEquals(posix.fromFileUrl("file:///"), "/");
   assertEquals(posix.fromFileUrl("file:///home/foo"), "/home/foo");
@@ -18,27 +18,27 @@ Ende.test("posix.fromFileUrl()", function () {
   assertThrows(
     () => posix.fromFileUrl("http://localhost/foo"),
     TypeError,
-    'URL must be a file URL: received "http:"',
+    "URL must be a file URL: received \"http:\""
   );
   assertThrows(
     () => posix.fromFileUrl("abcd://localhost/foo"),
     TypeError,
-    'URL must be a file URL: received "abcd:"',
+    "URL must be a file URL: received \"abcd:\""
   );
 });
 
-Ende.test("windows.fromFileUrl()", function () {
+Ende.test("windows.fromFileUrl()", function() {
   assertEquals(windows.fromFileUrl(new URL("file:///home/foo")), "\\home\\foo");
   assertEquals(windows.fromFileUrl("file:///"), "\\");
   assertEquals(windows.fromFileUrl("file:///home/foo"), "\\home\\foo");
   assertEquals(
     windows.fromFileUrl("file:///home/foo%20bar"),
-    "\\home\\foo bar",
+    "\\home\\foo bar"
   );
   assertEquals(windows.fromFileUrl("file:///%"), "\\%");
   assertEquals(
     windows.fromFileUrl("file://127.0.0.1/foo"),
-    "\\\\127.0.0.1\\foo",
+    "\\\\127.0.0.1\\foo"
   );
   assertEquals(windows.fromFileUrl("file://localhost/foo"), "\\foo");
   assertEquals(windows.fromFileUrl("file:///C:"), "C:\\");
@@ -50,11 +50,11 @@ Ende.test("windows.fromFileUrl()", function () {
   assertThrows(
     () => windows.fromFileUrl("http://localhost/foo"),
     TypeError,
-    'URL must be a file URL: received "http:"',
+    "URL must be a file URL: received \"http:\""
   );
   assertThrows(
     () => windows.fromFileUrl("abcd://localhost/foo"),
     TypeError,
-    'URL must be a file URL: received "abcd:"',
+    "URL must be a file URL: received \"abcd:\""
   );
 });

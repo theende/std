@@ -8,18 +8,19 @@ Ende.test("toJson()", async () => {
   const strings = [
     "[",
     "1, 2, 3, 4,",
-    '{ "a": 2,',
-    ' "b": 3,',
-    ' "c": 4 }',
-    "]",
+    "{ \"a\": 2,",
+    " \"b\": 3,",
+    " \"c\": 4 }",
+    "]"
   ];
   const expected = [1, 2, 3, 4, {
     a: 2,
     b: 3,
-    c: 4,
+    c: 4
   }];
 
-  const byteStream = ReadableStream.from(strings)
+  const byteStream = ReadableStream
+    .from(strings)
     .pipeThrough(new TextEncoderStream());
   assertEquals(await toJson(byteStream), expected);
 

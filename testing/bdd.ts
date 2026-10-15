@@ -418,12 +418,12 @@
 import { getAssertionState } from "@ende/internal/assertion-state";
 import { AssertionError } from "@ende/assert/assertion-error";
 import {
-  type DescribeDefinition,
   globalSanitizersState,
+  TestSuiteInternal,
+  type DescribeDefinition,
   type HookNames,
   type ItDefinition,
-  type TestSuite,
-  TestSuiteInternal,
+  type TestSuite
 } from "./_test_suite.ts";
 export type { DescribeDefinition, ItDefinition, TestSuite };
 
@@ -437,55 +437,55 @@ export type ItArgs<T> =
   | [options: ItDefinition<T>]
   | [
     name: string,
-    options: Omit<ItDefinition<T>, "name">,
+    options: Omit<ItDefinition<T>, "name">
   ]
   | [
     name: string,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [fn: (this: T, t: Ende.TestContext) => void | Promise<void>]
   | [
     name: string,
     options: Omit<ItDefinition<T>, "fn" | "name">,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     options: Omit<ItDefinition<T>, "fn">,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     options: Omit<ItDefinition<T>, "fn" | "name">,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     suite: TestSuite<T>,
     name: string,
-    options: Omit<ItDefinition<T>, "name" | "suite">,
+    options: Omit<ItDefinition<T>, "name" | "suite">
   ]
   | [
     suite: TestSuite<T>,
     name: string,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     suite: TestSuite<T>,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     suite: TestSuite<T>,
     name: string,
     options: Omit<ItDefinition<T>, "fn" | "name" | "suite">,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     suite: TestSuite<T>,
     options: Omit<ItDefinition<T>, "fn" | "suite">,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ]
   | [
     suite: TestSuite<T>,
     options: Omit<ItDefinition<T>, "fn" | "name" | "suite">,
-    fn: (this: T, t: Ende.TestContext) => void | Promise<void>,
+    fn: (this: T, t: Ende.TestContext) => void | Promise<void>
   ];
 
 /** Generates an ItDefinition from ItArgs. */
@@ -494,7 +494,7 @@ function itDefinition<T>(...args: ItArgs<T>): ItDefinition<T> {
     suiteOptionsOrNameOrFn,
     optionsOrNameOrFn,
     optionsOrFn,
-    fn,
+    fn
   ] = args;
   let suite: TestSuite<T> | undefined = undefined;
   let name: string;
@@ -520,7 +520,8 @@ function itDefinition<T>(...args: ItArgs<T>): ItDefinition<T> {
       options = {};
     } else {
       options = optionsOrFn!;
-      if (!fn) fn = (options as Omit<ItDefinition<T>, "name">).fn;
+      if (!fn)
+        fn = (options as Omit<ItDefinition<T>, "name">).fn;
     }
   } else if (typeof optionsOrNameOrFn === "function") {
     fn = optionsOrNameOrFn;
@@ -540,7 +541,7 @@ function itDefinition<T>(...args: ItArgs<T>): ItDefinition<T> {
     ...(suite !== undefined ? { suite } : {}),
     ...options,
     name,
-    fn,
+    fn
   };
 }
 
@@ -590,17 +591,18 @@ export interface it {
 export function it<T>(...args: ItArgs<T>) {
   if (TestSuiteInternal.runningCount > 0) {
     throw new Error(
-      "Cannot register new test cases after already registered test cases start running",
+      "Cannot register new test cases after already registered test cases start running"
     );
   }
   const assertionState = getAssertionState();
   const options = itDefinition(...args);
   const { suite } = options;
-  const testSuite = suite
-    ? TestSuiteInternal.suites.get(suite.symbol)
-    : TestSuiteInternal.current;
+  const testSuite = suite ?
+    TestSuiteInternal.suites.get(suite.symbol) :
+    TestSuiteInternal.current;
 
-  if (!TestSuiteInternal.started) TestSuiteInternal.started = true;
+  if (!TestSuiteInternal.started)
+    TestSuiteInternal.started = true;
   if (testSuite) {
     TestSuiteInternal.addStep(testSuite, options);
   } else {
@@ -612,7 +614,7 @@ export function it<T>(...args: ItArgs<T>) {
       permissions,
       sanitizeExit = globalSanitizersState.sanitizeExit,
       sanitizeOps = globalSanitizersState.sanitizeOps,
-      sanitizeResources = globalSanitizersState.sanitizeResources,
+      sanitizeResources = globalSanitizersState.sanitizeResources
     } = options;
     const opts: Ende.TestDefinition = {
       name,
@@ -627,22 +629,20 @@ export function it<T>(...args: ItArgs<T>) {
         try {
           if (assertionState.checkAssertionErrorState()) {
             throw new AssertionError(
-              "Expected at least one assertion to be called but received none",
+              "Expected at least one assertion to be called but received none"
             );
           }
 
           if (assertionState.checkAssertionCountSatisfied()) {
             throw new AssertionError(
-              `Expected exactly ${assertionState.assertionCount} ${
-                assertionState.assertionCount === 1 ? "assertion" : "assertions"
-              } to be called, ` +
-                `but received ${assertionState.assertionTriggeredCount}`,
+              `Expected exactly ${assertionState.assertionCount} ${assertionState.assertionCount === 1 ? "assertion" : "assertions"} to be called, ` +
+                `but received ${assertionState.assertionTriggeredCount}`
             );
           }
         } finally {
           assertionState.resetAssertionState();
         }
-      },
+      }
     };
     if (ignore !== undefined) {
       opts.ignore = ignore;
@@ -691,7 +691,7 @@ it.only = function itOnly<T>(...args: ItArgs<T>): void {
   const options = itDefinition(...args);
   return it({
     ...options,
-    only: true,
+    only: true
   });
 };
 
@@ -720,7 +720,7 @@ it.ignore = function itIgnore<T>(...args: ItArgs<T>): void {
   const options = itDefinition(...args);
   return it({
     ...options,
-    ignore: true,
+    ignore: true
   });
 };
 
@@ -849,17 +849,17 @@ test.skip = function itSkip<T>(...args: ItArgs<T>): void {
 
 function addHook<T>(
   name: HookNames,
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   if (!TestSuiteInternal.current) {
     if (TestSuiteInternal.started) {
       throw new Error(
-        "Cannot add global hooks after a global test is registered",
+        "Cannot add global hooks after a global test is registered"
       );
     }
     TestSuiteInternal.current = new TestSuiteInternal({
       name: "global",
-      [name]: fn,
+      [name]: fn
     });
   } else {
     TestSuiteInternal.setHook(TestSuiteInternal.current!, name, fn);
@@ -895,7 +895,7 @@ function addHook<T>(
  * (Ende 2.5+) instead.
  */
 export function beforeAll<T>(
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   addHook("beforeAll", fn);
 }
@@ -929,7 +929,7 @@ export function beforeAll<T>(
  * (Ende 2.5+) instead.
  */
 export function before<T>(
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   beforeAll(fn);
 }
@@ -961,7 +961,7 @@ export function before<T>(
  * (Ende 2.5+) instead.
  */
 export function afterAll<T>(
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   addHook("afterAll", fn);
 }
@@ -995,7 +995,7 @@ export function afterAll<T>(
  * (Ende 2.5+) instead.
  */
 export function after<T>(
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   afterAll(fn);
 }
@@ -1027,7 +1027,7 @@ export function after<T>(
  * (Ende 2.5+) instead.
  */
 export function beforeEach<T>(
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   addHook("beforeEach", fn);
 }
@@ -1059,7 +1059,7 @@ export function beforeEach<T>(
  * (Ende 2.5+) instead.
  */
 export function afterEach<T>(
-  fn: (this: T) => void | Promise<void>,
+  fn: (this: T) => void | Promise<void>
 ) {
   addHook("afterEach", fn);
 }
@@ -1075,56 +1075,56 @@ export type DescribeArgs<T> =
   | [name: string]
   | [
     name: string,
-    options: Omit<DescribeDefinition<T>, "name">,
+    options: Omit<DescribeDefinition<T>, "name">
   ]
   | [name: string, fn: () => void | undefined]
   | [fn: () => void | undefined]
   | [
     name: string,
     options: Omit<DescribeDefinition<T>, "fn" | "name">,
-    fn: () => void | undefined,
+    fn: () => void | undefined
   ]
   | [
     options: Omit<DescribeDefinition<T>, "fn">,
-    fn: () => void | undefined,
+    fn: () => void | undefined
   ]
   | [
     options: Omit<DescribeDefinition<T>, "fn" | "name">,
-    fn: () => void | undefined,
+    fn: () => void | undefined
+  ]
+  | [
+    suite: TestSuite<T>,
+    name: string
   ]
   | [
     suite: TestSuite<T>,
     name: string,
+    options: Omit<DescribeDefinition<T>, "name" | "suite">
   ]
   | [
     suite: TestSuite<T>,
     name: string,
-    options: Omit<DescribeDefinition<T>, "name" | "suite">,
+    fn: () => void | undefined
   ]
   | [
     suite: TestSuite<T>,
-    name: string,
-    fn: () => void | undefined,
-  ]
-  | [
-    suite: TestSuite<T>,
-    fn: () => void | undefined,
+    fn: () => void | undefined
   ]
   | [
     suite: TestSuite<T>,
     name: string,
     options: Omit<DescribeDefinition<T>, "fn" | "name" | "suite">,
-    fn: () => void | undefined,
+    fn: () => void | undefined
   ]
   | [
     suite: TestSuite<T>,
     options: Omit<DescribeDefinition<T>, "fn" | "suite">,
-    fn: () => void | undefined,
+    fn: () => void | undefined
   ]
   | [
     suite: TestSuite<T>,
     options: Omit<DescribeDefinition<T>, "fn" | "name" | "suite">,
-    fn: () => void | undefined,
+    fn: () => void | undefined
   ];
 
 /** Generates a DescribeDefinition from DescribeArgs. */
@@ -1135,7 +1135,7 @@ function describeDefinition<T>(
     suiteOptionsOrNameOrFn,
     optionsOrNameOrFn,
     optionsOrFn,
-    fn,
+    fn
   ] = args;
   let suite: TestSuite<T> | undefined = undefined;
   let name: string;
@@ -1191,7 +1191,7 @@ function describeDefinition<T>(
     ...options,
     suite: suite!,
     name,
-    fn: fn!,
+    fn: fn!
   };
 }
 
@@ -1243,11 +1243,12 @@ export function describe<T>(
 ): TestSuite<T> {
   if (TestSuiteInternal.runningCount > 0) {
     throw new Error(
-      "Cannot register new test suites after already registered test cases start running",
+      "Cannot register new test suites after already registered test cases start running"
     );
   }
   const options = describeDefinition(...args);
-  if (!TestSuiteInternal.started) TestSuiteInternal.started = true;
+  if (!TestSuiteInternal.started)
+    TestSuiteInternal.started = true;
   const { symbol } = new TestSuiteInternal(options);
   return { symbol };
 }
@@ -1282,7 +1283,7 @@ describe.only = function describeOnly<T>(
   const options = describeDefinition(...args);
   return describe({
     ...options,
-    only: true,
+    only: true
   });
 };
 
@@ -1315,7 +1316,7 @@ describe.ignore = function describeIgnore<T>(
   const options = describeDefinition(...args);
   return describe({
     ...options,
-    ignore: true,
+    ignore: true
   });
 };
 

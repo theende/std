@@ -113,8 +113,8 @@
 import {
   digest,
   DIGEST_ALGORITHM_NAMES,
-  type DigestAlgorithmName,
   DigestContext,
+  type DigestAlgorithmName
 } from "./_wasm/mod.ts";
 
 export { DIGEST_ALGORITHM_NAMES, type DigestAlgorithmName };
@@ -125,14 +125,14 @@ const WEB_CRYPTO_DIGEST_ALGORITHM_NAMES = [
   "SHA-256",
   "SHA-512",
   // insecure (length-extendable and collidable):
-  "SHA-1",
+  "SHA-1"
 ] as const;
 
 /**
  * A copy of the global WebCrypto interface, with methods bound so they're
  * safe to re-export.
  */
-const webCrypto = ((crypto) => ({
+const webCrypto = (crypto => ({
   getRandomValues: crypto.getRandomValues?.bind(crypto),
   randomUUID: crypto.randomUUID?.bind(crypto),
   subtle: {
@@ -147,8 +147,8 @@ const webCrypto = ((crypto) => ({
     sign: crypto.subtle?.sign?.bind(crypto.subtle),
     unwrapKey: crypto.subtle?.unwrapKey?.bind(crypto.subtle),
     verify: crypto.subtle?.verify?.bind(crypto.subtle),
-    wrapKey: crypto.subtle?.wrapKey?.bind(crypto.subtle),
-  },
+    wrapKey: crypto.subtle?.wrapKey?.bind(crypto.subtle)
+  }
 }))(globalThis.crypto);
 
 function toUint8Array(data: unknown): Uint8Array | undefined {
@@ -170,7 +170,7 @@ export interface StdSubtleCrypto extends SubtleCrypto {
    */
   digest(
     algorithm: DigestAlgorithm,
-    data: BufferSource | AsyncIterable<BufferSource> | Iterable<BufferSource>,
+    data: BufferSource | AsyncIterable<BufferSource> | Iterable<BufferSource>
   ): Promise<ArrayBuffer>;
 
   /**
@@ -179,7 +179,7 @@ export interface StdSubtleCrypto extends SubtleCrypto {
    */
   digestSync(
     algorithm: DigestAlgorithm,
-    data: BufferSource | Iterable<BufferSource>,
+    data: BufferSource | Iterable<BufferSource>
   ): ArrayBuffer;
 }
 
@@ -194,7 +194,7 @@ export interface StdCrypto extends Crypto {
  * algorithms, but delegates to the runtime WebCrypto implementation whenever
  * possible.
  */
-const stdCrypto: StdCrypto = ((x) => x)({
+const stdCrypto: StdCrypto = (x => x)({
   ...webCrypto,
   subtle: {
     ...webCrypto.subtle,
@@ -205,7 +205,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
      */
     async digest(
       algorithm: DigestAlgorithm,
-      data: BufferSource | AsyncIterable<BufferSource> | Iterable<BufferSource>,
+      data: BufferSource | AsyncIterable<BufferSource> | Iterable<BufferSource>
     ): Promise<ArrayBuffer> {
       const { name, length } = normalizeAlgorithm(algorithm);
 
@@ -215,7 +215,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
       if (
         // if the algorithm is supported by the WebCrypto standard,
         (WEB_CRYPTO_DIGEST_ALGORITHM_NAMES as readonly string[]).includes(
-          name,
+          name
         ) &&
         // and the data is a single buffer,
         isBufferSource(data)
@@ -229,7 +229,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
         } else if (isIterable(data)) {
           return stdCrypto.subtle.digestSync(
             algorithm,
-            data as Iterable<BufferSource>,
+            data as Iterable<BufferSource>
           );
         } else if (isAsyncIterable(data)) {
           const context = new DigestContext(name);
@@ -237,7 +237,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
             const chunkBytes = toUint8Array(chunk);
             if (!chunkBytes) {
               throw new TypeError(
-                "Cannot digest the data: A chunk is not ArrayBuffer nor ArrayBufferView",
+                "Cannot digest the data: A chunk is not ArrayBuffer nor ArrayBufferView"
               );
             }
             context.update(chunkBytes);
@@ -246,7 +246,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
         } else {
           throw new TypeError(
             // deno-lint-ignore ende-style-guide/error-message
-            "data must be a BufferSource or [Async]Iterable<BufferSource>",
+            "data must be a BufferSource or [Async]Iterable<BufferSource>"
           );
         }
       }
@@ -259,7 +259,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
 
     digestSync(
       algorithm: DigestAlgorithm,
-      data: BufferSource | Iterable<BufferSource>,
+      data: BufferSource | Iterable<BufferSource>
     ): ArrayBuffer {
       const { name, length } = normalizeAlgorithm(algorithm);
       assertValidDigestLength(length);
@@ -274,7 +274,7 @@ const stdCrypto: StdCrypto = ((x) => x)({
           const chunkBytes = toUint8Array(chunk);
           if (!chunkBytes) {
             throw new TypeError(
-              "Cannot digest the data: A chunk is not ArrayBuffer nor ArrayBufferView",
+              "Cannot digest the data: A chunk is not ArrayBuffer nor ArrayBufferView"
             );
           }
           context.update(chunkBytes);
@@ -283,10 +283,10 @@ const stdCrypto: StdCrypto = ((x) => x)({
       }
       throw new TypeError(
         // deno-lint-ignore ende-style-guide/error-message
-        "data must be a BufferSource or Iterable<BufferSource>",
+        "data must be a BufferSource or Iterable<BufferSource>"
       );
-    },
-  },
+    }
+  }
 });
 
 /*
@@ -307,7 +307,7 @@ function assertValidDigestLength(value?: number) {
       !Number.isInteger(value))
   ) {
     throw new RangeError(
-      `length must be an integer between 0 and ${MAX_DIGEST_LENGTH}, inclusive`,
+      `length must be an integer between 0 and ${MAX_DIGEST_LENGTH}, inclusive`
     );
   }
 }
@@ -327,11 +327,11 @@ export type DigestAlgorithmObject = {
 export type DigestAlgorithm = DigestAlgorithmName | DigestAlgorithmObject;
 
 function normalizeAlgorithm(algorithm: DigestAlgorithm) {
-  return ((typeof algorithm === "string")
-    ? { name: algorithm.toUpperCase() }
-    : {
+  return ((typeof algorithm === "string") ?
+    { name: algorithm.toUpperCase() } :
+    {
       ...algorithm,
-      name: algorithm.name.toUpperCase(),
+      name: algorithm.name.toUpperCase()
     }) as DigestAlgorithmObject;
 }
 

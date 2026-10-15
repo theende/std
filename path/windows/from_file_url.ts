@@ -23,8 +23,9 @@ import { assertArg } from "../_common/from_file_url.ts";
 export function fromFileUrl(url: URL | string): string {
   url = assertArg(url);
   let path = decodeURIComponent(
-    url.pathname.replace(/\//g, "\\").replace(/%(?![0-9A-Fa-f]{2})/g, "%25"),
-  ).replace(/^\\*([A-Za-z]:)(\\|$)/, "$1\\");
+    url.pathname.replace(/\//g, "\\").replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+  )
+    .replace(/^\\*([A-Za-z]:)(\\|$)/, "$1\\");
   if (url.hostname !== "") {
     // Note: The `URL` implementation guarantees that the drive letter and
     // hostname are mutually exclusive. Otherwise it would not have been valid

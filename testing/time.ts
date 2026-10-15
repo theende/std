@@ -77,7 +77,8 @@ function fakeTimeNow() {
 
 const FakeDate = new Proxy(Date, {
   construct(_target, args, newTarget) {
-    if (args.length === 0) args.push(FakeDate.now());
+    if (args.length === 0)
+      args.push(FakeDate.now());
     // Forward newTarget so `class X extends Date` keeps its prototype.
     return Reflect.construct(_internals.Date, args, newTarget);
   },
@@ -89,7 +90,7 @@ const FakeDate = new Proxy(Date, {
       return fakeTimeNow;
     }
     return Reflect.get(target, prop, receiver);
-  },
+  }
 });
 
 interface Timer {
@@ -130,11 +131,11 @@ let time: FakeTime | undefined = undefined;
 
 function assertIsCallbackFunction(
   callback: unknown,
-  fnName: "setTimeout" | "setInterval",
+  fnName: "setTimeout" | "setInterval"
 ): asserts callback is (...args: unknown[]) => void {
   if (typeof callback !== "function") {
     throw new TimeError(
-      `FakeTime does not support non-function callbacks to ${fnName}`,
+      `FakeTime does not support non-function callbacks to ${fnName}`
     );
   }
 }
@@ -145,12 +146,14 @@ function fakeSetTimeout(
   ...args: unknown[]
 ): number {
   assertIsCallbackFunction(callback, "setTimeout");
-  if (!time) throw new TimeError("Cannot set timeout: time is not faked");
+  if (!time)
+    throw new TimeError("Cannot set timeout: time is not faked");
   return setTimer(callback, delay, args, false);
 }
 
 function fakeClearTimeout(id?: unknown) {
-  if (!time) throw new TimeError("Cannot clear timeout: time is not faked");
+  if (!time)
+    throw new TimeError("Cannot clear timeout: time is not faked");
   if (typeof id === "number" && dueNodes.has(id)) {
     dueNodes.delete(id);
   }
@@ -162,12 +165,14 @@ function fakeSetInterval(
   ...args: unknown[]
 ): number {
   assertIsCallbackFunction(callback, "setInterval");
-  if (!time) throw new TimeError("Cannot set interval: time is not faked");
+  if (!time)
+    throw new TimeError("Cannot set interval: time is not faked");
   return setTimer(callback, delay, args, true);
 }
 
 function fakeClearInterval(id?: unknown) {
-  if (!time) throw new TimeError("Cannot clear interval: time is not faked");
+  if (!time)
+    throw new TimeError("Cannot clear interval: time is not faked");
   if (typeof id === "number" && dueNodes.has(id)) {
     dueNodes.delete(id);
   }
@@ -177,7 +182,7 @@ function setTimer(
   callback: (...args: unknown[]) => unknown,
   delay = 0,
   args: unknown[],
-  repeat = false,
+  repeat = false
 ): number {
   const id: number = timerId.next().value;
   delay = Math.max(repeat ? 1 : 0, Math.floor(delay));
@@ -193,7 +198,7 @@ function setTimer(
     args,
     delay,
     due,
-    repeat,
+    repeat
   });
   dueNodes.set(id, dueNode);
   return id;
@@ -209,11 +214,9 @@ function fakeAbortSignalTimeout(delay: number): AbortSignal {
 
 function overrideGlobals() {
   globalThis.Date = FakeDate;
-  globalThis.setTimeout =
-    fakeSetTimeout as unknown as typeof globalThis.setTimeout;
+  globalThis.setTimeout = fakeSetTimeout as unknown as typeof globalThis.setTimeout;
   globalThis.clearTimeout = fakeClearTimeout;
-  globalThis.setInterval =
-    fakeSetInterval as unknown as typeof globalThis.setInterval;
+  globalThis.setInterval = fakeSetInterval as unknown as typeof globalThis.setInterval;
   globalThis.clearInterval = fakeClearInterval;
   AbortSignal.timeout = fakeAbortSignalTimeout;
 }
@@ -229,15 +232,18 @@ function restoreGlobals() {
 
 function* timerIdGen() {
   let i = 1;
-  while (true) yield i++;
+  while (true)
+    yield i++;
 }
 
 function nextDueNode(): DueNode | null {
   for (;;) {
     const dueNode = dueTree.min();
-    if (!dueNode) return null;
-    const hasTimer = dueNode.timers.some((timer) => dueNodes.has(timer.id));
-    if (hasTimer) return dueNode;
+    if (!dueNode)
+      return null;
+    const hasTimer = dueNode.timers.some(timer => dueNodes.has(timer.id));
+    if (hasTimer)
+      return dueNode;
     dueTree.remove(dueNode);
   }
 }
@@ -303,22 +309,22 @@ export class FakeTime {
    */
   constructor(
     start?: number | string | Date | null,
-    options?: FakeTimeOptions,
+    options?: FakeTimeOptions
   ) {
     if (time) {
       throw new TimeError("Cannot construct FakeTime: time is already faked");
     }
     initializedAt = _internals.Date.now();
-    startedAt = start instanceof Date
-      ? start.valueOf()
-      : typeof start === "number"
-      ? Math.floor(start)
-      : typeof start === "string"
-      ? (new Date(start)).valueOf()
-      : initializedAt;
+    startedAt = start instanceof Date ?
+      start.valueOf() :
+      typeof start === "number" ?
+      Math.floor(start) :
+      typeof start === "string" ?
+      (new Date(start)).valueOf() :
+      initializedAt;
     if (Number.isNaN(startedAt)) {
       throw new TypeError(
-        `Cannot construct FakeTime: invalid start time ${startedAt}`,
+        `Cannot construct FakeTime: invalid start time ${startedAt}`
       );
     }
     now = startedAt;
@@ -326,7 +332,7 @@ export class FakeTime {
     timerId = timerIdGen();
     dueNodes = new Map();
     dueTree = new RedBlackTree(
-      (a: DueNode, b: DueNode) => ascend(a.due, b.due),
+      (a: DueNode, b: DueNode) => ascend(a.due, b.due)
     );
 
     overrideGlobals();
@@ -334,17 +340,17 @@ export class FakeTime {
 
     advanceRate = Math.max(
       0,
-      options?.advanceRate ?? 0,
+      options?.advanceRate ?? 0
     );
     advanceFrequency = Math.max(
       0,
-      options?.advanceFrequency ?? 10,
+      options?.advanceFrequency ?? 10
     );
-    advanceIntervalId = advanceRate > 0
-      ? _internals.setInterval.call(null, () => {
+    advanceIntervalId = advanceRate > 0 ?
+      _internals.setInterval.call(null, () => {
         this.tick(advanceRate * advanceFrequency);
-      }, advanceFrequency)
-      : undefined;
+      }, advanceFrequency) :
+      undefined;
   }
 
   /**
@@ -438,7 +444,7 @@ export class FakeTime {
   ): Promise<T> {
     if (!time) {
       return Promise.reject(
-        new TimeError("Cannot restore time: time is not faked"),
+        new TimeError("Cannot restore time: time is not faked")
       );
     }
     restoreGlobals();
@@ -503,7 +509,7 @@ export class FakeTime {
   set now(value: number) {
     if (value < now) {
       throw new RangeError(
-        `Cannot set current time in the past, time must be >= ${now}: received ${value}`,
+        `Cannot set current time in the past, time must be >= ${now}: received ${value}`
       );
     }
     let dueNode: DueNode | null = dueTree.min();
@@ -573,7 +579,7 @@ export class FakeTime {
     const { signal } = options;
     if (signal?.aborted) {
       return Promise.reject(
-        new DOMException("Delay was aborted.", "AbortError"),
+        new DOMException("Delay was aborted.", "AbortError")
       );
     }
     return await new Promise((resolve, reject) => {
@@ -581,17 +587,17 @@ export class FakeTime {
       const abort = () =>
         FakeTime
           .restoreFor(() => {
-            if (timer) clearTimeout(timer);
+            if (timer)
+              clearTimeout(timer);
           })
-          .then(() =>
-            reject(new DOMException("Delay was aborted.", "AbortError"))
-          );
+          .then(() => reject(new DOMException("Delay was aborted.", "AbortError")));
       const done = () => {
         signal?.removeEventListener("abort", abort);
         resolve();
       };
-      FakeTime.restoreFor(() => setTimeout(done, ms))
-        .then((id) => timer = id);
+      FakeTime
+        .restoreFor(() => setTimeout(done, ms))
+        .then(id => timer = id);
       signal?.addEventListener("abort", abort, { once: true });
     });
   }
@@ -713,7 +719,8 @@ export class FakeTime {
    */
   next(): boolean {
     const next = nextDueNode();
-    if (next) this.now = next.due;
+    if (next)
+      this.now = next.due;
     return !!next;
   }
 
@@ -835,6 +842,7 @@ export class FakeTime {
     }
     time = undefined;
     restoreGlobals();
-    if (advanceIntervalId) clearInterval(advanceIntervalId);
+    if (advanceIntervalId)
+      clearInterval(advanceIntervalId);
   }
 }

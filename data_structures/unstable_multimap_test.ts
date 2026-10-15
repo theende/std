@@ -3,7 +3,7 @@
 import {
   assertEquals,
   assertNotStrictEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { MultiMap } from "./unstable_multimap.ts";
 
@@ -97,7 +97,7 @@ Ende.test(
     const map = new MultiMap<string, number>([["a", 1]]);
 
     assertEquals(map.hasEntry("a", 2), false);
-  },
+  }
 );
 
 Ende.test(
@@ -106,7 +106,7 @@ Ende.test(
     const map = new MultiMap<string, number>();
 
     assertEquals(map.hasEntry("b", 1), false);
-  },
+  }
 );
 
 Ende.test("MultiMap.delete() removes all values for a key", () => {
@@ -137,7 +137,7 @@ Ende.test(
 
     assertEquals(map.get("a"), [2]);
     assertEquals(map.has("a"), true);
-  },
+  }
 );
 
 Ende.test(
@@ -147,7 +147,7 @@ Ende.test(
     assertEquals(map.deleteEntry("a", 1), true);
 
     assertEquals(map.get("a"), [2, 1]);
-  },
+  }
 );
 
 Ende.test(
@@ -158,7 +158,7 @@ Ende.test(
 
     assertEquals(map.has("a"), false);
     assertEquals(map.size, 0);
-  },
+  }
 );
 
 Ende.test(
@@ -168,7 +168,7 @@ Ende.test(
 
     assertEquals(map.deleteEntry("a", 2), false);
     assertEquals(map.deleteEntry("b", 1), false);
-  },
+  }
 );
 
 Ende.test(
@@ -181,7 +181,7 @@ Ende.test(
     assertEquals(map.deleteEntry("a", NaN), true);
     assertEquals(map.hasEntry("a", NaN), false);
     assertEquals(map.has("a"), false);
-  },
+  }
 );
 
 Ende.test(
@@ -193,7 +193,7 @@ Ende.test(
     assertEquals(map.hasEntry("a", +0), true);
     assertEquals(map.deleteEntry("a", +0), true);
     assertEquals(map.has("a"), false);
-  },
+  }
 );
 
 Ende.test("MultiMap.clear() removes all entries", () => {
@@ -223,8 +223,8 @@ Ende.test("MultiMap.valueCount counts every value, including duplicates", () => 
       ["a", 1],
       ["a", 2],
       ["a", 1],
-      ["b", 3],
-    ] as const,
+      ["b", 3]
+    ] as const
   );
 
   assertEquals(map.size, 2);
@@ -280,7 +280,7 @@ Ende.test(
     const map = new MultiMap([["a", 1], ["a", 2], ["b", 1]] as const);
 
     assertEquals(Array.from(map.values()), [1, 2, 1]);
-  },
+  }
 );
 
 Ende.test("MultiMap.entries() yields flattened [key, value] pairs", () => {
@@ -300,7 +300,7 @@ Ende.test(
 
     assertEquals(first.value, ["a", 1]);
     assertEquals(second.done, true);
-  },
+  }
 );
 
 Ende.test(
@@ -313,14 +313,15 @@ Ende.test(
     const rest: [string, number][] = [];
     for (;;) {
       const { value, done } = it.next();
-      if (done) break;
+      if (done)
+        break;
       rest.push(value as [string, number]);
     }
 
     assertEquals(first.value, ["a", 1]);
     assertEquals(rest, [["a", 2], ["b", 3]]);
     assertEquals(map.has("a"), false);
-  },
+  }
 );
 
 Ende.test(
@@ -334,7 +335,7 @@ Ende.test(
 
     assertEquals(first.value, 1);
     assertEquals(second.done, true);
-  },
+  }
 );
 
 Ende.test("MultiMap.entries() is non-destructive", () => {
@@ -353,9 +354,9 @@ Ende.test(
     assertEquals(Array.from(map[Symbol.iterator]()), [
       ["a", 1],
       ["a", 2],
-      ["b", 3],
+      ["b", 3]
     ]);
-  },
+  }
 );
 
 Ende.test(
@@ -363,10 +364,11 @@ Ende.test(
   () => {
     const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]] as const);
     const result: [string, number][] = [];
-    for (const pair of map) result.push(pair);
+    for (const pair of map)
+      result.push(pair);
 
     assertEquals(result, [["a", 1], ["a", 2], ["b", 3]]);
-  },
+  }
 );
 
 Ende.test(
@@ -377,7 +379,7 @@ Ende.test(
 
     assertEquals(map.size, 2);
     assertEquals(Array.from(map), [["a", 1], ["b", 2]]);
-  },
+  }
 );
 
 Ende.test("MultiMap.forEach() iterates individual (value, key, map) triples", () => {
@@ -388,7 +390,7 @@ Ende.test("MultiMap.forEach() iterates individual (value, key, map) triples", ()
   assertEquals(result, [
     ["a", 1, map],
     ["a", 2, map],
-    ["b", 3, map],
+    ["b", 3, map]
   ]);
 });
 
@@ -400,7 +402,7 @@ Ende.test(
       // deno-lint-ignore no-explicit-any
       () => empty.forEach(null as any),
       TypeError,
-      `Cannot call MultiMap.prototype.forEach: "callbackfn" is not a function`,
+      `Cannot call MultiMap.prototype.forEach: "callbackfn" is not a function`
     );
 
     const populated = new MultiMap([["a", 1]] as const);
@@ -408,9 +410,9 @@ Ende.test(
       // deno-lint-ignore no-explicit-any
       () => populated.forEach(null as any),
       TypeError,
-      `Cannot call MultiMap.prototype.forEach: "callbackfn" is not a function`,
+      `Cannot call MultiMap.prototype.forEach: "callbackfn" is not a function`
     );
-  },
+  }
 );
 
 Ende.test(
@@ -420,12 +422,13 @@ Ende.test(
     const seen: number[] = [];
     map.forEach((value, key) => {
       seen.push(value);
-      if (value === 1) map.add(key, 99);
+      if (value === 1)
+        map.add(key, 99);
     });
 
     assertEquals(seen, [1]);
     assertEquals(map.get("a"), [1, 99]);
-  },
+  }
 );
 
 Ende.test(
@@ -435,19 +438,20 @@ Ende.test(
     const seen: number[] = [];
     map.forEach((value, key) => {
       seen.push(value);
-      if (value === 1) map.deleteEntry(key, 2);
+      if (value === 1)
+        map.deleteEntry(key, 2);
     });
 
     assertEquals(seen, [1, 2, 3]);
     assertEquals(map.get("a"), [1, 3]);
-  },
+  }
 );
 
 Ende.test("MultiMap.forEach() binds thisArg when provided", () => {
   const map = new MultiMap([["a", 1], ["b", 2]] as const);
   const context = { prefix: "x:" };
   const result: string[] = [];
-  map.forEach(function (value, key) {
+  map.forEach(function(value, key) {
     result.push(`${this.prefix}${key}=${value}`);
   }, context);
 
@@ -461,9 +465,9 @@ Ende.test(
 
     assertEquals(
       Array.from(map.groups(), ([k, vs]) => [k, [...vs]]),
-      [["a", [1, 2]], ["b", [3]]],
+      [["a", [1, 2]], ["b", [3]]]
     );
-  },
+  }
 );
 
 Ende.test(
@@ -472,11 +476,12 @@ Ende.test(
     const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]] as const);
     const collisions: string[] = [];
     for (const [key, values] of map.groups()) {
-      if (values.length > 1) collisions.push(key);
+      if (values.length > 1)
+        collisions.push(key);
     }
 
     assertEquals(collisions, ["a"]);
-  },
+  }
 );
 
 Ende.test("MultiMap.groups() is non-destructive", () => {
@@ -501,7 +506,7 @@ Ende.test(
     assertEquals(map.has("a"), true);
     assertEquals(map.get("a"), [1, 2]);
     assertEquals(map.hasEntry("a", 1), true);
-  },
+  }
 );
 
 Ende.test(
@@ -512,7 +517,7 @@ Ende.test(
     assertEquals(map.size, 2);
     assertEquals(map.get("a"), [1, 1, 2]);
     assertEquals(map.get("b"), [3]);
-  },
+  }
 );
 
 Ende.test("MultiMap constructor accepts null", () => {
@@ -541,7 +546,7 @@ Ende.test(
 
     map.add("a", 3);
     assertEquals(snapshot.get("a"), [1, 999]);
-  },
+  }
 );
 
 Ende.test("MultiMap.toMap() on an empty multimap returns an empty Map", () => {
@@ -554,15 +559,15 @@ Ende.test("MultiMap.groupBy() buckets items by keyFn result", () => {
   const users = [
     { name: "Ada", role: "admin" },
     { name: "Bo", role: "user" },
-    { name: "Cy", role: "admin" },
+    { name: "Cy", role: "admin" }
   ];
 
-  const byRole = MultiMap.groupBy(users, (u) => u.role);
+  const byRole = MultiMap.groupBy(users, u => u.role);
 
   assertEquals(byRole.size, 2);
   assertEquals(byRole.get("admin"), [
     { name: "Ada", role: "admin" },
-    { name: "Cy", role: "admin" },
+    { name: "Cy", role: "admin" }
   ]);
   assertEquals(byRole.get("user"), [{ name: "Bo", role: "user" }]);
 });
@@ -570,7 +575,7 @@ Ende.test("MultiMap.groupBy() buckets items by keyFn result", () => {
 Ende.test("MultiMap.groupBy() preserves encounter order within buckets", () => {
   const grouped = MultiMap.groupBy(
     [3, 1, 4, 1, 5, 9, 2, 6],
-    (n) => (n % 2 === 0 ? "even" : "odd"),
+    n => (n % 2 === 0 ? "even" : "odd")
   );
 
   assertEquals(grouped.get("even"), [4, 2, 6]);
@@ -594,7 +599,7 @@ Ende.test("MultiMap.groupBy() accepts an arbitrary iterable", () => {
     yield 3;
   }
 
-  const grouped = MultiMap.groupBy(gen(), (n) => n % 2 === 0 ? "even" : "odd");
+  const grouped = MultiMap.groupBy(gen(), n => n % 2 === 0 ? "even" : "odd");
 
   assertEquals(grouped.get("even"), [2]);
   assertEquals(grouped.get("odd"), [1, 3]);
@@ -607,16 +612,16 @@ Ende.test(
       // deno-lint-ignore no-explicit-any
       () => MultiMap.groupBy([], null as any),
       TypeError,
-      `Cannot call MultiMap.groupBy: "keyFn" is not a function`,
+      `Cannot call MultiMap.groupBy: "keyFn" is not a function`
     );
 
     assertThrows(
       // deno-lint-ignore no-explicit-any
       () => MultiMap.groupBy([1, 2, 3], null as any),
       TypeError,
-      `Cannot call MultiMap.groupBy: "keyFn" is not a function`,
+      `Cannot call MultiMap.groupBy: "keyFn" is not a function`
     );
-  },
+  }
 );
 
 Ende.test("MultiMap.groupBy() on an empty iterable returns an empty multimap", () => {
@@ -633,7 +638,7 @@ Ende.test("MultiMap.groupBy() and toMap() round-trip", () => {
 
   assertEquals(
     grouped.toMap(),
-    new Map([[1, [1, 4]], [2, [2, 5]], [0, [3, 6]]]),
+    new Map([[1, [1, 4]], [2, [2, 5]], [0, [3, 6]]])
   );
 });
 
@@ -648,7 +653,7 @@ Ende.test("MultiMap is inspected as 'MultiMap(size) { key => [values], ... }'", 
 
   assertEquals(
     Ende.inspect(map),
-    `MultiMap(2) { "a" => [ 1, 2 ], "b" => [ 3 ] }`,
+    `MultiMap(2) { "a" => [ 1, 2 ], "b" => [ 3 ] }`
   );
 });
 

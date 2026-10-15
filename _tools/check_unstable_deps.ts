@@ -17,7 +17,7 @@ import { createGraph } from "@deno/graph";
 // and should be ignored.
 const EXCEPTIONS = [
   "@ende/http/file-server",
-  "@ende/http",
+  "@ende/http"
 ];
 
 const entrypoints = await getEntrypoints();
@@ -27,27 +27,30 @@ const unstablePackageNames = (await getPackagesEndeJsons())
 
 const [unstableEntrypoints, stableEntrypoints] = partition(
   entrypoints,
-  (entrypoint) =>
-    unstablePackageNames.some((name) => entrypoint.startsWith(name)) ||
-    entrypoint.includes("unstable-"),
+  entrypoint =>
+    unstablePackageNames.some(name => entrypoint.startsWith(name)) ||
+    entrypoint.includes("unstable-")
 );
 
 const unstableSpecifiers = unstableEntrypoints
-  .map((entrypoint) => import.meta.resolve(entrypoint));
+  .map(entrypoint => import.meta.resolve(entrypoint));
 const stableSpecifiers = stableEntrypoints
-  .filter((entrypoint) => !EXCEPTIONS.includes(entrypoint))
-  .map((entrypoint) => import.meta.resolve(entrypoint));
+  .filter(entrypoint => !EXCEPTIONS.includes(entrypoint))
+  .map(entrypoint => import.meta.resolve(entrypoint));
 
 let hasError = false;
 const graph = await createGraph(stableSpecifiers, { resolve });
 for (const module of graph.modules) {
-  if (module.dependencies === undefined) continue;
+  if (module.dependencies === undefined)
+    continue;
   for (const dependency of module.dependencies) {
-    if (dependency.code === undefined) continue;
+    if (dependency.code === undefined)
+      continue;
     const { specifier } = dependency.code;
-    if (!specifier || !unstableSpecifiers.includes(specifier)) continue;
+    if (!specifier || !unstableSpecifiers.includes(specifier))
+      continue;
     console.error(
-      `Stable module ${module.specifier} imports unstable module: ${specifier}`,
+      `Stable module ${module.specifier} imports unstable module: ${specifier}`
     );
     hasError = true;
   }

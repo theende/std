@@ -3,35 +3,35 @@
 import { equals } from "./equals.ts";
 import { assert, assertEquals, assertNotEquals } from "@ende/assert";
 
-Ende.test("equals()", async (t) => {
+Ende.test("equals()", async t => {
   await t.step("`true` where `a` and `b` are identical", () => {
     assert(equals(
       new Uint8Array([0, 1, 2, 3]),
-      new Uint8Array([0, 1, 2, 3]),
+      new Uint8Array([0, 1, 2, 3])
     ));
   });
   await t.step("`false` where last byte differs", () => {
     assert(
       !equals(
         new Uint8Array([0, 1, 2, 3]),
-        new Uint8Array([0, 1, 2, 255]),
-      ),
+        new Uint8Array([0, 1, 2, 255])
+      )
     );
   });
   await t.step("`false` where `b` is a truncated version of `a`", () => {
     assert(
       !equals(
         new Uint8Array([0, 1, 2, 0]),
-        new Uint8Array([0, 1, 2]),
-      ),
+        new Uint8Array([0, 1, 2])
+      )
     );
   });
   await t.step("`false` where `a` is a truncated version of `b`", () => {
     assert(
       !equals(
         new Uint8Array([0, 1, 2]),
-        new Uint8Array([0, 1, 2, 0]),
-      ),
+        new Uint8Array([0, 1, 2, 0])
+      )
     );
   });
 });

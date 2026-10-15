@@ -79,7 +79,7 @@
 export function zipReadableStreams<T>(
   ...streams: ReadableStream<T>[]
 ): ReadableStream<T> {
-  const readers = new Set(streams.map((s) => s.getReader()));
+  const readers = new Set(streams.map(s => s.getReader()));
   return new ReadableStream<T>({
     async start(controller) {
       try {
@@ -99,6 +99,6 @@ export function zipReadableStreams<T>(
       } catch (e) {
         controller.error(e);
       }
-    },
+    }
   });
 }

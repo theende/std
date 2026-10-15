@@ -4,7 +4,7 @@
 import {
   createGraph,
   type ModuleGraphJson,
-  type ModuleJson,
+  type ModuleJson
 } from "@deno/graph";
 import { getPackagesEndeJsons, resolve } from "./utils.ts";
 import { parse } from "../semver/parse.ts";
@@ -37,7 +37,7 @@ type Dep = {
 };
 
 const packagesEndeJsons = await getPackagesEndeJsons();
-const ENTRYPOINTS = Object.fromEntries(packagesEndeJsons.map((pkg) => {
+const ENTRYPOINTS = Object.fromEntries(packagesEndeJsons.map(pkg => {
   const entrypoints = Object.values(pkg.exports);
   return [pkg.name.replace("@ende/", "").replace("-", "_"), entrypoints];
 })) as Record<string, string[]>;
@@ -51,7 +51,7 @@ function getPackageNameFromUrl(url: string): string {
 
 async function getStability(pkg: string): Promise<DepState> {
   const config = await import(`../${pkg}/ende.json`, {
-    with: { type: "json" },
+    with: { type: "json" }
   });
   const version = parse(config.default.version);
   return version.major > 0 ? "Stable" : "Unstable";
@@ -59,7 +59,7 @@ async function getStability(pkg: string): Promise<DepState> {
 
 async function check(
   pkg: string,
-  paths: string[] = ["mod.ts"],
+  paths: string[] = ["mod.ts"]
 ): Promise<Dep> {
   const deps = new Set<string>();
   for (const path of paths) {
@@ -68,7 +68,7 @@ async function check(
 
     for (
       const dep of new Set(
-        getPackageDepsFromSpecifier(pkg, graph, entrypoint),
+        getPackageDepsFromSpecifier(pkg, graph, entrypoint)
       )
     ) {
       deps.add(dep);
@@ -83,11 +83,9 @@ function getPackageDepsFromSpecifier(
   base: string,
   graph: ModuleGraphJson,
   specifier: string,
-  seen: Set<string> = new Set(),
+  seen: Set<string> = new Set()
 ): Set<string> {
-  const { dependencies } = graph.modules.find((item: ModuleJson) =>
-    item.specifier === specifier
-  )!;
+  const { dependencies } = graph.modules.find((item: ModuleJson) => item.specifier === specifier)!;
   const pkg = getPackageNameFromUrl(specifier);
   const deps = new Set([pkg]);
   seen.add(specifier);
@@ -103,7 +101,7 @@ function getPackageDepsFromSpecifier(
         base,
         graph,
         specifier,
-        seen,
+        seen
       )!;
       for (const dep of res) {
         deps.add(dep);
@@ -121,7 +119,7 @@ for (const [mod, entrypoints] of Object.entries(ENTRYPOINTS)) {
 function checkCircularDeps(
   pkg: string,
   ancestors: string[] = [],
-  seen: Set<string> = new Set(),
+  seen: Set<string> = new Set()
 ): string[] | undefined {
   const currentDeps = [...ancestors, pkg];
   if (ancestors.includes(pkg)) {
@@ -141,7 +139,7 @@ function checkCircularDeps(
 
 /** Formats label for diagram */
 function formatLabel(mod: string) {
-  return '"' + mod.replace(/_/g, "-\\n") + '"';
+  return "\"" + mod.replace(/_/g, "-\\n") + "\"";
 }
 
 /** Returns node style (in DOT language) for each state */
@@ -173,9 +171,7 @@ if (Ende.args.includes("--graph")) {
         console.log(`import "jsr:@ende/${mod.replaceAll("_", "-")}";`);
       } else {
         console.log(
-          `import "jsr:@ende/${mod.replaceAll("_", "-")}/${
-            path.slice(2).replace(".ts", "").replaceAll("_", "-")
-          }";`,
+          `import "jsr:@ende/${mod.replaceAll("_", "-")}/${path.slice(2).replace(".ts", "").replaceAll("_", "-")}";`
         );
       }
     }

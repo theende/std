@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
 import { assert, assertEquals } from "@ende/assert";
-import { type GlobOptions, globToRegExp } from "./glob_to_regexp.ts";
+import { globToRegExp, type GlobOptions } from "./glob_to_regexp.ts";
 import { globToRegExp as posixGlobToRegExp } from "./posix/glob_to_regexp.ts";
 import { globToRegExp as windowsGlobToRegExp } from "./windows/glob_to_regexp.ts";
 
@@ -29,7 +29,7 @@ Ende.test({
   name: "globToRegExp() returns RegExp from a glob",
   fn() {
     assertEquals(posixGlobToRegExp("*.js"), /^[^/]*\.js\/*$/);
-  },
+  }
 });
 
 Ende.test({
@@ -37,7 +37,7 @@ Ende.test({
   fn() {
     assertEquals(globToRegExp(""), /(?!)/);
     assertEquals(posixGlobToRegExp("*.js"), /^[^/]*\.js\/*$/);
-  },
+  }
 });
 
 Ende.test({
@@ -54,7 +54,7 @@ Ende.test({
     assert(!match("ico", "unicorn", { extended: false, globstar: false }));
     assert(match("u*nicorn", "unicorn", { extended: false, globstar: false }));
     assert(match("u*nicorn", "unicorn", { extended: false, globstar: false }));
-  },
+  }
 });
 
 Ende.test({
@@ -66,7 +66,7 @@ Ende.test({
     assert(!match("?fo", "fooo", { extended: false, globstar: false }));
     assert(!match("f?oo", "foo", { extended: false, globstar: false }));
     assert(!match("foo?", "foo", { extended: false, globstar: false }));
-  },
+  }
 });
 
 Ende.test({
@@ -79,7 +79,7 @@ Ende.test({
     assert(!match("fo[a-d]", "fot", { extended: false, globstar: false }));
     assert(!match("fo[!tz]", "fot", { extended: false, globstar: false }));
     assert(match("fo[!tz]", "fob", { extended: false, globstar: false }));
-  },
+  }
 });
 
 Ende.test({
@@ -89,22 +89,22 @@ Ende.test({
       match(
         "[[:alnum:]]/bar.txt",
         "a/bar.txt",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     assert(
       match(
         "[[:alnum:]abc]/bar.txt",
         "1/bar.txt",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     assert(
       !match(
         "[[:alnum:]]/bar.txt",
         "!/bar.txt",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     for (const c of "09AGZagz") {
       assert(match("[[:alnum:]]", c, { extended: false, globstar: false }), c);
@@ -148,25 +148,25 @@ Ende.test({
     for (const c of "09AFaf") {
       assert(match("[[:xdigit:]]", c, { extended: false, globstar: false }), c);
     }
-  },
+  }
 });
 
 Ende.test({
   name: `globToRegExp() checks {} (brace expansion)`,
   fn() {
     assert(
-      match("foo{bar,baaz}", "foobaaz", { extended: false, globstar: false }),
+      match("foo{bar,baaz}", "foobaaz", { extended: false, globstar: false })
     );
     assert(
-      match("foo{bar,baaz}", "foobar", { extended: false, globstar: false }),
+      match("foo{bar,baaz}", "foobar", { extended: false, globstar: false })
     );
     assert(
-      !match("foo{bar,baaz}", "foobuzz", { extended: false, globstar: false }),
+      !match("foo{bar,baaz}", "foobuzz", { extended: false, globstar: false })
     );
     assert(
-      match("foo{bar,b*z}", "foobuzz", { extended: false, globstar: false }),
+      match("foo{bar,b*z}", "foobuzz", { extended: false, globstar: false })
     );
-  },
+  }
 });
 
 Ende.test({
@@ -176,38 +176,38 @@ Ende.test({
       match(
         "http://?o[oz].b*z.com/{*.js,*.html}",
         "http://foo.baaz.com/jquery.min.js",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     assert(
       match(
         "http://?o[oz].b*z.com/{*.js,*.html}",
         "http://moz.buzz.com/index.html",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     assert(
       !match(
         "http://?o[oz].b*z.com/{*.js,*.html}",
         "http://moz.buzz.com/index.htm",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     assert(
       !match(
         "http://?o[oz].b*z.com/{*.js,*.html}",
         "http://moz.bar.com/index.html",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
     assert(
       !match(
         "http://?o[oz].b*z.com/{*.js,*.html}",
         "http://flozz.buzz.com/index.html",
-        { extended: false, globstar: false },
-      ),
+        { extended: false, globstar: false }
+      )
     );
-  },
+  }
 });
 
 Ende.test({
@@ -230,40 +230,39 @@ Ende.test({
     assert(match("**/*.txt", "foo.txt"));
     assert(!match("/foo/**.txt", "/foo/bar/baz/qux.txt"));
     assert(
-      !match("/foo/bar**/*.txt", "/foo/bar/baz/qux.txt"),
+      !match("/foo/bar**/*.txt", "/foo/bar/baz/qux.txt")
     );
     assert(!match("/foo/bar**", "/foo/bar/baz.txt"));
     assert(!match("**/.txt", "/foo/bar/baz/qux.txt"));
     assert(
       !match(
         "http://foo.com/*",
-        "http://foo.com/bar/baz/jquery.min.js",
-      ),
+        "http://foo.com/bar/baz/jquery.min.js"
+      )
     );
     assert(
-      !match("http://foo.com/*", "http://foo.com/bar/baz/jquery.min.js"),
+      !match("http://foo.com/*", "http://foo.com/bar/baz/jquery.min.js")
     );
     assert(
-      match("http://foo.com/**", "http://foo.com/bar/baz/jquery.min.js"),
+      match("http://foo.com/**", "http://foo.com/bar/baz/jquery.min.js")
     );
     assert(
       match(
         "http://foo.com/**/jquery.min.js",
-        "http://foo.com/bar/baz/jquery.min.js",
-      ),
+        "http://foo.com/bar/baz/jquery.min.js"
+      )
     );
     assert(
       !match(
         "http://foo.com/*/jquery.min.js",
-        "http://foo.com/bar/baz/jquery.min.js",
-      ),
+        "http://foo.com/bar/baz/jquery.min.js"
+      )
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    `globToRegExp() checks "?" (pattern-list) (extended: match zero or one)`,
+  name: `globToRegExp() checks "?" (pattern-list) (extended: match zero or one)`,
   fn() {
     assert(match("?(foo).txt", "foo.txt"));
     assert(!match("?(foo).txt", "foo.txt", { extended: false }));
@@ -282,7 +281,7 @@ Ende.test({
     assert(!match("?(foo|bar)baz.txt", "foobarbaz.txt"));
     assert(!match("?(ba[zr]|qux)baz.txt", "bazquxbaz.txt"));
     assert(!match("?(ba[!zr]|qux)baz.txt", "bazbaz.txt"));
-  },
+  }
 });
 
 Ende.test({
@@ -305,7 +304,7 @@ Ende.test({
     assert(match("*(*).txt", "whatever.txt"));
     assert(match("*(foo|bar)/**/*.txt", "foo/hello/world/bar.txt"));
     assert(match("*(foo|bar)/**/*.txt", "foo/world/bar.txt"));
-  },
+  }
 });
 
 Ende.test({
@@ -316,7 +315,7 @@ Ende.test({
     assert(match("+(foo).txt", "+(foo).txt", { extended: false }));
     assert(!match("+(foo).txt", ".txt"));
     assert(match("+(foo|bar).txt", "foobar.txt"));
-  },
+  }
 });
 
 Ende.test({
@@ -329,7 +328,7 @@ Ende.test({
     assert(!match("@(foo|baz)bar.txt", "foobazbar.txt"));
     assert(!match("@(foo|baz)bar.txt", "foofoobar.txt"));
     assert(!match("@(foo|baz)bar.txt", "toofoobar.txt"));
-  },
+  }
 });
 
 Ende.test({
@@ -341,7 +340,7 @@ Ende.test({
     assert(match("!(foo|baz)bar.txt", "buzbar.txt"));
     assert(match("!({foo,bar})baz.txt", "notbaz.txt"));
     assert(!match("!({foo,bar})baz.txt", "foobaz.txt"));
-  },
+  }
 });
 
 Ende.test({
@@ -350,7 +349,7 @@ Ende.test({
     const glob = "\\/$^+.()=!|,.*";
     assert(match(glob, glob));
     assert(match(glob, glob, { extended: false }));
-  },
+  }
 });
 
 Ende.test({
@@ -358,7 +357,7 @@ Ende.test({
   fn() {
     assertEquals(posixGlobToRegExp("[?*+@!|]"), /^[?*+@!|]\/*$/);
     assertEquals(posixGlobToRegExp("[!?*+@!|]"), /^[^?*+@!|]\/*$/);
-  },
+  }
 });
 
 Ende.test({
@@ -368,7 +367,7 @@ Ende.test({
     assertEquals(posixGlobToRegExp("[\\\\$^.=]"), /^[\\$^.=]\/*$/);
     assertEquals(posixGlobToRegExp("[!\\\\$^.=]"), /^[^\\$^.=]\/*$/);
     assertEquals(posixGlobToRegExp("[^^]"), /^[\^^]\/*$/);
-  },
+  }
 });
 
 Ende.test({
@@ -380,7 +379,7 @@ Ende.test({
     assert(match("**/bar", "foo//bar"));
     assert(match("**//bar", "foo/bar"));
     assert(match("**//bar", "foo//bar"));
-  },
+  }
 });
 
 Ende.test({
@@ -392,7 +391,7 @@ Ende.test({
     assert(match("**", "foo/"));
     assert(match("**/", "foo"));
     assert(match("**/", "foo/"));
-  },
+  }
 });
 
 Ende.test({
@@ -404,7 +403,7 @@ Ende.test({
     assert(windowsMatch("**/bar", "foo\\bar"));
     assert(windowsMatch("**\\bar", "foo/bar"));
     assert(windowsMatch("**\\bar", "foo\\bar"));
-  },
+  }
 });
 
 Ende.test({
@@ -419,7 +418,7 @@ Ende.test({
     assert(match("{foo,bar}/!(foo|bar", "foo/!(foo|bar"));
     assert(match("{foo,bar}/?({)}", "foo/?({)}"));
     assert(match("{foo,bar}/{?(})", "foo/{?(})"));
-  },
+  }
 });
 
 Ende.test({
@@ -443,7 +442,7 @@ Ende.test({
     assert(windowsMatch("@`(foo|bar)", "@(foo|bar)"));
     assert(posixMatch("{foo,bar}/[ab]\\", "foo/[ab]\\"));
     assert(windowsMatch("{foo,bar}/[ab]`", "foo/[ab]`"));
-  },
+  }
 });
 
 Ende.test({
@@ -451,7 +450,7 @@ Ende.test({
   fn() {
     assert(posixMatch("{foo,bar}/[ab]\\", "foo/[ab]\\"));
     assert(windowsMatch("{foo,bar}/[ab]`", "foo/[ab]`"));
-  },
+  }
 });
 
 Ende.test({
@@ -465,7 +464,7 @@ Ende.test({
     assertEquals("foo".match(pattern2)?.[0], undefined);
     assertEquals("bar".match(pattern2)?.[0], undefined);
     assertEquals("?(foo|bar)".match(pattern2)?.[0], "?(foo|bar)");
-  },
+  }
 });
 
 Ende.test({
@@ -479,7 +478,7 @@ Ende.test({
     assertEquals("foo".match(pattern2)?.[0], undefined);
     assertEquals("path/to/foo".match(pattern2)?.[0], undefined);
     assertEquals("path-to/foo".match(pattern2)?.[0], "path-to/foo");
-  },
+  }
 });
 
 Ende.test({
@@ -492,7 +491,7 @@ Ende.test({
     const pattern2 = globToRegExp("foo/bar", { caseInsensitive: true });
     assertEquals("foo/bar".match(pattern2)?.[0], "foo/bar");
     assertEquals("Foo/Bar".match(pattern2)?.[0], "Foo/Bar");
-  },
+  }
 });
 
 Ende.test({
@@ -506,5 +505,5 @@ Ende.test({
     assert(match("**/@(foo/*.json|*.txt)", "/c/Users/me/file.txt"));
     assert(match("**/+(foo/*.json|*.txt)", "/c/Users/me/foo/bar.json"));
     assert(match("**/+(foo/*.json|*.txt)", "/c/Users/me/file.txt"));
-  },
+  }
 });

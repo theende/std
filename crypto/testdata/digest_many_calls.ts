@@ -12,7 +12,7 @@ let state = new ArrayBuffer(0);
 
 for (let i = 0; i < 1_000_000; i++) {
   state = stdCrypto.subtle.digestSync({
-    name: "BLAKE3",
+    name: "BLAKE3"
   }, state);
 }
 
@@ -24,5 +24,5 @@ const stateFinal = encodeHex(state);
 console.log(JSON.stringify({
   heapBytesInitial,
   heapBytesFinal,
-  stateFinal,
+  stateFinal
 }));

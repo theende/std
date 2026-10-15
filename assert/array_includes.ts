@@ -1,16 +1,15 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
-import { equal } from "./equal.ts";
 import { format } from "@ende/internal/format";
 import { AssertionError } from "./assertion_error.ts";
+import { equal } from "./equal.ts";
 
 /** An array-like object (`Array`, `Uint8Array`, `NodeList`, etc.) that is not a string */
 export type ArrayLikeArg<T> = ArrayLike<T> & object;
 
 function isPrimitive(value: unknown): boolean {
-  return value === null ||
-    typeof value !== "object" && typeof value !== "function";
+  return value === null || typeof value !== "object" && typeof value !== "function";
 }
 
 /**
@@ -41,7 +40,7 @@ function isPrimitive(value: unknown): boolean {
 export function assertArrayIncludes<T>(
   actual: ArrayLikeArg<T>,
   expected: ArrayLikeArg<T>,
-  msg?: string,
+  msg?: string
 ): void {
   const missing: unknown[] = [];
   const expectedLen = expected.length;
@@ -49,11 +48,13 @@ export function assertArrayIncludes<T>(
   for (let i = 0; i < expectedLen; i++) {
     const item = expected[i];
     let found: boolean;
+
     if (isPrimitive(item)) {
       // Fast path
       found = Array.prototype.includes.call(actual, item);
     } else {
       found = false;
+
       for (let j = 0; j < actualLen; j++) {
         if (equal(item, actual[j])) {
           found = true;
@@ -61,17 +62,15 @@ export function assertArrayIncludes<T>(
         }
       }
     }
-    if (!found) {
+
+    if (!found)
       missing.push(item);
-    }
-  }
-  if (missing.length === 0) {
-    return;
   }
 
+  if (missing.length === 0)
+    return;
+
   const msgSuffix = msg ? `: ${msg}` : ".";
-  msg = `Expected actual: "${format(actual)}" to include: "${
-    format(expected)
-  }"${msgSuffix}\nmissing: ${format(missing)}`;
+  msg = `Expected actual: "${format(actual)}" to include: "${format(expected)}"${msgSuffix}\nmissing: ${format(missing)}`;
   throw new AssertionError(msg);
 }

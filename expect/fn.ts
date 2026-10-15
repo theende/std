@@ -55,11 +55,11 @@ export function fn(...stubs: Function[]): Function {
   const calls: MockCall[] = [];
 
   const f = (...args: any[]) => {
-    const stub = stubs.length === 1
+    const stub = stubs.length === 1 ?
       // keep reusing the first
-      ? stubs[0]
+      stubs[0] :
       // pick the exact mock for the current call
-      : stubs[calls.length];
+      stubs[calls.length];
 
     try {
       const returned = stub ? stub(...args) : undefined;
@@ -68,7 +68,7 @@ export function fn(...stubs: Function[]): Function {
         returned,
         timestamp: Date.now(),
         returns: true,
-        throws: false,
+        throws: false
       });
       return returned;
     } catch (err) {
@@ -77,7 +77,7 @@ export function fn(...stubs: Function[]): Function {
         timestamp: Date.now(),
         returns: false,
         thrown: err,
-        throws: true,
+        throws: true
       });
       throw err;
     }
@@ -85,7 +85,7 @@ export function fn(...stubs: Function[]): Function {
 
   Object.defineProperty(f, MOCK_SYMBOL, {
     value: { calls },
-    writable: false,
+    writable: false
   });
 
   return f;

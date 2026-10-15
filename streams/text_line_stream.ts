@@ -78,7 +78,8 @@ export class TextLineStream extends TransformStream<string, string> {
     const allowCR = options.allowCR ?? false;
     super({
       transform: (chars, controller) => {
-        if (chars.length === 0) return;
+        if (chars.length === 0)
+          return;
 
         // Fast path: if no line can complete within this chunk, buffer it
         // without rescanning the accumulated text. This keeps the total cost
@@ -94,9 +95,9 @@ export class TextLineStream extends TransformStream<string, string> {
         }
 
         this.#pending.push(chars);
-        const text = this.#pending.length === 1
-          ? this.#pending[0]!
-          : this.#pending.join("");
+        const text = this.#pending.length === 1 ?
+          this.#pending[0]! :
+          this.#pending.join("");
         this.#pending.length = 0;
 
         let start = 0;
@@ -114,7 +115,8 @@ export class TextLineStream extends TransformStream<string, string> {
             continue;
           }
 
-          if (lfIndex === -1) break;
+          if (lfIndex === -1)
+            break;
 
           const endIndex = text[lfIndex - 1] === "\r" ? lfIndex - 1 : lfIndex;
           controller.enqueue(text.slice(start, endIndex));
@@ -133,16 +135,17 @@ export class TextLineStream extends TransformStream<string, string> {
           this.#pendingTrailsCR = false;
         }
       },
-      flush: (controller) => {
-        if (this.#pending.length === 0) return;
-        let currentLine = this.#pending.length === 1
-          ? this.#pending[0]!
-          : this.#pending.join("");
+      flush: controller => {
+        if (this.#pending.length === 0)
+          return;
+        let currentLine = this.#pending.length === 1 ?
+          this.#pending[0]! :
+          this.#pending.join("");
         if (allowCR && currentLine.endsWith("\r")) {
           currentLine = currentLine.slice(0, -1);
         }
         controller.enqueue(currentLine);
-      },
+      }
     });
   }
 }

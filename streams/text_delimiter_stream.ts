@@ -6,7 +6,7 @@ import { createLPS } from "./_common.ts";
 
 import type {
   DelimiterDisposition,
-  DelimiterStreamOptions,
+  DelimiterStreamOptions
 } from "./delimiter_stream.ts";
 
 /**
@@ -71,15 +71,15 @@ export class TextDelimiterStream extends TransformStream<string, string> {
    */
   constructor(
     delimiter: string,
-    options?: DelimiterStreamOptions,
+    options?: DelimiterStreamOptions
   ) {
     super({
       transform: (chunk, controller) => {
         this.#handle(chunk, controller);
       },
-      flush: (controller) => {
+      flush: controller => {
         controller.enqueue(this.#buf);
-      },
+      }
     });
 
     this.#delimiter = delimiter;
@@ -89,7 +89,7 @@ export class TextDelimiterStream extends TransformStream<string, string> {
 
   #handle(
     chunk: string,
-    controller: TransformStreamDefaultController<string>,
+    controller: TransformStreamDefaultController<string>
   ) {
     this.#buf += chunk;
     let localIndex = 0;
@@ -106,9 +106,9 @@ export class TextDelimiterStream extends TransformStream<string, string> {
           controller.enqueue(copy);
           const shift = this.#disp === "prefix" ? start : this.#inspectIndex;
           this.#buf = this.#buf.slice(shift);
-          this.#inspectIndex = this.#disp === "prefix"
-            ? this.#delimiter.length
-            : 0;
+          this.#inspectIndex = this.#disp === "prefix" ?
+            this.#delimiter.length :
+            0;
           this.#matchIndex = 0;
         }
       } else {

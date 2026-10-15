@@ -133,13 +133,11 @@ export interface ResponseCacheControl extends CacheControlBase {
  * @experimental **UNSTABLE**: New API, yet to be vetted.
  */
 export type CacheControl = {
-  [K in keyof RequestCacheControl | keyof ResponseCacheControl]?: K extends
-    keyof RequestCacheControl
-    ? K extends keyof ResponseCacheControl
-      ? RequestCacheControl[K] | ResponseCacheControl[K]
-    : RequestCacheControl[K]
-    : K extends keyof ResponseCacheControl ? ResponseCacheControl[K]
-    : never;
+  [K in keyof RequestCacheControl | keyof ResponseCacheControl]?: K extends keyof RequestCacheControl ?
+    K extends keyof ResponseCacheControl ? RequestCacheControl[K] | ResponseCacheControl[K] :
+    RequestCacheControl[K] :
+    K extends keyof ResponseCacheControl ? ResponseCacheControl[K] :
+    never;
 };
 
 /** Upper bound for delta-seconds per RFC 9111 §1.2.2. Values above this are
@@ -158,7 +156,7 @@ const TCHAR_REGEXP = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
  * RFC 9110 §5.6.4. */
 function unquoteArgument(value: string): string {
   const t = value.trim();
-  if (t.length >= 2 && t.startsWith('"') && t.endsWith('"')) {
+  if (t.length >= 2 && t.startsWith("\"") && t.endsWith("\"")) {
     return t.slice(1, -1).replace(/\\(.)/g, "$1");
   }
   return t;
@@ -168,9 +166,11 @@ function unquoteArgument(value: string): string {
  * missing or malformed so the caller can ignore the directive (RFC 9111
  * §4.2.1). */
 function parseNonNegativeInt(value: string | undefined): number | undefined {
-  if (value === undefined) return undefined;
+  if (value === undefined)
+    return undefined;
   const trimmed = unquoteArgument(value);
-  if (!DIGITS_REGEXP.test(trimmed)) return undefined;
+  if (!DIGITS_REGEXP.test(trimmed))
+    return undefined;
   const n = Number(trimmed);
   return n > MAX_DELTA_SECONDS ? MAX_DELTA_SECONDS : n;
 }
@@ -182,7 +182,8 @@ function parseNonNegativeInt(value: string | undefined): number | undefined {
  * trigger a split. */
 function splitDirectives(value: string): string[] {
   // Fast path: no quotes means a simple split is safe.
-  if (!value.includes('"')) return value.split(",");
+  if (!value.includes("\""))
+    return value.split(",");
 
   const parts: string[] = [];
   let start = 0;
@@ -211,7 +212,7 @@ function splitDirectives(value: string): string[] {
 function parseFieldNames(value: string): string[] {
   return unquoteArgument(value)
     .split(",")
-    .map((s) => s.trim())
+    .map(s => s.trim())
     .filter(Boolean);
 }
 
@@ -254,22 +255,26 @@ export function parseCacheControl(value: string | null): CacheControl {
   const parts = splitDirectives(value);
   for (const part of parts) {
     const trimmed = part.trim();
-    if (trimmed === "") continue;
+    if (trimmed === "")
+      continue;
 
     const eq = trimmed.indexOf("=");
-    const name = (eq === -1 ? trimmed : trimmed.slice(0, eq)).trim()
+    const name = (eq === -1 ? trimmed : trimmed.slice(0, eq))
+      .trim()
       .toLowerCase();
     const rawValue = eq === -1 ? undefined : trimmed.slice(eq + 1).trim();
 
     // RFC 9111 §4.2.1: when a directive appears more than once, use the first
     // occurrence. Track seen directive names to skip subsequent duplicates.
-    if (seen.has(name)) continue;
+    if (seen.has(name))
+      continue;
     seen.add(name);
 
     switch (name) {
       case "max-age": {
         const n = parseNonNegativeInt(rawValue);
-        if (n !== undefined) result.maxAge = n;
+        if (n !== undefined)
+          result.maxAge = n;
         break;
       }
       case "max-stale": {
@@ -278,22 +283,23 @@ export function parseCacheControl(value: string | null): CacheControl {
           break;
         }
         const n = parseNonNegativeInt(rawValue);
-        if (n !== undefined) result.maxStale = n;
+        if (n !== undefined)
+          result.maxStale = n;
         break;
       }
       case "min-fresh": {
         const n = parseNonNegativeInt(rawValue);
-        if (n !== undefined) result.minFresh = n;
+        if (n !== undefined)
+          result.minFresh = n;
         break;
       }
       case "no-cache": {
-        const noCacheFields = rawValue === undefined
-          ? undefined
-          : parseFieldNames(rawValue);
-        result.noCache =
-          noCacheFields === undefined || noCacheFields.length === 0
-            ? true
-            : noCacheFields;
+        const noCacheFields = rawValue === undefined ?
+          undefined :
+          parseFieldNames(rawValue);
+        result.noCache = noCacheFields === undefined || noCacheFields.length === 0 ?
+          true :
+          noCacheFields;
         break;
       }
       case "no-store":
@@ -319,17 +325,17 @@ export function parseCacheControl(value: string | null): CacheControl {
         break;
       case "s-maxage": {
         const n = parseNonNegativeInt(rawValue);
-        if (n !== undefined) result.sMaxage = n;
+        if (n !== undefined)
+          result.sMaxage = n;
         break;
       }
       case "private": {
-        const privateFields = rawValue === undefined
-          ? undefined
-          : parseFieldNames(rawValue);
-        result.private =
-          privateFields === undefined || privateFields.length === 0
-            ? true
-            : privateFields;
+        const privateFields = rawValue === undefined ?
+          undefined :
+          parseFieldNames(rawValue);
+        result.private = privateFields === undefined || privateFields.length === 0 ?
+          true :
+          privateFields;
         break;
       }
       case "immutable":
@@ -337,12 +343,14 @@ export function parseCacheControl(value: string | null): CacheControl {
         break;
       case "stale-while-revalidate": {
         const n = parseNonNegativeInt(rawValue);
-        if (n !== undefined) result.staleWhileRevalidate = n;
+        if (n !== undefined)
+          result.staleWhileRevalidate = n;
         break;
       }
       case "stale-if-error": {
         const n = parseNonNegativeInt(rawValue);
-        if (n !== undefined) result.staleIfError = n;
+        if (n !== undefined)
+          result.staleIfError = n;
         break;
       }
       default:
@@ -357,9 +365,10 @@ export function parseCacheControl(value: string | null): CacheControl {
 function append(
   out: string[],
   directive: string,
-  value?: number | true | string[],
+  value?: number | true | string[]
 ): void {
-  if (value === undefined) return;
+  if (value === undefined)
+    return;
   if (value === true) {
     out.push(directive);
     return;
@@ -367,7 +376,7 @@ function append(
   if (typeof value === "number") {
     if (!Number.isInteger(value) || value < 0) {
       throw new RangeError(
-        `Cache-Control: ${directive} must be a non-negative integer, got ${value}`,
+        `Cache-Control: ${directive} must be a non-negative integer, got ${value}`
       );
     }
     // Clamp to MAX_DELTA_SECONDS to match parser behavior (RFC 9111 §1.2.2).
@@ -381,7 +390,7 @@ function append(
   for (const name of value) {
     if (!TCHAR_REGEXP.test(name)) {
       throw new TypeError(
-        `Cache-Control: invalid field name in ${directive}: "${name}"`,
+        `Cache-Control: invalid field name in ${directive}: "${name}"`
       );
     }
   }

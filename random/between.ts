@@ -28,21 +28,21 @@ export type { Prng, RandomOptions };
 export function randomBetween(
   min: number,
   max: number,
-  options?: RandomOptions,
+  options?: RandomOptions
 ): number {
   if (!Number.isFinite(min)) {
     throw new RangeError(
-      `Cannot generate a random number: min cannot be ${min}`,
+      `Cannot generate a random number: min cannot be ${min}`
     );
   }
   if (!Number.isFinite(max)) {
     throw new RangeError(
-      `Cannot generate a random number: max cannot be ${max}`,
+      `Cannot generate a random number: max cannot be ${max}`
     );
   }
   if (max < min) {
     throw new RangeError(
-      `Cannot generate a random number as max must be greater than or equal to min: max=${max}, min=${min}`,
+      `Cannot generate a random number as max must be greater than or equal to min: max=${max}, min=${min}`
     );
   }
 

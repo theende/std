@@ -169,14 +169,14 @@ const State = {
   PERCENT: 1,
   POSITIONAL: 2,
   PRECISION: 3,
-  WIDTH: 4,
+  WIDTH: 4
 } as const;
 
 type State = typeof State[keyof typeof State];
 
 const WorP = {
   WIDTH: 0,
-  PRECISION: 1,
+  PRECISION: 1
 } as const;
 
 type WorP = typeof WorP[keyof typeof WorP];
@@ -186,7 +186,7 @@ const F = {
   mantissa: 2,
   fractional: 3,
   esign: 4,
-  exponent: 5,
+  exponent: 5
 } as const;
 
 class Flags {
@@ -249,7 +249,7 @@ class Printf {
           break;
         default:
           throw new Error(
-            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`,
+            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`
           );
       }
     }
@@ -321,9 +321,9 @@ class Printf {
         case State.POSITIONAL:
           // TODO(bartlomieju): either a verb or * only verb for now
           if (c === "*") {
-            const worp = this.flags.precision === -1
-              ? WorP.WIDTH
-              : WorP.PRECISION;
+            const worp = this.flags.precision === -1 ?
+              WorP.WIDTH :
+              WorP.PRECISION;
             this.handleWidthOrPrecisionRef(worp);
             this.state = State.PERCENT;
             break;
@@ -333,7 +333,7 @@ class Printf {
           }
         default:
           throw new Error(
-            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`,
+            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`
           );
       } // switch state
     }
@@ -420,7 +420,7 @@ class Printf {
         }
         default:
           throw new Error(
-            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`,
+            `State ${this.state} should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues`
           );
       } // switch state
     }
@@ -431,7 +431,7 @@ class Printf {
     if (this.format[this.i] !== "[") {
       // sanity only
       throw new Error(
-        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
+        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues"
       );
     }
     let positional = 0;
@@ -445,9 +445,9 @@ class Printf {
       positional *= 10;
       const val = parseInt(format[this.i]!, 10);
       if (isNaN(val)) {
-        //throw new Error(
+        // throw new Error(
         //  `invalid character in positional: ${format}[${format[this.i]}]`
-        //);
+        // );
         this.tmpError = "%!(BAD INDEX)";
         err = true;
       }
@@ -466,12 +466,13 @@ class Printf {
     const arg = this.args[this.argNum] as any;
     if ((arg || {}).constructor.name !== "Array") {
       throw new Error(
-        `Cannot handle less than '<' flag: 'arg' is not an array`,
+        `Cannot handle less than '<' flag: 'arg' is not an array`
       );
     }
     let str = "[ ";
     for (let i = 0; i !== arg.length; ++i) {
-      if (i !== 0) str += ", ";
+      if (i !== 0)
+        str += ", ";
       str += this._handleVerb(arg[i]);
     }
     return str + " ]";
@@ -629,7 +630,7 @@ class Printf {
           break;
         default:
           throw new Error(
-            `Cannot handle the radix ${radix}: only 2, 8, 16 are supported`,
+            `Cannot handle the radix ${radix}: only 2, 8, 16 are supported`
           );
       }
     }
@@ -687,7 +688,7 @@ class Printf {
    */
   roundFractionToPrecision(
     fractional: string,
-    precision: number,
+    precision: number
   ): [string, boolean] {
     let round = false;
     if (fractional.length > precision) {
@@ -719,15 +720,15 @@ class Printf {
     const m = n.toExponential().match(FLOAT_REGEXP);
     if (!m) {
       throw new Error(
-        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
+        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues"
       );
     }
-    const precision = this.flags.precision !== -1
-      ? this.flags.precision
-      : DEFAULT_PRECISION;
+    const precision = this.flags.precision !== -1 ?
+      this.flags.precision :
+      DEFAULT_PRECISION;
     const [fractional, rounding] = this.roundFractionToPrecision(
       m[F.fractional] ?? "",
-      precision,
+      precision
     );
 
     let e = m[F.exponent]!;
@@ -786,9 +787,9 @@ class Printf {
     const val = expandNumber(Math.abs(n)) as string;
     let [dig, fractional] = val.split(".") as [string, string];
 
-    const precision = this.flags.precision !== -1
-      ? this.flags.precision
-      : DEFAULT_PRECISION;
+    const precision = this.flags.precision !== -1 ?
+      this.flags.precision :
+      DEFAULT_PRECISION;
     let round = false;
     [fractional, round] = this.roundFractionToPrecision(fractional, precision);
     if (round) {
@@ -831,15 +832,15 @@ class Printf {
     // converted in the style of an f or F conversion specifier.
     // https://pubs.opengroup.org/onlinepubs/9699919799/functions/fprintf.html
 
-    let p = this.flags.precision !== -1
-      ? this.flags.precision
-      : DEFAULT_PRECISION;
+    let p = this.flags.precision !== -1 ?
+      this.flags.precision :
+      DEFAULT_PRECISION;
     p = p === 0 ? 1 : p;
 
     const m = n.toExponential().match(FLOAT_REGEXP);
     if (!m) {
       throw new Error(
-        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues",
+        "Should be unreachable, please file a bug report against Ende at https://github.com/theende/std/issues"
       );
     }
 
@@ -908,7 +909,7 @@ class Printf {
       }
       default:
         throw new Error(
-          `Cannot format hex, only number and string are supported for hex formatting: ${typeof val} is given`,
+          `Cannot format hex, only number and string are supported for hex formatting: ${typeof val} is given`
         );
     }
   }
@@ -919,9 +920,9 @@ class Printf {
    */
   fmtV(val: Record<string, unknown>): string {
     if (this.flags.sharp) {
-      const options = this.flags.precision !== -1
-        ? { depth: this.flags.precision }
-        : {};
+      const options = this.flags.precision !== -1 ?
+        { depth: this.flags.precision } :
+        {};
       return this.pad(Ende.inspect(val, options));
     } else {
       const p = this.flags.precision;
@@ -947,7 +948,7 @@ class Printf {
       colors: !Ende?.noColor,
       compact,
       depth: Infinity,
-      iterableLimit: Infinity,
+      iterableLimit: Infinity
     });
   }
 }

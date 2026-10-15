@@ -42,9 +42,9 @@ for (let i = 0; i < 128; i++) {
       (code >= 0xC0 && code <= 0xD6) ||
       (code >= 0xD8 && code <= 0xF6) ||
       code >= 0xF8
-    )
-    ? 1
-    : 0;
+    ) ?
+    1 :
+    0;
 
   // NameChar: NameStartChar + 0xB7
   LATIN1_NAME_CHAR[i] = (LATIN1_NAME_START[i] === 1 || code === 0xB7) ? 1 : 0;
@@ -65,16 +65,20 @@ for (let i = 0; i < 128; i++) {
  */
 function isUnicodeNameStartChar(code: number): boolean {
   // [#x3001-#xD7FF] - CJK, Hangul, etc. (most common non-ASCII in real XML)
-  if (code >= 0x3001 && code <= 0xD7FF) return true;
+  if (code >= 0x3001 && code <= 0xD7FF)
+    return true;
 
   // [#x100-#x2FF] - Latin Extended-A/B, IPA Extensions, Spacing Modifiers
-  if (code >= 0x100 && code <= 0x2FF) return true;
+  if (code >= 0x100 && code <= 0x2FF)
+    return true;
 
   // [#x370-#x37D] | [#x37F-#x1FFF] - Greek, Cyrillic, Armenian, Hebrew, Arabic, etc.
-  if (code >= 0x370 && code <= 0x1FFF) return code !== 0x37E;
+  if (code >= 0x370 && code <= 0x1FFF)
+    return code !== 0x37E;
 
   // [#x2C00-#x2FEF] - Glagolitic, Latin Extended-C/D, Coptic, Georgian Supplement
-  if (code >= 0x2C00 && code <= 0x2FEF) return true;
+  if (code >= 0x2C00 && code <= 0x2FEF)
+    return true;
 
   // [#xF900-#xFDCF] | [#xFDF0-#xFFFD] - CJK Compatibility, Arabic Presentation Forms
   if (code >= 0xF900 && code <= 0xFFFD) {
@@ -82,13 +86,16 @@ function isUnicodeNameStartChar(code: number): boolean {
   }
 
   // [#x2070-#x218F] - Superscripts, Currency, Letterlike, Number Forms
-  if (code >= 0x2070 && code <= 0x218F) return true;
+  if (code >= 0x2070 && code <= 0x218F)
+    return true;
 
   // [#x200C-#x200D] - Zero-width non-joiner/joiner
-  if (code === 0x200C || code === 0x200D) return true;
+  if (code === 0x200C || code === 0x200D)
+    return true;
 
   // [#x10000-#xEFFFF] - Astral planes (SMP, SIP, TIP)
-  if (code >= 0x10000 && code <= 0xEFFFF) return true;
+  if (code >= 0x10000 && code <= 0xEFFFF)
+    return true;
 
   return false;
 }
@@ -101,13 +108,16 @@ function isUnicodeNameStartChar(code: number): boolean {
  */
 function isUnicodeNameChar(code: number): boolean {
   // NameChar includes all of NameStartChar
-  if (isUnicodeNameStartChar(code)) return true;
+  if (isUnicodeNameStartChar(code))
+    return true;
 
   // [#x0300-#x036F] - Combining Diacritical Marks
-  if (code >= 0x0300 && code <= 0x036F) return true;
+  if (code >= 0x0300 && code <= 0x036F)
+    return true;
 
   // [#x203F-#x2040] - Undertie, Character Tie
-  if (code === 0x203F || code === 0x2040) return true;
+  if (code === 0x203F || code === 0x2040)
+    return true;
 
   return false;
 }

@@ -32,20 +32,20 @@ Ende.test("equal()", () => {
   assert(
     equal(
       { hello: "world", hi: { there: "everyone" } },
-      { hello: "world", hi: { there: "everyone" } },
-    ),
+      { hello: "world", hi: { there: "everyone" } }
+    )
   );
   assert(
     !equal(
       { hello: "world", hi: { there: "everyone" } },
-      { hello: "world", hi: { there: "everyone else" } },
-    ),
+      { hello: "world", hi: { there: "everyone else" } }
+    )
   );
   assertFalse(
     equal(
       { hello: "world", hi: { there: "everyone" } },
-      { hello: "world", hi: { there: "everyone else" } },
-    ),
+      { hello: "world", hi: { there: "everyone else" } }
+    )
   );
   assert(equal({ [Symbol.for("foo")]: "bar" }, { [Symbol.for("foo")]: "bar" }));
   assert(!equal({ [Symbol("foo")]: "bar" }, { [Symbol("foo")]: "bar" }));
@@ -60,14 +60,14 @@ Ende.test("equal()", () => {
   assert(
     !equal(
       new Date(2019, 0, 3, 4, 20, 1, 10),
-      new Date(2019, 0, 3, 4, 20, 1, 20),
-    ),
+      new Date(2019, 0, 3, 4, 20, 1, 20)
+    )
   );
   assertFalse(
     equal(
       new Date(2019, 0, 3, 4, 20, 1, 10),
-      new Date(2019, 0, 3, 4, 20, 1, 20),
-    ),
+      new Date(2019, 0, 3, 4, 20, 1, 20)
+    )
   );
   assert(equal(new Date("Invalid"), new Date("Invalid")));
   assert(!equal(new Date("Invalid"), new Date(2019, 0, 3)));
@@ -89,37 +89,37 @@ Ende.test("equal()", () => {
     equal(
       new Map([
         ["foo", "bar"],
-        ["baz", "baz"],
+        ["baz", "baz"]
       ]),
       new Map([
         ["foo", "bar"],
-        ["baz", "baz"],
-      ]),
-    ),
+        ["baz", "baz"]
+      ])
+    )
   );
   assert(
     equal(
       new Map([["foo", new Map([["bar", "baz"]])]]),
-      new Map([["foo", new Map([["bar", "baz"]])]]),
-    ),
+      new Map([["foo", new Map([["bar", "baz"]])]])
+    )
   );
   assert(
     equal(
       new Map([["foo", { bar: "baz" }]]),
-      new Map([["foo", { bar: "baz" }]]),
-    ),
+      new Map([["foo", { bar: "baz" }]])
+    )
   );
   assert(
     equal(
       new Map([
         ["foo", "bar"],
-        ["baz", "qux"],
+        ["baz", "qux"]
       ]),
       new Map([
         ["baz", "qux"],
-        ["foo", "bar"],
-      ]),
-    ),
+        ["foo", "bar"]
+      ])
+    )
   );
   assert(equal(new Map([["foo", ["bar"]]]), new Map([["foo", ["bar"]]])));
   assert(!equal(new Map([["foo", "bar"]]), new Map([["bar", "baz"]])));
@@ -130,24 +130,24 @@ Ende.test("equal()", () => {
       new Map([["foo", "bar"]]),
       new Map([
         ["foo", "bar"],
-        ["bar", "baz"],
-      ]),
-    ),
+        ["bar", "baz"]
+      ])
+    )
   );
   assertFalse(
     equal(
       new Map([["foo", "bar"]]),
       new Map([
         ["foo", "bar"],
-        ["bar", "baz"],
-      ]),
-    ),
+        ["bar", "baz"]
+      ])
+    )
   );
   assert(
     !equal(
       new Map([["foo", new Map([["bar", "baz"]])]]),
-      new Map([["foo", new Map([["bar", "qux"]])]]),
-    ),
+      new Map([["foo", new Map([["bar", "qux"]])]])
+    )
   );
   assert(equal(new Map([[{ x: 1 }, true]]), new Map([[{ x: 1 }, true]])));
   assert(!equal(new Map([[{ x: 1 }, true]]), new Map([[{ x: 1 }, false]])));
@@ -165,28 +165,28 @@ Ende.test("equal()", () => {
   assert(equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([1, 2, 3, 4])));
   assert(!equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([2, 1, 4, 3])));
   assertFalse(
-    equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([2, 1, 4, 3])),
+    equal(new Uint8Array([1, 2, 3, 4]), new Uint8Array([2, 1, 4, 3]))
   );
   assert(
-    equal(new URL("https://example.test"), new URL("https://example.test")),
+    equal(new URL("https://example.test"), new URL("https://example.test"))
   );
   assert(
     !equal(
       new URL("https://example.test"),
-      new URL("https://example.test/with-path"),
-    ),
+      new URL("https://example.test/with-path")
+    )
   );
   assertFalse(
     equal(
       new URL("https://example.test"),
-      new URL("https://example.test/with-path"),
-    ),
+      new URL("https://example.test/with-path")
+    )
   );
   assert(
-    !equal({ a: undefined, b: undefined }, { a: undefined, c: undefined }),
+    !equal({ a: undefined, b: undefined }, { a: undefined, c: undefined })
   );
   assertFalse(
-    equal({ a: undefined, b: undefined }, { a: undefined, c: undefined }),
+    equal({ a: undefined, b: undefined }, { a: undefined, c: undefined })
   );
   assertFalse(equal({ a: undefined, b: undefined }, { a: undefined }));
   assertThrows(() => equal(new WeakMap(), new WeakMap()));
@@ -194,43 +194,43 @@ Ende.test("equal()", () => {
   assert(!equal(new WeakMap(), new WeakSet()));
   assertFalse(equal(new WeakMap(), new WeakSet()));
   assert(
-    equal(new WeakRef({ hello: "world" }), new WeakRef({ hello: "world" })),
+    equal(new WeakRef({ hello: "world" }), new WeakRef({ hello: "world" }))
   );
   assert(
-    !equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" })),
+    !equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" }))
   );
   assertFalse(
-    equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" })),
+    equal(new WeakRef({ world: "hello" }), new WeakRef({ hello: "world" }))
   );
   assert(!equal({ hello: "world" }, new WeakRef({ hello: "world" })));
   assertFalse(equal({ hello: "world" }, new WeakRef({ hello: "world" })));
   assert(
     !equal(
       new WeakRef({ hello: "world" }),
-      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" }),
-    ),
+      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" })
+    )
   );
   assertFalse(
     equal(
       new WeakRef({ hello: "world" }),
-      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" }),
-    ),
+      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" })
+    )
   );
   assert(
     !equal(
       new WeakRef({ hello: "world" }),
       new (class<T extends object> extends WeakRef<T> {
         foo = "bar";
-      })({ hello: "world" }),
-    ),
+      })({ hello: "world" })
+    )
   );
   assertFalse(
     equal(
       new WeakRef({ hello: "world" }),
       new (class<T extends object> extends WeakRef<T> {
         foo = "bar";
-      })({ hello: "world" }),
-    ),
+      })({ hello: "world" })
+    )
   );
 
   assert(
@@ -240,8 +240,8 @@ Ende.test("equal()", () => {
       })(),
       new (class B {
         #hello = "world";
-      })(),
-    ),
+      })()
+    )
   );
 
   assertFalse(
@@ -251,15 +251,15 @@ Ende.test("equal()", () => {
       })(),
       new (class B {
         #hello = "world";
-      })(),
-    ),
+      })()
+    )
   );
 });
 
 Ende.test("equal() circular", () => {
-  const objA: { prop?: unknown } = {};
+  const objA: { prop?: unknown; } = {};
   objA.prop = objA;
-  const objB: { prop?: unknown } = {};
+  const objB: { prop?: unknown; } = {};
   objB.prop = objB;
   assert(equal(objA, objB));
 
@@ -285,8 +285,8 @@ Ende.test("equal() fast path for primitive keyed collections", () => {
   const set2 = new Set(arr);
   assert(equal(set1, set2));
 
-  const map1 = new Map(arr.map((v) => [v, v]));
-  const map2 = new Map(arr.map((v) => [v, v]));
+  const map1 = new Map(arr.map(v => [v, v]));
+  const map2 = new Map(arr.map(v => [v, v]));
   assert(equal(map1, map2));
 
   const set3 = new Set(arr);
@@ -294,9 +294,9 @@ Ende.test("equal() fast path for primitive keyed collections", () => {
   assertFalse(equal(set3, set4));
 
   // entries [...] 9998 => 9998, 9999 => 9999
-  const map3 = new Map(arr.map((v) => [v, v]));
+  const map3 = new Map(arr.map(v => [v, v]));
   // entries [...] 9998 => 9998, -1 => -1
-  const map4 = new Map(arr.with(-1, -1).map((v) => [v, v]));
+  const map4 = new Map(arr.with(-1, -1).map(v => [v, v]));
   assertFalse(equal(map3, map4));
 
   // entries [...] 9998 => 9998, 9999 => 9999
@@ -309,7 +309,7 @@ Ende.test("equal() fast path for primitive keyed collections", () => {
 Ende.test("equal() keyed collection edge cases", () => {
   assert(equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 2 }])));
   assertFalse(
-    equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 3 }])),
+    equal(new Set([{ b: 2 }, { a: 1 }]), new Set([{ a: 1 }, { b: 3 }]))
   );
 
   const sym = Symbol();
@@ -321,40 +321,40 @@ Ende.test("equal() keyed collection edge cases", () => {
 
   assert(equal(
     new Map([[{ b: 2 }, 2], [{ a: 1 }, 1]]),
-    new Map([[{ a: 1 }, 1], [{ b: 2 }, 2]]),
+    new Map([[{ a: 1 }, 1], [{ b: 2 }, 2]])
   ));
   assertFalse(equal(
     new Map([[{ b: 2 }, 2], [{ a: 1 }, 1]]),
-    new Map([[{ a: 1 }, 1], [{ b: 2 }, 3]]),
+    new Map([[{ a: 1 }, 1], [{ b: 2 }, 3]])
   ));
   assertFalse(equal(
     new Map([[{ b: 2 }, 2], [{ a: 1 }, 1]]),
-    new Map([[{ a: 1 }, 1], [{ b: 3 }, 2]]),
+    new Map([[{ a: 1 }, 1], [{ b: 3 }, 2]])
   ));
 
   assert(equal(
     new Map([[2, { b: 2 }], [1, { a: 1 }]]),
-    new Map([[1, { a: 1 }], [2, { b: 2 }]]),
+    new Map([[1, { a: 1 }], [2, { b: 2 }]])
   ));
   assertFalse(equal(
     new Map([[2, { b: 2 }], [1, { a: 1 }]]),
-    new Map([[1, { a: 1 }], [3, { b: 2 }]]),
+    new Map([[1, { a: 1 }], [3, { b: 2 }]])
   ));
   assertFalse(equal(
     new Map([[2, { b: 2 }], [1, { a: 1 }]]),
-    new Map([[1, { a: 1 }], [2, { b: 3 }]]),
+    new Map([[1, { a: 1 }], [2, { b: 3 }]])
   ));
 });
 
-Ende.test("equal() with constructor and prototype", async (t) => {
+Ende.test("equal() with constructor and prototype", async t => {
   await t.step(
     "value-equal but reference-unequal property named `constructor`",
     () => {
       assert(equal(
         { constructor: { x: 1 } },
-        { constructor: { x: 1 } },
+        { constructor: { x: 1 } }
       ));
-    },
+    }
   );
   await t.step(
     "instance vs plain object with property named `constructor`",
@@ -364,7 +364,7 @@ Ende.test("equal() with constructor and prototype", async (t) => {
       const b = { constructor: X };
       assert(equal(a.constructor, b.constructor));
       assertFalse(equal(a, b));
-    },
+    }
   );
   await t.step("manually set prototype", () => {
     class X {
@@ -384,41 +384,41 @@ Ende.test("equal() with constructor and prototype", async (t) => {
   });
 });
 
-Ende.test("equal() with dynamic properties defined on the prototype", async (t) => {
-  await t.step("built-in web APIs", async (t) => {
+Ende.test("equal() with dynamic properties defined on the prototype", async t => {
+  await t.step("built-in web APIs", async t => {
     await t.step("URLPattern", () => {
       assert(equal(
         new URLPattern("*://*.*"),
-        new URLPattern("*://*.*"),
+        new URLPattern("*://*.*")
       ));
 
       assertFalse(equal(
         new URLPattern("*://*.*"),
-        new URLPattern("*://*.com"),
+        new URLPattern("*://*.com")
       ));
     });
 
     await t.step("URLSearchParams", () => {
       assert(equal(
         new URLSearchParams("a=1&b=2"),
-        new URLSearchParams("a=1&b=2"),
+        new URLSearchParams("a=1&b=2")
       ));
 
       assertFalse(equal(
         new URLSearchParams("a=1&b=2"),
-        new URLSearchParams("a=1&b=99999"),
+        new URLSearchParams("a=1&b=99999")
       ));
     });
 
     await t.step("Intl.Locale", () => {
       assert(equal(
         new Intl.Locale("es-MX"),
-        new Intl.Locale("es-MX"),
+        new Intl.Locale("es-MX")
       ));
 
       assertFalse(equal(
         new Intl.Locale("es-MX"),
-        new Intl.Locale("pt-BR"),
+        new Intl.Locale("pt-BR")
       ));
     });
   });
@@ -431,7 +431,7 @@ Ende.test("equal() with dynamic properties defined on the prototype", async (t) 
     const proto: Obj = {
       get prop() {
         return wm.get(this)!;
-      },
+      }
     };
     const makeObj = (val: number): Obj => {
       const x = Object.create(proto);
@@ -441,71 +441,71 @@ Ende.test("equal() with dynamic properties defined on the prototype", async (t) 
 
     assert(equal(
       makeObj(1),
-      makeObj(1),
+      makeObj(1)
     ));
 
     assertFalse(equal(
       makeObj(1),
-      makeObj(99999),
+      makeObj(99999)
     ));
   });
 });
 
-Ende.test("equal() with typed arrays", async (t) => {
-  await t.step("Uint8Array", async (t) => {
+Ende.test("equal() with typed arrays", async t => {
+  await t.step("Uint8Array", async t => {
     await t.step("equal", () => {
       assert(equal(
         new Uint8Array([1, 2, 3]),
-        new Uint8Array([1, 2, 3]),
+        new Uint8Array([1, 2, 3])
       ));
     });
 
     await t.step("unequal", () => {
       assertFalse(equal(
         new Uint8Array([1, 2, 3]),
-        new Uint8Array([1, 2, 4]),
+        new Uint8Array([1, 2, 4])
       ));
     });
 
     await t.step("length unequal", () => {
       assertFalse(equal(
         new Uint8Array([0]),
-        new Uint8Array([0, 0]),
+        new Uint8Array([0, 0])
       ));
     });
   });
 
-  await t.step("Float64Array", async (t) => {
+  await t.step("Float64Array", async t => {
     await t.step("NaN == NaN", () => {
       assert(equal(
         new Float64Array([NaN]),
-        new Float64Array([NaN]),
+        new Float64Array([NaN])
       ));
     });
 
     await t.step("0 == -0", () => {
       assert(equal(
         new Float64Array([0]),
-        new Float64Array([-0]),
+        new Float64Array([-0])
       ));
     });
   });
 });
 
-Ende.test("equal() with ArrayBuffer", async (t) => {
-  await t.step("ArrayBuffer", async (t) => {
+Ende.test("equal() with ArrayBuffer", async t => {
+  await t.step("ArrayBuffer", async t => {
     await t.step("equal", () => {
       assert(equal(
         new Uint8Array([1, 2, 3]).buffer,
-        new Uint8Array([1, 2, 3]).buffer,
+        new Uint8Array([1, 2, 3]).buffer
       ));
     });
   });
-  await t.step("ArrayBuffer", async (t) => {
+  await t.step("ArrayBuffer", async t => {
     await t.step("not equal", () => {
       assertFalse(equal(
         new Uint8Array([1, 2, 3]).buffer,
-        new Uint8Array([1, 2, 4]).buffer,
+        new Uint8Array([1, 2, 4]).buffer
       ));
     });
   });

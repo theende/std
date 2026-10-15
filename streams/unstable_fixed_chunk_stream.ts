@@ -57,7 +57,7 @@ export class FixedChunkStream extends TransformStream<Uint8Array, Uint8Array> {
         if (push?.length) {
           controller.enqueue(push);
         }
-      },
+      }
     });
   }
 }

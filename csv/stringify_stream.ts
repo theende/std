@@ -88,12 +88,11 @@ export interface CsvStringifyStreamOptions {
  *
  * @typeParam TOptions The type of options for the stream.
  */
-export class CsvStringifyStream<TOptions extends CsvStringifyStreamOptions>
-  extends TransformStream<
-    TOptions["columns"] extends Array<string> ? Record<string, unknown>
-      : Array<unknown>,
-    string
-  > {
+export class CsvStringifyStream<TOptions extends CsvStringifyStreamOptions> extends TransformStream<
+  TOptions["columns"] extends Array<string> ? Record<string, unknown> :
+    Array<unknown>,
+  string
+> {
   /**
    * Construct a new instance.
    *
@@ -110,10 +109,10 @@ export class CsvStringifyStream<TOptions extends CsvStringifyStreamOptions>
               controller.enqueue(
                 stringify(
                   [columns],
-                  separator !== undefined
-                    ? { separator, headers: false }
-                    : { headers: false },
-                ),
+                  separator !== undefined ?
+                    { separator, headers: false } :
+                    { headers: false }
+                )
               );
             } catch (error) {
               controller.error(error);
@@ -125,16 +124,16 @@ export class CsvStringifyStream<TOptions extends CsvStringifyStreamOptions>
             controller.enqueue(
               stringify(
                 [chunk],
-                separator !== undefined
-                  ? { separator, headers: false, columns }
-                  : { headers: false, columns },
-              ),
+                separator !== undefined ?
+                  { separator, headers: false, columns } :
+                  { headers: false, columns }
+              )
             );
           } catch (error) {
             controller.error(error);
           }
-        },
-      },
+        }
+      }
     );
   }
 }

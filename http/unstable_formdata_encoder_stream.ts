@@ -90,10 +90,11 @@ export class FormDataEncoderStream {
     const boundary = "--ende-std-" +
       encodeBase64(crypto.getRandomValues(new Uint8Array(30))) +
       "\r\n";
-    this.#encoder
+    this
+      .#encoder
       .encodeInto(boundary, this.#boundary = new Uint8Array(boundary.length));
-    this.#contentType = 'multipart/form-data; boundary="' +
-      boundary.slice(2, -2) + '"';
+    this.#contentType = "multipart/form-data; boundary=\"" +
+      boundary.slice(2, -2) + "\"";
 
     const gen = this.#handle(readable);
     this.#readable = new ReadableStream({
@@ -107,7 +108,7 @@ export class FormDataEncoderStream {
         const buffer = new Uint8Array(
           controller.byobRequest!.view!.buffer,
           controller.byobRequest!.view!.byteOffset,
-          length,
+          length
         );
 
         try {
@@ -133,21 +134,21 @@ export class FormDataEncoderStream {
       },
       async cancel(reason) {
         await gen.throw(reason).catch(() => undefined);
-      },
+      }
     });
   }
 
   async *#handle(
-    readable: ReadableStream<FormDataInput>,
+    readable: ReadableStream<FormDataInput>
   ): AsyncGenerator<Uint8Array, void, Uint8Array> {
     const fixed = [
-      this.#encoder.encode('Content-Disposition: form-data; name="'),
-      this.#encoder.encode('"; filename="'),
-      this.#encoder.encode('"\r\nContent-Type: '),
-      this.#encoder.encode('text/plain; charset="UTF-8"\r\n\r\n'),
+      this.#encoder.encode("Content-Disposition: form-data; name=\""),
+      this.#encoder.encode("\"; filename=\""),
+      this.#encoder.encode("\"\r\nContent-Type: "),
+      this.#encoder.encode("text/plain; charset=\"UTF-8\"\r\n\r\n"),
       this.#encoder.encode("application/octet-stream\r\n\r\n"),
       this.#encoder.encode("\r\n\r\n"),
-      this.#encoder.encode("\r\n"),
+      this.#encoder.encode("\r\n")
     ];
     let buffer = yield new Uint8Array();
     for await (const input of readable) {
@@ -176,14 +177,16 @@ export class FormDataEncoderStream {
       if (typeof input.value === "string") {
         buffer = yield this.#setString(buffer, input.value);
       } else {
-        if (input.value instanceof Blob) input.value = input.value.stream();
+        if (input.value instanceof Blob)
+          input.value = input.value.stream();
         const reader = toByteStream(input.value).getReader({ mode: "byob" });
         try {
           while (true) {
             const { done, value } = await reader
               .read(buffer, { min: buffer.length });
             buffer = yield value!;
-            if (done) break;
+            if (done)
+              break;
           }
         } catch (reason) {
           await reader.cancel(reason);
@@ -197,13 +200,15 @@ export class FormDataEncoderStream {
   }
 
   #setBuffer(buffer: Uint8Array, x: Uint8Array): Uint8Array {
-    if (buffer.length < x.length) buffer = new Uint8Array(x.length);
+    if (buffer.length < x.length)
+      buffer = new Uint8Array(x.length);
     buffer.set(x);
     return buffer.subarray(0, x.length);
   }
 
   #setString(buffer: Uint8Array, x: string): Uint8Array {
-    if (buffer.length < x.length * 3) buffer = new Uint8Array(x.length * 3);
+    if (buffer.length < x.length * 3)
+      buffer = new Uint8Array(x.length * 3);
     return buffer.subarray(0, this.#encoder.encodeInto(x, buffer).written);
   }
 

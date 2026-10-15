@@ -97,6 +97,6 @@ import { AssertionError } from "./assertion_error.ts";
  */
 export function assertNever(x: never, msg?: string): never {
   throw new AssertionError(
-    msg ?? `Expect ${format(x)} to be of type never`,
+    msg ?? `Expect ${format(x)} to be of type never`
   );
 }

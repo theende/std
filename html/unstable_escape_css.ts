@@ -45,14 +45,14 @@ export function escapeCss(str: string): string {
     /(\0)|([\x01-\x1f\x7f]|(?<=^-?)\d)|(^-$|[ -,.\/:-@\[-^`\{-~])/g;
 
   return str.replaceAll(matcher, (_, g1, g2, g3) => {
-    return g1 != null
+    return g1 != null ?
       // null char
-      ? "�"
-      : g2 != null
+      "�" :
+      g2 != null ?
       // control char or digit at start
-      ? escapeAsCodePoint(g2)
+      escapeAsCodePoint(g2) :
       // solo dash or special char
-      : escapeChar(g3);
+      escapeChar(g3);
   });
 }
 

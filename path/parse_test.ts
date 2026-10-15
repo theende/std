@@ -11,6 +11,6 @@ Ende.test("windows.parse() parses UNC root only path", () => {
     dir: "\\\\server\\share",
     ext: "",
     name: "",
-    root: "\\\\server\\share",
+    root: "\\\\server\\share"
   });
 });

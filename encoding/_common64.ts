@@ -9,15 +9,17 @@ export const alphabet: Record<Base64Alphabet, Uint8Array> = {
   base64: new TextEncoder()
     .encode("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"),
   base64url: new TextEncoder()
-    .encode("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"),
+    .encode("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_")
 };
 export const rAlphabet: Record<Base64Alphabet, Uint8Array> = {
   base64: new Uint8Array(128).fill(64), // alphabet.base64.length
-  base64url: new Uint8Array(128).fill(64),
+  base64url: new Uint8Array(128).fill(64)
 };
-alphabet.base64
+alphabet
+  .base64
   .forEach((byte, i) => rAlphabet.base64[byte] = i);
-alphabet.base64url
+alphabet
+  .base64url
   .forEach((byte, i) => rAlphabet.base64url[byte] = i);
 
 /**
@@ -57,7 +59,7 @@ export function encode(
   i: number,
   o: number,
   alphabet: Uint8Array,
-  padding: number,
+  padding: number
 ): number {
   i += 2;
   for (; i < buffer.length; i += 3) {
@@ -93,16 +95,14 @@ export function decode(
   i: number,
   o: number,
   alphabet: Uint8Array,
-  padding: number,
+  padding: number
 ): number {
   for (let x = buffer.length - 2; x < buffer.length; ++x) {
     if (buffer[x] === padding) {
       for (let y = x + 1; y < buffer.length; ++y) {
         if (buffer[y] !== padding) {
           throw new TypeError(
-            `Cannot decode input as base64: Invalid character (${
-              String.fromCharCode(buffer[y]!)
-            })`,
+            `Cannot decode input as base64: Invalid character (${String.fromCharCode(buffer[y]!)})`
           );
         }
       }
@@ -112,9 +112,7 @@ export function decode(
   }
   if ((buffer.length - o) % 4 === 1) {
     throw new RangeError(
-      `Cannot decode input as base64: Length (${
-        buffer.length - o
-      }), excluding padding, must not have a remainder of 1 when divided by 4`,
+      `Cannot decode input as base64: Length (${buffer.length - o}), excluding padding, must not have a remainder of 1 when divided by 4`
     );
   }
 
@@ -151,9 +149,7 @@ function getByte(char: number, alphabet: Uint8Array): number {
   const byte = alphabet[char] ?? 64;
   if (byte === 64) { // alphabet.Base64.length
     throw new TypeError(
-      `Cannot decode input as base64: Invalid character (${
-        String.fromCharCode(char)
-      })`,
+      `Cannot decode input as base64: Invalid character (${String.fromCharCode(char)})`
     );
   }
   return byte;

@@ -3,21 +3,16 @@
 
 import { assertEquals, assertThrows } from "@ende/assert";
 import {
-  type BareItem,
   binary,
   boolean,
   date,
   decimal,
-  type Dictionary,
   displayString,
-  type InnerList,
   innerList,
   integer,
   isInnerList,
   isItem,
-  type Item,
   item,
-  type List,
   parseDictionary,
   parseItem,
   parseList,
@@ -26,6 +21,11 @@ import {
   serializeList,
   string,
   token,
+  type BareItem,
+  type Dictionary,
+  type InnerList,
+  type Item,
+  type List
 } from "./unstable_structured_fields.ts";
 
 // =============================================================================
@@ -40,9 +40,9 @@ Ende.test({
     assertThrows(
       () => parseList("1, 2 garbage"),
       SyntaxError,
-      "expected ','",
+      "expected ','"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -51,9 +51,9 @@ Ende.test({
     assertThrows(
       () => parseList("(1 2"),
       SyntaxError,
-      "expected SP or ')'",
+      "expected SP or ')'"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -62,9 +62,9 @@ Ende.test({
     assertThrows(
       () => parseList("(1,2)"),
       SyntaxError,
-      "expected SP or ')'",
+      "expected SP or ')'"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -72,7 +72,7 @@ Ende.test({
   fn() {
     const list = parseList("   ");
     assertEquals(list.length, 0);
-  },
+  }
 });
 
 Ende.test({
@@ -81,9 +81,9 @@ Ende.test({
     assertThrows(
       () => parseList("("),
       SyntaxError,
-      "unterminated inner list",
+      "unterminated inner list"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -92,9 +92,9 @@ Ende.test({
     assertThrows(
       () => parseDictionary("a=1 garbage"),
       SyntaxError,
-      "expected ','",
+      "expected ','"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -102,7 +102,7 @@ Ende.test({
   fn() {
     const dict = parseDictionary("   ");
     assertEquals(dict.size, 0);
-  },
+  }
 });
 
 Ende.test({
@@ -112,9 +112,9 @@ Ende.test({
     assertEquals(dict.has("*key"), true);
     assertEquals((dict.get("*key") as Item).value, {
       type: "integer",
-      value: 1,
+      value: 1
     });
-  },
+  }
 });
 
 Ende.test({
@@ -122,7 +122,7 @@ Ende.test({
   fn() {
     const item = parseItem("*foo");
     assertEquals(item.value, { type: "token", value: "*foo" });
-  },
+  }
 });
 
 Ende.test({
@@ -131,9 +131,9 @@ Ende.test({
     assertThrows(
       () => parseItem("42 garbage"),
       SyntaxError,
-      "unexpected character",
+      "unexpected character"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -142,9 +142,9 @@ Ende.test({
     assertThrows(
       () => parseItem("   "),
       SyntaxError,
-      "unexpected character",
+      "unexpected character"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -153,9 +153,9 @@ Ende.test({
     assertThrows(
       () => parseItem("1."),
       SyntaxError,
-      "requires fractional digits",
+      "requires fractional digits"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -164,9 +164,9 @@ Ende.test({
     assertThrows(
       () => parseItem(":aGVsbG8="),
       SyntaxError,
-      "unterminated binary",
+      "unterminated binary"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -175,11 +175,11 @@ Ende.test({
     // String with escape sequence followed by invalid character (NUL)
     // This tests the slow path in parseString (after processing escapes)
     assertThrows(
-      () => parseItem('"test\\\\\x00"'),
+      () => parseItem("\"test\\\\\x00\""),
       SyntaxError,
-      "invalid character",
+      "invalid character"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -188,9 +188,9 @@ Ende.test({
     assertThrows(
       () => parseItem("foo;1invalid=1"),
       SyntaxError,
-      "invalid key start",
+      "invalid key start"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -198,7 +198,7 @@ Ende.test({
   fn() {
     const item = parseItem("a0_-.*/+!#$%&'^`|~:");
     assertEquals(item.value.type, "token");
-  },
+  }
 });
 
 Ende.test({
@@ -206,7 +206,7 @@ Ende.test({
   fn() {
     const dict = parseDictionary("a0_-.*=1");
     assertEquals(dict.has("a0_-.*"), true);
-  },
+  }
 });
 
 // =============================================================================
@@ -218,14 +218,14 @@ Ende.test({
   name: "serializeList() serializes basic list",
   fn() {
     assertEquals(serializeList([item(integer(1)), item(integer(42))]), "1, 42");
-  },
+  }
 });
 
 Ende.test({
   name: "serializeList() serializes empty list",
   fn() {
     assertEquals(serializeList([]), "");
-  },
+  }
 });
 
 Ende.test({
@@ -233,9 +233,9 @@ Ende.test({
   fn() {
     assertEquals(
       serializeList([innerList([item(integer(1)), item(integer(2))])]),
-      "(1 2)",
+      "(1 2)"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -243,11 +243,11 @@ Ende.test({
   fn() {
     assertEquals(
       serializeList([
-        innerList([item(integer(1))], [["param", token("value")]]),
+        innerList([item(integer(1))], [["param", token("value")]])
       ]),
-      "(1);param=value",
+      "(1);param=value"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -255,10 +255,10 @@ Ende.test({
   fn() {
     const dict: Dictionary = new Map([
       ["a", item(integer(1))],
-      ["b", item(integer(2))],
+      ["b", item(integer(2))]
     ]);
     assertEquals(serializeDictionary(dict), "a=1, b=2");
-  },
+  }
 });
 
 Ende.test({
@@ -266,7 +266,7 @@ Ende.test({
   fn() {
     const dict: Dictionary = new Map([["a", item(boolean(true))]]);
     assertEquals(serializeDictionary(dict), "a");
-  },
+  }
 });
 
 Ende.test({
@@ -274,7 +274,7 @@ Ende.test({
   fn() {
     const dict: Dictionary = new Map([["a", item(boolean(false))]]);
     assertEquals(serializeDictionary(dict), "a=?0");
-  },
+  }
 });
 
 Ende.test({
@@ -282,17 +282,17 @@ Ende.test({
   fn() {
     const dict: Dictionary = new Map([["*key", item(integer(1))]]);
     assertEquals(serializeDictionary(dict), "*key=1");
-  },
+  }
 });
 
 Ende.test({
   name: "serializeDictionary() serializes inner list value",
   fn() {
     const dict: Dictionary = new Map([
-      ["a", innerList([item(integer(1)), item(integer(2))])],
+      ["a", innerList([item(integer(1)), item(integer(2))])]
     ]);
     assertEquals(serializeDictionary(dict), "a=(1 2)");
-  },
+  }
 });
 
 Ende.test({
@@ -301,7 +301,7 @@ Ende.test({
     assertEquals(serializeItem(item(token("foo"))), "foo");
     assertEquals(
       serializeItem(item(binary(new Uint8Array([1, 2, 3])))),
-      ":AQID:",
+      ":AQID:"
     );
     assertEquals(serializeItem(item(boolean(true))), "?1");
     assertEquals(serializeItem(item(boolean(false))), "?0");
@@ -309,23 +309,23 @@ Ende.test({
     assertEquals(serializeItem(item(date(d))), "@1659578233");
     assertEquals(
       serializeItem(item(displayString("héllo"))),
-      '%"h%c3%a9llo"',
+      "%\"h%c3%a9llo\""
     );
-  },
+  }
 });
 
 Ende.test({
   name: "serializeItem() escapes quotes and backslash in string",
   fn() {
     assertEquals(
-      serializeItem(item(string('hello "world"'))),
-      '"hello \\"world\\""',
+      serializeItem(item(string("hello \"world\""))),
+      "\"hello \\\"world\\\"\""
     );
     assertEquals(
       serializeItem(item(string("hello\\world"))),
-      '"hello\\\\world"',
+      "\"hello\\\\world\""
     );
-  },
+  }
 });
 
 Ende.test({
@@ -333,11 +333,11 @@ Ende.test({
   fn() {
     assertEquals(
       serializeItem(
-        item(token("foo"), [["a", integer(1)], ["b", boolean(true)]]),
+        item(token("foo"), [["a", integer(1)], ["b", boolean(true)]])
       ),
-      "foo;a=1;b",
+      "foo;a=1;b"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -345,13 +345,13 @@ Ende.test({
   fn() {
     assertEquals(
       serializeItem(item(integer(-999_999_999_999_999))),
-      "-999999999999999",
+      "-999999999999999"
     );
     assertEquals(
       serializeItem(item(integer(999_999_999_999_999))),
-      "999999999999999",
+      "999999999999999"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -359,24 +359,24 @@ Ende.test({
   fn() {
     assertEquals(serializeItem(item(decimal(1.0))), "1.0");
     assertEquals(serializeItem(item(decimal(-3.14))), "-3.14");
-  },
+  }
 });
 
 Ende.test({
   name: "serializeItem() handles token starting with *",
   fn() {
     assertEquals(serializeItem(item(token("*foo"))), "*foo");
-  },
+  }
 });
 
 Ende.test({
-  name: 'serializeItem() encodes % and " in display string',
+  name: "serializeItem() encodes % and \" in display string",
   fn() {
     assertEquals(
-      serializeItem(item(displayString('hello % and "'))),
-      '%"hello %25 and %22"',
+      serializeItem(item(displayString("hello % and \""))),
+      "%\"hello %25 and %22\""
     );
-  },
+  }
 });
 
 // =============================================================================
@@ -389,14 +389,14 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(integer(1e16))),
       TypeError,
-      "out of range",
+      "out of range"
     );
     assertThrows(
       () => serializeItem(item(integer(-1e16))),
       TypeError,
-      "out of range",
+      "out of range"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -405,9 +405,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(integer(3.14))),
       TypeError,
-      "must be a whole number",
+      "must be a whole number"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -416,14 +416,14 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(decimal(Infinity))),
       TypeError,
-      "must be finite",
+      "must be finite"
     );
     assertThrows(
       () => serializeItem(item(decimal(NaN))),
       TypeError,
-      "must be finite",
+      "must be finite"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -432,14 +432,14 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(decimal(1_000_000_000_000.1))),
       TypeError,
-      "integer part too large",
+      "integer part too large"
     );
     assertThrows(
       () => serializeItem(item(decimal(-1_000_000_000_000.1))),
       TypeError,
-      "integer part too large",
+      "integer part too large"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -448,9 +448,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(date(new Date("invalid")))),
       TypeError,
-      "Invalid date",
+      "Invalid date"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -459,9 +459,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(string("\x00"))),
       TypeError,
-      "Invalid character",
+      "Invalid character"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -470,9 +470,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(string("héllo"))),
       TypeError,
-      "Invalid character",
+      "Invalid character"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -481,9 +481,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(token(""))),
       TypeError,
-      "cannot be empty",
+      "cannot be empty"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -492,9 +492,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(token("1foo"))),
       TypeError,
-      "must start with ALPHA",
+      "must start with ALPHA"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -503,9 +503,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(token("foo bar"))),
       TypeError,
-      "Invalid character in token",
+      "Invalid character in token"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -515,9 +515,9 @@ Ende.test({
     assertThrows(
       () => serializeDictionary(dict),
       TypeError,
-      "must start with lowercase",
+      "must start with lowercase"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -527,9 +527,9 @@ Ende.test({
     assertThrows(
       () => serializeDictionary(dict),
       TypeError,
-      "cannot be empty",
+      "cannot be empty"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -539,9 +539,9 @@ Ende.test({
     assertThrows(
       () => serializeDictionary(dict),
       TypeError,
-      "Invalid character in key",
+      "Invalid character in key"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -550,9 +550,9 @@ Ende.test({
     assertThrows(
       () => serializeItem(item(token("foo"), [["INVALID", integer(1)]])),
       TypeError,
-      "must start with lowercase",
+      "must start with lowercase"
     );
-  },
+  }
 });
 
 // =============================================================================
@@ -567,18 +567,18 @@ Ende.test({
     const serialized = serializeList(parsed);
     const reparsed = parseList(serialized);
     assertEquals(parsed.length, reparsed.length);
-  },
+  }
 });
 
 Ende.test({
   name: "round-trip: dictionary with mixed values",
   fn() {
-    const input = 'a=1, b="hello", c';
+    const input = "a=1, b=\"hello\", c";
     const parsed = parseDictionary(input);
     const serialized = serializeDictionary(parsed);
     const reparsed = parseDictionary(serialized);
     assertEquals(parsed.size, reparsed.size);
-  },
+  }
 });
 
 Ende.test({
@@ -590,7 +590,7 @@ Ende.test({
     const reparsed = parseItem(serialized);
     assertEquals(parsed.value, reparsed.value);
     assertEquals(parsed.parameters.size, reparsed.parameters.size);
-  },
+  }
 });
 
 // =============================================================================
@@ -611,9 +611,9 @@ Ende.test({
     assertEquals(date(d), { type: "date", value: d });
     assertEquals(displayString("héllo"), {
       type: "displaystring",
-      value: "héllo",
+      value: "héllo"
     });
-  },
+  }
 });
 
 Ende.test({
@@ -622,7 +622,7 @@ Ende.test({
     const i = item(integer(42));
     assertEquals(i.value, { type: "integer", value: 42 });
     assertEquals(i.parameters.size, 0);
-  },
+  }
 });
 
 Ende.test({
@@ -633,7 +633,7 @@ Ende.test({
     assertEquals(i.parameters.size, 2);
     assertEquals(i.parameters.get("a"), integer(1));
     assertEquals(i.parameters.get("b"), boolean(true));
-  },
+  }
 });
 
 Ende.test({
@@ -642,7 +642,7 @@ Ende.test({
     const params = new Map<string, BareItem>([["q", decimal(0.9)]]);
     const i = item(token("text/html"), params);
     assertEquals(i.parameters.get("q"), decimal(0.9));
-  },
+  }
 });
 
 Ende.test({
@@ -651,7 +651,7 @@ Ende.test({
     const il = innerList([item(integer(1)), item(integer(2))]);
     assertEquals(il.items.length, 2);
     assertEquals(il.parameters.size, 0);
-  },
+  }
 });
 
 Ende.test({
@@ -659,11 +659,11 @@ Ende.test({
   fn() {
     const il = innerList(
       [item(integer(1))],
-      [["param", token("value")]],
+      [["param", token("value")]]
     );
     assertEquals(il.items.length, 1);
     assertEquals(il.parameters.get("param"), token("value"));
-  },
+  }
 });
 
 // =============================================================================
@@ -676,7 +676,7 @@ Ende.test({
     const list = parseList("1, (2 3)");
     assertEquals(isItem(list[0]!), true);
     assertEquals(isItem(list[1]!), false);
-  },
+  }
 });
 
 Ende.test({
@@ -685,7 +685,7 @@ Ende.test({
     const list = parseList("1, (2 3)");
     assertEquals(isInnerList(list[0]!), false);
     assertEquals(isInnerList(list[1]!), true);
-  },
+  }
 });
 
 Ende.test({
@@ -699,7 +699,7 @@ Ende.test({
     assertEquals(isInnerList(a), false);
     assertEquals(isItem(b), false);
     assertEquals(isInnerList(b), true);
-  },
+  }
 });
 
 // =============================================================================
@@ -712,7 +712,8 @@ const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 function decodeBase32(input: string): Uint8Array {
   // Remove padding
   input = input.replace(/=+$/, "").toUpperCase();
-  if (input.length === 0) return new Uint8Array(0);
+  if (input.length === 0)
+    return new Uint8Array(0);
 
   const output: number[] = [];
   let bits = 0;
@@ -720,7 +721,8 @@ function decodeBase32(input: string): Uint8Array {
 
   for (const char of input) {
     const idx = BASE32_ALPHABET.indexOf(char);
-    if (idx === -1) throw new Error(`Invalid base32 character: ${char}`);
+    if (idx === -1)
+      throw new Error(`Invalid base32 character: ${char}`);
     value = (value << 5) | idx;
     bits += 5;
     if (bits >= 8) {
@@ -782,7 +784,7 @@ function convertExpectedItem(expected: any[]): Item {
   const [bareItem, params] = expected;
   return {
     value: convertExpectedBareItem(bareItem),
-    parameters: convertExpectedParams(params),
+    parameters: convertExpectedParams(params)
   };
 }
 
@@ -792,7 +794,7 @@ function convertExpectedInnerList(expected: any[]): InnerList {
   const [items, params] = expected;
   return {
     items: items.map(convertExpectedItem),
-    parameters: convertExpectedParams(params),
+    parameters: convertExpectedParams(params)
   };
 }
 
@@ -803,11 +805,14 @@ function isExpectedInnerList(expected: any[]): boolean {
   // Item: [bareItem, params]
   // The first element of an inner list is an array of items (arrays)
   // The first element of an item is a bare item (not an array, unless it's broken)
-  if (!Array.isArray(expected) || expected.length !== 2) return false;
+  if (!Array.isArray(expected) || expected.length !== 2)
+    return false;
   const [first] = expected;
-  if (!Array.isArray(first)) return false;
+  if (!Array.isArray(first))
+    return false;
   // If first element is empty array, it's an empty inner list
-  if (first.length === 0) return true;
+  if (first.length === 0)
+    return true;
   // If first element is an array of arrays, it's an inner list
   return Array.isArray(first[0]);
 }
@@ -830,11 +835,13 @@ function bareItemsEqual(a: BareItem, b: BareItem): boolean {
   ) {
     return (a.value as number) === (b.value as number);
   }
-  if (a.type !== b.type) return false;
+  if (a.type !== b.type)
+    return false;
   if (a.type === "binary" && b.type === "binary") {
     const aVal = a.value as Uint8Array;
     const bVal = b.value as Uint8Array;
-    if (aVal.length !== bVal.length) return false;
+    if (aVal.length !== bVal.length)
+      return false;
     return aVal.every((v, i) => v === bVal[i]);
   }
   if (a.type === "date" && b.type === "date") {
@@ -846,12 +853,14 @@ function bareItemsEqual(a: BareItem, b: BareItem): boolean {
 // Compare parameters for equality
 function paramsEqual(
   a: ReadonlyMap<string, BareItem>,
-  b: ReadonlyMap<string, BareItem>,
+  b: ReadonlyMap<string, BareItem>
 ): boolean {
-  if (a.size !== b.size) return false;
+  if (a.size !== b.size)
+    return false;
   for (const [key, val] of a) {
     const bVal = b.get(key);
-    if (!bVal || !bareItemsEqual(val, bVal)) return false;
+    if (!bVal || !bareItemsEqual(val, bVal))
+      return false;
   }
   return true;
 }
@@ -864,9 +873,11 @@ function itemsEqual(a: Item, b: Item): boolean {
 
 // Compare inner lists for equality
 function innerListsEqual(a: InnerList, b: InnerList): boolean {
-  if (a.items.length !== b.items.length) return false;
+  if (a.items.length !== b.items.length)
+    return false;
   for (let i = 0; i < a.items.length; i++) {
-    if (!itemsEqual(a.items[i]!, b.items[i]!)) return false;
+    if (!itemsEqual(a.items[i]!, b.items[i]!))
+      return false;
   }
   return paramsEqual(a.parameters, b.parameters);
 }
@@ -874,11 +885,12 @@ function innerListsEqual(a: InnerList, b: InnerList): boolean {
 // Compare list members for equality
 function listMembersEqual(
   a: Item | InnerList,
-  b: Item | InnerList,
+  b: Item | InnerList
 ): boolean {
   const aIsInner = "items" in a;
   const bIsInner = "items" in b;
-  if (aIsInner !== bIsInner) return false;
+  if (aIsInner !== bIsInner)
+    return false;
   if (aIsInner && bIsInner) {
     return innerListsEqual(a as InnerList, b as InnerList);
   }
@@ -903,16 +915,17 @@ interface ConformanceTestCase {
 // Load and run tests from a JSON file
 async function runConformanceTests(
   t: Ende.TestContext,
-  filename: string,
+  filename: string
 ): Promise<void> {
   const testData = await import(`./testdata/structured_fields/${filename}`, {
-    with: { type: "json" },
+    with: { type: "json" }
   });
   const tests: ConformanceTestCase[] = testData.default;
 
   for (const test of tests) {
     // Skip tests marked can_fail (implementation-dependent)
-    if (test.can_fail) continue;
+    if (test.can_fail)
+      continue;
 
     const rawInput = test.raw.join(", ");
     const headerType = test.header_type ?? "item";
@@ -934,7 +947,7 @@ async function runConformanceTests(
                 break;
             }
           },
-          Error,
+          Error
         );
       } else {
         // Test should succeed
@@ -945,9 +958,7 @@ async function runConformanceTests(
             assertEquals(
               itemsEqual(parsed, expected),
               true,
-              `Mismatch for "${test.name}": got ${
-                JSON.stringify(parsed)
-              }, expected ${JSON.stringify(expected)}`,
+              `Mismatch for "${test.name}": got ${JSON.stringify(parsed)}, expected ${JSON.stringify(expected)}`
             );
             // Test canonical serialization if provided
             if (test.canonical) {
@@ -959,14 +970,14 @@ async function runConformanceTests(
           case "list": {
             const parsed = parseList(rawInput);
             const expected: List = test.expected.map(
-              convertExpectedListMember,
+              convertExpectedListMember
             );
             assertEquals(parsed.length, expected.length);
             for (let i = 0; i < parsed.length; i++) {
               assertEquals(
                 listMembersEqual(parsed[i]!, expected[i]!),
                 true,
-                `List member ${i} mismatch for "${test.name}"`,
+                `List member ${i} mismatch for "${test.name}"`
               );
             }
             // Test canonical serialization if provided
@@ -974,7 +985,7 @@ async function runConformanceTests(
               const serialized = serializeList(parsed);
               assertEquals(
                 serialized,
-                test.canonical[0] ?? test.canonical.join(", "),
+                test.canonical[0] ?? test.canonical.join(", ")
               );
             }
             break;
@@ -987,8 +998,8 @@ async function runConformanceTests(
               (test.expected as any[]).map(
                 ([key, value]: [string, unknown]) => [
                   key,
-                  convertExpectedListMember(value as unknown[]),
-                ],
+                  convertExpectedListMember(value as unknown[])
+                ]
               );
             assertEquals(parsed.size, expectedEntries.length);
             for (const [key, expectedValue] of expectedEntries) {
@@ -996,12 +1007,12 @@ async function runConformanceTests(
               assertEquals(
                 parsedValue !== undefined,
                 true,
-                `Missing key "${key}" in parsed dictionary`,
+                `Missing key "${key}" in parsed dictionary`
               );
               assertEquals(
                 listMembersEqual(parsedValue!, expectedValue),
                 true,
-                `Dictionary value mismatch for key "${key}" in "${test.name}"`,
+                `Dictionary value mismatch for key "${key}" in "${test.name}"`
               );
             }
             // Test canonical serialization if provided
@@ -1009,7 +1020,7 @@ async function runConformanceTests(
               const serialized = serializeDictionary(parsed);
               assertEquals(
                 serialized,
-                test.canonical[0] ?? test.canonical.join(", "),
+                test.canonical[0] ?? test.canonical.join(", ")
               );
             }
             break;
@@ -1025,96 +1036,96 @@ Ende.test({
   name: "HTTPWG Conformance Tests: binary.json",
   async fn(t) {
     await runConformanceTests(t, "binary.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: boolean.json",
   async fn(t) {
     await runConformanceTests(t, "boolean.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: date.json",
   async fn(t) {
     await runConformanceTests(t, "date.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: dictionary.json",
   async fn(t) {
     await runConformanceTests(t, "dictionary.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: display-string.json",
   async fn(t) {
     await runConformanceTests(t, "display-string.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: examples.json",
   async fn(t) {
     await runConformanceTests(t, "examples.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: item.json",
   async fn(t) {
     await runConformanceTests(t, "item.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: list.json",
   async fn(t) {
     await runConformanceTests(t, "list.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: number.json",
   async fn(t) {
     await runConformanceTests(t, "number.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: param-dict.json",
   async fn(t) {
     await runConformanceTests(t, "param-dict.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: param-list.json",
   async fn(t) {
     await runConformanceTests(t, "param-list.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: param-listlist.json",
   async fn(t) {
     await runConformanceTests(t, "param-listlist.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: string.json",
   async fn(t) {
     await runConformanceTests(t, "string.json");
-  },
+  }
 });
 
 Ende.test({
   name: "HTTPWG Conformance Tests: token.json",
   async fn(t) {
     await runConformanceTests(t, "token.json");
-  },
+  }
 });

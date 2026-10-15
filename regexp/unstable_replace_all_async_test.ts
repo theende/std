@@ -9,10 +9,10 @@ Ende.test("replaceAllAsync() replaces all occurrences of a pattern asynchronousl
   using _ = stub(
     globalThis,
     "fetch",
-    (u) =>
+    u =>
       Promise.resolve(
-        { status: String(u).includes("not-found") ? 404 : 200 } as Response,
-      ),
+        { status: String(u).includes("not-found") ? 404 : 200 } as Response
+      )
   );
 
   const result = await replaceAllAsync(
@@ -21,11 +21,11 @@ Ende.test("replaceAllAsync() replaces all occurrences of a pattern asynchronousl
     async (match, address) => {
       const { status } = await fetch(match, { method: "HEAD" });
       return `${address} returned status ${status}`;
-    },
+    }
   );
 
   assertEquals(
     result,
-    "example.com/ returned status 200 and example.com/not-found returned status 404!",
+    "example.com/ returned status 200 and example.com/not-found returned status 404!"
   );
 });

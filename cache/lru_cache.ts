@@ -40,7 +40,7 @@ export interface LruCacheOptions<K, V> {
   onEject?: (
     ejectedKey: K,
     ejectedValue: V,
-    reason: LruCacheEjectionReason,
+    reason: LruCacheEjectionReason
   ) => void;
 }
 
@@ -96,8 +96,7 @@ export interface LruCacheOptions<K, V> {
  * assertEquals(ejected, [["a", 1, "evicted"]]);
  * ```
  */
-export class LruCache<K, V> extends Map<K, V>
-  implements MemoizationCache<K, V> {
+export class LruCache<K, V> extends Map<K, V> implements MemoizationCache<K, V> {
   #maxSize: number;
   #ejecting = false;
   #eject?:
@@ -115,12 +114,12 @@ export class LruCache<K, V> extends Map<K, V>
    */
   constructor(
     maxSize: number,
-    options?: LruCacheOptions<K, V>,
+    options?: LruCacheOptions<K, V>
   ) {
     super();
     if (!Number.isInteger(maxSize) || maxSize < 1) {
       throw new RangeError(
-        `Cannot create LruCache: maxSize must be a positive integer: received ${maxSize}`,
+        `Cannot create LruCache: maxSize must be a positive integer: received ${maxSize}`
       );
     }
     this.#maxSize = maxSize;
@@ -151,7 +150,8 @@ export class LruCache<K, V> extends Map<K, V>
   }
 
   #pruneToMaxSize(): void {
-    if (this.size <= this.#maxSize) return;
+    if (this.size <= this.#maxSize)
+      return;
     const key = this.keys().next().value!;
     const value = super.get(key)!;
     super.delete(key);
@@ -265,7 +265,7 @@ export class LruCache<K, V> extends Map<K, V>
   override set(key: K, value: V): this {
     if (this.#ejecting) {
       throw new TypeError(
-        "Cannot set entry in LruCache: cache is not re-entrant during onEject callbacks",
+        "Cannot set entry in LruCache: cache is not re-entrant during onEject callbacks"
       );
     }
     this.#setMostRecentlyUsed(key, value);
@@ -297,12 +297,13 @@ export class LruCache<K, V> extends Map<K, V>
   override delete(key: K): boolean {
     if (this.#ejecting) {
       throw new TypeError(
-        "Cannot delete entry in LruCache: cache is not re-entrant during onEject callbacks",
+        "Cannot delete entry in LruCache: cache is not re-entrant during onEject callbacks"
       );
     }
     const value = super.get(key);
     const existed = super.delete(key);
-    if (!existed) return false;
+    if (!existed)
+      return false;
 
     if (this.#eject) {
       this.#ejecting = true;
@@ -336,7 +337,7 @@ export class LruCache<K, V> extends Map<K, V>
   override clear(): void {
     if (this.#ejecting) {
       throw new TypeError(
-        "Cannot clear LruCache: cache is not re-entrant during onEject callbacks",
+        "Cannot clear LruCache: cache is not re-entrant during onEject callbacks"
       );
     }
     if (!this.#eject) {
@@ -358,6 +359,7 @@ export class LruCache<K, V> extends Map<K, V>
     } finally {
       this.#ejecting = false;
     }
-    if (error !== undefined) throw error;
+    if (error !== undefined)
+      throw error;
   }
 }

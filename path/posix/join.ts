@@ -36,12 +36,13 @@ import { normalize } from "./normalize.ts";
  * @returns The joined path.
  */
 export function join(path?: URL | string, ...paths: string[]): string {
-  if (path === undefined) return ".";
+  if (path === undefined)
+    return ".";
   if (path instanceof URL) {
     path = fromFileUrl(path);
   }
   paths = path ? [path, ...paths] : paths;
-  paths.forEach((path) => assertPath(path));
-  const joined = paths.filter((path) => path.length > 0).join("/");
+  paths.forEach(path => assertPath(path));
+  const joined = paths.filter(path => path.length > 0).join("/");
   return joined === "" ? "." : normalize(joined);
 }

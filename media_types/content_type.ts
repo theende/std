@@ -16,9 +16,8 @@ export type ContentTypeToExtension = {
   /**
    * Maps each content type key to its corresponding file extension.
    */
-  [K in keyof DB]: DB[K] extends { "extensions": readonly string[] }
-    ? DB[K]["extensions"][number]
-    : never;
+  [K in keyof DB]: DB[K] extends { extensions: readonly string[]; } ? DB[K]["extensions"][number] :
+    never;
 };
 
 /** Known extension or type. Used in {@linkcode contentType}. */
@@ -60,17 +59,17 @@ export type KnownExtensionOrType =
 export function contentType<
   // Workaround to autocomplete for parameters: https://github.com/microsoft/TypeScript/issues/29729#issuecomment-567871939
   // deno-lint-ignore ban-types
-  T extends (string & {}) | KnownExtensionOrType,
+  T extends (string & {}) | KnownExtensionOrType
 >(
-  extensionOrType: T,
+  extensionOrType: T
 ): Lowercase<T> extends KnownExtensionOrType ? string : string | undefined {
   try {
-    const [mediaType, params = {}] = extensionOrType.includes("/")
-      ? parseMediaType(extensionOrType)
-      : [typeByExtension(extensionOrType), undefined];
+    const [mediaType, params = {}] = extensionOrType.includes("/") ?
+      parseMediaType(extensionOrType) :
+      [typeByExtension(extensionOrType), undefined];
     if (!mediaType) {
-      return undefined as Lowercase<T> extends KnownExtensionOrType ? string
-        : string | undefined;
+      return undefined as Lowercase<T> extends KnownExtensionOrType ? string :
+        string | undefined;
     }
     if (!("charset" in params)) {
       const charset = getCharset(mediaType);
@@ -82,6 +81,6 @@ export function contentType<
   } catch {
     // just swallow returning undefined
   }
-  return undefined as Lowercase<T> extends KnownExtensionOrType ? string
-    : string | undefined;
+  return undefined as Lowercase<T> extends KnownExtensionOrType ? string :
+    string | undefined;
 }

@@ -25,7 +25,7 @@ export type { JsonValue };
 export function parse(text: string): JsonValue {
   if (new.target) {
     throw new TypeError(
-      "Cannot create an instance: parse is not a constructor",
+      "Cannot create an instance: parse is not a constructor"
     );
   }
   return new JsoncParser(text).parse();
@@ -87,7 +87,7 @@ class JsoncParser {
     const { done, value } = this.#tokenized.next();
     if (done) {
       throw new SyntaxError(
-        "Cannot parse JSONC: unexpected end of JSONC input",
+        "Cannot parse JSONC: unexpected end of JSONC input"
       );
     }
     return value;
@@ -112,7 +112,7 @@ class JsoncParser {
         }
         if (!hasEndOfComment) {
           throw new SyntaxError(
-            "Cannot parse JSONC: unexpected end of JSONC input",
+            "Cannot parse JSONC: unexpected end of JSONC input"
           );
         }
         i++;
@@ -149,7 +149,7 @@ class JsoncParser {
         case ",":
           yield { type: "ValueSeparator", position: i };
           break;
-        case '"': { // parse string token
+        case "\"": { // parse string token
           const startIndex = i;
           // Need to handle consecutive backslashes correctly
           // '"\\""' => '"'
@@ -160,7 +160,7 @@ class JsoncParser {
           let hasEndOfString = false;
           i++;
           for (; i < this.#length; i++) { // read until find `"`
-            if (this.#text[i] === '"' && !shouldEscapeNext) {
+            if (this.#text[i] === "\"" && !shouldEscapeNext) {
               hasEndOfString = true;
               break;
             }
@@ -168,13 +168,13 @@ class JsoncParser {
           }
           if (!hasEndOfString) {
             throw new SyntaxError(
-              "Cannot parse JSONC: unexpected end of JSONC input",
+              "Cannot parse JSONC: unexpected end of JSONC input"
             );
           }
           yield {
             type: "String",
             sourceText: this.#text.substring(startIndex, i + 1),
-            position: startIndex,
+            position: startIndex
           };
           break;
         }
@@ -189,7 +189,7 @@ class JsoncParser {
           yield {
             type: "NullOrTrueOrFalseOrNumber",
             sourceText: this.#text.substring(startIndex, i + 1),
-            position: startIndex,
+            position: startIndex
           };
         }
       }
@@ -211,8 +211,8 @@ class JsoncParser {
     }
   }
 
-  #parseObject(): { [key: string]: JsonValue | undefined } {
-    const target: { [key: string]: JsonValue | undefined } = {};
+  #parseObject(): { [key: string]: JsonValue | undefined; } {
+    const target: { [key: string]: JsonValue | undefined; } = {};
     //   ┌─token1
     // { }
     //      ┌─────────────token1
@@ -255,7 +255,7 @@ class JsoncParser {
         value: this.#parseJsonValue(token3),
         writable: true,
         enumerable: true,
-        configurable: true,
+        configurable: true
       });
 
       const token4 = this.#getNext();
@@ -371,9 +371,9 @@ function buildErrorMessage({ type, sourceText, position }: Token): string {
     case "NullOrTrueOrFalseOrNumber":
     case "String":
       // Truncate the string so that it is within 30 lengths.
-      token = 30 < sourceText.length
-        ? `${sourceText.slice(0, 30)}...`
-        : sourceText;
+      token = 30 < sourceText.length ?
+        `${sourceText.slice(0, 30)}...` :
+        sourceText;
       break;
   }
   return `Cannot parse JSONC: unexpected token "${token}" in JSONC at position ${position}`;

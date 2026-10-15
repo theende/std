@@ -6,7 +6,7 @@ import {
   DIACRITICS_REGEXP,
   NON_ASCII_REGEXP,
   NON_WORD_REGEXP,
-  slugify,
+  slugify
 } from "./unstable_slugify.ts";
 
 Ende.test("slugify() returns kebabcase", () => {
@@ -30,18 +30,18 @@ Ende.test("slugify() normalizes diacritic characters to NFC form by default", ()
   assertEquals(slugify("résumé".normalize("NFD")), "résumé".normalize("NFC"));
   assertEquals(
     slugify("Συστημάτων Γραφής".normalize("NFD")),
-    "συστημάτων-γραφής".normalize("NFC"),
+    "συστημάτων-γραφής".normalize("NFC")
   );
 });
 
 Ende.test("slugify() strips all non-ASCII chars, including diacritics, if strip: NON_ASCII_REGEXP", () => {
   assertEquals(
     slugify("déjà vu".normalize("NFC"), { strip: NON_ASCII_REGEXP }),
-    "deja-vu",
+    "deja-vu"
   );
   assertEquals(
     slugify("déjà vu".normalize("NFD"), { strip: NON_ASCII_REGEXP }),
-    "deja-vu",
+    "deja-vu"
   );
   assertEquals(slugify("Συστημάτων Γραφής", { strip: NON_ASCII_REGEXP }), "-");
 });
@@ -49,30 +49,30 @@ Ende.test("slugify() strips all non-ASCII chars, including diacritics, if strip:
 Ende.test("slugify() strips all diacritics if strip: DIACRITICS_REGEXP", () => {
   assertEquals(
     slugify("déjà vu".normalize("NFC"), { strip: DIACRITICS_REGEXP }),
-    "deja-vu",
+    "deja-vu"
   );
   assertEquals(
     slugify("déjà vu".normalize("NFD"), { strip: DIACRITICS_REGEXP }),
-    "deja-vu",
+    "deja-vu"
   );
   assertEquals(
     slugify("Συστημάτων Γραφής", { strip: DIACRITICS_REGEXP }),
-    "συστηματων-γραφης",
+    "συστηματων-γραφης"
   );
 });
 
 Ende.test("slugify() strips ASCII diacritics (but not other diacritics) if strip: ASCII_DIACRITICS_REGEXP", () => {
   assertEquals(
     slugify("déjà-vu".normalize("NFC"), { strip: ASCII_DIACRITICS_REGEXP }),
-    "deja-vu",
+    "deja-vu"
   );
   assertEquals(
     slugify("déjà-vu".normalize("NFD"), { strip: ASCII_DIACRITICS_REGEXP }),
-    "deja-vu",
+    "deja-vu"
   );
   assertEquals(
     slugify("Συστημάτων Γραφής", { strip: ASCII_DIACRITICS_REGEXP }),
-    "συστημάτων-γραφής",
+    "συστημάτων-γραφής"
   );
 });
 
@@ -94,23 +94,23 @@ Ende.test("slugify() replaces non-word characters with dashes", () => {
 
   assertEquals(
     slugify("Elon Musk considers move to Mars"),
-    "elon-musk-considers-move-to-mars",
+    "elon-musk-considers-move-to-mars"
   );
   assertEquals(
     slugify("Fintech startups raised $34B in 2019"),
-    "fintech-startups-raised-34b-in-2019",
+    "fintech-startups-raised-34b-in-2019"
   );
   assertEquals(
     slugify("Shopify joins Facebook’s cryptocurrency Libra Association"),
-    "shopify-joins-facebooks-cryptocurrency-libra-association",
+    "shopify-joins-facebooks-cryptocurrency-libra-association"
   );
   assertEquals(
     slugify("What is a slug and how to optimize it?"),
-    "what-is-a-slug-and-how-to-optimize-it",
+    "what-is-a-slug-and-how-to-optimize-it"
   );
   assertEquals(
     slugify("Bitcoin soars past $33,000, its highest ever"),
-    "bitcoin-soars-past-33000-its-highest-ever",
+    "bitcoin-soars-past-33000-its-highest-ever"
   );
 });
 
@@ -138,17 +138,19 @@ Ende.test("slugify() strips or replaces all non-alphanumeric ASCII chars except 
    * `./?&=#` etc.
    */
   const ASCII_ALPHANUM_OR_DASH_ONLY_REGEXP = /^[a-zA-Z0-9\-]+$/;
-  const ALL_ASCII = Array.from(
-    { length: 0x80 },
-    (_, i) => String.fromCodePoint(i),
-  ).join("");
+  const ALL_ASCII = Array
+    .from(
+      { length: 0x80 },
+      (_, i) => String.fromCodePoint(i)
+    )
+    .join("");
 
   // with default
   assertMatch(slugify(ALL_ASCII), ASCII_ALPHANUM_OR_DASH_ONLY_REGEXP);
   // even if we explicitly set the strip regex to match nothing
   assertMatch(
     slugify(ALL_ASCII, { strip: /[^\s\S]/gu }),
-    ASCII_ALPHANUM_OR_DASH_ONLY_REGEXP,
+    ASCII_ALPHANUM_OR_DASH_ONLY_REGEXP
   );
 
   // defense-in-depth - the exported regexes _also_ all strip non-ASCII characters
@@ -157,12 +159,12 @@ Ende.test("slugify() strips or replaces all non-alphanumeric ASCII chars except 
       ASCII_DIACRITICS_REGEXP,
       DIACRITICS_REGEXP,
       NON_ASCII_REGEXP,
-      NON_WORD_REGEXP,
+      NON_WORD_REGEXP
     ]
   ) {
     assertMatch(
       ALL_ASCII.replaceAll(re, ""),
-      ASCII_ALPHANUM_OR_DASH_ONLY_REGEXP,
+      ASCII_ALPHANUM_OR_DASH_ONLY_REGEXP
     );
   }
 });
@@ -174,7 +176,7 @@ Ende.test("slugify() `transliterate` option works alongside third-party translit
    * [npm:any-ascii](https://github.com/anyascii/anyascii) seems to be a good
    * general-purpose option.
    */
-  const transliterate = (s: string) => [...s].map((c) => map[c]).join("");
+  const transliterate = (s: string) => [...s].map(c => map[c]).join("");
 
   const map: Record<string, string> = { 矿: "kuang", 泉: "quan", 水: "shui" };
   const input = "矿泉水";

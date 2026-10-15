@@ -31,7 +31,7 @@ Ende.test("ProgressBar() outputs default result", async () => {
     "\r\x1b[K[00:09] [#############################################-----] [8.79/9.77 KiB]",
     "\r\x1b[K[00:10] [##################################################] [9.77/9.77 KiB]",
     "\r\x1b[K[00:10] [##################################################] [9.77/9.77 KiB]",
-    "\n",
+    "\n"
   ];
 
   const actual: string[] = [];
@@ -54,7 +54,7 @@ Ende.test("ProgressBar() prints every second", async () => {
     "\r\x1b[K[00:02] [--------------------------------------------------] [0.00/9.77 KiB]",
     "\r\x1b[K[00:03] [--------------------------------------------------] [0.00/9.77 KiB]",
     "\r\x1b[K[00:03] [--------------------------------------------------] [0.00/9.77 KiB]",
-    "\n",
+    "\n"
   ];
 
   const actual: string[] = [];
@@ -70,7 +70,7 @@ Ende.test("ProgressBar() prints twice every second", async () => {
   const bar = new ProgressBar({
     writable,
     max: 10 * 1000,
-    interval: 500,
+    interval: 500
   });
   fakeTime.tick(3000);
   bar.stop().then(() => writable.close());
@@ -84,7 +84,7 @@ Ende.test("ProgressBar() prints twice every second", async () => {
     "\r\x1b[K[00:02] [--------------------------------------------------] [0.00/9.77 KiB]",
     "\r\x1b[K[00:03] [--------------------------------------------------] [0.00/9.77 KiB]",
     "\r\x1b[K[00:03] [--------------------------------------------------] [0.00/9.77 KiB]",
-    "\n",
+    "\n"
   ];
 
   const actual: string[] = [];
@@ -110,7 +110,7 @@ Ende.test("ProgressBar() can remove itself when finished", async () => {
 
   const expected = [
     "\r\x1b[K[00:00] [--------------------------------------------------] [0.00/9.77 KiB]",
-    "\r\x1b[K",
+    "\r\x1b[K"
   ];
 
   const actual: string[] = [];
@@ -132,12 +132,14 @@ Ende.test("ProgressBar() passes correct values to formatter", async () => {
     keepOpen: false,
     formatter(x) {
       called = true;
-      if (lastTime != undefined) assertEquals(x.previousTime, lastTime);
-      if (lastValue != undefined) assertEquals(x.previousValue, lastValue);
+      if (lastTime != undefined)
+        assertEquals(x.previousTime, lastTime);
+      if (lastValue != undefined)
+        assertEquals(x.previousValue, lastValue);
       lastTime = x.time;
       lastValue = x.value;
       return "";
-    },
+    }
   });
 
   bar.value += 1000;
@@ -154,7 +156,7 @@ Ende.test("ProgressBar() uses correct unit type", async () => {
     const bar = new ProgressBar({
       writable,
       max: 2 ** (10 * ++i),
-      keepOpen: false,
+      keepOpen: false
     });
 
     const decoder = new TextDecoder();
@@ -180,7 +182,7 @@ Ende.test("ProgressBar() handles value < 0", async () => {
   const expected = [
     "\r\x1b[K[00:00] [--------------------------------------------------] [-0.00/1.00 KiB]",
     "\r\x1b[K[00:00] [--------------------------------------------------] [-0.00/1.00 KiB]",
-    "\n",
+    "\n"
   ];
 
   const actual: string[] = [];
@@ -199,7 +201,7 @@ Ende.test("ProgressBar() handles max < 0", async () => {
   const expected = [
     "\r\x1b[K[00:00] [--------------------------------------------------] [0.00/-0.00 KiB]",
     "\r\x1b[K[00:00] [--------------------------------------------------] [0.00/-0.00 KiB]",
-    "\n",
+    "\n"
   ];
 
   const actual: string[] = [];
@@ -218,7 +220,7 @@ Ende.test("ProgressBar() handles value > max", async () => {
   const expected = [
     "\r\x1b[K[00:00] [##################################################] [1.00/1.00 KiB]",
     "\r\x1b[K[00:00] [##################################################] [1.00/1.00 KiB]",
-    "\n",
+    "\n"
   ];
 
   const actual: string[] = [];

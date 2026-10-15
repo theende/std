@@ -5,13 +5,13 @@
 // Copyright 2026 the Ende authors. MIT license.
 
 import { parse, parseAll } from "./parse.ts";
-import { type ImplicitType, parse as unstableParse } from "./unstable_parse.ts";
+import { parse as unstableParse, type ImplicitType } from "./unstable_parse.ts";
 import { YamlSyntaxError } from "./types.ts";
 import {
   assert,
   assertEquals,
   assertInstanceOf,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { assertSpyCall, spy } from "@ende/testing/mock";
 
@@ -29,7 +29,7 @@ Ende.test({
     const expected = { test: "toto", foo: { bar: true, baz: 1, qux: null } };
 
     assertEquals(parse(yaml), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -49,19 +49,19 @@ name: Eve
     const expected = [
       {
         id: 1,
-        name: "Alice",
+        name: "Alice"
       },
       {
         id: 2,
-        name: "Bob",
+        name: "Bob"
       },
       {
         id: 3,
-        name: "Eve",
-      },
+        name: "Eve"
+      }
     ];
     assertEquals(parseAll(yaml), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -71,14 +71,13 @@ Ende.test({
     assertThrows(
       () => parse(yaml),
       SyntaxError,
-      "Cannot resolve unknown tag !",
+      "Cannot resolve unknown tag !"
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "parse() handles `!!js/*` yaml types with extended schema while parsing",
+  name: "parse() handles `!!js/*` yaml types with extended schema while parsing",
   fn() {
     const yaml = `
       regexp:
@@ -90,13 +89,13 @@ Ende.test({
     const expected = {
       regexp: {
         simple: /foobar/,
-        modifiers: /foobar/mi,
+        modifiers: /foobar/mi
       },
-      undefined: undefined,
+      undefined: undefined
     };
 
     assertEquals(parse(yaml, { schema: "extended" }), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -108,11 +107,11 @@ Ende.test({
 
     const yaml = `
 function: !!js/function >
-${func.toString().split("\n").map((line) => `  ${line}`).join("\n")}
+${func.toString().split("\n").map(line => `  ${line}`).join("\n")}
 `;
 
     assertThrows(() => parse(yaml, { schema: "extended" }));
-  },
+  }
 });
 
 Ende.test({
@@ -127,15 +126,15 @@ regexp: !!js/regexp bar
 
     const expected = [
       {
-        regexp: /foo/,
+        regexp: /foo/
       },
       {
-        regexp: /bar/,
-      },
+        regexp: /bar/
+      }
     ];
 
     assertEquals(parseAll(yaml, { schema: "extended" }), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -143,7 +142,7 @@ Ende.test({
   fn() {
     assertThrows(() => parseAll(`"`), SyntaxError);
     assertThrows(() => parseAll(`---\nfoo: bar\n---\n"`), SyntaxError);
-  },
+  }
 });
 
 Ende.test({
@@ -183,11 +182,11 @@ merge_test:
     const command = new Ende.Command(Ende.execPath(), {
       stdout: "inherit",
       stderr: "inherit",
-      args: ["eval", "--no-lock", testCode],
+      args: ["eval", "--no-lock", testCode]
     });
     const { success } = await command.output();
     assert(success);
-  },
+  }
 });
 
 Ende.test({
@@ -201,7 +200,7 @@ Ende.test({
     assertEquals(parse(yaml2), expected);
     const yaml3 = `# just a bunch of comments \n # in this file`;
     assertEquals(parse(yaml3), expected);
-  },
+  }
 });
 
 Ende.test({
@@ -209,7 +208,7 @@ Ende.test({
   fn() {
     const yaml = `message: !!binary "SGVsbG8="`;
     assertEquals(parse(yaml), {
-      message: new Uint8Array([72, 101, 108, 108, 111]),
+      message: new Uint8Array([72, 101, 108, 108, 111])
     });
 
     // ignore CR LF in base64 string
@@ -222,8 +221,8 @@ Ende.test({
 `),
       {
         // deno-fmt-ignore
-        message: new Uint8Array([97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]),
-      },
+        message: new Uint8Array([97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122])
+      }
     );
 
     // check tailbits handling
@@ -231,38 +230,38 @@ Ende.test({
     assertEquals(
       parse(`message: !!binary "AQ=="`),
       {
-        message: new Uint8Array([1]),
-      },
+        message: new Uint8Array([1])
+      }
     );
     // 1 padding character
     assertEquals(
       parse(`message: !!binary "AQI="`),
       {
-        message: new Uint8Array([1, 2]),
-      },
+        message: new Uint8Array([1, 2])
+      }
     );
     // no padding character
     assertEquals(
       parse(`message: !!binary "AQID"`),
       {
-        message: new Uint8Array([1, 2, 3]),
-      },
+        message: new Uint8Array([1, 2, 3])
+      }
     );
 
     // invalid base64 string
     assertThrows(
       () => parse("message: !!binary <>"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:binary> explicit tag at line 1, column 21:\n    message: !!binary <>\n                        ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:binary> explicit tag at line 1, column 21:\n    message: !!binary <>\n                        ^"
     );
 
     // empty base64 string is error
     assertThrows(
       () => parse("message: !!binary"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:binary> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:binary> explicit tag at line 2, column 1:\n    \n    ^"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -277,7 +276,7 @@ Ende.test({
         - False
         - FALSE
       `),
-      [true, true, true, false, false, false],
+      [true, true, true, false, false, false]
     );
 
     // if the boolean names are in strange casing, they become strings
@@ -288,7 +287,7 @@ Ende.test({
         - FaLsE
         - fAlSe
       `),
-      ["TruE", "tRue", "FaLsE", "fAlSe"],
+      ["TruE", "tRue", "FaLsE", "fAlSe"]
     );
 
     // Yes, No, On, Off are not booleans in YAML 1.2
@@ -319,10 +318,10 @@ Ende.test({
         "ON",
         "off",
         "Off",
-        "OFF",
-      ],
+        "OFF"
+      ]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -351,9 +350,9 @@ Ende.test({
       "1:15",
       "1:15:20",
       "-1:15:20",
-      12000,
+      12000
     ]);
-  },
+  }
 });
 
 Ende.test({
@@ -369,7 +368,7 @@ Ende.test({
         - -42
         - 1_000
       `),
-      [0, 0, 0, 42, 42, -42, 1000],
+      [0, 0, 0, 42, 42, -42, 1000]
     );
 
     // binary, octal, and hexadecimal
@@ -382,48 +381,48 @@ Ende.test({
       - 0x1A
       - 0x1A_2B
     `),
-      [10, 170, 10, 668, 26, 6699],
+      [10, 170, 10, 668, 26, 6699]
     );
 
     // empty string is invalid integer
     assertThrows(
-      () => parse('!!int ""'),
+      () => parse("!!int \"\""),
       SyntaxError,
-      'Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 1, column 9:\n    !!int ""\n            ^',
+      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 1, column 9:\n    !!int \"\"\n            ^"
     );
 
     // number can't start with _
     assertThrows(
       () => parse("!!int _42"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^"
     );
     // number can't end with _
     assertThrows(
       () => parse("!!int 42_"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^"
     );
 
     // invalid binary number
     assertThrows(
       () => parse("!!int 0b102"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^"
     );
     // invalid octal number
     assertThrows(
       () => parse("!!int 09"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^"
     );
     // invalid hexadecimal number
     assertThrows(
       () => parse("!!int 0x1G"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:int> explicit tag at line 2, column 1:\n    \n    ^"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -443,22 +442,22 @@ Ende.test({
         new Date("2001-12-14T21:59:43.100+05:00"),
         new Date("2001-12-14T21:59:43.100-05:00"),
         new Date("2001-12-14T21:59:43.100+05:00"),
-        new Date("2002-12-14"),
-      ],
+        new Date("2002-12-14")
+      ]
     );
 
     assertThrows(
       () => parse("- !!timestamp"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:timestamp> explicit tag at line 2, column 1:\n    \n    ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:timestamp> explicit tag at line 2, column 1:\n    \n    ^"
     );
 
     assertThrows(
       () => parse("- !!timestamp 1"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:timestamp> explicit tag at line 1, column 16:\n    - !!timestamp 1\n                   ^",
+      "Cannot resolve a node with !<tag:yaml.org,2002:timestamp> explicit tag at line 1, column 16:\n    - !!timestamp 1\n                   ^"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -472,7 +471,7 @@ Ende.test({
     assertEquals(parse(yaml), [
       { "Mark McGwire": 65 },
       { "Sammy Sosa": 63 },
-      { "Ken Griffey": 58 },
+      { "Ken Griffey": 58 }
     ]);
 
     // Invalid omap
@@ -480,27 +479,27 @@ Ende.test({
     assertThrows(
       () => parse("--- !!omap\n- 1"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag",
+      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag"
     );
     // map entry is empty object
     assertThrows(
       () => parse("--- !!omap\n- {}"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag",
+      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag"
     );
     // map entry is an object with multiple keys
     assertThrows(
       () => parse("--- !!omap\n- foo: 1\n  bar: 2"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag",
+      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag"
     );
     // 2 map entries have the same key
     assertThrows(
       () => parse("--- !!omap\n- foo: 1\n- foo: 2"),
       SyntaxError,
-      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag",
+      "Cannot resolve a node with !<tag:yaml.org,2002:omap> explicit tag"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -512,7 +511,7 @@ Ende.test({
       construct: (): string => "🙂",
       predicate: (data: unknown): data is string => data === "🙂",
       kind: "scalar",
-      represent: (): string => "=)",
+      represent: (): string => "=)"
     };
 
     assertEquals(
@@ -523,14 +522,14 @@ tags:
   - =)
   - bar
 `,
-        { extraTypes: [foo] },
+        { extraTypes: [foo] }
       ),
       {
         title: "🙂",
-        tags: ["🙂", "bar"],
-      },
+        tags: ["🙂", "bar"]
+      }
     );
-  },
+  }
 });
 
 Ende.test("parse() handles !!pairs type", () => {
@@ -540,26 +539,26 @@ Ende.test("parse() handles !!pairs type", () => {
 - Tuesday: 4`),
     [
       ["Monday", 3],
-      ["Tuesday", 4],
-    ],
+      ["Tuesday", 4]
+    ]
   );
   // empty pairs
   assertEquals(
     parse(`!!pairs`),
-    [],
+    []
   );
   // invalid pairs
   assertThrows(
     // pair is not an object
     () => parse(`!!pairs\n- 1`),
     SyntaxError,
-    "Cannot resolve a node with !<tag:yaml.org,2002:pairs> explicit tag",
+    "Cannot resolve a node with !<tag:yaml.org,2002:pairs> explicit tag"
   );
   assertThrows(
     // pair is object with multiple keys
     () => parse(`!!pairs\n- { Monday: 3, Tuesday: 4 }`),
     SyntaxError,
-    "Cannot resolve a node with !<tag:yaml.org,2002:pairs> explicit tag",
+    "Cannot resolve a node with !<tag:yaml.org,2002:pairs> explicit tag"
   );
 });
 
@@ -567,17 +566,17 @@ Ende.test("parse() handles anchors and aliases", () => {
   assertEquals(
     parse(`- &anchor Foo
 - *anchor`),
-    ["Foo", "Foo"],
+    ["Foo", "Foo"]
   );
   assertEquals(
     parse(`- &anchor 1
 - *anchor`),
-    [1, 1],
+    [1, 1]
   );
   assertEquals(
     parse(`- &anchor { Monday: 3, Tuesday: 4 }
 - *anchor`),
-    [{ Monday: 3, Tuesday: 4 }, { Monday: 3, Tuesday: 4 }],
+    [{ Monday: 3, Tuesday: 4 }, { Monday: 3, Tuesday: 4 }]
   );
   assertEquals(
     parse(`- &anchor
@@ -587,53 +586,53 @@ Ende.test("parse() handles anchors and aliases", () => {
   Wednesday: 5`),
     [
       { Monday: 3, Tuesday: 4 },
-      { Monday: 3, Tuesday: 4, Wednesday: 5 },
-    ],
+      { Monday: 3, Tuesday: 4, Wednesday: 5 }
+    ]
   );
   assertEquals(
     parse(`- &anchor !!binary "SGVsbG8="
 - *anchor`),
     [
       new Uint8Array([72, 101, 108, 108, 111]),
-      new Uint8Array([72, 101, 108, 108, 111]),
-    ],
+      new Uint8Array([72, 101, 108, 108, 111])
+    ]
   );
   assertThrows(
     () =>
       parse(`- &anchor Foo
 - *anchor2`),
     SyntaxError,
-    'unidentified alias "anchor2" at line 2, column 11:\n    - *anchor2\n              ^',
+    "unidentified alias \"anchor2\" at line 2, column 11:\n    - *anchor2\n              ^"
   );
   assertThrows(
     () =>
       parse(`- &anchor Foo
 - *`),
     SyntaxError,
-    "Cannot read alias: alias name must contain at least one character at line 2, column 4:\n    - *\n       ^",
+    "Cannot read alias: alias name must contain at least one character at line 2, column 4:\n    - *\n       ^"
   );
 });
 
 Ende.test("parse() handles escaped strings in double quotes", () => {
-  assertEquals(parse('"\\"bar\\""'), '"bar"');
-  assertEquals(parse('"\\x30\\x31"'), "01");
-  assertEquals(parse('"\\\na"'), "a");
-  assertEquals(parse('"\\x4a"'), "J");
-  assertEquals(parse('"\\u0041"'), "A");
-  assertEquals(parse('"\\U00000041"'), "A");
-  assertEquals(parse('"\\U0001F431"'), "🐱");
+  assertEquals(parse("\"\\\"bar\\\"\""), "\"bar\"");
+  assertEquals(parse("\"\\x30\\x31\""), "01");
+  assertEquals(parse("\"\\\na\""), "a");
+  assertEquals(parse("\"\\x4a\""), "J");
+  assertEquals(parse("\"\\u0041\""), "A");
+  assertEquals(parse("\"\\U00000041\""), "A");
+  assertEquals(parse("\"\\U0001F431\""), "🐱");
 
   assertThrows(
     // invalid hex character
-    () => parse('"\\xyz"'),
+    () => parse("\"\\xyz\""),
     SyntaxError,
-    'expected hexadecimal character at line 1, column 4:\n    "\\xyz"\n       ^',
+    "expected hexadecimal character at line 1, column 4:\n    \"\\xyz\"\n       ^"
   );
   assertThrows(
     // invalid escape sequence
-    () => parse('"\\X30"'),
+    () => parse("\"\\X30\""),
     SyntaxError,
-    'unknown escape sequence at line 1, column 3:\n    "\\X30"\n      ^',
+    "unknown escape sequence at line 1, column 3:\n    \"\\X30\"\n      ^"
   );
 });
 
@@ -648,14 +647,14 @@ Ende.test("parse() handles single quoted scalar", () => {
     // document end in single quoted scalar
     () => parse("'bar\n"),
     SyntaxError,
-    "Unexpected end of the stream within a single quoted scalar at line 2, column 1:\n    \n    ^",
+    "Unexpected end of the stream within a single quoted scalar at line 2, column 1:\n    \n    ^"
   );
 
   assertThrows(
     // document separator appears in single quoted scalar
     () => parse("'bar\n..."),
     SyntaxError,
-    "Unexpected end of the document within a single quoted scalar at line 2, column 1:\n    ...\n    ^",
+    "Unexpected end of the document within a single quoted scalar at line 2, column 1:\n    ...\n    ^"
   );
 });
 
@@ -664,14 +663,14 @@ Ende.test("parse() handles %YAML directive", () => {
     parse(`%YAML 1.2
 ---
 hello: world`),
-    { hello: "world" },
+    { hello: "world" }
   );
   // you can write comments after the directive
   assertEquals(
     parse(`%YAML 1.2 # comment
 ---
 hello: world`),
-    { hello: "world" },
+    { hello: "world" }
   );
 
   assertThrows(
@@ -681,7 +680,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    "duplication of %YAML directive at line 3, column 1:\n    ---\n    ^",
+    "duplication of %YAML directive at line 3, column 1:\n    ---\n    ^"
   );
   assertThrows(
     () =>
@@ -689,7 +688,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    "Cannot handle YAML directive: YAML directive accepts exactly one argument at line 2, column 1:\n    ---\n    ^",
+    "Cannot handle YAML directive: YAML directive accepts exactly one argument at line 2, column 1:\n    ---\n    ^"
   );
   assertThrows(
     () =>
@@ -697,7 +696,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    "Cannot handle YAML directive: ill-formed argument at line 2, column 1:\n    ---\n    ^",
+    "Cannot handle YAML directive: ill-formed argument at line 2, column 1:\n    ---\n    ^"
   );
   assertThrows(
     () =>
@@ -705,14 +704,14 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    "Cannot handle YAML directive: unacceptable YAML version at line 2, column 1:\n    ---\n    ^",
+    "Cannot handle YAML directive: unacceptable YAML version at line 2, column 1:\n    ---\n    ^"
   );
   assertEquals(
     // The future 1.x version is acceptable
     parse(`%YAML 1.3
 ---
 hello: world`),
-    { hello: "world" },
+    { hello: "world" }
   );
 
   {
@@ -722,15 +721,15 @@ hello: world`),
         `%YAML 1.3
 ---
 hello: world`,
-        { onWarning: warningSpy },
+        { onWarning: warningSpy }
       ),
-      { hello: "world" },
+      { hello: "world" }
     );
     assertSpyCall(warningSpy, 0);
     const warning = warningSpy.calls[0]?.args[0];
     assertEquals(
       warning.message,
-      "Cannot handle YAML directive: unsupported YAML version at line 2, column 1:\n    ---\n    ^",
+      "Cannot handle YAML directive: unsupported YAML version at line 2, column 1:\n    ---\n    ^"
     );
     assertInstanceOf(warning, SyntaxError);
   }
@@ -741,7 +740,7 @@ Ende.test("parse() handles %TAG directive", () => {
     parse(`%TAG ! tag:example.com,2000:
 ---
 hello: world`),
-    { hello: "world" },
+    { hello: "world" }
   );
 
   assertThrows(
@@ -750,7 +749,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    "Cannot handle tag directive: directive accepts exactly two arguments, received 1 at line 2, column 1:\n    ---\n    ^",
+    "Cannot handle tag directive: directive accepts exactly two arguments, received 1 at line 2, column 1:\n    ---\n    ^"
   );
 
   assertThrows(
@@ -759,7 +758,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    'Cannot handle tag directive: ill-formed handle (first argument) in "abc" at line 2, column 1:\n    ---\n    ^',
+    "Cannot handle tag directive: ill-formed handle (first argument) in \"abc\" at line 2, column 1:\n    ---\n    ^"
   );
 
   assertThrows(
@@ -769,7 +768,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    'Cannot handle tag directive: previously declared suffix for "!" tag handle at line 3, column 1:\n    ---\n    ^',
+    "Cannot handle tag directive: previously declared suffix for \"!\" tag handle at line 3, column 1:\n    ---\n    ^"
   );
 
   assertThrows(
@@ -778,7 +777,7 @@ hello: world`),
 ---
 hello: world`),
     SyntaxError,
-    "ill-formed tag prefix (second argument) of the TAG directive at line 2, column 1:\n    ---\n    ^",
+    "ill-formed tag prefix (second argument) of the TAG directive at line 2, column 1:\n    ---\n    ^"
   );
 });
 
@@ -787,13 +786,13 @@ Ende.test("parse() throws with invalid strings", () => {
   assertThrows(
     () => parse(`"\x08"`),
     SyntaxError,
-    'Expected valid JSON character: received "8" at line 1, column 3:\n    "\b"\n      ^',
+    "Expected valid JSON character: received \"8\" at line 1, column 3:\n    \"\b\"\n      ^"
   );
   // non-printable char in block scalar
   assertThrows(
     () => parse(`foo: |\n  \x08`),
     SyntaxError,
-    "Stream contains non-printable characters at line 2, column 4:\n      \b\n       ^",
+    "Stream contains non-printable characters at line 2, column 4:\n      \b\n       ^"
   );
 });
 
@@ -801,13 +800,13 @@ Ende.test("parse() handles merge (<<) types", () => {
   assertEquals(
     parse(`<<: { a: 1, b: 2 }
 c: 3`),
-    { a: 1, b: 2, c: 3 },
+    { a: 1, b: 2, c: 3 }
   );
 
   assertEquals(
     parse(`<<: [{ a: 1 }, { b: 2 }]
 c: 1`),
-    { a: 1, b: 2, c: 1 },
+    { a: 1, b: 2, c: 1 }
   );
 
   assertThrows(
@@ -816,7 +815,7 @@ c: 1`),
       parse(`<<: 1
 c: 3`),
     SyntaxError,
-    "Cannot merge mappings: the provided source object is unacceptable at line 1, column 6:\n    <<: 1\n         ^",
+    "Cannot merge mappings: the provided source object is unacceptable at line 1, column 6:\n    <<: 1\n         ^"
   );
 });
 
@@ -826,63 +825,63 @@ Ende.test("parse() handles block scalars", () => {
   assertEquals(
     parse(`foo: |
   bar`),
-    { foo: "bar\n" },
+    { foo: "bar\n" }
   );
   assertEquals(
     parse(`foo: |
   bar
 
   bar`),
-    { foo: "bar\n\nbar\n" },
+    { foo: "bar\n\nbar\n" }
   );
   assertEquals(
     parse(`foo: |+
   bar`),
-    { foo: "bar\n" },
+    { foo: "bar\n" }
   );
   assertEquals(
     parse(`foo: |+
 bar: baz`),
-    { foo: "", bar: "baz" },
+    { foo: "", bar: "baz" }
   );
   assertEquals(
     parse(`foo: |-
   bar`),
-    { foo: "bar" },
+    { foo: "bar" }
   );
   assertThrows(
     () => parse(`foo: |++\n  bar`),
     SyntaxError,
-    "Cannot read block: chomping mode identifier repeated at line 1, column 8:\n    foo: |++\n           ^",
+    "Cannot read block: chomping mode identifier repeated at line 1, column 8:\n    foo: |++\n           ^"
   );
   assertEquals(
     parse(`foo: |1
   bar`),
-    { foo: " bar\n" },
+    { foo: " bar\n" }
   );
   assertEquals(
     parse(`foo: |
 
   bar`),
-    { foo: "\nbar\n" },
+    { foo: "\nbar\n" }
   );
   assertEquals(
     parse(`foo: | \n  bar`),
-    { foo: "bar\n" },
+    { foo: "bar\n" }
   );
   assertEquals(
     parse(`foo: | # comment\n  bar`),
-    { foo: "bar\n" },
+    { foo: "bar\n" }
   );
   assertThrows(
     () => parse(`foo: |0\n  bar`),
     SyntaxError,
-    "Cannot read block: indentation width must be greater than 0 at line 1, column 7:\n    foo: |0\n          ^",
+    "Cannot read block: indentation width must be greater than 0 at line 1, column 7:\n    foo: |0\n          ^"
   );
   assertThrows(
     () => parse(`foo: |11\n  bar`),
     SyntaxError,
-    "Cannot read block: indentation width identifier repeated at line 1, column 8:\n    foo: |11\n           ^",
+    "Cannot read block: indentation width identifier repeated at line 1, column 8:\n    foo: |11\n           ^"
   );
 
   // folding style (>)
@@ -901,7 +900,7 @@ bar: baz`),
   g
 
   `),
-    { foo: "\na b\nc\n  - d\n  - e\n\nf g\n" },
+    { foo: "\na b\nc\n  - d\n  - e\n\nf g\n" }
   );
 });
 
@@ -914,14 +913,14 @@ Ende.test("parse() throws if there are more than one document in the yaml", () =
   assertThrows(
     () => parse("hello: world\n---\nfoo: bar"),
     SyntaxError,
-    "Found more than 1 document in the stream: expected a single document",
+    "Found more than 1 document in the stream: expected a single document"
   );
 });
 
 Ende.test("parse() throws YamlSyntaxError with structured position info", () => {
   const error = assertThrows(
     () => parse("foo: bar\n  baz: qux"),
-    YamlSyntaxError,
+    YamlSyntaxError
   );
   assertInstanceOf(error, YamlSyntaxError);
   assertEquals(typeof error.line, "number");
@@ -936,7 +935,7 @@ Ende.test("parse() throws YamlSyntaxError with structured position info", () => 
 Ende.test("parse() multi-document error points at the second document marker", () => {
   const error = assertThrows(
     () => parse("hello: world\n---\nfoo: bar"),
-    YamlSyntaxError,
+    YamlSyntaxError
   );
   assertEquals(error.line, 2);
   assertEquals(error.column, 1);
@@ -950,7 +949,7 @@ Ende.test("parse() throws when the directive name is empty", () => {
 ---
 hello: world`),
     SyntaxError,
-    "Cannot read document: directive name length must be greater than zero at line 1, column 2:\n    % 1.2\n     ^",
+    "Cannot read document: directive name length must be greater than zero at line 1, column 2:\n    % 1.2\n     ^"
   );
 });
 
@@ -959,7 +958,7 @@ Ende.test("parse() ignores unknown directive", () => {
     parse(`%FOOBAR 1.2
 ---
 hello: world`),
-    { hello: "world" },
+    { hello: "world" }
   );
 });
 
@@ -968,7 +967,7 @@ Ende.test("parse() handles document separator", () => {
     parse(`---
 hello: world
 ...`),
-    { hello: "world" },
+    { hello: "world" }
   );
 });
 
@@ -979,15 +978,15 @@ Ende.test("parse() show warning with non-ascii line breaks if YAML version is < 
       `%YAML 1.1
 ---
 hello: world\r\nfoo: bar\x85`,
-      { onWarning: warningSpy },
+      { onWarning: warningSpy }
     ),
-    { hello: "world", foo: "bar\x85" },
+    { hello: "world", foo: "bar\x85" }
   );
   assertSpyCall(warningSpy, 0);
   const warning = warningSpy.calls[0]?.args[0];
   assertEquals(
     warning.message,
-    "non-ASCII line breaks are interpreted as content at line 5, column 1:\n    \n    ^",
+    "non-ASCII line breaks are interpreted as content at line 5, column 1:\n    \n    ^"
   );
 });
 
@@ -995,7 +994,7 @@ Ende.test("parse() throws with directive only document", () => {
   assertThrows(
     () => parse(`%YAML 1.2`),
     SyntaxError,
-    "directives end mark is expected at line 2, column 1:\n    \n    ^",
+    "directives end mark is expected at line 2, column 1:\n    \n    ^"
   );
 });
 
@@ -1003,7 +1002,7 @@ Ende.test("parse() throws with \0 in the middle of the document", () => {
   assertThrows(
     () => parse("hello: \0 world"),
     SyntaxError,
-    "end of the stream or a document separator is expected at line 1, column 8:\n    hello: \n           ^",
+    "end of the stream or a document separator is expected at line 1, column 8:\n    hello: \n           ^"
   );
 });
 
@@ -1022,9 +1021,9 @@ Ende.test("parse() handles complex mapping key", () => {
       "New York Yankees,Atlanta Braves": [
         new Date("2001-07-02"),
         new Date("2001-08-12"),
-        new Date("2001-08-14"),
-      ],
-    },
+        new Date("2001-08-14")
+      ]
+    }
   );
 
   // Nested array as key is not supported
@@ -1033,19 +1032,19 @@ Ende.test("parse() handles complex mapping key", () => {
       parse(`? - [ foo ]
 : bar`),
     SyntaxError,
-    "nested arrays are not supported inside keys at line 2, column 6:\n    : bar\n         ^",
+    "nested arrays are not supported inside keys at line 2, column 6:\n    : bar\n         ^"
   );
 
   assertEquals(
     parse(`? - { foo: bar }
 : baz`),
-    { "[object Object]": "baz" },
+    { "[object Object]": "baz" }
   );
 
   assertEquals(
     parse(`? { foo: bar }
 : baz`),
-    { "[object Object]": "baz" },
+    { "[object Object]": "baz" }
   );
 });
 
@@ -1055,7 +1054,7 @@ Ende.test("parse() handles unordered set", () => {
 ? Mark McGwire
 ? Sammy Sosa
 ? Ken Griffey`),
-    { "Mark McGwire": null, "Sammy Sosa": null, "Ken Griffey": null },
+    { "Mark McGwire": null, "Sammy Sosa": null, "Ken Griffey": null }
   );
   assertEquals(parse(`--- !!set`), {});
 });
@@ -1064,7 +1063,7 @@ Ende.test("parse() throws with empty mapping key", () => {
   assertThrows(
     () => parse(`? : 1`),
     SyntaxError,
-    "Cannot read block as explicit mapping pair is incomplete: a key node is missed or followed by a non-tabulated empty line at line 1, column 3:\n    ? : 1\n      ^",
+    "Cannot read block as explicit mapping pair is incomplete: a key node is missed or followed by a non-tabulated empty line at line 1, column 3:\n    ? : 1\n      ^"
   );
 });
 
@@ -1074,10 +1073,10 @@ Ende.test("parse() throws on duplicate keys", () => {
       parse(
         `name: John Doe
 age: 30
-name: Jane Doe`,
+name: Jane Doe`
       ),
     SyntaxError,
-    "Cannot store mapping pair: duplicated key at line 3, column 1:\n    name: Jane Doe\n    ^",
+    "Cannot store mapping pair: duplicated key at line 3, column 1:\n    name: Jane Doe\n    ^"
   );
 });
 
@@ -1087,9 +1086,9 @@ Ende.test("parse() allows duplicate keys when `allowDuplicateKeys` option is set
       `name: John Doe
 age: 30
 name: Jane Doe`,
-      { allowDuplicateKeys: true },
+      { allowDuplicateKeys: true }
     ),
-    { name: "Jane Doe", age: 30 },
+    { name: "Jane Doe", age: 30 }
   );
 });
 
@@ -1097,12 +1096,12 @@ Ende.test("parse() throws at reseverd characters '`' and '@'", () => {
   assertThrows(
     () => parse("`"),
     SyntaxError,
-    "end of the stream or a document separator is expected at line 1, column 1:\n    `\n    ^",
+    "end of the stream or a document separator is expected at line 1, column 1:\n    `\n    ^"
   );
   assertThrows(
     () => parse("@"),
     SyntaxError,
-    "end of the stream or a document separator is expected at line 1, column 1:\n    @\n    ^",
+    "end of the stream or a document separator is expected at line 1, column 1:\n    @\n    ^"
   );
 });
 
@@ -1115,8 +1114,8 @@ Ende.test("parse() does not pollute prototype with `__proto__` key", () => {
   >;
   assert(Object.hasOwn(result, "__proto__"));
   assertEquals(
-    (result as { __proto__: unknown }).__proto__,
-    { polluted: true },
+    (result as { __proto__: unknown; }).__proto__,
+    { polluted: true }
   );
   // Same guarantee for the merge type (which goes through `mergeMappings`).
   const merged = parse(`<<:
@@ -1126,31 +1125,31 @@ ok: 1`) as Record<string, unknown>;
   assert(Object.hasOwn(merged, "__proto__"));
   assertEquals(merged.ok, 1);
   // Sanity: an unrelated object's prototype is untouched.
-  assertEquals(({} as { polluted?: unknown }).polluted, undefined);
+  assertEquals(({} as { polluted?: unknown; }).polluted, undefined);
 });
 
 Ende.test("parse() handles sequence", () => {
   assertEquals(parse("[]"), []);
   assertEquals(
     parse("[ Clark Evans, Ingy döt Net, Oren Ben-Kiki ]"),
-    ["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"],
+    ["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"]
   );
   assertEquals(parse("!!seq []"), []);
   assertEquals(
     parse("!!seq [ Clark Evans, Ingy döt Net, Oren Ben-Kiki ]"),
-    ["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"],
+    ["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"]
   );
   assertEquals(
     parse(`!!seq
     `),
-    [],
+    []
   );
   assertEquals(
     parse(`!!seq
 - Clark Evans
 - Ingy döt Net
 - Oren Ben-Kiki`),
-    ["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"],
+    ["Clark Evans", "Ingy döt Net", "Oren Ben-Kiki"]
   );
 });
 
@@ -1158,24 +1157,24 @@ Ende.test("parse() handles mapping", () => {
   assertEquals(parse("{}"), {});
   assertEquals(
     parse("{ Clark: Evans, Ingy: döt Net, Oren: Ben-Kiki }"),
-    { Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" },
+    { Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" }
   );
   assertEquals(parse("!!map {}"), {});
   assertEquals(
     parse("!!map { Clark: Evans, Ingy: döt Net, Oren: Ben-Kiki }"),
-    { Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" },
+    { Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" }
   );
   assertEquals(
     parse(`!!map
     `),
-    {},
+    {}
   );
   assertEquals(
     parse(`!!map
   Clark : Evans
   Ingy  : döt Net
   Oren  : Ben-Kiki`),
-    { Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" },
+    { Clark: "Evans", Ingy: "döt Net", Oren: "Ben-Kiki" }
   );
 });
 
@@ -1189,41 +1188,41 @@ Ende.test({
   fn() {
     assertEquals(
       parse("!<tag:yaml.org,2002:js/regexp> ^foo$\n", { schema: "extended" }),
-      /^foo$/,
+      /^foo$/
     );
     assertEquals(
       parse("!<tag:yaml.org,2002:js/regexp> /^foo$/\n", { schema: "extended" }),
-      /^foo$/,
+      /^foo$/
     );
     assertEquals(
       parse("!<tag:yaml.org,2002:js/regexp> /^foo$/g\n", {
-        schema: "extended",
+        schema: "extended"
       }),
-      /^foo$/g,
+      /^foo$/g
     );
     assertThrows(
       () =>
         parse("!<tag:yaml.org,2002:js/regexp> /^foo$/gg\n", {
-          schema: "extended",
+          schema: "extended"
         }),
       SyntaxError,
-      "Cannot resolve a node",
+      "Cannot resolve a node"
     );
     assertThrows(
       () =>
         parse("!<tag:yaml.org,2002:js/regexp> \n", {
-          schema: "extended",
+          schema: "extended"
         }),
       SyntaxError,
-      "Cannot resolve a node",
+      "Cannot resolve a node"
     );
     assertThrows(
       () =>
         parse("!<tag:yaml.org,2002:js/regexp> /\n", {
-          schema: "extended",
+          schema: "extended"
         }),
       SyntaxError,
-      "Cannot resolve a node",
+      "Cannot resolve a node"
     );
-  },
+  }
 });

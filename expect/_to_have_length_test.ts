@@ -31,9 +31,11 @@ Ende.test("expect().toHaveLength() with custom error message", () => {
 
   expect(() => {
     expect([1, 2, 3], msg).toHaveLength(4);
-  }).toThrow(new RegExp(`^${msg}`));
+  })
+    .toThrow(new RegExp(`^${msg}`));
 
   expect(() => {
     expect("abc", msg).not.toHaveLength(3);
-  }).toThrow(new RegExp(`^${msg}`));
+  })
+    .toThrow(new RegExp(`^${msg}`));
 });

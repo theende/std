@@ -17,7 +17,7 @@ Ende.test("promptSecret() handles CR", () => {
 
   const expectedOutput = [
     "Please provide the password: ",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -29,13 +29,13 @@ Ende.test("promptSecret() handles CR", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -46,7 +46,7 @@ Ende.test("promptSecret() handles CR", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:");
@@ -64,7 +64,7 @@ Ende.test("promptSecret() handles LF", () => {
 
   const expectedOutput = [
     "Please provide the password: ",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -76,13 +76,13 @@ Ende.test("promptSecret() handles LF", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\n",
+    "\n"
   ];
 
   stub(
@@ -93,7 +93,7 @@ Ende.test("promptSecret() handles LF", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:");
@@ -119,7 +119,7 @@ Ende.test("promptSecret() handles input", () => {
     "Please provide the password: ***",
     "\r\x1b[K",
     "Please provide the password: ****",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -131,7 +131,7 @@ Ende.test("promptSecret() handles input", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -141,7 +141,7 @@ Ende.test("promptSecret() handles input", () => {
     "e",
     "n",
     "o",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -152,7 +152,7 @@ Ende.test("promptSecret() handles input", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:");
@@ -183,7 +183,7 @@ Ende.test("promptSecret() handles DEL", () => {
     "Please provide the password: ***",
     "\r\x1b[K",
     "Please provide the password: ****",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -195,7 +195,7 @@ Ende.test("promptSecret() handles DEL", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -207,7 +207,7 @@ Ende.test("promptSecret() handles DEL", () => {
     "e",
     "n",
     "o",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -218,7 +218,7 @@ Ende.test("promptSecret() handles DEL", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:");
@@ -249,7 +249,7 @@ Ende.test("promptSecret() handles BS", () => {
     "Please provide the password: ***",
     "\r\x1b[K",
     "Please provide the password: ****",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -261,7 +261,7 @@ Ende.test("promptSecret() handles BS", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -273,7 +273,7 @@ Ende.test("promptSecret() handles BS", () => {
     "e",
     "n",
     "o",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -284,7 +284,7 @@ Ende.test("promptSecret() handles BS", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:");
@@ -311,7 +311,7 @@ Ende.test("promptSecret() handles clear option", () => {
     "Please provide the password: ***",
     "\r\x1b[K",
     "Please provide the password: ****",
-    "\r\x1b[K",
+    "\r\x1b[K"
   ];
 
   const actualOutput: string[] = [];
@@ -323,7 +323,7 @@ Ende.test("promptSecret() handles clear option", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -333,7 +333,7 @@ Ende.test("promptSecret() handles clear option", () => {
     "e",
     "n",
     "o",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -344,11 +344,11 @@ Ende.test("promptSecret() handles clear option", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:", {
-    clear: true,
+    clear: true
   });
 
   assertEquals(password, "deno");
@@ -373,7 +373,7 @@ Ende.test("promptSecret() handles mask option", () => {
     "Please provide the password: $$$",
     "\r\x1b[K",
     "Please provide the password: $$$$",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -385,7 +385,7 @@ Ende.test("promptSecret() handles mask option", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -395,7 +395,7 @@ Ende.test("promptSecret() handles mask option", () => {
     "e",
     "n",
     "o",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -406,7 +406,7 @@ Ende.test("promptSecret() handles mask option", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:", { mask: "$" });
@@ -425,7 +425,7 @@ Ende.test("promptSecret() handles empty mask option", () => {
 
   const expectedOutput = [
     "Please provide the password: ",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -437,7 +437,7 @@ Ende.test("promptSecret() handles empty mask option", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -447,7 +447,7 @@ Ende.test("promptSecret() handles empty mask option", () => {
     "e",
     "n",
     "o",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -458,7 +458,7 @@ Ende.test("promptSecret() handles empty mask option", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:", { mask: "" });
@@ -483,7 +483,7 @@ Ende.test("promptSecret() returns null if Ende.stdin.isTerminal() is false", () 
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   const password = promptSecret("Please provide the password:");
@@ -501,7 +501,7 @@ Ende.test("promptSecret() handles null readSync", () => {
 
   const expectedOutput = [
     "Please provide the password: ",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -513,7 +513,7 @@ Ende.test("promptSecret() handles null readSync", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   stub(Ende.stdin, "readSync", () => null);
@@ -534,7 +534,7 @@ Ende.test("promptSecret() handles empty readSync", () => {
 
   const expectedOutput = [
     "Please provide the password: ",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -546,7 +546,7 @@ Ende.test("promptSecret() handles empty readSync", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   stub(Ende.stdin, "readSync", () => 0);
@@ -585,7 +585,7 @@ Ende.test("promptSecret() wraps characters wider than console columns", () => {
     "*",
     "\r\x1b[K",
     "**",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -597,7 +597,7 @@ Ende.test("promptSecret() wraps characters wider than console columns", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -613,7 +613,7 @@ Ende.test("promptSecret() wraps characters wider than console columns", () => {
     "l",
     "e",
     "s",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -624,7 +624,7 @@ Ende.test("promptSecret() wraps characters wider than console columns", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("?");
@@ -687,7 +687,7 @@ Ende.test("promptSecret() returns to previous line when deleting characters", ()
     "\r\u001b[K",
     "\r\u001b[1F",
     "? ****",
-    "\n",
+    "\n"
   ];
 
   const actualOutput: string[] = [];
@@ -699,7 +699,7 @@ Ende.test("promptSecret() returns to previous line when deleting characters", ()
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -727,7 +727,7 @@ Ende.test("promptSecret() returns to previous line when deleting characters", ()
     "\x7f",
     "\x7f",
     "\x7f",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -738,7 +738,7 @@ Ende.test("promptSecret() returns to previous line when deleting characters", ()
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const password = promptSecret("?");

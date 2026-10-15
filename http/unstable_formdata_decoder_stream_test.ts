@@ -5,7 +5,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { FormDataDecoderStream } from "@ende/http/unstable-formdata-decoder-stream";
 
@@ -14,18 +14,19 @@ type Uint8Array_ = ReturnType<Uint8Array["slice"]>;
 function toRequest(input: [string, string | Blob][]): Request {
   return new Request("https://example.com/", {
     method: "POST",
-    body: function () {
+    body: function() {
       const formData = new FormData();
-      for (const [key, value] of input) formData.append(key, value);
+      for (const [key, value] of input)
+        formData.append(key, value);
       return formData;
-    }(),
+    }()
   });
 }
 
 Ende.test("FormDataDecoderStream", async () => {
   const request = toRequest([
     ["a", "b"],
-    ["c", new Blob(["Hello"])],
+    ["c", new Blob(["Hello"])]
   ]);
 
   for await (const entry of FormDataDecoderStream.from(request)) {
@@ -51,8 +52,8 @@ Ende.test("FormDataDecoderStream handles preamble", async () => {
     new TransformStream<Uint8Array_, Uint8Array_>({
       start(controller) {
         controller.enqueue(new Uint8Array(100));
-      },
-    }),
+      }
+    })
   );
   assert(readable != undefined);
 
@@ -72,8 +73,8 @@ Ende.test("FormDataDecoderStream handles epilogue", async () => {
     new TransformStream<Uint8Array_, Uint8Array_>({
       flush(controller) {
         controller.enqueue(new Uint8Array(100));
-      },
-    }),
+      }
+    })
   );
   assert(readable != undefined);
 
@@ -92,19 +93,19 @@ Ende.test("FormDataDecoderStream throws on missing Content-Type header", () => {
   assertThrows(
     () => FormDataDecoderStream.from(request),
     TypeError,
-    "Content-Type header is missing",
+    "Content-Type header is missing"
   );
 });
 
 Ende.test("FormDataDecoderStream throws on missing body", () => {
   const request = new Request("https://example.com", {
     method: "POST",
-    headers: { "Content-Type": "text/plain" },
+    headers: { "Content-Type": "text/plain" }
   });
   assertThrows(
     () => FormDataDecoderStream.from(request),
     TypeError,
-    "Request body is missing",
+    "Request body is missing"
   );
 });
 
@@ -117,16 +118,16 @@ Ende.test(
     assertThrows(
       () => FormDataDecoderStream.from(request),
       TypeError,
-      "Boundary not found in contentType",
+      "Boundary not found in contentType"
     );
-  },
+  }
 );
 
 Ende.test("FormDataDecoderStream throws on invalid boundary", () => {
   const request = toRequest([["a", "b"]]);
   let contentType = request.headers.get("Content-Type");
   assert(typeof contentType === "string");
-  contentType = contentType.replace("boundary=", 'boundary="') + '\u{1F4A9}"';
+  contentType = contentType.replace("boundary=", "boundary=\"") + "\u{1F4A9}\"";
   const readable = request.body;
   assert(readable != undefined);
 
@@ -135,7 +136,7 @@ Ende.test("FormDataDecoderStream throws on invalid boundary", () => {
       new FormDataDecoderStream(contentType, readable);
     },
     SyntaxError,
-    "Boundary has invalid characters within it",
+    "Boundary has invalid characters within it"
   );
 });
 
@@ -147,10 +148,11 @@ Ende.test(
     assert(typeof contentType === "string");
     let boundary = contentType
       .split(";")
-      .find((x) => x.trimStart().startsWith("boundary="))
+      .find(x => x.trimStart().startsWith("boundary="))
       ?.split("=")[1];
     assert(boundary != undefined);
-    if (boundary.startsWith('"')) boundary = boundary.slice(1, -1);
+    if (boundary.startsWith("\""))
+      boundary = boundary.slice(1, -1);
     const text = await request.text();
     const index = text.indexOf(boundary) + boundary.length + 2;
 
@@ -159,17 +161,19 @@ Ende.test(
         for await (
           const _entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([text.slice(0, index)])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
+            ReadableStream
+              .from([text.slice(0, index)])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
         ) {
           throw "Unreachable";
         }
       },
       SyntaxError,
-      "Unexpected EOF",
+      "Unexpected EOF"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -187,17 +191,19 @@ Ende.test(
         for await (
           const _entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([text.slice(0, index1) + text.slice(index2)])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
+            ReadableStream
+              .from([text.slice(0, index1) + text.slice(index2)])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
         ) {
           throw "Unreachable";
         }
       },
       SyntaxError,
-      "Missing Content-Disposition header within FormData segment",
+      "Missing Content-Disposition header within FormData segment"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -213,17 +219,19 @@ Ende.test(
         for await (
           const _entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([text.replace("form-data", "data-forms")])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
+            ReadableStream
+              .from([text.replace("form-data", "data-forms")])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
         ) {
           throw "Unreachable";
         }
       },
       SyntaxError,
-      "Content-Disposition was not of form-data",
+      "Content-Disposition was not of form-data"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -239,17 +247,19 @@ Ende.test(
         for await (
           const _entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([text.replace("name=", "game=")])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
+            ReadableStream
+              .from([text.replace("name=", "game=")])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
         ) {
           throw "Unreachable";
         }
       },
       SyntaxError,
-      "Content-Disposition missing name field",
+      "Content-Disposition missing name field"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -265,15 +275,18 @@ Ende.test(
         for await (
           const _entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([text.slice(0, text.indexOf("\r\n\r\n") + 2)])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
-        ) throw "Unreachable";
+            ReadableStream
+              .from([text.slice(0, text.indexOf("\r\n\r\n") + 2)])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
+        )
+          throw "Unreachable";
       },
       SyntaxError,
-      "Unexpected EOF",
+      "Unexpected EOF"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -289,19 +302,21 @@ Ende.test(
         for await (
           const _entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([
-              text.replace("Content-Disposition", "Content-Type"),
-            ])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
+            ReadableStream
+              .from([
+                text.replace("Content-Disposition", "Content-Type")
+              ])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
         ) {
           throw "Unreachable";
         }
       },
       SyntaxError,
-      "Missing Content-Disposition header within FormData segment",
+      "Missing Content-Disposition header within FormData segment"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -317,21 +332,23 @@ Ende.test(
         for await (
           const entry of new FormDataDecoderStream(
             contentType,
-            ReadableStream.from([text.slice(0, text.indexOf("I am a tee pot"))])
-              .pipeThrough(new TextEncoderStream()),
-          ).readable
+            ReadableStream
+              .from([text.slice(0, text.indexOf("I am a tee pot"))])
+              .pipeThrough(new TextEncoderStream())
+          )
+            .readable
         ) {
           await assertRejects(
             async () => await new Response(entry.value).text(),
             SyntaxError,
-            "Unexpected EOF",
+            "Unexpected EOF"
           );
         }
       },
       SyntaxError,
-      "Unexpected EOF",
+      "Unexpected EOF"
     );
-  },
+  }
 );
 
 Ende.test("FormDataDecoderStream handles CRLF in body", async () => {
@@ -349,18 +366,18 @@ Ende.test("FormDataDecoderStream handles CRLF in body", async () => {
     10,
     3,
     3,
-    3,
+    3
   ]);
   const request = toRequest([[
     "a",
-    new Blob([buffer]),
+    new Blob([buffer])
   ]]);
 
   for await (const entry of FormDataDecoderStream.from(request)) {
     assertEquals(entry.name, "a");
     assertEquals(
       await new Response(entry.value).bytes(),
-      buffer,
+      buffer
     );
   }
 });
@@ -375,7 +392,8 @@ Ende.test("FormDataDecoderStream handles large bodies", async () => {
     while (true) {
       const { done, value } = await reader.read(new Uint8Array(5), { min: 5 });
       body += decoder.decode(value);
-      if (done) break;
+      if (done)
+        break;
     }
   }
   assertEquals(body, "I am a LARGE Body");
@@ -391,7 +409,8 @@ Ende.test("FormDataDecoderStream handles tight bodies", async () => {
     while (true) {
       const { done, value } = await reader.read(new Uint8Array(5), { min: 5 });
       body += decoder.decode(value);
-      if (done) break;
+      if (done)
+        break;
     }
   }
   assertEquals(body, "I am\r\n a TIGHT Body");
@@ -400,7 +419,7 @@ Ende.test("FormDataDecoderStream handles tight bodies", async () => {
 Ende.test("FormDataDecoderStream handles being cancelled", async () => {
   const request = toRequest([
     ["a", new Blob([new Uint8Array(1024 * 1024)])],
-    ["b", "c"],
+    ["b", "c"]
   ]);
 
   for await (const entry of FormDataDecoderStream.from(request)) {
@@ -421,12 +440,12 @@ Ende.test(
   "FormDataDecoderStream handles being cancelled on an invalid stream",
   async () => {
     const request = toRequest([
-      ["a", new Blob([new Uint8Array(1024 * 1024)])],
+      ["a", new Blob([new Uint8Array(1024 * 1024)])]
     ]);
     const contentType = request.headers.get("Content-Type");
     assert(typeof contentType === "string");
     const readable = ReadableStream.from([
-      (await request.bytes()).subarray(0, 1024),
+      (await request.bytes()).subarray(0, 1024)
     ]);
 
     await assertRejects(
@@ -439,9 +458,9 @@ Ende.test(
         }
       },
       SyntaxError,
-      "Unexpected EOF",
+      "Unexpected EOF"
     );
-  },
+  }
 );
 
 Ende.test("FormDataDecoderStream handles field name _charset_", async () => {

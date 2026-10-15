@@ -35,7 +35,7 @@ export type RoundingOptions = {
 export function roundTo(
   num: number,
   digits: number,
-  options?: RoundingOptions,
+  options?: RoundingOptions
 ): number {
   if (!Number.isSafeInteger(digits) || digits < 0) {
     throw new RangeError("`digits` must be a non-negative integer");

@@ -211,7 +211,7 @@ export class ProgressBar {
    * @param options The options to configure various settings of the progress bar.
    */
   constructor(
-    options: ProgressBarOptions,
+    options: ProgressBarOptions
   ) {
     const {
       writable = Ende.stderr.writable,
@@ -223,7 +223,7 @@ export class ProgressBar {
       clear = false,
       formatter = defaultFormatter,
       keepOpen = true,
-      interval = 1000,
+      interval = 1000
     } = options;
     this.value = value;
     this.max = max;
@@ -235,7 +235,8 @@ export class ProgressBar {
     this.#keepOpen = keepOpen;
 
     const stream = new TextEncoderStream();
-    this.#pipePromise = stream.readable
+    this.#pipePromise = stream
+      .readable
       .pipeTo(writable, { preventClose: this.#keepOpen })
       .catch(() => clearInterval(this.#id));
     this.#writer = stream.writable.getWriter();
@@ -268,7 +269,7 @@ export class ProgressBar {
       previousTime: this.#previousTime,
       value: this.value,
       previousValue: this.#previousValue,
-      max: this.max,
+      max: this.max
     };
   }
   async #print(): Promise<void> {

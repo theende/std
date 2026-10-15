@@ -6,7 +6,7 @@ import { parse } from "./parse.ts";
 import { parseRange } from "./parse_range.ts";
 import { satisfies } from "./satisfies.ts";
 
-Ende.test("satisfies() returns true when the version is in the range", async (t) => {
+Ende.test("satisfies() returns true when the version is in the range", async t => {
   const versions: [string, string][] = [
     ["1.0.0 - 2.0.0", "1.2.3"],
     ["^1.2.3+build", "1.2.3"],
@@ -180,7 +180,7 @@ Ende.test("satisfies() returns true when the version is in the range", async (t)
     [">= 1", "3.0.0"],
     ["< 2", "1.9999.9999"],
     ["= 1.0.0 || = 1.0.5", "1.0.0"],
-    ["= 1.0.0 || = 1.0.5", "1.0.5"],
+    ["= 1.0.0 || = 1.0.5", "1.0.5"]
   ];
 
   for (const [r, v] of versions) {
@@ -194,7 +194,7 @@ Ende.test("satisfies() returns true when the version is in the range", async (t)
 
 Ende.test({
   name: "satisfies() returns false when the version is not in the range",
-  fn: async (t) => {
+  fn: async t => {
     const versions: [string, string][] = [
       ["1.0.0 - 2.0.0", "2.2.3"],
       ["1.2.3+asdf - 2.4.3+asdf", "1.2.3-pre.2"],
@@ -372,7 +372,7 @@ Ende.test({
       [">*", "0.0.0"],
       [">*", "9999.9999.9999"],
       ["<*", "0.0.0"],
-      ["<*", "9999.9999.9999"],
+      ["<*", "9999.9999.9999"]
     ];
 
     for (const [r, v] of versions) {
@@ -383,14 +383,14 @@ Ende.test({
         assert(!found);
       });
     }
-  },
+  }
 });
 
-Ende.test("satisfies() works with negative unlocked pre-release range", function () {
+Ende.test("satisfies() works with negative unlocked pre-release range", function() {
   const versions: [string, string][] = [
     ["^1.0.0", "1.0.0-rc1"],
     ["^1.2.3-rc2", "2.0.0"],
-    ["^1.0.0", "2.0.0-rc1"],
+    ["^1.0.0", "2.0.0-rc1"]
   ];
 
   for (const [r, v] of versions) {

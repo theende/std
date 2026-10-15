@@ -45,14 +45,15 @@
  */
 export function findSingle<T>(
   array: Iterable<T>,
-  predicate: (el: T, index: number) => boolean,
+  predicate: (el: T, index: number) => boolean
 ): T | undefined {
   let match: T | undefined;
   let found = false;
   let index = 0;
   for (const element of array) {
     if (predicate(element, index++)) {
-      if (found) return undefined;
+      if (found)
+        return undefined;
       found = true;
       match = element;
     }

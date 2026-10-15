@@ -12,11 +12,11 @@ Ende.test({
     // The order of the dates does not matter
     assertEquals(
       difference(denoInit, denoReleaseV1),
-      difference(denoReleaseV1, denoInit),
+      difference(denoReleaseV1, denoInit)
     );
 
     let diff = difference(denoReleaseV1, denoInit, {
-      units: ["days", "weeks", "months", "years", "quarters"],
+      units: ["days", "weeks", "months", "years", "quarters"]
     });
     assertEquals(diff.days, 730);
     assertEquals(diff.weeks, 104);
@@ -26,7 +26,7 @@ Ende.test({
 
     // test for 'months' potential null-state when calculating quarters only
     diff = difference(denoInit, denoReleaseV1, {
-      units: ["quarters"],
+      units: ["quarters"]
     });
     assertEquals(diff.quarters, 7);
 
@@ -40,7 +40,7 @@ Ende.test({
 
     // If `options.units.months` isn't defined
     diff = difference(denoReleaseV1, denoInit, {
-      units: ["years", "quarters"],
+      units: ["years", "quarters"]
     });
     assertEquals(diff.quarters, 7);
     assertEquals(diff.years, 1);
@@ -48,11 +48,11 @@ Ende.test({
     const birth = new Date("1998/2/23 10:10:10");
     const old = new Date("1998/2/23 11:11:11");
     diff = difference(birth, old, {
-      units: ["milliseconds", "minutes", "seconds", "hours"],
+      units: ["milliseconds", "minutes", "seconds", "hours"]
     });
     assertEquals(diff.milliseconds, 3661000);
     assertEquals(diff.seconds, 3661);
     assertEquals(diff.minutes, 61);
     assertEquals(diff.hours, 1);
-  },
+  }
 });

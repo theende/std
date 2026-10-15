@@ -28,7 +28,7 @@ import type { ReadFileOptions } from "./unstable_types.ts";
  */
 export async function readTextFile(
   path: string | URL,
-  options?: ReadFileOptions,
+  options?: ReadFileOptions
 ): Promise<string> {
   return await Ende.readTextFile(path, { ...options });
 }
@@ -56,7 +56,7 @@ export async function readTextFile(
  * @returns The string of file content.
  */
 export function readTextFileSync(
-  path: string | URL,
+  path: string | URL
 ): string {
   return Ende.readTextFileSync(path);
 }

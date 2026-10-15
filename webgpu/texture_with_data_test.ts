@@ -19,11 +19,11 @@ Ende.test({
       format: "bgra8unorm-srgb",
       size: {
         width: 3,
-        height: 2,
+        height: 2
       },
-      usage: GPUTextureUsage.COPY_SRC,
+      usage: GPUTextureUsage.COPY_SRC
     }, new Uint8Array([1, 1, 1, 1, 1, 1, 1]));
 
     device.destroy();
-  },
+  }
 });

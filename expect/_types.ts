@@ -25,15 +25,14 @@ export type ExtendMatchResult = {
 };
 
 /** A constructor that accepts any args and returns any value */
-export type AnyConstructor = new (...args: any[]) => any;
+export type AnyConstructor = new(...args: any[]) => any;
 
 export type Tester = (a: any, b: any, customTesters: Tester[]) => void;
 
 /** converts all the methods in an interface to be async functions */
 export type Async<T> = {
-  [K in keyof T]: T[K] extends (...args: any[]) => unknown
-    ? (...args: Parameters<T[K]>) => Promise<ReturnType<T[K]>>
-    : T[K];
+  [K in keyof T]: T[K] extends (...args: any[]) => unknown ? (...args: Parameters<T[K]>) => Promise<ReturnType<T[K]>> :
+    T[K];
 };
 
 /**
@@ -705,7 +704,7 @@ export interface Expected<IsAsync = false> {
    * @param expected The expected object or array of objects.
    */
   toMatchObject(
-    expected: Record<PropertyKey, unknown> | Record<PropertyKey, unknown>[],
+    expected: Record<PropertyKey, unknown> | Record<PropertyKey, unknown>[]
   ): void;
 
   /**
@@ -749,7 +748,7 @@ export interface Expected<IsAsync = false> {
    */
   toMatchSnapshot(
     propertyMatchers: Record<string, unknown>,
-    hint?: string,
+    hint?: string
   ): void;
 
   /**
@@ -798,7 +797,7 @@ export interface Expected<IsAsync = false> {
    */
   toMatchInlineSnapshot(
     propertyMatchers: Record<string, unknown>,
-    inlineSnapshot?: string,
+    inlineSnapshot?: string
   ): void;
 
   /**
@@ -907,7 +906,7 @@ export interface Expected<IsAsync = false> {
    * @param expected The expected error message, regular expression, or error constructor.
    */
   toThrow<E extends Error = Error>(
-    expected?: string | RegExp | E | (new (...args: any[]) => E),
+    expected?: string | RegExp | E | (new(...args: any[]) => E)
   ): void;
 
   /**
@@ -945,11 +944,11 @@ export interface EqualOptionUtil extends MatcherContext {
 }
 
 export interface Colors {
-  comment: { close: string; open: string };
-  content: { close: string; open: string };
-  prop: { close: string; open: string };
-  tag: { close: string; open: string };
-  value: { close: string; open: string };
+  comment: { close: string; open: string; };
+  content: { close: string; open: string; };
+  prop: { close: string; open: string; };
+  tag: { close: string; open: string; };
+  value: { close: string; open: string; };
 }
 type Indent = (arg0: string) => string;
 type Print = (arg0: unknown) => string;
@@ -980,7 +979,7 @@ export type Printer = (
   indentation: string,
   depth: number,
   refs: Refs,
-  hasCalledToJSON?: boolean,
+  hasCalledToJSON?: boolean
 ) => string;
 
 interface PluginOptions {
@@ -998,7 +997,7 @@ export interface NewSnapshotPlugin {
     indentation: string,
     depth: number,
     refs: Refs,
-    printer: Printer,
+    printer: Printer
   ) => string;
   test: Test;
 }
@@ -1009,7 +1008,7 @@ export interface OldSnapshotPlugin {
     print: Print,
     indent: Indent,
     options: PluginOptions,
-    colors: Colors,
+    colors: Colors
   ) => string;
   test: Test;
 }

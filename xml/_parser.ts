@@ -16,7 +16,7 @@
 import type {
   ParseStreamOptions,
   XmlAttributeIterator,
-  XmlEventCallbacks,
+  XmlEventCallbacks
 } from "./types.ts";
 import { XmlSyntaxError } from "./types.ts";
 import type { XmlTokenCallbacks } from "./_tokenizer.ts";
@@ -25,7 +25,7 @@ import {
   validateNamespaceBinding,
   validateQName,
   WHITESPACE_ONLY_REGEXP,
-  XML_NAMESPACE,
+  XML_NAMESPACE
 } from "./_common.ts";
 
 /**
@@ -38,9 +38,9 @@ import {
  */
 function normalizeAttributeValue(raw: string, xml11: boolean): string {
   // Replace literal \t and \n with space BEFORE entity decoding (preserves &#10;)
-  const normalized = raw.includes("\t") || raw.includes("\n")
-    ? raw.replace(/[\t\n]/g, " ")
-    : raw;
+  const normalized = raw.includes("\t") || raw.includes("\n") ?
+    raw.replace(/[\t\n]/g, " ") :
+    raw;
   return decodeEntities(normalized, xml11);
 }
 
@@ -106,7 +106,8 @@ class AttributeIteratorImpl implements XmlAttributeIterator {
   _has(name: string): boolean {
     if (this.#count < ATTR_SET_THRESHOLD) {
       for (let i = 0; i < this.#count; i++) {
-        if (this.#names[i] === name) return true;
+        if (this.#names[i] === name)
+          return true;
       }
       return false;
     }
@@ -178,7 +179,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
   constructor(
     callbacks: XmlEventCallbacks,
     options: ParseStreamOptions = {},
-    xml11: boolean = false,
+    xml11: boolean = false
   ) {
     this.#callbacks = callbacks;
     this.#ignoreWhitespace = options.ignoreWhitespace ?? false;
@@ -197,7 +198,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     name: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     const colonIndex = name.indexOf(":");
 
@@ -206,7 +207,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     if (qnameError) {
       throw new XmlSyntaxError(
         `Invalid element name '${name}': ${qnameError}`,
-        { line, column, offset },
+        { line, column, offset }
       );
     }
 
@@ -214,7 +215,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     if (colonIndex !== -1 && name.startsWith("xmlns:")) {
       throw new XmlSyntaxError(
         "Element name cannot use the 'xmlns' prefix",
-        { line, column, offset },
+        { line, column, offset }
       );
     }
 
@@ -239,8 +240,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
           {
             line: this.#pendingLine,
             column: this.#pendingColumn,
-            offset: this.#pendingOffset,
-          },
+            offset: this.#pendingOffset
+          }
         );
       }
 
@@ -251,7 +252,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
         const nsError = validateNamespaceBinding(
           name,
           normalizedValue,
-          this.#xml11,
+          this.#xml11
         );
         if (nsError) {
           throw new XmlSyntaxError(
@@ -259,8 +260,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
             {
               line: this.#pendingLine,
               column: this.#pendingColumn,
-              offset: this.#pendingOffset,
-            },
+              offset: this.#pendingOffset
+            }
           );
         }
         // Track xmlns:prefix declarations
@@ -282,8 +283,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
           {
             line: this.#pendingLine,
             column: this.#pendingColumn,
-            offset: this.#pendingOffset,
-          },
+            offset: this.#pendingOffset
+          }
         );
       }
 
@@ -294,8 +295,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
           {
             line: this.#pendingLine,
             column: this.#pendingColumn,
-            offset: this.#pendingOffset,
-          },
+            offset: this.#pendingOffset
+          }
         );
       }
       this.#attrIterator._add(name, value, this.#xml11);
@@ -311,8 +312,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
           {
             line: this.#pendingLine,
             column: this.#pendingColumn,
-            offset: this.#pendingOffset,
-          },
+            offset: this.#pendingOffset
+          }
         );
       }
 
@@ -329,8 +330,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
               {
                 line: this.#pendingLine,
                 column: this.#pendingColumn,
-                offset: this.#pendingOffset,
-              },
+                offset: this.#pendingOffset
+              }
             );
           }
         } else if (prefix === "xml") {
@@ -365,8 +366,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
               {
                 line: this.#pendingLine,
                 column: this.#pendingColumn,
-                offset: this.#pendingOffset,
-              },
+                offset: this.#pendingOffset
+              }
             );
           }
           // Set the resolved URI for this attribute
@@ -400,8 +401,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
                   {
                     line: this.#pendingLine,
                     column: this.#pendingColumn,
-                    offset: this.#pendingOffset,
-                  },
+                    offset: this.#pendingOffset
+                  }
                 );
               }
               seenUris.add(uri);
@@ -424,7 +425,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
         selfClosing,
         this.#pendingLine,
         this.#pendingColumn,
-        this.#pendingOffset,
+        this.#pendingOffset
       );
 
       if (selfClosing) {
@@ -434,7 +435,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
           elementUri,
           this.#pendingLine,
           this.#pendingColumn,
-          this.#pendingOffset,
+          this.#pendingOffset
         );
         // If this was the root and it's self-closing, root is now closed
         if (isRoot) {
@@ -457,8 +458,8 @@ export class XmlEventParser implements XmlTokenCallbacks {
             {
               line: this.#pendingLine,
               column: this.#pendingColumn,
-              offset: this.#pendingOffset,
-            },
+              offset: this.#pendingOffset
+            }
           );
         }
         this.#elementStack.push({
@@ -467,14 +468,14 @@ export class XmlEventParser implements XmlTokenCallbacks {
           uri: elementUri,
           line: this.#pendingLine,
           column: this.#pendingColumn,
-          offset: this.#pendingOffset,
+          offset: this.#pendingOffset
         });
         // Push namespace bindings to stack (shared constant avoids allocation
         // for the common case of elements without namespace declarations)
         this.#nsStack.push(
-          this.#pendingNsBindings.length > 0
-            ? this.#pendingNsBindings.slice()
-            : EMPTY_NS_BINDINGS,
+          this.#pendingNsBindings.length > 0 ?
+            this.#pendingNsBindings.slice() :
+            EMPTY_NS_BINDINGS
         );
       }
 
@@ -488,19 +489,19 @@ export class XmlEventParser implements XmlTokenCallbacks {
     name: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     const expected = this.#elementStack.pop();
     if (expected === undefined) {
       throw new XmlSyntaxError(
         `Unexpected closing tag </${name}> with no matching opening tag`,
-        { line, column, offset },
+        { line, column, offset }
       );
     }
     if (expected.rawName !== name) {
       throw new XmlSyntaxError(
         `Mismatched closing tag: expected </${expected.rawName}> but found </${name}>`,
-        { line, column, offset },
+        { line, column, offset }
       );
     }
 
@@ -522,7 +523,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
       expected.uri,
       line,
       column,
-      offset,
+      offset
     );
 
     // Track when root element closes
@@ -535,7 +536,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     content: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     // XML 1.0 §2.8: Prolog and epilog only allow Misc, where:
     // Misc ::= Comment | PI | S
@@ -546,7 +547,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
       if (content.includes("&")) {
         throw new XmlSyntaxError(
           "Cannot use character/entity references in prolog/epilog (XML 1.0 §2.8)",
-          { line, column, offset },
+          { line, column, offset }
         );
       }
       // For outside root, only whitespace is allowed - check raw content first
@@ -555,24 +556,26 @@ export class XmlEventParser implements XmlTokenCallbacks {
         if (!this.#hasRoot) {
           throw new XmlSyntaxError(
             "Cannot have content before the root element (XML 1.0 §2.8)",
-            { line, column, offset },
+            { line, column, offset }
           );
         } else {
           throw new XmlSyntaxError(
             "Cannot have content after the root element (XML 1.0 §2.8)",
-            { line, column, offset },
+            { line, column, offset }
           );
         }
       }
       // Outside root whitespace - skip if ignoring whitespace, otherwise emit
-      if (this.#ignoreWhitespace) return;
+      if (this.#ignoreWhitespace)
+        return;
       this.#callbacks.onText?.(content, line, column, offset);
       return;
     }
 
     // Inside root element - decode entities
     const text = decodeEntities(content, this.#xml11);
-    if (this.#ignoreWhitespace && WHITESPACE_ONLY_REGEXP.test(text)) return;
+    if (this.#ignoreWhitespace && WHITESPACE_ONLY_REGEXP.test(text))
+      return;
     this.#callbacks.onText?.(text, line, column, offset);
   }
 
@@ -580,19 +583,19 @@ export class XmlEventParser implements XmlTokenCallbacks {
     content: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     // XML 1.0 §2.8: CDATA sections are only allowed within elements
     if (!this.#hasRoot) {
       throw new XmlSyntaxError(
         "Cannot have CDATA section before the root element (XML 1.0 §2.8)",
-        { line, column, offset },
+        { line, column, offset }
       );
     }
     if (this.#rootClosed) {
       throw new XmlSyntaxError(
         "Cannot have CDATA section after the root element (XML 1.0 §2.8)",
-        { line, column, offset },
+        { line, column, offset }
       );
     }
 
@@ -607,9 +610,10 @@ export class XmlEventParser implements XmlTokenCallbacks {
     content: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
-    if (this.#ignoreComments) return;
+    if (this.#ignoreComments)
+      return;
     this.#callbacks.onComment?.(content, line, column, offset);
   }
 
@@ -618,23 +622,24 @@ export class XmlEventParser implements XmlTokenCallbacks {
     content: string,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     // XML Namespaces §3: PI targets must not contain colons
     if (target.includes(":")) {
       throw new XmlSyntaxError(
         "Cannot use ':' in processing instruction target (Namespaces §3)",
-        { line, column, offset },
+        { line, column, offset }
       );
     }
 
-    if (this.#ignoreProcessingInstructions) return;
+    if (this.#ignoreProcessingInstructions)
+      return;
     this.#callbacks.onProcessingInstruction?.(
       target,
       content,
       line,
       column,
-      offset,
+      offset
     );
   }
 
@@ -644,7 +649,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     standalone: "yes" | "no" | undefined,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     this.#callbacks.onDeclaration?.(
       version,
@@ -652,7 +657,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
       standalone,
       line,
       column,
-      offset,
+      offset
     );
   }
 
@@ -662,7 +667,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     systemId: string | undefined,
     line: number,
     column: number,
-    offset: number,
+    offset: number
   ): void {
     this.#callbacks.onDoctype?.(name, publicId, systemId, line, column, offset);
   }
@@ -685,7 +690,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
       const unclosed = this.#elementStack[this.#elementStack.length - 1]!;
       throw new XmlSyntaxError(
         `Unclosed element <${unclosed.rawName}>`,
-        unclosed,
+        unclosed
       );
     }
 
@@ -693,7 +698,7 @@ export class XmlEventParser implements XmlTokenCallbacks {
     if (!this.#hasRoot) {
       throw new XmlSyntaxError(
         "No root element found in XML document",
-        { line: 0, column: 0, offset: 0 },
+        { line: 0, column: 0, offset: 0 }
       );
     }
   }

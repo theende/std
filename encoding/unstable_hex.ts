@@ -29,7 +29,7 @@ import {
   calcSizeHex,
   decode,
   encode,
-  rAlphabet,
+  rAlphabet
 } from "./_common16.ts";
 export { calcSizeHex };
 import { detach } from "./_common_detach.ts";
@@ -59,7 +59,7 @@ import { detach } from "./_common_detach.ts";
  * ```
  */
 export function encodeHex(
-  input: string | Uint8Array_ | ArrayBuffer,
+  input: string | Uint8Array_ | ArrayBuffer
 ): string {
   if (typeof input === "string") {
     input = new TextEncoder().encode(input) as Uint8Array_;
@@ -68,7 +68,7 @@ export function encodeHex(
   }
   const [output, i] = detach(
     input as Uint8Array_,
-    calcSizeHex((input as Uint8Array_).length),
+    calcSizeHex((input as Uint8Array_).length)
   );
   encode(output, i, 0, alphabet);
   return new TextDecoder().decode(output);
@@ -108,7 +108,7 @@ export function encodeHex(
  */
 export function encodeIntoHex(
   input: string | Uint8Array_ | ArrayBuffer,
-  output: Uint8Array_,
+  output: Uint8Array_
 ): number {
   if (typeof input === "string") {
     input = new TextEncoder().encode(input) as Uint8Array_;
@@ -146,7 +146,7 @@ export function encodeIntoHex(
  * ```
  */
 export function decodeHex(
-  input: string | Uint8Array_,
+  input: string | Uint8Array_
 ): Uint8Array_ {
   if (typeof input === "string") {
     input = new TextEncoder().encode(input) as Uint8Array_;

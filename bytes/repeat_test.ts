@@ -14,7 +14,7 @@ Ende.test("repeat()", () => {
     ["-", "", 0],
     ["-", "-", -1, "Count must be a non-negative integer"],
     ["-", "----------", 10],
-    ["abc ", "abc abc abc ", 3],
+    ["abc ", "abc abc abc ", 3]
   ];
   for (const [input, output, count, errMsg] of repeatTestCase) {
     if (errMsg) {
@@ -23,12 +23,12 @@ Ende.test("repeat()", () => {
           repeat(new TextEncoder().encode(input as string), count as number);
         },
         Error,
-        errMsg as string,
+        errMsg as string
       );
     } else {
       const newBytes = repeat(
         new TextEncoder().encode(input as string),
-        count as number,
+        count as number
       );
 
       assertEquals(new TextDecoder().decode(newBytes), output);

@@ -5,7 +5,7 @@ import { AssertionError } from "./assertion_error.ts";
 
 /** Any constructor */
 // deno-lint-ignore no-explicit-any
-export type AnyConstructor = new (...args: any[]) => any;
+export type AnyConstructor = new(...args: any[]) => any;
 /** Gets constructor type */
 export type GetConstructorType<T extends AnyConstructor> = InstanceType<T>;
 
@@ -28,13 +28,14 @@ export type GetConstructorType<T extends AnyConstructor> = InstanceType<T>;
  */
 export function assertInstanceOf<
   // deno-lint-ignore no-explicit-any
-  T extends abstract new (...args: any[]) => any,
+  T extends abstract new(...args: any[]) => any
 >(
   actual: unknown,
   expectedType: T,
-  msg = "",
+  msg = ""
 ): asserts actual is InstanceType<T> {
-  if (actual instanceof expectedType) return;
+  if (actual instanceof expectedType)
+    return;
 
   const msgSuffix = msg ? `: ${msg}` : ".";
   const expectedTypeStr = expectedType.name;
@@ -51,14 +52,11 @@ export function assertInstanceOf<
   }
 
   if (expectedTypeStr === actualTypeStr) {
-    msg =
-      `Expected object to be an instance of "${expectedTypeStr}"${msgSuffix}`;
+    msg = `Expected object to be an instance of "${expectedTypeStr}"${msgSuffix}`;
   } else if (actualTypeStr === "function") {
-    msg =
-      `Expected object to be an instance of "${expectedTypeStr}" but was not an instanced object${msgSuffix}`;
+    msg = `Expected object to be an instance of "${expectedTypeStr}" but was not an instanced object${msgSuffix}`;
   } else {
-    msg =
-      `Expected object to be an instance of "${expectedTypeStr}" but was "${actualTypeStr}"${msgSuffix}`;
+    msg = `Expected object to be an instance of "${expectedTypeStr}" but was "${actualTypeStr}"${msgSuffix}`;
   }
 
   throw new AssertionError(msg);

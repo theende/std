@@ -20,7 +20,7 @@ Ende.test("promptMultipleSelect() handles enter", () => {
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
 
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -32,13 +32,13 @@ Ende.test("promptMultipleSelect() handles enter", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -49,13 +49,13 @@ Ende.test("promptMultipleSelect() handles enter", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, []);
@@ -81,7 +81,7 @@ Ende.test("promptMultipleSelect() handles selection", () => {
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
 
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -93,14 +93,14 @@ Ende.test("promptMultipleSelect() handles selection", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -111,13 +111,13 @@ Ende.test("promptMultipleSelect() handles selection", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     { label: "safari", value: 1 },
     { label: "chrome", value: 2 },
-    { label: "firefox", value: 3 },
+    { label: "firefox", value: 3 }
   ]);
 
   assertEquals(browsers, [{ label: "safari", value: 1 }]);
@@ -167,7 +167,7 @@ Ende.test("promptMultipleSelect() handles multiple selection", () => {
     "  ◉ safari\r\n",
     "  ◉ chrome\r\n",
     "❯ ◉ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -179,7 +179,7 @@ Ende.test("promptMultipleSelect() handles multiple selection", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -190,7 +190,7 @@ Ende.test("promptMultipleSelect() handles multiple selection", () => {
     " ",
     "\u001B[B",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -201,19 +201,19 @@ Ende.test("promptMultipleSelect() handles multiple selection", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     { label: "safari", value: 1 },
     { label: "chrome", value: 2 },
-    { label: "firefox", value: 3 },
+    { label: "firefox", value: 3 }
   ]);
 
   assertEquals(browsers, [
     { label: "safari", value: 1 },
     { label: "chrome", value: 2 },
-    { label: "firefox", value: 3 },
+    { label: "firefox", value: 3 }
   ]);
   assertEquals(expectedOutput, actualOutput);
   restore();
@@ -249,7 +249,7 @@ Ende.test("promptMultipleSelect() handles arrow down", () => {
     "  ◯ safari\r\n",
     "  ◯ chrome\r\n",
     "❯ ◉ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -261,7 +261,7 @@ Ende.test("promptMultipleSelect() handles arrow down", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -270,7 +270,7 @@ Ende.test("promptMultipleSelect() handles arrow down", () => {
     "\u001B[B",
     "\u001B[B",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -281,13 +281,13 @@ Ende.test("promptMultipleSelect() handles arrow down", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     { label: "safari", value: 1 },
     { label: "chrome", value: 2 },
-    { label: "firefox", value: 3 },
+    { label: "firefox", value: 3 }
   ]);
 
   assertEquals(browsers, [{ label: "firefox", value: 3 }]);
@@ -325,7 +325,7 @@ Ende.test("promptMultipleSelect() handles arrow up", () => {
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
 
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -337,7 +337,7 @@ Ende.test("promptMultipleSelect() handles arrow up", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -346,7 +346,7 @@ Ende.test("promptMultipleSelect() handles arrow up", () => {
     "\u001B[B",
     "\u001B[A",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -357,13 +357,13 @@ Ende.test("promptMultipleSelect() handles arrow up", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, ["safari"]);
@@ -394,7 +394,7 @@ Ende.test("promptMultipleSelect() handles up index overflow", () => {
     "  ◯ safari\r\n",
     "  ◯ chrome\r\n",
     "❯ ◉ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -406,7 +406,7 @@ Ende.test("promptMultipleSelect() handles up index overflow", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -414,7 +414,7 @@ Ende.test("promptMultipleSelect() handles up index overflow", () => {
   const inputs = [
     "\u001B[A",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -425,13 +425,13 @@ Ende.test("promptMultipleSelect() handles up index overflow", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, ["firefox"]);
@@ -476,7 +476,7 @@ Ende.test("promptMultipleSelect() handles down index overflow", () => {
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
 
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -488,7 +488,7 @@ Ende.test("promptMultipleSelect() handles down index overflow", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -498,7 +498,7 @@ Ende.test("promptMultipleSelect() handles down index overflow", () => {
     "\u001B[B",
     "\u001B[B",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -509,13 +509,13 @@ Ende.test("promptMultipleSelect() handles down index overflow", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, ["safari"]);
@@ -570,7 +570,7 @@ Ende.test("promptMultipleSelect() scrolls down and display lines correctly", () 
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
     "  ...\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -582,7 +582,7 @@ Ende.test("promptMultipleSelect() scrolls down and display lines correctly", () 
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -593,7 +593,7 @@ Ende.test("promptMultipleSelect() scrolls down and display lines correctly", () 
     "\u001B[B",
     "\u001B[B",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -604,14 +604,14 @@ Ende.test("promptMultipleSelect() scrolls down and display lines correctly", () 
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browser = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
     "firefox",
-    "brave",
+    "brave"
   ], { visibleLines: 3 });
 
   assertEquals(browser, ["safari"]);
@@ -638,7 +638,7 @@ Ende.test("promptMultipleSelect() handles clear option", () => {
     "  ◯ firefox\r\n",
     "\x1b[4A",
     "\x1b[J",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -650,14 +650,14 @@ Ende.test("promptMultipleSelect() handles clear option", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -668,13 +668,13 @@ Ende.test("promptMultipleSelect() handles clear option", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ], { clear: true });
 
   assertEquals(browsers, ["safari"]);
@@ -693,7 +693,7 @@ Ende.test("promptMultipleSelect() handles ETX", () => {
     "exit",
     (() => {
       called = true;
-    }) as never,
+    }) as never
   );
 
   const expectedOutput = [
@@ -702,7 +702,7 @@ Ende.test("promptMultipleSelect() handles ETX", () => {
     "❯ ◯ safari\r\n",
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -714,13 +714,13 @@ Ende.test("promptMultipleSelect() handles ETX", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
 
   const inputs = [
-    "\x03",
+    "\x03"
   ];
 
   stub(
@@ -731,13 +731,13 @@ Ende.test("promptMultipleSelect() handles ETX", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const _browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(called, true);
@@ -789,7 +789,7 @@ Ende.test("promptMultipleSelect() supports search by typing", () => {
     "\x1b[4A",
     "\x1b[J",
     "Please select browsers: (filter: z)\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -801,7 +801,7 @@ Ende.test("promptMultipleSelect() supports search by typing", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -814,7 +814,7 @@ Ende.test("promptMultipleSelect() supports search by typing", () => {
     "\u007F", // Backspace
     "\u007F", // Backspace
     "z",
-    "\r", // Enter
+    "\r" // Enter
   ];
 
   stub(
@@ -825,13 +825,13 @@ Ende.test("promptMultipleSelect() supports search by typing", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(expectedOutput, actualOutput);
@@ -862,7 +862,7 @@ Ende.test("promptMultipleSelect() handles search", () => {
     "\x1b[J",
     "Please select browsers: (filter: ch)\r\n",
     "❯ ◉ chrome\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -874,7 +874,7 @@ Ende.test("promptMultipleSelect() handles search", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -883,7 +883,7 @@ Ende.test("promptMultipleSelect() handles search", () => {
     "c",
     "h",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -894,13 +894,13 @@ Ende.test("promptMultipleSelect() handles search", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, ["chrome"]);
@@ -936,7 +936,7 @@ Ende.test("promptMultipleSelect() handles search backspace", () => {
     "❯ ◉ safari\r\n",
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -948,7 +948,7 @@ Ende.test("promptMultipleSelect() handles search backspace", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -957,7 +957,7 @@ Ende.test("promptMultipleSelect() handles search backspace", () => {
     "f",
     "\x7f",
     " ",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -968,13 +968,13 @@ Ende.test("promptMultipleSelect() handles search backspace", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, ["safari"]);
@@ -1016,7 +1016,7 @@ Ende.test("promptMultipleSelect() handles search no matches", () => {
     "❯ ◯ safari\r\n",
     "  ◯ chrome\r\n",
     "  ◯ firefox\r\n",
-    "\x1b[?25h",
+    "\x1b[?25h"
   ];
 
   const actualOutput: string[] = [];
@@ -1028,7 +1028,7 @@ Ende.test("promptMultipleSelect() handles search no matches", () => {
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   let readIndex = 0;
@@ -1040,7 +1040,7 @@ Ende.test("promptMultipleSelect() handles search no matches", () => {
     "\x7f",
     "\x7f",
     "\x7f",
-    "\r",
+    "\r"
   ];
 
   stub(
@@ -1051,13 +1051,13 @@ Ende.test("promptMultipleSelect() handles search no matches", () => {
       const bytes = encoder.encode(input);
       data.set(bytes);
       return bytes.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
 
   assertEquals(browsers, []);
@@ -1080,13 +1080,13 @@ Ende.test("promptMultipleSelect() returns null if Ende.stdin.isTerminal() is fal
       const output = decoder.decode(data);
       actualOutput.push(output);
       return data.length;
-    },
+    }
   );
 
   const browsers = promptMultipleSelect("Please select browsers:", [
     "safari",
     "chrome",
-    "firefox",
+    "firefox"
   ]);
   assertEquals(browsers, null);
   assertEquals(expectedOutput, actualOutput);

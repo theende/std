@@ -12,7 +12,7 @@ import type { MemoizationCache } from "./memoize.ts";
  * @returns `getKey`, the function for getting cache keys.
  */
 export function _serializeArgList<Return>(
-  cache: MemoizationCache<unknown, Return>,
+  cache: MemoizationCache<unknown, Return>
 ): (this: unknown, ...args: unknown[]) => string {
   // Three cooperating data structures track weak (reference-type) arguments:
   //   1. weakKeyToKeySegmentCache: WeakMap from object/symbol → segment id
@@ -26,7 +26,7 @@ export function _serializeArgList<Return>(
   const weakKeySegmentToKeyCache = new Map<string, Set<string>>();
   let nextWeakKeyId = 0;
 
-  const registry = new FinalizationRegistry<string>((keySegment) => {
+  const registry = new FinalizationRegistry<string>(keySegment => {
     for (const key of weakKeySegmentToKeyCache.get(keySegment) ?? []) {
       cache.delete(key);
     }
@@ -35,9 +35,11 @@ export function _serializeArgList<Return>(
 
   return function getKey(...args) {
     const weakKeySegments: string[] = [];
-    const keySegments = [this, ...args].map((arg) => {
-      if (typeof arg === "undefined") return "undefined";
-      if (typeof arg === "bigint") return `${arg}n`;
+    const keySegments = [this, ...args].map(arg => {
+      if (typeof arg === "undefined")
+        return "undefined";
+      if (typeof arg === "bigint")
+        return `${arg}n`;
 
       if (typeof arg === "number") {
         return String(arg);
@@ -66,7 +68,7 @@ export function _serializeArgList<Return>(
         new WeakRef(arg as WeakKey);
       } catch {
         throw new Error(
-          "Should be unreachable: please open an issue at https://github.com/theende/std/issues/new",
+          "Should be unreachable: please open an issue at https://github.com/theende/std/issues/new"
         );
       }
 

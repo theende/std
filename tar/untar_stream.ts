@@ -176,8 +176,7 @@ export interface TarStreamEntry {
  * }
  * ```
  */
-export class UntarStream
-  implements TransformStream<Uint8Array, TarStreamEntry> {
+export class UntarStream implements TransformStream<Uint8Array, TarStreamEntry> {
   #readable: ReadableStream<TarStreamEntry>;
   #writable: WritableStream<Uint8Array>;
   #reader: ReadableStreamDefaultReader<Uint8Array>;
@@ -195,10 +194,11 @@ export class UntarStream
 
   async #read(): Promise<Uint8Array | undefined> {
     const { done, value } = await this.#reader.read();
-    if (done) return undefined;
+    if (done)
+      return undefined;
     if (value.length !== 512) {
       throw new RangeError(
-        `Cannot extract the tar archive: The tarball chunk has an unexpected number of bytes (${value.length})`,
+        `Cannot extract the tar archive: The tarball chunk has an unexpected number of bytes (${value.length})`
       );
     }
     this.#buffer.push(value);
@@ -210,7 +210,7 @@ export class UntarStream
       const { done, value } = await this.#reader.read();
       if (done || value.length !== 512) {
         throw new RangeError(
-          "Cannot extract the tar archive: The tarball is too small to be valid",
+          "Cannot extract the tar archive: The tarball is too small to be valid"
         );
       }
       this.#buffer.push(value);
@@ -218,32 +218,33 @@ export class UntarStream
     const decoder = new TextDecoder();
     while (true) {
       while (this.#lock) {
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        await new Promise(resolve => setTimeout(resolve, 0));
       }
 
       // Check for premature ending
-      if (this.#buffer.every((value) => value.every((x) => x === 0))) {
+      if (this.#buffer.every(value => value.every(x => x === 0))) {
         await this.#reader.cancel("Tar stream finished prematurely");
         return;
       }
 
       const value = await this.#read();
       if (value == undefined) {
-        if (this.#buffer.every((value) => value.every((x) => x === 0))) break;
+        if (this.#buffer.every(value => value.every(x => x === 0)))
+          break;
         throw new TypeError(
-          "Cannot extract the tar archive: The tarball has invalid ending",
+          "Cannot extract the tar archive: The tarball has invalid ending"
         );
       }
 
       // Validate Checksum
       const checksum = parseInt(
         decoder.decode(value.subarray(148, 156)),
-        8,
+        8
       );
       value.fill(32, 148, 156);
       if (value.reduce((x, y) => x + y) !== checksum) {
         throw new SyntaxError(
-          "Cannot extract the tar archive: An archive entry has invalid header checksum",
+          "Cannot extract the tar archive: An archive entry has invalid header checksum"
         );
       }
 
@@ -256,14 +257,13 @@ export class UntarStream
         size: parseInt(decoder.decode(value.subarray(124, 136)).trimEnd(), 8),
         mtime: parseInt(decoder.decode(value.subarray(136, 148 - 1)), 8),
         typeflag: decoder.decode(value.subarray(156, 157)),
-        linkname: decoder.decode(value.subarray(157, 257)).split("\0")[0]!,
+        linkname: decoder.decode(value.subarray(157, 257)).split("\0")[0]!
       };
-      if (header.typeflag === "\0") header.typeflag = "0";
+      if (header.typeflag === "\0")
+        header.typeflag = "0";
       // "ustar\u000000"
       if (
-        [117, 115, 116, 97, 114, 0, 48, 48].every((byte, i) =>
-          value[i + 257] === byte
-        )
+        [117, 115, 116, 97, 114, 0, 48, 48].every((byte, i) => value[i + 257] === byte)
       ) {
         header = {
           ...header,
@@ -273,13 +273,13 @@ export class UntarStream
           gname: decoder.decode(value.subarray(297, 329)).split("\0")[0]!,
           devmajor: decoder.decode(value.subarray(329, 337)).replaceAll(
             "\0",
-            "",
+            ""
           ),
           devminor: decoder.decode(value.subarray(337, 345)).replaceAll(
             "\0",
-            "",
+            ""
           ),
-          prefix: decoder.decode(value.subarray(345, 500)).split("\0")[0]!,
+          prefix: decoder.decode(value.subarray(345, 500)).split("\0")[0]!
         };
       }
 
@@ -287,7 +287,7 @@ export class UntarStream
         path: (
           "prefix" in header && header.prefix.length ? header.prefix + "/" : ""
         ) + header.name,
-        header,
+        header
       };
       if (!["1", "2", "3", "4", "5", "6"].includes(header.typeflag)) {
         entry.readable = this.#readableFile(header.size);
@@ -301,11 +301,13 @@ export class UntarStream
       const value = await this.#read();
       if (value == undefined) {
         throw new SyntaxError(
-          "Cannot extract the tar archive: Unexpected end of Tarball",
+          "Cannot extract the tar archive: Unexpected end of Tarball"
         );
       }
-      if (i === 1 && size % 512) yield value.subarray(0, size % 512);
-      else yield value;
+      if (i === 1 && size % 512)
+        yield value.subarray(0, size % 512);
+      else
+        yield value;
     }
   }
 
@@ -340,9 +342,10 @@ export class UntarStream
       },
       async cancel() {
         // deno-lint-ignore no-empty
-        for await (const _ of gen) {}
+        for await (const _ of gen) {
+        }
         releaseLock();
-      },
+      }
     });
   }
 

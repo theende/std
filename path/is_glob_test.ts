@@ -111,13 +111,12 @@ Ende.test({
     assert(!isGlob("\\a/b/c/\\[a-z\\].js"));
     assert(!isGlob("abc/\\(aaa|bbb).js"));
     assert(!isGlob("abc/\\?.js"));
-  },
+  }
 });
 
 // ref https://github.com/denoland/std/pull/6764
 Ende.test({
-  name:
-    "isGlob works with the input that includes large number of open brackets",
+  name: "isGlob works with the input that includes large number of open brackets",
   async fn() {
     const { promise, resolve, reject } = Promise.withResolvers<void>();
     const timer = setTimeout(() => {
@@ -133,9 +132,9 @@ Ende.test({
             isGlob("{".repeat(1_000_000) + "x"),
             isGlob("(".repeat(1_000_000) + "x"),
           ]);
-        };`,
+        };`
       ),
-      { type: "module" },
+      { type: "module" }
     );
     using disposable = disposableStack();
     disposable.defer(() => worker.terminate());
@@ -145,9 +144,9 @@ Ende.test({
       resolve();
     };
     worker.postMessage({
-      isGlobUrl: new URL("./is_glob.ts", import.meta.url).href,
+      isGlobUrl: new URL("./is_glob.ts", import.meta.url).href
     });
 
     await promise;
-  },
+  }
 });

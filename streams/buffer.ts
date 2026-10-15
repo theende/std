@@ -71,7 +71,7 @@ export class Buffer {
   #off = 0; // read at buf[off], write at buf[buf.byteLength]
   #readable: ReadableStream<Uint8Array> = new ReadableStream({
     type: "bytes",
-    pull: (controller) => {
+    pull: controller => {
       const view = new Uint8Array(controller.byobRequest!.view!.buffer);
       if (this.empty()) {
         // Buffer is empty, reset to recover space.
@@ -84,7 +84,7 @@ export class Buffer {
       this.#off += nread;
       controller.byobRequest!.respond(nread);
     },
-    autoAllocateChunkSize: DEFAULT_CHUNK_SIZE,
+    autoAllocateChunkSize: DEFAULT_CHUNK_SIZE
   });
 
   /**
@@ -105,10 +105,10 @@ export class Buffer {
   }
 
   #writable = new WritableStream<Uint8Array>({
-    write: (chunk) => {
+    write: chunk => {
       const m = this.#grow(chunk.byteLength);
       copy(chunk, this.#buf, m);
-    },
+    }
   });
 
   /**
@@ -194,7 +194,8 @@ export class Buffer {
    * ```
    */
   bytes(options: BufferBytesOptions = { copy: true }): Uint8Array {
-    if (options.copy === false) return this.#buf.subarray(this.#off);
+    if (options.copy === false)
+      return this.#buf.subarray(this.#off);
     return this.#buf.slice(this.#off);
   }
 
@@ -321,7 +322,7 @@ export class Buffer {
     }
     if (n < 0 || n > this.length) {
       throw new RangeError(
-        `Buffer truncation value "${n}" is not between 0 and ${this.length}`,
+        `Buffer truncation value "${n}" is not between 0 and ${this.length}`
       );
     }
     this.#reslice(this.#off + n);
@@ -382,7 +383,7 @@ export class Buffer {
       copy(this.#buf.subarray(this.#off), this.#buf);
     } else if (c + n > MAX_SIZE) {
       throw new RangeError(
-        `The buffer cannot grow beyond the maximum size of ${MAX_SIZE}`,
+        `The buffer cannot grow beyond the maximum size of ${MAX_SIZE}`
       );
     } else {
       // Not enough space anywhere, we need to allocate.
@@ -423,7 +424,7 @@ export class Buffer {
   grow(n: number) {
     if (n < 0) {
       throw new RangeError(
-        `Cannot grow buffer as growth must be positive: received ${n}`,
+        `Cannot grow buffer as growth must be positive: received ${n}`
       );
     }
     const m = this.#grow(n);

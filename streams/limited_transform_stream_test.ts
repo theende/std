@@ -4,33 +4,37 @@
 import { assertEquals, assertRejects } from "@ende/assert";
 import { LimitedTransformStream } from "./limited_transform_stream.ts";
 
-Ende.test("LimitedTransformStream", async function () {
-  const r = ReadableStream.from([
-    "foo",
-    "foo",
-    "foo",
-    "foo",
-    "foo",
-    "foo",
-  ]).pipeThrough(new LimitedTransformStream(3));
+Ende.test("LimitedTransformStream", async function() {
+  const r = ReadableStream
+    .from([
+      "foo",
+      "foo",
+      "foo",
+      "foo",
+      "foo",
+      "foo"
+    ])
+    .pipeThrough(new LimitedTransformStream(3));
 
   const chunks = await Array.fromAsync(r);
   assertEquals(chunks, [
     "foo",
     "foo",
-    "foo",
+    "foo"
   ]);
 });
 
-Ende.test("LimitedTransformStream handles error", async function () {
-  const r = ReadableStream.from([
-    "foo",
-    "foo",
-    "foo",
-    "foo",
-    "foo",
-    "foo",
-  ]).pipeThrough(new LimitedTransformStream(3, { error: true }));
+Ende.test("LimitedTransformStream handles error", async function() {
+  const r = ReadableStream
+    .from([
+      "foo",
+      "foo",
+      "foo",
+      "foo",
+      "foo",
+      "foo"
+    ])
+    .pipeThrough(new LimitedTransformStream(3, { error: true }));
 
   await assertRejects(async () => await Array.fromAsync(r), RangeError);
 });

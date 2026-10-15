@@ -4,7 +4,7 @@ import { assert, assertEquals, assertStringIncludes } from "@ende/assert";
 import * as path from "@ende/path";
 import { exists, existsSync } from "./exists.ts";
 
-Ende.test("exists() returns false for a non-existent path", async function () {
+Ende.test("exists() returns false for a non-existent path", async function() {
   const tempDirPath = await Ende.makeTempDir();
   try {
     assertEquals(await exists(path.join(tempDirPath, "not_exists")), false);
@@ -13,7 +13,7 @@ Ende.test("exists() returns false for a non-existent path", async function () {
   }
 });
 
-Ende.test("existsSync() returns false for a non-existent path", function () {
+Ende.test("existsSync() returns false for a non-existent path", function() {
   const tempDirPath = Ende.makeTempDirSync();
   try {
     assertEquals(existsSync(path.join(tempDirPath, "not_exists")), false);
@@ -22,7 +22,7 @@ Ende.test("existsSync() returns false for a non-existent path", function () {
   }
 });
 
-Ende.test("exists() returns true for an existing file", async function () {
+Ende.test("exists() returns true for an existing file", async function() {
   const tempDirPath = await Ende.makeTempDir();
   const tempFilePath = path.join(tempDirPath, "0.ts");
   using _tempFile = await Ende.create(tempFilePath);
@@ -31,24 +31,24 @@ Ende.test("exists() returns true for an existing file", async function () {
     assertEquals(await exists(tempFilePath, {}), true);
     assertEquals(
       await exists(tempFilePath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      false,
+      false
     );
     assertEquals(
       await exists(tempFilePath, {
-        isFile: true,
+        isFile: true
       }),
-      true,
+      true
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       await Ende.chmod(tempFilePath, 0o000);
       assertEquals(
         await exists(tempFilePath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
     }
   } finally {
@@ -59,7 +59,7 @@ Ende.test("exists() returns true for an existing file", async function () {
   }
 });
 
-Ende.test("exists() returns true for an existing file symlink", async function () {
+Ende.test("exists() returns true for an existing file symlink", async function() {
   const tempDirPath = await Ende.makeTempDir();
   const tempFilePath = path.join(tempDirPath, "0.ts");
   const tempLinkFilePath = path.join(tempDirPath, "0-link.ts");
@@ -70,24 +70,24 @@ Ende.test("exists() returns true for an existing file symlink", async function (
     assertEquals(await exists(tempLinkFilePath, {}), true);
     assertEquals(
       await exists(tempLinkFilePath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      false,
+      false
     );
     assertEquals(
       await exists(tempLinkFilePath, {
-        isFile: true,
+        isFile: true
       }),
-      true,
+      true
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       await Ende.chmod(tempFilePath, 0o000);
       assertEquals(
         await exists(tempLinkFilePath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
       // TODO(martin-braun): test unreadable link when Rust's nix::sys::stat::fchmodat has been implemented
     }
@@ -99,7 +99,7 @@ Ende.test("exists() returns true for an existing file symlink", async function (
   }
 });
 
-Ende.test("existsSync() returns true for an existing file", function () {
+Ende.test("existsSync() returns true for an existing file", function() {
   const tempDirPath = Ende.makeTempDirSync();
   const tempFilePath = path.join(tempDirPath, "0.ts");
   using _tempFile = Ende.createSync(tempFilePath);
@@ -108,24 +108,24 @@ Ende.test("existsSync() returns true for an existing file", function () {
     assertEquals(existsSync(tempFilePath, {}), true);
     assertEquals(
       existsSync(tempFilePath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      false,
+      false
     );
     assertEquals(
       existsSync(tempFilePath, {
-        isFile: true,
+        isFile: true
       }),
-      true,
+      true
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       Ende.chmodSync(tempFilePath, 0o000);
       assertEquals(
         existsSync(tempFilePath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
     }
   } finally {
@@ -136,7 +136,7 @@ Ende.test("existsSync() returns true for an existing file", function () {
   }
 });
 
-Ende.test("existsSync() returns true for an existing file symlink", function () {
+Ende.test("existsSync() returns true for an existing file symlink", function() {
   const tempDirPath = Ende.makeTempDirSync();
   const tempFilePath = path.join(tempDirPath, "0.ts");
   const tempLinkFilePath = path.join(tempDirPath, "0-link.ts");
@@ -147,24 +147,24 @@ Ende.test("existsSync() returns true for an existing file symlink", function () 
     assertEquals(existsSync(tempLinkFilePath, {}), true);
     assertEquals(
       existsSync(tempLinkFilePath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      false,
+      false
     );
     assertEquals(
       existsSync(tempLinkFilePath, {
-        isFile: true,
+        isFile: true
       }),
-      true,
+      true
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       Ende.chmodSync(tempFilePath, 0o000);
       assertEquals(
         existsSync(tempLinkFilePath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
       // TODO(martin-braun): test unreadable link when Rust's nix::sys::stat::fchmodat has been implemented
     }
@@ -176,31 +176,31 @@ Ende.test("existsSync() returns true for an existing file symlink", function () 
   }
 });
 
-Ende.test("exists() returns true for an existing dir", async function () {
+Ende.test("exists() returns true for an existing dir", async function() {
   const tempDirPath = await Ende.makeTempDir();
   try {
     assertEquals(await exists(tempDirPath), true);
     assertEquals(await exists(tempDirPath, {}), true);
     assertEquals(
       await exists(tempDirPath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      true,
+      true
     );
     assertEquals(
       await exists(tempDirPath, {
-        isFile: true,
+        isFile: true
       }),
-      false,
+      false
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       await Ende.chmod(tempDirPath, 0o000);
       assertEquals(
         await exists(tempDirPath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
     }
   } finally {
@@ -211,7 +211,7 @@ Ende.test("exists() returns true for an existing dir", async function () {
   }
 });
 
-Ende.test("exists() returns true for an existing dir symlink", async function () {
+Ende.test("exists() returns true for an existing dir symlink", async function() {
   const tempDirPath = await Ende.makeTempDir();
   const tempLinkDirPath = path.join(tempDirPath, "temp-link");
   try {
@@ -220,24 +220,24 @@ Ende.test("exists() returns true for an existing dir symlink", async function ()
     assertEquals(await exists(tempLinkDirPath, {}), true);
     assertEquals(
       await exists(tempLinkDirPath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      true,
+      true
     );
     assertEquals(
       await exists(tempLinkDirPath, {
-        isFile: true,
+        isFile: true
       }),
-      false,
+      false
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       await Ende.chmod(tempDirPath, 0o000);
       assertEquals(
         await exists(tempLinkDirPath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
       // TODO(martin-braun): test unreadable link when Rust's nix::sys::stat::fchmodat has been implemented
     }
@@ -249,31 +249,31 @@ Ende.test("exists() returns true for an existing dir symlink", async function ()
   }
 });
 
-Ende.test("existsSync() returns true for an existing dir", function () {
+Ende.test("existsSync() returns true for an existing dir", function() {
   const tempDirPath = Ende.makeTempDirSync();
   try {
     assertEquals(existsSync(tempDirPath), true);
     assertEquals(existsSync(tempDirPath, {}), true);
     assertEquals(
       existsSync(tempDirPath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      true,
+      true
     );
     assertEquals(
       existsSync(tempDirPath, {
-        isFile: true,
+        isFile: true
       }),
-      false,
+      false
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       Ende.chmodSync(tempDirPath, 0o000);
       assertEquals(
         existsSync(tempDirPath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
     }
   } finally {
@@ -284,7 +284,7 @@ Ende.test("existsSync() returns true for an existing dir", function () {
   }
 });
 
-Ende.test("existsSync() returns true for an existing dir symlink", function () {
+Ende.test("existsSync() returns true for an existing dir symlink", function() {
   const tempDirPath = Ende.makeTempDirSync();
   const tempLinkDirPath = path.join(tempDirPath, "temp-link");
   try {
@@ -293,24 +293,24 @@ Ende.test("existsSync() returns true for an existing dir symlink", function () {
     assertEquals(existsSync(tempLinkDirPath, {}), true);
     assertEquals(
       existsSync(tempLinkDirPath, {
-        isDirectory: true,
+        isDirectory: true
       }),
-      true,
+      true
     );
     assertEquals(
       existsSync(tempLinkDirPath, {
-        isFile: true,
+        isFile: true
       }),
-      false,
+      false
     );
     if (Ende.build.os !== "windows") {
       // TODO(martin-braun): include mode check for Windows tests when chmod is ported to NT
       Ende.chmodSync(tempDirPath, 0o000);
       assertEquals(
         existsSync(tempLinkDirPath, {
-          isReadable: true,
+          isReadable: true
         }),
-        false,
+        false
       );
       // TODO(martin-braun): test unreadable link when Rust's nix::sys::stat::fchmodat has been implemented
     }
@@ -322,42 +322,42 @@ Ende.test("existsSync() returns true for an existing dir symlink", function () {
   }
 });
 
-Ende.test("exists() returns false when both isDirectory and isFile sets true", async function () {
+Ende.test("exists() returns false when both isDirectory and isFile sets true", async function() {
   const tempDirPath = await Ende.makeTempDir();
   try {
     assertEquals(
       await exists(tempDirPath, {
         isDirectory: true,
-        isFile: true,
+        isFile: true
       }),
-      true,
+      true
     );
   } catch (error) {
     assert(error instanceof TypeError);
     assertStringIncludes(
       error.message,
-      "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together",
+      "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together"
     );
   } finally {
     await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Ende.test("existsSync() returns false when both isDirectory and isFile sets true", async function () {
+Ende.test("existsSync() returns false when both isDirectory and isFile sets true", async function() {
   const tempDirPath = await Ende.makeTempDir();
   try {
     assertEquals(
       await existsSync(tempDirPath, {
         isDirectory: true,
-        isFile: true,
+        isFile: true
       }),
-      true,
+      true
     );
   } catch (error) {
     assert(error instanceof TypeError);
     assertStringIncludes(
       error.message,
-      "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together",
+      "ExistsOptions.options.isDirectory and ExistsOptions.options.isFile must not be true together"
     );
   } finally {
     await Ende.remove(tempDirPath, { recursive: true });

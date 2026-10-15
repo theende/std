@@ -1,6 +1,4 @@
 {
-  "name": "@ende/semver",
-  "version": "1.0.8",
   "exports": {
     ".": "./mod.ts",
     "./can-parse": "./can_parse.ts",
@@ -28,5 +26,7 @@
     "./try-parse": "./try_parse.ts",
     "./try-parse-range": "./try_parse_range.ts",
     "./types": "./types.ts"
-  }
+  },
+  "name": "@ende/semver",
+  "version": "2026.10.15"
 }

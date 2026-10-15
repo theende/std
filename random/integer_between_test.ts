@@ -6,7 +6,7 @@ import {
   assert,
   assertAlmostEquals,
   assertEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 
 Ende.test("randomIntegerBetween() generates a random integer between the provided minimum and maximum values", () => {
@@ -14,7 +14,7 @@ Ende.test("randomIntegerBetween() generates a random integer between the provide
 
   const results = Array.from(
     { length: 1e4 },
-    () => randomIntegerBetween(1, 10, { prng }),
+    () => randomIntegerBetween(1, 10, { prng })
   );
 
   assertEquals(Math.min(...results), 1);
@@ -32,12 +32,12 @@ Ende.test("randomIntegerBetween() throws if min or max are NaN", () => {
   assertThrows(
     () => randomIntegerBetween(NaN, 1),
     RangeError,
-    "Cannot generate a random number: min cannot be NaN",
+    "Cannot generate a random number: min cannot be NaN"
   );
   assertThrows(
     () => randomIntegerBetween(1, NaN),
     RangeError,
-    "Cannot generate a random number: max cannot be NaN",
+    "Cannot generate a random number: max cannot be NaN"
   );
 });
 
@@ -45,12 +45,12 @@ Ende.test("randomIntegerBetween() throws if min or max are +/-Infinity", () => {
   assertThrows(
     () => randomIntegerBetween(-Infinity, 1),
     RangeError,
-    "Cannot generate a random number: min cannot be -Infinity",
+    "Cannot generate a random number: min cannot be -Infinity"
   );
   assertThrows(
     () => randomIntegerBetween(1, Infinity),
     RangeError,
-    "Cannot generate a random number: max cannot be Infinity",
+    "Cannot generate a random number: max cannot be Infinity"
   );
 });
 
@@ -58,7 +58,7 @@ Ende.test("randomIntegerBetween() throws if max is less than min", () => {
   assertThrows(
     () => randomIntegerBetween(10, 1),
     RangeError,
-    "Cannot generate a random number as max must be greater than or equal to min: max=2, min=10",
+    "Cannot generate a random number as max must be greater than or equal to min: max=2, min=10"
   );
 });
 
@@ -66,7 +66,7 @@ Ende.test("randomIntegerBetween() allows negative min and max", () => {
   const prng = randomSeeded(1n);
   const results = Array.from(
     { length: 3 },
-    () => randomIntegerBetween(-10, -1, { prng }),
+    () => randomIntegerBetween(-10, -1, { prng })
   );
 
   assertEquals(results, [-8, -6, -3]);
@@ -81,12 +81,12 @@ Ende.test(
     const results = Array.from({ length }, () => getRand());
 
     const { 0: zeroes = [], 1: ones = [] } = Object.values(
-      Object.groupBy(results, (result) => Math.floor(result)),
+      Object.groupBy(results, result => Math.floor(result))
     );
 
     assertAlmostEquals(zeroes.length, length / 2, length / 10);
     assertAlmostEquals(ones.length, length / 2, length / 10);
-  },
+  }
 );
 
 Ende.test("randomIntegerBetween() allows min and max to be the same, in which case it returns constant values", () => {

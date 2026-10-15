@@ -101,9 +101,7 @@ export function ensureDirSync(dir: string | URL) {
 function throwIfNotDirectory(fileInfo: Ende.FileInfo) {
   if (!fileInfo.isDirectory) {
     throw new Error(
-      `Failed to ensure directory exists: expected 'dir', got '${
-        getFileInfoType(fileInfo)
-      }'`,
+      `Failed to ensure directory exists: expected 'dir', got '${getFileInfoType(fileInfo)}'`
     );
   }
 }

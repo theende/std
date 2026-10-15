@@ -3,7 +3,7 @@
 import { assert, assertEquals } from "@ende/assert";
 import { copy } from "./copy.ts";
 
-Ende.test("copy()", function () {
+Ende.test("copy()", function() {
   const dst = new Uint8Array(4);
 
   dst.fill(0);

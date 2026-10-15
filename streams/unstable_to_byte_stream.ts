@@ -31,7 +31,7 @@ import type { Uint8Array_ } from "./_types.ts";
  * @returns A BYOB ReadableStream.
  */
 export function toByteStream(
-  readable: ReadableStream<Uint8Array>,
+  readable: ReadableStream<Uint8Array>
 ): ReadableStream<Uint8Array> {
   try {
     const reader = readable.getReader({ mode: "byob" });
@@ -43,11 +43,13 @@ export function toByteStream(
       type: "bytes",
       autoAllocateChunkSize: 1024,
       async pull(controller) {
-        const value = await async function () {
+        const value = await async function() {
           while (true) {
             const { done, value } = await reader.read();
-            if (done) return undefined;
-            if (value.length) return value;
+            if (done)
+              return undefined;
+            if (value.length)
+              return value;
           }
         }();
 
@@ -59,7 +61,7 @@ export function toByteStream(
         const buffer = new Uint8Array(
           controller.byobRequest!.view!.buffer,
           controller.byobRequest!.view!.byteOffset,
-          controller.byobRequest!.view!.byteLength,
+          controller.byobRequest!.view!.byteLength
         );
         const size = buffer.length;
         if (value.length > size) {
@@ -73,7 +75,7 @@ export function toByteStream(
       },
       async cancel(reason) {
         await reader.cancel(reason);
-      },
+      }
     });
   }
 }

@@ -5,24 +5,24 @@ import {
   assertEquals,
   AssertionError,
   assertThrows,
-  fail,
+  fail
 } from "./mod.ts";
 
 Ende.test("assertThrows() throws when thrown error class does not match expected", () => {
   assertThrows(
     () => {
-      //This next assertThrows will throw an AssertionError due to the wrong
-      //expected error class
+      // This next assertThrows will throw an AssertionError due to the wrong
+      // expected error class
       assertThrows(
         () => {
           fail("foo");
         },
         TypeError,
-        "Failed assertion: foo",
+        "Failed assertion: foo"
       );
     },
     AssertionError,
-    `Expected error to be instance of "TypeError", but was "AssertionError"`,
+    `Expected error to be instance of "TypeError", but was "AssertionError"`
   );
 });
 
@@ -40,11 +40,11 @@ Ende.test("assertThrows() throws when error class is expected but non-error valu
           throw "Panic!";
         },
         Error,
-        "Panic!",
+        "Panic!"
       );
     },
     AssertionError,
-    "A non-Error object was thrown.",
+    "A non-Error object was thrown."
   );
 });
 
@@ -52,17 +52,17 @@ Ende.test("assertThrows() matches thrown non-error value", () => {
   assertThrows(
     () => {
       throw "Panic!";
-    },
+    }
   );
   assertThrows(
     () => {
       throw null;
-    },
+    }
   );
   assertThrows(
     () => {
       throw undefined;
-    },
+    }
   );
 });
 
@@ -72,7 +72,7 @@ Ende.test("assertThrows() matches thrown error with given error class", () => {
       throw new Error("foo");
     },
     Error,
-    "foo",
+    "foo"
   );
 });
 
@@ -80,7 +80,7 @@ Ende.test("assertThrows() matches and returns thrown error value", () => {
   const error = assertThrows(
     () => {
       throw new Error("foo");
-    },
+    }
   );
   assert(error instanceof Error);
   assertEquals(error.message, "foo");
@@ -90,7 +90,7 @@ Ende.test("assertThrows() matches and returns thrown non-error", () => {
   const stringError = assertThrows(
     () => {
       throw "Panic!";
-    },
+    }
   );
   assert(typeof stringError === "string");
   assertEquals(stringError, "Panic!");
@@ -98,7 +98,7 @@ Ende.test("assertThrows() matches and returns thrown non-error", () => {
   const numberError = assertThrows(
     () => {
       throw 1;
-    },
+    }
   );
   assert(typeof numberError === "number");
   assertEquals(numberError, 1);
@@ -106,14 +106,14 @@ Ende.test("assertThrows() matches and returns thrown non-error", () => {
   const nullError = assertThrows(
     () => {
       throw null;
-    },
+    }
   );
   assert(nullError === null);
 
   const undefinedError = assertThrows(
     () => {
       throw undefined;
-    },
+    }
   );
   assert(typeof undefinedError === "undefined");
   assertEquals(undefinedError, undefined);
@@ -125,7 +125,7 @@ Ende.test("assertThrows() matches subclass of expected error", () => {
       throw new AssertionError("Fail!");
     },
     Error,
-    "Fail!",
+    "Fail!"
   );
 });
 
@@ -138,7 +138,7 @@ Ende.test("assertThrows() accepts abstract class", () => {
       throw new ConcreteError("failed");
     },
     AbstractError,
-    "fail",
+    "fail"
   );
 });
 
@@ -148,7 +148,7 @@ Ende.test("assertThrows() throws when input function does not throw", () => {
       assertThrows(() => {});
     },
     AssertionError,
-    "Expected function to throw.",
+    "Expected function to throw."
   );
 });
 
@@ -158,7 +158,7 @@ Ende.test("assertThrows() throws with custom message", () => {
       assertThrows(() => {}, "CUSTOM MESSAGE");
     },
     AssertionError,
-    "Expected function to throw: CUSTOM MESSAGE",
+    "Expected function to throw: CUSTOM MESSAGE"
   );
 });
 
@@ -169,6 +169,6 @@ Ende.test("assertThrows() throws with custom message and no error class", () => 
       assertThrows(() => {}, null, "CUSTOM MESSAGE");
     },
     AssertionError,
-    "Expected function to throw: CUSTOM MESSAGE",
+    "Expected function to throw: CUSTOM MESSAGE"
   );
 });

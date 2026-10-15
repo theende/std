@@ -47,7 +47,7 @@ import {
   isRedirectStatus,
   STATUS_CODE,
   STATUS_TEXT,
-  type StatusCode,
+  type StatusCode
 } from "./status.ts";
 import { ByteSliceStream } from "@ende/streams/byte-slice-stream";
 import { parseArgs } from "@ende/cli/parse-args";
@@ -72,31 +72,35 @@ function isEnvGranted(variable: string): boolean {
 }
 
 function getDeploymentId(): string | undefined {
-  if (typeof Ende === "undefined") return undefined; // for deno deploy
-  const endeId = isEnvGranted("ENDE_DEPLOYMENT_ID")
-    ? Ende.env.get("ENDE_DEPLOYMENT_ID")
-    : undefined;
-  if (endeId !== undefined) return endeId;
-  const denoId = isEnvGranted("DENO_DEPLOYMENT_ID")
-    ? Ende.env.get("DENO_DEPLOYMENT_ID")
-    : undefined;
+  if (typeof Ende === "undefined")
+    return undefined; // for deno deploy
+  const endeId = isEnvGranted("ENDE_DEPLOYMENT_ID") ?
+    Ende.env.get("ENDE_DEPLOYMENT_ID") :
+    undefined;
+  if (endeId !== undefined)
+    return endeId;
+  const denoId = isEnvGranted("DENO_DEPLOYMENT_ID") ?
+    Ende.env.get("DENO_DEPLOYMENT_ID") :
+    undefined;
   if (denoId !== undefined) {
     // deno-lint-ignore no-console
     console.warn(
-      'Warning: "DENO_DEPLOYMENT_ID" is deprecated. Rename it to "ENDE_DEPLOYMENT_ID".',
+      "Warning: \"DENO_DEPLOYMENT_ID\" is deprecated. Rename it to \"ENDE_DEPLOYMENT_ID\"."
     );
   }
   return denoId;
 }
 
-const NET_PERM_STATUS = typeof Ende !== "undefined"
-  ? Ende.permissions.querySync?.({ name: "sys", kind: "networkInterfaces" })
-    .state ?? "granted"
-  : "granted"; // for deno deploy
+const NET_PERM_STATUS = typeof Ende !== "undefined" ?
+  Ende
+    .permissions
+    .querySync?.({ name: "sys", kind: "networkInterfaces" })
+    .state ?? "granted" :
+  "granted"; // for deno deploy
 const ENDE_DEPLOYMENT_ID = getDeploymentId();
-const HASHED_ENDE_DEPLOYMENT_ID = ENDE_DEPLOYMENT_ID
-  ? eTag(ENDE_DEPLOYMENT_ID, { weak: true })
-  : undefined;
+const HASHED_ENDE_DEPLOYMENT_ID = ENDE_DEPLOYMENT_ID ?
+  eTag(ENDE_DEPLOYMENT_ID, { weak: true }) :
+  undefined;
 
 function modeToString(isDir: boolean, maybeMode: number | null): string {
   const modeMap = ["---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"];
@@ -110,7 +114,7 @@ function modeToString(isDir: boolean, maybeMode: number | null): string {
     .split("")
     .reverse()
     .slice(0, 3)
-    .forEach((v) => {
+    .forEach(v => {
       output = `${modeMap[+v]} ${output}`;
     });
   output = `${isDir ? "d" : "-"} ${output}`;
@@ -199,7 +203,7 @@ export interface ServeFileOptions {
 export async function serveFile(
   req: Request,
   filePath: string,
-  options?: ServeFileOptions,
+  options?: ServeFileOptions
 ): Promise<Response> {
   await req.body?.cancel();
 
@@ -225,9 +229,9 @@ export async function serveFile(
 
   const headers = createBaseHeaders();
 
-  const etag = fileInfo.mtime
-    ? await eTag(fileInfo, { algorithm })
-    : await HASHED_ENDE_DEPLOYMENT_ID;
+  const etag = fileInfo.mtime ?
+    await eTag(fileInfo, { algorithm }) :
+    await HASHED_ENDE_DEPLOYMENT_ID;
 
   // Set last modified header if last modification timestamp is available
   if (fileInfo.mtime) {
@@ -262,7 +266,7 @@ export async function serveFile(
       return new Response(null, {
         status,
         statusText: STATUS_TEXT[status],
-        headers,
+        headers
       });
     }
   }
@@ -275,7 +279,7 @@ export async function serveFile(
     return new Response(null, {
       status,
       statusText: STATUS_TEXT[status],
-      headers,
+      headers
     });
   }
 
@@ -298,7 +302,7 @@ export async function serveFile(
       return new Response(file.readable, {
         status,
         statusText: STATUS_TEXT[status],
-        headers,
+        headers
       });
     }
 
@@ -313,7 +317,7 @@ export async function serveFile(
 
       return createStandardResponse(
         STATUS_CODE.RangeNotSatisfiable,
-        { headers },
+        { headers }
       );
     }
 
@@ -331,13 +335,14 @@ export async function serveFile(
     // Return 206 Partial Content
     const file = await Ende.open(filePath);
     await file.seek(start, Ende.SeekMode.Start);
-    const sliced = file.readable
+    const sliced = file
+      .readable
       .pipeThrough(new ByteSliceStream(0, contentLength - 1));
     const status = STATUS_CODE.PartialContent;
     return new Response(sliced, {
       status,
       statusText: STATUS_TEXT[status],
-      headers,
+      headers
     });
   }
 
@@ -349,7 +354,7 @@ export async function serveFile(
   return new Response(file.readable, {
     status,
     statusText: STATUS_TEXT[status],
-    headers,
+    headers
   });
 }
 
@@ -360,13 +365,13 @@ async function serveDirIndex(
     showDotfiles: boolean;
     target: string;
     quiet: boolean | undefined;
-  },
+  }
 ): Promise<Response> {
   const { showDotfiles } = options;
   const dirUrl = `/${
     relative(options.target, dirPath).replaceAll(
       new RegExp(SEPARATOR_PATTERN, "g"),
-      "/",
+      "/"
     )
   }`;
   const listEntryPromise: Promise<EntryInfo>[] = [];
@@ -378,7 +383,7 @@ async function serveDirIndex(
       mode: modeToString(true, fileInfo.mode),
       size: "",
       name: "../",
-      url: "..",
+      url: ".."
     }));
     listEntryPromise.push(entryInfo);
   }
@@ -399,16 +404,17 @@ async function serveDirIndex(
           mode: modeToString(entry.isDirectory, fileInfo.mode),
           size: entry.isFile ? formatBytes(fileInfo.size ?? 0) : "",
           name: `${entry.name}${entry.isDirectory ? "/" : ""}`,
-          url: `./${fileUrl}${entry.isDirectory ? "/" : ""}`,
+          url: `./${fileUrl}${entry.isDirectory ? "/" : ""}`
         };
       } catch (error) {
         // Note: Ende.stat for windows system files may be rejected with os error 32.
-        if (!options.quiet) logError(error as Error);
+        if (!options.quiet)
+          logError(error as Error);
         return {
           mode: "(unknown mode)",
           size: "",
           name: `${entry.name}${entry.isDirectory ? "/" : ""}`,
-          url: `./${fileUrl}${entry.isDirectory ? "/" : ""}`,
+          url: `./${fileUrl}${entry.isDirectory ? "/" : ""}`
         };
       }
     })());
@@ -433,7 +439,7 @@ async function serveDirIndex(
   return new Response(req.method === METHOD.Head ? null : page, {
     status,
     statusText: STATUS_TEXT[status],
-    headers,
+    headers
   });
 }
 
@@ -451,12 +457,12 @@ function createBaseHeaders(): Headers {
   return new Headers({
     server: "ende",
     // Set "accept-ranges" so that the client knows it can make range requests on future requests
-    [HEADER.AcceptRanges]: "bytes",
+    [HEADER.AcceptRanges]: "bytes"
   });
 }
 
 function dirViewerTemplate(dirname: string, entries: EntryInfo[]): string {
-  const splitDirname = dirname.split("/").filter((path) => Boolean(path));
+  const splitDirname = dirname.split("/").filter(path => Boolean(path));
   const headerPaths = ["home", ...splitDirname];
 
   return html`
@@ -532,20 +538,23 @@ function dirViewerTemplate(dirname: string, entries: EntryInfo[]): string {
       <body>
         <main>
           <h1>
-            Index of ${headerPaths
-              .map((path, index) => {
-                if (path === "") return "";
-                const depth = headerPaths.length - index - 1;
-                let link;
-                if (depth == 0) {
-                  link = ".";
-                } else {
-                  link = "../".repeat(depth);
-                }
-                // deno-fmt-ignore
-                return html`<a href="${link}">${escape(path)}</a>`;
-              })
-              .join("/")}/
+            Index of ${
+    headerPaths
+      .map((path, index) => {
+        if (path === "")
+          return "";
+        const depth = headerPaths.length - index - 1;
+        let link;
+        if (depth == 0) {
+          link = ".";
+        } else {
+          link = "../".repeat(depth);
+        }
+        // deno-fmt-ignore
+        return html`<a href="${link}">${escape(path)}</a>`;
+      })
+      .join("/")
+  }/
           </h1>
           <table>
             <thead>
@@ -555,10 +564,11 @@ function dirViewerTemplate(dirname: string, entries: EntryInfo[]): string {
                 <th>Name</th>
               </tr>
             </thead>
-            ${entries
-              .map(
-                (entry) =>
-                  html`
+            ${
+    entries
+      .map(
+        entry =>
+          html`
                     <tr>
                       <td class="mode">
                         ${entry.mode}
@@ -570,9 +580,10 @@ function dirViewerTemplate(dirname: string, entries: EntryInfo[]): string {
                         <a href="${escape(entry.url)}">${escape(entry.name)}</a>
                       </td>
                     </tr>
-                  `,
-              )
-              .join("")}
+                  `
+      )
+      .join("")
+  }
           </table>
         </main>
       </body>
@@ -668,7 +679,7 @@ export interface ServeDirOptions {
  */
 export async function serveDir(
   req: Request,
-  opts: ServeDirOptions = {},
+  opts: ServeDirOptions = {}
 ): Promise<Response> {
   if (req.method !== METHOD.Get && req.method !== METHOD.Head) {
     return createStandardResponse(STATUS_CODE.MethodNotAllowed);
@@ -678,10 +689,11 @@ export async function serveDir(
   try {
     response = await createServeDirResponse(req, opts);
   } catch (error) {
-    if (!opts.quiet) logError(error as Error);
-    response = error instanceof Ende.errors.NotFound
-      ? createStandardResponse(STATUS_CODE.NotFound)
-      : createStandardResponse(STATUS_CODE.InternalServerError);
+    if (!opts.quiet)
+      logError(error as Error);
+    response = error instanceof Ende.errors.NotFound ?
+      createStandardResponse(STATUS_CODE.NotFound) :
+      createStandardResponse(STATUS_CODE.InternalServerError);
   }
 
   // Do not update the header if the response is a 301 redirect.
@@ -691,11 +703,12 @@ export async function serveDir(
     response.headers.append(HEADER.AccessControlAllowOrigin, "*");
     response.headers.append(
       HEADER.AccessControlAllowHeaders,
-      "Origin, X-Requested-With, Content-Type, Accept, Range",
+      "Origin, X-Requested-With, Content-Type, Accept, Range"
     );
   }
 
-  if (!opts.quiet) serverLog(req, response.status);
+  if (!opts.quiet)
+    serverLog(req, response.status);
 
   if (opts.headers && !isRedirectResponse) {
     for (const header of opts.headers) {
@@ -711,16 +724,15 @@ export async function serveDir(
 
 async function createServeDirResponse(
   req: Request,
-  opts: ServeDirOptions,
+  opts: ServeDirOptions
 ) {
   const target = opts.fsRoot ?? ".";
   const urlRoot = opts.urlRoot;
   const showIndex = opts.showIndex ?? true;
-  const cleanUrls = (opts as { cleanUrls?: boolean }).cleanUrls ?? false;
-  const dotfiles = (opts as { dotfiles?: "allow" | "deny" | "ignore" })
+  const cleanUrls = (opts as { cleanUrls?: boolean; }).cleanUrls ?? false;
+  const dotfiles = (opts as { dotfiles?: "allow" | "deny" | "ignore"; })
     .dotfiles ?? (opts.showDotfiles ? "allow" : "ignore");
-  const { etagAlgorithm = "SHA-256", showDirListing = false, quiet = false } =
-    opts;
+  const { etagAlgorithm = "SHA-256", showDirListing = false, quiet = false } = opts;
 
   const url = new URL(req.url);
   const decodedUrl = decodeURIComponent(url.pathname);
@@ -757,7 +769,7 @@ async function createServeDirResponse(
   // Exclude dotfiles unless they are allowed
   if (dotfiles !== "allow" && /\/\./.test(normalizedPath)) {
     return createStandardResponse(
-      dotfiles === "deny" ? STATUS_CODE.Forbidden : STATUS_CODE.NotFound,
+      dotfiles === "deny" ? STATUS_CODE.Forbidden : STATUS_CODE.NotFound
     );
   }
 
@@ -805,7 +817,7 @@ async function createServeDirResponse(
   if (!fileInfo.isDirectory) {
     return serveFile(req, fsPath, {
       etagAlgorithm,
-      fileInfo,
+      fileInfo
     });
   }
 
@@ -826,7 +838,7 @@ async function createServeDirResponse(
     if (indexFileInfo?.isFile) {
       return serveFile(req, indexPath, {
         etagAlgorithm,
-        fileInfo: indexFileInfo,
+        fileInfo: indexFileInfo
       });
     }
   }
@@ -835,7 +847,7 @@ async function createServeDirResponse(
     return serveDirIndex(req, fsPath, {
       showDotfiles: dotfiles === "allow",
       target,
-      quiet,
+      quiet
     });
   }
 
@@ -862,7 +874,7 @@ function main() {
       host: "0.0.0.0",
       port: undefined,
       cert: "",
-      key: "",
+      key: ""
     },
     alias: {
       p: "port",
@@ -871,8 +883,8 @@ function main() {
       h: "help",
       v: "verbose",
       V: "version",
-      H: "header",
-    },
+      H: "header"
+    }
   });
   const port = serverArgs.port ? Number(serverArgs.port) : undefined;
   const headers = serverArgs.header ?? [];
@@ -910,25 +922,24 @@ function main() {
       showDotfiles: serverArgs.dotfiles,
       enableCors: serverArgs.cors,
       quiet: !serverArgs.verbose,
-      headers,
+      headers
     });
   };
 
   const useTls = !!(keyFile && certFile);
 
-  function onListen({ port, hostname }: { port: number; hostname: string }) {
+  function onListen({ port, hostname }: { port: number; hostname: string; }) {
     let networkAddress: string | undefined = undefined;
     if (NET_PERM_STATUS === "granted") {
       networkAddress = getNetworkAddress();
     }
     const protocol = useTls ? "https" : "http";
-    const host = (Ende.build.os === "windows" && hostname === "0.0.0.0")
-      ? "localhost"
-      : hostname;
+    const host = (Ende.build.os === "windows" && hostname === "0.0.0.0") ?
+      "localhost" :
+      hostname;
 
     const formattedHost = hostname.includes(":") ? `[${host}]` : host;
-    let message =
-      `Listening on:\n- Local: ${protocol}://${formattedHost}:${port}`;
+    let message = `Listening on:\n- Local: ${protocol}://${formattedHost}:${port}`;
     if (networkAddress && !ENDE_DEPLOYMENT_ID) {
       message += `\n- Network: ${protocol}://${networkAddress}:${port}`;
     }
@@ -945,7 +956,7 @@ function main() {
     key?: string;
   } = {
     hostname: host,
-    onListen,
+    onListen
   };
   if (port !== undefined) {
     options.port = port;

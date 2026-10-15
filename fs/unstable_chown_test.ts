@@ -7,7 +7,7 @@ import { NotFound } from "./unstable_errors.js";
 import { makeTempFile, makeTempFileSync } from "./unstable_make_temp_file.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
 
-function getUidAndGid(): { uid: number; gid: number } {
+function getUidAndGid(): { uid: number; gid: number; } {
   return { uid: Ende.uid()!, gid: Ende.gid()! };
 }
 
@@ -22,7 +22,7 @@ Ende.test({
     // Instead, pass the same IDs back to invoke `chown` and avoid erroring.
     await chown(tempFile, uid, gid);
     await remove(tempFile);
-  },
+  }
 });
 
 Ende.test({
@@ -35,7 +35,7 @@ Ende.test({
     await chown(tempFile, uid, null);
     await chown(tempFile, null, gid);
     await remove(tempFile);
-  },
+  }
 });
 
 Ende.test({
@@ -45,7 +45,7 @@ Ende.test({
     await assertRejects(async () => {
       await chown("non-existent-file.txt", null, null);
     }, NotFound);
-  },
+  }
 });
 
 Ende.test({
@@ -59,7 +59,7 @@ Ende.test({
     }, Error);
 
     await remove(tempFile);
-  },
+  }
 });
 
 Ende.test({
@@ -74,7 +74,7 @@ Ende.test({
     // erroring.
     chownSync(tempFile, uid, gid);
     removeSync(tempFile);
-  },
+  }
 });
 
 Ende.test({
@@ -87,7 +87,7 @@ Ende.test({
     chownSync(tempFile, uid, null);
     chownSync(tempFile, null, gid);
     removeSync(tempFile);
-  },
+  }
 });
 
 Ende.test({
@@ -97,7 +97,7 @@ Ende.test({
     assertThrows(() => {
       chownSync("non-existent-file.txt", null, null);
     }, NotFound);
-  },
+  }
 });
 
 Ende.test({
@@ -111,5 +111,5 @@ Ende.test({
     }, Error);
 
     removeSync(tempFile);
-  },
+  }
 });

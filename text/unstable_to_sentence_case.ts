@@ -33,7 +33,7 @@ export interface SentenceCaseOptions extends BaseTitleCaseOptions {}
  */
 export function toSentenceCase(
   input: string,
-  options?: SentenceCaseOptions,
+  options?: SentenceCaseOptions
 ): string {
   return titleCaseSegment(input, resolveOptions(options));
 }

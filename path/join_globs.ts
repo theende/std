@@ -35,9 +35,9 @@ export type { GlobOptions };
  */
 export function joinGlobs(
   globs: string[],
-  options: GlobOptions = {},
+  options: GlobOptions = {}
 ): string {
-  return isWindows
-    ? windowsJoinGlobs(globs, options)
-    : posixJoinGlobs(globs, options);
+  return isWindows ?
+    windowsJoinGlobs(globs, options) :
+    posixJoinGlobs(globs, options);
 }

@@ -3,7 +3,7 @@
 // This module is browser compatible.
 import {
   compareSimilarity,
-  type CompareSimilarityOptions,
+  type CompareSimilarityOptions
 } from "./compare_similarity.ts";
 
 /** Options for {@linkcode wordSimilaritySort}. */
@@ -48,7 +48,7 @@ export interface WordSimilaritySortOptions extends CompareSimilarityOptions {}
 export function wordSimilaritySort(
   givenWord: string,
   possibleWords: ReadonlyArray<string>,
-  options?: WordSimilaritySortOptions,
+  options?: WordSimilaritySortOptions
 ): string[] {
   // This distance metric could be swapped/improved in the future
   return possibleWords.toSorted(compareSimilarity(givenWord, options));

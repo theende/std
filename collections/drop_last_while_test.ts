@@ -6,14 +6,14 @@ import { assertEquals } from "@ende/assert";
 Ende.test("dropLastWhile() handles num array", () => {
   const values = [20, 33, 44];
 
-  const actual = dropLastWhile(values, (i) => i > 30);
+  const actual = dropLastWhile(values, i => i > 30);
 
   assertEquals(actual, [20]);
 });
 
 Ende.test("dropLastWhile() does not mutate the input array", () => {
   const array = [1, 2, 3, 4, 5, 6];
-  const actual = dropLastWhile(array, (i) => i > 4);
+  const actual = dropLastWhile(array, i => i > 4);
   assertEquals(actual, [1, 2, 3, 4]);
   assertEquals(array, [1, 2, 3, 4, 5, 6]);
 });
@@ -21,7 +21,7 @@ Ende.test("dropLastWhile() does not mutate the input array", () => {
 Ende.test("dropLastWhile() handles negatives", () => {
   const array = [-1, -2, -3, -4, -5, -6];
 
-  const actual = dropLastWhile(array, (i) => i < -4);
+  const actual = dropLastWhile(array, i => i < -4);
 
   assertEquals(actual, [-1, -2, -3, -4]);
 });
@@ -29,7 +29,7 @@ Ende.test("dropLastWhile() handles negatives", () => {
 Ende.test("dropLastWhile() handles empty input returns empty array", () => {
   const array: number[] = [];
 
-  const actual = dropLastWhile(array, (i) => i > 4);
+  const actual = dropLastWhile(array, i => i > 4);
 
   assertEquals(actual, []);
 });
@@ -37,7 +37,7 @@ Ende.test("dropLastWhile() handles empty input returns empty array", () => {
 Ende.test("dropLastWhile() returns same array when the last element doesn't get dropped", () => {
   const array = [40, 30, 20];
 
-  const actual = dropLastWhile(array, (i) => i > 40);
+  const actual = dropLastWhile(array, i => i > 40);
 
   assertEquals(actual, [40, 30, 20]);
 });
@@ -45,20 +45,20 @@ Ende.test("dropLastWhile() returns same array when the last element doesn't get 
 Ende.test("dropLastWhile() returns empty array when all elements get dropped", () => {
   const array = [20, 30, 20];
 
-  const actual = dropLastWhile(array, (i) => i < 40);
+  const actual = dropLastWhile(array, i => i < 40);
 
   assertEquals(actual, []);
 });
 
 Ende.test("dropLastWhile() handles a string", () => {
   const values = "hello there world";
-  const actual = dropLastWhile(values, (i) => i !== " ");
+  const actual = dropLastWhile(values, i => i !== " ");
   assertEquals(actual, "hello there ".split(""));
 });
 
 Ende.test("dropLastWhile() handles a Set", () => {
   const values = new Set([20, 33, 44]);
-  const actual = dropLastWhile(values, (i) => i > 30);
+  const actual = dropLastWhile(values, i => i > 30);
   assertEquals(actual, [20]);
 });
 
@@ -66,7 +66,7 @@ Ende.test("dropLastWhile() handles a Map", () => {
   const values = new Map([
     ["a", 20],
     ["b", 33],
-    ["c", 44],
+    ["c", 44]
   ]);
   const actual = dropLastWhile(values, ([_k, v]) => v > 30);
   assertEquals(actual, [["a", 20]]);
@@ -78,7 +78,7 @@ Ende.test("dropLastWhile() handles a generator", () => {
     yield 33;
     yield 44;
   }
-  const actual = dropLastWhile(gen(), (i) => i > 30);
+  const actual = dropLastWhile(gen(), i => i > 30);
   assertEquals(actual, [20]);
 });
 

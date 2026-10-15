@@ -11,7 +11,7 @@ import {
   getOptions,
   getSnapshotNotMatchMessage,
   LINT_SUPPORTED,
-  serialize,
+  serialize
 } from "./_snapshot_utils.ts";
 
 /**
@@ -19,8 +19,7 @@ import {
  *
  * @experimental **UNSTABLE**: New API, yet to be vetted.
  */
-export interface InlineSnapshotOptions<T = unknown>
-  extends Pick<SnapshotOptions<T>, "msg" | "serializer"> {}
+export interface InlineSnapshotOptions<T = unknown> extends Pick<SnapshotOptions<T>, "msg" | "serializer"> {}
 
 interface ErrorLocation {
   lineNumber: number;
@@ -48,7 +47,7 @@ interface CallSite {
 }
 
 function makeSnapshotUpdater(
-  updateRequests: SnapshotUpdateRequest[],
+  updateRequests: SnapshotUpdateRequest[]
 ): Ende.lint.Plugin {
   return {
     name: "snapshot-updater-plugin",
@@ -58,7 +57,7 @@ function makeSnapshotUpdater(
           const src = context.sourceCode.text;
           // TODO(WWRS): Add \u2028 and \u2029 once Ende counts them as line breaks
           const lineBreaks = [...src.matchAll(/\n|\r\n?/g)]
-            .map((m) => m.index);
+            .map(m => m.index);
           const locationToSnapshot: Record<number, string> = {};
           for (const updateRequest of updateRequests) {
             const { lineNumber, columnNumber, actualSnapshot } = updateRequest;
@@ -71,38 +70,40 @@ function makeSnapshotUpdater(
 
           return {
             // Fetching all functions lets us support createAssertInlineSnapshot
-            "CallExpression"(node: Ende.lint.CallExpression) {
+            CallExpression(node: Ende.lint.CallExpression) {
               const snapshot = locationToSnapshot[node.range[0]];
               const argument = node.arguments[1];
-              if (snapshot === undefined || argument === undefined) return;
+              if (snapshot === undefined || argument === undefined)
+                return;
 
               context.report({
                 node,
                 message: "",
                 fix(fixer) {
                   return fixer.replaceText(argument, snapshot);
-                },
+                }
               });
-            },
+            }
           };
-        },
-      },
-    },
+        }
+      }
+    }
   };
 }
 
 const updateRequests: SnapshotUpdateRequest[] = [];
 
 function updateSnapshots() {
-  if (updateRequests.length === 0) return;
+  if (updateRequests.length === 0)
+    return;
 
   if (!LINT_SUPPORTED) {
     throw new Error(
-      "Ende versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots",
+      "Ende versions before 2.2.0 do not support Ende.lint, which is required to update inline snapshots"
     );
   }
 
-  const pathsToUpdate = Map.groupBy(updateRequests, (r) => r.fileName);
+  const pathsToUpdate = Map.groupBy(updateRequests, r => r.fileName);
 
   for (const [path, updateRequests] of pathsToUpdate) {
     const snapshotsUpdated = updateRequests.length;
@@ -111,15 +112,15 @@ function updateSnapshots() {
     const pluginRunResults = Ende.lint.runPlugin(
       makeSnapshotUpdater(updateRequests),
       "dummy.ts",
-      file,
+      file
     );
 
-    const fixes = pluginRunResults.flatMap((v) => v.fix ?? []);
+    const fixes = pluginRunResults.flatMap(v => v.fix ?? []);
     if (fixes.length !== snapshotsUpdated) {
       throw new Error(
         `assertInlineSnapshot expected to update ${snapshotsUpdated} ${
           snapshotsUpdated === 1 ? "snapshot" : "snapshots"
-        } in ${path} but generated ${fixes.length}`,
+        } in ${path} but generated ${fixes.length}`
       );
     }
 
@@ -137,27 +138,23 @@ function updateSnapshots() {
     Ende.writeTextFileSync(path, output);
   }
 
-  const shouldFormat = !Ende.args.some((arg) => arg === "--no-format");
+  const shouldFormat = !Ende.args.some(arg => arg === "--no-format");
   if (shouldFormat) {
     const command = new Ende.Command(Ende.execPath(), {
-      args: ["fmt", ...pathsToUpdate.keys()],
+      args: ["fmt", ...pathsToUpdate.keys()]
     });
     const { stderr, success } = command.outputSync();
     if (!success) {
       throw new Error(
-        `assertInlineSnapshot errored while formatting ${path}:\n${
-          new TextDecoder().decode(stderr)
-        }`,
+        `assertInlineSnapshot errored while formatting ${path}:\n${new TextDecoder().decode(stderr)}`
       );
     }
   }
 
   // deno-lint-ignore no-console
   console.log(
-    `%c\n > ${updateRequests.length} ${
-      updateRequests.length === 1 ? "snapshot" : "snapshots"
-    } updated.`,
-    "color: green; font-weight: bold;",
+    `%c\n > ${updateRequests.length} ${updateRequests.length === 1 ? "snapshot" : "snapshots"} updated.`,
+    "color: green; font-weight: bold;"
   );
 }
 globalThis.addEventListener("unload", () => {
@@ -188,7 +185,7 @@ globalThis.addEventListener("unload", () => {
 export function assertInlineSnapshot<T>(
   actual: T,
   expectedSnapshot: string,
-  options?: InlineSnapshotOptions<T>,
+  options?: InlineSnapshotOptions<T>
 ): void;
 /**
  * Make an assertion that `actual` matches `expectedSnapshot`. If they do not match,
@@ -214,12 +211,12 @@ export function assertInlineSnapshot<T>(
 export function assertInlineSnapshot<T>(
   actual: T,
   expectedSnapshot: string,
-  message?: string,
+  message?: string
 ): void;
 export function assertInlineSnapshot(
   actual: unknown,
   expectedSnapshot: string,
-  msgOrOpts?: string | InlineSnapshotOptions<unknown>,
+  msgOrOpts?: string | InlineSnapshotOptions<unknown>
 ): void {
   const options = getOptions(msgOrOpts);
   const serializer = options.serializer ?? serialize;
@@ -236,10 +233,11 @@ export function assertInlineSnapshot(
       const stackCatcher = { stack: null as SnapshotUpdateRequest | null };
       (Error as V8Error).prepareStackTrace = (
         _err: Error,
-        stack: CallSite[],
+        stack: CallSite[]
       ): SnapshotUpdateRequest | null => {
         const callerStackFrame = stack[0];
-        if (!callerStackFrame || callerStackFrame.isEval()) return null;
+        if (!callerStackFrame || callerStackFrame.isEval())
+          return null;
 
         const fileName = callerStackFrame.getFileName();
         const lineNumber = callerStackFrame.getLineNumber();
@@ -252,7 +250,7 @@ export function assertInlineSnapshot(
           fileName,
           lineNumber,
           columnNumber,
-          actualSnapshot,
+          actualSnapshot
         };
       };
       // Capture the stack that comes after this function.
@@ -267,7 +265,7 @@ export function assertInlineSnapshot(
     }
   } else {
     throw new AssertionError(
-      getSnapshotNotMatchMessage(actualSnapshot, expectedSnapshot, options),
+      getSnapshotNotMatchMessage(actualSnapshot, expectedSnapshot, options)
     );
   }
 }
@@ -302,18 +300,18 @@ export function assertInlineSnapshot(
  */
 export function createAssertInlineSnapshot<T>(
   options: InlineSnapshotOptions<T>,
-  baseAssertSnapshot: typeof assertInlineSnapshot = assertInlineSnapshot,
+  baseAssertSnapshot: typeof assertInlineSnapshot = assertInlineSnapshot
 ): typeof assertInlineSnapshot {
-  return function (
+  return function(
     actual: T,
     expectedSnapshot: string,
-    messageOrOptions?: string | InlineSnapshotOptions<T>,
+    messageOrOptions?: string | InlineSnapshotOptions<T>
   ) {
     const mergedOptions: InlineSnapshotOptions<T> = {
       ...options,
-      ...(typeof messageOrOptions === "string"
-        ? { msg: messageOrOptions }
-        : messageOrOptions),
+      ...(typeof messageOrOptions === "string" ?
+        { msg: messageOrOptions } :
+        messageOrOptions)
     };
 
     baseAssertSnapshot(actual, expectedSnapshot, mergedOptions);

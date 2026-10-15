@@ -1,65 +1,65 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
 import { assertEquals, assertThrows } from "@ende/assert";
-import { type Args, parseArgs, type ParseOptions } from "./parse_args.ts";
+import { parseArgs, type Args, type ParseOptions } from "./parse_args.ts";
 import { assertType, type IsExact } from "@ende/testing/types";
 
 // flag boolean true (default all --args to boolean)
-Ende.test("parseArgs() handles true boolean flag", function () {
+Ende.test("parseArgs() handles true boolean flag", function() {
   const argv = parseArgs(["moo", "--honk", "cow"], {
-    boolean: true,
+    boolean: true
   });
 
   assertEquals(argv, {
     honk: true,
-    _: ["moo", "cow"],
+    _: ["moo", "cow"]
   });
 
   assertEquals(typeof argv.honk, "boolean");
 });
 
 // flag boolean true only affects double hyphen arguments without equals signs
-Ende.test("parseArgs() handles boolean true flag if double dashed", function () {
+Ende.test("parseArgs() handles boolean true flag if double dashed", function() {
   const argv = parseArgs(["moo", "--honk", "cow", "-p", "55", "--tacos=good"], {
-    boolean: true,
+    boolean: true
   });
 
   assertEquals(argv, {
     honk: true,
     tacos: "good",
     p: 55,
-    _: ["moo", "cow"],
+    _: ["moo", "cow"]
   });
 
   assertEquals(typeof argv.honk, "boolean");
 });
 
-Ende.test("parseArgs() handles boolean flag default value", function () {
+Ende.test("parseArgs() handles boolean flag default value", function() {
   const argv = parseArgs(["moo"], {
     boolean: ["t", "verbose"],
-    default: { verbose: false, t: false },
+    default: { verbose: false, t: false }
   });
 
   assertEquals(argv, {
     verbose: false,
     t: false,
-    _: ["moo"],
+    _: ["moo"]
   });
 
   assertEquals(typeof argv.verbose, "boolean");
   assertEquals(typeof argv.t, "boolean");
 });
 
-Ende.test("parseArgs() handles boolean group", function () {
+Ende.test("parseArgs() handles boolean group", function() {
   const argv = parseArgs(["-x", "-z", "one", "two", "three"], {
-    boolean: ["x", "y", "z"],
+    boolean: ["x", "y", "z"]
   });
 
   assertEquals(argv, {
     x: true,
     y: false,
     z: true,
-    _: ["one", "two", "three"],
+    _: ["one", "two", "three"]
   });
 
   assertEquals(typeof argv.x, "boolean");
@@ -67,68 +67,68 @@ Ende.test("parseArgs() handles boolean group", function () {
   assertEquals(typeof argv.z, "boolean");
 });
 
-Ende.test("parseArgs() handles boolean and alias default values", function (): void {
+Ende.test("parseArgs() handles boolean and alias default values", function(): void {
   const argv = parseArgs([], {
     string: ["foo"],
     boolean: ["bar"],
     alias: {
-      bar: "b",
-    },
+      bar: "b"
+    }
   });
 
   assertEquals(argv, {
     bar: false,
     b: false,
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles boolean and alias with chainable api", function () {
+Ende.test("parseArgs() handles boolean and alias with chainable api", function() {
   const aliased = ["-h", "derp"];
   const regular = ["--herp", "derp"];
   const aliasedArgv = parseArgs(aliased, {
     boolean: "herp",
-    alias: { h: "herp" },
+    alias: { h: "herp" }
   });
   const propertyArgv = parseArgs(regular, {
     boolean: "herp",
-    alias: { h: "herp" },
+    alias: { h: "herp" }
   });
   const expected = {
     herp: true,
     h: true,
-    _: ["derp"],
+    _: ["derp"]
   };
 
   assertEquals(aliasedArgv, expected);
   assertEquals(propertyArgv, expected);
 });
 
-Ende.test("parseArgs() handles boolean and alias with options hash", function () {
+Ende.test("parseArgs() handles boolean and alias with options hash", function() {
   const aliased = ["-h", "derp"];
   const regular = ["--herp", "derp"];
   const opts = {
     alias: { h: "herp" },
-    boolean: "herp",
+    boolean: "herp"
   } as const;
   const aliasedArgv = parseArgs(aliased, opts);
   const propertyArgv = parseArgs(regular, opts);
   const expected = {
     herp: true,
     h: true,
-    _: ["derp"],
+    _: ["derp"]
   };
   assertEquals(aliasedArgv, expected);
   assertEquals(propertyArgv, expected);
 });
 
-Ende.test("parseArgs() handles boolean and alias array with options hash", function () {
+Ende.test("parseArgs() handles boolean and alias array with options hash", function() {
   const aliased = ["-h", "derp"];
   const regular = ["--herp", "derp"];
   const alt = ["--harp", "derp"];
   const opts = {
     alias: { h: ["herp", "harp"] },
-    boolean: "h",
+    boolean: "h"
   } as const;
   const aliasedArgv = parseArgs(aliased, opts);
   const propertyArgv = parseArgs(regular, opts);
@@ -137,26 +137,26 @@ Ende.test("parseArgs() handles boolean and alias array with options hash", funct
     harp: true,
     herp: true,
     h: true,
-    _: ["derp"],
+    _: ["derp"]
   };
   assertEquals(aliasedArgv, expected);
   assertEquals(propertyArgv, expected);
   assertEquals(altPropertyArgv, expected);
 });
 
-Ende.test("parseArgs() handles boolean and alias using explicit true", function () {
+Ende.test("parseArgs() handles boolean and alias using explicit true", function() {
   const aliased = ["-h", "true"];
   const regular = ["--herp", "true"];
   const opts = {
     alias: { h: "herp" },
-    boolean: "h",
+    boolean: "h"
   } as const;
   const aliasedArgv = parseArgs(aliased, opts);
   const propertyArgv = parseArgs(regular, opts);
   const expected = {
     herp: true,
     h: true,
-    _: [],
+    _: []
   };
 
   assertEquals(aliasedArgv, expected);
@@ -165,45 +165,45 @@ Ende.test("parseArgs() handles boolean and alias using explicit true", function 
 
 // regression, see https://github.com/substack/node-optimist/issues/71
 // boolean and --x=true
-Ende.test("parseArgs() handles boolean and non-boolean", function () {
+Ende.test("parseArgs() handles boolean and non-boolean", function() {
   const parsed = parseArgs(["--boool", "--other=true"], {
-    boolean: "boool",
+    boolean: "boool"
   });
 
   assertEquals(parsed.boool, true);
   assertEquals(parsed.other, "true");
 
   const parsed2 = parseArgs(["--boool", "--other=false"], {
-    boolean: "boool",
+    boolean: "boool"
   });
 
   assertEquals(parsed2.boool, true);
   assertEquals(parsed2.other, "false");
 });
 
-Ende.test("parseArgs() handles boolean true parsing", function () {
+Ende.test("parseArgs() handles boolean true parsing", function() {
   const parsed = parseArgs(["--boool=true"], {
     default: {
-      boool: false,
+      boool: false
     },
-    boolean: ["boool"],
+    boolean: ["boool"]
   });
 
   assertEquals(parsed.boool, true);
 });
 
-Ende.test("parseArgs() handles boolean false parsing", function () {
+Ende.test("parseArgs() handles boolean false parsing", function() {
   const parsed = parseArgs(["--boool=false"], {
     default: {
-      boool: true,
+      boool: true
     },
-    boolean: ["boool"],
+    boolean: ["boool"]
   });
 
   assertEquals(parsed.boool, false);
 });
 
-Ende.test("parseArgs() handles boolean true-like parsing", function () {
+Ende.test("parseArgs() handles boolean true-like parsing", function() {
   const parsed = parseArgs(["-t", "true123"], { boolean: ["t"] });
   assertEquals(parsed.t, true);
 
@@ -214,71 +214,71 @@ Ende.test("parseArgs() handles boolean true-like parsing", function () {
   assertEquals(parsed3.t, true);
 });
 
-Ende.test("parseArgs() handles boolean after boolean negation", function () {
+Ende.test("parseArgs() handles boolean after boolean negation", function() {
   const parsed = parseArgs(["--foo", "--no-foo"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed.foo, false);
 
   const parsed2 = parseArgs(["--foo", "--no-foo", "123"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed2.foo, false);
 });
 
-Ende.test("parseArgs() handles boolean after boolean negation", function () {
+Ende.test("parseArgs() handles boolean after boolean negation", function() {
   const parsed = parseArgs(["--no-foo", "--foo"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed.foo, true);
 
   const parsed2 = parseArgs(["--no-foo", "--foo", "123"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed2.foo, true);
 });
 
-Ende.test("parseArgs() handles latest flag boolean negation", function () {
+Ende.test("parseArgs() handles latest flag boolean negation", function() {
   const parsed = parseArgs(["--no-foo", "--foo", "--no-foo"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed.foo, false);
 
   const parsed2 = parseArgs(["--no-foo", "--foo", "--no-foo", "123"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed2.foo, false);
 });
 
-Ende.test("parseArgs() handles latest flag boolean", function () {
+Ende.test("parseArgs() handles latest flag boolean", function() {
   const parsed = parseArgs(["--foo", "--no-foo", "--foo"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed.foo, true);
 
   const parsed2 = parseArgs(["--foo", "--no-foo", "--foo", "123"], {
     boolean: ["foo"],
-    negatable: ["foo"],
+    negatable: ["foo"]
   });
   assertEquals(parsed2.foo, true);
 });
 
-Ende.test("parseArgs() handles string negatable option", function () {
+Ende.test("parseArgs() handles string negatable option", function() {
   const parsed = parseArgs(["--no-foo"], {
     boolean: ["foo"],
-    negatable: "foo",
+    negatable: "foo"
   });
   assertEquals(parsed.foo, false);
 });
 
-Ende.test("parseArgs() handles hyphen", function () {
+Ende.test("parseArgs() handles hyphen", function() {
   assertEquals(parseArgs(["-n", "-"]), { n: "-", _: [] });
   assertEquals(parseArgs(["-"]), { _: ["-"] });
   assertEquals(parseArgs(["-f-"]), { f: "-", _: [] });
@@ -286,102 +286,102 @@ Ende.test("parseArgs() handles hyphen", function () {
   assertEquals(parseArgs(["-s", "-"], { string: "s" }), { s: "-", _: [] });
 });
 
-Ende.test("parseArgs() handles double dash", function () {
+Ende.test("parseArgs() handles double dash", function() {
   assertEquals(parseArgs(["-a", "--", "b"]), { a: true, _: ["b"] });
   assertEquals(parseArgs(["--a", "--", "b"]), { a: true, _: ["b"] });
   assertEquals(parseArgs(["--a", "--", "b"]), { a: true, _: ["b"] });
 });
 
-Ende.test("parseArgs() moves args after double dash into own array", function () {
+Ende.test("parseArgs() moves args after double dash into own array", function() {
   assertEquals(
     parseArgs(["--name", "John", "before", "--", "after"], { "--": true }),
     {
       name: "John",
       _: ["before"],
-      "--": ["after"],
-    },
+      "--": ["after"]
+    }
   );
 });
 
-Ende.test("parseArgs() handles default true boolean value", function () {
+Ende.test("parseArgs() handles default true boolean value", function() {
   const argv = parseArgs([], {
     boolean: "sometrue",
-    default: { sometrue: true },
+    default: { sometrue: true }
   });
   assertEquals(argv.sometrue, true);
 });
 
-Ende.test("parseArgs() handles default true boolean value", function () {
+Ende.test("parseArgs() handles default true boolean value", function() {
   const argv = parseArgs([], {
     boolean: "somefalse",
-    default: { somefalse: false },
+    default: { somefalse: false }
   });
   assertEquals(argv.somefalse, false);
 });
 
-Ende.test("parseArgs() handles default null boolean value", function () {
+Ende.test("parseArgs() handles default null boolean value", function() {
   const argv = parseArgs([], {
     boolean: "maybe",
-    default: { maybe: null },
+    default: { maybe: null }
   });
   assertEquals(argv.maybe, null);
   const argv2 = parseArgs(["--maybe"], {
     boolean: "maybe",
-    default: { maybe: null },
+    default: { maybe: null }
   });
   assertEquals(argv2.maybe, true);
 });
 
-Ende.test("parseArgs() handles dotted alias", function () {
+Ende.test("parseArgs() handles dotted alias", function() {
   const argv = parseArgs(["--a.b", "22"], {
     default: { "a.b": 11 },
-    alias: { "a.b": "aa.bb" },
+    alias: { "a.b": "aa.bb" }
   });
   assertEquals(argv.a.b, 22);
   assertEquals(argv.aa.bb, 22);
 });
 
-Ende.test("parseArgs() handles dotted default value", function () {
+Ende.test("parseArgs() handles dotted default value", function() {
   const argv = parseArgs([], {
     default: { "a.b": 11 },
-    alias: { "a.b": "aa.bb" },
+    alias: { "a.b": "aa.bb" }
   });
   assertEquals(argv.a.b, 11);
   assertEquals(argv.aa.bb, 11);
 });
 
-Ende.test("parseArgs() handles dotted default with no alias", function () {
+Ende.test("parseArgs() handles dotted default with no alias", function() {
   const argv = parseArgs([], { default: { "a.b": 11 } });
   assertEquals(argv.a.b, 11);
 });
 
-Ende.test("parseArgs() handles short", function () {
+Ende.test("parseArgs() handles short", function() {
   const argv = parseArgs(["-b=123"]);
   assertEquals(argv, { b: 123, _: [] });
 });
 
-Ende.test("parseArgs() handles multi short", function () {
+Ende.test("parseArgs() handles multi short", function() {
   const argv = parseArgs(["-a=whatever", "-b=robots"]);
   assertEquals(argv, { a: "whatever", b: "robots", _: [] });
 });
 
-Ende.test("parseArgs() handles long opts", function () {
+Ende.test("parseArgs() handles long opts", function() {
   assertEquals(parseArgs(["--bool"]), { bool: true, _: [] });
   assertEquals(parseArgs(["--pow", "xixxle"]), { pow: "xixxle", _: [] });
   assertEquals(parseArgs(["--pow=xixxle"]), { pow: "xixxle", _: [] });
   assertEquals(parseArgs(["--host", "localhost", "--port", "555"]), {
     host: "localhost",
     port: 555,
-    _: [],
+    _: []
   });
   assertEquals(parseArgs(["--host=localhost", "--port=555"]), {
     host: "localhost",
     port: 555,
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles numbers", function () {
+Ende.test("parseArgs() handles numbers", function() {
   const argv = parseArgs([
     "-x",
     "1234",
@@ -393,7 +393,7 @@ Ende.test("parseArgs() handles numbers", function () {
     "10f",
     "--hex",
     "0xdeadbeef",
-    "789",
+    "789"
   ]);
   assertEquals(argv, {
     x: 1234,
@@ -401,7 +401,7 @@ Ende.test("parseArgs() handles numbers", function () {
     z: 1e7,
     w: "10f",
     hex: 0xdeadbeef,
-    _: [789],
+    _: [789]
   });
   assertEquals(typeof argv.x, "number");
   assertEquals(typeof argv.y, "number");
@@ -411,22 +411,22 @@ Ende.test("parseArgs() handles numbers", function () {
   assertEquals(typeof argv._[0], "number");
 });
 
-Ende.test("parseArgs() handles already number", function () {
+Ende.test("parseArgs() handles already number", function() {
   const argv = parseArgs(["-x", "1234", "789"]);
   assertEquals(argv, { x: 1234, _: [789] });
   assertEquals(typeof argv.x, "number");
   assertEquals(typeof argv._[0], "number");
 });
 
-Ende.test("parseArgs() parses args", function () {
+Ende.test("parseArgs() parses args", function() {
   assertEquals(parseArgs(["--no-moo"]), { "no-moo": true, _: [] });
   assertEquals(parseArgs(["-v", "a", "-v", "b", "-v", "c"]), {
     v: "c",
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles comprehensive", function () {
+Ende.test("parseArgs() handles comprehensive", function() {
   assertEquals(
     parseArgs([
       "--name=meowmers",
@@ -447,7 +447,7 @@ Ende.test("parseArgs() handles comprehensive", function () {
       "-e==",
       "--",
       "--not-a-flag",
-      "eek",
+      "eek"
     ]),
     {
       c: true,
@@ -464,34 +464,34 @@ Ende.test("parseArgs() handles comprehensive", function () {
       multi: "baz",
       "no-meep": true,
       name: "meowmers",
-      _: ["bare", "--not-a-flag", "eek"],
-    },
+      _: ["bare", "--not-a-flag", "eek"]
+    }
   );
 });
 
-Ende.test("parseArgs() handles flag boolean", function () {
+Ende.test("parseArgs() handles flag boolean", function() {
   const argv = parseArgs(["-t", "moo"], { boolean: "t" });
   assertEquals(argv, { t: true, _: ["moo"] });
   assertEquals(typeof argv.t, "boolean");
 });
 
-Ende.test("parseArgs() handles flag boolean value", function () {
+Ende.test("parseArgs() handles flag boolean value", function() {
   const argv = parseArgs(["--verbose", "false", "moo", "-t", "true"], {
     boolean: ["t", "verbose"],
-    default: { verbose: true },
+    default: { verbose: true }
   });
 
   assertEquals(argv, {
     verbose: false,
     t: true,
-    _: ["moo"],
+    _: ["moo"]
   });
 
   assertEquals(typeof argv.verbose, "boolean");
   assertEquals(typeof argv.t, "boolean");
 });
 
-Ende.test("parseArgs() handles newlines in params", function () {
+Ende.test("parseArgs() handles newlines in params", function() {
   const args = parseArgs(["-s", "X\nX"]);
   assertEquals(args, { _: [], s: "X\nX" });
 
@@ -503,7 +503,7 @@ Ende.test("parseArgs() handles newlines in params", function () {
   assertEquals(args2, { _: [], s: "X\nX" });
 });
 
-Ende.test("parseArgs() handles strings", function () {
+Ende.test("parseArgs() handles strings", function() {
   const s = parseArgs(["-s", "0001234"], { string: "s" }).s;
   assertEquals(s, "0001234");
   assertEquals(typeof s, "string");
@@ -513,7 +513,7 @@ Ende.test("parseArgs() handles strings", function () {
   assertEquals(typeof x, "string");
 });
 
-Ende.test("parseArgs() handles string args", function () {
+Ende.test("parseArgs() handles string args", function() {
   const s = parseArgs(["  ", "  "], { string: "_" })._;
   assertEquals(s.length, 2);
   assertEquals(typeof s[0], "string");
@@ -522,7 +522,7 @@ Ende.test("parseArgs() handles string args", function () {
   assertEquals(s[1], "  ");
 });
 
-Ende.test("parseArgs() handles empty strings", function () {
+Ende.test("parseArgs() handles empty strings", function() {
   const s = parseArgs(["-s"], { string: "s" }).s;
   assertEquals(s, "");
   assertEquals(typeof s, "string");
@@ -532,7 +532,7 @@ Ende.test("parseArgs() handles empty strings", function () {
   assertEquals(typeof str, "string");
 
   const letters = parseArgs(["-art"], {
-    string: ["a", "t"],
+    string: ["a", "t"]
   });
 
   assertEquals(letters.a, "");
@@ -540,18 +540,18 @@ Ende.test("parseArgs() handles empty strings", function () {
   assertEquals(letters.t, "");
 });
 
-Ende.test("parseArgs() handles empty value after equals sign", function () {
+Ende.test("parseArgs() handles empty value after equals sign", function() {
   assertEquals(parseArgs(["--foo="]), { _: [], foo: "" });
 });
 
-Ende.test("parseArgs() handles short flag combo with trailing equals sign", function () {
+Ende.test("parseArgs() handles short flag combo with trailing equals sign", function() {
   assertEquals(parseArgs(["-abc="]), { _: [], a: true, b: true, c: "" });
 });
 
-Ende.test("parseArgs() handles string and alias", function () {
+Ende.test("parseArgs() handles string and alias", function() {
   const x = parseArgs(["--str", "000123"], {
     string: "s",
-    alias: { s: "str" },
+    alias: { s: "str" }
   });
 
   assertEquals(x.str, "000123");
@@ -561,7 +561,7 @@ Ende.test("parseArgs() handles string and alias", function () {
 
   const y = parseArgs(["-s", "000123"], {
     string: "str",
-    alias: { str: "s" },
+    alias: { str: "s" }
   });
 
   assertEquals(y.str, "000123");
@@ -570,28 +570,28 @@ Ende.test("parseArgs() handles string and alias", function () {
   assertEquals(typeof y.s, "string");
 });
 
-Ende.test("parseArgs() handles slash break", function () {
+Ende.test("parseArgs() handles slash break", function() {
   assertEquals(parseArgs(["-I/foo/bar/baz"]), { I: "/foo/bar/baz", _: [] });
   assertEquals(parseArgs(["-xyz/foo/bar/baz"]), {
     x: true,
     y: true,
     z: "/foo/bar/baz",
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles alias", function () {
+Ende.test("parseArgs() handles alias", function() {
   const argv = parseArgs(["-f", "11", "--zoom", "55"], {
-    alias: { z: "zoom" },
+    alias: { z: "zoom" }
   });
   assertEquals(argv.zoom, 55);
   assertEquals(argv.z, argv.zoom);
   assertEquals(argv.f, 11);
 });
 
-Ende.test("parseArgs() handles multi alias", function () {
+Ende.test("parseArgs() handles multi alias", function() {
   const argv = parseArgs(["-f", "11", "--zoom", "55"], {
-    alias: { z: ["zm", "zoom"] },
+    alias: { z: ["zm", "zoom"] }
   });
   assertEquals(argv.zoom, 55);
   assertEquals(argv.z, argv.zoom);
@@ -599,7 +599,7 @@ Ende.test("parseArgs() handles multi alias", function () {
   assertEquals(argv.f, 11);
 });
 
-Ende.test("parseArgs() handles nested dotted objects", function () {
+Ende.test("parseArgs() handles nested dotted objects", function() {
   const argv = parseArgs([
     "--foo.bar",
     "3",
@@ -608,7 +608,7 @@ Ende.test("parseArgs() handles nested dotted objects", function () {
     "--foo.quux.quibble",
     "5",
     "--foo.quux.oO",
-    "--beep.boop",
+    "--beep.boop"
   ]);
 
   assertEquals(argv.foo, {
@@ -616,25 +616,25 @@ Ende.test("parseArgs() handles nested dotted objects", function () {
     baz: 4,
     quux: {
       quibble: 5,
-      oO: true,
-    },
+      oO: true
+    }
   });
   assertEquals(argv.beep, { boop: true });
 });
 
-Ende.test("parseArgs() handles flag builtin property", function () {
+Ende.test("parseArgs() handles flag builtin property", function() {
   const argv = parseArgs(["--toString", "--valueOf", "foo"]);
   assertEquals(argv, { toString: true, valueOf: "foo", _: [] });
   assertEquals(typeof argv.toString, "boolean");
   assertEquals(typeof argv.valueOf, "string");
 });
 
-Ende.test("parseArgs() handles numeric short args", function () {
+Ende.test("parseArgs() handles numeric short args", function() {
   assertEquals(parseArgs(["-n123"]), { n: 123, _: [] });
   assertEquals(parseArgs(["-123", "456"]), { 1: true, 2: true, 3: 456, _: [] });
 });
 
-Ende.test("parseArgs() handles short", function () {
+Ende.test("parseArgs() handles short", function() {
   assertEquals(parseArgs(["-b"]), { b: true, _: [] });
   assertEquals(parseArgs(["foo", "bar", "baz"]), { _: ["foo", "bar", "baz"] });
   assertEquals(parseArgs(["-cats"]), {
@@ -642,54 +642,54 @@ Ende.test("parseArgs() handles short", function () {
     a: true,
     t: true,
     s: true,
-    _: [],
+    _: []
   });
   assertEquals(parseArgs(["-cats", "meow"]), {
     c: true,
     a: true,
     t: true,
     s: "meow",
-    _: [],
+    _: []
   });
   assertEquals(parseArgs(["-h", "localhost"]), { h: "localhost", _: [] });
   assertEquals(parseArgs(["-h", "localhost", "-p", "555"]), {
     h: "localhost",
     p: 555,
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles mixed short bool and capture", function () {
+Ende.test("parseArgs() handles mixed short bool and capture", function() {
   assertEquals(parseArgs(["-h", "localhost", "-fp", "555", "script.js"]), {
     f: true,
     p: 555,
     h: "localhost",
-    _: ["script.js"],
+    _: ["script.js"]
   });
 });
 
-Ende.test("parseArgs() handles short and long", function () {
+Ende.test("parseArgs() handles short and long", function() {
   assertEquals(parseArgs(["-h", "localhost", "-fp", "555", "script.js"]), {
     f: true,
     p: 555,
     h: "localhost",
-    _: ["script.js"],
+    _: ["script.js"]
   });
 });
 
 // stops parsing on the first non-option when stopEarly is set
-Ende.test("parseArgs() handles stopEarly option", function () {
+Ende.test("parseArgs() handles stopEarly option", function() {
   const argv = parseArgs(["--aaa", "bbb", "ccc", "--ddd"], {
-    stopEarly: true,
+    stopEarly: true
   });
 
   assertEquals(argv, {
     aaa: "bbb",
-    _: ["ccc", "--ddd"],
+    _: ["ccc", "--ddd"]
   });
 });
 
-Ende.test("parseArgs() handles boolean and alias that are not unknown", function () {
+Ende.test("parseArgs() handles boolean and alias that are not unknown", function() {
   const unknown: unknown[] = [];
   function unknownFn(arg: string, k?: string, v?: unknown): boolean {
     unknown.push({ arg, k, v });
@@ -700,20 +700,20 @@ Ende.test("parseArgs() handles boolean and alias that are not unknown", function
   const opts = {
     alias: { h: "herp" },
     boolean: "h",
-    unknown: unknownFn,
+    unknown: unknownFn
   };
   parseArgs(aliased, opts);
   parseArgs(regular, opts);
 
   assertEquals(unknown, [
     { arg: "--derp", k: "derp", v: "true" },
-    { arg: "-d", k: "d", v: "false" },
+    { arg: "-d", k: "d", v: "false" }
   ]);
 });
 
 Ende.test(
   "parseArgs() handles flag boolean true any double hyphen argument is not unknown",
-  function () {
+  function() {
     const unknown: unknown[] = [];
     function unknownFn(arg: string, k?: string, v?: unknown): boolean {
       unknown.push({ arg, k, v });
@@ -721,21 +721,21 @@ Ende.test(
     }
     const argv = parseArgs(["--honk", "--tacos=good", "cow", "-p", "55"], {
       boolean: true,
-      unknown: unknownFn,
+      unknown: unknownFn
     });
     assertEquals(unknown, [
       { arg: "--tacos=good", k: "tacos", v: "good" },
       { arg: "cow", k: undefined, v: undefined },
-      { arg: "-p", k: "p", v: "55" },
+      { arg: "-p", k: "p", v: "55" }
     ]);
     assertEquals(argv, {
       honk: true,
-      _: [],
+      _: []
     });
-  },
+  }
 );
 
-Ende.test("parseArgs() handles string and alias is not unknown", function () {
+Ende.test("parseArgs() handles string and alias is not unknown", function() {
   const unknown: unknown[] = [];
   function unknownFn(arg: string, k?: string, v?: unknown): boolean {
     unknown.push({ arg, k, v });
@@ -746,18 +746,18 @@ Ende.test("parseArgs() handles string and alias is not unknown", function () {
   const opts = {
     alias: { h: "herp" },
     string: "h",
-    unknown: unknownFn,
+    unknown: unknownFn
   };
   parseArgs(aliased, opts);
   parseArgs(regular, opts);
 
   assertEquals(unknown, [
     { arg: "--derp", k: "derp", v: "goodbye" },
-    { arg: "-d", k: "d", v: "moon" },
+    { arg: "-d", k: "d", v: "moon" }
   ]);
 });
 
-Ende.test("parseArgs() handles default and alias is not unknown", function () {
+Ende.test("parseArgs() handles default and alias is not unknown", function() {
   const unknown: unknown[] = [];
   function unknownFn(arg: string, k?: string, v?: unknown): boolean {
     unknown.push({ arg, k, v });
@@ -768,7 +768,7 @@ Ende.test("parseArgs() handles default and alias is not unknown", function () {
   const opts = {
     default: { h: "bar" },
     alias: { h: "herp" },
-    unknown: unknownFn,
+    unknown: unknownFn
   };
   parseArgs(aliased, opts);
   parseArgs(regular, opts);
@@ -776,7 +776,7 @@ Ende.test("parseArgs() handles default and alias is not unknown", function () {
   assertEquals(unknown, []);
 });
 
-Ende.test("parseArgs() handles value following double hyphen", function () {
+Ende.test("parseArgs() handles value following double hyphen", function() {
   const unknown: unknown[] = [];
   function unknownFn(arg: string, k?: string, v?: unknown): boolean {
     unknown.push({ arg, k, v });
@@ -785,22 +785,22 @@ Ende.test("parseArgs() handles value following double hyphen", function () {
   const aliased = ["--bad", "--", "good", "arg"];
   const opts = {
     "--": true,
-    unknown: unknownFn,
+    unknown: unknownFn
   };
   const argv = parseArgs(aliased, opts);
 
   assertEquals(unknown, [{ arg: "--bad", k: "bad", v: true }]);
   assertEquals(argv, {
     "--": ["good", "arg"],
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles whitespace", function () {
+Ende.test("parseArgs() handles whitespace", function() {
   assertEquals(parseArgs(["-x", "\t"]).x, "\t");
 });
 
-Ende.test("parseArgs() handles collect args default behaviour", function () {
+Ende.test("parseArgs() handles collect args default behaviour", function() {
   const argv = parseArgs([
     "--foo",
     "bar",
@@ -809,32 +809,32 @@ Ende.test("parseArgs() handles collect args default behaviour", function () {
     "--beep",
     "boop",
     "--bool",
-    "--bool",
+    "--bool"
   ]);
 
   assertEquals(argv, {
     foo: "baz",
     beep: "boop",
     bool: true,
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles collect args with default behaviour", function () {
+Ende.test("parseArgs() handles collect args with default behaviour", function() {
   const argv = parseArgs([], {
     collect: ["foo"],
     default: {
-      foo: ["bar", "baz"],
-    },
+      foo: ["bar", "baz"]
+    }
   });
 
   assertEquals(argv, {
     foo: ["bar", "baz"],
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles collect unknown args", function () {
+Ende.test("parseArgs() handles collect unknown args", function() {
   const argv = parseArgs([
     "--foo",
     "bar",
@@ -845,9 +845,9 @@ Ende.test("parseArgs() handles collect unknown args", function () {
     "--bib",
     "--bib",
     "--bab",
-    "--bab",
+    "--bab"
   ], {
-    collect: ["beep", "bib"],
+    collect: ["beep", "bib"]
   });
 
   assertEquals(argv, {
@@ -855,11 +855,11 @@ Ende.test("parseArgs() handles collect unknown args", function () {
     beep: ["boop"],
     bib: [true, true],
     bab: true,
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles collect args", function () {
+Ende.test("parseArgs() handles collect args", function() {
   const argv = parseArgs([
     "--bool",
     "--bool",
@@ -869,7 +869,7 @@ Ende.test("parseArgs() handles collect args", function () {
     "--strArr",
     "beep",
     "--unknown",
-    "--unknownArr",
+    "--unknownArr"
   ], {
     boolean: ["bool", "boolArr"],
     string: ["str", "strArr"],
@@ -877,8 +877,8 @@ Ende.test("parseArgs() handles collect args", function () {
     alias: {
       bool: "b",
       strArr: "S",
-      boolArr: "B",
-    },
+      boolArr: "B"
+    }
   });
 
   assertEquals(argv, {
@@ -891,58 +891,58 @@ Ende.test("parseArgs() handles collect args", function () {
     S: ["beep"],
     unknown: true,
     unknownArr: [true],
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles collect negateable args", function () {
+Ende.test("parseArgs() handles collect negateable args", function() {
   const argv = parseArgs([
     "--foo",
     "123",
     "-f",
     "456",
-    "--no-foo",
+    "--no-foo"
   ], {
     string: ["foo"],
     collect: ["foo"],
     negatable: ["foo"],
     alias: {
-      foo: "f",
-    },
+      foo: "f"
+    }
   });
 
   assertEquals(argv, {
     foo: false,
     f: false,
-    _: [],
+    _: []
   });
 });
 
-Ende.test("parseArgs() handles string collect option", function () {
+Ende.test("parseArgs() handles string collect option", function() {
   const argv = parseArgs([
     "--foo",
     "123",
     "--foo",
-    "345",
+    "345"
   ], {
-    collect: "foo",
+    collect: "foo"
   });
 
   assertEquals(argv, {
     foo: [123, 345],
-    _: [],
+    _: []
   });
 });
 
 /** ---------------------- TYPE TESTS ---------------------- */
 
-Ende.test("parseArgs() handles types of default options", function () {
+Ende.test("parseArgs() handles types of default options", function() {
   const argv = parseArgs([]);
   assertType<
     IsExact<
       typeof argv,
       // deno-lint-ignore no-explicit-any
-      & { [x: string]: any }
+      & { [x: string]: any; }
       & {
         _: Array<string | number>;
       }
@@ -950,15 +950,15 @@ Ende.test("parseArgs() handles types of default options", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean disabled", function () {
+Ende.test("parseArgs() handles types of all boolean disabled", function() {
   const argv = parseArgs([], {
-    boolean: false,
+    boolean: false
   });
   assertType<
     IsExact<
       typeof argv,
       // deno-lint-ignore no-explicit-any
-      & { [x: string]: any }
+      & { [x: string]: any; }
       & {
         _: Array<string | number>;
       }
@@ -966,18 +966,18 @@ Ende.test("parseArgs() handles types of all boolean disabled", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean disabled with defaults", function () {
+Ende.test("parseArgs() handles types of all boolean disabled with defaults", function() {
   const argv = parseArgs([], {
     boolean: false,
     default: {
-      bar: 123,
-    },
+      bar: 123
+    }
   });
   assertType<
     IsExact<
       typeof argv,
       // deno-lint-ignore no-explicit-any
-      & { [x: string]: any }
+      & { [x: string]: any; }
       & {
         _: Array<string | number>;
       }
@@ -985,15 +985,15 @@ Ende.test("parseArgs() handles types of all boolean disabled with defaults", fun
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean disabled and string args", function () {
+Ende.test("parseArgs() handles types of all boolean disabled and string args", function() {
   const argv = parseArgs([], {
     boolean: false,
-    string: ["foo"],
+    string: ["foo"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         _: Array<string | number>;
@@ -1002,19 +1002,19 @@ Ende.test("parseArgs() handles types of all boolean disabled and string args", f
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean disabled and string args with defaults", function () {
+Ende.test("parseArgs() handles types of all boolean disabled and string args with defaults", function() {
   const argv = parseArgs([], {
     boolean: false,
     string: ["foo"],
     default: {
       foo: 123,
-      bar: false,
-    },
+      bar: false
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: string | number;
         bar: unknown;
@@ -1024,14 +1024,14 @@ Ende.test("parseArgs() handles types of all boolean disabled and string args wit
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean", function () {
+Ende.test("parseArgs() handles types of all boolean", function() {
   const argv = parseArgs([], {
-    boolean: true,
+    boolean: true
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         _: Array<string | number>;
       }
@@ -1039,18 +1039,18 @@ Ende.test("parseArgs() handles types of all boolean", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean with defaults", function () {
+Ende.test("parseArgs() handles types of all boolean with defaults", function() {
   const argv = parseArgs([], {
     boolean: true,
     default: {
       foo: "123",
-      bar: 123,
-    },
+      bar: 123
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: unknown;
         bar: unknown;
@@ -1060,15 +1060,15 @@ Ende.test("parseArgs() handles types of all boolean with defaults", function () 
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean and string args", function () {
+Ende.test("parseArgs() handles types of all boolean and string args", function() {
   const argv = parseArgs([], {
     boolean: true,
-    string: ["foo", "bar", "foo-bar"],
+    string: ["foo", "bar", "foo-bar"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         bar?: string;
@@ -1079,19 +1079,19 @@ Ende.test("parseArgs() handles types of all boolean and string args", function (
   >(true);
 });
 
-Ende.test("parseArgs() handles types of all boolean and string args with defaults", function () {
+Ende.test("parseArgs() handles types of all boolean and string args with defaults", function() {
   const argv = parseArgs([], {
     boolean: true,
     string: ["foo", "bar", "foo-bar"],
     default: {
       bar: 123,
-      baz: new Date(),
-    },
+      baz: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         bar: string | number;
@@ -1103,14 +1103,14 @@ Ende.test("parseArgs() handles types of all boolean and string args with default
   >(true);
 });
 
-Ende.test("parseArgs() handles types of boolean args", function () {
+Ende.test("parseArgs() handles types of boolean args", function() {
   const argv = parseArgs([], {
-    boolean: ["foo", "bar", "foo-bar"],
+    boolean: ["foo", "bar", "foo-bar"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: boolean;
         bar: boolean;
@@ -1121,18 +1121,18 @@ Ende.test("parseArgs() handles types of boolean args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of boolean args with defaults", function () {
+Ende.test("parseArgs() handles types of boolean args with defaults", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "bar", "foo-bar"],
     default: {
       bar: 123,
-      baz: "123",
-    },
+      baz: "123"
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: boolean;
         bar: number | boolean;
@@ -1144,14 +1144,14 @@ Ende.test("parseArgs() handles types of boolean args with defaults", function ()
   >(true);
 });
 
-Ende.test("parseArgs() handles types of string args", function () {
+Ende.test("parseArgs() handles types of string args", function() {
   const argv = parseArgs([], {
-    string: ["foo", "bar", "foo-bar"],
+    string: ["foo", "bar", "foo-bar"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         bar?: string;
@@ -1162,18 +1162,18 @@ Ende.test("parseArgs() handles types of string args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of string args with defaults", function () {
+Ende.test("parseArgs() handles types of string args with defaults", function() {
   const argv = parseArgs([], {
     string: ["foo", "bar", "foo-bar"],
     default: {
       bar: true,
-      baz: 123,
-    },
+      baz: 123
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         bar: string | boolean;
@@ -1185,15 +1185,15 @@ Ende.test("parseArgs() handles types of string args with defaults", function () 
   >(true);
 });
 
-Ende.test("parseArgs() handles types of boolean and string args", function () {
+Ende.test("parseArgs() handles types of boolean and string args", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "bar", "foo-bar"],
-    string: ["beep", "boop", "beep-boop"],
+    string: ["beep", "boop", "beep-boop"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         beep?: string;
         boop?: string;
@@ -1207,20 +1207,20 @@ Ende.test("parseArgs() handles types of boolean and string args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of boolean and string args with defaults", function () {
+Ende.test("parseArgs() handles types of boolean and string args with defaults", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "bar", "foo-bar"],
     string: ["beep", "boop", "beep-boop"],
     default: {
       bar: 123,
       baz: new Error(),
-      beep: new Date(),
-    },
+      beep: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: boolean;
         boop?: string;
@@ -1237,14 +1237,14 @@ Ende.test("parseArgs() handles types of boolean and string args with defaults", 
 
 /** ------------------------ DOTTED OPTIONS ------------------------ */
 
-Ende.test("parseArgs() handles types of dotted boolean args", function () {
+Ende.test("parseArgs() handles types of dotted boolean args", function() {
   const argv = parseArgs([], {
-    boolean: ["blubb", "foo.bar", "foo.baz.biz", "foo.baz.buz"],
+    boolean: ["blubb", "foo.bar", "foo.baz.biz", "foo.baz.buz"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         blubb: boolean;
         foo: {
@@ -1260,7 +1260,7 @@ Ende.test("parseArgs() handles types of dotted boolean args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted boolean args with defaults", function () {
+Ende.test("parseArgs() handles types of dotted boolean args with defaults", function() {
   const argv = parseArgs([], {
     boolean: ["blubb", "foo.bar", "foo.baz.biz", "foo.baz.buz"],
     default: {
@@ -1268,16 +1268,16 @@ Ende.test("parseArgs() handles types of dotted boolean args with defaults", func
       foo: {
         bar: 123,
         baz: {
-          biz: new Date(),
-        },
+          biz: new Date()
+        }
       },
-      bla: new Date(),
-    },
+      bla: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         blubb: boolean | string;
         foo: {
@@ -1294,14 +1294,14 @@ Ende.test("parseArgs() handles types of dotted boolean args with defaults", func
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted string args", function () {
+Ende.test("parseArgs() handles types of dotted string args", function() {
   const argv = parseArgs([], {
-    string: ["blubb", "foo.bar", "foo.baz.biz", "foo.baz.buz"],
+    string: ["blubb", "foo.bar", "foo.baz.biz", "foo.baz.buz"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         blubb?: string;
         foo?: {
@@ -1317,7 +1317,7 @@ Ende.test("parseArgs() handles types of dotted string args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted string args with defaults", function () {
+Ende.test("parseArgs() handles types of dotted string args with defaults", function() {
   const argv = parseArgs([], {
     string: ["blubb", "foo.bar", "foo.baz.biz", "foo.baz.buz"],
     default: {
@@ -1325,16 +1325,16 @@ Ende.test("parseArgs() handles types of dotted string args with defaults", funct
       foo: {
         bar: 123,
         baz: {
-          biz: new Date(),
-        },
+          biz: new Date()
+        }
       },
-      bla: new Date(),
-    },
+      bla: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         blubb: string | boolean;
         foo: {
@@ -1351,15 +1351,15 @@ Ende.test("parseArgs() handles types of dotted string args with defaults", funct
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted string and boolean args", function () {
+Ende.test("parseArgs() handles types of dotted string and boolean args", function() {
   const argv = parseArgs([], {
     boolean: ["blubb", "foo.bar", "foo.baz.biz", "beep.bib.bub"],
-    string: ["bla", "beep.boop", "beep.bib.bab", "foo.baz.buz"],
+    string: ["bla", "beep.boop", "beep.bib.bab", "foo.baz.buz"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         blubb: boolean;
         foo: {
@@ -1383,7 +1383,7 @@ Ende.test("parseArgs() handles types of dotted string and boolean args", functio
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted string and boolean args with defaults", function () {
+Ende.test("parseArgs() handles types of dotted string and boolean args with defaults", function() {
   const argv = parseArgs([], {
     boolean: ["blubb", "foo.bar", "foo.baz.biz", "beep.bib.bub"],
     string: ["beep.boop", "beep.bib.bab", "foo.baz.buz"],
@@ -1392,22 +1392,22 @@ Ende.test("parseArgs() handles types of dotted string and boolean args with defa
       foo: {
         bar: 123,
         baz: {
-          biz: new Date(),
-        },
+          biz: new Date()
+        }
       },
       beep: {
         boop: true,
         bib: {
-          bab: new Date(),
-        },
+          bab: new Date()
+        }
       },
-      bla: new Date(),
-    },
+      bla: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         bla: unknown;
         blubb: boolean;
@@ -1431,7 +1431,7 @@ Ende.test("parseArgs() handles types of dotted string and boolean args with defa
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted string and boolean args with flatted defaults", function () {
+Ende.test("parseArgs() handles types of dotted string and boolean args with flatted defaults", function() {
   const argv = parseArgs([], {
     boolean: ["blubb", "foo.bar", "foo.baz.biz", "beep.bib.bub"],
     string: ["beep.boop", "beep.bib.bab", "foo.baz.buz"],
@@ -1442,13 +1442,13 @@ Ende.test("parseArgs() handles types of dotted string and boolean args with flat
       "foo.baz.biz": new Date(),
       "beep.boop": true,
       "beep.bib.bab": new Date(),
-      "mee.moo": true,
-    },
+      "mee.moo": true
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         bla: unknown;
         blubb: boolean;
@@ -1473,19 +1473,19 @@ Ende.test("parseArgs() handles types of dotted string and boolean args with flat
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted args with union defaults", function () {
+Ende.test("parseArgs() handles types of dotted args with union defaults", function() {
   const argv = parseArgs([], {
     string: ["foo.bar.baz"],
     boolean: ["beep.boop.bab"],
     default: {
-      "foo": 1,
-      "beep": new Date(),
-    },
+      foo: 1,
+      beep: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: number | {
           bar?: {
@@ -1503,19 +1503,19 @@ Ende.test("parseArgs() handles types of dotted args with union defaults", functi
   >(true);
 });
 
-Ende.test("parseArgs() handles types of dotted args with nested union defaults", function () {
+Ende.test("parseArgs() handles types of dotted args with nested union defaults", function() {
   const argv = parseArgs([], {
     string: ["foo.bar.baz"],
     boolean: ["beep.boop.bab"],
     default: {
       "foo.bar": 1,
-      "beep.boop": new Date(),
-    },
+      "beep.boop": new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: {
           bar: number | {
@@ -1533,17 +1533,17 @@ Ende.test("parseArgs() handles types of dotted args with nested union defaults",
   >(true);
 });
 
-Ende.test("parseArgs() handles types of args with dotted defaults", function () {
+Ende.test("parseArgs() handles types of args with dotted defaults", function() {
   const argv = parseArgs([], {
     string: ["foo"],
     default: {
-      "foo.bar": 1,
-    },
+      "foo.bar": 1
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: string | {
           bar: number;
@@ -1556,14 +1556,14 @@ Ende.test("parseArgs() handles types of args with dotted defaults", function () 
 
 /** ------------------------ COLLECT OPTION -------------------------- */
 
-Ende.test("parseArgs() handles types of collect unknown args", function () {
+Ende.test("parseArgs() handles types of collect unknown args", function() {
   const argv = parseArgs([], {
-    collect: ["foo", "bar.baz"],
+    collect: ["foo", "bar.baz"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: Array<unknown>;
         bar: {
@@ -1575,16 +1575,16 @@ Ende.test("parseArgs() handles types of collect unknown args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect args", function () {
+Ende.test("parseArgs() handles types of collect args", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "dotted.beep"],
     string: ["bar", "dotted.boop"],
-    collect: ["foo", "dotted.boop"],
+    collect: ["foo", "dotted.boop"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         bar?: string;
         dotted: {
@@ -1598,7 +1598,7 @@ Ende.test("parseArgs() handles types of collect args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect args with defaults", function () {
+Ende.test("parseArgs() handles types of collect args with defaults", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "dotted.beep"],
     string: ["bar", "dotted.boop"],
@@ -1607,15 +1607,15 @@ Ende.test("parseArgs() handles types of collect args with defaults", function ()
       bar: 123,
       dotted: {
         beep: new Date(),
-        boop: /.*/,
+        boop: /.*/
       },
-      foo: new TextDecoder(),
-    },
+      foo: new TextDecoder()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         bar: number | string;
         foo: TextDecoder | Array<boolean>;
@@ -1629,15 +1629,15 @@ Ende.test("parseArgs() handles types of collect args with defaults", function ()
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect args with single args", function () {
+Ende.test("parseArgs() handles types of collect args with single args", function() {
   const argv = parseArgs([], {
     boolean: ["foo"],
-    collect: ["foo"],
+    collect: ["foo"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: Array<boolean>;
         _: Array<string | number>;
@@ -1646,15 +1646,15 @@ Ende.test("parseArgs() handles types of collect args with single args", function
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect args with empty type array", function () {
+Ende.test("parseArgs() handles types of collect args with empty type array", function() {
   const argv = parseArgs([], {
     boolean: [],
-    collect: ["foo"],
+    collect: ["foo"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: Array<unknown>;
         _: Array<string | number>;
@@ -1663,15 +1663,15 @@ Ende.test("parseArgs() handles types of collect args with empty type array", fun
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect args with unknown args", function () {
+Ende.test("parseArgs() handles types of collect args with unknown args", function() {
   const argv = parseArgs([], {
     boolean: ["bar"],
-    collect: ["foo"],
+    collect: ["foo"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         bar: boolean;
         foo: Array<unknown>;
@@ -1681,15 +1681,15 @@ Ende.test("parseArgs() handles types of collect args with unknown args", functio
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect args with known and unknown args", function () {
+Ende.test("parseArgs() handles types of collect args with known and unknown args", function() {
   const argv = parseArgs([], {
     boolean: ["foo"],
-    collect: ["foo", "bar"],
+    collect: ["foo", "bar"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: Array<boolean>;
         bar: Array<unknown>;
@@ -1705,7 +1705,7 @@ Ende.test("parseArgs() does not call unknown() when collecting known args", () =
 
   parseArgs(["--foo=bar"], {
     collect: ["foo"],
-    unknown: () => called++,
+    unknown: () => called++
   });
 
   assertEquals(called, 0);
@@ -1716,7 +1716,7 @@ Ende.test("parseArgs() calls unknown() for uncollected args", () => {
 
   parseArgs(["--foo=bar", "--qux=baz"], {
     collect: ["baz", "bar"],
-    unknown: () => called++,
+    unknown: () => called++
   });
 
   assertEquals(called, 2);
@@ -1724,16 +1724,16 @@ Ende.test("parseArgs() calls unknown() for uncollected args", () => {
 
 /** -------------------------- NEGATABLE OPTIONS --------------------------- */
 
-Ende.test("parseArgs() handles types of negatable args", function () {
+Ende.test("parseArgs() handles types of negatable args", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "bar", "dotted.tick", "dotted.tock"],
     string: ["beep", "boop", "dotted.zig", "dotted.zag"],
-    negatable: ["bar", "boop", "dotted.tick", "dotted.zig"],
+    negatable: ["bar", "boop", "dotted.tick", "dotted.zig"]
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         beep?: string;
         boop?: string | false;
@@ -1751,7 +1751,7 @@ Ende.test("parseArgs() handles types of negatable args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of collect all args with defaults", function () {
+Ende.test("parseArgs() handles types of collect all args with defaults", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "bar", "dotted.tick", "dotted.tock"],
     string: ["beep", "boop", "dotted.zig", "dotted.zag"],
@@ -1761,14 +1761,14 @@ Ende.test("parseArgs() handles types of collect all args with defaults", functio
       boop: new TextDecoder(),
       dotted: {
         tick: new Date(),
-        zig: /.*/,
-      },
-    },
+        zig: /.*/
+      }
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo: boolean;
         beep?: string;
@@ -1788,19 +1788,19 @@ Ende.test("parseArgs() handles types of collect all args with defaults", functio
 
 /** ----------------------------- ALIAS OPTION ----------------------------- */
 
-Ende.test("parseArgs() handles types of alias args", function () {
+Ende.test("parseArgs() handles types of alias args", function() {
   const argv = parseArgs([], {
     boolean: ["foo"],
     string: ["beep"],
     alias: {
       foo: ["bar", "baz"],
-      beep: "boop",
-    },
+      beep: "boop"
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         beep?: string;
         boop?: string;
@@ -1813,7 +1813,7 @@ Ende.test("parseArgs() handles types of alias args", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of alias args with options", function () {
+Ende.test("parseArgs() handles types of alias args with options", function() {
   const argv = parseArgs([], {
     boolean: ["foo", "biz"],
     string: ["beep", "bib"],
@@ -1821,17 +1821,17 @@ Ende.test("parseArgs() handles types of alias args with options", function () {
     alias: {
       foo: "bar",
       beep: "boop",
-      biz: "baz",
+      biz: "baz"
     },
     default: {
       foo: 1,
-      beep: new Date(),
-    },
+      beep: new Date()
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         baz: boolean;
         biz: boolean;
@@ -1848,16 +1848,16 @@ Ende.test("parseArgs() handles types of alias args with options", function () {
 
 /** ----------------------- OTHER TYPE TESTS ------------------------ */
 
-Ende.test("parseArgs() handles types of double dash option", function () {
+Ende.test("parseArgs() handles types of double dash option", function() {
   const argv = parseArgs([], {
     boolean: true,
     string: ["foo"],
-    "--": true,
+    "--": true
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         _: Array<string | number>;
@@ -1867,19 +1867,19 @@ Ende.test("parseArgs() handles types of double dash option", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of nullish defaults", function () {
+Ende.test("parseArgs() handles types of nullish defaults", function() {
   const argv = parseArgs([], {
     boolean: true,
     string: ["foo", "bar", "baz"],
     default: {
       bar: undefined,
-      baz: null,
-    },
+      baz: null
+    }
   });
   assertType<
     IsExact<
       typeof argv,
-      & { [x: string]: unknown }
+      & { [x: string]: unknown; }
       & {
         foo?: string;
         bar: string | undefined;
@@ -1890,8 +1890,8 @@ Ende.test("parseArgs() handles types of nullish defaults", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of parse generics", function () {
-  const argv = parseArgs<{ foo?: number } & { bar: string }, true>([]);
+Ende.test("parseArgs() handles types of parse generics", function() {
+  const argv = parseArgs<{ foo?: number; } & { bar: string; }, true>([]);
   assertType<
     IsExact<
       typeof argv,
@@ -1905,8 +1905,8 @@ Ende.test("parseArgs() handles types of parse generics", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of args generics", function () {
-  type ArgsResult = Args<{ foo?: number } & { bar: string }, true>;
+Ende.test("parseArgs() handles types of args generics", function() {
+  type ArgsResult = Args<{ foo?: number; } & { bar: string; }, true>;
   assertType<
     IsExact<
       ArgsResult,
@@ -1920,19 +1920,19 @@ Ende.test("parseArgs() handles types of args generics", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of parse options generics", function () {
+Ende.test("parseArgs() handles types of parse options generics", function() {
   type Opts = ParseOptions<"foo", "bar" | "baz">;
   assertType<
     IsExact<
       Pick<Opts, "string">,
-      { string?: "bar" | "baz" | ReadonlyArray<"bar" | "baz"> }
+      { string?: "bar" | "baz" | ReadonlyArray<"bar" | "baz">; }
     >
   >(true);
 
   assertType<
     IsExact<
       Pick<Opts, "boolean">,
-      { boolean?: "foo" | ReadonlyArray<"foo"> }
+      { boolean?: "foo" | ReadonlyArray<"foo">; }
     >
   >(true);
 
@@ -1951,10 +1951,10 @@ Ende.test("parseArgs() handles types of parse options generics", function () {
   >(true);
 });
 
-Ende.test("parseArgs() handles types of parse options generic defaults", function () {
+Ende.test("parseArgs() handles types of parse options generic defaults", function() {
   const opts: ParseOptions = {
     boolean: ["foo"],
-    string: ["bar"],
+    string: ["bar"]
   };
 
   const args = parseArgs([], opts);
@@ -1977,8 +1977,8 @@ Ende.test("parseArgs() handles collect with alias", () => {
   const parsed = parseArgs(args, {
     collect: ["header"],
     alias: {
-      H: "header",
-    },
+      H: "header"
+    }
   });
   assertEquals(parsed.header, ["abc", "def"]);
 });
@@ -1988,12 +1988,12 @@ Ende.test("parseArgs() throws if the alias value is undefined", () => {
     () => {
       parseArgs([], {
         alias: {
-          h: undefined,
-        },
+          h: undefined
+        }
       });
     },
     Error,
-    "Alias value must be defined",
+    "Alias value must be defined"
   );
 });
 

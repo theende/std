@@ -32,12 +32,11 @@ export function unescape(string: string): string {
     // This does not remove line breaks
     .replaceAll(
       /\r\n|\r|\n/g,
-      (str) => str === "\r" ? "\\r" : str === "\n" ? "\\n\n" : "\\r\\n\r\n",
+      str => str === "\r" ? "\\r" : str === "\n" ? "\\n\n" : "\\r\\n\r\n"
     );
 }
 
-const WHITESPACE_SYMBOLS_REGEXP =
-  /((?:\\[bftv]|[^\S\r\n])+|\\[rn\\]|[()[\]{}'"\r\n]|\b)/;
+const WHITESPACE_SYMBOLS_REGEXP = /((?:\\[bftv]|[^\S\r\n])+|\\[rn\\]|[()[\]{}'"\r\n]|\b)/;
 
 /**
  * Tokenizes a string into an array of tokens.
@@ -59,10 +58,10 @@ export function tokenize(string: string, wordDiff = false): string[] {
   if (wordDiff) {
     return string
       .split(WHITESPACE_SYMBOLS_REGEXP)
-      .filter((token) => token);
+      .filter(token => token);
   }
   const tokens: string[] = [];
-  const lines = string.split(/(\n|\r\n)/).filter((line) => line);
+  const lines = string.split(/(\n|\r\n)/).filter(line => line);
 
   for (const [i, line] of lines.entries()) {
     if (i % 2) {
@@ -101,9 +100,10 @@ export function tokenize(string: string, wordDiff = false): string[] {
  */
 export function createDetails(
   line: DiffResult<string>,
-  tokens: DiffResult<string>[],
+  tokens: DiffResult<string>[]
 ): DiffResult<string>[] {
-  return tokens.filter(({ type }) => type === line.type || type === "common")
+  return tokens
+    .filter(({ type }) => type === line.type || type === "common")
     .map((result, i, t) => {
       const token = t[i - 1];
       if (
@@ -112,7 +112,7 @@ export function createDetails(
       ) {
         return {
           ...result,
-          type: token.type,
+          type: token.type
         };
       }
       return result;
@@ -160,7 +160,7 @@ export function diffStr(A: string, B: string): DiffResult<string>[] {
   // Compute multi-line diff
   const diffResult = diff(
     tokenize(`${unescape(A)}\n`),
-    tokenize(`${unescape(B)}\n`),
+    tokenize(`${unescape(B)}\n`)
   );
 
   const added = [];
@@ -187,13 +187,11 @@ export function diffStr(A: string, B: string): DiffResult<string>[] {
     while (bIdx < bLines.length) {
       b = bLines[bIdx++];
       const bTokens = tokenize(b!.value, true);
-      tokens = hasMoreRemovedLines
-        ? diff(bTokens, aTokens)
-        : diff(aTokens, bTokens);
+      tokens = hasMoreRemovedLines ?
+        diff(bTokens, aTokens) :
+        diff(aTokens, bTokens);
       if (
-        tokens.some(({ type, value }) =>
-          type === "common" && NON_WHITESPACE_REGEXP.test(value)
-        )
+        tokens.some(({ type, value }) => type === "common" && NON_WHITESPACE_REGEXP.test(value))
       ) {
         break;
       }

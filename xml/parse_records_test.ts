@@ -7,17 +7,18 @@ import { XmlSyntaxError } from "./types.ts";
 
 async function collect<T>(iter: AsyncIterable<T>): Promise<T[]> {
   const out: T[] = [];
-  for await (const r of iter) out.push(r);
+  for await (const r of iter)
+    out.push(r);
   return out;
 }
 
 function items(
-  xml: string | string[],
+  xml: string | string[]
 ): AsyncGenerator<Record<string, string>> {
   const chunks = Array.isArray(xml) ? xml : [xml];
   return parseXmlRecords<Record<string, string>>(
     ReadableStream.from(chunks),
-    (emit) => {
+    emit => {
       let insideItem = false;
       let currentTag = "";
       let currentItem: Record<string, string> = {};
@@ -42,10 +43,10 @@ function items(
             currentItem = {};
           }
           currentTag = "";
-        },
+        }
       };
     },
-    { ignoreWhitespace: true },
+    { ignoreWhitespace: true }
   );
 }
 
@@ -54,17 +55,16 @@ function items(
 // =============================================================================
 
 Ende.test("parseXmlRecords() yields records assembled from callbacks", async () => {
-  const xml =
-    "<root><item><title>A</title></item><item><title>B</title></item></root>";
+  const xml = "<root><item><title>A</title></item><item><title>B</title></item></root>";
   const records = await collect(items(xml));
   assertEquals(records, [{ title: "A" }, { title: "B" }]);
 });
 
 Ende.test("parseXmlRecords() assembles records spanning chunk boundaries", async () => {
-  const xml =
-    "<root><item><title>Hello</title></item><item><title>World</title></item></root>";
+  const xml = "<root><item><title>Hello</title></item><item><title>World</title></item></root>";
   const chunks: string[] = [];
-  for (let i = 0; i < xml.length; i += 7) chunks.push(xml.slice(i, i + 7));
+  for (let i = 0; i < xml.length; i += 7)
+    chunks.push(xml.slice(i, i + 7));
   const records = await collect(items(chunks));
   assertEquals(records, [{ title: "Hello" }, { title: "World" }]);
 });
@@ -81,20 +81,17 @@ Ende.test("parseXmlRecords() errors on truly empty input (no root element)", asy
 
 Ende.test("parseXmlRecords() preserves record order across many chunks", async () => {
   const n = 100;
-  const xml = `<root>${
-    Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")
-  }</root>`;
+  const xml = `<root>${Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")}</root>`;
   const chunks: string[] = [];
-  for (let i = 0; i < xml.length; i += 13) chunks.push(xml.slice(i, i + 13));
+  for (let i = 0; i < xml.length; i += 13)
+    chunks.push(xml.slice(i, i + 13));
   const records = await collect(items(chunks));
   assertEquals(records, Array.from({ length: n }, (_, i) => ({ id: `${i}` })));
 });
 
 Ende.test("parseXmlRecords() handles many records emitted in a single chunk", async () => {
   const n = 5000;
-  const xml = `<root>${
-    Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")
-  }</root>`;
+  const xml = `<root>${Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")}</root>`;
   const records = await collect(items([xml]));
   assertEquals(records.length, n);
   assertEquals(records[0], { id: "0" });
@@ -111,14 +108,14 @@ Ende.test("parseXmlRecords() ignoreWhitespace suppresses whitespace-only text ev
   await collect(
     parseXmlRecords<string>(
       ReadableStream.from([xml]),
-      (emit) => ({
+      emit => ({
         onText(text) {
           texts.push(text);
           emit(text);
-        },
+        }
       }),
-      { ignoreWhitespace: true },
-    ),
+      { ignoreWhitespace: true }
+    )
   );
   assertEquals(texts, ["A"]);
 });
@@ -128,28 +125,28 @@ Ende.test("parseXmlRecords() xmlVersion '1.1' enables XML 1.1 character rules", 
   const records = await collect(
     parseXmlRecords<string>(
       ReadableStream.from([xml]),
-      (emit) => ({
+      emit => ({
         onText(text) {
           emit(text);
-        },
+        }
       }),
-      { xmlVersion: "1.1" },
-    ),
+      { xmlVersion: "1.1" }
+    )
   );
   assertEquals(records, ["\x01"]);
 });
 
 Ende.test("parseXmlRecords() rejects DOCTYPE by default", async () => {
-  const xml = '<!DOCTYPE root SYSTEM "x.dtd"><root/>';
+  const xml = "<!DOCTYPE root SYSTEM \"x.dtd\"><root/>";
   await assertRejects(
     () =>
       collect(
         parseXmlRecords<never>(
           ReadableStream.from([xml]),
-          (_emit) => ({}),
-        ),
+          _emit => ({})
+        )
       ),
-    XmlSyntaxError,
+    XmlSyntaxError
   );
 });
 
@@ -158,13 +155,13 @@ Ende.test("parseXmlRecords() allows DOCTYPE when disallowDoctype is false", asyn
   const records = await collect(
     parseXmlRecords<string>(
       ReadableStream.from([xml]),
-      (emit) => ({
+      emit => ({
         onText(text) {
           emit(text);
-        },
+        }
       }),
-      { disallowDoctype: false },
-    ),
+      { disallowDoctype: false }
+    )
   );
   assertEquals(records, ["1"]);
 });
@@ -179,15 +176,16 @@ Ende.test("parseXmlRecords() invokes createCallbacks exactly once per call", asy
   await collect(
     parseXmlRecords<string>(
       ReadableStream.from([xml]),
-      (emit) => {
+      emit => {
         callCount++;
         return {
           onStartElement(name) {
-            if (name === "item") emit(name);
-          },
+            if (name === "item")
+              emit(name);
+          }
         };
-      },
-    ),
+      }
+    )
   );
   assertEquals(callCount, 1);
 });
@@ -203,10 +201,10 @@ Ende.test("parseXmlRecords() throws on malformed XML", async () => {
       collect(
         parseXmlRecords<never>(
           ReadableStream.from([xml]),
-          (_emit) => ({}),
-        ),
+          _emit => ({})
+        )
       ),
-    XmlSyntaxError,
+    XmlSyntaxError
   );
 });
 
@@ -217,15 +215,16 @@ Ende.test("parseXmlRecords() propagates errors thrown from a callback", async ()
       collect(
         parseXmlRecords<never>(
           ReadableStream.from([xml]),
-          (_emit) => ({
+          _emit => ({
             onStartElement(name) {
-              if (name === "item") throw new Error("callback error");
-            },
-          }),
-        ),
+              if (name === "item")
+                throw new Error("callback error");
+            }
+          })
+        )
       ),
     Error,
-    "callback error",
+    "callback error"
   );
 });
 
@@ -235,22 +234,22 @@ Ende.test("parseXmlRecords() propagates errors thrown from createCallbacks", asy
       collect(
         parseXmlRecords<never>(
           ReadableStream.from(["<root/>"]),
-          (_emit) => {
+          _emit => {
             throw new Error("init error");
-          },
-        ),
+          }
+        )
       ),
     Error,
-    "init error",
+    "init error"
   );
 });
 
 Ende.test("parseXmlRecords() discards records buffered in a chunk that errors", async () => {
-  const xml =
-    "<root><item><id>1</id></item><item><id>2</id></item><item attr=value/></root>";
+  const xml = "<root><item><id>1</id></item><item><id>2</id></item><item attr=value/></root>";
   const received: string[] = [];
   await assertRejects(async () => {
-    for await (const id of ids(xml)) received.push(id);
+    for await (const id of ids(xml))
+      received.push(id);
   }, XmlSyntaxError);
   // The malformed third item and the preceding items 1, 2 are all parsed in
   // the same chunk; on syntax error the buffer is discarded and the
@@ -264,11 +263,12 @@ Ende.test("parseXmlRecords() yields records from earlier chunks before failing o
   const chunks = [
     "<root><item><id>1</id></item>",
     "<item><id>2</id></item>",
-    "<item attr=value/></root>",
+    "<item attr=value/></root>"
   ];
   const received: string[] = [];
   await assertRejects(async () => {
-    for await (const id of ids(chunks)) received.push(id);
+    for await (const id of ids(chunks))
+      received.push(id);
   }, XmlSyntaxError);
   assertEquals(received, ["1", "2"]);
 });
@@ -280,7 +280,7 @@ Ende.test("parseXmlRecords() suppresses parse errors when the consumer breaks be
   // breaking signals "no further values needed".
   const chunks = [
     "<root><item><id>1</id></item>",
-    "<item attr=value/></root>",
+    "<item attr=value/></root>"
   ];
   const received: string[] = [];
   for await (const id of ids(chunks)) {
@@ -295,14 +295,15 @@ Ende.test("parseXmlRecords() discards records buffered during a failing finalize
   const received: string[] = [];
   const iter = parseXmlRecords<string>(
     ReadableStream.from([xml]),
-    (emit) => ({
+    emit => ({
       onText(text) {
         emit(text);
-      },
-    }),
+      }
+    })
   );
   await assertRejects(async () => {
-    for await (const r of iter) received.push(r);
+    for await (const r of iter)
+      received.push(r);
   }, XmlSyntaxError);
   // Pending text "hello" is flushed via onText inside finalize, but the
   // unclosed-root error means the buffer is never drained.
@@ -310,11 +311,10 @@ Ende.test("parseXmlRecords() discards records buffered during a failing finalize
 });
 
 Ende.test("parseXmlRecords() rejects with the user error when a callback throws", async () => {
-  const xml =
-    "<root><item><id>1</id></item><item><id>2</id></item><item><id>3</id></item></root>";
+  const xml = "<root><item><id>1</id></item><item><id>2</id></item><item><id>3</id></item></root>";
   const iter = parseXmlRecords<string>(
     ReadableStream.from([xml]),
-    (emit) => {
+    emit => {
       let inside = false;
       let text = "";
       let count = 0;
@@ -326,28 +326,31 @@ Ende.test("parseXmlRecords() rejects with the user error when a callback throws"
           }
         },
         onText(t) {
-          if (inside) text += t;
+          if (inside)
+            text += t;
         },
         onEndElement(name) {
           if (name === "id") {
             count++;
-            if (count === 3) throw new Error("boom");
+            if (count === 3)
+              throw new Error("boom");
             emit(text);
             inside = false;
           }
-        },
+        }
       };
     },
-    { ignoreWhitespace: true },
+    { ignoreWhitespace: true }
   );
 
   const received: string[] = [];
   await assertRejects(
     async () => {
-      for await (const id of iter) received.push(id);
+      for await (const id of iter)
+        received.push(id);
     },
     Error,
-    "boom",
+    "boom"
   );
   // Records 1, 2 were buffered in the same chunk as the throw on item 3;
   // fail-fast contract drops them along with the throw.
@@ -362,7 +365,7 @@ function ids(xml: string | string[]): AsyncGenerator<string> {
   const chunks = Array.isArray(xml) ? xml : [xml];
   return parseXmlRecords<string>(
     ReadableStream.from(chunks),
-    (emit) => {
+    emit => {
       let inside = false;
       let text = "";
       return {
@@ -373,29 +376,28 @@ function ids(xml: string | string[]): AsyncGenerator<string> {
           }
         },
         onText(t) {
-          if (inside) text += t;
+          if (inside)
+            text += t;
         },
         onEndElement(name) {
           if (name === "id") {
             emit(text);
             inside = false;
           }
-        },
+        }
       };
     },
-    { ignoreWhitespace: true },
+    { ignoreWhitespace: true }
   );
 }
 
 Ende.test("parseXmlRecords() yields records as the document is parsed (per-record backpressure)", async () => {
   const n = 20;
-  const xml = `<root>${
-    Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")
-  }</root>`;
+  const xml = `<root>${Array.from({ length: n }, (_, i) => `<item><id>${i}</id></item>`).join("")}</root>`;
   const received: string[] = [];
 
   for await (const id of ids(xml)) {
-    await new Promise<void>((r) => setTimeout(r, 0));
+    await new Promise<void>(r => setTimeout(r, 0));
     received.push(id);
   }
 
@@ -405,7 +407,7 @@ Ende.test("parseXmlRecords() yields records as the document is parsed (per-recor
 Ende.test("parseXmlRecords() stops parsing further chunks when the consumer breaks", async () => {
   const items = Array.from(
     { length: 10 },
-    (_, i) => `<item><id>${i}</id></item>`,
+    (_, i) => `<item><id>${i}</id></item>`
   );
   const chunks = ["<root>", ...items, "</root>"];
   const totalChunks = chunks.length;
@@ -414,14 +416,16 @@ Ende.test("parseXmlRecords() stops parsing further chunks when the consumer brea
     pull(controller) {
       pullCount++;
       const next = chunks.shift();
-      if (next === undefined) controller.close();
-      else controller.enqueue(next);
-    },
+      if (next === undefined)
+        controller.close();
+      else
+        controller.enqueue(next);
+    }
   });
 
   const iter = parseXmlRecords<string>(
     source,
-    (emit) => {
+    emit => {
       let inside = false;
       let text = "";
       return {
@@ -432,40 +436,42 @@ Ende.test("parseXmlRecords() stops parsing further chunks when the consumer brea
           }
         },
         onText(t) {
-          if (inside) text += t;
+          if (inside)
+            text += t;
         },
         onEndElement(name) {
           if (name === "id") {
             emit(text);
             inside = false;
           }
-        },
+        }
       };
     },
-    { ignoreWhitespace: true },
+    { ignoreWhitespace: true }
   );
 
   const received: string[] = [];
   for await (const id of iter) {
     received.push(id);
-    if (received.length === 2) break;
+    if (received.length === 2)
+      break;
   }
 
   assertEquals(received, ["0", "1"]);
   assert(
     pullCount < totalChunks,
-    `expected early break to bound upstream pulls, got ${pullCount}/${totalChunks}`,
+    `expected early break to bound upstream pulls, got ${pullCount}/${totalChunks}`
   );
 });
 
 Ende.test("parseXmlRecordsFromBytes() decodes byte chunks and yields records", async () => {
   const xml = new TextEncoder().encode(
-    "<feed><item>First</item><item>Second</item></feed>",
+    "<feed><item>First</item><item>Second</item></feed>"
   );
   const titles = await collect(
     parseXmlRecordsFromBytes<string>(
       ReadableStream.from([xml]),
-      (emit) => {
+      emit => {
         let inside = false;
         let text = "";
         return {
@@ -476,17 +482,18 @@ Ende.test("parseXmlRecordsFromBytes() decodes byte chunks and yields records", a
             }
           },
           onText(t) {
-            if (inside) text += t;
+            if (inside)
+              text += t;
           },
           onEndElement(name) {
             if (name === "item") {
               emit(text);
               inside = false;
             }
-          },
+          }
         };
-      },
-    ),
+      }
+    )
   );
   assertEquals(titles, ["First", "Second"]);
 });
@@ -501,7 +508,7 @@ Ende.test("parseXmlRecordsFromBytes() handles multi-byte UTF-8 split across chun
   const out = await collect(
     parseXmlRecordsFromBytes<string>(
       ReadableStream.from(chunks),
-      (emit) => {
+      emit => {
         let inside = false;
         let text = "";
         return {
@@ -512,17 +519,18 @@ Ende.test("parseXmlRecordsFromBytes() handles multi-byte UTF-8 split across chun
             }
           },
           onText(t) {
-            if (inside) text += t;
+            if (inside)
+              text += t;
           },
           onEndElement(name) {
             if (name === "item") {
               emit(text);
               inside = false;
             }
-          },
+          }
         };
-      },
-    ),
+      }
+    )
   );
   assertEquals(out, ["café"]);
 });

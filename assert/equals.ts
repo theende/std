@@ -1,13 +1,13 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
-import { equal } from "./equal.ts";
 import { buildMessage } from "@ende/internal/build-message";
 import { diff } from "@ende/internal/diff";
 import { diffStr } from "@ende/internal/diff-str";
 import { format } from "@ende/internal/format";
 
 import { AssertionError } from "./assertion_error.ts";
+import { equal } from "./equal.ts";
 
 /**
  * Make an assertion that `actual` and `expected` are equal, deeply. If not
@@ -47,11 +47,11 @@ import { AssertionError } from "./assertion_error.ts";
 export function assertEquals<T>(
   actual: T,
   expected: T,
-  msg?: string,
+  msg?: string
 ) {
-  if (equal(actual, expected)) {
+  if (equal(actual, expected))
     return;
-  }
+
   const msgSuffix = msg ? `: ${msg}` : ".";
   let message = `Values are not equal${msgSuffix}`;
 
@@ -59,11 +59,12 @@ export function assertEquals<T>(
   const expectedString = format(expected);
   const stringDiff = (typeof actual === "string") &&
     (typeof expected === "string");
-  const diffResult = stringDiff
-    ? diffStr(actual as string, expected as string)
-    : diff(actualString.split("\n"), expectedString.split("\n"));
+  const diffResult = stringDiff ?
+    diffStr(actual as string, expected as string) :
+    diff(actualString.split("\n"), expectedString.split("\n"));
   const diffMsg = buildMessage(diffResult, { stringDiff }, arguments[3])
     .join("\n");
   message = `${message}\n${diffMsg}`;
+
   throw new AssertionError(message);
 }

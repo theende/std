@@ -63,7 +63,7 @@ export type { ParseStreamOptions, XmlEventCallbacks } from "./types.ts";
 export async function parseXmlStream(
   source: AsyncIterable<string>,
   callbacks: XmlEventCallbacks,
-  options: ParseStreamOptions = {},
+  options: ParseStreamOptions = {}
 ): Promise<void> {
   const { tokenizer, parser } = createXmlPipeline(options, callbacks);
 
@@ -104,7 +104,7 @@ export async function parseXmlStream(
 export function parseXmlStreamFromBytes(
   source: AsyncIterable<Uint8Array>,
   callbacks: XmlEventCallbacks,
-  options: ParseStreamOptions = {},
+  options: ParseStreamOptions = {}
 ): Promise<void> {
   return parseXmlStream(decodeAsyncIterable(source), callbacks, options);
 }

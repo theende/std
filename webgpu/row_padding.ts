@@ -47,7 +47,7 @@ export function getRowPadding(width: number): Padding {
 
   return {
     unpadded: unpaddedBytesPerRow,
-    padded: paddedBytesPerRow,
+    padded: paddedBytesPerRow
   };
 }
 
@@ -75,7 +75,7 @@ export function getRowPadding(width: number): Padding {
 export function resliceBufferWithPadding(
   buffer: Uint8Array,
   width: number,
-  height: number,
+  height: number
 ): Uint8Array {
   const { padded, unpadded } = getRowPadding(width);
   const outputBuffer = new Uint8Array(unpadded * height);

@@ -23,6 +23,6 @@ export const nil: Type<"scalar", null> = {
   represent: {
     lowercase: (): string => "null",
     uppercase: (): string => "NULL",
-    camelcase: (): string => "Null",
-  },
+    camelcase: (): string => "Null"
+  }
 };

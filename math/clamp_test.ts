@@ -3,7 +3,7 @@
 import { clamp } from "./clamp.ts";
 import { assert, assertEquals, assertThrows } from "@ende/assert";
 
-Ende.test("clamp()", async (t) => {
+Ende.test("clamp()", async t => {
   await t.step("basic functionality", () => {
     assertEquals(clamp(5, 1, 10), 5);
     assertEquals(clamp(-5, 1, 10), 1);
@@ -41,7 +41,7 @@ Ende.test("clamp()", async (t) => {
     assertThrows(
       () => clamp(5, 10, 1),
       RangeError,
-      "`min` must be less than or equal to `max`",
+      "`min` must be less than or equal to `max`"
     );
   });
 });

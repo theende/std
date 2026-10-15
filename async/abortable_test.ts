@@ -19,7 +19,7 @@ Ende.test("abortable() handles promise with aborted signal after delay", async (
   setTimeout(() => c.abort(), 50);
   const error = await assertRejects(
     () => abortable(promise, c.signal),
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
   clearTimeout(t);
@@ -33,7 +33,7 @@ Ende.test("abortable() handles promise with aborted signal after delay with reas
   await assertRejects(
     () => abortable(promise, c.signal),
     Error,
-    "This is my reason",
+    "This is my reason"
   );
   clearTimeout(t);
 });
@@ -47,7 +47,7 @@ Ende.test("abortable() handles promise with already aborted signal", async () =>
     async () => {
       await abortable(promise, c.signal);
     },
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
   clearTimeout(t);
@@ -61,7 +61,7 @@ Ende.test("abortable() handles promise with already aborted signal with reason",
   await assertRejects(
     () => abortable(promise, c.signal),
     Error,
-    "This is my reason",
+    "This is my reason"
   );
   clearTimeout(t);
 });
@@ -70,7 +70,7 @@ Ende.test("abortable.AsyncIterable()", async () => {
   const c = new AbortController();
   const { promise, resolve } = Promise.withResolvers<string>();
   const t = setTimeout(() => resolve("Hello"), 100);
-  const a = async function* () {
+  const a = async function*() {
     yield "Hello";
     await promise;
     yield "World";
@@ -84,7 +84,7 @@ Ende.test("abortable.AsyncIterable() handles aborted signal after delay", async 
   const c = new AbortController();
   const { promise, resolve } = Promise.withResolvers<string>();
   const t = setTimeout(() => resolve("Hello"), 100);
-  const a = async function* () {
+  const a = async function*() {
     yield "Hello";
     await promise;
     yield "World";
@@ -97,7 +97,7 @@ Ende.test("abortable.AsyncIterable() handles aborted signal after delay", async 
         items.push(item);
       }
     },
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
   assertEquals(items, ["Hello"]);
@@ -108,7 +108,7 @@ Ende.test("abortable.AsyncIterable() handles already aborted signal", async () =
   const c = new AbortController();
   const { promise, resolve } = Promise.withResolvers<string>();
   const t = setTimeout(() => resolve("Hello"), 100);
-  const a = async function* () {
+  const a = async function*() {
     yield "Hello";
     await promise;
     yield "World";
@@ -121,7 +121,7 @@ Ende.test("abortable.AsyncIterable() handles already aborted signal", async () =
         items.push(item);
       }
     },
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
   assertEquals(items, []);
@@ -135,17 +135,17 @@ Ende.test("abortable.AsyncIterable() calls return before throwing", async () => 
   const iterable: AsyncIterable<string> = {
     [Symbol.asyncIterator]: () => ({
       next: () =>
-        new Promise((resolve) => {
+        new Promise(resolve => {
           timeoutId = setTimeout(
             () => resolve({ value: "Hello", done: false }),
-            1,
+            1
           );
         }),
       return: () => {
         returnCalled = true;
         return Promise.resolve({ value: undefined, done: true });
-      },
-    }),
+      }
+    })
   };
   setTimeout(() => c.abort(), 1);
   const items: string[] = [];
@@ -155,7 +155,7 @@ Ende.test("abortable.AsyncIterable() calls return before throwing", async () => 
         items.push(item);
       }
     },
-    DOMException,
+    DOMException
   );
   assertEquals(returnCalled, true);
   assertEquals(error.name, "AbortError");
@@ -194,11 +194,11 @@ Ende.test("abortable.AsyncIterable() behaves just like original when return is c
 
   assertEquals(
     await abortableIterator.next(123),
-    await normalIterator.next(123),
+    await normalIterator.next(123)
   );
   assertEquals(
     await abortableIterator.return(321),
-    await normalIterator.return(321),
+    await normalIterator.return(321)
   );
   assertEquals(await abortableIterator.next(), await normalIterator.next());
 });
@@ -225,6 +225,6 @@ Ende.test("abortable() does not throw when the signal is already aborted and the
   const signal = AbortSignal.abort();
   await assertRejects(
     () => abortable(promise, signal),
-    DOMException,
+    DOMException
   );
 });

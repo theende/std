@@ -54,13 +54,13 @@ export interface ETagOptions {
 
 function isFileInfo(value: unknown): value is FileInfo {
   return Boolean(
-    value && typeof value === "object" && "mtime" in value && "size" in value,
+    value && typeof value === "object" && "mtime" in value && "size" in value
   );
 }
 
 async function calcEntity(
   entity: string | ReturnType<TextEncoder["encode"]>,
-  { algorithm = DEFAULT_ALGORITHM }: ETagOptions,
+  { algorithm = DEFAULT_ALGORITHM }: ETagOptions
 ) {
   // a short circuit for zero length entities
   if (entity.length === 0) {
@@ -79,15 +79,16 @@ async function calcEntity(
 
 async function calcFileInfo(
   fileInfo: FileInfo,
-  { algorithm = DEFAULT_ALGORITHM }: ETagOptions,
+  { algorithm = DEFAULT_ALGORITHM }: ETagOptions
 ) {
   if (fileInfo.mtime) {
     const hash = base64Encode(
       await crypto.subtle.digest(
         algorithm,
-        encoder.encode(fileInfo.mtime.toJSON()),
-      ),
-    ).substring(0, 27);
+        encoder.encode(fileInfo.mtime.toJSON())
+      )
+    )
+      .substring(0, 27);
     return `${fileInfo.size.toString(16)}-${hash}`;
   }
 }
@@ -118,7 +119,7 @@ async function calcFileInfo(
  */
 export async function eTag(
   entity: string | ReturnType<TextEncoder["encode"]>,
-  options?: ETagOptions,
+  options?: ETagOptions
 ): Promise<string>;
 /**
  * Calculate an ETag for file information entity. This returns a
@@ -147,17 +148,16 @@ export async function eTag(
  */
 export async function eTag(
   entity: FileInfo,
-  options?: ETagOptions,
+  options?: ETagOptions
 ): Promise<string | undefined>;
 export async function eTag(
   entity: string | ReturnType<TextEncoder["encode"]> | FileInfo,
-  options: ETagOptions = {},
+  options: ETagOptions = {}
 ): Promise<string | undefined> {
   const weak = options.weak ?? isFileInfo(entity);
-  const tag =
-    await (isFileInfo(entity)
-      ? calcFileInfo(entity, options)
-      : calcEntity(entity, options));
+  const tag = await (isFileInfo(entity) ?
+    calcFileInfo(entity, options) :
+    calcEntity(entity, options));
 
   if (!tag) {
     return undefined;
@@ -204,7 +204,7 @@ const COMMA_REGEXP = /\s*,\s*/;
  */
 export function ifMatch(
   value: string | null,
-  etag: string | undefined,
+  etag: string | undefined
 ): boolean {
   // Weak tags cannot be matched and return false.
   if (!value || !etag || etag.startsWith("W/")) {
@@ -252,7 +252,7 @@ export function ifMatch(
  */
 export function ifNoneMatch(
   value: string | null,
-  etag: string | undefined,
+  etag: string | undefined
 ): boolean {
   if (!value || !etag) {
     return true;
@@ -261,8 +261,6 @@ export function ifNoneMatch(
     return false;
   }
   etag = etag.startsWith("W/") ? etag.slice(2) : etag;
-  const tags = value.split(COMMA_REGEXP).map((tag) =>
-    tag.startsWith("W/") ? tag.slice(2) : tag
-  );
+  const tags = value.split(COMMA_REGEXP).map(tag => tag.startsWith("W/") ? tag.slice(2) : tag);
   return !tags.includes(etag);
 }

@@ -26,7 +26,7 @@ if (!(Ende.readTextFileSync instanceof Function)) {
   // Avoid errors that occur in deno deploy: https://github.com/denoland/std/issues/1957
   // deno-lint-ignore no-console
   console.warn(
-    `Ende.readTextFileSync is not a function: No .env data was read.`,
+    `Ende.readTextFileSync is not a function: No .env data was read.`
   );
 } else {
   loadSync({ export: true });

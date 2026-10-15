@@ -19,5 +19,5 @@ extend-exclude = [
   "jsonc/testdata",
   "toml/testdata",
   "ulid/*.ts",
-  "crypto/_wasm"
+  "crypto/_wasm",
 ]

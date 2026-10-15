@@ -28,10 +28,9 @@ function isString(value: unknown): value is string {
 export function buildEqualErrorMessage<T>(
   actual: T,
   expected: T,
-  options: EqualErrorMessageOptions = {},
+  options: EqualErrorMessageOptions = {}
 ): string {
-  const { formatter = format, msg, summary = "Values are not equal." } =
-    options;
+  const { formatter = format, msg, summary = "Values are not equal." } = options;
   const msgPrefix = msg ? `${msg}: ` : "";
   const actualString = formatter(actual);
   const expectedString = formatter(expected);
@@ -39,9 +38,9 @@ export function buildEqualErrorMessage<T>(
   let message = `${msgPrefix}${summary}`;
 
   const stringDiff = isString(actual) && isString(expected);
-  const diffResult = stringDiff
-    ? diffStr(actual, expected)
-    : diff(actualString.split("\n"), expectedString.split("\n"));
+  const diffResult = stringDiff ?
+    diffStr(actual, expected) :
+    diff(actualString.split("\n"), expectedString.split("\n"));
   const diffMsg = buildMessage(diffResult, { stringDiff }).join("\n");
   message = `${message}\n${diffMsg}`;
 
@@ -51,7 +50,7 @@ export function buildEqualErrorMessage<T>(
 export function buildNotEqualErrorMessage<T>(
   actual: T,
   expected: T,
-  options: EqualErrorMessageOptions = {},
+  options: EqualErrorMessageOptions = {}
 ): string {
   const { formatter = format, msg } = options;
   const actualString = formatter(actual);

@@ -1,10 +1,10 @@
 {
-  "name": "@ende/math",
-  "version": "0.0.0",
   "exports": {
     ".": "./mod.ts",
     "./clamp": "./clamp.ts",
     "./modulo": "./modulo.ts",
     "./round-to": "./round_to.ts"
-  }
+  },
+  "name": "@ende/math",
+  "version": "2026.10.15"
 }

@@ -217,7 +217,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
         const buffer = new Uint8Array(
           controller.byobRequest!.view!.buffer as ArrayBuffer,
           offset,
-          length,
+          length
         );
 
         try {
@@ -243,7 +243,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
         } catch (e) {
           controller.error(e);
         }
-      },
+      }
     }) as unknown as ReadableStream<Uint8Array_>;
   }
 
@@ -253,14 +253,14 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
 
   #parseHeaderInto(
     input: TarStreamInput,
-    buffer: Uint8Array_,
+    buffer: Uint8Array_
   ): void {
     input.options ??= {};
-    input.options.mode ??= input.type === "file"
-      ? 0o644
-      : input.type === "symlink"
-      ? 0o777
-      : 0o755;
+    input.options.mode ??= input.type === "file" ?
+      0o644 :
+      input.type === "symlink" ?
+      0o777 :
+      0o755;
     input.options.uid ??= 0o0;
     input.options.gid ??= 0o0;
     input.options.mtime ??= Math.floor(Date.now() / 1000);
@@ -274,7 +274,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
       (input.size < 0 || 8 ** 12 < input.size || Number.isNaN(input.size))
     ) {
       throw new RangeError(
-        "Cannot add to the tar archive: The size cannot exceed 64 Gibs",
+        "Cannot add to the tar archive: The size cannot exceed 64 Gibs"
       );
     }
 
@@ -302,16 +302,16 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
     // checksum (8)
     buffer.fill(32, 148, 156);
     // typeflag (1)
-    buffer[156] = input.type === "file"
-      ? 48
-      : input.type === "symlink"
-      ? 50
-      : 53;
+    buffer[156] = input.type === "file" ?
+      48 :
+      input.type === "symlink" ?
+      50 :
+      53;
     // linkname (100)
     buffer.fill(0, 157, 257);
     if (input.type === "symlink") {
       checkLinkname(
-        this.#encoder.encodeInto(input.linkname, buffer.subarray(157)).written,
+        this.#encoder.encodeInto(input.linkname, buffer.subarray(157)).written
       );
     }
     // magic (6)
@@ -324,29 +324,33 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
     // version (2)
     buffer.fill(48, 263, 265);
     // uname (32)
-    this.#encoder
+    this
+      .#encoder
       .encodeInto(input.options.uname, buffer.subarray(265, 297).fill(0));
     // gname (32)
-    this.#encoder
+    this
+      .#encoder
       .encodeInto(input.options.gname, buffer.subarray(297, 329).fill(0));
     // devmajor (8)
-    this.#encoder
+    this
+      .#encoder
       .encodeInto(input.options.devmajor, buffer.subarray(329, 337).fill(0));
     // devminor (8)
-    this.#encoder
+    this
+      .#encoder
       .encodeInto(input.options.devminor, buffer.subarray(337, 345).fill(0));
     // pad (12)
     buffer.fill(0, 500, 512);
     // Update checksum
     parseOctalInto(
       buffer.subarray(0, 512).reduce((x, y) => x + y),
-      buffer.subarray(148, 154),
+      buffer.subarray(148, 154)
     );
     buffer[154] = 0;
   }
 
   async *#tar(
-    readable: ReadableStream<TarStreamInput>,
+    readable: ReadableStream<TarStreamInput>
   ): AsyncGenerator<
     Uint8Array_,
     undefined,
@@ -354,12 +358,15 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
   > {
     let buffer = yield new Uint8Array(0); // Prime the generator
     for await (const input of readable) {
-      if (buffer.length < 512) buffer = new Uint8Array(512);
+      if (buffer.length < 512)
+        buffer = new Uint8Array(512);
       this.#parseHeaderInto(input, buffer);
       buffer = yield buffer.subarray(0, 512);
 
-      if (input.type === "directory") continue;
-      if (input.type === "symlink") continue;
+      if (input.type === "directory")
+        continue;
+      if (input.type === "symlink")
+        continue;
 
       let size = 0;
       const reader = toByteStream(input.readable).getReader({ mode: "byob" });
@@ -373,9 +380,9 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
         size += value!.length;
         if (done) {
           // value.length might not be zero when done is true
-          buffer = value!.length
-            ? yield value!
-            : new Uint8Array(value!.buffer, offset, length);
+          buffer = value!.length ?
+            yield value! :
+            new Uint8Array(value!.buffer, offset, length);
           break;
         }
         buffer = yield value;
@@ -384,7 +391,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
 
       if (input.size !== size) {
         throw new RangeError(
-          `Cannot add to the tar archive: The provided size (${input.size}) did not match bytes read from provided readable (${size})`,
+          `Cannot add to the tar archive: The provided size (${input.size}) did not match bytes read from provided readable (${size})`
         );
       }
       if (size % 512) {
@@ -526,7 +533,7 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
       octalLength(options.mode) > 6)
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid Mode provided",
+      "Cannot add to the tar archive: Invalid Mode provided"
     );
   }
   if (
@@ -536,7 +543,7 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
       octalLength(options.uid) > 6)
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid UID provided",
+      "Cannot add to the tar archive: Invalid UID provided"
     );
   }
   if (
@@ -554,7 +561,7 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
       octalLength(options.mtime) > 11)
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid MTime provided",
+      "Cannot add to the tar archive: Invalid MTime provided"
     );
   }
   if (
@@ -563,7 +570,7 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
     (options.uname.length > 32 - 1 || !/^[\x00-\x7F]*$/.test(options.uname))
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid UName provided",
+      "Cannot add to the tar archive: Invalid UName provided"
     );
   }
   if (
@@ -572,7 +579,7 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
     (options.gname.length > 32 - 1 || !/^[\x00-\x7F]*$/.test(options.gname))
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid GName provided",
+      "Cannot add to the tar archive: Invalid GName provided"
     );
   }
   if (
@@ -580,7 +587,7 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
     (options.devmajor.length > 8)
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid DevMajor provided",
+      "Cannot add to the tar archive: Invalid DevMajor provided"
     );
   }
   if (
@@ -588,16 +595,17 @@ export function assertValidTarStreamOptions(options: TarStreamOptions): void {
     (options.devminor.length > 8)
   ) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid DevMinor provided",
+      "Cannot add to the tar archive: Invalid DevMinor provided"
     );
   }
 }
 
 function parsePath(size: number, buffer: Uint8Array_): void {
-  if (size <= 100) return;
+  if (size <= 100)
+    return;
   if (size > 256) {
     throw new RangeError(
-      `Cannot parse the path as the path length cannot exceed 256 bytes: The path length is ${size}`,
+      `Cannot parse the path as the path length cannot exceed 256 bytes: The path length is ${size}`
     );
   }
 
@@ -605,21 +613,20 @@ function parsePath(size: number, buffer: Uint8Array_): void {
   let slashPos = Math.max(0, sub.lastIndexOf(SLASH_CODE_POINT));
   if (size - slashPos > 100) {
     throw new RangeError(
-      `Cannot parse the path as the file cannot exceed 100 bytes: The filename length is ${
-        size - slashPos
-      }`,
+      `Cannot parse the path as the file cannot exceed 100 bytes: The filename length is ${size - slashPos}`
     );
   }
 
   for (let pos = slashPos; pos > 0; slashPos = pos) {
     pos = sub.lastIndexOf(SLASH_CODE_POINT, slashPos - 1);
-    if (size - pos > 100) break;
+    if (size - pos > 100)
+      break;
   }
 
   const prefix = sub.subarray(0, slashPos);
   if (prefix.length > 155) {
     throw new TypeError(
-      "Cannot parse the path as the path needs to be split-able on a forward slash separator into [155, 100] bytes respectively",
+      "Cannot parse the path as the path needs to be split-able on a forward slash separator into [155, 100] bytes respectively"
     );
   }
   buffer.set(prefix, 345);
@@ -710,12 +717,12 @@ export function assertValidLinkname(linkname: string): void {
 function checkLinkname(bytes: number): void {
   if (bytes === 0) {
     throw new TypeError(
-      "Cannot add to the tar archive: Invalid Linkname provided",
+      "Cannot add to the tar archive: Invalid Linkname provided"
     );
   }
   if (bytes > 100) {
     throw new TypeError(
-      `Cannot add to the tar archive: Linkname cannot exceed 100 bytes: The linkname length is ${bytes}`,
+      `Cannot add to the tar archive: Linkname cannot exceed 100 bytes: The linkname length is ${bytes}`
     );
   }
 }

@@ -5,7 +5,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { create, createSync } from "./unstable_create.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
@@ -13,7 +13,7 @@ import { makeTempFile, makeTempFileSync } from "./unstable_make_temp_file.ts";
 import { stat, statSync } from "./unstable_stat.ts";
 import {
   writeTextFile,
-  writeTextFileSync,
+  writeTextFileSync
 } from "./unstable_write_text_file.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
 import { join } from "@ende/path";

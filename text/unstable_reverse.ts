@@ -66,7 +66,7 @@ export type ReverseOptions = {
  */
 export function reverse(
   input: string,
-  options?: Partial<ReverseOptions>,
+  options?: Partial<ReverseOptions>
 ): string {
   if (options?.handleUnicode !== false) {
     // Step 1: deal with combining marks and astral symbols (surrogate pairs)

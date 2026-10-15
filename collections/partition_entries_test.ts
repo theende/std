@@ -7,7 +7,7 @@ import { partitionEntries } from "./partition_entries.ts";
 function partitionEntriesTest<T>(
   input: [Record<string, T>, (entry: [string, T]) => boolean],
   expected: [match: Record<string, T>, rest: Record<string, T>],
-  message?: string,
+  message?: string
 ) {
   const actual = partitionEntries(...input);
   assertEquals(actual, expected, message);
@@ -20,7 +20,7 @@ Ende.test({
     partitionEntries(object, ([key]) => key !== "a");
 
     assertEquals(object, { a: 5, b: true });
-  },
+  }
 });
 
 Ende.test({
@@ -28,9 +28,9 @@ Ende.test({
   fn() {
     partitionEntriesTest(
       [{}, () => true],
-      [{}, {}],
+      [{}, {}]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
         {
           foo: true,
           bar: "lorem",
-          1: -5,
+          1: -5
         },
-        () => true,
+        () => true
       ],
       [{
         foo: true,
         bar: "lorem",
-        1: -5,
-      }, {}],
+        1: -5
+      }, {}]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -60,11 +60,11 @@ Ende.test({
     partitionEntriesTest(
       [
         { test: "foo", "": [] },
-        () => false,
+        () => false
       ],
-      [{}, { test: "foo", "": [] }],
+      [{}, { test: "foo", "": [] }]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -73,48 +73,48 @@ Ende.test({
     partitionEntriesTest(
       [
         {
-          "Anna": 22,
-          "Kim": 24,
-          "Karen": 33,
-          "Claudio": 11,
-          "Karl": 45,
+          Anna: 22,
+          Kim: 24,
+          Karen: 33,
+          Claudio: 11,
+          Karl: 45
         },
-        ([name, age]) => name.startsWith("K") && age > 30,
+        ([name, age]) => name.startsWith("K") && age > 30
       ],
       [
         {
-          "Karen": 33,
-          "Karl": 45,
+          Karen: 33,
+          Karl: 45
         },
         {
-          "Anna": 22,
-          "Kim": 24,
-          "Claudio": 11,
-        },
-      ],
+          Anna: 22,
+          Kim: 24,
+          Claudio: 11
+        }
+      ]
     );
     partitionEntriesTest(
       [
         {
-          "A": true,
-          "b": "foo",
-          "C": 5,
-          "d": -2,
-          "": false,
+          A: true,
+          b: "foo",
+          C: 5,
+          d: -2,
+          "": false
         },
-        ([key]) => key.toUpperCase() === key,
+        ([key]) => key.toUpperCase() === key
       ],
       [
         {
-          "A": true,
-          "C": 5,
-          "": false,
+          A: true,
+          C: 5,
+          "": false
         },
         {
-          "b": "foo",
-          "d": -2,
-        },
-      ],
+          b: "foo",
+          d: -2
+        }
+      ]
     );
-  },
+  }
 });

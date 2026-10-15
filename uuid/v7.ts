@@ -25,8 +25,7 @@
 
 import { bytesToUuid } from "./_common.ts";
 
-const UUID_REGEXP =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[7][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_REGEXP = /^[0-9a-f]{8}-[0-9a-f]{4}-[7][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 /**
  * Determines whether a string is a valid
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.7 | UUIDv7}.
@@ -77,7 +76,7 @@ export function generate(timestamp: number = Date.now()): string {
     !Number.isInteger(timestamp) || timestamp < 0 || timestamp > 2 ** 48 - 1
   ) {
     throw new RangeError(
-      `Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp ${timestamp}`,
+      `Cannot generate UUID as timestamp must be an integer between 0 and 2**48 - 1: timestamp ${timestamp}`
     );
   }
   const bytes = new Uint8Array(16);
@@ -113,7 +112,7 @@ export function generate(timestamp: number = Date.now()): string {
 export function extractTimestamp(uuid: string): number {
   if (!validate(uuid)) {
     throw new TypeError(
-      `Cannot extract timestamp because the UUID is not a valid UUIDv7: uuid is "${uuid}"`,
+      `Cannot extract timestamp because the UUID is not a valid UUIDv7: uuid is "${uuid}"`
     );
   }
   const timestampHex = uuid.slice(0, 8) + uuid.slice(9, 13);

@@ -8,7 +8,7 @@
  */
 export type RequestHandler = (
   request: Request,
-  info?: Ende.ServeHandlerInfo,
+  info?: Ende.ServeHandlerInfo
 ) => Response | Promise<Response>;
 
 /**
@@ -25,7 +25,7 @@ export type RequestHandler = (
 export type Handler = (
   request: Request,
   params: URLPatternResult,
-  info?: Ende.ServeHandlerInfo,
+  info?: Ende.ServeHandlerInfo
 ) => Response | Promise<Response>;
 
 /**
@@ -53,11 +53,12 @@ export interface Route {
 
 function methodMatches(
   routeMethod: string | string[] | undefined,
-  requestMethod: string,
+  requestMethod: string
 ): boolean {
-  if (!routeMethod) return true;
+  if (!routeMethod)
+    return true;
   if (Array.isArray(routeMethod)) {
-    return routeMethod.some((m) => m.toUpperCase() === requestMethod);
+    return routeMethod.some(m => m.toUpperCase() === requestMethod);
   }
   return routeMethod.toUpperCase() === requestMethod;
 }
@@ -99,14 +100,16 @@ function methodMatches(
  */
 export function routeLinear(
   routes: Route[],
-  defaultHandler: RequestHandler,
+  defaultHandler: RequestHandler
 ): RequestHandler {
   // TODO(iuioiua): Use `URLPatternList` once available (https://github.com/whatwg/urlpattern/pull/166)
   return (request: Request, info?: Ende.ServeHandlerInfo) => {
     for (const route of routes) {
-      if (!methodMatches(route.method, request.method)) continue;
+      if (!methodMatches(route.method, request.method))
+        continue;
       const match = route.pattern.exec(request.url);
-      if (match) return route.handler(request, match, info);
+      if (match)
+        return route.handler(request, match, info);
     }
     return defaultHandler(request, info);
   };
@@ -163,12 +166,15 @@ function parsePathname(url: string): string {
   const schemeEnd = url.indexOf("://");
   const authorityStart = schemeEnd === -1 ? 0 : schemeEnd + 3;
   const pathStart = url.indexOf("/", authorityStart);
-  if (pathStart === -1) return "/";
+  if (pathStart === -1)
+    return "/";
   const qmark = url.indexOf("?", pathStart);
   const hash = url.indexOf("#", pathStart);
   let end = url.length;
-  if (qmark !== -1) end = qmark;
-  if (hash !== -1 && hash < end) end = hash;
+  if (qmark !== -1)
+    end = qmark;
+  if (hash !== -1 && hash < end)
+    end = hash;
   return url.slice(pathStart, end);
 }
 
@@ -196,10 +202,14 @@ function parsePathname(url: string): string {
  * clause. This is intentional — the two checks subsume each other for `*`.
  */
 function isComplexSegment(segment: string): boolean {
-  if (segment.includes("{") || segment.includes("(")) return true;
-  if (segment.includes("*") && segment !== "*") return true;
-  if (segment.endsWith("?") || segment.endsWith("+")) return true;
-  if (segment.includes("\\")) return true;
+  if (segment.includes("{") || segment.includes("("))
+    return true;
+  if (segment.includes("*") && segment !== "*")
+    return true;
+  if (segment.endsWith("?") || segment.endsWith("+"))
+    return true;
+  if (segment.includes("\\"))
+    return true;
   return false;
 }
 
@@ -210,7 +220,7 @@ function createNode(): RouteNode {
     paramChild: null,
     wildcardChild: null,
     routes: [],
-    minIndex: Number.POSITIVE_INFINITY,
+    minIndex: Number.POSITIVE_INFINITY
   };
 }
 
@@ -276,7 +286,7 @@ function createNode(): RouteNode {
  */
 export function routeRadix(
   routes: Route[],
-  defaultHandler: RequestHandler,
+  defaultHandler: RequestHandler
 ): RequestHandler {
   const root = createNode();
   const fallbackRoutes: IndexedRoute[] = [];
@@ -298,16 +308,20 @@ export function routeRadix(
     // the way so each ancestor remembers the lowest insertion index that
     // can be reached through it. This is what enables pruning at dispatch.
     let node = root;
-    if (indexed.index < node.minIndex) node.minIndex = indexed.index;
+    if (indexed.index < node.minIndex)
+      node.minIndex = indexed.index;
 
     for (const segment of segments) {
       if (segment === "*") {
-        if (!node.wildcardChild) node.wildcardChild = createNode();
+        if (!node.wildcardChild)
+          node.wildcardChild = createNode();
         node = node.wildcardChild;
-        if (indexed.index < node.minIndex) node.minIndex = indexed.index;
+        if (indexed.index < node.minIndex)
+          node.minIndex = indexed.index;
         break; // Wildcards terminate the path
       } else if (segment.startsWith(":")) {
-        if (!node.paramChild) node.paramChild = createNode();
+        if (!node.paramChild)
+          node.paramChild = createNode();
         node = node.paramChild;
       } else {
         if (!(segment in node.staticChildren)) {
@@ -316,14 +330,16 @@ export function routeRadix(
         }
         node = node.staticChildren[segment]!;
       }
-      if (indexed.index < node.minIndex) node.minIndex = indexed.index;
+      if (indexed.index < node.minIndex)
+        node.minIndex = indexed.index;
     }
 
     node.routes.push(indexed);
   }
 
   // Build the tree
-  for (const r of routes) insert(r);
+  for (const r of routes)
+    insert(r);
 
   const isEmptyTree = fallbackRoutes.length === routes.length;
 
@@ -348,10 +364,13 @@ export function routeRadix(
    * route matches and has a lower insertion index than the current best.
    */
   function tryRoute(state: MatchState, r: IndexedRoute): void {
-    if (r.index >= state.bestIndex) return;
-    if (!methodMatches(r.route.method, state.request.method)) return;
+    if (r.index >= state.bestIndex)
+      return;
+    if (!methodMatches(r.route.method, state.request.method))
+      return;
     const params = r.route.pattern.exec(state.request.url);
-    if (!params) return;
+    if (!params)
+      return;
     state.bestRoute = r.route;
     state.bestIndex = r.index;
     state.bestParams = params;
@@ -368,7 +387,8 @@ export function routeRadix(
   function walk(node: RouteNode, state: MatchState, from: number): void {
     // Subtree pruning: if everything reachable here has a higher index than
     // the current best, skip the whole branch.
-    if (node.minIndex >= state.bestIndex) return;
+    if (node.minIndex >= state.bestIndex)
+      return;
 
     const pathname = state.pathname;
     const len = pathname.length;
@@ -382,17 +402,20 @@ export function routeRadix(
     if (start >= len) {
       // End of pathname — try every route registered at this node, plus
       // any wildcard child's routes (matches an empty trailing segment).
-      for (const r of node.routes) tryRoute(state, r);
+      for (const r of node.routes)
+        tryRoute(state, r);
       const wc = node.wildcardChild;
       if (wc !== null && wc.minIndex < state.bestIndex) {
-        for (const r of wc.routes) tryRoute(state, r);
+        for (const r of wc.routes)
+          tryRoute(state, r);
       }
       return;
     }
 
     // Find segment end.
     let end = start;
-    while (end < len && pathname.charCodeAt(end) !== 47 /* '/' */) end++;
+    while (end < len && pathname.charCodeAt(end) !== 47 /* '/' */)
+      end++;
 
     // Static children: only allocate the substring if this node has any.
     if (node.hasStaticChildren) {
@@ -400,19 +423,22 @@ export function routeRadix(
       const child = node.staticChildren[segment];
       if (child !== undefined) {
         walk(child, state, end);
-        if (state.bestIndex === 0) return; // can't do better
+        if (state.bestIndex === 0)
+          return; // can't do better
       }
     }
 
     if (node.paramChild) {
       walk(node.paramChild, state, end);
-      if (state.bestIndex === 0) return;
+      if (state.bestIndex === 0)
+        return;
     }
 
     const wc = node.wildcardChild;
     if (wc !== null && wc.minIndex < state.bestIndex) {
       // A wildcard child consumes the rest of the path; try its routes.
-      for (const r of wc.routes) tryRoute(state, r);
+      for (const r of wc.routes)
+        tryRoute(state, r);
     }
   }
 
@@ -428,7 +454,7 @@ export function routeRadix(
       pathname: parsePathname(request.url),
       bestRoute: null,
       bestIndex: Number.POSITIVE_INFINITY,
-      bestParams: null,
+      bestParams: null
     };
 
     // Scan fallback routes registered before any radix route first.
@@ -449,7 +475,8 @@ export function routeRadix(
     // Stop as soon as the next fallback can't improve on the current best.
     for (let i = fbCursor; i < fallbackRoutes.length; i++) {
       const fb = fallbackRoutes[i]!;
-      if (fb.index >= state.bestIndex) break;
+      if (fb.index >= state.bestIndex)
+        break;
       tryRoute(state, fb);
     }
 

@@ -11,16 +11,18 @@ import type { Uint8Array_ } from "./_types.ts";
  */
 function serializePrimitive(value: JsonPrimitive): string {
   // JSON.stringify handles null, boolean, and string correctly per RFC 8785
-  if (typeof value !== "number") return JSON.stringify(value);
+  if (typeof value !== "number")
+    return JSON.stringify(value);
 
   // RFC 8785 Section 3.2.2.3: Numbers must conform to I-JSON (RFC 7493)
   if (!Number.isFinite(value)) {
     throw new TypeError(
-      `Cannot canonicalize non-finite number: ${value} is not allowed in I-JSON`,
+      `Cannot canonicalize non-finite number: ${value} is not allowed in I-JSON`
     );
   }
   // Handle -0 as "0" (RFC 8785 Section 3.2.2.3)
-  if (Object.is(value, -0)) return "0";
+  if (Object.is(value, -0))
+    return "0";
   // ECMAScript Number-to-String for all other numbers
   return value.toString();
 }
@@ -30,7 +32,8 @@ function serializePrimitive(value: JsonPrimitive): string {
  * Undefined elements become null (standard JSON behavior).
  */
 function serializeArray(value: JsonValue[], ancestors: object[]): string {
-  if (value.length === 0) return "[]";
+  if (value.length === 0)
+    return "[]";
 
   const parts: string[] = [];
   for (const elem of value) {
@@ -45,8 +48,8 @@ function serializeArray(value: JsonValue[], ancestors: object[]): string {
  * Undefined values are skipped (standard JSON behavior, RFC 8785 Section 3.1).
  */
 function serializeObject(
-  value: { [key: string]: JsonValue | undefined },
-  ancestors: object[],
+  value: { [key: string]: JsonValue | undefined; },
+  ancestors: object[]
 ): string {
   // Default sort uses UTF-16 code unit comparison per RFC 8785
   const keys = Object.keys(value).sort();
@@ -54,9 +57,10 @@ function serializeObject(
   const parts: string[] = [];
   for (const key of keys) {
     const propValue = value[key];
-    if (propValue === undefined) continue;
+    if (propValue === undefined)
+      continue;
     parts.push(
-      JSON.stringify(key) + ":" + serializeValue(propValue, ancestors),
+      JSON.stringify(key) + ":" + serializeValue(propValue, ancestors)
     );
   }
 
@@ -70,8 +74,10 @@ function serializeObject(
  * @param ancestors Stack of ancestor objects for cycle detection
  */
 function serializeValue(value: JsonValue, ancestors: object[] = []): string {
-  if (value === null) return "null";
-  if (typeof value !== "object") return serializePrimitive(value);
+  if (value === null)
+    return "null";
+  if (typeof value !== "object")
+    return serializePrimitive(value);
 
   // Circular reference detection: check if this object is an ancestor
   if (ancestors.includes(value)) {
@@ -79,9 +85,9 @@ function serializeValue(value: JsonValue, ancestors: object[] = []): string {
   }
   ancestors.push(value);
 
-  const result = Array.isArray(value)
-    ? serializeArray(value, ancestors)
-    : serializeObject(value, ancestors);
+  const result = Array.isArray(value) ?
+    serializeArray(value, ancestors) :
+    serializeObject(value, ancestors);
 
   ancestors.pop();
   return result;

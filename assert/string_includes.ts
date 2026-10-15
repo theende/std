@@ -22,9 +22,10 @@ import { AssertionError } from "./assertion_error.ts";
 export function assertStringIncludes(
   actual: string,
   expected: string,
-  msg?: string,
+  msg?: string
 ) {
-  if (actual.includes(expected)) return;
+  if (actual.includes(expected))
+    return;
   const msgSuffix = msg ? `: ${msg}` : ".";
   msg = `Expected actual: "${actual}" to contain: "${expected}"${msgSuffix}`;
   throw new AssertionError(msg);

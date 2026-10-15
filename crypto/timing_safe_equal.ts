@@ -3,14 +3,14 @@
 // This module is browser compatible.
 
 function toUint8Array(
-  value: ArrayBufferView | ArrayBufferLike,
+  value: ArrayBufferView | ArrayBufferLike
 ): Uint8Array {
   if (value instanceof Uint8Array) {
     return value;
   }
-  return ArrayBuffer.isView(value)
-    ? new Uint8Array(value.buffer, value.byteOffset, value.byteLength)
-    : new Uint8Array(value);
+  return ArrayBuffer.isView(value) ?
+    new Uint8Array(value.buffer, value.byteOffset, value.byteLength) :
+    new Uint8Array(value);
 }
 
 /**
@@ -53,11 +53,11 @@ function toUint8Array(
  */
 export function timingSafeEqual(
   a: ArrayBufferView | ArrayBufferLike,
-  b: ArrayBufferView | ArrayBufferLike,
+  b: ArrayBufferView | ArrayBufferLike
 ): boolean {
   if (a.byteLength !== b.byteLength) {
     throw new TypeError(
-      `Cannot compare buffers of different byte lengths (${a.byteLength} vs ${b.byteLength})`,
+      `Cannot compare buffers of different byte lengths (${a.byteLength} vs ${b.byteLength})`
     );
   }
   const ua = toUint8Array(a);

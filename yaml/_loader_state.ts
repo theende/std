@@ -34,7 +34,7 @@ import {
   SINGLE_QUOTE,
   SMALLER_THAN,
   SPACE,
-  VERTICAL_LINE,
+  VERTICAL_LINE
 } from "./_chars.ts";
 
 import { DEFAULT_SCHEMA, type Schema, type TypeMap } from "./_schema.ts";
@@ -57,8 +57,7 @@ const PATTERN_NON_PRINTABLE_REGEXP =
 const PATTERN_NON_ASCII_LINE_BREAKS_REGEXP = /[\x85\u2028\u2029]/;
 const PATTERN_FLOW_INDICATORS_REGEXP = /[,\[\]\{\}]/;
 const PATTERN_TAG_HANDLE_REGEXP = /^(?:!|!!|![a-z\-]+!)$/i;
-const PATTERN_TAG_URI_REGEXP =
-  /^(?:!|[^,\[\]\{\}])(?:%[0-9a-f]{2}|[0-9a-z\-#;\/\?:@&=\+\$,_\.!~\*'\(\)\[\]])*$/i;
+const PATTERN_TAG_URI_REGEXP = /^(?:!|[^,\[\]\{\}])(?:%[0-9a-f]{2}|[0-9a-z\-#;\/\?:@&=\+\$,_\.!~\*'\(\)\[\]])*$/i;
 
 export interface LoaderStateOptions {
   /** specifies a schema to use. */
@@ -72,7 +71,7 @@ export interface LoaderStateOptions {
 const ESCAPED_HEX_LENGTHS = new Map<number, number>([
   [0x78, 2], // x
   [0x75, 4], // u
-  [0x55, 8], // U
+  [0x55, 8] // U
 ]);
 
 const SIMPLE_ESCAPE_SEQUENCES = new Map<number, string>([
@@ -87,13 +86,13 @@ const SIMPLE_ESCAPE_SEQUENCES = new Map<number, string>([
   [0x72, "\x0D"], // r
   [0x65, "\x1B"], // e
   [0x20, " "], // Space
-  [0x22, '"'], // "
+  [0x22, "\""], // "
   [0x2f, "/"], // /
   [0x5c, "\\"], // \
   [0x4e, "\x85"], // N
   [0x5f, "\xA0"], // _
   [0x4c, "\u2028"], // L
-  [0x50, "\u2029"], // P
+  [0x50, "\u2029"] // P
 ]);
 
 /**
@@ -101,13 +100,15 @@ const SIMPLE_ESCAPE_SEQUENCES = new Map<number, string>([
  */
 function hexCharCodeToNumber(charCode: number) {
   // Check if the character code is in the range for '0' to '9'
-  if (0x30 <= charCode && charCode <= 0x39) return charCode - 0x30; // Convert '0'-'9' to 0-9
+  if (0x30 <= charCode && charCode <= 0x39)
+    return charCode - 0x30; // Convert '0'-'9' to 0-9
 
   // Normalize the character code to lowercase if it's a letter
   const lc = charCode | 0x20;
 
   // Check if the character code is in the range for 'a' to 'f'
-  if (0x61 <= lc && lc <= 0x66) return lc - 0x61 + 10; // Convert 'a'-'f' to 10-15
+  if (0x61 <= lc && lc <= 0x66)
+    return lc - 0x61 + 10; // Convert 'a'-'f' to 10-15
 
   return -1;
 }
@@ -117,7 +118,8 @@ function hexCharCodeToNumber(charCode: number) {
  */
 function decimalCharCodeToNumber(charCode: number): number {
   // Check if the character code is in the range for '0' to '9'
-  if (0x30 <= charCode && charCode <= 0x39) return charCode - 0x30; // Convert '0'-'9' to 0-9
+  if (0x30 <= charCode && charCode <= 0x39)
+    return charCode - 0x30; // Convert '0'-'9' to 0-9
   return -1;
 }
 
@@ -126,13 +128,14 @@ function decimalCharCodeToNumber(charCode: number): number {
  */
 function codepointToChar(codepoint: number): string {
   // Check if the code point is within the Basic Multilingual Plane (BMP)
-  if (codepoint <= 0xffff) return String.fromCharCode(codepoint); // Convert BMP code point to character
+  if (codepoint <= 0xffff)
+    return String.fromCharCode(codepoint); // Convert BMP code point to character
 
   // Encode UTF-16 surrogate pair for code points beyond BMP
   // Reference: https://en.wikipedia.org/wiki/UTF-16#Code_points_U.2B010000_to_U.2B10FFFF
   return String.fromCharCode(
     ((codepoint - 0x010000) >> 10) + 0xd800, // High surrogate
-    ((codepoint - 0x010000) & 0x03ff) + 0xdc00, // Low surrogate
+    ((codepoint - 0x010000) & 0x03ff) + 0xdc00 // Low surrogate
   );
 }
 
@@ -141,7 +144,8 @@ const MAX_LENGTH = 75;
 const DELIMITERS = "\x00\r\n\x85\u2028\u2029";
 
 function getSnippet(buffer: string, position: number): string | null {
-  if (!buffer) return null;
+  if (!buffer)
+    return null;
   let start = position;
   let end = position;
   let head = "";
@@ -172,14 +176,18 @@ function getSnippet(buffer: string, position: number): string | null {
 }
 
 function getIndentStatus(lineIndent: number, parentIndent: number) {
-  if (lineIndent > parentIndent) return 1;
-  if (lineIndent < parentIndent) return -1;
+  if (lineIndent > parentIndent)
+    return 1;
+  if (lineIndent < parentIndent)
+    return -1;
   return 0;
 }
 
 function writeFoldedLines(count: number) {
-  if (count === 1) return " ";
-  if (count > 1) return "\n".repeat(count - 1);
+  if (count === 1)
+    return " ";
+  if (count > 1)
+    return "\n".repeat(count - 1);
   return "";
 }
 
@@ -233,8 +241,8 @@ export class LoaderState {
     {
       schema = DEFAULT_SCHEMA,
       onWarning,
-      allowDuplicateKeys = false,
-    }: LoaderStateOptions,
+      allowDuplicateKeys = false
+    }: LoaderStateOptions
   ) {
     this.#scanner = new Scanner(input);
     this.onWarning = onWarning;
@@ -255,7 +263,8 @@ export class LoaderState {
 
   skipComment() {
     let ch = this.#scanner.peek();
-    if (ch !== SHARP) return;
+    if (ch !== SHARP)
+      return;
     this.#scanner.next();
     ch = this.#scanner.peek();
     while (ch !== 0 && !isEOL(ch)) {
@@ -279,7 +288,7 @@ export class LoaderState {
     return new YamlSyntaxError(message, {
       line: this.line + 1,
       column: offset - this.lineStart + 1,
-      offset,
+      offset
     }, snippet);
   }
 
@@ -291,14 +300,14 @@ export class LoaderState {
   yamlDirectiveHandler(args: string[]): string | null {
     if (args.length !== 1) {
       throw this.#createError(
-        "Cannot handle YAML directive: YAML directive accepts exactly one argument",
+        "Cannot handle YAML directive: YAML directive accepts exactly one argument"
       );
     }
 
     const match = /^([0-9]+)\.([0-9]+)$/.exec(args[0]!);
     if (match === null) {
       throw this.#createError(
-        "Cannot handle YAML directive: ill-formed argument",
+        "Cannot handle YAML directive: ill-formed argument"
       );
     }
 
@@ -306,13 +315,13 @@ export class LoaderState {
     const minor = parseInt(match[2]!, 10);
     if (major !== 1) {
       throw this.#createError(
-        "Cannot handle YAML directive: unacceptable YAML version",
+        "Cannot handle YAML directive: unacceptable YAML version"
       );
     }
     this.checkLineBreaks = minor < 2;
     if (minor !== 1 && minor !== 2) {
       this.dispatchWarning(
-        "Cannot handle YAML directive: unsupported YAML version",
+        "Cannot handle YAML directive: unsupported YAML version"
       );
     }
     return args[0] ?? null;
@@ -320,7 +329,7 @@ export class LoaderState {
   tagDirectiveHandler(args: string[]) {
     if (args.length !== 2) {
       throw this.#createError(
-        `Cannot handle tag directive: directive accepts exactly two arguments, received ${args.length}`,
+        `Cannot handle tag directive: directive accepts exactly two arguments, received ${args.length}`
       );
     }
 
@@ -329,19 +338,19 @@ export class LoaderState {
 
     if (!PATTERN_TAG_HANDLE_REGEXP.test(handle)) {
       throw this.#createError(
-        `Cannot handle tag directive: ill-formed handle (first argument) in "${handle}"`,
+        `Cannot handle tag directive: ill-formed handle (first argument) in "${handle}"`
       );
     }
 
     if (this.tagMap.has(handle)) {
       throw this.#createError(
-        `Cannot handle tag directive: previously declared suffix for "${handle}" tag handle`,
+        `Cannot handle tag directive: previously declared suffix for "${handle}" tag handle`
       );
     }
 
     if (!PATTERN_TAG_URI_REGEXP.test(prefix)) {
       throw this.#createError(
-        "Cannot handle tag directive: ill-formed tag prefix (second argument) of the TAG directive",
+        "Cannot handle tag directive: ill-formed tag prefix (second argument) of the TAG directive"
       );
     }
 
@@ -359,7 +368,7 @@ export class LoaderState {
               (0x20 <= character && character <= 0x10ffff))
           ) {
             throw this.#createError(
-              `Expected valid JSON character: received "${character}"`,
+              `Expected valid JSON character: received "${character}"`
             );
           }
         }
@@ -373,13 +382,14 @@ export class LoaderState {
   readBlockSequence(
     tag: string | null,
     anchor: string | null,
-    nodeIndent: number,
+    nodeIndent: number
   ): State | void {
     let detected = false;
 
     const result: unknown[] = [];
 
-    if (anchor !== null) this.anchorMap.set(anchor, result);
+    if (anchor !== null)
+      this.anchorMap.set(anchor, result);
 
     let ch = this.#scanner.peek();
 
@@ -410,37 +420,40 @@ export class LoaderState {
         parentIndent: nodeIndent,
         nodeContext: CONTEXT_BLOCK_IN,
         allowToSeek: false,
-        allowCompact: true,
+        allowCompact: true
       });
-      if (newState) result.push(newState.result);
+      if (newState)
+        result.push(newState.result);
       this.skipSeparationSpace(true, -1);
 
       ch = this.#scanner.peek();
 
       if ((this.line === line || this.lineIndent > nodeIndent) && ch !== 0) {
         throw this.#createError(
-          "Cannot read block sequence: bad indentation of a sequence entry",
+          "Cannot read block sequence: bad indentation of a sequence entry"
         );
       } else if (this.lineIndent < nodeIndent) {
         break;
       }
     }
 
-    if (detected) return { tag, anchor, kind: "sequence", result };
+    if (detected)
+      return { tag, anchor, kind: "sequence", result };
   }
   mergeMappings(
     destination: Record<string, unknown>,
     source: Record<string, unknown>,
-    overridableKeys: Set<string>,
+    overridableKeys: Set<string>
   ) {
     if (!isObject(source)) {
       throw this.#createError(
-        "Cannot merge mappings: the provided source object is unacceptable",
+        "Cannot merge mappings: the provided source object is unacceptable"
       );
     }
 
     for (const [key, value] of Object.entries(source)) {
-      if (Object.hasOwn(destination, key)) continue;
+      if (Object.hasOwn(destination, key))
+        continue;
       // `Object.defineProperty` is significantly slower than direct
       // assignment in V8. Direct assignment produces an identical descriptor
       // (writable/enumerable/configurable) for ordinary keys; the only
@@ -451,7 +464,7 @@ export class LoaderState {
           value,
           writable: true,
           enumerable: true,
-          configurable: true,
+          configurable: true
         });
       } else {
         destination[key] = value;
@@ -466,7 +479,7 @@ export class LoaderState {
     keyNode: Record<PropertyKey, unknown> | unknown[] | string | null,
     valueNode: unknown,
     startLine?: number,
-    startPos?: number,
+    startPos?: number
   ): Record<string, unknown> {
     // The output is a plain object here, so keys can only be strings.
     // We need to convert keyNode to a string, but doing so can hang the process
@@ -477,7 +490,7 @@ export class LoaderState {
       for (let index = 0; index < keyNode.length; index++) {
         if (Array.isArray(keyNode[index])) {
           throw this.#createError(
-            "Cannot store mapping pair: nested arrays are not supported inside keys",
+            "Cannot store mapping pair: nested arrays are not supported inside keys"
           );
         }
 
@@ -509,7 +522,7 @@ export class LoaderState {
         this.mergeMappings(
           result,
           valueNode as Record<string, unknown>,
-          overridableKeys,
+          overridableKeys
         );
       }
     } else {
@@ -529,7 +542,7 @@ export class LoaderState {
           value: valueNode,
           writable: true,
           enumerable: true,
-          configurable: true,
+          configurable: true
         });
       } else {
         result[keyNode] = valueNode;
@@ -617,7 +630,7 @@ export class LoaderState {
     tag: string | null,
     anchor: string | null,
     nodeIndent: number,
-    withinFlowCollection: boolean,
+    withinFlowCollection: boolean
   ): State | void {
     let ch = this.#scanner.peek();
 
@@ -700,7 +713,8 @@ export class LoaderState {
 
       if (hasPendingContent) {
         const segment = this.captureSegment(captureStart, captureEnd, false);
-        if (segment) result += segment;
+        if (segment)
+          result += segment;
         result += writeFoldedLines(this.line - line);
         captureStart = captureEnd = this.#scanner.position;
         hasPendingContent = false;
@@ -715,18 +729,22 @@ export class LoaderState {
     }
 
     const segment = this.captureSegment(captureStart, captureEnd, false);
-    if (segment) result += segment;
-    if (anchor !== null) this.anchorMap.set(anchor, result);
-    if (result) return { tag, anchor, kind: "scalar", result };
+    if (segment)
+      result += segment;
+    if (anchor !== null)
+      this.anchorMap.set(anchor, result);
+    if (result)
+      return { tag, anchor, kind: "scalar", result };
   }
   readSingleQuotedScalar(
     tag: string | null,
     anchor: string | null,
-    nodeIndent: number,
+    nodeIndent: number
   ): State | void {
     let ch = this.#scanner.peek();
 
-    if (ch !== SINGLE_QUOTE) return;
+    if (ch !== SINGLE_QUOTE)
+      return;
 
     let result = "";
     this.#scanner.next();
@@ -739,9 +757,10 @@ export class LoaderState {
         const segment = this.captureSegment(
           captureStart,
           this.#scanner.position,
-          true,
+          true
         );
-        if (segment) result += segment;
+        if (segment)
+          result += segment;
         this.#scanner.next();
         ch = this.#scanner.peek();
 
@@ -750,14 +769,16 @@ export class LoaderState {
           this.#scanner.next();
           captureEnd = this.#scanner.position;
         } else {
-          if (anchor !== null) this.anchorMap.set(anchor, result);
+          if (anchor !== null)
+            this.anchorMap.set(anchor, result);
           return { tag, anchor, kind: "scalar", result };
         }
       } else if (isEOL(ch)) {
         const segment = this.captureSegment(captureStart, captureEnd, true);
-        if (segment) result += segment;
+        if (segment)
+          result += segment;
         result += writeFoldedLines(
-          this.skipSeparationSpace(false, nodeIndent),
+          this.skipSeparationSpace(false, nodeIndent)
         );
         captureStart = captureEnd = this.#scanner.position;
       } else if (
@@ -765,7 +786,7 @@ export class LoaderState {
         this.testDocumentSeparator()
       ) {
         throw this.#createError(
-          "Unexpected end of the document within a single quoted scalar",
+          "Unexpected end of the document within a single quoted scalar"
         );
       } else {
         this.#scanner.next();
@@ -775,17 +796,18 @@ export class LoaderState {
     }
 
     throw this.#createError(
-      "Unexpected end of the stream within a single quoted scalar",
+      "Unexpected end of the stream within a single quoted scalar"
     );
   }
   readDoubleQuotedScalar(
     tag: string | null,
     anchor: string | null,
-    nodeIndent: number,
+    nodeIndent: number
   ): State | void {
     let ch = this.#scanner.peek();
 
-    if (ch !== DOUBLE_QUOTE) return;
+    if (ch !== DOUBLE_QUOTE)
+      return;
 
     let result = "";
     this.#scanner.next();
@@ -798,20 +820,23 @@ export class LoaderState {
         const segment = this.captureSegment(
           captureStart,
           this.#scanner.position,
-          true,
+          true
         );
-        if (segment) result += segment;
+        if (segment)
+          result += segment;
         this.#scanner.next();
-        if (anchor !== null) this.anchorMap.set(anchor, result);
+        if (anchor !== null)
+          this.anchorMap.set(anchor, result);
         return { tag, anchor, kind: "scalar", result };
       }
       if (ch === BACKSLASH) {
         const segment = this.captureSegment(
           captureStart,
           this.#scanner.position,
-          true,
+          true
         );
-        if (segment) result += segment;
+        if (segment)
+          result += segment;
         this.#scanner.next();
         ch = this.#scanner.peek();
 
@@ -832,7 +857,7 @@ export class LoaderState {
               hexResult = (hexResult << 4) + tmp;
             } else {
               throw this.#createError(
-                "Cannot read double quoted scalar: expected hexadecimal character",
+                "Cannot read double quoted scalar: expected hexadecimal character"
               );
             }
           }
@@ -842,16 +867,17 @@ export class LoaderState {
           this.#scanner.next();
         } else {
           throw this.#createError(
-            "Cannot read double quoted scalar: unknown escape sequence",
+            "Cannot read double quoted scalar: unknown escape sequence"
           );
         }
 
         captureStart = captureEnd = this.#scanner.position;
       } else if (isEOL(ch)) {
         const segment = this.captureSegment(captureStart, captureEnd, true);
-        if (segment) result += segment;
+        if (segment)
+          result += segment;
         result += writeFoldedLines(
-          this.skipSeparationSpace(false, nodeIndent),
+          this.skipSeparationSpace(false, nodeIndent)
         );
         captureStart = captureEnd = this.#scanner.position;
       } else if (
@@ -859,7 +885,7 @@ export class LoaderState {
         this.testDocumentSeparator()
       ) {
         throw this.#createError(
-          "Unexpected end of the document within a double quoted scalar",
+          "Unexpected end of the document within a double quoted scalar"
         );
       } else {
         this.#scanner.next();
@@ -869,13 +895,13 @@ export class LoaderState {
     }
 
     throw this.#createError(
-      "Unexpected end of the stream within a double quoted scalar",
+      "Unexpected end of the stream within a double quoted scalar"
     );
   }
   readFlowCollection(
     tag: string | null,
     anchor: string | null,
-    nodeIndent: number,
+    nodeIndent: number
   ): State | void {
     let ch = this.#scanner.peek();
     let terminator: number;
@@ -891,7 +917,8 @@ export class LoaderState {
       return;
     }
 
-    if (anchor !== null) this.anchorMap.set(anchor, result);
+    if (anchor !== null)
+      this.anchorMap.set(anchor, result);
 
     this.#scanner.next();
     ch = this.#scanner.peek();
@@ -917,7 +944,7 @@ export class LoaderState {
       }
       if (!readNext) {
         throw this.#createError(
-          "Cannot read flow collection: missing comma between flow collection entries",
+          "Cannot read flow collection: missing comma between flow collection entries"
         );
       }
 
@@ -939,7 +966,7 @@ export class LoaderState {
         parentIndent: nodeIndent,
         nodeContext: CONTEXT_FLOW_IN,
         allowToSeek: false,
-        allowCompact: true,
+        allowCompact: true
       });
       if (newState) {
         keyTag = newState.tag || null;
@@ -958,9 +985,10 @@ export class LoaderState {
           parentIndent: nodeIndent,
           nodeContext: CONTEXT_FLOW_IN,
           allowToSeek: false,
-          allowCompact: true,
+          allowCompact: true
         });
-        if (newState) valueNode = newState.result;
+        if (newState)
+          valueNode = newState.result;
       }
 
       if (isMapping) {
@@ -969,7 +997,7 @@ export class LoaderState {
           overridableKeys,
           keyTag,
           keyNode,
-          valueNode,
+          valueNode
         );
       } else if (isPair) {
         (result as Record<string, unknown>[]).push(
@@ -978,8 +1006,8 @@ export class LoaderState {
             overridableKeys,
             keyTag,
             keyNode,
-            valueNode,
-          ),
+            valueNode
+          )
         );
       } else {
         (result as unknown[]).push(keyNode);
@@ -999,7 +1027,7 @@ export class LoaderState {
     }
 
     throw this.#createError(
-      "Cannot read flow collection: unexpected end of the stream within a flow collection",
+      "Cannot read flow collection: unexpected end of the stream within a flow collection"
     );
   }
   // Handles block scaler styles: e.g. '|', '>', '|-' and '>-'.
@@ -1007,7 +1035,7 @@ export class LoaderState {
   readBlockScalar(
     tag: string | null,
     anchor: string | null,
-    nodeIndent: number,
+    nodeIndent: number
   ): State | void {
     let chomping = CHOMPING_CLIP;
     let didReadContent = false;
@@ -1039,20 +1067,20 @@ export class LoaderState {
           chomping = ch === PLUS ? CHOMPING_KEEP : CHOMPING_STRIP;
         } else {
           throw this.#createError(
-            "Cannot read block: chomping mode identifier repeated",
+            "Cannot read block: chomping mode identifier repeated"
           );
         }
       } else if ((tmp = decimalCharCodeToNumber(ch)) >= 0) {
         if (tmp === 0) {
           throw this.#createError(
-            "Cannot read block: indentation width must be greater than 0",
+            "Cannot read block: indentation width must be greater than 0"
           );
         } else if (!detectedIndent) {
           textIndent = nodeIndent + tmp - 1;
           detectedIndent = true;
         } else {
           throw this.#createError(
-            "Cannot read block: indentation width identifier repeated",
+            "Cannot read block: indentation width identifier repeated"
           );
         }
       } else {
@@ -1095,7 +1123,7 @@ export class LoaderState {
         // Perform the chomping.
         if (chomping === CHOMPING_KEEP) {
           result += "\n".repeat(
-            didReadContent ? 1 + emptyLines : emptyLines,
+            didReadContent ? 1 + emptyLines : emptyLines
           );
         } else if (chomping === CHOMPING_CLIP) {
           if (didReadContent) {
@@ -1115,7 +1143,7 @@ export class LoaderState {
           atMoreIndented = true;
           // except for the first content line (cf. Example 8.1)
           result += "\n".repeat(
-            didReadContent ? 1 + emptyLines : emptyLines,
+            didReadContent ? 1 + emptyLines : emptyLines
           );
 
           // End of more-indented block.
@@ -1139,7 +1167,7 @@ export class LoaderState {
       } else {
         // Keep all line breaks except the header line break.
         result += "\n".repeat(
-          didReadContent ? 1 + emptyLines : emptyLines,
+          didReadContent ? 1 + emptyLines : emptyLines
         );
       }
 
@@ -1156,19 +1184,21 @@ export class LoaderState {
       const segment = this.captureSegment(
         captureStart,
         this.#scanner.position,
-        false,
+        false
       );
-      if (segment) result += segment;
+      if (segment)
+        result += segment;
     }
 
-    if (anchor !== null) this.anchorMap.set(anchor, result);
+    if (anchor !== null)
+      this.anchorMap.set(anchor, result);
     return { tag, anchor, kind: "scalar", result };
   }
   readBlockMapping(
     tag: string | null,
     anchor: string | null,
     nodeIndent: number,
-    flowIndent: number,
+    flowIndent: number
   ): State | void {
     const result = {};
     const overridableKeys = new Set<string>();
@@ -1182,7 +1212,8 @@ export class LoaderState {
     let atExplicitKey = false;
     let detected = false;
 
-    if (anchor !== null) this.anchorMap.set(anchor, result);
+    if (anchor !== null)
+      this.anchorMap.set(anchor, result);
 
     let ch = this.#scanner.peek();
 
@@ -1203,7 +1234,7 @@ export class LoaderState {
               overridableKeys,
               keyTag as string,
               keyNode,
-              null,
+              null
             );
             keyTag = null;
             keyNode = null;
@@ -1219,7 +1250,7 @@ export class LoaderState {
           allowCompact = true;
         } else {
           throw this.#createError(
-            "Cannot read block as explicit mapping pair is incomplete: a key node is missed or followed by a non-tabulated empty line",
+            "Cannot read block as explicit mapping pair is incomplete: a key node is missed or followed by a non-tabulated empty line"
           );
         }
 
@@ -1234,9 +1265,10 @@ export class LoaderState {
           parentIndent: flowIndent,
           nodeContext: CONTEXT_FLOW_OUT,
           allowToSeek: false,
-          allowCompact: true,
+          allowCompact: true
         });
-        if (!newState) break; // Reading is done. Go to the epilogue.
+        if (!newState)
+          break; // Reading is done. Go to the epilogue.
         if (this.line === line) {
           ch = this.#scanner.peek();
 
@@ -1249,7 +1281,7 @@ export class LoaderState {
 
             if (!isWhiteSpaceOrEOL(ch)) {
               throw this.#createError(
-                "Cannot read block: a whitespace character is expected after the key-value separator within a block mapping",
+                "Cannot read block: a whitespace character is expected after the key-value separator within a block mapping"
               );
             }
 
@@ -1259,7 +1291,7 @@ export class LoaderState {
                 overridableKeys,
                 keyTag as string,
                 keyNode,
-                null,
+                null
               );
               keyTag = null;
               keyNode = null;
@@ -1273,7 +1305,7 @@ export class LoaderState {
             keyNode = newState.result;
           } else if (detected) {
             throw this.#createError(
-              "Cannot read an implicit mapping pair: missing colon",
+              "Cannot read an implicit mapping pair: missing colon"
             );
           } else {
             const { kind, result } = newState;
@@ -1281,7 +1313,7 @@ export class LoaderState {
           }
         } else if (detected) {
           throw this.#createError(
-            "Cannot read a block mapping entry: a multiline key may not be an implicit key",
+            "Cannot read a block mapping entry: a multiline key may not be an implicit key"
           );
         } else {
           const { kind, result } = newState;
@@ -1297,7 +1329,7 @@ export class LoaderState {
           parentIndent: nodeIndent,
           nodeContext: CONTEXT_BLOCK_OUT,
           allowToSeek: true,
-          allowCompact,
+          allowCompact
         });
         if (newState) {
           if (atExplicitKey) {
@@ -1315,7 +1347,7 @@ export class LoaderState {
             keyNode,
             valueNode,
             line,
-            pos,
+            pos
           );
           keyTag = keyNode = valueNode = null;
         }
@@ -1326,7 +1358,7 @@ export class LoaderState {
 
       if (this.lineIndent > nodeIndent && ch !== 0) {
         throw this.#createError(
-          "Cannot read block: bad indentation of a mapping entry",
+          "Cannot read block: bad indentation of a mapping entry"
         );
       } else if (this.lineIndent < nodeIndent) {
         break;
@@ -1344,12 +1376,13 @@ export class LoaderState {
         overridableKeys,
         keyTag as string,
         keyNode,
-        null,
+        null
       );
     }
 
     // Expose the resulting mapping.
-    if (detected) return { tag, anchor, kind: "mapping", result };
+    if (detected)
+      return { tag, anchor, kind: "mapping", result };
   }
   readTagProperty(tag: string | null): string | void {
     let isVerbatim = false;
@@ -1359,11 +1392,12 @@ export class LoaderState {
 
     let ch = this.#scanner.peek();
 
-    if (ch !== EXCLAMATION) return;
+    if (ch !== EXCLAMATION)
+      return;
 
     if (tag !== null) {
       throw this.#createError(
-        "Cannot read tag property: duplication of a tag property",
+        "Cannot read tag property: duplication of a tag property"
       );
     }
 
@@ -1397,7 +1431,7 @@ export class LoaderState {
         ch = this.#scanner.peek();
       } else {
         throw this.#createError(
-          "Cannot read tag property: unexpected end of stream",
+          "Cannot read tag property: unexpected end of stream"
         );
       }
     } else {
@@ -1406,12 +1440,12 @@ export class LoaderState {
           if (!isNamed) {
             tagHandle = this.#scanner.source.slice(
               position - 1,
-              this.#scanner.position + 1,
+              this.#scanner.position + 1
             );
 
             if (!PATTERN_TAG_HANDLE_REGEXP.test(tagHandle)) {
               throw this.#createError(
-                "Cannot read tag property: named tag handle contains invalid characters",
+                "Cannot read tag property: named tag handle contains invalid characters"
               );
             }
 
@@ -1419,7 +1453,7 @@ export class LoaderState {
             position = this.#scanner.position + 1;
           } else {
             throw this.#createError(
-              "Cannot read tag property: tag suffix cannot contain an exclamation mark",
+              "Cannot read tag property: tag suffix cannot contain an exclamation mark"
             );
           }
         }
@@ -1432,14 +1466,14 @@ export class LoaderState {
 
       if (PATTERN_FLOW_INDICATORS_REGEXP.test(tagName)) {
         throw this.#createError(
-          "Cannot read tag property: tag suffix cannot contain flow indicator characters",
+          "Cannot read tag property: tag suffix cannot contain flow indicator characters"
         );
       }
     }
 
     if (tagName && !PATTERN_TAG_URI_REGEXP.test(tagName)) {
       throw this.#createError(
-        `Cannot read tag property: invalid characters in tag name "${tagName}"`,
+        `Cannot read tag property: invalid characters in tag name "${tagName}"`
       );
     }
 
@@ -1454,16 +1488,17 @@ export class LoaderState {
     }
 
     throw this.#createError(
-      `Cannot read tag property: undeclared tag handle "${tagHandle}"`,
+      `Cannot read tag property: undeclared tag handle "${tagHandle}"`
     );
   }
   readAnchorProperty(anchor: string | null): string | void {
     let ch = this.#scanner.peek();
-    if (ch !== AMPERSAND) return;
+    if (ch !== AMPERSAND)
+      return;
 
     if (anchor !== null) {
       throw this.#createError(
-        "Cannot read anchor property: duplicate anchor property",
+        "Cannot read anchor property: duplicate anchor property"
       );
     }
     this.#scanner.next();
@@ -1477,14 +1512,15 @@ export class LoaderState {
 
     if (this.#scanner.position === position) {
       throw this.#createError(
-        "Cannot read anchor property: name of an anchor node must contain at least one character",
+        "Cannot read anchor property: name of an anchor node must contain at least one character"
       );
     }
 
     return this.#scanner.source.slice(position, this.#scanner.position);
   }
   readAlias(): string | void {
-    if (this.#scanner.peek() !== ASTERISK) return;
+    if (this.#scanner.peek() !== ASTERISK)
+      return;
 
     this.#scanner.next();
     let ch = this.#scanner.peek();
@@ -1498,14 +1534,14 @@ export class LoaderState {
 
     if (this.#scanner.position === position) {
       throw this.#createError(
-        "Cannot read alias: alias name must contain at least one character",
+        "Cannot read alias: alias name must contain at least one character"
       );
     }
 
     const alias = this.#scanner.source.slice(position, this.#scanner.position);
     if (!this.anchorMap.has(alias)) {
       throw this.#createError(
-        `Cannot read alias: unidentified alias "${alias}"`,
+        `Cannot read alias: unidentified alias "${alias}"`
       );
     }
 
@@ -1524,13 +1560,15 @@ export class LoaderState {
           // non-specific tag is only assigned to plain scalars. So, it isn't
           // needed to check for 'kind' conformity.
 
-          if (!type.resolve(state.result)) continue;
+          if (!type.resolve(state.result))
+            continue;
           // `state.result` updated in resolver if matched
           const result = type.construct(state.result);
           state.result = result;
           state.tag = type.tag;
           const { anchor } = state;
-          if (anchor !== null) this.anchorMap.set(anchor, result);
+          if (anchor !== null)
+            this.anchorMap.set(anchor, result);
           return state;
         }
         return state;
@@ -1544,27 +1582,28 @@ export class LoaderState {
 
     if (!type) {
       throw this.#createError(
-        `Cannot resolve unknown tag !<${state.tag}>`,
+        `Cannot resolve unknown tag !<${state.tag}>`
       );
     }
 
     if (state.result !== null && type.kind !== state.kind) {
       throw this.#createError(
-        `Unacceptable node kind for !<${state.tag}> tag: it should be "${type.kind}", not "${state.kind}"`,
+        `Unacceptable node kind for !<${state.tag}> tag: it should be "${type.kind}", not "${state.kind}"`
       );
     }
 
     if (!type.resolve(state.result)) {
       // `state.result` updated in resolver if matched
       throw this.#createError(
-        `Cannot resolve a node with !<${state.tag}> explicit tag`,
+        `Cannot resolve a node with !<${state.tag}> explicit tag`
       );
     }
 
     const result = type.construct(state.result);
     state.result = result;
     const { anchor } = state;
-    if (anchor !== null) this.anchorMap.set(anchor, result);
+    if (anchor !== null)
+      this.anchorMap.set(anchor, result);
     return state;
   }
   composeNode({ parentIndent, nodeContext, allowToSeek, allowCompact }: {
@@ -1599,7 +1638,8 @@ export class LoaderState {
           tag = newTag;
         } else {
           const newAnchor = this.readAnchorProperty(anchor);
-          if (!newAnchor) break;
+          if (!newAnchor)
+            break;
           anchor = newAnchor;
         }
         if (this.skipSeparationSpace(true, -1)) {
@@ -1626,52 +1666,58 @@ export class LoaderState {
         const blockSequenceState = this.readBlockSequence(
           tag,
           anchor,
-          blockIndent,
+          blockIndent
         );
-        if (blockSequenceState) return this.resolveTag(blockSequenceState);
+        if (blockSequenceState)
+          return this.resolveTag(blockSequenceState);
 
         const blockMappingState = this.readBlockMapping(
           tag,
           anchor,
           blockIndent,
-          flowIndent,
+          flowIndent
         );
-        if (blockMappingState) return this.resolveTag(blockMappingState);
+        if (blockMappingState)
+          return this.resolveTag(blockMappingState);
       }
       const flowCollectionState = this.readFlowCollection(
         tag,
         anchor,
-        flowIndent,
+        flowIndent
       );
-      if (flowCollectionState) return this.resolveTag(flowCollectionState);
+      if (flowCollectionState)
+        return this.resolveTag(flowCollectionState);
 
       if (allowBlockScalars) {
         const blockScalarState = this.readBlockScalar(
           tag,
           anchor,
-          flowIndent,
+          flowIndent
         );
-        if (blockScalarState) return this.resolveTag(blockScalarState);
+        if (blockScalarState)
+          return this.resolveTag(blockScalarState);
       }
       const singleQuoteState = this.readSingleQuotedScalar(
         tag,
         anchor,
-        flowIndent,
+        flowIndent
       );
-      if (singleQuoteState) return this.resolveTag(singleQuoteState);
+      if (singleQuoteState)
+        return this.resolveTag(singleQuoteState);
 
       const doubleQuoteState = this.readDoubleQuotedScalar(
         tag,
         anchor,
-        flowIndent,
+        flowIndent
       );
-      if (doubleQuoteState) return this.resolveTag(doubleQuoteState);
+      if (doubleQuoteState)
+        return this.resolveTag(doubleQuoteState);
 
       const alias = this.readAlias();
       if (alias) {
         if (tag !== null || anchor !== null) {
           throw this.#createError(
-            "Cannot compose node: alias node should not have any properties",
+            "Cannot compose node: alias node should not have any properties"
           );
         }
         return this.resolveTag({ tag, anchor, kind: null, result: alias });
@@ -1680,7 +1726,7 @@ export class LoaderState {
         tag,
         anchor,
         flowIndent,
-        CONTEXT_FLOW_IN === nodeContext,
+        CONTEXT_FLOW_IN === nodeContext
       );
       if (plainScalarState) {
         plainScalarState.tag ??= "?";
@@ -1695,11 +1741,13 @@ export class LoaderState {
       // http://www.yaml.org/spec/1.2/spec.html#id2799784
       const blockIndent = this.#scanner.position - this.lineStart;
       const newState = this.readBlockSequence(tag, anchor, blockIndent);
-      if (newState) return this.resolveTag(newState);
+      if (newState)
+        return this.resolveTag(newState);
     }
 
     const newState = this.resolveTag({ tag, anchor, kind: null, result: null });
-    if (newState.tag !== null || newState.anchor !== null) return newState;
+    if (newState.tag !== null || newState.anchor !== null)
+      return newState;
   }
 
   readDirectives() {
@@ -1728,13 +1776,13 @@ export class LoaderState {
 
       const directiveName = this.#scanner.source.slice(
         position,
-        this.#scanner.position,
+        this.#scanner.position
       );
       const directiveArgs = [];
 
       if (directiveName.length < 1) {
         throw this.#createError(
-          "Cannot read document: directive name length must be greater than zero",
+          "Cannot read document: directive name length must be greater than zero"
         );
       }
 
@@ -1743,7 +1791,8 @@ export class LoaderState {
         this.skipComment();
         ch = this.#scanner.peek();
 
-        if (isEOL(ch)) break;
+        if (isEOL(ch))
+          break;
 
         position = this.#scanner.position;
 
@@ -1753,17 +1802,18 @@ export class LoaderState {
         }
 
         directiveArgs.push(
-          this.#scanner.source.slice(position, this.#scanner.position),
+          this.#scanner.source.slice(position, this.#scanner.position)
         );
       }
 
-      if (ch !== 0) this.readLineBreak();
+      if (ch !== 0)
+        this.readLineBreak();
 
       switch (directiveName) {
         case "YAML":
           if (version !== null) {
             throw this.#createError(
-              "Cannot handle YAML directive: duplication of %YAML directive",
+              "Cannot handle YAML directive: duplication of %YAML directive"
             );
           }
           version = this.yamlDirectiveHandler(directiveArgs);
@@ -1804,7 +1854,7 @@ export class LoaderState {
       this.skipSeparationSpace(true, -1);
     } else if (hasDirectives) {
       throw this.#createError(
-        "Cannot read document: directives end mark is expected",
+        "Cannot read document: directives end mark is expected"
       );
     }
 
@@ -1812,15 +1862,16 @@ export class LoaderState {
       parentIndent: this.lineIndent - 1,
       nodeContext: CONTEXT_BLOCK_OUT,
       allowToSeek: false,
-      allowCompact: true,
+      allowCompact: true
     });
-    if (newState) result = newState.result;
+    if (newState)
+      result = newState.result;
     this.skipSeparationSpace(true, -1);
 
     if (
       this.checkLineBreaks &&
       PATTERN_NON_ASCII_LINE_BREAKS_REGEXP.test(
-        this.#scanner.source.slice(documentStart, this.#scanner.position),
+        this.#scanner.source.slice(documentStart, this.#scanner.position)
       )
     ) {
       this.dispatchWarning("non-ASCII line breaks are interpreted as content");
@@ -1835,7 +1886,7 @@ export class LoaderState {
       }
     } else if (!this.#scanner.eof()) {
       throw this.#createError(
-        "Cannot read document: end of the stream or a document separator is expected",
+        "Cannot read document: end of the stream or a document separator is expected"
       );
     }
 
@@ -1843,14 +1894,14 @@ export class LoaderState {
   }
 
   *readDocuments(
-    options: { singleDocument?: boolean } = {},
+    options: { singleDocument?: boolean; } = {}
   ): Generator<unknown> {
     const { singleDocument = false } = options;
     let yielded = 0;
     while (!this.#scanner.eof()) {
       if (singleDocument && yielded > 0) {
         throw this.#createError(
-          "Found more than 1 document in the stream: expected a single document",
+          "Found more than 1 document in the stream: expected a single document"
         );
       }
       yield this.readDocument();

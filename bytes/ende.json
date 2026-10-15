@@ -1,6 +1,4 @@
 {
-  "name": "@ende/bytes",
-  "version": "1.0.6",
   "exports": {
     ".": "./mod.ts",
     "./concat": "./concat.ts",
@@ -12,5 +10,7 @@
     "./last-index-of-needle": "./last_index_of_needle.ts",
     "./repeat": "./repeat.ts",
     "./starts-with": "./starts_with.ts"
-  }
+  },
+  "name": "@ende/bytes",
+  "version": "2026.10.15"
 }

@@ -93,8 +93,7 @@ export interface LimitedBytesTransformStreamOptions {
  * }, RangeError);
  * ```
  */
-export class LimitedBytesTransformStream
-  extends TransformStream<Uint8Array, Uint8Array> {
+export class LimitedBytesTransformStream extends TransformStream<Uint8Array, Uint8Array> {
   #read = 0;
 
   /**
@@ -105,7 +104,7 @@ export class LimitedBytesTransformStream
    */
   constructor(
     size: number,
-    options: LimitedBytesTransformStreamOptions = { error: false },
+    options: LimitedBytesTransformStreamOptions = { error: false }
   ) {
     super({
       transform: (chunk, controller) => {
@@ -119,7 +118,7 @@ export class LimitedBytesTransformStream
           this.#read += chunk.byteLength;
           controller.enqueue(chunk);
         }
-      },
+      }
     });
   }
 }

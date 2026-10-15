@@ -22,7 +22,7 @@ Ende.test("Buffer can constrruct with initial data", async () => {
   assertEquals(read.value, data);
 });
 
-Ende.test("Buffer handles read empty", async function () {
+Ende.test("Buffer handles read empty", async function() {
   const buf = new Buffer();
   const reader = buf.readable.getReader({ mode: "byob" });
   const read = await reader.read(new Uint8Array(5));
@@ -60,7 +60,7 @@ Ende.test("Buffer.truncate(n) throws if n is negative", () => {
       buf.truncate(-1);
     },
     RangeError,
-    'Buffer truncation value "-1" is not between 0 and 0',
+    "Buffer truncation value \"-1\" is not between 0 and 0"
   );
 });
 
@@ -71,7 +71,7 @@ Ende.test("Buffer.truncate(n) throws if n is greater than the length of the buff
       buf.truncate(1);
     },
     RangeError,
-    'Buffer truncation value "1" is not between 0 and 0',
+    "Buffer truncation value \"1\" is not between 0 and 0"
   );
 });
 
@@ -117,7 +117,7 @@ Ende.test("Buffer.grow(n) throws an error if n is a negative value", () => {
       buf.grow(-1);
     },
     RangeError,
-    "Cannot grow buffer as growth must be positive: received -1",
+    "Cannot grow buffer as growth must be positive: received -1"
   );
 });
 
@@ -128,6 +128,6 @@ Ende.test("Buffer.grow(n) throws if the total of byte size exceeds 2 ** 32 - 2",
       buf.grow(2 ** 32);
     },
     RangeError,
-    "The buffer cannot grow beyond the maximum size of",
+    "The buffer cannot grow beyond the maximum size of"
   );
 });

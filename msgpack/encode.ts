@@ -201,7 +201,7 @@ function encodeSlice(object: ValueType, byteParts: Uint8Array[]) {
       byteParts.push(new Uint8Array(dataView.buffer));
     } else {
       throw new Error(
-        "Cannot safely encode string with size larger than 32 bits",
+        "Cannot safely encode string with size larger than 32 bits"
       );
     }
     byteParts.push(encoded);
@@ -223,7 +223,7 @@ function encodeSlice(object: ValueType, byteParts: Uint8Array[]) {
       byteParts.push(new Uint8Array(dataView.buffer));
     } else {
       throw new Error(
-        "Cannot safely encode Uint8Array with size larger than 32 bits",
+        "Cannot safely encode Uint8Array with size larger than 32 bits"
       );
     }
     byteParts.push(object);
@@ -245,7 +245,7 @@ function encodeSlice(object: ValueType, byteParts: Uint8Array[]) {
       byteParts.push(new Uint8Array(dataView.buffer));
     } else {
       throw new Error(
-        "Cannot safely encode array with size larger than 32 bits",
+        "Cannot safely encode array with size larger than 32 bits"
       );
     }
 

@@ -10,7 +10,7 @@ const {
   getRoot,
   setRoot,
   setSize,
-  getCompare,
+  getCompare
 } = internals;
 
 /**
@@ -164,7 +164,7 @@ export class BinarySearchTree<T> extends StableBinarySearchTree<T> {
     collection: ArrayLike<T> | Iterable<T> | StableBinarySearchTree<T>,
     options?: {
       compare?: (a: T, b: T) => number;
-    },
+    }
   ): BinarySearchTree<T>;
   /**
    * Create a new binary search tree from an array like, an iterable object, or
@@ -204,7 +204,7 @@ export class BinarySearchTree<T> extends StableBinarySearchTree<T> {
       compare?: (a: U, b: U) => number;
       map: (value: T, index: number) => U;
       thisArg?: V;
-    },
+    }
   ): BinarySearchTree<U>;
   static override from<T, U, V>(
     collection: ArrayLike<T> | Iterable<T> | StableBinarySearchTree<T>,
@@ -212,14 +212,14 @@ export class BinarySearchTree<T> extends StableBinarySearchTree<T> {
       compare?: (a: U, b: U) => number;
       map?: (value: T, index: number) => U;
       thisArg?: V;
-    },
+    }
   ): BinarySearchTree<U> {
     const result = new BinarySearchTree<U>(options?.compare);
     const stableTree = super.from<T, U, V>(
       collection,
       // Cast to use types of `from<T, U, V = undefined>` instead of `from<T>`.
       // The latter happens by default, even though we call `super.from<T, U, V>`.
-      options as { map: (value: T, index: number) => U },
+      options as { map: (value: T, index: number) => U; }
     );
     setRoot(result, getRoot(stableTree));
     setSize(result, stableTree.size);
@@ -244,7 +244,7 @@ export class BinarySearchTree<T> extends StableBinarySearchTree<T> {
   #findNode(
     value: T,
     select?: "higher" | "lower",
-    returnIfFound: boolean = true,
+    returnIfFound: boolean = true
   ): BinarySearchNode<T> | null {
     const compare = getCompare(this);
 
@@ -252,7 +252,8 @@ export class BinarySearchTree<T> extends StableBinarySearchTree<T> {
     let result: BinarySearchNode<T> | null = null;
     while (node) {
       const order = compare(value, node.value);
-      if (order === 0 && returnIfFound) return node;
+      if (order === 0 && returnIfFound)
+        return node;
 
       let direction: Direction = order < 0 ? "left" : "right";
       if (select === "higher" && order === 0) {

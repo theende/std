@@ -28,7 +28,7 @@ import type { EqualOptions } from "./_types.ts";
 export function assertEquals<T>(
   actual: T,
   expected: T,
-  options?: EqualOptions,
+  options?: EqualOptions
 ) {
   if (equal(actual, expected, options)) {
     return;

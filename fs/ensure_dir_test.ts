@@ -8,9 +8,9 @@ import { ensureFile, ensureFileSync } from "./ensure_file.ts";
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata", "ensure_dir");
 
-Ende.test("ensureDir() creates dir if it does not exist", async function () {
+Ende.test("ensureDir() creates dir if it does not exist", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_dir_",
+    prefix: "ende_std_ensure_dir_"
   });
   const baseDir = path.join(tempDirPath, "not_exist");
   const testDir = path.join(baseDir, "test");
@@ -25,9 +25,9 @@ Ende.test("ensureDir() creates dir if it does not exist", async function () {
   }
 });
 
-Ende.test("ensureDirSync() creates dir if it does not exist", function () {
+Ende.test("ensureDirSync() creates dir if it does not exist", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_dir_sync_",
+    prefix: "ende_std_ensure_dir_sync_"
   });
   const baseDir = path.join(tempDirPath, "sync_not_exist");
   const testDir = path.join(baseDir, "test");
@@ -42,9 +42,9 @@ Ende.test("ensureDirSync() creates dir if it does not exist", function () {
   }
 });
 
-Ende.test("ensureDir() ensures existing dir exists", async function () {
+Ende.test("ensureDir() ensures existing dir exists", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_dir_",
+    prefix: "ende_std_ensure_dir_"
   });
   const baseDir = path.join(tempDirPath, "exist");
   const testDir = path.join(baseDir, "test");
@@ -62,9 +62,9 @@ Ende.test("ensureDir() ensures existing dir exists", async function () {
   }
 });
 
-Ende.test("ensureDirSync() ensures existing dir exists", function () {
+Ende.test("ensureDirSync() ensures existing dir exists", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_dir_sync_",
+    prefix: "ende_std_ensure_dir_sync_"
   });
   const baseDir = path.join(tempDirPath, "sync_exist");
   const testDir = path.join(baseDir, "test");
@@ -82,7 +82,7 @@ Ende.test("ensureDirSync() ensures existing dir exists", function () {
   }
 });
 
-Ende.test("ensureDir() accepts links to dirs", async function () {
+Ende.test("ensureDir() accepts links to dirs", async function() {
   const ldir = path.join(testdataDir, "ldir");
 
   await ensureDir(ldir);
@@ -94,7 +94,7 @@ Ende.test("ensureDir() accepts links to dirs", async function () {
   assertEquals(isSymlink, true);
 });
 
-Ende.test("ensureDirSync() accepts links to dirs", function () {
+Ende.test("ensureDirSync() accepts links to dirs", function() {
   const ldir = path.join(testdataDir, "ldir");
 
   ensureDirSync(ldir);
@@ -106,9 +106,9 @@ Ende.test("ensureDirSync() accepts links to dirs", function () {
   assertEquals(isSymlink, true);
 });
 
-Ende.test("ensureDir() rejects if input is a file", async function () {
+Ende.test("ensureDir() rejects if input is a file", async function() {
   const tempDirPath = await Ende.makeTempDir({
-    prefix: "ende_std_ensure_dir_",
+    prefix: "ende_std_ensure_dir_"
   });
   const baseDir = path.join(tempDirPath, "exist_file");
   const testFile = path.join(baseDir, "test");
@@ -121,16 +121,16 @@ Ende.test("ensureDir() rejects if input is a file", async function () {
         await ensureDir(testFile);
       },
       Error,
-      `Failed to ensure directory exists: expected 'dir', got 'file'`,
+      `Failed to ensure directory exists: expected 'dir', got 'file'`
     );
   } finally {
     await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
-Ende.test("ensureDirSync() throws if input is a file", function () {
+Ende.test("ensureDirSync() throws if input is a file", function() {
   const tempDirPath = Ende.makeTempDirSync({
-    prefix: "ende_std_ensure_dir_sync_",
+    prefix: "ende_std_ensure_dir_sync_"
   });
   const baseDir = path.join(tempDirPath, "exist_file_sync");
   const testFile = path.join(baseDir, "test");
@@ -143,14 +143,14 @@ Ende.test("ensureDirSync() throws if input is a file", function () {
         ensureDirSync(testFile);
       },
       Error,
-      `Failed to ensure directory exists: expected 'dir', got 'file'`,
+      `Failed to ensure directory exists: expected 'dir', got 'file'`
     );
   } finally {
     Ende.removeSync(tempDirPath, { recursive: true });
   }
 });
 
-Ende.test("ensureDir() rejects links to files", async function () {
+Ende.test("ensureDir() rejects links to files", async function() {
   const lf = path.join(testdataDir, "lf");
 
   await assertRejects(
@@ -158,11 +158,11 @@ Ende.test("ensureDir() rejects links to files", async function () {
       await ensureDir(lf);
     },
     Error,
-    `Failed to ensure directory exists: expected 'dir', got 'file'`,
+    `Failed to ensure directory exists: expected 'dir', got 'file'`
   );
 });
 
-Ende.test("ensureDirSync() rejects links to files", function () {
+Ende.test("ensureDirSync() rejects links to files", function() {
   const lf = path.join(testdataDir, "lf");
 
   assertThrows(
@@ -170,7 +170,7 @@ Ende.test("ensureDirSync() rejects links to files", function () {
       ensureDirSync(lf);
     },
     Error,
-    `Failed to ensure directory exists: expected 'dir', got 'file'`,
+    `Failed to ensure directory exists: expected 'dir', got 'file'`
   );
 });
 
@@ -185,9 +185,9 @@ Ende.test({
     await assertRejects(
       async () => await ensureDir(baseDir),
       // deno-lint-ignore no-explicit-any
-      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied
     );
-  },
+  }
 });
 
 Ende.test({
@@ -196,7 +196,7 @@ Ende.test({
   fn() {
     const baseDir = path.join(
       testdataDir,
-      "sync_without_permission",
+      "sync_without_permission"
     );
 
     // ensureDirSync fails because this test doesn't have write permissions,
@@ -204,9 +204,9 @@ Ende.test({
     assertThrows(
       () => ensureDirSync(baseDir),
       // deno-lint-ignore no-explicit-any
-      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
+      (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied
     );
-  },
+  }
 });
 
 Ende.test({
@@ -216,14 +216,14 @@ Ende.test({
       const dir = path.join(
         await Ende.makeTempDir(),
         "check",
-        "race",
+        "race"
       );
 
       // It doesn't throw with successive calls.
       await Promise.all([
         ensureDir(dir),
-        ensureDir(dir),
+        ensureDir(dir)
       ]);
     }
-  },
+  }
 });

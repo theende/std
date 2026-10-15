@@ -43,10 +43,12 @@ export interface DeadlineOptions {
 export async function deadline<T>(
   p: Promise<T>,
   ms: number,
-  options: DeadlineOptions = {},
+  options: DeadlineOptions = {}
 ): Promise<T> {
   const signals: AbortSignal[] = [];
-  if (ms < Number.MAX_SAFE_INTEGER) signals.push(AbortSignal.timeout(ms));
-  if (options.signal) signals.push(options.signal);
+  if (ms < Number.MAX_SAFE_INTEGER)
+    signals.push(AbortSignal.timeout(ms));
+  if (options.signal)
+    signals.push(options.signal);
   return await abortable(p, AbortSignal.any(signals));
 }

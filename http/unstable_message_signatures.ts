@@ -61,7 +61,7 @@ import type {
   BareItem,
   Dictionary,
   InnerList,
-  Item,
+  Item
 } from "./unstable_structured_fields.ts";
 import {
   binary,
@@ -76,7 +76,7 @@ import {
   serializeDictionary,
   serializeItem,
   serializeList,
-  string as sfString,
+  string as sfString
 } from "./unstable_structured_fields.ts";
 
 const UTF8_ENCODER = new TextEncoder();
@@ -231,7 +231,7 @@ export interface ParsedSignatureParams {
  * @experimental **UNSTABLE**: New API, yet to be vetted.
  */
 export interface SignOptions<
-  T extends Request | Response = Request | Response,
+  T extends Request | Response = Request | Response
 > {
   /** The HTTP request or response to sign. */
   message: T;
@@ -281,7 +281,7 @@ const SUPPORTED_ALGORITHMS: ReadonlySet<string> = new Set([
   "hmac-sha256",
   "ecdsa-p256-sha256",
   "ecdsa-p384-sha384",
-  "ed25519",
+  "ed25519"
 ]);
 
 function isSupportedAlgorithm(value: string): value is SignatureAlgorithm {
@@ -289,7 +289,7 @@ function isSupportedAlgorithm(value: string): value is SignatureAlgorithm {
 }
 
 function getSignParams(
-  algorithm: SignatureAlgorithm,
+  algorithm: SignatureAlgorithm
 ): AlgorithmIdentifier | RsaPssParams | EcdsaParams {
   switch (algorithm) {
     case "rsa-pss-sha512":
@@ -310,26 +310,32 @@ function getSignParams(
 function inferAlgorithm(key: CryptoKey): SignatureAlgorithm {
   const alg = key.algorithm;
   const name = alg.name;
-  if (name === "Ed25519") return "ed25519";
+  if (name === "Ed25519")
+    return "ed25519";
   if (name === "HMAC") {
     const hash = (alg as HmacKeyAlgorithm).hash.name;
-    if (hash === "SHA-256") return "hmac-sha256";
+    if (hash === "SHA-256")
+      return "hmac-sha256";
     throw new TypeError(`Unsupported HMAC hash: "${hash}"`);
   }
   if (name === "RSA-PSS") {
     const hash = (alg as RsaHashedKeyAlgorithm).hash.name;
-    if (hash === "SHA-512") return "rsa-pss-sha512";
+    if (hash === "SHA-512")
+      return "rsa-pss-sha512";
     throw new TypeError(`Unsupported RSA-PSS hash: "${hash}"`);
   }
   if (name === "RSASSA-PKCS1-v1_5") {
     const hash = (alg as RsaHashedKeyAlgorithm).hash.name;
-    if (hash === "SHA-256") return "rsa-v1_5-sha256";
+    if (hash === "SHA-256")
+      return "rsa-v1_5-sha256";
     throw new TypeError(`Unsupported RSASSA-PKCS1-v1_5 hash: "${hash}"`);
   }
   if (name === "ECDSA") {
     const curve = (alg as EcKeyAlgorithm).namedCurve;
-    if (curve === "P-256") return "ecdsa-p256-sha256";
-    if (curve === "P-384") return "ecdsa-p384-sha384";
+    if (curve === "P-256")
+      return "ecdsa-p256-sha256";
+    if (curve === "P-384")
+      return "ecdsa-p384-sha384";
     throw new TypeError(`Unsupported ECDSA curve: "${curve}"`);
   }
   throw new TypeError(`Cannot infer signature algorithm from key: "${name}"`);
@@ -349,27 +355,27 @@ function normalizeIdentifier(input: ComponentInput): ComponentIdentifier {
 function resolveComponentValue(
   id: ComponentIdentifier,
   message: Request | Response,
-  parsedUrl: { value?: URL },
+  parsedUrl: { value?: URL; },
   relatedRequest?: Request,
-  relatedParsedUrl?: { value?: URL },
+  relatedParsedUrl?: { value?: URL; }
 ): string {
   const params = id.parameters ?? {};
 
   // Validate incompatible parameter combinations
   if (params.bs && params.sf) {
     throw new TypeError(
-      `Cannot combine "bs" and "sf" parameters on component "${id.name}"`,
+      `Cannot combine "bs" and "sf" parameters on component "${id.name}"`
     );
   }
   if (params.bs && params.key !== undefined) {
     throw new TypeError(
-      `Cannot combine "bs" and "key" parameters on component "${id.name}"`,
+      `Cannot combine "bs" and "key" parameters on component "${id.name}"`
     );
   }
 
   if (params.tr) {
     throw new TypeError(
-      `Trailer field resolution (";tr") is not supported for component "${id.name}"`,
+      `Trailer field resolution (";tr") is not supported for component "${id.name}"`
     );
   }
 
@@ -377,19 +383,19 @@ function resolveComponentValue(
   if (params.req) {
     if (message instanceof Request) {
       throw new TypeError(
-        `Cannot use "req" parameter on component "${id.name}" for a request message`,
+        `Cannot use "req" parameter on component "${id.name}" for a request message`
       );
     }
     if (!relatedRequest) {
       throw new TypeError(
-        `Cannot resolve "req" parameter on component "${id.name}": no related request provided`,
+        `Cannot resolve "req" parameter on component "${id.name}": no related request provided`
       );
     }
     const { req: _, ...restParams } = params;
     return resolveComponentValue(
       { name: id.name, parameters: restParams },
       relatedRequest,
-      relatedParsedUrl ?? {},
+      relatedParsedUrl ?? {}
     );
   }
 
@@ -408,14 +414,14 @@ const REQUEST_ONLY_DERIVED: ReadonlySet<string> = new Set<DerivedComponent>([
   "@request-target",
   "@path",
   "@query",
-  "@query-param",
+  "@query-param"
 ]);
 
 function resolveDerivedComponent(
   name: string,
   message: Request | Response,
   params: ComponentParameters,
-  parsedUrl: { value?: URL },
+  parsedUrl: { value?: URL; }
 ): string {
   if (REQUEST_ONLY_DERIVED.has(name)) {
     if (!(message instanceof Request)) {
@@ -438,10 +444,12 @@ function resolveRequestDerived(
   name: string,
   request: Request,
   params: ComponentParameters,
-  parsedUrl: { value?: URL },
+  parsedUrl: { value?: URL; }
 ): string {
-  if (name === "@method") return request.method.toUpperCase();
-  if (name === "@target-uri") return request.url;
+  if (name === "@method")
+    return request.method.toUpperCase();
+  if (name === "@target-uri")
+    return request.url;
 
   const url = parsedUrl.value ??= new URL(request.url);
   switch (name) {
@@ -458,25 +466,26 @@ function resolveRequestDerived(
     case "@query-param": {
       if (params.name === undefined) {
         throw new TypeError(
-          `Component "${name}" requires "name" parameter`,
+          `Component "${name}" requires "name" parameter`
         );
       }
       const decoded = decodeURIComponent(params.name);
       const searchParams = new URLSearchParams(url.search);
       const values: string[] = [];
       for (const [k, v] of searchParams) {
-        if (k === decoded) values.push(v);
+        if (k === decoded)
+          values.push(v);
       }
       if (values.length === 0) {
         throw new TypeError(
-          `Query parameter "${params.name}" not found in request URL`,
+          `Query parameter "${params.name}" not found in request URL`
         );
       }
       // RFC 9421 section 2.2.8: "If a parameter name occurs multiple times
       // in a request, the named query parameter MUST NOT be included."
       if (values.length > 1) {
         throw new TypeError(
-          `Query parameter "${params.name}" occurs multiple times`,
+          `Query parameter "${params.name}" occurs multiple times`
         );
       }
       return encodeQueryParamValue(values[0]!);
@@ -494,14 +503,14 @@ function encodeQueryParamValue(value: string): string {
   // URLSearchParams serializes with + for spaces; convert back to %20.
   return new URLSearchParams([["", value]]).toString().slice(1).replaceAll(
     "+",
-    "%20",
+    "%20"
   );
 }
 
 function resolveFieldComponent(
   name: string,
   message: Request | Response,
-  params: ComponentParameters,
+  params: ComponentParameters
 ): string {
   const headerValue = message.headers.get(name);
   if (headerValue === null) {
@@ -525,7 +534,7 @@ function resolveFieldComponent(
 
 function resolveStrictStructuredField(
   headerValue: string,
-  fieldName: string,
+  fieldName: string
 ): string {
   // Try Dictionary, then List, then Item — the first successful parse wins
   try {
@@ -538,14 +547,14 @@ function resolveStrictStructuredField(
     return serializeItem(parseItem(headerValue));
   } catch { /* not an item */ }
   throw new TypeError(
-    `Cannot apply "sf" parameter to field "${fieldName}": unknown Structured Field type`,
+    `Cannot apply "sf" parameter to field "${fieldName}": unknown Structured Field type`
   );
 }
 
 function resolveDictionaryMember(
   headerValue: string,
   fieldName: string,
-  key: string,
+  key: string
 ): string {
   let dict: Dictionary;
   try {
@@ -553,13 +562,13 @@ function resolveDictionaryMember(
   } catch (cause) {
     throw new TypeError(
       `Cannot parse "${fieldName}" as Dictionary for "key" parameter`,
-      { cause },
+      { cause }
     );
   }
   const member = dict.get(key);
   if (member === undefined) {
     throw new TypeError(
-      `Dictionary key "${key}" not found in "${fieldName}" header`,
+      `Dictionary key "${key}" not found in "${fieldName}" header`
     );
   }
   if (isItem(member)) {
@@ -576,7 +585,7 @@ function resolveBinaryWrapped(headerValue: string): string {
   // it will mishandle single header values that contain a literal ", " (e.g.
   // the Date header). Avoid using ;bs on such fields.
   const values = headerValue.split(", ");
-  const items: Item[] = values.map((v) => {
+  const items: Item[] = values.map(v => {
     const bytes = UTF8_ENCODER.encode(v.trim());
     return sfItem(binary(bytes));
   });
@@ -590,29 +599,38 @@ function resolveBinaryWrapped(headerValue: string): string {
 function serializeComponentIdentifier(id: ComponentIdentifier): string {
   let result = `"${id.name}"`;
   const params = id.parameters ?? {};
-  if (params.sf) result += ";sf";
-  if (params.key !== undefined) result += `;key="${params.key}"`;
-  if (params.bs) result += ";bs";
-  if (params.req) result += ";req";
-  if (params.tr) result += ";tr";
-  if (params.name !== undefined) result += `;name="${params.name}"`;
+  if (params.sf)
+    result += ";sf";
+  if (params.key !== undefined)
+    result += `;key="${params.key}"`;
+  if (params.bs)
+    result += ";bs";
+  if (params.req)
+    result += ";req";
+  if (params.tr)
+    result += ";tr";
+  if (params.name !== undefined)
+    result += `;name="${params.name}"`;
   return result;
 }
 
 function buildSignatureParamsValue(
   components: ComponentIdentifier[],
-  params: SignatureParams,
+  params: SignatureParams
 ): string {
   // Build the inner list items (component identifiers as String items with params)
-  const items: Item[] = components.map((id) => {
+  const items: Item[] = components.map(id => {
     const sfParams = new Map<string, BareItem>();
     const p = id.parameters ?? {};
-    if (p.sf) sfParams.set("sf", { type: "boolean", value: true });
+    if (p.sf)
+      sfParams.set("sf", { type: "boolean", value: true });
     if (p.key !== undefined) {
       sfParams.set("key", { type: "string", value: p.key });
     }
-    if (p.bs) sfParams.set("bs", { type: "boolean", value: true });
-    if (p.req) sfParams.set("req", { type: "boolean", value: true });
+    if (p.bs)
+      sfParams.set("bs", { type: "boolean", value: true });
+    if (p.req)
+      sfParams.set("req", { type: "boolean", value: true });
     // `;tr` is rejected upstream; add handling here when trailer support lands.
     if (p.name !== undefined) {
       sfParams.set("name", { type: "string", value: p.name });
@@ -647,14 +665,12 @@ function buildSignatureParamsValue(
 }
 
 function serializeInnerListValue(il: InnerList): string {
-  const items = il.items.map((i) => serializeItem(i)).join(" ");
+  const items = il.items.map(i => serializeItem(i)).join(" ");
   let result = `(${items})`;
   for (const [key, value] of il.parameters) {
     // buildSignatureParamsValue only ever puts integer (created/expires) or
     // string (nonce/alg/keyid/tag) bare items into listParams.
-    result += `;${key}=${
-      value.type === "integer" ? String(value.value) : `"${value.value}"`
-    }`;
+    result += `;${key}=${value.type === "integer" ? String(value.value) : `"${value.value}"`}`;
   }
   return result;
 }
@@ -704,30 +720,30 @@ export interface CreateSignatureBaseOptions {
  * @returns The signature base string.
  */
 export function createSignatureBase(
-  options: CreateSignatureBaseOptions,
+  options: CreateSignatureBaseOptions
 ): string {
   const { message, params, request: relatedRequest } = options;
   const components = params.components.map(normalizeIdentifier);
 
   const seen = new Set<string>();
   const lines: string[] = [];
-  const parsedUrl: { value?: URL } = {};
-  const relatedParsedUrl: { value?: URL } = {};
+  const parsedUrl: { value?: URL; } = {};
+  const relatedParsedUrl: { value?: URL; } = {};
   for (const id of components) {
     if (id.name === "@signature-params") {
       throw new TypeError(
-        `"@signature-params" must not be listed in covered components`,
+        `"@signature-params" must not be listed in covered components`
       );
     }
     if (id.name !== id.name.toLowerCase()) {
       throw new TypeError(
-        `Component name "${id.name}" must be lowercase`,
+        `Component name "${id.name}" must be lowercase`
       );
     }
     const serializedId = serializeComponentIdentifier(id);
     if (seen.has(serializedId)) {
       throw new TypeError(
-        `Duplicate component identifier ${serializedId} in covered components`,
+        `Duplicate component identifier ${serializedId} in covered components`
       );
     }
     seen.add(serializedId);
@@ -736,7 +752,7 @@ export function createSignatureBase(
       message,
       parsedUrl,
       relatedRequest,
-      relatedParsedUrl,
+      relatedParsedUrl
     );
     lines.push(`${serializedId}: ${value}`);
   }
@@ -754,7 +770,7 @@ export function createSignatureBase(
 function validateTimestamp(value: number, name: string): void {
   if (!Number.isInteger(value) || value < 0) {
     throw new RangeError(
-      `${name} must be a non-negative integer, got ${value}`,
+      `${name} must be a non-negative integer, got ${value}`
     );
   }
 }
@@ -762,7 +778,7 @@ function validateTimestamp(value: number, name: string): void {
 function validateSignParams(params: SignatureParams): void {
   if (params.label !== undefined && !SF_KEY_REGEXP.test(params.label)) {
     throw new TypeError(
-      `Invalid signature label "${params.label}": must be a valid sf-key (lowercase alphanumeric, _, -, ., *)`,
+      `Invalid signature label "${params.label}": must be a valid sf-key (lowercase alphanumeric, _, -, ., *)`
     );
   }
   if (params.created !== undefined) {
@@ -775,7 +791,7 @@ function validateSignParams(params: SignatureParams): void {
     params.algorithm !== undefined && !isSupportedAlgorithm(params.algorithm)
   ) {
     throw new TypeError(
-      `Unsupported signature algorithm: "${params.algorithm}"`,
+      `Unsupported signature algorithm: "${params.algorithm}"`
     );
   }
 }
@@ -819,7 +835,7 @@ function validateSignParams(params: SignatureParams): void {
  * @returns A new message with signature headers appended.
  */
 export async function signMessage<T extends Request | Response>(
-  options: SignOptions<T>,
+  options: SignOptions<T>
 ): Promise<T> {
   const { message, params, key, request } = options;
   const label = params.label ?? "sig";
@@ -830,13 +846,14 @@ export async function signMessage<T extends Request | Response>(
   const algorithm = params.algorithm ?? inferAlgorithm(key);
 
   const baseOpts: CreateSignatureBaseOptions = { message, params };
-  if (request) baseOpts.request = request;
+  if (request)
+    baseOpts.request = request;
   const base = createSignatureBase(baseOpts);
   const baseBytes = UTF8_ENCODER.encode(base);
 
   const signParams = getSignParams(algorithm);
   const signatureBytes: Uint8Array_ = new Uint8Array(
-    await crypto.subtle.sign(signParams, key, baseBytes),
+    await crypto.subtle.sign(signParams, key, baseBytes)
   );
 
   // Build Signature-Input value
@@ -846,7 +863,7 @@ export async function signMessage<T extends Request | Response>(
   // Build headers
   const sigInputHeader = `${label}=${sigParamsValue}`;
   const sigHeader = serializeDictionary(
-    new Map([[label, sfItem(binary(signatureBytes))]]),
+    new Map([[label, sfItem(binary(signatureBytes))]])
   );
 
   // clone() preserves the concrete type at runtime
@@ -873,19 +890,20 @@ function appendHeader(headers: Headers, name: string, value: string): void {
 function assertUniqueLabel(headers: Headers, label: string): void {
   for (const name of ["Signature-Input", "Signature"] as const) {
     const value = headers.get(name);
-    if (value === null) continue;
+    if (value === null)
+      continue;
     let dict: Dictionary;
     try {
       dict = parseDictionary(value);
     } catch (cause) {
       throw new TypeError(
         `Cannot parse existing "${name}" header on message to check label uniqueness`,
-        { cause },
+        { cause }
       );
     }
     if (dict.has(label)) {
       throw new TypeError(
-        `Signature label "${label}" is already present in the "${name}" header on the message; choose a unique label (RFC 9421 section 4)`,
+        `Signature label "${label}" is already present in the "${name}" header on the message; choose a unique label (RFC 9421 section 4)`
       );
     }
   }
@@ -923,26 +941,26 @@ export async function verifyMessage(
   message: Request | Response,
   keyLookup: (
     keyId: string,
-    algorithm?: SignatureAlgorithm,
+    algorithm?: SignatureAlgorithm
   ) => Promise<CryptoKey | null> | CryptoKey | null,
-  options?: VerifyOptions,
+  options?: VerifyOptions
 ): Promise<VerifyResult[]> {
   if (
     options?.maxAge !== undefined &&
     (!Number.isInteger(options.maxAge) || options.maxAge < 0)
   ) {
     throw new RangeError(
-      `maxAge must be a non-negative integer, got ${options.maxAge}`,
+      `maxAge must be a non-negative integer, got ${options.maxAge}`
     );
   }
 
   const sigInputHeader = message.headers.get("Signature-Input");
   if (sigInputHeader === null) {
-    throw new TypeError('Missing "Signature-Input" header');
+    throw new TypeError("Missing \"Signature-Input\" header");
   }
   const sigHeader = message.headers.get("Signature");
   if (sigHeader === null) {
-    throw new TypeError('Missing "Signature" header');
+    throw new TypeError("Missing \"Signature\" header");
   }
 
   const sigInputDict = parseDictionary(sigInputHeader);
@@ -952,14 +970,14 @@ export async function verifyMessage(
   for (const [label] of sigInputDict) {
     if (!sigDict.has(label)) {
       throw new TypeError(
-        `Label "${label}" found in Signature-Input but missing in Signature`,
+        `Label "${label}" found in Signature-Input but missing in Signature`
       );
     }
   }
   for (const [label] of sigDict) {
     if (!sigInputDict.has(label)) {
       throw new TypeError(
-        `Label "${label}" found in Signature but missing in Signature-Input`,
+        `Label "${label}" found in Signature but missing in Signature-Input`
       );
     }
   }
@@ -969,11 +987,12 @@ export async function verifyMessage(
 
   for (const [label, sigInputMember] of sigInputDict) {
     // Filter by labels option
-    if (options?.labels && !options.labels.includes(label)) continue;
+    if (options?.labels && !options.labels.includes(label))
+      continue;
 
     if (!isInnerList(sigInputMember)) {
       throw new TypeError(
-        `Signature-Input member "${label}" is not an Inner List`,
+        `Signature-Input member "${label}" is not an Inner List`
       );
     }
 
@@ -986,11 +1005,11 @@ export async function verifyMessage(
         const reqId = normalizeIdentifier(required);
         const reqKey = serializeComponentIdentifier(reqId);
         const found = parsedParams.components.some(
-          (c) => serializeComponentIdentifier(c) === reqKey,
+          c => serializeComponentIdentifier(c) === reqKey
         );
         if (!found) {
           throw new Error(
-            `Signature "${label}" does not cover required component ${reqKey}`,
+            `Signature "${label}" does not cover required component ${reqKey}`
           );
         }
       }
@@ -1000,7 +1019,7 @@ export async function verifyMessage(
     if (parsedParams.expires !== undefined) {
       if (now > parsedParams.expires) {
         throw new Error(
-          `Signature "${label}" has expired (past "expires" timestamp)`,
+          `Signature "${label}" has expired (past "expires" timestamp)`
         );
       }
     }
@@ -1009,7 +1028,7 @@ export async function verifyMessage(
     if (options?.maxAge !== undefined) {
       if (parsedParams.created === undefined) {
         throw new Error(
-          `Signature "${label}" has no "created" timestamp but maxAge was requested`,
+          `Signature "${label}" has no "created" timestamp but maxAge was requested`
         );
       }
       if (now - parsedParams.created > options.maxAge) {
@@ -1028,13 +1047,14 @@ export async function verifyMessage(
       ...(parsedParams.expires !== undefined &&
         { expires: parsedParams.expires }),
       ...(parsedParams.nonce !== undefined && { nonce: parsedParams.nonce }),
-      ...(parsedParams.tag !== undefined && { tag: parsedParams.tag }),
+      ...(parsedParams.tag !== undefined && { tag: parsedParams.tag })
     };
     const verifyBaseOpts: CreateSignatureBaseOptions = {
       message,
-      params: reconstructedParams,
+      params: reconstructedParams
     };
-    if (options?.request) verifyBaseOpts.request = options.request;
+    if (options?.request)
+      verifyBaseOpts.request = options.request;
     const base = createSignatureBase(verifyBaseOpts);
     const baseBytes = UTF8_ENCODER.encode(base);
 
@@ -1042,16 +1062,16 @@ export async function verifyMessage(
     const sigMember = sigDict.get(label);
     if (!sigMember || !isItem(sigMember)) {
       throw new TypeError(
-        `Signature member "${label}" is not an Item`,
+        `Signature member "${label}" is not an Item`
       );
     }
     if (sigMember.value.type !== "binary") {
       throw new TypeError(
-        `Signature member "${label}" is not a Byte Sequence`,
+        `Signature member "${label}" is not a Byte Sequence`
       );
     }
     const sigBytes: Uint8Array_ = new Uint8Array(
-      sigMember.value.value,
+      sigMember.value.value
     );
 
     // Look up key
@@ -1069,12 +1089,12 @@ export async function verifyMessage(
       verifyParams,
       verifyKey,
       sigBytes,
-      baseBytes,
+      baseBytes
     );
 
     if (!valid) {
       throw new Error(
-        `Signature verification failed for label "${label}"`,
+        `Signature verification failed for label "${label}"`
       );
     }
 
@@ -1086,14 +1106,14 @@ export async function verifyMessage(
 
 function parseSignatureInput(
   il: InnerList,
-  label: string,
+  label: string
 ): ParsedSignatureParams {
   const components: ComponentIdentifier[] = [];
 
   for (const member of il.items) {
     if (member.value.type !== "string") {
       throw new TypeError(
-        `Component identifier in "${label}" is not a String`,
+        `Component identifier in "${label}" is not a String`
       );
     }
     const name = member.value.value;
@@ -1101,26 +1121,32 @@ function parseSignatureInput(
     for (const [key, value] of member.parameters) {
       switch (key) {
         case "sf":
-          if (value.type === "boolean" && value.value) params.sf = true;
+          if (value.type === "boolean" && value.value)
+            params.sf = true;
           break;
         case "key":
-          if (value.type === "string") params.key = value.value;
+          if (value.type === "string")
+            params.key = value.value;
           break;
         case "bs":
-          if (value.type === "boolean" && value.value) params.bs = true;
+          if (value.type === "boolean" && value.value)
+            params.bs = true;
           break;
         case "req":
-          if (value.type === "boolean" && value.value) params.req = true;
+          if (value.type === "boolean" && value.value)
+            params.req = true;
           break;
         case "tr":
-          if (value.type === "boolean" && value.value) params.tr = true;
+          if (value.type === "boolean" && value.value)
+            params.tr = true;
           break;
         case "name":
-          if (value.type === "string") params.name = value.value;
+          if (value.type === "string")
+            params.name = value.value;
           break;
       }
     }
-    const hasParams = Object.values(params).some((v) => v !== undefined);
+    const hasParams = Object.values(params).some(v => v !== undefined);
     components.push(hasParams ? { name, parameters: params } : { name });
   }
 
@@ -1129,13 +1155,16 @@ function parseSignatureInput(
   for (const [key, value] of il.parameters) {
     switch (key) {
       case "created":
-        if (value.type === "integer") result.created = value.value;
+        if (value.type === "integer")
+          result.created = value.value;
         break;
       case "expires":
-        if (value.type === "integer") result.expires = value.value;
+        if (value.type === "integer")
+          result.expires = value.value;
         break;
       case "nonce":
-        if (value.type === "string") result.nonce = value.value;
+        if (value.type === "string")
+          result.nonce = value.value;
         break;
       case "alg":
         if (value.type === "string" && isSupportedAlgorithm(value.value)) {
@@ -1143,10 +1172,12 @@ function parseSignatureInput(
         }
         break;
       case "keyid":
-        if (value.type === "string") result.keyId = value.value;
+        if (value.type === "string")
+          result.keyId = value.value;
         break;
       case "tag":
-        if (value.type === "string") result.tag = value.value;
+        if (value.type === "string")
+          result.tag = value.value;
         break;
     }
   }

@@ -3,7 +3,7 @@
 
 import {
   ProgressBar,
-  type ProgressBarOptions,
+  type ProgressBarOptions
 } from "./unstable_progress_bar.ts";
 
 import type { Uint8Array_ } from "./_types.ts";
@@ -30,8 +30,7 @@ export type { Uint8Array_ };
  * await readable?.pipeTo((await Ende.create("./_tmp/example.com.html")).writable);
  * ```
  */
-export class ProgressBarStream
-  extends TransformStream<Uint8Array_, Uint8Array_> {
+export class ProgressBarStream extends TransformStream<Uint8Array_, Uint8Array_> {
   /**
    * Constructs a new instance.
    *
@@ -51,7 +50,7 @@ export class ProgressBarStream
    * @param options The options to configure various settings of the progress bar.
    */
   constructor(
-    options: ProgressBarOptions,
+    options: ProgressBarOptions
   ) {
     let bar: ProgressBar | undefined;
     super({
@@ -59,7 +58,8 @@ export class ProgressBarStream
         bar = new ProgressBar(options);
       },
       transform(chunk, controller) {
-        if (bar) bar.value += chunk.length;
+        if (bar)
+          bar.value += chunk.length;
         controller.enqueue(chunk);
       },
       flush(_controller) {
@@ -67,7 +67,7 @@ export class ProgressBarStream
       },
       cancel() {
         bar?.stop();
-      },
+      }
     });
   }
 }

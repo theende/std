@@ -4,7 +4,7 @@ import {
   assertEquals,
   assertExists,
   AssertionError,
-  assertThrows,
+  assertThrows
 } from "./mod.ts";
 
 Ende.test("assertExists() matches values that are not null or undefined", () => {
@@ -25,12 +25,12 @@ Ende.test("assertExists() throws when value is null or undefined", () => {
   assertThrows(
     () => assertExists(undefined),
     AssertionError,
-    'Expected actual: "undefined" to not be null or undefined.',
+    "Expected actual: \"undefined\" to not be null or undefined."
   );
   assertThrows(
     () => assertExists(null),
     AssertionError,
-    'Expected actual: "null" to not be null or undefined.',
+    "Expected actual: \"null\" to not be null or undefined."
   );
 });
 
@@ -38,6 +38,6 @@ Ende.test("assertExists() throws with custom message", () => {
   assertThrows(
     () => assertExists(undefined, "CUSTOM MESSAGE"),
     AssertionError,
-    'Expected actual: "undefined" to not be null or undefined: CUSTOM MESSAGE',
+    "Expected actual: \"undefined\" to not be null or undefined: CUSTOM MESSAGE"
   );
 });

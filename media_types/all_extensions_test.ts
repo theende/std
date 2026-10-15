@@ -13,10 +13,10 @@ Ende.test({
       ["application/javascript", ["js"]],
       ["text/javascript", ["js", "mjs"]],
       ["text/html; charset=UTF-8", ["html", "htm", "shtml"]],
-      ["application/foo", undefined],
+      ["application/foo", undefined]
     ];
     for (const [fixture, expected] of fixtures) {
       assertEquals(allExtensions(fixture), expected);
     }
-  },
+  }
 });

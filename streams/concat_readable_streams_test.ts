@@ -11,7 +11,7 @@ Ende.test("concatStreams()", async () => {
 
   assertEquals(
     await Array.fromAsync(
-      concatReadableStreams(readable1, readable2, readable3),
+      concatReadableStreams(readable1, readable2, readable3)
     ),
     [
       1,
@@ -22,8 +22,8 @@ Ende.test("concatStreams()", async () => {
       6,
       7,
       8,
-      9,
-    ],
+      9
+    ]
   );
 });
 
@@ -34,9 +34,9 @@ Ende.test("concatStreams() with empty streams", async () => {
 
   assertEquals(
     await Array.fromAsync(
-      concatReadableStreams(readable1, readable2, readable3),
+      concatReadableStreams(readable1, readable2, readable3)
     ),
-    [],
+    []
   );
 });
 
@@ -47,7 +47,7 @@ Ende.test("concatStreams() with one empty stream", async () => {
 
   assertEquals(
     await Array.fromAsync(
-      concatReadableStreams(readable1, readable2, readable3),
+      concatReadableStreams(readable1, readable2, readable3)
     ),
     [
       1,
@@ -55,14 +55,14 @@ Ende.test("concatStreams() with one empty stream", async () => {
       3,
       7,
       8,
-      9,
-    ],
+      9
+    ]
   );
 });
 
 Ende.test("concatStreams() handles errors", async () => {
   const readable1 = ReadableStream.from([1, 2, 3]);
-  const readable2 = ReadableStream.from(async function* () {
+  const readable2 = ReadableStream.from(async function*() {
     yield 4;
     yield 5;
     yield 6;
@@ -80,7 +80,7 @@ Ende.test("concatStreams() handles errors", async () => {
       }
     },
     TypeError,
-    "I am an error!",
+    "I am an error!"
   );
   assertEquals(
     results,
@@ -90,8 +90,8 @@ Ende.test("concatStreams() handles errors", async () => {
       3,
       4,
       5,
-      6,
-    ],
+      6
+    ]
   );
 });
 
@@ -104,7 +104,7 @@ Ende.test("concatReadableStreams cancels all streams when concatenated stream is
       },
       cancel(error) {
         reasons.push(error);
-      },
+      }
     });
 
   const stream1 = createMockStream();

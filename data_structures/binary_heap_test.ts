@@ -3,13 +3,13 @@
 import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { BinaryHeap } from "./binary_heap.ts";
 import { ascend, descend } from "./comparators.ts";
-import { type Container, MyMath } from "./_test_utils.ts";
+import { MyMath, type Container } from "./_test_utils.ts";
 
 Ende.test("BinaryHeap throws if compare is not a function", () => {
   assertThrows(
     () => new BinaryHeap({} as (a: number, b: number) => number),
     TypeError,
-    "Cannot construct a BinaryHeap: the 'compare' parameter is not a function, did you mean to call BinaryHeap.from?",
+    "Cannot construct a BinaryHeap: the 'compare' parameter is not a function, did you mean to call BinaryHeap.from?"
   );
 });
 
@@ -90,7 +90,7 @@ Ende.test("BinaryHeap works with ascend comparator", () => {
 Ende.test("BinaryHeap contains objects", () => {
   const heap = new BinaryHeap((
     a: Container,
-    b: Container,
+    b: Container
   ) => ascend(a.id, b.id));
   const ids: number[] = [-10, 9, -1, 100, 1, 0, -100, 10, -9];
 
@@ -110,7 +110,7 @@ Ende.test("BinaryHeap contains objects", () => {
 
     const expectedContainer = {
       id: expected[i],
-      values: [value - 1, value, value + 1],
+      values: [value - 1, value, value + 1]
     };
     assertEquals(heap.peek(), expectedContainer);
     assertEquals(heap.pop(), expectedContainer);
@@ -132,33 +132,33 @@ Ende.test("BinaryHeap.from() handles iterable", () => {
   assertEquals([...heap].reverse(), expected);
 
   heap = BinaryHeap.from(values, {
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...heap], expected.map((v: number) => 2 * v));
 
   const math = new MyMath();
   heap = BinaryHeap.from(values, {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals(values, originalValues);
   assertEquals([...heap], expected.map((v: number) => 3 * v));
 
   heap = BinaryHeap.from(values, {
     compare: ascend,
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals(values, originalValues);
   assertEquals([...heap].reverse(), expected.map((v: number) => 2 * v));
 
   heap = BinaryHeap.from(values, {
     compare: ascend,
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals(values, originalValues);
   assertEquals([...heap].reverse(), expected.map((v: number) => 3 * v));
@@ -180,7 +180,7 @@ Ende.test("BinaryHeap.from() handles default descend comparator", () => {
 
   maxHeap.push(...values);
   heap = BinaryHeap.from(maxHeap, {
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...maxHeap], expected);
   assertEquals([...heap], expected.map((v: number) => 2 * v));
@@ -188,10 +188,10 @@ Ende.test("BinaryHeap.from() handles default descend comparator", () => {
   const math = new MyMath();
   maxHeap.push(...values);
   heap = BinaryHeap.from(maxHeap, {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...maxHeap], expected);
   assertEquals([...heap], expected.map((v: number) => 3 * v));
@@ -199,7 +199,7 @@ Ende.test("BinaryHeap.from() handles default descend comparator", () => {
   maxHeap.push(...values);
   heap = BinaryHeap.from(maxHeap, {
     compare: ascend,
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...maxHeap], expected);
   assertEquals([...heap].reverse(), expected.map((v: number) => 2 * v));
@@ -207,10 +207,10 @@ Ende.test("BinaryHeap.from() handles default descend comparator", () => {
   maxHeap.push(...values);
   heap = BinaryHeap.from(maxHeap, {
     compare: ascend,
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...maxHeap], expected);
   assertEquals([...heap].reverse(), expected.map((v: number) => 3 * v));
@@ -232,7 +232,7 @@ Ende.test("BinaryHeap.from() handles ascend comparator", () => {
 
   minHeap.push(...values);
   heap = BinaryHeap.from(minHeap, {
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...minHeap], expected);
   assertEquals([...heap], expected.map((v: number) => 2 * v));
@@ -240,10 +240,10 @@ Ende.test("BinaryHeap.from() handles ascend comparator", () => {
   const math = new MyMath();
   minHeap.push(...values);
   heap = BinaryHeap.from(minHeap, {
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...minHeap], expected);
   assertEquals([...heap], expected.map((v: number) => 3 * v));
@@ -251,7 +251,7 @@ Ende.test("BinaryHeap.from() handles ascend comparator", () => {
   minHeap.push(...values);
   heap = BinaryHeap.from(minHeap, {
     compare: descend,
-    map: (v: number) => 2 * v,
+    map: (v: number) => 2 * v
   });
   assertEquals([...minHeap], expected);
   assertEquals([...heap].reverse(), expected.map((v: number) => 2 * v));
@@ -259,10 +259,10 @@ Ende.test("BinaryHeap.from() handles ascend comparator", () => {
   minHeap.push(...values);
   heap = BinaryHeap.from(minHeap, {
     compare: descend,
-    map: function (this: MyMath, v: number) {
+    map: function(this: MyMath, v: number) {
       return this.multiply(3, v);
     },
-    thisArg: math,
+    thisArg: math
   });
   assertEquals([...minHeap], expected);
   assertEquals([...heap].reverse(), expected.map((v: number) => 3 * v));
@@ -303,7 +303,7 @@ Ende.test("BinaryHeap handles edge case 3", () => {
     { x: 2, y: 4 },
     { x: 2, y: 5 },
     { x: 2, y: 6 },
-    { x: 2, y: 7 },
+    { x: 2, y: 7 }
   );
 
   const expected = [
@@ -313,7 +313,7 @@ Ende.test("BinaryHeap handles edge case 3", () => {
     { x: 2, y: 5 },
     { x: 2, y: 4 },
     { x: 2, y: 6 },
-    { x: 2, y: 7 },
+    { x: 2, y: 7 }
   ];
   assertEquals([...minHeap], expected);
 });
@@ -345,7 +345,7 @@ Ende.test("BinaryHeap.toArray()", () => {
   const values = [-10, 9, -1, 100, 9, 1, 0, 9, -100, 10, -9];
   const maxHeap = new BinaryHeap<number>();
   maxHeap.push(...values);
-  assert(maxHeap.toArray().every((value) => values.includes(value)));
+  assert(maxHeap.toArray().every(value => values.includes(value)));
 });
 
 Ende.test("BinaryHeap.drain()", () => {

@@ -3,8 +3,8 @@
 import { modulo } from "./modulo.ts";
 import { assert, assertEquals } from "@ende/assert";
 
-Ende.test("modulo()", async (t) => {
-  await t.step("basic functionality", async (t) => {
+Ende.test("modulo()", async t => {
+  await t.step("basic functionality", async t => {
     for (let n = -3; n <= 3; ++n) {
       const val = n * 12 + 5;
       await t.step(`modulo(${val}, 12) == 5`, () => {
@@ -164,16 +164,14 @@ Ende.test("modulo()", async (t) => {
       [-2.0, 2.0, 0.0],
       [-2.0, -0.5, -0.0],
       [-2.0, -1.0, -0.0],
-      [-2.0, -2.0, -0.0],
+      [-2.0, -2.0, -0.0]
     ];
 
     for (const [a, b, result] of cases) {
       const actual = modulo(a, b);
       assert(
         Object.is(actual, result),
-        `modulo(${Ende.inspect(a)}, ${Ende.inspect(b)}) == ${
-          Ende.inspect(result)
-        } (actual ${Ende.inspect(actual)})`,
+        `modulo(${Ende.inspect(a)}, ${Ende.inspect(b)}) == ${Ende.inspect(result)} (actual ${Ende.inspect(actual)})`
       );
     }
   });

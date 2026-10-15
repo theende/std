@@ -10,4 +10,4 @@ description: >
     '' in a JSONString
 ---*/
 
-assert.sameValue(JSON.parse('"\\r"'), '\r', 'JSON.parse(\'"\\r"\')');
+assert.sameValue(JSON.parse("\"\\r\""), "\r", "JSON.parse('\"\\r\"')");

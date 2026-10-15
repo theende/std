@@ -9,7 +9,7 @@ import {
   decode2331Encoding,
   isIterator,
   isToken,
-  isTSpecial,
+  isTSpecial
 } from "./_util.ts";
 
 Ende.test({
@@ -19,12 +19,12 @@ Ende.test({
       ["foo bar", "foo", " bar"],
       ["bar", "bar", ""],
       ["", "", ""],
-      [" foo", "", " foo"],
+      [" foo", "", " foo"]
     ] as const;
     for (const [fixture, token, rest] of fixtures) {
       assertEquals(consumeToken(fixture), [token, rest]);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -41,19 +41,19 @@ Ende.test({
       [`"My value"end`, "My value", "end"],
       [`"My value" end`, "My value", " end"],
       [`"\\\\" rest`, "\\", " rest"],
-      [`"My \\" value"end`, 'My " value', "end"],
+      [`"My \\" value"end`, "My \" value", "end"],
       [`"\\" rest`, "", `"\\" rest`],
       [`"C:\\dev\\go\\robots.txt"`, `C:\\dev\\go\\robots.txt`, ""],
       [
         `"C:\\新建文件夹\\中文第二次测试.mp4"`,
         `C:\\新建文件夹\\中文第二次测试.mp4`,
-        "",
-      ],
+        ""
+      ]
     ] as const;
     for (const [fixture, value, rest] of fixtures) {
       assertEquals(consumeValue(fixture), [value, rest]);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -76,15 +76,15 @@ Ende.test({
         ` ; key=value;  blah="value";name="foo" `,
         "key",
         "value",
-        `;  blah="value";name="foo" `,
+        `;  blah="value";name="foo" `
       ],
       [`;  blah="value";name="foo" `, "blah", "value", `;name="foo" `],
-      [`;name="foo" `, "name", "foo", ` `],
+      [`;name="foo" `, "name", "foo", ` `]
     ] as const;
     for (const [fixture, key, value, rest] of fixtures) {
       assertEquals(consumeMediaParam(fixture), [key, value, rest]);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -96,12 +96,12 @@ Ende.test({
       [`foo'bar'baz`, undefined],
       [`us-ascii'en-us'`, undefined],
       [`us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A`, "This is ***fun***"],
-      [`UTF-8''foo-a%cc%88.html`, "foo-ä.html"],
+      [`UTF-8''foo-a%cc%88.html`, "foo-ä.html"]
     ] as const;
     for (const [fixture, expected] of fixtures) {
       assertEquals(decode2331Encoding(fixture), expected);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -113,12 +113,12 @@ Ende.test({
       [{}, false],
       ["", true],
       [[], true],
-      [Object.entries({}), true],
+      [Object.entries({}), true]
     ] as const;
     for (const [fixture, expected] of fixtures) {
       assertEquals(isIterator(fixture), expected);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -128,12 +128,12 @@ Ende.test({
       ["", false],
       [";", false],
       ["\\", false],
-      ["foo", true],
+      ["foo", true]
     ] as const;
     for (const [fixture, expected] of fixtures) {
       assertEquals(isToken(fixture), expected);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -151,7 +151,7 @@ Ende.test({
       [";", true],
       [":", true],
       ["\\", true],
-      ['"', true],
+      ["\"", true],
       ["/", true],
       ["[", true],
       ["]", true],
@@ -163,10 +163,10 @@ Ende.test({
       ["\r", false],
       ["\f", false],
       ["\v", false],
-      ["foo", false],
+      ["foo", false]
     ] as const;
     for (const [fixture, expected] of fixtues) {
       assertEquals(isTSpecial(fixture), expected);
     }
-  },
+  }
 });

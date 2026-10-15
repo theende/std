@@ -29,7 +29,7 @@ export type { Prng, RandomOptions };
  */
 export function shuffle<T>(
   items: readonly T[],
-  options?: RandomOptions,
+  options?: RandomOptions
 ): T[] {
   const result = [...items];
   const prng = options?.prng ?? Math.random;

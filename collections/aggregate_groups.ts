@@ -45,7 +45,7 @@ import { mapEntries } from "./map_entries.ts";
  */
 export function aggregateGroups<T, A>(
   record: Readonly<Record<string, ReadonlyArray<T>>>,
-  aggregator: (current: T, key: string, first: boolean, accumulator?: A) => A,
+  aggregator: (current: T, key: string, first: boolean, accumulator?: A) => A
 ): Record<string, A> {
   return mapEntries(
     record,
@@ -54,10 +54,9 @@ export function aggregateGroups<T, A>(
       // Need the type assertions here because the reduce type does not support
       // the type transition we need
       values.reduce(
-        (accumulator, current, currentIndex) =>
-          aggregator(current, key, currentIndex === 0, accumulator),
-        undefined as A | undefined,
-      ) as A,
-    ],
+        (accumulator, current, currentIndex) => aggregator(current, key, currentIndex === 0, accumulator),
+        undefined as A | undefined
+      ) as A
+    ]
   );
 }

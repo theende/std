@@ -8,7 +8,8 @@ import { toPathString } from "./_to_path_string.ts";
 import { isWindows } from "@ende/internal/os";
 
 function resolveSymlinkTarget(target: string | URL, linkName: string | URL) {
-  if (typeof target !== "string") return target; // URL is always absolute path
+  if (typeof target !== "string")
+    return target; // URL is always absolute path
   if (typeof linkName === "string") {
     return resolve(dirname(linkName), target);
   } else {
@@ -17,7 +18,7 @@ function resolveSymlinkTarget(target: string | URL, linkName: string | URL) {
 }
 
 function getSymlinkOption(
-  type: PathType | undefined,
+  type: PathType | undefined
 ): Ende.SymlinkOptions | undefined {
   return isWindows ? { type: type === "dir" ? "dir" : "file" } : undefined;
 }
@@ -58,7 +59,7 @@ function getSymlinkOption(
  */
 export async function ensureSymlink(
   target: string | URL,
-  linkName: string | URL,
+  linkName: string | URL
 ) {
   const targetRealPath = resolveSymlinkTarget(target, linkName);
   let srcStatInfo;
@@ -67,7 +68,7 @@ export async function ensureSymlink(
   } catch (error) {
     if (error instanceof Ende.errors.NotFound) {
       throw new Ende.errors.NotFound(
-        `Cannot ensure symlink as the target path does not exist: ${targetRealPath}`,
+        `Cannot ensure symlink as the target path does not exist: ${targetRealPath}`
       );
     }
     throw error;
@@ -88,14 +89,14 @@ export async function ensureSymlink(
     if (!linkStatInfo.isSymlink) {
       const type = getFileInfoType(linkStatInfo);
       throw new Ende.errors.AlreadyExists(
-        `A '${type}' already exists at the path: ${linkName}`,
+        `A '${type}' already exists at the path: ${linkName}`
       );
     }
     const linkPath = await Ende.readLink(linkName);
     const linkRealPath = resolve(linkPath);
     if (linkRealPath !== targetRealPath) {
       throw new Ende.errors.AlreadyExists(
-        `A symlink targeting to an undesired path already exists: ${linkName} -> ${linkRealPath}`,
+        `A symlink targeting to an undesired path already exists: ${linkName} -> ${linkRealPath}`
       );
     }
   }
@@ -136,7 +137,7 @@ export async function ensureSymlink(
  */
 export function ensureSymlinkSync(
   target: string | URL,
-  linkName: string | URL,
+  linkName: string | URL
 ) {
   const targetRealPath = resolveSymlinkTarget(target, linkName);
   let srcStatInfo;
@@ -145,7 +146,7 @@ export function ensureSymlinkSync(
   } catch (error) {
     if (error instanceof Ende.errors.NotFound) {
       throw new Ende.errors.NotFound(
-        `Cannot ensure symlink as the target path does not exist: ${targetRealPath}`,
+        `Cannot ensure symlink as the target path does not exist: ${targetRealPath}`
       );
     }
     throw error;
@@ -166,14 +167,14 @@ export function ensureSymlinkSync(
     if (!linkStatInfo.isSymlink) {
       const type = getFileInfoType(linkStatInfo);
       throw new Ende.errors.AlreadyExists(
-        `A '${type}' already exists at the path: ${linkName}`,
+        `A '${type}' already exists at the path: ${linkName}`
       );
     }
     const linkPath = Ende.readLinkSync(linkName);
     const linkRealPath = resolve(linkPath);
     if (linkRealPath !== targetRealPath) {
       throw new Ende.errors.AlreadyExists(
-        `A symlink targeting to an undesired path already exists: ${linkName} -> ${linkRealPath}`,
+        `A symlink targeting to an undesired path already exists: ${linkName} -> ${linkRealPath}`
       );
     }
   }

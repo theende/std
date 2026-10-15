@@ -12,10 +12,10 @@ import {
   encodeTime,
   incrementBase32,
   monotonicFactory,
-  RANDOM_LEN,
+  RANDOM_LEN
 } from "./_util.ts";
 
-Ende.test("incrementBase32()", async (t) => {
+Ende.test("incrementBase32()", async t => {
   await t.step("increments correctly", () => {
     assertEquals("A109D", incrementBase32("A109C"));
   });
@@ -27,7 +27,7 @@ Ende.test("incrementBase32()", async (t) => {
   await t.step("double increments correctly", () => {
     assertEquals(
       "A1Z01",
-      incrementBase32(incrementBase32("A1YZZ")),
+      incrementBase32(incrementBase32("A1YZZ"))
     );
   });
 
@@ -44,12 +44,12 @@ Ende.test("incrementBase32()", async (t) => {
   });
 });
 
-Ende.test("encodeTime()", async (t) => {
+Ende.test("encodeTime()", async t => {
   await t.step("should return expected encoded result", () => {
     assertEquals("01ARYZ6S41", encodeTime(1469918176385));
   });
 
-  await t.step("should throw an error", async (t) => {
+  await t.step("should throw an error", async t => {
     await t.step("if time greater than (2 ^ 48) - 1", () => {
       assertThrows(() => {
         encodeTime(Math.pow(2, 48));
@@ -83,13 +83,13 @@ Ende.test("encodeTime()", async (t) => {
   });
 });
 
-Ende.test("encodeRandom()", async (t) => {
+Ende.test("encodeRandom()", async t => {
   await t.step("should return correct length", () => {
     assertEquals(RANDOM_LEN, encodeRandom().length);
   });
 });
 
-Ende.test("decodeTime()", async (t) => {
+Ende.test("decodeTime()", async t => {
   await t.step("should return correct timestamp", () => {
     const timestamp = Date.now();
     const id = ulid(timestamp);
@@ -99,11 +99,11 @@ Ende.test("decodeTime()", async (t) => {
   await t.step("should accept the maximum allowed timestamp", () => {
     assertEquals(
       281474976710655,
-      decodeTime("7ZZZZZZZZZZZZZZZZZZZZZZZZZ"),
+      decodeTime("7ZZZZZZZZZZZZZZZZZZZZZZZZZ")
     );
   });
 
-  await t.step("should reject", async (t) => {
+  await t.step("should reject", async t => {
     await t.step("malformed strings of incorrect length", () => {
       assertThrows(() => {
         decodeTime("FFFF");
@@ -124,7 +124,7 @@ Ende.test("decodeTime()", async (t) => {
   });
 });
 
-Ende.test("ulid()", async (t) => {
+Ende.test("ulid()", async t => {
   await t.step("should return correct length", () => {
     assertEquals(26, ulid().length);
   });
@@ -133,16 +133,16 @@ Ende.test("ulid()", async (t) => {
     "should return expected encoded time component result",
     () => {
       assertEquals("01ARYZ6S41", ulid(1469918176385).substring(0, 10));
-    },
+    }
   );
 });
 
-Ende.test("monotonicUlid() handles monotonicity", async (t) => {
+Ende.test("monotonicUlid() handles monotonicity", async t => {
   function encodeRandom(): string {
     return "YYYYYYYYYYYYYYYY";
   }
 
-  await t.step("without seedTime", async (t) => {
+  await t.step("without seedTime", async t => {
     const stubbedUlid = monotonicFactory(encodeRandom);
 
     using _time = new FakeTime(1469918176385);
@@ -164,7 +164,7 @@ Ende.test("monotonicUlid() handles monotonicity", async (t) => {
     });
   });
 
-  await t.step("with seedTime", async (t) => {
+  await t.step("with seedTime", async t => {
     const stubbedUlid = monotonicFactory(encodeRandom);
 
     await t.step("first call", () => {
@@ -174,7 +174,7 @@ Ende.test("monotonicUlid() handles monotonicity", async (t) => {
     await t.step("second call with the same", () => {
       assertStrictEquals(
         "01ARYZ6S41YYYYYYYYYYYYYYYZ",
-        stubbedUlid(1469918176385),
+        stubbedUlid(1469918176385)
       );
     });
 
@@ -194,11 +194,11 @@ Ende.test("monotonicUlid() handles monotonicity", async (t) => {
   await t.step("seed time is decoded correctly", () => {
     assertEquals(
       decodeTime(monotonicUlid(1000)),
-      1000,
+      1000
     );
     assertEquals(
       decodeTime(monotonicUlid(1469918176386)),
-      1469918176386,
+      1469918176386
     );
   });
 });

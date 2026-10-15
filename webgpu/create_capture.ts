@@ -75,22 +75,22 @@ export interface CreateCapture {
 export function createCapture(
   device: GPUDevice,
   width: number,
-  height: number,
+  height: number
 ): CreateCapture {
   const { padded } = getRowPadding(width);
   const outputBuffer = device.createBuffer({
     label: "Capture",
     size: padded * height,
-    usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
+    usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST
   });
   const texture = device.createTexture({
     label: "Capture",
     size: {
       width,
-      height,
+      height
     },
     format: "rgba8unorm-srgb",
-    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC,
+    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC
   });
 
   return { texture, outputBuffer };

@@ -32,14 +32,14 @@ const winPaths: Array<[string, string]> = [
   ["\\\\server\\share\\file_path", "\\\\server\\share\\"],
   [
     "\\\\server two\\shared folder\\file path.zip",
-    "\\\\server two\\shared folder\\",
+    "\\\\server two\\shared folder\\"
   ],
   ["\\\\teela\\admin$\\system32", "\\\\teela\\admin$\\"],
-  ["\\\\?\\UNC\\server\\share", "\\\\?\\UNC\\"],
+  ["\\\\?\\UNC\\server\\share", "\\\\?\\UNC\\"]
 ];
 
 const winSpecialCaseParseTests: ParseTestCase[] = [
-  ["/foo/bar", { root: "/", dir: "/foo", base: "bar", ext: "", name: "bar" }],
+  ["/foo/bar", { root: "/", dir: "/foo", base: "bar", ext: "", name: "bar" }]
 ];
 
 const winSpecialCaseFormatTests: FormatTestCase[] = [
@@ -49,7 +49,7 @@ const winSpecialCaseFormatTests: FormatTestCase[] = [
   [{ name: "index", ext: ".html" }, "index.html"],
   [{ dir: "some\\dir", name: "index", ext: ".html" }, "some\\dir\\index.html"],
   [{ root: "C:\\", name: "index", ext: ".html" }, "C:\\index.html"],
-  [{}, ""],
+  [{}, ""]
 ];
 
 const unixPaths: Array<[string, string, string?]> = [
@@ -60,7 +60,7 @@ const unixPaths: Array<[string, string, string?]> = [
   [
     "/home/user/a$$$dir//another File.zip",
     "/",
-    "/home/user/a$$$dir/another File.zip",
+    "/home/user/a$$$dir/another File.zip"
   ],
   ["user/dir/another File.zip", ""],
   ["file", ""],
@@ -77,7 +77,7 @@ const unixPaths: Array<[string, string, string?]> = [
   ["/.", "/"],
   ["/.foo", "/"],
   ["/.foo.bar", "/"],
-  ["/foo/bar.baz", "/"],
+  ["/foo/bar.baz", "/"]
 ];
 
 const unixSpecialCaseFormatTests: FormatTestCase[] = [
@@ -87,12 +87,12 @@ const unixSpecialCaseFormatTests: FormatTestCase[] = [
   [{ name: "index", ext: ".html" }, "index.html"],
   [{ dir: "some/dir", name: "index", ext: ".html" }, "some/dir/index.html"],
   [{ root: "/", name: "index", ext: ".html" }, "/index.html"],
-  [{}, ""],
+  [{}, ""]
 ];
 
 function checkParseFormat(
   path: typeof windows | typeof posix,
-  testCases: Array<[string, string, string?]>,
+  testCases: Array<[string, string, string?]>
 ) {
   testCases.forEach(([element, root, formatted]) => {
     const output = path.parse(element);
@@ -117,7 +117,7 @@ function checkParseFormat(
 
 function checkSpecialCaseParseFormat(
   path: typeof windows | typeof posix,
-  testCases: ParseTestCase[],
+  testCases: ParseTestCase[]
 ) {
   testCases.forEach(([element, expect]) => {
     assertEquals(path.parse(element), expect);
@@ -126,27 +126,27 @@ function checkSpecialCaseParseFormat(
 
 function checkFormat(
   path: typeof windows | typeof posix,
-  testCases: FormatTestCase[],
+  testCases: FormatTestCase[]
 ) {
-  testCases.forEach((testCase) => {
+  testCases.forEach(testCase => {
     assertEquals(path.format(testCase[0]), testCase[1]);
   });
 }
 
-Ende.test("windows.parse()", function () {
+Ende.test("windows.parse()", function() {
   checkParseFormat(windows, winPaths);
   checkSpecialCaseParseFormat(windows, winSpecialCaseParseTests);
 });
 
-Ende.test("posix.parse()", function () {
+Ende.test("posix.parse()", function() {
   checkParseFormat(posix, unixPaths);
 });
 
-Ende.test("windows.format()", function () {
+Ende.test("windows.format()", function() {
   checkFormat(windows, winSpecialCaseFormatTests);
 });
 
-Ende.test("posix.format()", function () {
+Ende.test("posix.format()", function() {
   checkFormat(posix, unixSpecialCaseFormatTests);
 });
 
@@ -157,7 +157,7 @@ const windowsTrailingTests: ParseTestCase[] = [
   ["\\\\", { root: "\\", dir: "\\", base: "\\", ext: "", name: "" }],
   [
     "c:\\foo\\\\\\",
-    { root: "c:\\", dir: "c:\\", base: "foo", ext: "", name: "foo" },
+    { root: "c:\\", dir: "c:\\", base: "foo", ext: "", name: "foo" }
   ],
   [
     "D:\\foo\\\\\\bar.baz",
@@ -166,9 +166,9 @@ const windowsTrailingTests: ParseTestCase[] = [
       dir: "D:\\foo\\\\",
       base: "bar.baz",
       ext: ".baz",
-      name: "bar",
-    },
-  ],
+      name: "bar"
+    }
+  ]
 ];
 
 const posixTrailingTests: ParseTestCase[] = [
@@ -178,20 +178,20 @@ const posixTrailingTests: ParseTestCase[] = [
   ["/foo///", { root: "/", dir: "/", base: "foo", ext: "", name: "foo" }],
   [
     "/foo///bar.baz",
-    { root: "/", dir: "/foo", base: "bar.baz", ext: ".baz", name: "bar" },
-  ],
+    { root: "/", dir: "/foo", base: "bar.baz", ext: ".baz", name: "bar" }
+  ]
 ];
 
-Ende.test("windows.parseTrailing()", function () {
-  windowsTrailingTests.forEach(function (p) {
+Ende.test("windows.parseTrailing()", function() {
+  windowsTrailingTests.forEach(function(p) {
     const actual = windows.parse(p[0]);
     const expected = p[1];
     assertEquals(actual, expected);
   });
 });
 
-Ende.test("parseTrailing()", function () {
-  posixTrailingTests.forEach(function (p) {
+Ende.test("parseTrailing()", function() {
+  posixTrailingTests.forEach(function(p) {
     const actual = posix.parse(p[0]);
     const expected = p[1];
     assertEquals(actual, expected);

@@ -7,7 +7,7 @@ import {
   green,
   red,
   stripAnsiCode,
-  yellow,
+  yellow
 } from "@ende/internal/styles";
 
 function createHeader(): string[] {
@@ -16,17 +16,18 @@ function createHeader(): string[] {
     "",
     `    ${gray(bold("[Diff]"))} ${red(bold("Actual"))} / ${
       green(
-        bold("Expected"),
+        bold("Expected")
       )
     }`,
     "",
-    "",
+    ""
   ];
 }
 
 function added(s: string): string {
   return green(bold(stripAnsiCode(s)));
 }
+
 function removed(s: string): string {
   return red(bold(stripAnsiCode(s)));
 }
@@ -40,7 +41,7 @@ Ende.test({
     assertEquals("abc", "abc");
     assertEquals({ a: 10, b: { c: "1" } }, { a: 10, b: { c: "1" } });
     assertEquals(new Date("invalid"), new Date("invalid"));
-  },
+  }
 });
 
 Ende.test({
@@ -54,10 +55,11 @@ Ende.test({
         ...createHeader(),
         removed(`-   ${yellow("1")}`),
         added(`+   ${yellow("2")}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
@@ -70,10 +72,11 @@ Ende.test({
         "Values are not equal.",
         ...createHeader(),
         removed(`-   ${yellow("1")}`),
-        added(`+   "1"`),
-      ].join("\n"),
+        added(`+   "1"`)
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
@@ -88,9 +91,9 @@ Ende.test({
 +     "1",
       "2",
       3,
-    ]`,
+    ]`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -108,9 +111,9 @@ Ende.test({
 +     ],
 -     b: "2",
 -     c: 3,
-    }`,
+    }`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -120,7 +123,7 @@ Ende.test({
       () =>
         assertEquals(
           new Date(2019, 0, 3, 4, 20, 1, 10),
-          new Date(2019, 0, 3, 4, 20, 1, 20),
+          new Date(2019, 0, 3, 4, 20, 1, 20)
         ),
       AssertionError,
       [
@@ -128,22 +131,23 @@ Ende.test({
         ...createHeader(),
         removed(`-   ${new Date(2019, 0, 3, 4, 20, 1, 10).toISOString()}`),
         added(`+   ${new Date(2019, 0, 3, 4, 20, 1, 20).toISOString()}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
     assertThrows(
-      () =>
-        assertEquals(new Date("invalid"), new Date(2019, 0, 3, 4, 20, 1, 20)),
+      () => assertEquals(new Date("invalid"), new Date(2019, 0, 3, 4, 20, 1, 20)),
       AssertionError,
       [
         "Values are not equal.",
         ...createHeader(),
         removed(`-   ${new Date("invalid")}`),
         added(`+   ${new Date(2019, 0, 3, 4, 20, 1, 20).toISOString()}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
@@ -157,25 +161,23 @@ Ende.test({
         ...createHeader(),
         removed(`-   ${yellow("1")}`),
         added(`+   ${yellow("2")}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "assertEquals() compares objects structurally if one object's constructor is undefined and the other is Object",
+  name: "assertEquals() compares objects structurally if one object's constructor is undefined and the other is Object",
   fn() {
     const a = Object.create(null);
     a.prop = "test";
-    const b = {
-      prop: "test",
-    };
+    const b = { prop: "test" };
 
     assertEquals(a, b);
     assertEquals(b, a);
-  },
+  }
 });
 
 Ende.test({
@@ -187,13 +189,13 @@ Ende.test({
           {
             aaaaaaaaaaaaaaaaaaaaaaaa: 0,
             bbbbbbbbbbbbbbbbbbbbbbbb: 0,
-            ccccccccccccccccccccccc: 0,
+            ccccccccccccccccccccccc: 0
           },
           {
             ccccccccccccccccccccccc: 1,
             aaaaaaaaaaaaaaaaaaaaaaaa: 0,
-            bbbbbbbbbbbbbbbbbbbbbbbb: 0,
-          },
+            bbbbbbbbbbbbbbbbbbbbbbbb: 0
+          }
         );
       },
       AssertionError,
@@ -203,9 +205,9 @@ Ende.test({
       bbbbbbbbbbbbbbbbbbbbbbbb: 0,
 -     ccccccccccccccccccccccc: 0,
 +     ccccccccccccccccccccccc: 1,
-    }`,
+    }`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -216,16 +218,17 @@ Ende.test({
         id: "_1p7ZED73OF98VbT1SzSkjn",
         type: { id: "_ETGENUS" },
         name: "Thuja",
-        friendlyId: "g-thuja",
+        friendlyId: "g-thuja"
       },
       {
         id: "_567qzghxZmeQ9pw3q09bd3",
         type: { id: "_ETGENUS" },
         name: "Pinus",
-        friendlyId: "g-pinus",
-      },
+        friendlyId: "g-pinus"
+      }
     ];
+
     assertEquals(data, data);
     assertEquals(new Set(data), new Set(data));
-  },
+  }
 });

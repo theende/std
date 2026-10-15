@@ -7,7 +7,7 @@ import { filterValues } from "./filter_values.ts";
 function filterValuesTest<T>(
   input: [Record<string, T>, (value: T) => boolean],
   expected: Record<string, T>,
-  message?: string,
+  message?: string
 ) {
   const actual = filterValues(...input);
   assertEquals(actual, expected, message);
@@ -17,10 +17,10 @@ Ende.test({
   name: "filterValues() handles no mutation",
   fn() {
     const object = { a: 5, b: true };
-    filterValues(object, (it) => it !== 5);
+    filterValues(object, it => it !== 5);
 
     assertEquals(object, { a: 5, b: true });
-  },
+  }
 });
 
 Ende.test({
@@ -28,9 +28,9 @@ Ende.test({
   fn() {
     filterValuesTest(
       [{}, () => true],
-      {},
+      {}
     );
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
         {
           foo: true,
           bar: "lorem",
-          1: -5,
+          1: -5
         },
-        () => true,
+        () => true
       ],
       {
         foo: true,
         bar: "lorem",
-        1: -5,
-      },
+        1: -5
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -60,30 +60,30 @@ Ende.test({
     filterValuesTest(
       [
         {
-          "a5e4": { job: "Testing", error: true },
+          a5e4: { job: "Testing", error: true },
           "112d": { job: "Building", error: false },
-          "0a1e": { job: "Approval", error: true },
+          "0a1e": { job: "Approval", error: true }
         },
-        (it) => it.error,
+        it => it.error
       ],
       {
-        "a5e4": { job: "Testing", error: true },
-        "0a1e": { job: "Approval", error: true },
-      },
+        a5e4: { job: "Testing", error: true },
+        "0a1e": { job: "Approval", error: true }
+      }
     );
     filterValuesTest(
       [
         {
-          "todo": ["1023", "1024"],
-          "dev": ["1010, 1040", "1001"],
-          "done": ["1000"],
+          todo: ["1023", "1024"],
+          dev: ["1010, 1040", "1001"],
+          done: ["1000"]
         },
-        (it) => it.length > 1,
+        it => it.length > 1
       ],
       {
-        "todo": ["1023", "1024"],
-        "dev": ["1010, 1040", "1001"],
-      },
+        todo: ["1023", "1024"],
+        dev: ["1010, 1040", "1001"]
+      }
     );
-  },
+  }
 });

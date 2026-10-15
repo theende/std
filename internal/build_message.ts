@@ -30,13 +30,13 @@ export function createColor(
    * TODO(@littledivy): Remove this when we can detect true color terminals. See
    * https://github.com/denoland/std/issues/2575.
    */
-  background = false,
+  background = false
 ): (s: string) => string {
   switch (diffType) {
     case "added":
-      return (s) => background ? bgGreen(white(s)) : green(bold(s));
+      return s => background ? bgGreen(white(s)) : green(bold(s));
     case "removed":
-      return (s) => background ? bgRed(white(s)) : red(bold(s));
+      return s => background ? bgRed(white(s)) : red(bold(s));
     case "truncation":
       return gray;
     default:
@@ -113,8 +113,8 @@ export function buildMessage(
   truncateDiff?: (
     diffResult: ReadonlyArray<DiffResult<string>>,
     stringDiff: boolean,
-    contextLength?: number | null,
-  ) => ReadonlyArray<DiffResult<string>>,
+    contextLength?: number | null
+  ) => ReadonlyArray<DiffResult<string>>
 ): string[] {
   if (truncateDiff != null) {
     diffResult = truncateDiff(diffResult, options.stringDiff ?? false);
@@ -124,22 +124,23 @@ export function buildMessage(
   const messages = [
     "",
     "",
-    `    ${gray(bold("[Diff]"))} ${red(bold("Actual"))} / ${
-      green(bold("Expected"))
-    }`,
+    `    ${gray(bold("[Diff]"))} ${red(bold("Actual"))} / ${green(bold("Expected"))}`,
     "",
-    "",
+    ""
   ];
-  const diffMessages = diffResult.map((result) => {
+  const diffMessages = diffResult.map(result => {
     const color = createColor(result.type);
 
-    const line = result.type === "added" || result.type === "removed"
-      ? result.details?.map((detail) =>
-        detail.type !== "common"
-          ? createColor(detail.type, true)(detail.value)
-          : detail.value
-      ).join("") ?? result.value
-      : result.value;
+    const line = result.type === "added" || result.type === "removed" ?
+      result
+        .details
+        ?.map(detail =>
+          detail.type !== "common" ?
+            createColor(detail.type, true)(detail.value) :
+            detail.value
+        )
+        .join("") ?? result.value :
+      result.value;
 
     return color(`${createSign(result.type)}${line}`);
   });

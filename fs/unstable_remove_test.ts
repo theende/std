@@ -14,7 +14,8 @@ async function forceRemove(path: string) {
   try {
     await Ende.remove(path, { recursive: true });
   } catch (e) {
-    if (!(e instanceof NotFound)) throw e;
+    if (!(e instanceof NotFound))
+      throw e;
   }
 }
 
@@ -22,7 +23,8 @@ function forceRemoveSync(path: string) {
   try {
     Ende.removeSync(path, { recursive: true });
   } catch (e) {
-    if (!(e instanceof NotFound)) throw e;
+    if (!(e instanceof NotFound))
+      throw e;
   }
 }
 
@@ -64,14 +66,14 @@ Ende.test(
     } finally {
       await forceRemove(tempDir);
     }
-  },
+  }
 );
 
 Ende.test("remove() remove a non empty directory", async () => {
   const tempDir1 = await makeTempDir({ prefix: "remove_async_" });
   const tempDir2 = await makeTempDir({
     dir: tempDir1,
-    prefix: "remove_async_",
+    prefix: "remove_async_"
   });
   const testFile1 = join(tempDir1, "test.txt");
   const testFile2 = join(tempDir2, "test.txt");
@@ -110,7 +112,7 @@ Ende.test(
     } finally {
       await forceRemove(tempDir);
     }
-  },
+  }
 );
 
 Ende.test(
@@ -129,7 +131,7 @@ Ende.test(
     } finally {
       await forceRemove(tempDir);
     }
-  },
+  }
 );
 
 Ende.test(
@@ -144,14 +146,14 @@ Ende.test(
     } finally {
       forceRemoveSync(tempDir);
     }
-  },
+  }
 );
 
 Ende.test("removeSync() remove a non empty directory", () => {
   const tempDir1 = makeTempDirSync({ prefix: "remove_sync_" });
   const tempDir2 = makeTempDirSync({
     dir: tempDir1,
-    prefix: "remove_async_",
+    prefix: "remove_async_"
   });
   const testFile1 = join(tempDir1, "test.txt");
   const testFile2 = join(tempDir2, "test.txt");

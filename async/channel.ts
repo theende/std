@@ -6,11 +6,11 @@ import { Deque } from "@ende/data-structures/deque";
 
 const RESOLVED: Promise<void> = Promise.resolve();
 
-const EMPTY_RESULT: { readonly state: "empty" } = Object.freeze({
-  state: "empty",
+const EMPTY_RESULT: { readonly state: "empty"; } = Object.freeze({
+  state: "empty"
 });
-const CLOSED_RESULT: { readonly state: "closed" } = Object.freeze({
-  state: "closed",
+const CLOSED_RESULT: { readonly state: "closed"; } = Object.freeze({
+  state: "closed"
 });
 
 /** Internal node for the FIFO sender waiting queue. */
@@ -82,7 +82,7 @@ export class ChannelClosedError extends Error {
         value: rest[0],
         writable: false,
         enumerable: true,
-        configurable: false,
+        configurable: false
       });
     }
   }
@@ -99,9 +99,9 @@ export class ChannelClosedError extends Error {
  * @typeParam T The type of the value received from the channel.
  */
 export type ChannelReceiveResult<T> =
-  | { state: "ok"; value: T }
-  | { state: "empty" }
-  | { state: "closed" };
+  | { state: "ok"; value: T; }
+  | { state: "empty"; }
+  | { state: "closed"; };
 
 /**
  * Options for the {@linkcode Channel} constructor.
@@ -200,8 +200,7 @@ export interface ChannelReceiveOptions {
  *
  * @typeParam T The type of values sent through the channel.
  */
-export class Channel<T>
-  implements AsyncIterable<T>, Disposable, AsyncDisposable {
+export class Channel<T> implements AsyncIterable<T>, Disposable, AsyncDisposable {
   readonly #capacity: number;
   #buffer: Deque<T>;
   #closed = false;
@@ -223,7 +222,7 @@ export class Channel<T>
     const { capacity = 0 } = options;
     if (!Number.isInteger(capacity) || capacity < 0) {
       throw new RangeError(
-        `Cannot create channel: capacity must be a non-negative integer, received ${capacity}`,
+        `Cannot create channel: capacity must be a non-negative integer, received ${capacity}`
       );
     }
     this.#capacity = capacity;
@@ -270,11 +269,12 @@ export class Channel<T>
   send(value: T, options?: ChannelSendOptions): Promise<void> {
     if (this.#closed) {
       return Promise.reject(
-        new ChannelClosedError("Cannot send to a closed channel", value),
+        new ChannelClosedError("Cannot send to a closed channel", value)
       );
     }
 
-    if (this.#deliverToReceiver(value)) return RESOLVED;
+    if (this.#deliverToReceiver(value))
+      return RESOLVED;
 
     if (this.#buffer.length < this.#capacity) {
       this.#buffer.pushBack(value);
@@ -294,7 +294,7 @@ export class Channel<T>
           if (this.#senders.peekFront() === node) {
             this.#senders.popFront();
           } else {
-            this.#senders.removeFirst((n) => n === node);
+            this.#senders.removeFirst(n => n === node);
           }
           node.rej(signal.reason);
         };
@@ -346,7 +346,8 @@ export class Channel<T>
    *   `reason` instead.
    */
   receive(options?: ChannelReceiveOptions): Promise<T> {
-    if (this.#buffer.length > 0) return Promise.resolve(this.#dequeue());
+    if (this.#buffer.length > 0)
+      return Promise.resolve(this.#dequeue());
 
     const sender = this.#nextSender();
     if (sender) {
@@ -354,7 +355,8 @@ export class Channel<T>
       return Promise.resolve(sender.value);
     }
 
-    if (this.#closed) return Promise.reject(this.#receiveError());
+    if (this.#closed)
+      return Promise.reject(this.#receiveError());
 
     if (options?.signal?.aborted) {
       return Promise.reject(options.signal.reason);
@@ -369,7 +371,7 @@ export class Channel<T>
           if (this.#receivers.peekFront() === node) {
             this.#receivers.popFront();
           } else {
-            this.#receivers.removeFirst((n) => n === node);
+            this.#receivers.removeFirst(n => n === node);
           }
           node.rej(signal.reason);
         };
@@ -405,9 +407,12 @@ export class Channel<T>
    * ```
    */
   trySend(value: T): boolean {
-    if (this.#closed) return false;
-    if (this.#deliverToReceiver(value)) return true;
-    if (this.#buffer.length >= this.#capacity) return false;
+    if (this.#closed)
+      return false;
+    if (this.#deliverToReceiver(value))
+      return true;
+    if (this.#buffer.length >= this.#capacity)
+      return false;
 
     this.#buffer.pushBack(value);
     return true;
@@ -444,7 +449,8 @@ export class Channel<T>
       sender.res();
       return { state: "ok", value: sender.value };
     }
-    if (this.#closed) return CLOSED_RESULT;
+    if (this.#closed)
+      return CLOSED_RESULT;
     return EMPTY_RESULT;
   }
 
@@ -486,7 +492,8 @@ export class Channel<T>
    */
   close(reason: unknown): void;
   close(...args: [reason: unknown] | []): void {
-    if (this.#closed) return;
+    if (this.#closed)
+      return;
     this.#closed = true;
     if (args.length > 0) {
       this.#closeReason = args[0];
@@ -498,8 +505,8 @@ export class Channel<T>
       sender.rej(
         new ChannelClosedError(
           "Cannot send to a closed channel",
-          sender.value,
-        ),
+          sender.value
+        )
       );
     }
 
@@ -636,7 +643,7 @@ export class Channel<T>
    */
   toReadableStream(): ReadableStream<T> {
     return new ReadableStream<T>({
-      pull: async (controller) => {
+      pull: async controller => {
         try {
           controller.enqueue(await this.receive());
         } catch (e) {
@@ -647,10 +654,12 @@ export class Channel<T>
           }
         }
       },
-      cancel: (reason) => {
-        if (reason === undefined) this.close();
-        else this.close(reason);
-      },
+      cancel: reason => {
+        if (reason === undefined)
+          this.close();
+        else
+          this.close(reason);
+      }
     });
   }
 
@@ -698,7 +707,8 @@ export class Channel<T>
   /** Hands `value` to the next waiting receiver, if any. */
   #deliverToReceiver(value: T): boolean {
     const receiver = this.#receivers.popFront();
-    if (!receiver) return false;
+    if (!receiver)
+      return false;
     receiver.res(value);
     return true;
   }
@@ -718,9 +728,10 @@ export class Channel<T>
   }
 
   #receiveError(): unknown {
-    if (this.#hasCloseReason) return this.#closeReason;
+    if (this.#hasCloseReason)
+      return this.#closeReason;
     this.#receiveClosedError ??= new ChannelClosedError(
-      "Cannot receive from a closed channel",
+      "Cannot receive from a closed channel"
     );
     return this.#receiveClosedError;
   }

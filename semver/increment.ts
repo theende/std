@@ -17,23 +17,25 @@ function bumpPrereleaseNumber(prerelease: ReadonlyArray<string | number> = []) {
     index -= 1;
   }
   // if no number was bumped
-  if (index === -1) values.push(0);
+  if (index === -1)
+    values.push(0);
 
   return values;
 }
 
 function bumpPrerelease(
   currentPrerelease: ReadonlyArray<string | number> = [],
-  newPrerelease: string | undefined,
+  newPrerelease: string | undefined
 ): (string | number)[] {
   const bumpedPrerelease = bumpPrereleaseNumber(currentPrerelease);
 
   // If the identifier is not provided, return the bumped prerelease
-  if (!newPrerelease) return bumpedPrerelease;
+  if (!newPrerelease)
+    return bumpedPrerelease;
 
   let newIdentifiers = parsePrerelease(newPrerelease);
 
-  if (newIdentifiers.every((id) => typeof id === "string")) {
+  if (newIdentifiers.every(id => typeof id === "string")) {
     // When the give prerelease has no number and are all included in the existing prerelease
     // it should just bump the number
     if (
@@ -103,11 +105,11 @@ export interface IncrementOptions {
 export function increment(
   version: SemVer,
   release: ReleaseType,
-  options: IncrementOptions = {},
+  options: IncrementOptions = {}
 ): SemVer {
-  const build = options.build !== undefined
-    ? parseBuild(options.build)
-    : version.build ?? [];
+  const build = options.build !== undefined ?
+    parseBuild(options.build) :
+    version.build ?? [];
 
   switch (release) {
     case "premajor":
@@ -116,7 +118,7 @@ export function increment(
         minor: 0,
         patch: 0,
         prerelease: bumpPrerelease(version.prerelease, options.prerelease),
-        build,
+        build
       };
     case "preminor":
       return {
@@ -124,7 +126,7 @@ export function increment(
         minor: version.minor + 1,
         patch: 0,
         prerelease: bumpPrerelease(version.prerelease, options.prerelease),
-        build,
+        build
       };
     case "prepatch":
       return {
@@ -132,7 +134,7 @@ export function increment(
         minor: version.minor,
         patch: version.patch + 1,
         prerelease: bumpPrerelease(version.prerelease, options.prerelease),
-        build,
+        build
       };
     case "prerelease": {
       // If the input is a non-prerelease version, this acts the same as prepatch.
@@ -143,7 +145,7 @@ export function increment(
         minor: version.minor,
         patch,
         prerelease: bumpPrerelease(version.prerelease, options.prerelease),
-        build,
+        build
       };
     }
     case "major": {
@@ -151,15 +153,15 @@ export function increment(
       // 1.0.0-5 bumps to 1.0.0
       // 1.1.0 bumps to 2.0.0
       const isPrerelease = (version.prerelease ?? []).length === 0;
-      const major = isPrerelease || version.minor !== 0 || version.patch !== 0
-        ? version.major + 1
-        : version.major;
+      const major = isPrerelease || version.minor !== 0 || version.patch !== 0 ?
+        version.major + 1 :
+        version.major;
       return {
         major,
         minor: 0,
         patch: 0,
         prerelease: [],
-        build,
+        build
       };
     }
     case "minor": {
@@ -167,15 +169,15 @@ export function increment(
       // 1.2.0-5 bumps to 1.2.0
       // 1.2.1 bumps to 1.3.0
       const isPrerelease = (version.prerelease ?? []).length === 0;
-      const minor = isPrerelease || version.patch !== 0
-        ? version.minor + 1
-        : version.minor;
+      const minor = isPrerelease || version.patch !== 0 ?
+        version.minor + 1 :
+        version.minor;
       return {
         major: version.major,
         minor,
         patch: 0,
         prerelease: [],
-        build,
+        build
       };
     }
     case "patch": {
@@ -190,7 +192,7 @@ export function increment(
         minor: version.minor,
         patch,
         prerelease: [],
-        build,
+        build
       };
     }
     case "pre": {
@@ -203,12 +205,12 @@ export function increment(
         minor: version.minor,
         patch: version.patch,
         prerelease: bumpPrerelease(version.prerelease, options.prerelease),
-        build,
+        build
       };
     }
     default:
       throw new TypeError(
-        `Cannot increment version: invalid argument ${release}`,
+        `Cannot increment version: invalid argument ${release}`
       );
   }
 }

@@ -6,5 +6,6 @@ import { assertPath } from "./assert_path.ts";
 
 export function assertArg(path: string) {
   assertPath(path);
-  if (path.length === 0) return ".";
+  if (path.length === 0)
+    return ".";
 }

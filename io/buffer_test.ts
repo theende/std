@@ -8,7 +8,7 @@ import {
   assert,
   assertEquals,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { Buffer } from "./buffer.ts";
 import { writeAllSync } from "./write_all.ts";
@@ -48,7 +48,7 @@ async function fillBytes(
   buf: Buffer,
   s: string,
   n: number,
-  fub: Uint8Array,
+  fub: Uint8Array
 ): Promise<string> {
   check(buf, s);
   for (; n > 0; n--) {
@@ -66,7 +66,7 @@ async function fillBytes(
 async function empty(
   buf: Buffer,
   s: string,
-  fub: Uint8Array,
+  fub: Uint8Array
 ) {
   check(buf, s);
   while (true) {
@@ -167,7 +167,7 @@ Ende.test("Buffer.grow() throws if growing beyond maximum size", async () => {
       buf.grow(growLen);
     },
     Error,
-    "grown beyond the maximum size",
+    "grown beyond the maximum size"
   );
 });
 
@@ -191,7 +191,7 @@ Ende.test({
 
       assertEquals(written, capacity);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -206,9 +206,9 @@ Ende.test({
         await buf.readFrom(reader);
       },
       Error,
-      "grown beyond the maximum size",
+      "grown beyond the maximum size"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -223,9 +223,9 @@ Ende.test({
         buf.readFromSync(reader);
       },
       Error,
-      "grown beyond the maximum size",
+      "grown beyond the maximum size"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -240,7 +240,7 @@ Ende.test({
 
       assertEquals(buf.length, capacity);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -254,7 +254,7 @@ Ende.test({
       await buf.readFrom(reader);
       assertEquals(buf.length, capacity);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -269,7 +269,7 @@ Ende.test({
       await buf.readFrom(reader);
       assertEquals(buf.length, capacity);
     }
-  },
+  }
 });
 
 Ende.test("Buffer.write() handles large bytes", async () => {
@@ -300,14 +300,14 @@ Ende.test("Buffer.readFrom()", async () => {
       buf,
       "",
       5,
-      testBytes.subarray(0, Math.floor(testBytes.byteLength / i)),
+      testBytes.subarray(0, Math.floor(testBytes.byteLength / i))
     );
     const b = new Buffer();
     await b.readFrom(buf);
     const fub = new Uint8Array(testString.length);
     await empty(b, s, fub);
   }
-  await assertRejects(async function () {
+  await assertRejects(async function() {
     await new Buffer().readFrom(null!);
   });
 });
@@ -322,14 +322,14 @@ Ende.test("Buffer.readFromSync()", async () => {
       buf,
       "",
       5,
-      testBytes.subarray(0, Math.floor(testBytes.byteLength / i)),
+      testBytes.subarray(0, Math.floor(testBytes.byteLength / i))
     );
     const b = new Buffer();
     b.readFromSync(buf);
     const fub = new Uint8Array(testString.length);
     await empty(b, s, fub);
   }
-  assertThrows(function () {
+  assertThrows(function() {
     new Buffer().readFromSync(null!);
   });
 });
@@ -348,11 +348,11 @@ Ende.test("Buffer.grow()", async () => {
       // Check that buffer has correct data.
       assertEquals(
         buf.bytes().subarray(0, startLen - nread),
-        xBytes.subarray(nread),
+        xBytes.subarray(nread)
       );
       assertEquals(
         buf.bytes().subarray(startLen - nread, startLen - nread + growLen),
-        yBytes,
+        yBytes
       );
     }
   }

@@ -51,13 +51,15 @@ export class CborArrayDecodedStream extends ReadableStream<CborStreamOutput> {
         if (done) {
           releaseLock();
           controller.close();
-        } else controller.enqueue(value);
+        } else
+          controller.enqueue(value);
       },
       async cancel() {
         // deno-lint-ignore no-empty
-        for await (const _ of gen) {}
+        for await (const _ of gen) {
+        }
         releaseLock();
-      },
+      }
     });
   }
 }

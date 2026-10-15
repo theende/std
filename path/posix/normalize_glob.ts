@@ -26,7 +26,7 @@ export type { GlobOptions };
  */
 export function normalizeGlob(
   glob: string,
-  options: Pick<GlobOptions, "globstar"> = {},
+  options: Pick<GlobOptions, "globstar"> = {}
 ): string {
   const { globstar = false }: GlobOptions = options;
   if (glob.match(/\0/g)) {
@@ -38,7 +38,7 @@ export function normalizeGlob(
   const s = SEPARATOR_PATTERN.source;
   const badParentPattern = new RegExp(
     `(?<=(${s}|^)\\*\\*${s})\\.\\.(?=${s}|$)`,
-    "g",
+    "g"
   );
   return normalize(glob.replace(badParentPattern, "\0")).replace(/\0/g, "..");
 }

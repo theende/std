@@ -128,7 +128,7 @@ export class BinarySearchTree<T> implements Iterable<T> {
   constructor(compare: (a: T, b: T) => number = ascend) {
     if (typeof compare !== "function") {
       throw new TypeError(
-        "Cannot construct a BinarySearchTree: the 'compare' parameter is not a function, did you mean to call BinarySearchTree.from?",
+        "Cannot construct a BinarySearchTree: the 'compare' parameter is not a function, did you mean to call BinarySearchTree.from?"
       );
     }
     this.#compare = compare;
@@ -138,31 +138,30 @@ export class BinarySearchTree<T> implements Iterable<T> {
     internals.getRoot = <T>(tree: BinarySearchTree<T>) => tree.#root;
     internals.setRoot = <T>(
       tree: BinarySearchTree<T>,
-      node: BinarySearchNode<T> | null,
+      node: BinarySearchNode<T> | null
     ) => {
       tree.#root = node;
     };
     internals.getCompare = <T>(tree: BinarySearchTree<T>) => tree.#compare;
     internals.findNode = <T>(
       tree: BinarySearchTree<T>,
-      value: T,
+      value: T
     ): BinarySearchNode<T> | null => tree.#findNode(value);
     internals.rotateNode = <T>(
       tree: BinarySearchTree<T>,
       node: BinarySearchNode<T>,
-      direction: Direction,
+      direction: Direction
     ) => tree.#rotateNode(node, direction);
     internals.insertNode = <T>(
       tree: BinarySearchTree<T>,
       Node: typeof BinarySearchNode,
-      value: T,
+      value: T
     ): BinarySearchNode<T> | null => tree.#insertNode(Node, value);
     internals.removeNode = <T>(
       tree: BinarySearchTree<T>,
-      node: BinarySearchNode<T>,
+      node: BinarySearchNode<T>
     ): BinarySearchNode<T> | null => tree.#removeNode(node);
-    internals.setSize = <T>(tree: BinarySearchTree<T>, size: number) =>
-      tree.#size = size;
+    internals.setSize = <T>(tree: BinarySearchTree<T>, size: number) => tree.#size = size;
   }
 
   /**
@@ -219,7 +218,7 @@ export class BinarySearchTree<T> implements Iterable<T> {
     collection: ArrayLike<T> | Iterable<T> | BinarySearchTree<T>,
     options?: {
       compare?: (a: T, b: T) => number;
-    },
+    }
   ): BinarySearchTree<T>;
   /**
    * Create a new binary search tree from an array like, an iterable object, or
@@ -259,7 +258,7 @@ export class BinarySearchTree<T> implements Iterable<T> {
       compare?: (a: U, b: U) => number;
       map: (value: T, index: number) => U;
       thisArg?: V;
-    },
+    }
   ): BinarySearchTree<U>;
   static from<T, U, V>(
     collection: ArrayLike<T> | Iterable<T> | BinarySearchTree<T>,
@@ -267,14 +266,14 @@ export class BinarySearchTree<T> implements Iterable<T> {
       compare?: (a: U, b: U) => number;
       map?: (value: T, index: number) => U;
       thisArg?: V;
-    },
+    }
   ): BinarySearchTree<U> {
     let result: BinarySearchTree<U>;
     let unmappedValues: ArrayLike<T> | Iterable<T> = [];
     if (collection instanceof BinarySearchTree) {
       result = new BinarySearchTree(
         options?.compare ??
-          (collection as unknown as BinarySearchTree<U>).#compare,
+          (collection as unknown as BinarySearchTree<U>).#compare
       );
       if (options?.compare || options?.map) {
         unmappedValues = collection;
@@ -282,18 +281,18 @@ export class BinarySearchTree<T> implements Iterable<T> {
         const nodes: BinarySearchNode<U>[] = [];
         if (collection.#root) {
           result.#root = BinarySearchNode.from(
-            collection.#root as unknown as BinarySearchNode<U>,
+            collection.#root as unknown as BinarySearchNode<U>
           );
           nodes.push(result.#root);
         }
         while (nodes.length) {
           const node: BinarySearchNode<U> = nodes.pop()!;
-          const left: BinarySearchNode<U> | null = node.left
-            ? BinarySearchNode.from(node.left)
-            : null;
-          const right: BinarySearchNode<U> | null = node.right
-            ? BinarySearchNode.from(node.right)
-            : null;
+          const left: BinarySearchNode<U> | null = node.left ?
+            BinarySearchNode.from(node.left) :
+            null;
+          const right: BinarySearchNode<U> | null = node.right ?
+            BinarySearchNode.from(node.right) :
+            null;
 
           node.left = left;
           node.right = right;
@@ -309,15 +308,16 @@ export class BinarySearchTree<T> implements Iterable<T> {
         result.#size = collection.#size;
       }
     } else {
-      result = (options?.compare
-        ? new BinarySearchTree(options.compare)
-        : new BinarySearchTree()) as BinarySearchTree<U>;
+      result = (options?.compare ?
+        new BinarySearchTree(options.compare) :
+        new BinarySearchTree()) as BinarySearchTree<U>;
       unmappedValues = collection;
     }
-    const values: Iterable<U> = options?.map
-      ? Array.from(unmappedValues, options.map, options.thisArg)
-      : Array.from(unmappedValues) as unknown as U[];
-    for (const value of values) result.insert(value);
+    const values: Iterable<U> = options?.map ?
+      Array.from(unmappedValues, options.map, options.thisArg) :
+      Array.from(unmappedValues) as unknown as U[];
+    for (const value of values)
+      result.insert(value);
     return result;
   }
 
@@ -346,7 +346,8 @@ export class BinarySearchTree<T> implements Iterable<T> {
     let node: BinarySearchNode<T> | null = this.#root;
     while (node) {
       const order: number = this.#compare(value as T, node.value);
-      if (order === 0) break;
+      if (order === 0)
+        break;
       const direction: "left" | "right" = order < 0 ? "left" : "right";
       node = node[direction];
     }
@@ -354,22 +355,23 @@ export class BinarySearchTree<T> implements Iterable<T> {
   }
 
   #rotateNode(node: BinarySearchNode<T>, direction: Direction) {
-    const replacementDirection: Direction = direction === "left"
-      ? "right"
-      : "left";
+    const replacementDirection: Direction = direction === "left" ?
+      "right" :
+      "left";
     if (!node[replacementDirection]) {
       throw new TypeError(
-        `Cannot rotate ${direction} without ${replacementDirection} child`,
+        `Cannot rotate ${direction} without ${replacementDirection} child`
       );
     }
     const replacement: BinarySearchNode<T> = node[replacementDirection]!;
     node[replacementDirection] = replacement[direction] ?? null;
-    if (replacement[direction]) replacement[direction]!.parent = node;
+    if (replacement[direction])
+      replacement[direction]!.parent = node;
     replacement.parent = node.parent;
     if (node.parent) {
-      const parentDirection: Direction = node === node.parent[direction]
-        ? direction
-        : replacementDirection;
+      const parentDirection: Direction = node === node.parent[direction] ?
+        direction :
+        replacementDirection;
       node.parent[parentDirection] = replacement;
     } else {
       this.#root = replacement;
@@ -380,7 +382,7 @@ export class BinarySearchTree<T> implements Iterable<T> {
 
   #insertNode(
     Node: typeof BinarySearchNode,
-    value: T,
+    value: T
   ): BinarySearchNode<T> | null {
     if (!this.#root) {
       this.#root = new Node(null, value);
@@ -390,7 +392,8 @@ export class BinarySearchTree<T> implements Iterable<T> {
       let node: BinarySearchNode<T> = this.#root;
       while (true) {
         const order: number = this.#compare(value, node.value);
-        if (order === 0) break;
+        if (order === 0)
+          break;
         const direction: Direction = order < 0 ? "left" : "right";
         if (node[direction]) {
           node = node[direction]!;
@@ -406,20 +409,21 @@ export class BinarySearchTree<T> implements Iterable<T> {
 
   /** Removes the given node, and returns the node that was physically removed from the tree. */
   #removeNode(
-    node: BinarySearchNode<T>,
+    node: BinarySearchNode<T>
   ): BinarySearchNode<T> | null {
     /**
      * The node to physically remove from the tree.
      * Guaranteed to have at most one child.
      */
-    const flaggedNode: BinarySearchNode<T> | null = !node.left || !node.right
-      ? node
-      : node.findSuccessorNode()!;
+    const flaggedNode: BinarySearchNode<T> | null = !node.left || !node.right ?
+      node :
+      node.findSuccessorNode()!;
     /** Replaces the flagged node. */
     const replacementNode: BinarySearchNode<T> | null = flaggedNode.left ??
       flaggedNode.right;
 
-    if (replacementNode) replacementNode.parent = flaggedNode.parent;
+    if (replacementNode)
+      replacementNode.parent = flaggedNode.parent;
     if (!flaggedNode.parent) {
       this.#root = replacementNode;
     } else {
@@ -483,7 +487,8 @@ export class BinarySearchTree<T> implements Iterable<T> {
    */
   remove(value: T): boolean {
     const node: BinarySearchNode<T> | null = this.#findNode(value);
-    if (node) this.#removeNode(node);
+    if (node)
+      this.#removeNode(node);
     return node !== null;
   }
 
@@ -683,12 +688,15 @@ export class BinarySearchTree<T> implements Iterable<T> {
    */
   *nlrValues(): IterableIterator<T> {
     const nodes: BinarySearchNode<T>[] = [];
-    if (this.#root) nodes.push(this.#root);
+    if (this.#root)
+      nodes.push(this.#root);
     while (nodes.length) {
       const node: BinarySearchNode<T> = nodes.pop()!;
       yield node.value;
-      if (node.right) nodes.push(node.right);
-      if (node.left) nodes.push(node.left);
+      if (node.right)
+        nodes.push(node.right);
+      if (node.left)
+        nodes.push(node.left);
     }
   }
 
@@ -749,8 +757,10 @@ export class BinarySearchTree<T> implements Iterable<T> {
     let cursor: BinarySearchNode<T> | null = this.#root;
     while (cursor) {
       yield cursor.value;
-      if (cursor.left) children.pushBack(cursor.left);
-      if (cursor.right) children.pushBack(cursor.right);
+      if (cursor.left)
+        children.pushBack(cursor.left);
+      if (cursor.right)
+        children.pushBack(cursor.right);
       cursor = children.popFront() ?? null;
     }
   }

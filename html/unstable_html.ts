@@ -67,6 +67,6 @@ export function html(
 ): string {
   return strings.reduce(
     (result, str, i) => result + str + (values[i] ?? ""),
-    "",
+    ""
   );
 }

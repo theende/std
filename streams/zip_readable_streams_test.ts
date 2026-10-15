@@ -8,17 +8,17 @@ Ende.test("zipReadableStreams()", async () => {
   const textStream = ReadableStream.from([
     "qwertzuiopasd",
     "mnbvcxylkjhgfds",
-    "apoiuztrewq0987321",
+    "apoiuztrewq0987321"
   ]);
 
   const textStream2 = ReadableStream.from([
     "mnbvcxylkjhgfdsewr",
     "apoiuztrewq0987654321",
-    "qwertzuiopasq123d",
+    "qwertzuiopasq123d"
   ]);
 
   const buf = await Array.fromAsync(
-    zipReadableStreams(textStream, textStream2),
+    zipReadableStreams(textStream, textStream2)
   );
 
   assertEquals(buf, [
@@ -27,7 +27,7 @@ Ende.test("zipReadableStreams()", async () => {
     "mnbvcxylkjhgfds",
     "apoiuztrewq0987654321",
     "apoiuztrewq0987321",
-    "qwertzuiopasq123d",
+    "qwertzuiopasq123d"
   ]);
 });
 
@@ -38,7 +38,7 @@ Ende.test("zipReadableStreams handles errors by closing the stream with an error
     },
     pull() {
       throw new Error("Test error during read");
-    },
+    }
   });
   const normalStream = ReadableStream.from(["Normal data"]);
   const zippedStream = zipReadableStreams(errorStream, normalStream);
@@ -49,6 +49,6 @@ Ende.test("zipReadableStreams handles errors by closing the stream with an error
   await assertRejects(
     async () => await reader.read(),
     Error,
-    "Test error during read",
+    "Test error during read"
   );
 });

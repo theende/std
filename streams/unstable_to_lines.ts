@@ -35,7 +35,7 @@ import { TextLineStream } from "./text_line_stream.ts";
  */
 export function toLines(
   readable: ReadableStream<Uint8Array>,
-  options?: StreamPipeOptions,
+  options?: StreamPipeOptions
 ): ReadableStream<string> {
   return readable
     .pipeThrough(new TextDecoderStream() as TransformStream<Uint8Array, string>)

@@ -8,14 +8,14 @@ Ende.test({
   name: "interleave() handles no arguments",
   fn() {
     assertEquals(interleave(), []);
-  },
+  }
 });
 
 Ende.test({
   name: "interleave() handles single array",
   fn() {
     assertEquals(interleave([1, 2, 3]), [1, 2, 3]);
-  },
+  }
 });
 
 Ende.test({
@@ -23,9 +23,9 @@ Ende.test({
   fn() {
     assertEquals(
       interleave([1, 2, 3], ["a", "b", "c"]),
-      [1, "a", 2, "b", 3, "c"],
+      [1, "a", 2, "b", 3, "c"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -33,9 +33,9 @@ Ende.test({
   fn() {
     assertEquals(
       interleave([1], ["a", "b", "c"]),
-      [1, "a", "b", "c"],
+      [1, "a", "b", "c"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -43,9 +43,9 @@ Ende.test({
   fn() {
     assertEquals(
       interleave([1, 2, 3], ["a", "b"], [true]),
-      [1, "a", true, 2, "b", 3],
+      [1, "a", true, 2, "b", 3]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -54,7 +54,7 @@ Ende.test({
     assertEquals(interleave([], [1, 2, 3]), [1, 2, 3]);
     assertEquals(interleave([1, 2], [], [3, 4]), [1, 3, 2, 4]);
     assertEquals(interleave([], [], []), []);
-  },
+  }
 });
 
 Ende.test({
@@ -66,7 +66,7 @@ Ende.test({
 
     assertEquals(a, [1, 2, 3]);
     assertEquals(b, ["x", "y"]);
-  },
+  }
 });
 
 Ende.test({
@@ -76,9 +76,9 @@ Ende.test({
     const sparse = [1, , 3];
     assertEquals(
       interleave(sparse, ["a", "b", "c"]),
-      [1, "a", undefined, "b", 3, "c"],
+      [1, "a", undefined, "b", 3, "c"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -86,9 +86,9 @@ Ende.test({
   fn() {
     assertEquals(
       interleave([1, 2, 3], ["a"]),
-      [1, "a", 2, 3],
+      [1, "a", 2, 3]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -96,9 +96,9 @@ Ende.test({
   fn() {
     assertEquals(
       interleave([1, 2], ["a", "b"], [true, false]),
-      [1, "a", true, 2, "b", false],
+      [1, "a", true, 2, "b", false]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -106,9 +106,9 @@ Ende.test({
   fn() {
     assertEquals(
       interleave([1, 2], ["a", "b"], [true, false], [10, 20]),
-      [1, "a", true, 10, 2, "b", false, 20],
+      [1, "a", true, 10, 2, "b", false, 20]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -121,9 +121,9 @@ Ende.test({
     }
     assertEquals(
       interleave(numbers(), ["a", "b", "c"]),
-      [1, "a", 2, "b", 3, "c"],
+      [1, "a", 2, "b", 3, "c"]
     );
-  },
+  }
 });
 
 Ende.test({
@@ -131,7 +131,7 @@ Ende.test({
   fn() {
     assertEquals(
       interleave(new Set([1, 2, 3]), ["a", "b", "c"]),
-      [1, "a", 2, "b", 3, "c"],
+      [1, "a", 2, "b", 3, "c"]
     );
-  },
+  }
 });

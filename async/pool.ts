@@ -3,8 +3,7 @@
 // This module is browser compatible.
 
 /** Error message emitted from the thrown error while mapping. */
-const ERROR_WHILE_MAPPING_MESSAGE =
-  "Cannot complete the mapping as an error was thrown from an item";
+const ERROR_WHILE_MAPPING_MESSAGE = "Cannot complete the mapping as an error was thrown from an item";
 
 /**
  * pooledMap transforms values from an (async) iterable into another async
@@ -42,7 +41,7 @@ const ERROR_WHILE_MAPPING_MESSAGE =
 export function pooledMap<T, R>(
   poolLimit: number,
   array: Iterable<T> | AsyncIterable<T>,
-  iteratorFn: (data: T) => Promise<R>,
+  iteratorFn: (data: T) => Promise<R>
 ): AsyncIterableIterator<R> {
   if (!Number.isInteger(poolLimit) || poolLimit < 1) {
     throw new RangeError("'poolLimit' must be a positive integer");
@@ -51,7 +50,7 @@ export function pooledMap<T, R>(
   const res = new TransformStream<Promise<R>, R>({
     async transform(
       p: Promise<R>,
-      controller: TransformStreamDefaultController<R>,
+      controller: TransformStreamDefaultController<R>
     ) {
       try {
         const s = await p;
@@ -64,7 +63,7 @@ export function pooledMap<T, R>(
           controller.error(e as unknown);
         }
       }
-    },
+    }
   });
   // Start processing items from the iterator
   (async () => {
@@ -79,9 +78,7 @@ export function pooledMap<T, R>(
         // executing jobs are allowed to finish and all rejections among them
         // can be reported together.
         writer.write(p);
-        const e: Promise<unknown> = p.then(() =>
-          executing.splice(executing.indexOf(e), 1)
-        );
+        const e: Promise<unknown> = p.then(() => executing.splice(executing.indexOf(e), 1));
         executing.push(e);
         if (executing.length >= poolLimit) {
           await Promise.race(executing);
@@ -97,20 +94,23 @@ export function pooledMap<T, R>(
           errors.push(result.reason);
         }
       }
-      writer.write(Promise.reject(
-        new AggregateError(errors, ERROR_WHILE_MAPPING_MESSAGE),
-      )).catch(() => {});
+      writer
+        .write(Promise.reject(
+          new AggregateError(errors, ERROR_WHILE_MAPPING_MESSAGE)
+        ))
+        .catch(() => {});
     }
   })();
   // Feature test until browser coverage is adequate
   return Symbol.asyncIterator in res.readable &&
-      typeof res.readable[Symbol.asyncIterator] === "function"
-    ? (res.readable[Symbol.asyncIterator] as () => AsyncIterableIterator<R>)()
-    : (async function* () {
+      typeof res.readable[Symbol.asyncIterator] === "function" ?
+    (res.readable[Symbol.asyncIterator] as () => AsyncIterableIterator<R>)() :
+    (async function*() {
       const reader = res.readable.getReader();
       while (true) {
         const { done, value } = await reader.read();
-        if (done) break;
+        if (done)
+          break;
         yield value;
       }
       reader.releaseLock();

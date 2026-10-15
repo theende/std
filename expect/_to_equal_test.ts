@@ -7,7 +7,7 @@ import {
   green,
   red,
   stripAnsiCode,
-  yellow,
+  yellow
 } from "@ende/fmt/colors";
 import { AssertionError, assertThrows } from "@ende/assert";
 import { expect } from "./expect.ts";
@@ -18,11 +18,11 @@ function createHeader(): string[] {
     "",
     `    ${gray(bold("[Diff]"))} ${red(bold("Actual"))} / ${
       green(
-        bold("Expected"),
+        bold("Expected")
       )
     }`,
     "",
-    "",
+    ""
   ];
 }
 
@@ -42,7 +42,7 @@ Ende.test({
     expect("abc").toEqual("abc");
     expect({ a: 10, b: { c: "1" } }).toEqual({ a: 10, b: { c: "1" } });
     expect(new Date("invalid")).toEqual(new Date("invalid"));
-  },
+  }
 });
 
 Ende.test({
@@ -56,10 +56,11 @@ Ende.test({
         ...createHeader(),
         removed(`-   ${yellow("1")}`),
         added(`+   ${yellow("2")}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
@@ -72,10 +73,11 @@ Ende.test({
         "Values are not equal.",
         ...createHeader(),
         removed(`-   ${yellow("1")}`),
-        added(`+   "1"`),
-      ].join("\n"),
+        added(`+   "1"`)
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
@@ -90,9 +92,9 @@ Ende.test({
 +     "1",
       "2",
       3,
-    ]`,
+    ]`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -110,9 +112,9 @@ Ende.test({
 +     ],
 -     b: "2",
 -     c: 3,
-    }`,
+    }`
     );
-  },
+  }
 });
 
 Ende.test({
@@ -121,7 +123,7 @@ Ende.test({
     assertThrows(
       () =>
         expect(new Date(2019, 0, 3, 4, 20, 1, 10)).toEqual(
-          new Date(2019, 0, 3, 4, 20, 1, 20),
+          new Date(2019, 0, 3, 4, 20, 1, 20)
         ),
       AssertionError,
       [
@@ -129,22 +131,23 @@ Ende.test({
         ...createHeader(),
         removed(`-   ${new Date(2019, 0, 3, 4, 20, 1, 10).toISOString()}`),
         added(`+   ${new Date(2019, 0, 3, 4, 20, 1, 20).toISOString()}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
     assertThrows(
-      () =>
-        expect(new Date("invalid")).toEqual(new Date(2019, 0, 3, 4, 20, 1, 20)),
+      () => expect(new Date("invalid")).toEqual(new Date(2019, 0, 3, 4, 20, 1, 20)),
       AssertionError,
       [
         "Values are not equal.",
         ...createHeader(),
         removed(`-   ${new Date("invalid")}`),
         added(`+   ${new Date(2019, 0, 3, 4, 20, 1, 20).toISOString()}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test({
@@ -158,10 +161,11 @@ Ende.test({
         ...createHeader(),
         removed(`-   ${yellow("1")}`),
         added(`+   ${yellow("2")}`),
-        "",
-      ].join("\n"),
+        ""
+      ]
+        .join("\n")
     );
-  },
+  }
 });
 
 Ende.test(
@@ -170,12 +174,12 @@ Ende.test(
     const a = Object.create(null);
     a.prop = "test";
     const b = {
-      prop: "test",
+      prop: "test"
     };
 
     expect(a).toEqual(b);
     expect(b).toEqual(a);
-  },
+  }
 );
 
 Ende.test("expect().toEqual() diff for differently ordered objects", () => {
@@ -184,14 +188,15 @@ Ende.test("expect().toEqual() diff for differently ordered objects", () => {
       expect({
         aaaaaaaaaaaaaaaaaaaaaaaa: 0,
         bbbbbbbbbbbbbbbbbbbbbbbb: 0,
-        ccccccccccccccccccccccc: 0,
-      }).toEqual(
-        {
-          ccccccccccccccccccccccc: 1,
-          aaaaaaaaaaaaaaaaaaaaaaaa: 0,
-          bbbbbbbbbbbbbbbbbbbbbbbb: 0,
-        },
-      );
+        ccccccccccccccccccccccc: 0
+      })
+        .toEqual(
+          {
+            ccccccccccccccccccccccc: 1,
+            aaaaaaaaaaaaaaaaaaaaaaaa: 0,
+            bbbbbbbbbbbbbbbbbbbbbbbb: 0
+          }
+        );
     },
     AssertionError,
     `
@@ -200,7 +205,7 @@ Ende.test("expect().toEqual() diff for differently ordered objects", () => {
       bbbbbbbbbbbbbbbbbbbbbbbb: 0,
 -     ccccccccccccccccccccccc: 0,
 +     ccccccccccccccccccccccc: 1,
-    }`,
+    }`
   );
 });
 
@@ -210,14 +215,14 @@ Ende.test("expect().toEqual() same Set with object keys", () => {
       id: "_1p7ZED73OF98VbT1SzSkjn",
       type: { id: "_ETGENUS" },
       name: "Thuja",
-      friendlyId: "g-thuja",
+      friendlyId: "g-thuja"
     },
     {
       id: "_567qzghxZmeQ9pw3q09bd3",
       type: { id: "_ETGENUS" },
       name: "Pinus",
-      friendlyId: "g-pinus",
-    },
+      friendlyId: "g-pinus"
+    }
   ];
   expect(data).toEqual(data);
   expect(new Set(data)).toEqual(new Set(data));
@@ -242,21 +247,23 @@ Ende.test("expect().toEqual() align to jest test cases", () => {
   expect(
     new (class A {
       #hello = "world";
-    })(),
-  ).toEqual(
-    new (class B {
-      #hello = "world";
-    })(),
-  );
+    })()
+  )
+    .toEqual(
+      new (class B {
+        #hello = "world";
+      })()
+    );
   expect(
-    new WeakRef({ hello: "world" }),
-  ).toEqual(
-    new (class<T extends object> extends WeakRef<T> {})({ hello: "world" }),
-  );
+    new WeakRef({ hello: "world" })
+  )
+    .toEqual(
+      new (class<T extends object> extends WeakRef<T> {})({ hello: "world" })
+    );
 
   expect({ a: undefined, b: undefined }).toEqual({
     a: undefined,
-    c: undefined,
+    c: undefined
   });
   expect({ a: undefined, b: undefined }).toEqual({ a: undefined });
 
@@ -286,7 +293,7 @@ Ende.test("expect().toEqual() handles Sets", () => {
   expect(new Set([1, 2, 3])).not.toEqual(new Set([1, 2, 4]));
   expect(new Set([1, 2, 3, 4])).not.toEqual(new Map([[1, 2], [3, 4]]));
   expect(new Set([1, 2, new Set([0, 1])])).toEqual(
-    new Set([1, 2, new Set([0, 1])]),
+    new Set([1, 2, new Set([0, 1])])
   );
 
   // It handles circular reference structures
@@ -318,6 +325,6 @@ Ende.test("expect().toEqual() handles iterators", () => {
 
 Ende.test("expect.toEqual with custom message", () => {
   expect(() => expect(42, "toEqual Custom Message").toEqual(43)).toThrow(
-    /^toEqual Custom Message:/,
+    /^toEqual Custom Message:/
   );
 });

@@ -17,7 +17,7 @@ Ende.test("generate() generates a non-empty string", () => {
   const u1 = generate();
   const u2 = generate({
     msecs: new Date("2011-11-01").getTime(),
-    nsecs: 10000,
+    nsecs: 10000
   });
 
   assertEquals(typeof u1, "string", "returns a string");
@@ -38,7 +38,7 @@ Ende.test("generate() can generate a static v1 UUID", () => {
     node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
     clockseq: 0x1234,
     msecs: new Date("2011-11-01").getTime(),
-    nsecs: 5678,
+    nsecs: 5678
   };
   const u = generate(v1options);
   assertEquals(u, "710b962e-041c-11e1-9234-0123456789ab");
@@ -50,7 +50,7 @@ Ende.test("generate() throws when node is passed with less than 6 numbers", () =
       generate({ node: [0x01, 0x23, 0x45, 0x67, 0x89] });
     },
     Error,
-    "Cannot create UUID: the node option must be an array of 6 bytes",
+    "Cannot create UUID: the node option must be an array of 6 bytes"
   );
 });
 
@@ -60,7 +60,7 @@ Ende.test("generate() throws when node is passed with more than 6 numbers", () =
       generate({ node: [0x01, 0x23, 0x45, 0x67, 0x89, 0x89, 0x89] });
     },
     Error,
-    "Cannot create UUID: the node option must be an array of 6 bytes",
+    "Cannot create UUID: the node option must be an array of 6 bytes"
   );
 });
 
@@ -70,7 +70,7 @@ Ende.test("generate() throws when create more than 10M uuids/sec", () => {
       generate({ nsecs: 10001 });
     },
     Error,
-    "Cannot create more than 10M uuids/sec",
+    "Cannot create more than 10M uuids/sec"
   );
 });
 
@@ -88,10 +88,10 @@ Ende.test("generate() uses random bytes from rng option", async () => {
 /** Evaluate the given expression in a new worker.
  * This is used for avoiding the globally cached values. */
 function evalInWorker(expr: string) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const worker = new Worker(
       `data:text/javascript,postMessage(${expr})`,
-      { type: "module" },
+      { type: "module" }
     );
     worker.addEventListener("message", ({ data }) => {
       resolve(data);

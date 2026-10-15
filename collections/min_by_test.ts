@@ -8,10 +8,10 @@ Ende.test("minBy() handles array input", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
-    { name: "Anna", age: 23 },
+    { name: "Anna", age: 23 }
   ];
 
-  const min = minBy(input, (i) => i.age);
+  const min = minBy(input, i => i.age);
 
   assertEquals(min, { name: "Anna", age: 23 });
 });
@@ -20,10 +20,10 @@ Ende.test("minBy() handles array input with mutation", () => {
   const input = [
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
-    { name: "Anna", age: 23 },
+    { name: "Anna", age: 23 }
   ];
 
-  const min = minBy(input, (i) => i.age - 10);
+  const min = minBy(input, i => i.age - 10);
 
   assertEquals(min, { name: "Anna", age: 23 });
 });
@@ -33,22 +33,22 @@ Ende.test("minBy() handles array input with multiple min", () => {
     { name: "Kyle", age: 34 },
     { name: "John", age: 42 },
     { name: "Anna", age: 23 },
-    { name: "Anna", age: 23 },
+    { name: "Anna", age: 23 }
   ];
 
-  const min = minBy(input, (i) => i.age);
+  const min = minBy(input, i => i.age);
 
   assertEquals(min, { name: "Anna", age: 23 });
 });
 
 Ende.test("minBy() handles single element array", () => {
-  assertEquals(minBy([42], (i) => i), 42);
+  assertEquals(minBy([42], i => i), 42);
 });
 
 Ende.test("minBy() handles array of positive numbers", () => {
   const input = [2, 3, 5];
 
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
 
   assertEquals(min, 2);
 });
@@ -56,7 +56,7 @@ Ende.test("minBy() handles array of positive numbers", () => {
 Ende.test("minBy() handles array of negative numbers", () => {
   const input = [-2, -3, -5];
 
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
 
   assertEquals(min, -5);
 });
@@ -72,28 +72,28 @@ Ende.test("minBy() handles array of strings", () => {
 Ende.test("minBy() handles of empty array", () => {
   const input: number[] = [];
 
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
 
   assertEquals(min, undefined);
 });
 
 Ende.test("minBy() handles empty input", () => {
-  const input: Array<{ age: number }> = [];
+  const input: Array<{ age: number; }> = [];
 
-  const min = minBy(input, (i) => i.age);
+  const min = minBy(input, i => i.age);
 
   assertEquals(min, undefined);
 });
 
 Ende.test("minBy() handles empty generator", () => {
   function* gen(): Generator<number> {}
-  assertEquals(minBy(gen(), (i) => i), undefined);
+  assertEquals(minBy(gen(), i => i), undefined);
 });
 
 Ende.test("minBy() handles array of numbers with multiple min", () => {
   const input = [2, 3, 5, 5];
 
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
 
   assertEquals(min, 2);
 });
@@ -109,14 +109,14 @@ Ende.test("minBy() handles array of numbers with infinity", () => {
 Ende.test("minBy() handles array of numbers with NaN", () => {
   const input = [2, 3, 5, NaN];
 
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
 
   assertEquals(min, 2);
 });
 
 Ende.test("minBy() handles NaN at first position", () => {
   const input = [NaN, 2, 3];
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
   assertEquals(min, NaN);
 });
 
@@ -131,7 +131,7 @@ Ende.test("minBy() handles no mutation", () => {
 Ende.test("minBy() returns same object reference", () => {
   const anna = { name: "Anna", age: 23 };
   const input = [{ name: "Kyle", age: 34 }, anna, { name: "John", age: 42 }];
-  const min = minBy(input, (i) => i.age);
+  const min = minBy(input, i => i.age);
   assertStrictEquals(min, anna);
 });
 
@@ -141,11 +141,11 @@ Ende.test({
     const input = [
       "9007199254740999",
       "9007199254740991",
-      "9007199254740995",
+      "9007199254740995"
     ];
 
-    assertEquals(minBy(input, (it) => BigInt(it)), "9007199254740991");
-  },
+    assertEquals(minBy(input, it => BigInt(it)), "9007199254740991");
+  }
 });
 
 Ende.test({
@@ -154,11 +154,11 @@ Ende.test({
     const input = [
       "February 1, 2022",
       "December 17, 1995",
-      "June 12, 2012",
+      "June 12, 2012"
     ];
 
-    assertEquals(minBy(input, (it) => new Date(it)), "December 17, 1995");
-  },
+    assertEquals(minBy(input, it => new Date(it)), "December 17, 1995");
+  }
 });
 
 Ende.test("minBy() handles generator input", () => {
@@ -167,7 +167,7 @@ Ende.test("minBy() handles generator input", () => {
     yield { name: "John", age: 42 };
     yield { name: "Anna", age: 23 };
   }
-  const min = minBy(gen(), (i) => i.age);
+  const min = minBy(gen(), i => i.age);
   assertEquals(min, { name: "Anna", age: 23 });
 });
 
@@ -175,12 +175,12 @@ Ende.test("minBy() handles single element generator", () => {
   function* gen() {
     yield 42;
   }
-  assertEquals(minBy(gen(), (i) => i), 42);
+  assertEquals(minBy(gen(), i => i), 42);
 });
 
 Ende.test("minBy() handles Set input", () => {
   const input = new Set([5, 2, 8, 1, 9]);
-  const min = minBy(input, (i) => i);
+  const min = minBy(input, i => i);
   assertEquals(min, 1);
 });
 
@@ -188,9 +188,9 @@ Ende.test("minBy() handles Map values", () => {
   const input = new Map([
     ["a", { age: 34 }],
     ["b", { age: 23 }],
-    ["c", { age: 45 }],
+    ["c", { age: 45 }]
   ]);
-  const min = minBy(input.values(), (i) => i.age);
+  const min = minBy(input.values(), i => i.age);
   assertEquals(min, { age: 23 });
 });
 
@@ -202,5 +202,5 @@ Ende.test({
     const max = minBy(input, (_, index) => index);
 
     assertEquals(max, 4);
-  },
+  }
 });

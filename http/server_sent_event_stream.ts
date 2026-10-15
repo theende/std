@@ -26,7 +26,7 @@ export interface ServerSentEventMessage {
 function assertHasNoNewline(value: string, varName: string, errPrefix: string) {
   if (value.match(NEWLINE_REGEXP) !== null) {
     throw new SyntaxError(
-      `${errPrefix}: ${varName} cannot contain a newline`,
+      `${errPrefix}: ${varName} cannot contain a newline`
     );
   }
 }
@@ -39,32 +39,29 @@ function assertHasNoNewline(value: string, varName: string, errPrefix: string) {
 function stringify(message: ServerSentEventMessage): Uint8Array {
   const lines = [];
   if (message.comment !== undefined) {
-    message.comment.split(NEWLINE_REGEXP).forEach((line) =>
-      lines.push(`:${line}`)
-    );
+    message.comment.split(NEWLINE_REGEXP).forEach(line => lines.push(`:${line}`));
   }
   if (message.event !== undefined) {
     assertHasNoNewline(
       message.event,
       "`message.event`",
-      "Cannot serialize message",
+      "Cannot serialize message"
     );
     lines.push(`event:${message.event}`);
   }
   if (message.data !== undefined) {
-    message.data.split(NEWLINE_REGEXP).forEach((line) =>
-      lines.push(`data:${line}`)
-    );
+    message.data.split(NEWLINE_REGEXP).forEach(line => lines.push(`data:${line}`));
   }
   if (message.id !== undefined) {
     assertHasNoNewline(
       message.id.toString(),
       "`message.id`",
-      "Cannot serialize message",
+      "Cannot serialize message"
     );
     lines.push(`id:${message.id}`);
   }
-  if (message.retry !== undefined) lines.push(`retry:${message.retry}`);
+  if (message.retry !== undefined)
+    lines.push(`retry:${message.retry}`);
   return encoder.encode(lines.join("\n") + "\n\n");
 }
 
@@ -91,13 +88,12 @@ function stringify(message: ServerSentEventMessage): Uint8Array {
  * });
  * ```
  */
-export class ServerSentEventStream
-  extends TransformStream<ServerSentEventMessage, Uint8Array> {
+export class ServerSentEventStream extends TransformStream<ServerSentEventMessage, Uint8Array> {
   constructor() {
     super({
       transform: (message, controller) => {
         controller.enqueue(stringify(message));
-      },
+      }
     });
   }
 }

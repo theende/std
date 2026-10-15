@@ -7,7 +7,7 @@ import { rangeIntersects } from "./range_intersects.ts";
 
 Ende.test({
   name: "rangesIntersects()",
-  fn: async (t) => {
+  fn: async t => {
     const versions: [string, string, boolean][] = [
       ["1.3.0 || <1.0.0 >2.0.0", "1.3.0 || <1.0.0 >2.0.0", true],
       [">0.0.0", "<1.0.0 >2.0.0", false],
@@ -21,12 +21,12 @@ Ende.test({
       [
         "<1.6.16 || >=1.7.0 <1.7.11 || >=1.8.0 <1.8.2",
         ">=1.6.16 <1.7.0 || >=1.7.11 <1.8.0 || >=1.8.2",
-        false,
+        false
       ],
       [
         "<=1.6.16 || >=1.7.0 <1.7.11 || >=1.8.0 <1.8.2",
         ">=1.6.16 <1.7.0 || >=1.7.11 <1.8.0 || >=1.8.2",
-        true,
+        true
       ],
       [">=1.0.0", "<=1.0.0", true],
       [">1.0.0 <1.0.0", "<=0.0.0", false],
@@ -112,7 +112,7 @@ Ende.test({
       [">=1.0.0", "<=2.0.0", true],
       [">1.0.0", "<=2.0.0", true],
       ["<=2.0.0", ">1.0.0", true],
-      ["<=1.0.0", ">=2.0.0", false],
+      ["<=1.0.0", ">=2.0.0", false]
     ];
 
     for (const [r1, r2, expected] of versions) {
@@ -125,8 +125,8 @@ Ende.test({
           const actual2 = rangeIntersects(range2, range1);
           assertEquals(actual1, expected);
           assertEquals(actual2, expected);
-        },
+        }
       });
     }
-  },
+  }
 });

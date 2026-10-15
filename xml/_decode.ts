@@ -18,12 +18,13 @@
  * @returns An async generator yielding decoded text chunks.
  */
 export async function* decodeAsyncIterable(
-  source: AsyncIterable<Uint8Array>,
+  source: AsyncIterable<Uint8Array>
 ): AsyncGenerator<string> {
   const decoder = new TextDecoder();
   for await (const chunk of source) {
     yield decoder.decode(chunk, { stream: true });
   }
   const final = decoder.decode();
-  if (final) yield final;
+  if (final)
+    yield final;
 }

@@ -7,18 +7,16 @@
  *
  * @internal
  */
-export type Tuple<T, N extends number> = N extends N
-  ? number extends N ? T[] : TupleOf<T, N, []>
-  : never;
+export type Tuple<T, N extends number> = N extends N ? number extends N ? T[] : TupleOf<T, N, []> :
+  never;
 
 /**
  * Utility for representing n-tuple of. Used in {@linkcode Tuple}.
  *
  * @internal
  */
-export type TupleOf<T, N extends number, R extends unknown[]> =
-  R["length"] extends N ? R
-    : TupleOf<T, N, [T, ...R]>;
+export type TupleOf<T, N extends number, R extends unknown[]> = R["length"] extends N ? R :
+  TupleOf<T, N, [T, ...R]>;
 
 interface QueueNode<T> {
   value: T;
@@ -36,7 +34,7 @@ class Queue<T> {
     this.#source = iterable[Symbol.asyncIterator]();
     this.#queue = {
       value: undefined!,
-      next: undefined,
+      next: undefined
     };
     this.head = this.#queue;
     this.done = false;
@@ -47,7 +45,7 @@ class Queue<T> {
     if (!result.done) {
       const nextNode: QueueNode<T> = {
         value: result.value,
-        next: undefined,
+        next: undefined
       };
       this.#queue.next = nextNode;
       this.#queue = nextNode;
@@ -88,7 +86,7 @@ class Queue<T> {
  */
 export function tee<T, N extends number = 2>(
   iterable: AsyncIterable<T>,
-  n: N = 2 as N,
+  n: N = 2 as N
 ): Tuple<AsyncIterable<T>, N> {
   const queue = new Queue<T>(iterable);
 
@@ -107,7 +105,7 @@ export function tee<T, N extends number = 2>(
   }
 
   return Array.from({ length: n }).map(
-    () => generator(),
+    () => generator()
   ) as Tuple<
     AsyncIterable<T>,
     N

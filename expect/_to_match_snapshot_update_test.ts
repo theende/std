@@ -41,12 +41,12 @@ Ende.test("toMatchSnapshot() update mode creates and reads snapshot files", () =
     assertEquals(
       content.includes("snapshot[`update mode test 1`]"),
       true,
-      "Should contain first snapshot key",
+      "Should contain first snapshot key"
     );
     assertEquals(
       content.includes("snapshot[`update mode test 2`]"),
       true,
-      "Should contain second snapshot key",
+      "Should contain second snapshot key"
     );
 
     // --- Phase 2: Read back in assert mode ---
@@ -55,7 +55,7 @@ Ende.test("toMatchSnapshot() update mode creates and reads snapshot files", () =
 
     expect.setState({
       currentTestName: "update mode test",
-      testPath: testFile,
+      testPath: testFile
     });
 
     // These should match the snapshots we just created
@@ -80,7 +80,7 @@ Ende.test("toMatchSnapshot() round-trips special characters through serialize/wr
       "back`tick",
       "dollar$sign",
       "line1\nline2",
-      { key: "value with `backticks` and $dollars" },
+      { key: "value with `backticks` and $dollars" }
     ];
 
     for (let i = 0; i < values.length; i++) {
@@ -98,7 +98,7 @@ Ende.test("toMatchSnapshot() round-trips special characters through serialize/wr
 
     expect.setState({
       currentTestName: "special",
-      testPath: testFile,
+      testPath: testFile
     });
 
     for (const value of values) {
@@ -144,9 +144,9 @@ Ende.test("toMatchSnapshot() with nested objects", () => {
       name: "Alice",
       profile: {
         age: 30,
-        preferences: { theme: "dark" },
+        preferences: { theme: "dark" }
       },
-      tags: ["developer", "javascript"],
+      tags: ["developer", "javascript"]
     };
 
     // Write

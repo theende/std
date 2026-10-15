@@ -15,7 +15,7 @@ const MAX_CODEPOINT_BITS = Math.ceil(Math.log2(NUM_CODEPOINTS - 1));
 const OffsetType = {
   U2: 2,
   U4: 4,
-  U8: 8,
+  U8: 8
 } as const;
 
 type OffsetType = typeof OffsetType[keyof typeof OffsetType];
@@ -26,12 +26,12 @@ type BitPos = number;
 const TABLE_CFGS: [BitPos, BitPos, OffsetType][] = [
   [13, MAX_CODEPOINT_BITS, OffsetType.U8],
   [6, 13, OffsetType.U8],
-  [0, 6, OffsetType.U2],
+  [0, 6, OffsetType.U2]
 ];
 
 async function fetchUnicodeData(filename: string, version: string) {
   const res = await fetch(
-    `https://www.unicode.org/Public/${version}/ucd/${filename}`,
+    `https://www.unicode.org/Public/${version}/ucd/${filename}`
   );
 
   if (!res.ok) {
@@ -45,7 +45,7 @@ const EffectiveWidth = {
   Zero: 0,
   Narrow: 1,
   Wide: 2,
-  Ambiguous: 3,
+  Ambiguous: 3
 } as const;
 
 type EffectiveWidth = typeof EffectiveWidth[keyof typeof EffectiveWidth];
@@ -56,7 +56,7 @@ const widthCodes = {
   H: EffectiveWidth.Narrow,
   W: EffectiveWidth.Wide,
   F: EffectiveWidth.Wide,
-  A: EffectiveWidth.Ambiguous,
+  A: EffectiveWidth.Ambiguous
 };
 
 async function loadEastAsianWidths(version: string) {
@@ -116,7 +116,7 @@ async function loadZeroWidths(version: string) {
     const [codepoint, name, catCode] = [
       parseInt(rawData[0]!, 16),
       rawData[1],
-      rawData[2],
+      rawData[2]
     ];
 
     const zeroWidth = ["Cc", "Cf", "Mn", "Me"].includes(catCode!);
@@ -154,9 +154,7 @@ class Bucket {
   }
 
   tryExtend(attempt: Bucket) {
-    const [less, more] = [this.widths, attempt.widths].sort((a, b) =>
-      a.length - b.length
-    );
+    const [less, more] = [this.widths, attempt.widths].sort((a, b) => a.length - b.length);
 
     if (!more!.slice(0, less!.length).every((v, i) => v === less![i])) {
       return false;
@@ -173,7 +171,7 @@ class Bucket {
 
   entries() {
     const result = [...this.entrySet]
-      .map((x) => JSON.parse(x) as [CodePoint, EffectiveWidth]);
+      .map(x => JSON.parse(x) as [CodePoint, EffectiveWidth]);
 
     return result.sort((a, b) => a[0] - b[0]);
   }
@@ -186,7 +184,7 @@ class Bucket {
 function makeBuckets(
   entries: [CodePoint, EffectiveWidth][],
   lowBit: BitPos,
-  capBit: BitPos,
+  capBit: BitPos
 ) {
   const numBits = capBit - lowBit;
   assert(numBits > 0);
@@ -212,7 +210,7 @@ class Table {
     entryGroups: [CodePoint, EffectiveWidth][][],
     lowBit: BitPos,
     capBit: BitPos,
-    offsetType: OffsetType,
+    offsetType: OffsetType
   ) {
     this.lowBit = lowBit;
     this.capBit = capBit;
@@ -220,9 +218,7 @@ class Table {
     this.entries = [];
     this.indexed = [];
 
-    const buckets = entryGroups.flatMap((entries) =>
-      makeBuckets(entries, this.lowBit, this.capBit)
-    );
+    const buckets = entryGroups.flatMap(entries => makeBuckets(entries, this.lowBit, this.capBit));
 
     for (const bucket of buckets) {
       let extended = false;
@@ -249,9 +245,10 @@ class Table {
       throw new Error(`Cannot call indicesToWidths twice on the same table`);
     }
 
-    this.entries = this.entries.map((i) => {
+    this.entries = this.entries.map(i => {
       const width = this.indexed[i]!.width();
-      if (width === null) throw new TypeError("'width' cannot be null");
+      if (width === null)
+        throw new TypeError("'width' cannot be null");
       return width!;
     });
 
@@ -283,14 +280,14 @@ class Table {
 
 function makeTables(
   tableCfgs: [BitPos, BitPos, OffsetType][],
-  entries: [CodePoint, EffectiveWidth][],
+  entries: [CodePoint, EffectiveWidth][]
 ) {
   const tables: Table[] = [];
   let entryGroups = [entries];
 
   for (const [lowBit, capBit, offsetType] of tableCfgs) {
     const table = new Table(entryGroups, lowBit, capBit, offsetType);
-    entryGroups = table.buckets.map((bucket) => bucket.entries());
+    entryGroups = table.buckets.map(bucket => bucket.entries());
 
     tables.push(table);
   }
@@ -322,9 +319,7 @@ export async function tables(version: string) {
 
 const data = {
   UNICODE_VERSION,
-  tables: (await tables(UNICODE_VERSION)).map((table) =>
-    runLengthEncode(table.toBytes())
-  ),
+  tables: (await tables(UNICODE_VERSION)).map(table => runLengthEncode(table.toBytes()))
 };
 
 assert(data.UNICODE_VERSION.split(".").length === 3);

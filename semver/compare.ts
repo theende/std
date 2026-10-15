@@ -5,7 +5,7 @@ import type { SemVer } from "./types.ts";
 import {
   checkIdentifier,
   compareIdentifier,
-  compareNumber,
+  compareNumber
 } from "./_shared.ts";
 
 /**
@@ -34,7 +34,8 @@ import {
  * @returns `1` if `version1` is greater, `0` if equal, or `-1` if `version2` is greater
  */
 export function compare(version1: SemVer, version2: SemVer): 1 | 0 | -1 {
-  if (version1 === version2) return 0;
+  if (version1 === version2)
+    return 0;
   return (
     compareNumber(version1.major, version2.major) ||
     compareNumber(version1.minor, version2.minor) ||

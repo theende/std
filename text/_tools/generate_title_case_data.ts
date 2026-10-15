@@ -9,7 +9,7 @@ const VERSION = "16.0.0";
 
 async function fetchUcd(filename: string): Promise<string[][]> {
   const res = await fetch(
-    `https://www.unicode.org/Public/${VERSION}/ucd/${filename}`,
+    `https://www.unicode.org/Public/${VERSION}/ucd/${filename}`
   );
   if (!res.ok) {
     throw new TypeError(`HTTP ${res.status}`);
@@ -17,9 +17,9 @@ async function fetchUcd(filename: string): Promise<string[][]> {
   const text = await res.text();
   return text
     .split("\n")
-    .map((line) => line.split("#", 1)[0]!.trim())
+    .map(line => line.split("#", 1)[0]!.trim())
     .filter(Boolean)
-    .map((line) => line.split(";").map((field) => field.trim()));
+    .map(line => line.split(";").map(field => field.trim()));
 }
 
 const uppercaseMapping: Record<number, string> = Object.create(null);
@@ -52,12 +52,12 @@ for (const entry of await fetchUcd("SpecialCasing.txt")) {
   assert(/^(?:[0-9A-F]+( [0-9A-F]+)*)?$/.test(entry[3]!));
   assert(/^(?:\w+( \w+)*)?$/.test(entry[4]!));
   const char = parseInt(entry[0]!, 16);
-  const titlecase = entry[2]
-    ? entry[2].split(" ").map((s) => parseInt(s, 16))
-    : [];
-  const uppercase = entry[3]
-    ? entry[3].split(" ").map((s) => parseInt(s, 16))
-    : [];
+  const titlecase = entry[2] ?
+    entry[2].split(" ").map(s => parseInt(s, 16)) :
+    [];
+  const uppercase = entry[3] ?
+    entry[3].split(" ").map(s => parseInt(s, 16)) :
+    [];
   const condition = entry[4];
   const sameUppercase = uppercase.length === 1 && char === uppercase[0];
   const sameTitlecase = titlecase.length === 1 && char === titlecase[0];
@@ -102,11 +102,12 @@ export const titleCaseMapping: Record<string, string> = {
 
 const FOOTER = "};\n";
 
-const entries = Object.entries(data)
+const entries = Object
+  .entries(data)
   .map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)},\n`)
   .join("");
 
 await Ende.writeTextFile(
   new URL(import.meta.resolve("../_title_case_mapping.ts")),
-  HEADER + entries + FOOTER,
+  HEADER + entries + FOOTER
 );

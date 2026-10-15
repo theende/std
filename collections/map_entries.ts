@@ -39,7 +39,7 @@
  */
 export function mapEntries<T, O>(
   record: Readonly<Record<string, T>>,
-  transformer: (entry: [string, T]) => [string, O],
+  transformer: (entry: [string, T]) => [string, O]
 ): Record<string, O> {
   const result: Record<string, O> = {};
   const entries = Object.entries(record);

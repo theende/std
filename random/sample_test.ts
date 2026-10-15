@@ -6,7 +6,7 @@ import {
   assertAlmostEquals,
   assertArrayIncludes,
   assertEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { randomSeeded } from "./seeded.ts";
 
@@ -17,7 +17,7 @@ Ende.test({
     sample(array);
 
     assertEquals(array, ["a", "abc", "ba"]);
-  },
+  }
 });
 
 Ende.test({
@@ -25,7 +25,7 @@ Ende.test({
   fn() {
     const actual = sample([]);
     assertEquals(actual, undefined);
-  },
+  }
 });
 
 Ende.test({
@@ -35,7 +35,7 @@ Ende.test({
     const actual = sample(input);
 
     assertArrayIncludes(input, [actual]);
-  },
+  }
 });
 
 Ende.test({
@@ -44,17 +44,17 @@ Ende.test({
     const input = [
       {
         name: "Anna",
-        age: 18,
+        age: 18
       },
       {
         name: "Kim",
-        age: 24,
-      },
+        age: 24
+      }
     ];
     const actual = sample(input);
 
     assertArrayIncludes(input, [actual]);
-  },
+  }
 });
 
 Ende.test("sample() picks a random item from the provided items", () => {
@@ -63,7 +63,7 @@ Ende.test("sample() picks a random item from the provided items", () => {
 
   const picks = Array.from(
     { length: 10 },
-    () => sample(items, { prng }),
+    () => sample(items, { prng })
   );
 
   assertEquals(picks, ["a", "c", "a", "a", "a", "b", "a", "c", "a", "b"]);
@@ -82,7 +82,7 @@ Ende.test("sample() with weights throws if the total weight is 0", () => {
   assertThrows(
     () => sample(items, { weights }),
     RangeError,
-    "Total weight must be greater than 0",
+    "Total weight must be greater than 0"
   );
 });
 
@@ -93,7 +93,7 @@ Ende.test("sample() with weights throws if the wrong number of weights is provid
   assertThrows(
     () => sample(items, { weights }),
     RangeError,
-    "The length of the weights array must match the length of the input array",
+    "The length of the weights array must match the length of the input array"
   );
 });
 
@@ -121,11 +121,11 @@ Ende.test("sample() with weights picks a random item from the provided items wit
 
   const picks = Array.from(
     { length: 1000 },
-    () => sample(values, { prng, weights }),
+    () => sample(values, { prng, weights })
   );
 
   const groups = Object.values(
-    Object.groupBy(picks, (item) => item!),
+    Object.groupBy(picks, item => item!)
   ) as string[][];
 
   assertEquals(groups.length, 3);
@@ -135,7 +135,7 @@ Ende.test("sample() with weights picks a random item from the provided items wit
     assertAlmostEquals(
       group.length,
       picks.length / totalWeight * weight,
-      picks.length / 10,
+      picks.length / 10
     );
   }
 });
@@ -146,7 +146,7 @@ Ende.test("sample() with weights works with a Map", () => {
 
   const result = sample([...weightedItems.keys()], {
     weights: [...weightedItems.values()],
-    prng,
+    prng
   });
 
   assertEquals(result, "c");

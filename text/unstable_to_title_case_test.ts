@@ -4,11 +4,12 @@ import { assertEquals, assertGreater } from "@ende/assert";
 import { toTitleCase } from "./unstable_to_title_case.ts";
 import type {
   ExcludeWordConfig,
-  ExcludeWordFilter,
+  ExcludeWordFilter
 } from "./unstable_to_title_case.ts";
 import { stubIntlFunctions } from "./_test_util.ts";
+import { stubProperty } from "@ende/testing/unstable-stub-property";
 
-Ende.test("toTitleCase() converts a string to title case", async (t) => {
+Ende.test("toTitleCase() converts a string to title case", async t => {
   const input = "hello world";
   assertEquals(toTitleCase(input), "Hello World");
 
@@ -18,7 +19,7 @@ Ende.test("toTitleCase() converts a string to title case", async (t) => {
   });
 });
 
-Ende.test("toTitleCase() respects special title-case mappings", async (t) => {
+Ende.test("toTitleCase() respects special title-case mappings", async t => {
   await t.step("ligatures", () => {
     const input = "ﬆrange ﬂoating aﬃrmation";
     const expected = "Strange Floating Aﬃrmation";
@@ -43,33 +44,33 @@ Ende.test("toTitleCase() works with non-BMP code points", () => {
   assertEquals(toTitleCase(input), "𐓏𐓘𐓻𐓘𐓻𐓟 𐒻𐓟");
 });
 
-Ende.test("toTitleCase() can be customized with options", async (t) => {
-  await t.step("`trailingCase`", async (t) => {
+Ende.test("toTitleCase() can be customized with options", async t => {
+  await t.step("`trailingCase`", async t => {
     const input = "HELLO wOrLd";
 
-    await t.step('defaults to "lower"', () => {
+    await t.step("defaults to \"lower\"", () => {
       assertEquals(toTitleCase(input), "Hello World");
     });
 
-    await t.step('explicitly passing "lower"', () => {
+    await t.step("explicitly passing \"lower\"", () => {
       assertEquals(
         toTitleCase(input, { trailingCase: "lower" }),
-        "Hello World",
+        "Hello World"
       );
     });
 
-    await t.step('enabled by passing "unchanged"', () => {
+    await t.step("enabled by passing \"unchanged\"", () => {
       assertEquals(
         toTitleCase(input, { trailingCase: "unchanged" }),
-        "HELLO WOrLd",
+        "HELLO WOrLd"
       );
     });
   });
 
-  await t.step("`locale`", async (t) => {
+  await t.step("`locale`", async t => {
     const input = "irrIgation";
 
-    await t.step('defaults to `false`, using locale-agnostic "und"', () => {
+    await t.step("defaults to `false`, using locale-agnostic \"und\"", () => {
       using _ = stubIntlFunctions("tr-TR");
       assertEquals(toTitleCase(input), "Irrigation");
     });
@@ -79,13 +80,30 @@ Ende.test("toTitleCase() can be customized with options", async (t) => {
       assertEquals(toTitleCase(input, { locale: true }), "İrrıgation");
     });
 
+    await t.step(
+      "`true` falls back to the Intl default locale without `navigator.language`",
+      () => {
+        // Some runtimes, such as Cloudflare Workers, don't set `navigator.language`
+        using _ = stubProperty(
+          navigator,
+          "language",
+          undefined as unknown as string
+        );
+        const intlLocale = new Intl.NumberFormat().resolvedOptions().locale;
+        assertEquals(
+          toTitleCase(input, { locale: true }),
+          toTitleCase(input, { locale: intlLocale })
+        );
+      }
+    );
+
     await t.step("supports passing a specific locale", () => {
       using _ = stubIntlFunctions("en-US");
       assertEquals(toTitleCase(input, { locale: "tr-TR" }), "İrrıgation");
     });
   });
 
-  await t.step("`exclude`", async (t) => {
+  await t.step("`exclude`", async t => {
     await t.step("with array of stop words", () => {
       const exclude = ["this", "is", "the", "for"];
       const input = "this is what the title case function is for";
@@ -106,17 +124,15 @@ Ende.test("toTitleCase() can be customized with options", async (t) => {
     await t.step("with multiple filters", () => {
       const exclude: ExcludeWordConfig = [
         ({ segment }) => /[\p{Lu}\p{Lt}]/u.test(segment),
-        ["this", "and"],
+        ["this", "and"]
       ];
 
-      const input =
-        "this title contains camelCase, PascalCase, and UPPERCASE words";
-      const expected =
-        "This Title Contains camelCase, PascalCase, and UPPERCASE Words";
+      const input = "this title contains camelCase, PascalCase, and UPPERCASE words";
+      const expected = "This Title Contains camelCase, PascalCase, and UPPERCASE Words";
 
       assertEquals(
         toTitleCase(input, { exclude, trailingCase: "unchanged" }),
-        expected,
+        expected
       );
     });
   });

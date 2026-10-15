@@ -132,7 +132,7 @@ function toString(cookie: Cookie): string {
   if (typeof cookie.maxAge === "number" && Number.isInteger(cookie.maxAge)) {
     if (cookie.maxAge < 0) {
       throw new RangeError(
-        `Cannot serialize cookie as Max-Age must be >= 0: received ${cookie.maxAge}`,
+        `Cannot serialize cookie as Max-Age must be >= 0: received ${cookie.maxAge}`
       );
     }
     out.push(`Max-Age=${cookie.maxAge}`);
@@ -182,7 +182,7 @@ function validatePath(path: string) {
       c === ";"
     ) {
       throw new SyntaxError(
-        `Cookie path "${path}" contains invalid character: "${c}"`,
+        `Cookie path "${path}" contains invalid character: "${c}"`
       );
     }
   }
@@ -203,14 +203,14 @@ function validateValue(name: string, value: string) {
       c === String.fromCharCode(0x5c) || c === String.fromCharCode(0x7f)
     ) {
       throw new SyntaxError(
-        "RFC2616 cookie '" + name + "' cannot contain character '" + c + "'",
+        "RFC2616 cookie '" + name + "' cannot contain character '" + c + "'"
       );
     }
     if (c > String.fromCharCode(0x80)) {
       throw new SyntaxError(
         "RFC2616 cookie '" + name +
           "' can only have US-ASCII chars as value: It contains 0x" +
-          c.charCodeAt(0).toString(16),
+          c.charCodeAt(0).toString(16)
       );
     }
   }
@@ -226,7 +226,7 @@ function validateDomain(domain: string) {
   const charN = domain.charAt(domain.length - 1);
   if (char1 === "-" || charN === "." || charN === "-") {
     throw new SyntaxError(
-      "Invalid first/last char in cookie domain: " + domain,
+      "Invalid first/last char in cookie domain: " + domain
     );
   }
 }
@@ -260,7 +260,7 @@ function validateDomain(domain: string) {
  *   time.
  */
 export function getCookies(
-  headers: Headers,
+  headers: Headers
 ): Partial<Record<string, string>> {
   const cookie = headers.get("Cookie");
   const out: Partial<Record<string, string>> = Object.create(null);
@@ -339,27 +339,27 @@ export function deleteCookie(
   attributes?: Pick<
     Cookie,
     "path" | "domain" | "secure" | "httpOnly" | "partitioned"
-  >,
+  >
 ) {
   setCookie(headers, {
     name: name,
     value: "",
     expires: new Date(0),
-    ...attributes,
+    ...attributes
   });
 }
 
 function parseSetCookie(value: string): Cookie | null {
   const attrs = value
     .split(";")
-    .map((attr) => {
+    .map(attr => {
       const [key, ...values] = attr.trim().split("=");
       return [key!, values.join("=")] as const;
     });
 
   const cookie: Cookie = {
     name: attrs[0]![0],
-    value: attrs[0]![1],
+    value: attrs[0]![1]
   };
 
   for (const [key, value] of attrs.slice(1)) {
@@ -372,7 +372,7 @@ function parseSetCookie(value: string): Cookie | null {
         if (cookie.maxAge < 0) {
           // deno-lint-ignore no-console
           console.warn(
-            "Max-Age must be an integer superior or equal to 0. Cookie ignored.",
+            "Max-Age must be an integer superior or equal to 0. Cookie ignored."
           );
           return null;
         }
@@ -404,7 +404,7 @@ function parseSetCookie(value: string): Cookie | null {
     if (!cookie.secure) {
       // deno-lint-ignore no-console
       console.warn(
-        "Cookies with names starting with `__Secure-` must be set with the secure flag. Cookie ignored.",
+        "Cookies with names starting with `__Secure-` must be set with the secure flag. Cookie ignored."
       );
       return null;
     }
@@ -413,21 +413,21 @@ function parseSetCookie(value: string): Cookie | null {
     if (!cookie.secure) {
       // deno-lint-ignore no-console
       console.warn(
-        "Cookies with names starting with `__Host-` must be set with the secure flag. Cookie ignored.",
+        "Cookies with names starting with `__Host-` must be set with the secure flag. Cookie ignored."
       );
       return null;
     }
     if (cookie.domain !== undefined) {
       // deno-lint-ignore no-console
       console.warn(
-        "Cookies with names starting with `__Host-` must not have a domain specified. Cookie ignored.",
+        "Cookies with names starting with `__Host-` must not have a domain specified. Cookie ignored."
       );
       return null;
     }
     if (cookie.path !== "/") {
       // deno-lint-ignore no-console
       console.warn(
-        "Cookies with names starting with `__Host-` must have path be `/`. Cookie has been ignored.",
+        "Cookies with names starting with `__Host-` must have path be `/`. Cookie has been ignored."
       );
       return null;
     }
@@ -462,7 +462,8 @@ function parseSetCookie(value: string): Cookie | null {
  * @return List of cookies
  */
 export function getSetCookies(headers: Headers): Cookie[] {
-  return headers.getSetCookie()
+  return headers
+    .getSetCookie()
     /** Parse each `set-cookie` header separately */
     .map(parseSetCookie)
     /** Skip empty cookies */

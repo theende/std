@@ -49,21 +49,21 @@ Ende.test("Lazy.get() propagates rejection to all concurrent callers", async () 
   assertEquals(resultB.status, "rejected");
   assertEquals(
     (resultA as PromiseRejectedResult).reason?.message,
-    "init failed",
+    "init failed"
   );
   assertEquals(
     (resultB as PromiseRejectedResult).reason?.message,
-    "init failed",
+    "init failed"
   );
 });
 
 Ende.test("Lazy.initialized reflects lifecycle", async () => {
-  const holder: { resolve: (v: number) => void } = { resolve: () => {} };
+  const holder: { resolve: (v: number) => void; } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
-      new Promise((res) => {
+      new Promise(res => {
         holder.resolve = res;
-      }),
+      })
   );
 
   assertEquals(lazy.initialized, false);
@@ -91,12 +91,12 @@ Ende.test("Lazy.initialized is false after rejection", async () => {
 });
 
 Ende.test("Lazy.peek() reflects lifecycle", async () => {
-  const holder: { resolve: (v: number) => void } = { resolve: () => {} };
+  const holder: { resolve: (v: number) => void; } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
-      new Promise((res) => {
+      new Promise(res => {
         holder.resolve = res;
-      }),
+      })
   );
 
   // Before init
@@ -134,12 +134,12 @@ Ende.test("Lazy.peek() disambiguates T = undefined", async () => {
 });
 
 Ende.test("Lazy.peek() returns { ok: false } while in-flight", async () => {
-  const holder: { resolve: (v: number) => void } = { resolve: () => {} };
+  const holder: { resolve: (v: number) => void; } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
-      new Promise((res) => {
+      new Promise(res => {
         holder.resolve = res;
-      }),
+      })
   );
   const getPromise = lazy.get();
   await Promise.resolve();
@@ -167,12 +167,12 @@ Ende.test("Lazy.reset() causes re-initialization", async () => {
 });
 
 Ende.test("Lazy.reset() does not affect in-flight initialization", async () => {
-  const holder: { resolve: (v: string) => void } = { resolve: () => {} };
+  const holder: { resolve: (v: string) => void; } = { resolve: () => {} };
   const lazy = new Lazy<string>(
     () =>
-      new Promise((res) => {
+      new Promise(res => {
         holder.resolve = res;
-      }),
+      })
   );
   const getPromise = lazy.get();
   await Promise.resolve();
@@ -184,13 +184,13 @@ Ende.test("Lazy.reset() does not affect in-flight initialization", async () => {
 
 Ende.test("Lazy.get() after reset() during in-flight triggers fresh init", async () => {
   let initCount = 0;
-  const holders: { resolve: (v: number) => void }[] = [];
+  const holders: { resolve: (v: number) => void; }[] = [];
   const lazy = new Lazy<number>(
     () =>
-      new Promise((res) => {
+      new Promise(res => {
         initCount++;
         holders.push({ resolve: res });
-      }),
+      })
   );
 
   const first = lazy.get();
@@ -211,7 +211,7 @@ Ende.test("Lazy.get() after reset() during in-flight triggers fresh init", async
   assertEquals(lazy.peek(), { ok: true, value: 2 });
 });
 
-Ende.test("Lazy.get() resolves falsy values correctly", async (t) => {
+Ende.test("Lazy.get() resolves falsy values correctly", async t => {
   await t.step("0", async () => {
     const lazy = new Lazy(() => 0);
     assertEquals(await lazy.get(), 0);
@@ -243,14 +243,14 @@ Ende.test("Lazy.get() rejects immediately with already-aborted signal", async ()
   await assertRejects(
     () => lazy.get({ signal: AbortSignal.abort(reason) }),
     Error,
-    "aborted",
+    "aborted"
   );
   assertEquals(lazy.peek(), { ok: false });
 });
 
 Ende.test("Lazy.get() rejects when signal is aborted during initialization", async () => {
   const lazy = new Lazy<number>(
-    () => new Promise(() => {}),
+    () => new Promise(() => {})
   );
   const controller = new AbortController();
   const getPromise = lazy.get({ signal: controller.signal });
@@ -258,17 +258,17 @@ Ende.test("Lazy.get() rejects when signal is aborted during initialization", asy
   await assertRejects(
     () => getPromise,
     Error,
-    "cancelled",
+    "cancelled"
   );
 });
 
 Ende.test("Lazy.get() signal does not affect other callers", async () => {
-  const holder: { resolve: (v: number) => void } = { resolve: () => {} };
+  const holder: { resolve: (v: number) => void; } = { resolve: () => {} };
   const lazy = new Lazy<number>(
     () =>
-      new Promise((res) => {
+      new Promise(res => {
         holder.resolve = res;
-      }),
+      })
   );
   const controller = new AbortController();
   const abortable = lazy.get({ signal: controller.signal });
@@ -288,7 +288,7 @@ Ende.test("Lazy.get() with signal rejects when initializer fails", async () => {
   await assertRejects(
     () => lazy.get({ signal: controller.signal }),
     Error,
-    "boom",
+    "boom"
   );
 });
 

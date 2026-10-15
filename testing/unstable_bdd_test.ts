@@ -5,7 +5,7 @@ import { assert, assertEquals } from "@ende/assert";
 import { describe, it } from "./unstable_bdd.ts";
 import {
   assertMinimumDescribeOptions,
-  assertMinimumItOptions,
+  assertMinimumItOptions
 } from "./_test_helpers.ts";
 
 Ende.test("configureGlobalSanitizers() modifies the test sanitizers globally", async () => {
@@ -14,9 +14,10 @@ Ende.test("configureGlobalSanitizers() modifies the test sanitizers globally", a
       args: [
         "test",
         "-R",
-        "testing/testdata/configure_global_sanitizers/disable_sanitize_resources.ts",
-      ],
-    }).output();
+        "testing/testdata/configure_global_sanitizers/disable_sanitize_resources.ts"
+      ]
+    })
+      .output();
     assertEquals(output.code, 0);
   }
 
@@ -25,9 +26,10 @@ Ende.test("configureGlobalSanitizers() modifies the test sanitizers globally", a
       args: [
         "test",
         "-R",
-        "testing/testdata/configure_global_sanitizers/disable_sanitize_ops_and_resources.ts",
-      ],
-    }).output();
+        "testing/testdata/configure_global_sanitizers/disable_sanitize_ops_and_resources.ts"
+      ]
+    })
+      .output();
     assertEquals(output.code, 0);
   }
 
@@ -36,51 +38,52 @@ Ende.test("configureGlobalSanitizers() modifies the test sanitizers globally", a
       args: [
         "test",
         "-R",
-        "testing/testdata/configure_global_sanitizers/disable_sanitize_exit.ts",
-      ],
-    }).output();
+        "testing/testdata/configure_global_sanitizers/disable_sanitize_exit.ts"
+      ]
+    })
+      .output();
     assertEquals(output.code, 42);
   }
 });
 
-Ende.test("describe.todo()", async (t) => {
+Ende.test("describe.todo()", async t => {
   await t.step(
     "minimum options - (signature 1)",
     async () =>
-      await assertMinimumDescribeOptions((fns) => {
+      await assertMinimumDescribeOptions(fns => {
         const suite = describe.todo({ name: "example" });
         assert(suite && typeof suite.symbol === "symbol");
         assertEquals(it({ name: "a", fn: fns[0] }), undefined);
         assertEquals(it({ suite, name: "b", fn: fns[1] }), undefined);
-      }),
+      })
   );
 
   await t.step(
     "minimum options - (signature 2)",
     async () =>
-      await assertMinimumDescribeOptions((fns) => {
+      await assertMinimumDescribeOptions(fns => {
         const suite = describe.todo("example", {});
         assert(suite && typeof suite.symbol === "symbol");
         assertEquals(it({ suite, name: "a", fn: fns[0] }), undefined);
         assertEquals(it({ suite, name: "b", fn: fns[1] }), undefined);
-      }),
+      })
   );
 });
 
-Ende.test("it.todo()", async (t) => {
+Ende.test("it.todo()", async t => {
   await t.step(
     "minimum options - (signature 1)",
     async () =>
-      await assertMinimumItOptions((fn) => {
+      await assertMinimumItOptions(fn => {
         assertEquals(it.todo({ name: "example", fn }), undefined);
-      }),
+      })
   );
 
   await t.step(
     "minimum options - (signature 2)",
     async () =>
-      await assertMinimumItOptions((fn) => {
+      await assertMinimumItOptions(fn => {
         assertEquals(it.todo("example", { fn }), undefined);
-      }),
+      })
   );
 });

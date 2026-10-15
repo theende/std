@@ -19,7 +19,7 @@ function generateErroringFunction(errorsBeforeSucceeds: number) {
 Ende.test("retry()", async () => {
   const threeErrors = generateErroringFunction(3);
   const result = await retry(threeErrors, {
-    minTimeout: 1,
+    minTimeout: 1
   });
   assertEquals(result, 3);
 });
@@ -29,7 +29,8 @@ Ende.test("retry() works with async functions", async () => {
   const result = await retry(async () => {
     await Promise.resolve();
     attempts++;
-    if (attempts < 3) throw new Error("Not yet");
+    if (attempts < 3)
+      throw new Error("Not yet");
     return "async success";
   }, { minTimeout: 1 });
   assertEquals(result, "async success");
@@ -48,7 +49,7 @@ Ende.test("retry() fails after five errors by default", async () => {
   const fiveErrors = generateErroringFunction(5);
   await assertRejects(() =>
     retry(fiveErrors, {
-      minTimeout: 1,
+      minTimeout: 1
     })
   );
 });
@@ -59,7 +60,7 @@ Ende.test("retry() fails after five errors when undefined is passed", async () =
     // @ts-expect-error: explicitly giving undefined
     retry(fiveErrors, {
       maxAttempts: undefined,
-      minTimeout: 1,
+      minTimeout: 1
     })
   );
 });
@@ -71,7 +72,7 @@ Ende.test("retry() throws RetryError with last error as cause", async () => {
       retry(() => {
         throw specificError;
       }, { maxAttempts: 1 }),
-    RetryError,
+    RetryError
   );
   assertEquals(error.cause, specificError);
   assertEquals(error.name, "RetryError");
@@ -80,7 +81,7 @@ Ende.test("retry() throws RetryError with last error as cause", async () => {
 
 Ende.test("retry() waits four times by default", async () => {
   let callCount = 0;
-  const onlyErrors = function () {
+  const onlyErrors = function() {
     callCount++;
     throw new Error("Failure");
   };
@@ -107,12 +108,12 @@ Ende.test(
       () =>
         retry(() => {}, {
           minTimeout: 1000,
-          maxTimeout: 100,
+          maxTimeout: 100
         }),
       RangeError,
-      "Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=1000', 'maxTimeout=100'",
+      "Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=1000', 'maxTimeout=100'"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -121,12 +122,12 @@ Ende.test(
     await assertRejects(
       () =>
         retry(() => {}, {
-          maxTimeout: -1,
+          maxTimeout: -1
         }),
       RangeError,
-      "Cannot retry as 'maxTimeout' must be a positive number: current value is -1",
+      "Cannot retry as 'maxTimeout' must be a positive number: current value is -1"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -135,12 +136,12 @@ Ende.test(
     await assertRejects(
       () =>
         retry(() => {}, {
-          jitter: 2,
+          jitter: 2
         }),
       RangeError,
-      "Cannot retry as 'jitter' must be between 0 and 1: current value is 2",
+      "Cannot retry as 'jitter' must be between 0 and 1: current value is 2"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -149,9 +150,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { maxAttempts: 0 }),
       RangeError,
-      "Cannot retry as 'maxAttempts' must be a positive integer: current value is 0",
+      "Cannot retry as 'maxAttempts' must be a positive integer: current value is 0"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -160,9 +161,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { maxAttempts: 2.5 }),
       RangeError,
-      "Cannot retry as 'maxAttempts' must be a positive integer: current value is 2.5",
+      "Cannot retry as 'maxAttempts' must be a positive integer: current value is 2.5"
     );
-  },
+  }
 );
 
 Ende.test("retry() respects custom maxAttempts", async () => {
@@ -174,10 +175,10 @@ Ende.test("retry() respects custom maxAttempts", async () => {
         throw new Error();
       }, {
         maxAttempts: 3,
-        minTimeout: 1,
+        minTimeout: 1
       }),
     RetryError,
-    "Retrying exceeded the maxAttempts (3).",
+    "Retrying exceeded the maxAttempts (3)."
   );
   assertEquals(attempts, 3);
   assertEquals(error.message, "Retrying exceeded the maxAttempts (3).");
@@ -189,9 +190,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { multiplier: 0.5 }),
       RangeError,
-      "Cannot retry as 'multiplier' must be a finite number >= 1: current value is 0.5",
+      "Cannot retry as 'multiplier' must be a finite number >= 1: current value is 0.5"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -200,9 +201,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { multiplier: NaN }),
       RangeError,
-      "Cannot retry as 'multiplier' must be a finite number >= 1: current value is NaN",
+      "Cannot retry as 'multiplier' must be a finite number >= 1: current value is NaN"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -211,9 +212,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { multiplier: Infinity }),
       RangeError,
-      "Cannot retry as 'multiplier' must be a finite number >= 1: current value is Infinity",
+      "Cannot retry as 'multiplier' must be a finite number >= 1: current value is Infinity"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -222,9 +223,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { minTimeout: -100 }),
       RangeError,
-      "Cannot retry as 'minTimeout' must be >= 0: current value is -100",
+      "Cannot retry as 'minTimeout' must be >= 0: current value is -100"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -233,9 +234,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { minTimeout: NaN }),
       RangeError,
-      "Cannot retry as 'minTimeout' must be >= 0: current value is NaN",
+      "Cannot retry as 'minTimeout' must be >= 0: current value is NaN"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -244,9 +245,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { jitter: -0.5 }),
       RangeError,
-      "Cannot retry as 'jitter' must be between 0 and 1: current value is -0.5",
+      "Cannot retry as 'jitter' must be between 0 and 1: current value is -0.5"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -255,9 +256,9 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { jitter: NaN }),
       RangeError,
-      "Cannot retry as 'jitter' must be between 0 and 1: current value is NaN",
+      "Cannot retry as 'jitter' must be between 0 and 1: current value is NaN"
     );
-  },
+  }
 );
 
 Ende.test(
@@ -266,12 +267,12 @@ Ende.test(
     await assertRejects(
       () => retry(() => {}, { maxTimeout: NaN }),
       RangeError,
-      "Cannot retry as 'maxTimeout' must be a positive number: current value is NaN",
+      "Cannot retry as 'maxTimeout' must be a positive number: current value is NaN"
     );
-  },
+  }
 );
 
-Ende.test("retry() checks backoff function timings", async (t) => {
+Ende.test("retry() checks backoff function timings", async t => {
   await t.step("wait fixed times without jitter", async () => {
     using time = new FakeTime();
     let resolved = false;
@@ -319,7 +320,7 @@ Ende.test("retry() caps backoff at maxTimeout", async () => {
     minTimeout: 1000,
     maxTimeout: 1500, // Should cap at 1500, not grow to 2000, 4000, etc.
     multiplier: 2,
-    jitter: 0,
+    jitter: 0
   });
 
   const startTime = time.now;
@@ -347,12 +348,11 @@ Ende.test("retry() only retries errors that are retriable with `isRetriable` opt
     }
   }
 
-  const isRetriable = (err: unknown) =>
-    err instanceof HttpError && (err.status === 429 || err.status >= 500);
+  const isRetriable = (err: unknown) => err instanceof HttpError && (err.status === 429 || err.status >= 500);
 
   const options = {
     minTimeout: 1,
-    isRetriable,
+    isRetriable
   };
 
   let numCalls: number;
@@ -409,7 +409,7 @@ Ende.test("retry() throws immediately if signal is already aborted", async () =>
       retry(() => {
         called = true;
         return "ok";
-      }, { signal: controller.signal }),
+      }, { signal: controller.signal })
   );
   assertEquals(error, "pre-aborted");
   assertEquals(called, false); // fn was never called
@@ -424,7 +424,7 @@ Ende.test("retry() throws AbortError when signal is aborted without reason", asy
       retry(() => {
         throw new Error();
       }, { signal: controller.signal }),
-    DOMException,
+    DOMException
   );
   assertEquals(error.name, "AbortError");
 });

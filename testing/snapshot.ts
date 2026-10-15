@@ -223,7 +223,7 @@ import {
   getIsUpdate,
   getOptions,
   getSnapshotNotMatchMessage,
-  serialize,
+  serialize
 } from "./_snapshot_utils.ts";
 
 export { serialize };
@@ -295,7 +295,7 @@ class AssertSnapshotContext {
    */
   static fromOptions(
     testContext: Ende.TestContext,
-    options: SnapshotOptions,
+    options: SnapshotOptions
   ): AssertSnapshotContext {
     let path: string;
     const testFilePath = fromFileUrl(testContext.origin);
@@ -338,7 +338,7 @@ class AssertSnapshotContext {
   #getCurrentSnapshotsInitialized() {
     assert(
       this.#currentSnapshots,
-      "Snapshot was not initialized. This is a bug in `assertSnapshot`.",
+      "Snapshot was not initialized. This is a bug in `assertSnapshot`."
     );
     return this.#currentSnapshots;
   }
@@ -350,10 +350,8 @@ class AssertSnapshotContext {
     const buf = ["export const snapshot = {};"];
     const currentSnapshots = this.#getCurrentSnapshotsInitialized();
     const currentSnapshotNames = Array.from(currentSnapshots.keys());
-    const removedSnapshotNames = currentSnapshotNames.filter((name) =>
-      !this.snapshotUpdateQueue.includes(name)
-    );
-    this.snapshotUpdateQueue.forEach((name) => {
+    const removedSnapshotNames = currentSnapshotNames.filter(name => !this.snapshotUpdateQueue.includes(name));
+    this.snapshotUpdateQueue.forEach(name => {
       const updatedSnapshot = this.#updatedSnapshots.get(name);
       const currentSnapshot = currentSnapshots.get(name);
       let formattedSnapshot: string;
@@ -369,9 +367,9 @@ class AssertSnapshotContext {
         return;
       }
       formattedSnapshot = escapeStringForJs(formattedSnapshot);
-      formattedSnapshot = formattedSnapshot.includes("\n")
-        ? `\n${formattedSnapshot}\n`
-        : formattedSnapshot;
+      formattedSnapshot = formattedSnapshot.includes("\n") ?
+        `\n${formattedSnapshot}\n` :
+        formattedSnapshot;
       const formattedName = escapeStringForJs(name);
       buf.push(`\nsnapshot[\`${formattedName}\`] = \`${formattedSnapshot}\`;`);
     });
@@ -383,20 +381,16 @@ class AssertSnapshotContext {
     if (updated > 0) {
       // deno-lint-ignore no-console
       console.log(
-        `%c\n > ${updated} ${
-          updated === 1 ? "snapshot" : "snapshots"
-        } updated.`,
-        "color: green; font-weight: bold;",
+        `%c\n > ${updated} ${updated === 1 ? "snapshot" : "snapshots"} updated.`,
+        "color: green; font-weight: bold;"
       );
     }
     const removed = removedSnapshotNames.length;
     if (removed > 0) {
       // deno-lint-ignore no-console
       console.log(
-        `%c\n > ${removed} ${
-          removed === 1 ? "snapshot" : "snapshots"
-        } removed.`,
-        "color: red; font-weight: bold;",
+        `%c\n > ${removed} ${removed === 1 ? "snapshot" : "snapshots"} removed.`,
+        "color: red; font-weight: bold;"
       );
       for (const snapshotName of removedSnapshotNames) {
         // deno-lint-ignore no-console
@@ -422,23 +416,23 @@ class AssertSnapshotContext {
     try {
       const snapshotFileUrl = this.#snapshotFileUrl.toString();
       const { snapshot } = await import(snapshotFileUrl);
-      this.#currentSnapshots = typeof snapshot === "undefined"
-        ? new Map()
-        : new Map(
+      this.#currentSnapshots = typeof snapshot === "undefined" ?
+        new Map() :
+        new Map(
           Object.entries(snapshot).map(([name, snapshot]) => {
             if (typeof snapshot !== "string") {
               throw new AssertionError(
                 getErrorMessage(
                   `Corrupt snapshot:\n\t(${name})\n\t${snapshotFileUrl}`,
-                  options,
-                ),
+                  options
+                )
               );
             }
             return [
               name,
-              snapshot.includes("\n") ? snapshot.slice(1, -1) : snapshot,
+              snapshot.includes("\n") ? snapshot.slice(1, -1) : snapshot
             ];
-          }),
+          })
         );
       return this.#currentSnapshots;
     } catch (error) {
@@ -449,8 +443,8 @@ class AssertSnapshotContext {
         throw new AssertionError(
           getErrorMessage(
             "Missing snapshot file.",
-            options,
-          ),
+            options
+          )
         );
       }
       throw error;
@@ -468,11 +462,11 @@ class AssertSnapshotContext {
     if (!this.#teardownRegistered) {
       const permission = await Ende.permissions.query({
         name: "write",
-        path: this.#snapshotFileUrl,
+        path: this.#snapshotFileUrl
       });
       if (permission.state !== "granted") {
         throw new Ende.errors.PermissionDenied(
-          `Missing write access to snapshot file (${this.#snapshotFileUrl}). This is required because assertSnapshot was called in update mode. Please pass the --allow-write flag.`,
+          `Missing write access to snapshot file (${this.#snapshotFileUrl}). This is required because assertSnapshot was called in update mode. Please pass the --allow-write flag.`
         );
       }
       globalThis.addEventListener("unload", this.#teardown);
@@ -540,9 +534,9 @@ class AssertSnapshotContext {
    * Check if exist snapshot
    */
   hasSnapshot(snapshotName: string): boolean {
-    return this.#currentSnapshots
-      ? this.#currentSnapshots.has(snapshotName)
-      : false;
+    return this.#currentSnapshots ?
+      this.#currentSnapshots.has(snapshotName) :
+      false;
   }
 }
 
@@ -572,7 +566,7 @@ class AssertSnapshotContext {
 export async function assertSnapshot<T>(
   context: Ende.TestContext,
   actual: T,
-  options: SnapshotOptions<T>,
+  options: SnapshotOptions<T>
 ): Promise<void>;
 /**
  * Make an assertion that `actual` matches a snapshot. If the snapshot and `actual` do
@@ -601,24 +595,24 @@ export async function assertSnapshot<T>(
 export async function assertSnapshot<T>(
   context: Ende.TestContext,
   actual: T,
-  message?: string,
+  message?: string
 ): Promise<void>;
 export async function assertSnapshot(
   context: Ende.TestContext,
   actual: unknown,
-  msgOrOpts?: string | SnapshotOptions<unknown>,
+  msgOrOpts?: string | SnapshotOptions<unknown>
 ) {
   const options = getOptions(msgOrOpts);
   const assertSnapshotContext = AssertSnapshotContext.fromOptions(
     context,
-    options,
+    options
   );
   const testName = getTestName(context, options);
   const count = assertSnapshotContext.getCount(testName);
   const name = `${testName} ${count}`;
   const expectedSnapshot = await assertSnapshotContext.getSnapshot(
     name,
-    options,
+    options
   );
 
   assertSnapshotContext.pushSnapshotToUpdateQueue(name);
@@ -635,7 +629,7 @@ export async function assertSnapshot(
       typeof expectedSnapshot === "undefined"
     ) {
       throw new AssertionError(
-        getErrorMessage(`Missing snapshot: ${name}`, options),
+        getErrorMessage(`Missing snapshot: ${name}`, options)
       );
     }
 
@@ -644,13 +638,13 @@ export async function assertSnapshot(
     }
 
     throw new AssertionError(
-      getSnapshotNotMatchMessage(actualSnapshot, expectedSnapshot, options),
+      getSnapshotNotMatchMessage(actualSnapshot, expectedSnapshot, options)
     );
   }
 
   function getTestName(
     context: Ende.TestContext,
-    options?: SnapshotOptions,
+    options?: SnapshotOptions
   ): string {
     if (options && options.name) {
       return options.name;
@@ -694,20 +688,20 @@ export async function assertSnapshot(
  */
 export function createAssertSnapshot<T>(
   options: SnapshotOptions<T>,
-  baseAssertSnapshot: typeof assertSnapshot = assertSnapshot,
+  baseAssertSnapshot: typeof assertSnapshot = assertSnapshot
 ): typeof assertSnapshot {
-  return async function (
+  return async function(
     context: Ende.TestContext,
     actual: T,
-    messageOrOptions?: string | SnapshotOptions<T>,
+    messageOrOptions?: string | SnapshotOptions<T>
   ) {
     const mergedOptions: SnapshotOptions<T> = {
       ...options,
-      ...(typeof messageOrOptions === "string"
-        ? {
-          msg: messageOrOptions,
-        }
-        : messageOrOptions),
+      ...(typeof messageOrOptions === "string" ?
+        {
+          msg: messageOrOptions
+        } :
+        messageOrOptions)
     };
 
     await baseAssertSnapshot(context, actual, mergedOptions);

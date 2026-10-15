@@ -38,7 +38,7 @@
  */
 export function mapValues<T, O, K extends string>(
   record: Readonly<Record<K, T>>,
-  transformer: (value: T, key: K) => O,
+  transformer: (value: T, key: K) => O
 ): Record<K, O>;
 /**
  * Applies the given transformer to all values in the given record and returns a
@@ -76,11 +76,11 @@ export function mapValues<T, O, K extends string>(
  */
 export function mapValues<T, O, K extends string>(
   record: Readonly<Partial<Record<K, T>>>,
-  transformer: (value: T, key: K) => O,
+  transformer: (value: T, key: K) => O
 ): Partial<Record<K, O>>;
 export function mapValues<T, O, K extends string>(
   record: Record<K, T>,
-  transformer: (value: T, key: K) => O,
+  transformer: (value: T, key: K) => O
   // deno-lint-ignore no-explicit-any
 ): any {
   // deno-lint-ignore no-explicit-any

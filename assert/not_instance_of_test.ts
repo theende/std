@@ -8,7 +8,7 @@ Ende.test({
     assertNotInstanceOf("not a number", Number);
     assertNotInstanceOf(42, String);
     assertNotInstanceOf(new URL("http://example.com"), Boolean);
-  },
+  }
 });
 
 Ende.test({
@@ -17,7 +17,7 @@ Ende.test({
     abstract class AbstractClass {}
 
     assertNotInstanceOf(AbstractClass, AbstractClass);
-  },
+  }
 });
 
 Ende.test({
@@ -26,9 +26,9 @@ Ende.test({
     assertThrows(
       () => assertNotInstanceOf(new Date(), Date),
       AssertionError,
-      'Expected object to not be an instance of "function".',
+      "Expected object to not be an instance of \"function\"."
     );
-  },
+  }
 });
 
 Ende.test({
@@ -37,7 +37,7 @@ Ende.test({
     assertThrows(
       () => assertNotInstanceOf(new Date(), Date, "CUSTOM MESSAGE"),
       AssertionError,
-      'Expected object to not be an instance of "function": CUSTOM MESSAGE',
+      "Expected object to not be an instance of \"function\": CUSTOM MESSAGE"
     );
-  },
+  }
 });

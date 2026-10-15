@@ -13,22 +13,21 @@ const KEY_VALUE_REGEXP =
 
 const VALID_KEY_REGEXP = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
 
-const EXPAND_VALUE_REGEXP =
-  /(\${(?<inBrackets>.+?)(\:-(?<inBracketsDefault>.+))?}|(?<!\\)\$(?<notInBrackets>\w+)(\:-(?<notInBracketsDefault>.+))?)/g;
+const EXPAND_VALUE_REGEXP = /(\${(?<inBrackets>.+?)(\:-(?<inBracketsDefault>.+))?}|(?<!\\)\$(?<notInBrackets>\w+)(\:-(?<notInBracketsDefault>.+))?)/g;
 
-const CHARACTERS_MAP: { [key: string]: string } = {
+const CHARACTERS_MAP: { [key: string]: string; } = {
   "\\n": "\n",
   "\\r": "\r",
   "\\t": "\t",
-  '\\"': '"',
+  "\\\"": "\"",
   "\\'": "'",
-  "\\\\": "\\",
+  "\\\\": "\\"
 };
 
 function expandCharacters(str: string): string {
   return str.replace(
     /\\[\s\S]/g,
-    (match: string): string => CHARACTERS_MAP[match] ?? match,
+    (match: string): string => CHARACTERS_MAP[match] ?? match
   );
 }
 
@@ -41,7 +40,7 @@ function expand(str: string, variablesMap: Record<string, string>): string {
         inBrackets,
         inBracketsDefault,
         notInBrackets,
-        notInBracketsDefault,
+        notInBracketsDefault
       } = params.at(-1);
 
       const expandValue = inBrackets ?? notInBrackets;
@@ -87,7 +86,7 @@ export function parse(text: string): Record<string, string> {
     if (!VALID_KEY_REGEXP.test(key)) {
       // deno-lint-ignore no-console
       console.warn(
-        `Ignored the key "${key}" as it is not a valid identifier: The key need to match the pattern /^[a-zA-Z_][a-zA-Z0-9_]*$/.`,
+        `Ignored the key "${key}" as it is not a valid identifier: The key need to match the pattern /^[a-zA-Z_][a-zA-Z0-9_]*$/.`
       );
       continue;
     }
@@ -96,14 +95,14 @@ export function parse(text: string): Record<string, string> {
       keysForExpandCheck.push(key);
     }
 
-    env[key] = typeof notInterpolated === "string"
-      ? notInterpolated
-      : typeof interpolated === "string"
-      ? expandCharacters(interpolated)
-      : unquoted.trim();
+    env[key] = typeof notInterpolated === "string" ?
+      notInterpolated :
+      typeof interpolated === "string" ?
+      expandCharacters(interpolated) :
+      unquoted.trim();
   }
 
-  //https://github.com/motdotla/dotenv-expand/blob/ed5fea5bf517a09fd743ce2c63150e88c8a5f6d1/lib/main.js#L23
+  // https://github.com/motdotla/dotenv-expand/blob/ed5fea5bf517a09fd743ce2c63150e88c8a5f6d1/lib/main.js#L23
   const variablesMap = { ...env };
 
   for (const key of keysForExpandCheck) {

@@ -19,7 +19,7 @@ function testAscii(expected: string, input: string) {
   // check idempotency
   assertEquals(
     input,
-    reverse(reverse(input, { handleUnicode: false }), { handleUnicode: false }),
+    reverse(reverse(input, { handleUnicode: false }), { handleUnicode: false })
   );
   // check empty object handling
   assertEquals(expected, reverse(input, {}));
@@ -38,7 +38,7 @@ Ende.test("reverse() reverses a string", () => {
 Ende.test("reverse() handles unicode strings", () => {
   testUnicode(
     "Lorem ipsum 𝌆 dolor sit ameͨ͆t.",
-    ".teͨ͆ma tis rolod 𝌆 muspi meroL",
+    ".teͨ͆ma tis rolod 𝌆 muspi meroL"
   );
   testUnicode("mañana mañana", "anañam anañam");
 

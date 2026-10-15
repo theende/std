@@ -5,7 +5,7 @@ import { describe, it } from "@ende/testing/bdd";
 import { configureGlobalSanitizers } from "@ende/testing/unstable-bdd";
 
 configureGlobalSanitizers({
-  sanitizeExit: false,
+  sanitizeExit: false
 });
 
 describe("does not sanitize exit", () => {

@@ -8,18 +8,21 @@ export const padding = "=".charCodeAt(0);
 export const alphabet: Record<Base32Alphabet, Uint8Array> = {
   base32: new TextEncoder().encode("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"),
   base32hex: new TextEncoder().encode("0123456789ABCDEFGHIJKLMNOPQRSTUV"),
-  base32crockford: new TextEncoder().encode("0123456789ABCDEFGHJKMNPQRSTVWXYZ"),
+  base32crockford: new TextEncoder().encode("0123456789ABCDEFGHJKMNPQRSTVWXYZ")
 };
 export const rAlphabet: Record<Base32Alphabet, Uint8Array> = {
   base32: new Uint8Array(128).fill(32), // alphabet.base32.length
   base32hex: new Uint8Array(128).fill(32),
-  base32crockford: new Uint8Array(128).fill(32),
+  base32crockford: new Uint8Array(128).fill(32)
 };
-alphabet.base32
+alphabet
+  .base32
   .forEach((byte, i) => rAlphabet.base32[byte] = i);
-alphabet.base32hex
+alphabet
+  .base32hex
   .forEach((byte, i) => rAlphabet.base32hex[byte] = i);
-alphabet.base32crockford
+alphabet
+  .base32crockford
   .forEach((byte, i) => rAlphabet.base32crockford[byte] = i);
 
 /**
@@ -59,7 +62,7 @@ export function encode(
   i: number,
   o: number,
   alphabet: Uint8Array,
-  padding: number,
+  padding: number
 ): number {
   i += 4;
   for (; i < buffer.length; i += 5) {
@@ -134,16 +137,14 @@ export function decode(
   i: number,
   o: number,
   alphabet: Uint8Array,
-  padding: number,
+  padding: number
 ): number {
   for (let x = buffer.length - 6; x < buffer.length; ++x) {
     if (buffer[x] === padding) {
       for (let y = x + 1; y < buffer.length; ++y) {
         if (buffer[y] !== padding) {
           throw new TypeError(
-            `Cannot decode input as base32: Invalid character (${
-              String.fromCharCode(buffer[y]!)
-            })`,
+            `Cannot decode input as base32: Invalid character (${String.fromCharCode(buffer[y]!)})`
           );
         }
       }
@@ -156,9 +157,7 @@ export function decode(
     case 3:
     case 1:
       throw new RangeError(
-        `Cannot decode input as base32: Length (${
-          buffer.length - o
-        }), excluding padding, must not have a remainder of 1, 3, or 6 when divided by 8`,
+        `Cannot decode input as base32: Length (${buffer.length - o}), excluding padding, must not have a remainder of 1, 3, or 6 when divided by 8`
       );
   }
 
@@ -230,9 +229,7 @@ function getByte(char: number, alphabet: Uint8Array): number {
   const byte = alphabet[char] ?? 32;
   if (byte === 32) { // alphabet.Base32.length
     throw new TypeError(
-      `Cannot decode input as base32: Invalid character (${
-        String.fromCharCode(char)
-      })`,
+      `Cannot decode input as base32: Invalid character (${String.fromCharCode(char)})`
     );
   }
   return byte;

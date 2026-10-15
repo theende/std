@@ -8,14 +8,14 @@ import { toPathString } from "./_to_path_string.ts";
 import {
   createWalkEntry,
   createWalkEntrySync,
-  type WalkEntry,
+  type WalkEntry
 } from "./_create_walk_entry.ts";
 
 function include(
   path: string,
   exts?: string[],
   match?: RegExp[],
-  skip?: RegExp[],
+  skip?: RegExp[]
 ): boolean {
   if (exts && !exts.some((ext): boolean => path.endsWith(ext))) {
     return false;
@@ -449,7 +449,7 @@ export type { WalkEntry };
  */
 export async function* walk(
   root: string | URL,
-  options?: WalkOptions,
+  options?: WalkOptions
 ): AsyncIterableIterator<WalkEntry> {
   let {
     maxDepth = Infinity,
@@ -460,7 +460,7 @@ export async function* walk(
     canonicalize = true,
     exts = undefined,
     match = undefined,
-    skip = undefined,
+    skip = undefined
   } = options ?? {};
 
   if (maxDepth < 0) {
@@ -468,7 +468,7 @@ export async function* walk(
   }
   root = toPathString(root);
   if (exts) {
-    exts = exts.map((ext) => ext.startsWith(".") ? ext : `.${ext}`);
+    exts = exts.map(ext => ext.startsWith(".") ? ext : `.${ext}`);
   }
   if (includeDirs && include(root, exts, match, skip)) {
     yield await createWalkEntry(root);
@@ -504,7 +504,7 @@ export async function* walk(
         includeFiles,
         includeDirs,
         includeSymlinks,
-        followSymlinks,
+        followSymlinks
       };
       if (exts !== undefined) {
         opts.exts = exts;
@@ -878,7 +878,7 @@ export async function* walk(
  */
 export function* walkSync(
   root: string | URL,
-  options?: WalkOptions,
+  options?: WalkOptions
 ): IterableIterator<WalkEntry> {
   let {
     maxDepth = Infinity,
@@ -889,12 +889,12 @@ export function* walkSync(
     canonicalize = true,
     exts = undefined,
     match = undefined,
-    skip = undefined,
+    skip = undefined
   } = options ?? {};
 
   root = toPathString(root);
   if (exts) {
-    exts = exts.map((ext) => ext.startsWith(".") ? ext : `.${ext}`);
+    exts = exts.map(ext => ext.startsWith(".") ? ext : `.${ext}`);
   }
   if (maxDepth < 0) {
     return;
@@ -934,7 +934,7 @@ export function* walkSync(
         includeFiles,
         includeDirs,
         includeSymlinks,
-        followSymlinks,
+        followSymlinks
       };
       if (exts !== undefined) {
         opts.exts = exts;

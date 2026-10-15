@@ -22,8 +22,8 @@ const windowsTests =
     [["c:/", "///some//dir"], "c:\\some\\dir"],
     [
       ["C:\\foo\\tmp.3\\", "..\\tmp.3\\cycles\\root.js"],
-      "C:\\foo\\tmp.3\\cycles\\root.js",
-    ],
+      "C:\\foo\\tmp.3\\cycles\\root.js"
+    ]
   ];
 const posixTests =
   // arguments                    result
@@ -33,26 +33,26 @@ const posixTests =
     [["a/b/c/", "../../.."], Ende.cwd()],
     [["."], Ende.cwd()],
     [["/some/dir", ".", "/absolute/"], "/absolute"],
-    [["/foo/tmp.3/", "../tmp.3/cycles/root.js"], "/foo/tmp.3/cycles/root.js"],
+    [["/foo/tmp.3/", "../tmp.3/cycles/root.js"], "/foo/tmp.3/cycles/root.js"]
   ];
 
-Ende.test("posix.resolve()", function () {
-  posixTests.forEach(function (p) {
+Ende.test("posix.resolve()", function() {
+  posixTests.forEach(function(p) {
     const _p = p[0] as string[];
     const actual = posix.resolve.apply(null, _p);
     assertEquals(actual, p[1]);
   });
 });
 
-Ende.test("windows.resolve()", function () {
-  windowsTests.forEach(function (p) {
+Ende.test("windows.resolve()", function() {
+  windowsTests.forEach(function(p) {
     const _p = p[0] as string[];
     const actual = windows.resolve.apply(null, _p);
     assertEquals(actual, p[1]);
   });
 });
 
-Ende.test("resolve() returns current working directory if input is empty", function () {
+Ende.test("resolve() returns current working directory if input is empty", function() {
   const pwd = Ende.cwd();
   assertEquals(resolve(""), pwd);
   assertEquals(resolve("", ""), pwd);

@@ -5,16 +5,16 @@ import {
   assert,
   assertEquals,
   assertStrictEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
-import { load, type LoadOptions, loadSync } from "./mod.ts";
+import { load, loadSync, type LoadOptions } from "./mod.ts";
 import * as path from "@ende/path";
 
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");
 
 const testOptions = Object.freeze({
-  envPath: path.join(testdataDir, ".env"),
+  envPath: path.join(testdataDir, ".env")
 });
 
 Ende.test("load() handles non-existent .env files", async () => {
@@ -23,7 +23,7 @@ Ende.test("load() handles non-existent .env files", async () => {
   assertEquals({}, loadSync());
 
   const loadOptions = {
-    envPath: "some.nonexistent.env",
+    envPath: "some.nonexistent.env"
   };
   assertEquals({}, await load(loadOptions));
   assertEquals({}, loadSync(loadOptions));
@@ -33,16 +33,16 @@ Ende.test("load() handles URL as path for .env files", async () => {
   const conf = loadSync({
     envPath: new URL(
       path.toFileUrl(path.join(testdataDir, ".env")),
-      import.meta.url,
-    ),
+      import.meta.url
+    )
   });
   assertEquals(conf.GREETING, "hello world", "loaded from .env");
 
   const asyncConf = await load({
     envPath: new URL(
       path.toFileUrl(path.join(testdataDir, ".env")),
-      import.meta.url,
-    ),
+      import.meta.url
+    )
   });
   assertEquals(asyncConf.GREETING, "hello world", "loaded from .env");
 });
@@ -71,7 +71,7 @@ function validateExport(): void {
     assertEquals(
       Ende.env.get("GREETING"),
       "hello world",
-      "exported from .env -> Ende.env",
+      "exported from .env -> Ende.env"
     );
   } finally {
     Ende.env.delete("GREETING");
@@ -92,7 +92,7 @@ function validateNotOverridden(conf: Record<string, string>): void {
     assertEquals(
       Ende.env.get("GREETING"),
       "Do not override!",
-      "not exported from .env -> Ende.env",
+      "not exported from .env -> Ende.env"
     );
   } finally {
     Ende.env.delete("DEFAULT1");
@@ -106,9 +106,9 @@ Ende.test("load() loads .env successfully from default file names/paths", async 
       "--no-lock",
       "--allow-read",
       "--allow-env",
-      path.join(testdataDir, "./app_defaults.ts"),
+      path.join(testdataDir, "./app_defaults.ts")
     ],
-    cwd: testdataDir,
+    cwd: testdataDir
   });
   const { stdout } = await command.output();
 
@@ -124,21 +124,21 @@ Ende.test("load() expands empty values from process env expand as empty value", 
 
     // .env.single.expand contains one key which expands to the "EMPTY" process env var
     const loadOptions = {
-      envPath: path.join(testdataDir, "./.env.single.expand"),
+      envPath: path.join(testdataDir, "./.env.single.expand")
     };
 
     const conf = loadSync(loadOptions);
     assertEquals(
       conf.EXPECT_EMPTY,
       "",
-      "empty value expanded from process env",
+      "empty value expanded from process env"
     );
 
     const asyncConf = await load(loadOptions);
     assertEquals(
       asyncConf.EXPECT_EMPTY,
       "",
-      "empty value expanded from process env",
+      "empty value expanded from process env"
     );
   } finally {
     Ende.env.delete("EMPTY");
@@ -149,36 +149,36 @@ Ende.test(
   "loadSync() checks that --allow-env is not required if no process env vars are expanded upon",
   {
     permissions: {
-      read: true,
-    },
+      read: true
+    }
   },
   () => {
     // note lack of --allow-env permission
     const conf = loadSync(testOptions);
     assertEquals(conf.GREETING, "hello world");
-  },
+  }
 );
 
 Ende.test(
   "loadSync() checks that --allow-env is required when process env vars are expanded upon",
   {
     permissions: {
-      read: true,
-    },
+      read: true
+    }
   },
   () => {
     // ./app_permission_test.ts loads a .env with one key which expands a process env var
     // note lack of --allow-env permission
     const loadOptions = {
-      envPath: path.join(testdataDir, "./.env.single.expand"),
+      envPath: path.join(testdataDir, "./.env.single.expand")
     };
     assertThrows(
       () => loadSync(loadOptions),
       // deno-lint-ignore no-explicit-any
       (Ende as any).errors.NotCapable ?? Ende.errors.PermissionDenied,
-      `Requires env access to "EMPTY", run again with the --allow-env flag`,
+      `Requires env access to "EMPTY", run again with the --allow-env flag`
     );
-  },
+  }
 );
 
 Ende.test(
@@ -186,26 +186,26 @@ Ende.test(
   {
     permissions: {
       read: true,
-      env: ["EMPTY"],
-    },
+      env: ["EMPTY"]
+    }
   },
   () => {
     try {
       Ende.env.set("EMPTY", "");
 
       const loadOptions = {
-        envPath: path.join(testdataDir, "./.env.single.expand"),
+        envPath: path.join(testdataDir, "./.env.single.expand")
       };
       const conf = loadSync(loadOptions);
       assertEquals(
         conf.EXPECT_EMPTY,
         "",
-        "empty value expanded from process env",
+        "empty value expanded from process env"
       );
     } finally {
       Ende.env.delete("EMPTY");
     }
-  },
+  }
 );
 
 // TODO(cknight): test permissions
@@ -215,20 +215,20 @@ Ende.test(
   {
     permissions: {
       env: ["GREETING", "DO_NOT_OVERRIDE"],
-      read: [path.join(testdataDir, "./.env.multiple")],
-    },
+      read: [path.join(testdataDir, "./.env.multiple")]
+    }
   },
-  async (t) => {
+  async t => {
     const optsNoPaths = {
-      envPath: null,
+      envPath: null
     } satisfies LoadOptions;
 
     const optsEnvPath = {
-      envPath: path.join(testdataDir, "./.env.multiple"),
+      envPath: path.join(testdataDir, "./.env.multiple")
     } satisfies LoadOptions;
 
     const optsOnlyEnvPath = {
-      ...optsEnvPath,
+      ...optsEnvPath
     } satisfies LoadOptions;
 
     const assertEnv = (env: Record<string, string>): void => {
@@ -246,5 +246,5 @@ Ende.test(
       assertStrictEquals(Object.keys(loadSync(optsNoPaths)).length, 0);
       assertEnv(loadSync(optsOnlyEnvPath));
     });
-  },
+  }
 );

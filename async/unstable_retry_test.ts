@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertInstanceOf,
   assertRejects,
-  assertStrictEquals,
+  assertStrictEquals
 } from "@ende/assert";
 import { FakeTime } from "@ende/testing/time";
 import { stub } from "@ende/testing/mock";
@@ -29,7 +29,8 @@ Ende.test("retry() retries until the function succeeds", async () => {
   let attempts = 0;
   const result = await retry(() => {
     attempts++;
-    if (attempts < 3) throw new Error("Not yet");
+    if (attempts < 3)
+      throw new Error("Not yet");
     return "success";
   }, { minTimeout: 1 });
   assertEquals(result, "success");
@@ -49,7 +50,7 @@ Ende.test("retry() re-exports the stable RetryError", async () => {
         throw thrown;
       }, { maxAttempts: 1 }),
     StableRetryError,
-    "Retrying exceeded the maxAttempts (1).",
+    "Retrying exceeded the maxAttempts (1)."
   );
   assertInstanceOf(error, RetryError);
   assertStrictEquals(error.cause, thrown);
@@ -59,32 +60,32 @@ Ende.test("retry() validates the inherited options", async () => {
   await assertRejects(
     () => retry(() => {}, { maxAttempts: 0 }),
     RangeError,
-    "Cannot retry as 'maxAttempts' must be a positive integer: current value is 0",
+    "Cannot retry as 'maxAttempts' must be a positive integer: current value is 0"
   );
   await assertRejects(
     () => retry(() => {}, { multiplier: 0.5 }),
     RangeError,
-    "Cannot retry as 'multiplier' must be a finite number >= 1: current value is 0.5",
+    "Cannot retry as 'multiplier' must be a finite number >= 1: current value is 0.5"
   );
   await assertRejects(
     () => retry(() => {}, { maxTimeout: -1 }),
     RangeError,
-    "Cannot retry as 'maxTimeout' must be a positive number: current value is -1",
+    "Cannot retry as 'maxTimeout' must be a positive number: current value is -1"
   );
   await assertRejects(
     () => retry(() => {}, { minTimeout: -100 }),
     RangeError,
-    "Cannot retry as 'minTimeout' must be >= 0: current value is -100",
+    "Cannot retry as 'minTimeout' must be >= 0: current value is -100"
   );
   await assertRejects(
     () => retry(() => {}, { minTimeout: 1000, maxTimeout: 100 }),
     RangeError,
-    "Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=1000', 'maxTimeout=100'",
+    "Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=1000', 'maxTimeout=100'"
   );
   await assertRejects(
     () => retry(() => {}, { jitter: 2 }),
     RangeError,
-    "Cannot retry as 'jitter' must be between 0 and 1: current value is 2",
+    "Cannot retry as 'jitter' must be between 0 and 1: current value is 2"
   );
 });
 
@@ -93,7 +94,7 @@ Ende.test("retry() keeps the computed backoff without getDelay", async () => {
     1000,
     2000,
     4000,
-    8000,
+    8000
   ]);
 });
 
@@ -101,18 +102,18 @@ Ende.test("retry() keeps the computed backoff when getDelay returns it", async (
   assertEquals(
     await waitsUntilExhausted({
       jitter: 0,
-      getDelay: (_error, _attempt, computedDelay) => computedDelay,
+      getDelay: (_error, _attempt, computedDelay) => computedDelay
     }),
-    [1000, 2000, 4000, 8000],
+    [1000, 2000, 4000, 8000]
   );
 });
 
 Ende.test("retry() treats an explicitly undefined getDelay as omitted", async () => {
   assertEquals(
     await waitsUntilExhausted(
-      { jitter: 0, getDelay: undefined },
+      { jitter: 0, getDelay: undefined }
     ),
-    [1000, 2000, 4000, 8000],
+    [1000, 2000, 4000, 8000]
   );
 });
 
@@ -129,9 +130,9 @@ Ende.test("retry() calls getDelay once per eligible retry", async () => {
         getDelay: (error, attempt) => {
           calls.push([error, attempt]);
           return 0;
-        },
+        }
       }),
-    RetryError,
+    RetryError
   );
   assertEquals(calls, [[thrown, 1], [thrown, 2]]);
   assertStrictEquals(calls[0]![0], thrown);
@@ -144,9 +145,9 @@ Ende.test("retry() waits for the delay returned by getDelay, below the base and 
       minTimeout: 1000,
       maxTimeout: 2000,
       jitter: 0,
-      getDelay: (_error, attempt) => attempt === 1 ? 1 : 100_000,
+      getDelay: (_error, attempt) => attempt === 1 ? 1 : 100_000
     }),
-    [1, 100_000],
+    [1, 100_000]
   );
 });
 
@@ -157,7 +158,7 @@ Ende.test("retry() computes the next backoff from the attempt count, not the pre
     getDelay: (_error, _attempt, computedDelay) => {
       computed.push(computedDelay);
       return 5;
-    },
+    }
   });
   assertEquals(computed, [1000, 2000, 4000, 8000]);
 });
@@ -173,21 +174,21 @@ Ende.test("retry() passes the capped, jittered delay to getDelay and neither res
     getDelay: (_error, _attempt, computedDelay) => {
       computed.push(computedDelay);
       return computedDelay * 4;
-    },
+    }
   });
   // Halved by the stubbed jitter, and capped at `maxTimeout` before that.
   assertEquals(computed, [500, 750]);
   assertEquals(waits, [2000, 3000]);
 });
 
-Ende.test("retry() does not call getDelay when there is no retry", async (t) => {
+Ende.test("retry() does not call getDelay when there is no retry", async t => {
   await t.step("first attempt succeeds", async () => {
     let calls = 0;
     const result = await retry(() => "ok", {
       getDelay: () => {
         calls++;
         return 0;
-      },
+      }
     });
     assertEquals(result, "ok");
     assertEquals(calls, 0);
@@ -204,9 +205,9 @@ Ende.test("retry() does not call getDelay when there is no retry", async (t) => 
           getDelay: () => {
             calls++;
             return 0;
-          },
+          }
         }),
-      RetryError,
+      RetryError
     );
     assertEquals(calls, 0);
   });
@@ -223,9 +224,9 @@ Ende.test("retry() does not call getDelay when there is no retry", async (t) => 
           getDelay: () => {
             calls++;
             return 0;
-          },
+          }
         }),
-      RetryError,
+      RetryError
     );
     assertEquals(calls, 2);
   });
@@ -241,10 +242,10 @@ Ende.test("retry() does not call getDelay when there is no retry", async (t) => 
           getDelay: () => {
             calls++;
             return 0;
-          },
+          }
         }),
       Error,
-      "Failure",
+      "Failure"
     );
     assertEquals(calls, 0);
   });
@@ -262,7 +263,7 @@ Ende.test("retry() rejects with the value thrown by getDelay and stops retrying"
     }, {
       getDelay: () => {
         throw callbackError;
-      },
+      }
     })
   );
   assertStrictEquals(error, callbackError);
@@ -270,11 +271,11 @@ Ende.test("retry() rejects with the value thrown by getDelay and stops retrying"
   assertEquals(time.now, start); // no wait was scheduled
 });
 
-Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
+Ende.test("retry() rejects invalid values returned by getDelay", async t => {
   const rejects = async (
     getDelay: () => unknown,
     ErrorClass: ErrorConstructor,
-    message: string,
+    message: string
   ) => {
     using time = new FakeTime();
     const start = time.now;
@@ -286,7 +287,7 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
           throw new Error("Failure");
         }, { getDelay: getDelay as () => number }),
       ErrorClass,
-      message,
+      message
     );
     assertEquals(attempts, 1);
     assertEquals(time.now, start);
@@ -296,7 +297,7 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
     await rejects(
       () => -1,
       RangeError,
-      "Cannot retry as 'getDelay' must return a non-negative number: current value is -1",
+      "Cannot retry as 'getDelay' must return a non-negative number: current value is -1"
     );
   });
 
@@ -304,7 +305,7 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
     await rejects(
       () => NaN,
       RangeError,
-      "Cannot retry as 'getDelay' must return a non-negative number: current value is NaN",
+      "Cannot retry as 'getDelay' must return a non-negative number: current value is NaN"
     );
   });
 
@@ -312,7 +313,7 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
     await rejects(
       () => undefined,
       TypeError,
-      "Cannot retry as 'getDelay' must return a number: current value is of type undefined",
+      "Cannot retry as 'getDelay' must return a number: current value is of type undefined"
     );
   });
 
@@ -320,7 +321,7 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
     await rejects(
       () => null,
       TypeError,
-      "Cannot retry as 'getDelay' must return a number: current value is of type object",
+      "Cannot retry as 'getDelay' must return a number: current value is of type object"
     );
   });
 
@@ -328,7 +329,7 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
     await rejects(
       () => Promise.resolve(1),
       TypeError,
-      "Cannot retry as 'getDelay' must return a number: current value is of type object",
+      "Cannot retry as 'getDelay' must return a number: current value is of type object"
     );
   });
 
@@ -336,23 +337,23 @@ Ende.test("retry() rejects invalid values returned by getDelay", async (t) => {
     await rejects(
       () => "100",
       TypeError,
-      "Cannot retry as 'getDelay' must return a number: current value is of type string",
+      "Cannot retry as 'getDelay' must return a number: current value is of type string"
     );
   });
 });
 
-Ende.test("retry() accepts zero, fractional, and very large delays", async (t) => {
+Ende.test("retry() accepts zero, fractional, and very large delays", async t => {
   await t.step("zero retries without waiting", async () => {
     assertEquals(
       await waitsUntilExhausted({ maxAttempts: 3, getDelay: () => 0 }),
-      [0, 0],
+      [0, 0]
     );
   });
 
   await t.step("fractions follow delay() truncation", async () => {
     assertEquals(
       await waitsUntilExhausted({ maxAttempts: 2, getDelay: () => 1.5 }),
-      [1],
+      [1]
     );
   });
 
@@ -362,9 +363,9 @@ Ende.test("retry() accepts zero, fractional, and very large delays", async (t) =
       const wait = 2 ** 31 + 1000;
       assertEquals(
         await waitsUntilExhausted({ maxAttempts: 2, getDelay: () => wait }),
-        [wait],
+        [wait]
       );
-    },
+    }
   );
 });
 
@@ -385,7 +386,7 @@ Ende.test("retry() waits until cancellation when getDelay returns Infinity", asy
   assertEquals(attempts, 1);
 });
 
-Ende.test("retry() handles cancellation around getDelay", async (t) => {
+Ende.test("retry() handles cancellation around getDelay", async t => {
   await t.step("signal aborted before the first attempt", async () => {
     let calls = 0;
     let attempts = 0;
@@ -398,7 +399,7 @@ Ende.test("retry() handles cancellation around getDelay", async (t) => {
         getDelay: () => {
           calls++;
           return 0;
-        },
+        }
       })
     );
     assertStrictEquals(error, "cancelled");
@@ -417,7 +418,7 @@ Ende.test("retry() handles cancellation around getDelay", async (t) => {
         getDelay: () => {
           calls++;
           return 0;
-        },
+        }
       })
     );
     assertStrictEquals(error, "cancelled");
@@ -438,9 +439,9 @@ Ende.test("retry() handles cancellation around getDelay", async (t) => {
           getDelay: () => {
             calls++;
             return 0;
-          },
+          }
         }),
-      RetryError,
+      RetryError
     );
     assertEquals(calls, 0);
   });
@@ -459,7 +460,7 @@ Ende.test("retry() handles cancellation around getDelay", async (t) => {
         getDelay: () => {
           controller.abort("cancelled");
           return 1000;
-        },
+        }
       })
     );
     assertStrictEquals(error, "cancelled");
@@ -478,7 +479,7 @@ Ende.test("retry() handles cancellation around getDelay", async (t) => {
         getDelay: () => {
           controller.abort("cancelled");
           throw callbackError;
-        },
+        }
       })
     );
     assertStrictEquals(error, callbackError);

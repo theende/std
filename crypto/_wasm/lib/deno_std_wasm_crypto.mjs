@@ -6,7 +6,8 @@
 
 // source-hash: a14f834506611f6189f040ce4b6c86e0f86386cd
 import * as imports from "./deno_std_wasm_crypto.internal.mjs";
-const bytes = base64decode("\
+const bytes = base64decode(
+  "\
 AGFzbQEAAAABjAInYAJ/fwF/YAN/f38AYAJ/fwBgA39/fwF/YAF/AGAEf39/fwBgBX9/f39/AGAFf3\
 9/f38Bf2AABH9/f39gAW8Bf2ABbwFvYAAAYAR/f39/AX9gAX8Bf2AGf39/f39/AX9gAAN/f39gAAJ/\
 f2ACf38Bb2ADb39/AW9gAAFvYANvb38AYAN/f34AYAZ/f39/fn8AYAV/f39+fwBgB39/f35/f38Bf2\
@@ -2258,10 +2259,11 @@ VsZCBsZWFkIHRvIHVuc2FmZSBhbGlhc2luZyBpbiBydXN0AEGk28AACwEYAHAJcHJvZHVjZXJzAghs\
 YW5ndWFnZQEEUnVzdAAMcHJvY2Vzc2VkLWJ5AwVydXN0Yx0xLjg1LjAgKDRkOTFkZTRlNCAyMDI1LT\
 AyLTE3KQZ3YWxydXMGMC4yMy4zDHdhc20tYmluZGdlbgcwLjIuMTAwAEkPdGFyZ2V0X2ZlYXR1cmVz\
 BCsPbXV0YWJsZS1nbG9iYWxzKwhzaWduLWV4dCsPcmVmZXJlbmNlLXR5cGVzKwptdWx0aXZhbHVl\
-");
+  "
+);
 const wasmModule = new WebAssembly.Module(bytes);
 const wasm = new WebAssembly.Instance(wasmModule, {
-  "./deno_std_wasm_crypto.internal.mjs": imports,
+  "./deno_std_wasm_crypto.internal.mjs": imports
 });
 
 export * from "./deno_std_wasm_crypto.internal.mjs";

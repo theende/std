@@ -49,10 +49,8 @@ export interface EncodeAscii85Options {
   delimiter?: boolean;
 }
 
-const rfc1924 =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~" as const;
-const Z85 =
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#" as const;
+const rfc1924 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~" as const;
+const Z85 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#" as const;
 
 /**
  * Converts data into an ascii85-encoded string.
@@ -72,7 +70,7 @@ const Z85 =
  */
 export function encodeAscii85(
   data: ArrayBuffer | Uint8Array | string,
-  options: EncodeAscii85Options = {},
+  options: EncodeAscii85Options = {}
 ): string {
   let uint8 = validateBinaryLike(data);
 
@@ -127,10 +125,10 @@ export function encodeAscii85(
       }
       break;
     case "RFC 1924":
-      output = output.map((val) => rfc1924[val.charCodeAt(0) - 33]!);
+      output = output.map(val => rfc1924[val.charCodeAt(0) - 33]!);
       break;
     case "Z85":
-      output = output.map((val) => Z85[val.charCodeAt(0) - 33]!);
+      output = output.map(val => Z85[val.charCodeAt(0) - 33]!);
       break;
   }
   return output.slice(0, output.length - difference).join("");
@@ -159,7 +157,7 @@ export type DecodeAscii85Options = Omit<EncodeAscii85Options, "delimiter">;
  */
 export function decodeAscii85(
   ascii85: string,
-  options: DecodeAscii85Options = {},
+  options: DecodeAscii85Options = {}
 ): Uint8Array_ {
   const { standard = "Adobe" } = options;
 
@@ -177,13 +175,13 @@ export function decodeAscii85(
     case "RFC 1924":
       ascii85 = ascii85.replaceAll(
         /./g,
-        (match) => String.fromCharCode(rfc1924.indexOf(match) + 33),
+        match => String.fromCharCode(rfc1924.indexOf(match) + 33)
       );
       break;
     case "Z85":
       ascii85 = ascii85.replaceAll(
         /./g,
-        (match) => String.fromCharCode(Z85.indexOf(match) + 33),
+        match => String.fromCharCode(Z85.indexOf(match) + 33)
       );
       break;
   }

@@ -30,7 +30,7 @@
  * ```
  */
 export async function toText(
-  stream: ReadableStream<string> | ReadableStream<Uint8Array>,
+  stream: ReadableStream<string> | ReadableStream<Uint8Array>
 ): Promise<string> {
   const textDecoder = new TextDecoder();
   const reader = stream.getReader();
@@ -43,9 +43,9 @@ export async function toText(
       break;
     }
 
-    result += typeof value === "string"
-      ? value
-      : textDecoder.decode(value, { stream: true });
+    result += typeof value === "string" ?
+      value :
+      textDecoder.decode(value, { stream: true });
   }
   result += textDecoder.decode();
   return result;

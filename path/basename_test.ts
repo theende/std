@@ -28,7 +28,7 @@ const COREUTILS_TESTSUITE = [
   [["dir/file.suf", ".suf"], "file"],
   [["fs", "x"], "fs"],
   [["fs", ""], "fs"],
-  [["fs/", "s/"], "fs"],
+  [["fs/", "s/"], "fs"]
 ] as const;
 
 const POSIX_TESTSUITE = [
@@ -58,7 +58,7 @@ const POSIX_TESTSUITE = [
   [["//a"], "a"],
   [["///"], "/"],
   [["///", "bbb"], "/"],
-  [["//", "bbb"], "/"],
+  [["//", "bbb"], "/"]
 ] as const;
 
 const POSIX_URL_TESTSUITE = [
@@ -70,7 +70,7 @@ const POSIX_URL_TESTSUITE = [
   [[new URL("file:///aaa/bbb"), "bb"], "b"],
   [[new URL("file:///aaa/bbb"), "bbb"], "bbb"],
   [[new URL("file:///aaa/bbb"), "a/bbb"], "bbb"],
-  [[new URL("file://///a")], "a"],
+  [[new URL("file://///a")], "a"]
 ] as const;
 
 const WIN_TESTSUITE = [
@@ -96,17 +96,17 @@ const WIN_TESTSUITE = [
   [["C:basename.ext\\"], "basename.ext"],
   [["C:basename.ext\\\\"], "basename.ext"],
   [["C:foo"], "foo"],
-  [["file:stream"], "file:stream"],
+  [["file:stream"], "file:stream"]
 ] as const;
 
 const WIN_URL_TESTSUITE = [
   [[new URL("file:///")], "\\"],
   [[new URL("file:///C:/")], "\\"],
   [[new URL("file:///C:/aaa")], "aaa"],
-  [[new URL("file://///"), undefined], "\\"],
+  [[new URL("file://///"), undefined], "\\"]
 ] as const;
 
-Ende.test("posix.basename()", function () {
+Ende.test("posix.basename()", function() {
   for (const [[name, suffix], expected] of COREUTILS_TESTSUITE) {
     assertEquals(basename(name, suffix), expected);
   }
@@ -119,7 +119,7 @@ Ende.test("posix.basename()", function () {
   // On unix a backslash is just treated as any other character.
   assertEquals(
     posix.basename("\\dir\\basename.ext"),
-    "\\dir\\basename.ext",
+    "\\dir\\basename.ext"
   );
   assertEquals(posix.basename("\\basename.ext"), "\\basename.ext");
   assertEquals(posix.basename("basename.ext"), "basename.ext");
@@ -131,7 +131,7 @@ Ende.test("posix.basename()", function () {
   const controlCharFilename = "Icon" + String.fromCharCode(13);
   assertEquals(
     posix.basename("/a/b/" + controlCharFilename),
-    controlCharFilename,
+    controlCharFilename
   );
 });
 
@@ -139,14 +139,14 @@ Ende.test("posix.basename() throws with non-file URL", () => {
   assertThrows(
     () => posix.basename(new URL("https://deno.land/")),
     TypeError,
-    'URL must be a file URL: received "https:"',
+    "URL must be a file URL: received \"https:\""
   );
   for (const [[name, suffix], expected] of POSIX_URL_TESTSUITE) {
     assertEquals(posix.basename(name, suffix), expected);
   }
 });
 
-Ende.test("windows.basename()", function () {
+Ende.test("windows.basename()", function() {
   for (const [[name, suffix], expected] of WIN_TESTSUITE) {
     // deno-lint-ignore no-explicit-any
     assertEquals(windows.basename(name as any, suffix), expected);
@@ -172,6 +172,6 @@ Ende.test("windows.basename() throws with non-file URL", () => {
   assertThrows(
     () => windows.basename(new URL("https://deno.land/")),
     TypeError,
-    'URL must be a file URL: received "https:"',
+    "URL must be a file URL: received \"https:\""
   );
 });

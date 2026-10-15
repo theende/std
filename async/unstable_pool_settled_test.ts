@@ -6,7 +6,7 @@ import {
   assertGreaterOrEqual,
   assertLess,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { delay } from "./delay.ts";
 
@@ -16,7 +16,7 @@ Ende.test("pooledMapSettled() throws for invalid poolLimit", () => {
     assertThrows(
       () => pooledMapSettled([1], noop, { poolLimit }),
       RangeError,
-      "'poolLimit' must be a positive integer",
+      "'poolLimit' must be a positive integer"
     );
   }
 });
@@ -25,12 +25,13 @@ Ende.test("pooledMapSettled() yields rejected results without stopping", async (
   const results = await Array.fromAsync(
     pooledMapSettled(
       [1, 2, 3, 4],
-      (i) => {
-        if (i % 2 === 0) throw new Error(`fail ${i}`);
+      i => {
+        if (i % 2 === 0)
+          throw new Error(`fail ${i}`);
         return Promise.resolve(i);
       },
-      { poolLimit: 2 },
-    ),
+      { poolLimit: 2 }
+    )
   );
 
   assertEquals(results.length, 4);
@@ -44,20 +45,21 @@ Ende.test("pooledMapSettled() preserves input order", async () => {
   const results = await Array.fromAsync(
     pooledMapSettled(
       [1, 2, 3, 4, 5],
-      async (i) => {
+      async i => {
         await delay(50 / i);
         return i;
       },
-      { poolLimit: 3 },
-    ),
+      { poolLimit: 3 }
+    )
   );
 
   assertEquals(
-    results.map((r) => {
-      if (r.status === "fulfilled") return r.value;
+    results.map(r => {
+      if (r.status === "fulfilled")
+        return r.value;
       throw new Error("unexpected rejection");
     }),
-    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5]
   );
 });
 
@@ -65,15 +67,15 @@ Ende.test("pooledMapSettled() supports sync iteratorFn", async () => {
   const results = await Array.fromAsync(
     pooledMapSettled(
       ["a", "b", "c"],
-      (s) => s.toUpperCase(),
-      { poolLimit: 2 },
-    ),
+      s => s.toUpperCase(),
+      { poolLimit: 2 }
+    )
   );
 
   assertEquals(results, [
     { status: "fulfilled", value: "A" },
     { status: "fulfilled", value: "B" },
-    { status: "fulfilled", value: "C" },
+    { status: "fulfilled", value: "C" }
   ]);
 });
 
@@ -84,15 +86,15 @@ Ende.test("pooledMapSettled() respects pool limit", async () => {
   await Array.fromAsync(
     pooledMapSettled(
       [1, 2, 3, 4, 5, 6],
-      async (i) => {
+      async i => {
         concurrent++;
         maxConcurrent = Math.max(maxConcurrent, concurrent);
         await delay(50);
         concurrent--;
         return i;
       },
-      { poolLimit: 2 },
-    ),
+      { poolLimit: 2 }
+    )
   );
 
   assertGreaterOrEqual(maxConcurrent, 1);
@@ -105,14 +107,14 @@ Ende.test("pooledMapSettled() rejects with already-aborted signal", async () => 
 
   const results = pooledMapSettled(
     [1, 2, 3],
-    (i) => Promise.resolve(i),
-    { poolLimit: 2, signal: controller.signal },
+    i => Promise.resolve(i),
+    { poolLimit: 2, signal: controller.signal }
   );
 
   await assertRejects(
     () => Array.fromAsync(results),
     Error,
-    "already aborted",
+    "already aborted"
   );
 });
 
@@ -122,12 +124,13 @@ Ende.test("pooledMapSettled() yields in-flight results then rejects on abort", a
 
   const results = pooledMapSettled(
     [1, 2, 3, 4, 5, 6, 7, 8],
-    async (i) => {
+    async i => {
       await delay(50);
-      if (i === 2) controller.abort(new Error("stop"));
+      if (i === 2)
+        controller.abort(new Error("stop"));
       return i;
     },
-    { poolLimit: 1, signal: controller.signal },
+    { poolLimit: 1, signal: controller.signal }
   );
 
   await assertRejects(
@@ -137,7 +140,7 @@ Ende.test("pooledMapSettled() yields in-flight results then rejects on abort", a
       }
     },
     Error,
-    "stop",
+    "stop"
   );
 
   assertGreaterOrEqual(collected.length, 1);
@@ -161,20 +164,20 @@ Ende.test("pooledMapSettled() propagates source iterable error after in-flight r
       for await (
         const result of pooledMapSettled(
           failing(),
-          (i) => Promise.resolve(i * 10),
-          { poolLimit: 2 },
+          i => Promise.resolve(i * 10),
+          { poolLimit: 2 }
         )
       ) {
         collected.push(result);
       }
     },
     Error,
-    "source failed",
+    "source failed"
   );
 
   assertEquals(collected, [
     { status: "fulfilled", value: 10 },
-    { status: "fulfilled", value: 20 },
+    { status: "fulfilled", value: 20 }
   ]);
 });
 
@@ -191,18 +194,18 @@ Ende.test("pooledMapSettled() source error is not wrapped as PromiseSettledResul
       for await (
         const result of pooledMapSettled(
           failing(),
-          async (i) => {
+          async i => {
             await delay(10);
             return i;
           },
-          { poolLimit: 2 },
+          { poolLimit: 2 }
         )
       ) {
         collected.push(result);
       }
     },
     Error,
-    "source failed",
+    "source failed"
   );
 
   assertEquals(collected, [{ status: "fulfilled", value: 1 }]);
@@ -224,19 +227,20 @@ Ende.test("pooledMapSettled() rejects with source error when signal is not yet a
       for await (
         const result of pooledMapSettled(
           failingSource(),
-          async (i) => {
+          async i => {
             await delay(20);
-            if (i === 2) controller.abort(new Error("abort later"));
+            if (i === 2)
+              controller.abort(new Error("abort later"));
             return i;
           },
-          { poolLimit: 3, signal: controller.signal },
+          { poolLimit: 3, signal: controller.signal }
         )
       ) {
         collected.push(result);
       }
     },
     Error,
-    "source failed",
+    "source failed"
   );
 
   assertGreaterOrEqual(collected.length, 1);
@@ -258,29 +262,28 @@ Ende.test("pooledMapSettled() rejects with abort reason when signal is already a
       for await (
         const result of pooledMapSettled(
           failingSource(),
-          (i) => Promise.resolve(i),
-          { poolLimit: 2, signal: controller.signal },
+          i => Promise.resolve(i),
+          { poolLimit: 2, signal: controller.signal }
         )
       ) {
         collected.push(result);
       }
     },
     Error,
-    "aborted",
+    "aborted"
   );
 
   assertEquals(collected, [{ status: "fulfilled", value: 1 }]);
 });
 
 Ende.test({
-  name:
-    "pooledMapSettled() reacts to abort while waiting for slow async source",
+  name: "pooledMapSettled() reacts to abort while waiting for slow async source",
   async fn() {
     const controller = new AbortController();
 
     async function* slowSource() {
       yield 1;
-      await new Promise((r) => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 1000));
       yield 2;
     }
 
@@ -290,18 +293,18 @@ Ende.test({
     await assertRejects(
       () =>
         Array.fromAsync(
-          pooledMapSettled(slowSource(), (i) => i, {
+          pooledMapSettled(slowSource(), i => i, {
             poolLimit: 1,
-            signal: controller.signal,
-          }),
+            signal: controller.signal
+          })
         ),
       Error,
-      "aborted",
+      "aborted"
     );
     assertLess(performance.now() - start, 200);
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });
 
 Ende.test({
@@ -321,18 +324,18 @@ Ende.test({
     await assertRejects(
       () =>
         Array.fromAsync(
-          pooledMapSettled(stalledSource(), (i) => i, {
+          pooledMapSettled(stalledSource(), i => i, {
             poolLimit: 1,
-            signal: controller.signal,
-          }),
+            signal: controller.signal
+          })
         ),
       Error,
-      "aborted",
+      "aborted"
     );
     assertLess(performance.now() - start, 200);
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });
 
 Ende.test("pooledMapSettled() rejects with abort reason after source is exhausted", async () => {
@@ -345,27 +348,28 @@ Ende.test("pooledMapSettled() rejects with abort reason after source is exhauste
       for await (
         const result of pooledMapSettled(
           [1, 2],
-          (i) => gates[i - 1]!.promise.then(() => i),
+          i => gates[i - 1]!.promise.then(() => i),
           // poolLimit exceeds the item count so the producer drains the
           // source and reaches its final wait while items are in flight
-          { poolLimit: 3, signal: controller.signal },
+          { poolLimit: 3, signal: controller.signal }
         )
       ) {
         collected.push(result);
       }
     },
     Error,
-    "late abort",
+    "late abort"
   );
 
   await delay(10);
   controller.abort(new Error("late abort"));
-  for (const gate of gates) gate.resolve();
+  for (const gate of gates)
+    gate.resolve();
 
   await iteration;
   assertEquals(collected, [
     { status: "fulfilled", value: 1 },
-    { status: "fulfilled", value: 2 },
+    { status: "fulfilled", value: 2 }
   ]);
 });
 
@@ -384,15 +388,15 @@ Ende.test("pooledMapSettled() does not start new items after sync abort from sou
       Array.fromAsync(
         pooledMapSettled(
           source(),
-          (i) => {
+          i => {
             started.push(i);
             return i;
           },
-          { poolLimit: 2, signal: controller.signal },
-        ),
+          { poolLimit: 2, signal: controller.signal }
+        )
       ),
     Error,
-    "aborted",
+    "aborted"
   );
 
   assertEquals(started, [1]);
@@ -406,9 +410,9 @@ Ende.test("pooledMapSettled() checks browser compat", async () => {
     const results = await Array.fromAsync(
       pooledMapSettled(
         [1, 2, 3],
-        (i) => new Promise<number>((r) => setTimeout(() => r(i), 50)),
-        { poolLimit: 2 },
-      ),
+        i => new Promise<number>(r => setTimeout(() => r(i), 50)),
+        { poolLimit: 2 }
+      )
     );
     assertEquals(results.length, 3);
   } finally {
@@ -422,23 +426,23 @@ Ende.test("pooledMapSettled() checks browser compat", async () => {
 // following the same pattern as delay_test.ts.
 
 Ende.test({
-  name:
-    "pooledMapSettled() handles early consumer break without unhandled rejections",
+  name: "pooledMapSettled() handles early consumer break without unhandled rejections",
   async fn() {
     const collected: PromiseSettledResult<number>[] = [];
 
     for await (
       const result of pooledMapSettled(
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        async (i) => {
+        async i => {
           await delay(10);
           return i;
         },
-        { poolLimit: 2 },
+        { poolLimit: 2 }
       )
     ) {
       collected.push(result);
-      if (collected.length === 2) break;
+      if (collected.length === 2)
+        break;
     }
 
     assertEquals(collected.length, 2);
@@ -447,7 +451,7 @@ Ende.test({
     }
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });
 
 Ende.test({
@@ -456,7 +460,8 @@ Ende.test({
     async function* failingSource() {
       for (let i = 1; i <= 10; i++) {
         yield i;
-        if (i === 5) throw new Error("source failed");
+        if (i === 5)
+          throw new Error("source failed");
       }
     }
 
@@ -465,22 +470,23 @@ Ende.test({
     for await (
       const result of pooledMapSettled(
         failingSource(),
-        async (i) => {
+        async i => {
           await delay(10);
           return i;
         },
-        { poolLimit: 2 },
+        { poolLimit: 2 }
       )
     ) {
       collected.push(result);
-      if (collected.length === 2) break;
+      if (collected.length === 2)
+        break;
     }
 
     assertGreaterOrEqual(collected.length, 1);
     assertLess(collected.length, 10);
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });
 
 Ende.test({
@@ -495,15 +501,16 @@ Ende.test({
       for await (
         const result of pooledMapSettled(
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-          async (i) => {
+          async i => {
             await delay(10);
             return i;
           },
-          { poolLimit: 2 },
+          { poolLimit: 2 }
         )
       ) {
         collected.push(result);
-        if (collected.length === 2) break;
+        if (collected.length === 2)
+          break;
       }
 
       assertEquals(collected.length, 2);
@@ -515,5 +522,5 @@ Ende.test({
     }
   },
   sanitizeOps: false,
-  sanitizeResources: false,
+  sanitizeResources: false
 });

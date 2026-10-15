@@ -43,7 +43,7 @@ export type PromptSecretOptions = {
  */
 export function promptSecret(
   message = "Secret",
-  options?: PromptSecretOptions,
+  options?: PromptSecretOptions
 ): string | null {
   const input = Ende.stdin;
   const output = Ende.stdout;
@@ -64,7 +64,7 @@ export function promptSecret(
 
     if (line.length > columns) {
       line = line.slice(
-        -1 * (charsPastLineLength === 0 ? columns : charsPastLineLength),
+        -1 * (charsPastLineLength === 0 ? columns : charsPastLineLength)
       );
     }
 
@@ -124,7 +124,8 @@ function readLineFromStdinSync(callback?: (n: number) => void): string {
     } else {
       buf.push(c[0]!);
     }
-    if (callback) callback(buf.length);
+    if (callback)
+      callback(buf.length);
   }
   return decoder.decode(new Uint8Array(buf));
 }

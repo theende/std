@@ -20,16 +20,16 @@ Ende.test("CborSequenceDecoderStream() correctly decoding CborPrimitiveType", as
     -BigInt(random(2 ** 32, 2 ** 64)),
     "a".repeat(random(0, 24)),
     new Uint8Array(random(0, 24)),
-    new Date(),
+    new Date()
   ];
 
   assertEquals(
     await Array.fromAsync(
       ReadableStream.from([encodeCborSequence(input)]).pipeThrough(
-        new CborSequenceDecoderStream(),
-      ),
+        new CborSequenceDecoderStream()
+      )
     ),
-    input,
+    input
   );
 });
 
@@ -37,9 +37,12 @@ Ende.test("CborSequenceDecoderStream() correctly decoding CborTag()", async () =
   const tagNumber = 2; // Tag Number needs to be a value that will return a CborTag.
   const size = random(0, 24);
 
-  const reader = ReadableStream.from([
-    encodeCbor(new CborTag(tagNumber, new Array(size).fill(0))),
-  ]).pipeThrough(new CborSequenceDecoderStream()).getReader();
+  const reader = ReadableStream
+    .from([
+      encodeCbor(new CborTag(tagNumber, new Array(size).fill(0)))
+    ])
+    .pipeThrough(new CborSequenceDecoderStream())
+    .getReader();
 
   const { done, value } = await reader.read();
   assert(done === false);
@@ -48,7 +51,7 @@ Ende.test("CborSequenceDecoderStream() correctly decoding CborTag()", async () =
   assert(value.tagContent instanceof CborArrayDecodedStream);
   assertEquals(
     await Array.fromAsync(value.tagContent),
-    new Array(size).fill(0),
+    new Array(size).fill(0)
   );
 
   assert((await reader.read()).done === true);

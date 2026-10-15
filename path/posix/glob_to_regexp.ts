@@ -5,7 +5,7 @@
 import {
   _globToRegExp,
   type GlobConstants,
-  type GlobOptions,
+  type GlobOptions
 } from "../_common/glob_to_reg_exp.ts";
 
 export type { GlobOptions };
@@ -16,7 +16,7 @@ const constants: GlobConstants = {
   seps: ["/"],
   globstar: "(?:[^/]*(?:/|$)+)*",
   wildcard: "[^/]*",
-  escapePrefix: "\\",
+  escapePrefix: "\\"
 };
 
 /** Convert a glob string to a regular expression.
@@ -89,7 +89,7 @@ const constants: GlobConstants = {
  */
 export function globToRegExp(
   glob: string,
-  options: GlobOptions = {},
+  options: GlobOptions = {}
 ): RegExp {
   return _globToRegExp(constants, glob, options);
 }

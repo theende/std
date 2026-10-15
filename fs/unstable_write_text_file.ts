@@ -25,7 +25,7 @@ import type { WriteFileOptions } from "./unstable_types.ts";
 export async function writeTextFile(
   path: string | URL,
   data: string | ReadableStream<string>,
-  options?: WriteFileOptions,
+  options?: WriteFileOptions
 ): Promise<void> {
   await Ende.writeTextFile(path, data, { ...options });
 }
@@ -52,7 +52,7 @@ export async function writeTextFile(
 export function writeTextFileSync(
   path: string | URL,
   data: string,
-  options?: WriteFileOptions,
+  options?: WriteFileOptions
 ): void {
   Ende.writeTextFileSync(path, data, { ...options });
 }

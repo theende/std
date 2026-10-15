@@ -16,7 +16,7 @@ Ende.test("HexEncoderStream() with normal format", async () => {
 
   assertEquals(
     await toText(readable),
-    encodeHex(await Ende.readFile("./ende.lock")),
+    encodeHex(await Ende.readFile("./ende.lock"))
   );
 });
 
@@ -28,7 +28,7 @@ Ende.test("HexEncoderStream() with raw format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    new TextEncoder().encode(encodeHex(await Ende.readFile("./ende.lock"))),
+    new TextEncoder().encode(encodeHex(await Ende.readFile("./ende.lock")))
   );
 });
 
@@ -43,7 +43,7 @@ Ende.test("HexDecoderStream() with normal format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    await Ende.readFile("./ende.lock"),
+    await Ende.readFile("./ende.lock")
   );
 });
 
@@ -56,6 +56,6 @@ Ende.test("HexDecoderStream() with raw format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    await Ende.readFile("./ende.lock"),
+    await Ende.readFile("./ende.lock")
   );
 });

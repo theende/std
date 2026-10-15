@@ -9,9 +9,9 @@ function joinKeys(keys: string[]): string {
   // This allows for grouping similar properties together:
   return keys
     .map((str: string): string => {
-      return str.length === 0 || str.match(/[^A-Za-z0-9_-]/)
-        ? JSON.stringify(str)
-        : str;
+      return str.length === 0 || str.match(/[^A-Za-z0-9_-]/) ?
+        JSON.stringify(str) :
+        str;
     })
     .join(".");
 }
@@ -85,7 +85,7 @@ class Dumper {
           }
         } else {
           // this is a complex array, use the inline format.
-          const str = value.map((x) => this.#printAsInlineValue(x)).join(",");
+          const str = value.map(x => this.#printAsInlineValue(x)).join(",");
           out.push(`${this.#declaration([prop])}[${str}]`);
         }
       } else if (typeof value === "object") {
@@ -145,17 +145,20 @@ class Dumper {
     } else if (
       value instanceof Array
     ) {
-      const str = value.map((x) => this.#printAsInlineValue(x)).join(",");
+      const str = value.map(x => this.#printAsInlineValue(x)).join(",");
       return `[${str}]`;
     } else if (typeof value === "object") {
       if (!value) {
         throw new Error("Should never reach");
       }
-      const str = Object.keys(value).map((key) => {
-        return `${joinKeys([key])} = ${
-          // deno-lint-ignore no-explicit-any
-          this.#printAsInlineValue((value as any)[key])}`;
-      }).join(",");
+      const str = Object
+        .keys(value)
+        .map(key => {
+          return `${joinKeys([key])} = ${
+            // deno-lint-ignore no-explicit-any
+            this.#printAsInlineValue((value as any)[key])}`;
+        })
+        .join(",");
       return `{${str}}`;
     }
 
@@ -290,7 +293,7 @@ class Dumper {
  */
 export function stringify(
   obj: Record<string, unknown>,
-  options?: StringifyOptions,
+  options?: StringifyOptions
 ): string {
   return new Dumper(obj).dump(options).join("\n");
 }

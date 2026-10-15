@@ -18,7 +18,7 @@ Ende.test({
     const x = { a: 1 };
     const y = { a: 2 };
     assertNotStrictEquals(x, y);
-  },
+  }
 });
 
 Ende.test({
@@ -26,5 +26,5 @@ Ende.test({
   fn() {
     assertThrows(() => assertNotStrictEquals(1, 1), AssertionError);
     assertThrows(() => assertNotStrictEquals(NaN, NaN), AssertionError);
-  },
+  }
 });

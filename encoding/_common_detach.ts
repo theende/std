@@ -6,7 +6,7 @@ export type { Uint8Array_ };
 
 export function detach(
   buffer: Uint8Array_,
-  maxSize: number,
+  maxSize: number
 ): [Uint8Array_, number] {
   const originalSize = buffer.length;
   if (buffer.byteOffset) {

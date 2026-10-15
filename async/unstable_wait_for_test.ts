@@ -5,7 +5,7 @@ import {
   assertFalse,
   assertGreater,
   assertLess,
-  assertRejects,
+  assertRejects
 } from "@ende/assert";
 import { waitFor } from "./unstable_wait_for.ts";
 import { delay } from "./delay.ts";
@@ -38,7 +38,7 @@ Ende.test("waitFor() throws DOMException on timeout", async () => {
   const assertion = assertRejects(
     () => waitFor(() => flag, 100),
     DOMException,
-    "Signal timed out.",
+    "Signal timed out."
   );
   time.tick(500);
   const error = await assertion;

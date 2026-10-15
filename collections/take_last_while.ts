@@ -38,7 +38,7 @@
  */
 export function takeLastWhile<T>(
   iterable: Iterable<T>,
-  predicate: (el: T, index: number) => boolean,
+  predicate: (el: T, index: number) => boolean
 ): T[] {
   if (Array.isArray(iterable)) {
     let offset = iterable.length;

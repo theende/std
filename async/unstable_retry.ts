@@ -5,7 +5,7 @@ import { delay } from "./delay.ts";
 import { exponentialBackoffWithJitter } from "./_util.ts";
 import {
   RetryError,
-  type RetryOptions as StableRetryOptions,
+  type RetryOptions as StableRetryOptions
 } from "./retry.ts";
 
 export { RetryError };
@@ -45,7 +45,7 @@ export interface RetryOptions extends StableRetryOptions {
     | ((
       error: unknown,
       attempt: number,
-      computedDelay: number,
+      computedDelay: number
     ) => number)
     | undefined;
 }
@@ -54,17 +54,17 @@ function selectDelay(
   getDelay: (error: unknown, attempt: number, computedDelay: number) => number,
   error: unknown,
   attempt: number,
-  computedDelay: number,
+  computedDelay: number
 ): number {
   const selected = getDelay(error, attempt, computedDelay);
   if (typeof selected !== "number") {
     throw new TypeError(
-      `Cannot retry as 'getDelay' must return a number: current value is of type ${typeof selected}`,
+      `Cannot retry as 'getDelay' must return a number: current value is of type ${typeof selected}`
     );
   }
   if (Number.isNaN(selected) || selected < 0) {
     throw new RangeError(
-      `Cannot retry as 'getDelay' must return a non-negative number: current value is ${selected}`,
+      `Cannot retry as 'getDelay' must return a non-negative number: current value is ${selected}`
     );
   }
   return selected;
@@ -203,7 +203,7 @@ function selectDelay(
  */
 export async function retry<T>(
   fn: (() => Promise<T>) | (() => T),
-  options?: RetryOptions,
+  options?: RetryOptions
 ): Promise<T> {
   const {
     multiplier = 2,
@@ -213,37 +213,37 @@ export async function retry<T>(
     jitter = 1,
     isRetriable = () => true,
     signal,
-    getDelay,
+    getDelay
   } = options ?? {};
 
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1) {
     throw new RangeError(
-      `Cannot retry as 'maxAttempts' must be a positive integer: current value is ${maxAttempts}`,
+      `Cannot retry as 'maxAttempts' must be a positive integer: current value is ${maxAttempts}`
     );
   }
   if (!Number.isFinite(multiplier) || multiplier < 1) {
     throw new RangeError(
-      `Cannot retry as 'multiplier' must be a finite number >= 1: current value is ${multiplier}`,
+      `Cannot retry as 'multiplier' must be a finite number >= 1: current value is ${multiplier}`
     );
   }
   if (Number.isNaN(maxTimeout) || maxTimeout <= 0) {
     throw new RangeError(
-      `Cannot retry as 'maxTimeout' must be a positive number: current value is ${maxTimeout}`,
+      `Cannot retry as 'maxTimeout' must be a positive number: current value is ${maxTimeout}`
     );
   }
   if (Number.isNaN(minTimeout) || minTimeout < 0) {
     throw new RangeError(
-      `Cannot retry as 'minTimeout' must be >= 0: current value is ${minTimeout}`,
+      `Cannot retry as 'minTimeout' must be >= 0: current value is ${minTimeout}`
     );
   }
   if (minTimeout > maxTimeout) {
     throw new RangeError(
-      `Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=${minTimeout}', 'maxTimeout=${maxTimeout}'`,
+      `Cannot retry as 'minTimeout' must be <= 'maxTimeout': current values 'minTimeout=${minTimeout}', 'maxTimeout=${maxTimeout}'`
     );
   }
   if (Number.isNaN(jitter) || jitter < 0 || jitter > 1) {
     throw new RangeError(
-      `Cannot retry as 'jitter' must be between 0 and 1: current value is ${jitter}`,
+      `Cannot retry as 'jitter' must be between 0 and 1: current value is ${jitter}`
     );
   }
 
@@ -264,18 +264,19 @@ export async function retry<T>(
 
       // An aborted signal means no retry follows, so `getDelay` must not fire.
       // Kept inside the hook path so omitting it preserves stable ordering.
-      if (getDelay) signal?.throwIfAborted();
+      if (getDelay)
+        signal?.throwIfAborted();
 
       const computedDelay = exponentialBackoffWithJitter(
         maxTimeout,
         minTimeout,
         attempt,
         multiplier,
-        jitter,
+        jitter
       );
-      const timeout = getDelay
-        ? selectDelay(getDelay, error, attempt + 1, computedDelay)
-        : computedDelay;
+      const timeout = getDelay ?
+        selectDelay(getDelay, error, attempt + 1, computedDelay) :
+        computedDelay;
       await delay(timeout, signal ? { signal } : undefined);
     }
     attempt++;

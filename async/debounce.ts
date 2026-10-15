@@ -82,7 +82,7 @@ export interface DebounceOptions {
 export function debounce<T extends Array<any>>(
   fn: (this: DebouncedFunction<T>, ...args: T) => void,
   wait: number,
-  options?: DebounceOptions,
+  options?: DebounceOptions
 ): DebouncedFunction<T> {
   if (!Number.isInteger(wait) || wait < 0) {
     throw new RangeError("'wait' must be a positive integer");
@@ -112,7 +112,7 @@ export function debounce<T extends Array<any>>(
   };
 
   Object.defineProperty(debounced, "pending", {
-    get: () => timeout !== null,
+    get: () => timeout !== null
   });
 
   const signal = options?.signal;

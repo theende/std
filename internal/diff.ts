@@ -39,7 +39,8 @@ const ADDED = 3;
  */
 export function createCommon<T>(A: T[], B: T[]): T[] {
   const common: T[] = [];
-  if (A.length === 0 || B.length === 0) return [];
+  if (A.length === 0 || B.length === 0)
+    return [];
   for (let i = 0; i < Math.min(A.length, B.length); i += 1) {
     const a = A[i];
     const b = B[i];
@@ -79,7 +80,7 @@ export function assertFp(value: unknown): asserts value is FarthestPoint {
     typeof (value as FarthestPoint)?.id !== "number"
   ) {
     throw new Error(
-      `Unexpected value, expected 'FarthestPoint': received ${typeof value}`,
+      `Unexpected value, expected 'FarthestPoint': received ${typeof value}`
     );
   }
 }
@@ -115,31 +116,32 @@ export function backTrace<T>(
   current: FarthestPoint,
   swapped: boolean,
   routes: Uint32Array,
-  diffTypesPtrOffset: number,
+  diffTypesPtrOffset: number
 ): Array<{
   type: DiffType;
   value: T;
 }> {
   const M = A.length;
   const N = B.length;
-  const result: { type: DiffType; value: T }[] = [];
+  const result: { type: DiffType; value: T; }[] = [];
   let a = M - 1;
   let b = N - 1;
   let j = routes[current.id];
   let type = routes[current.id + diffTypesPtrOffset];
   while (true) {
-    if (!j && !type) break;
+    if (!j && !type)
+      break;
     const prev = j!;
     if (type === REMOVED) {
       result.push({
         type: swapped ? "removed" : "added",
-        value: B[b]!,
+        value: B[b]!
       });
       b -= 1;
     } else if (type === ADDED) {
       result.push({
         type: swapped ? "added" : "removed",
-        value: A[a]!,
+        value: A[a]!
       });
       a -= 1;
     } else {
@@ -193,7 +195,7 @@ export function createFp(
   diffTypesPtrOffset: number,
   ptr: number,
   slide?: FarthestPoint,
-  down?: FarthestPoint,
+  down?: FarthestPoint
 ): FarthestPoint {
   if (slide && slide.y === -1 && down && down.y === -1) {
     return { y: 0, id: 0 };
@@ -252,11 +254,12 @@ export function diff<T>(A: T[], B: T[]): DiffResult<T>[] {
   [A, B] = swapped ? [B, A] : [A, B];
   const M = A.length;
   const N = B.length;
-  if (!M && !N && !prefixCommon.length) return [];
+  if (!M && !N && !prefixCommon.length)
+    return [];
   if (!N) {
     return [
-      ...prefixCommon.map((value) => ({ type: "common", value })),
-      ...A.map((value) => ({ type: swapped ? "added" : "removed", value })),
+      ...prefixCommon.map(value => ({ type: "common", value })),
+      ...A.map(value => ({ type: swapped ? "added" : "removed", value }))
     ] as DiffResult<T>[];
   }
   const offset = N;
@@ -277,7 +280,7 @@ export function diff<T>(A: T[], B: T[]): DiffResult<T>[] {
     A: T[],
     B: T[],
     slide?: FarthestPoint,
-    down?: FarthestPoint,
+    down?: FarthestPoint
   ): FarthestPoint {
     const M = A.length;
     const N = B.length;
@@ -313,7 +316,7 @@ export function diff<T>(A: T[], B: T[]): DiffResult<T>[] {
     assertFp(currentFp);
   }
   return [
-    ...prefixCommon.map((value) => ({ type: "common", value })),
-    ...backTrace(A, B, currentFp, swapped, routes, diffTypesPtrOffset),
+    ...prefixCommon.map(value => ({ type: "common", value })),
+    ...backTrace(A, B, currentFp, swapped, routes, diffTypesPtrOffset)
   ] as DiffResult<T>[];
 }

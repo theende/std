@@ -10,13 +10,13 @@ key = 3
 [a.' x ']
 key = 4
 
-[ d.e.f ]
+[d.e.f]
 key = 5
 
-[ g . h . i ]
+[g.h.i]
 key = 6
 
-[ j . "ʞ" . 'l' ]
+[j."ʞ".'l']
 key = 7
 
 [x.1.2]

@@ -25,7 +25,7 @@ import { AssertionError } from "./assertion_error.ts";
  */
 export function assertThrows(
   fn: () => unknown,
-  msg?: string,
+  msg?: string
 ): unknown;
 /**
  * Executes a function, expecting it to throw. If it does not, then it
@@ -53,21 +53,21 @@ export function assertThrows(
 export function assertThrows<E extends Error = Error>(
   fn: () => unknown,
   // deno-lint-ignore no-explicit-any
-  ErrorClass: abstract new (...args: any[]) => E,
+  ErrorClass: abstract new(...args: any[]) => E,
   msgIncludes?: string,
-  msg?: string,
+  msg?: string
 ): E;
 export function assertThrows<E extends Error = Error>(
   fn: () => unknown,
   errorClassOrMsg?:
     // deno-lint-ignore no-explicit-any
-    | (abstract new (...args: any[]) => E)
+    | (abstract new(...args: any[]) => E)
     | string,
   msgIncludesOrMsg?: string,
-  msg?: string,
+  msg?: string
 ): E | Error | unknown {
   // deno-lint-ignore no-explicit-any
-  let ErrorClass: (abstract new (...args: any[]) => E) | undefined;
+  let ErrorClass: (abstract new(...args: any[]) => E) | undefined;
   let msgIncludes: string | undefined;
   let err;
 
@@ -98,7 +98,7 @@ export function assertThrows<E extends Error = Error>(
         error,
         ErrorClass,
         msgIncludes,
-        msg,
+        msg
       );
     }
     err = error;

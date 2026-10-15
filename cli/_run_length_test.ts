@@ -6,27 +6,27 @@ import { assertEquals, assertThrows } from "@ende/assert";
 
 const runLengthTestCases: {
   list: number[];
-  compressed: { d: string; r: string };
+  compressed: { d: string; r: string; };
   testName: string;
 }[] = [
   {
     list: [1, 2, 3, 4, 5],
     compressed: { d: "AQIDBAU=", r: "AQEBAQE=" },
-    testName: "return expected value if input is normal value",
+    testName: "return expected value if input is normal value"
   },
   {
     list: [1, 1, 1, 1],
     compressed: { d: "AQ==", r: "BA==" },
-    testName: "return expected value if input includes an continuous value",
+    testName: "return expected value if input includes an continuous value"
   },
   {
     list: [],
     compressed: { d: "", r: "" },
-    testName: "return expected value if input is empty",
-  },
+    testName: "return expected value if input is empty"
+  }
 ];
 
-Ende.test("runLengthEncode()", async (t) => {
+Ende.test("runLengthEncode()", async t => {
   for (const { list, compressed, testName } of runLengthTestCases) {
     await t.step(`runLengthEncode() ${testName}`, () => {
       const encoded = runLengthEncode(list);
@@ -38,20 +38,18 @@ Ende.test("runLengthEncode()", async (t) => {
     `runLengthEncode() throw an error if input is an array containing more than 256 numbers`,
     () => {
       assertThrows(() => runLengthEncode([1, 2, 3, 256]));
-    },
+    }
   );
 
   await t.step(
     `runLengthEncode() throw an error if the input is an array longer than 256`,
     () => {
-      assertThrows(() =>
-        runLengthEncode([...Array.from({ length: 256 }, () => 0)])
-      );
-    },
+      assertThrows(() => runLengthEncode([...Array.from({ length: 256 }, () => 0)]));
+    }
   );
 });
 
-Ende.test("runLengthDecode()", async (t) => {
+Ende.test("runLengthDecode()", async t => {
   for (const { list, compressed, testName } of runLengthTestCases) {
     await t.step(`runLengthDecode() ${testName}`, () => {
       const decoded = runLengthDecode(compressed);

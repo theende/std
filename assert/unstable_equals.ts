@@ -49,7 +49,7 @@ import type { DIFF_CONTEXT_LENGTH } from "@ende/internal/truncate-build-message"
 export function assertEquals<T>(
   actual: T,
   expected: T,
-  msg?: string,
+  msg?: string
 ) {
   const args: Parameters<typeof _assertEquals> = [actual, expected, msg];
   // @ts-expect-error extra arg

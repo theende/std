@@ -1,10 +1,10 @@
 {
-  "name": "@ende/cache",
-  "version": "0.2.4",
   "exports": {
     ".": "./mod.ts",
     "./lru-cache": "./lru_cache.ts",
     "./memoize": "./memoize.ts",
     "./ttl-cache": "./ttl_cache.ts"
-  }
+  },
+  "name": "@ende/cache",
+  "version": "2026.10.15"
 }

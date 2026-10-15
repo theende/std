@@ -25,13 +25,14 @@ import { AssertionError } from "./assertion_error.ts";
 export function assertGreaterOrEqual<T>(
   actual: T,
   expected: T,
-  msg?: string,
+  msg?: string
 ) {
-  if (actual >= expected) return;
+  if (actual >= expected)
+    return;
 
   const actualString = format(actual);
   const expectedString = format(expected);
   throw new AssertionError(
-    msg ?? `Expect ${actualString} >= ${expectedString}`,
+    msg ?? `Expect ${actualString} >= ${expectedString}`
   );
 }

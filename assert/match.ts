@@ -22,9 +22,10 @@ import { AssertionError } from "./assertion_error.ts";
 export function assertMatch(
   actual: string,
   expected: RegExp,
-  msg?: string,
+  msg?: string
 ) {
-  if (expected.test(actual)) return;
+  if (expected.test(actual))
+    return;
   const msgSuffix = msg ? `: ${msg}` : ".";
   msg = `Expected actual: "${actual}" to match: "${expected}"${msgSuffix}`;
   throw new AssertionError(msg);

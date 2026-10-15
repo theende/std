@@ -6,12 +6,12 @@ import { assertEquals, assertStrictEquals } from "@ende/assert";
 const SRC_PATH = "./io/testdata/copy-src.txt";
 const DST_PATH = "./io/testdata/copy-dst.txt";
 
-Ende.test("copy()", async (t) => {
+Ende.test("copy()", async t => {
   try {
     using srcFile = await Ende.open(SRC_PATH);
     using dstFile = await Ende.open(DST_PATH, {
       create: true,
-      write: true,
+      write: true
     });
 
     const actualByteCount = await copy(srcFile, dstFile);
@@ -22,7 +22,7 @@ Ende.test("copy()", async (t) => {
         const fileInfo = await srcFile.stat();
         const expectedByteCount = fileInfo.size;
         assertStrictEquals(actualByteCount, expectedByteCount);
-      },
+      }
     );
 
     await t.step(
@@ -31,7 +31,7 @@ Ende.test("copy()", async (t) => {
         const srcOutput = await Ende.readFile(SRC_PATH);
         const dstOutput = await Ende.readFile(DST_PATH);
         assertEquals(srcOutput, dstOutput);
-      },
+      }
     );
   } finally {
     await Ende.remove(DST_PATH);

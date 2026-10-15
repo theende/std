@@ -19,13 +19,14 @@ const UNIT_RATE_MAP = new Map<Unit, number>([
   ["PiB", 2 ** 50],
   ["EiB", 2 ** 60],
   ["ZiB", 2 ** 70],
-  ["YiB", 2 ** 80],
+  ["YiB", 2 ** 80]
 ]);
 
 function getUnitEntry(max: number): [Unit, number] {
   let result: [Unit, number] = ["KiB", 2 ** 10];
   for (const entry of UNIT_RATE_MAP) {
-    if (entry[1] > max) break;
+    if (entry[1] > max)
+      break;
     result = entry;
   }
   return result;

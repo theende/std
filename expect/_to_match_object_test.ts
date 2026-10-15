@@ -6,7 +6,7 @@ import {
   AssertionError,
   assertMatch,
   assertNotMatch,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 
 Ende.test("expect().toMatchObject()", () => {
@@ -16,8 +16,8 @@ Ende.test("expect().toMatchObject()", () => {
     kitchen: {
       amenities: ["oven", "stove", "washer"],
       area: 20,
-      wallColor: "white",
-    },
+      wallColor: "white"
+    }
   };
   const house1 = {
     bath: true,
@@ -25,15 +25,15 @@ Ende.test("expect().toMatchObject()", () => {
     kitchen: {
       amenities: ["oven", "stove"],
       area: 20,
-      wallColor: "white",
-    },
+      wallColor: "white"
+    }
   };
   const desiredHouse = {
     bath: true,
     kitchen: {
       amenities: ["oven", "stove", "washer"],
-      wallColor: "white",
-    },
+      wallColor: "white"
+    }
   };
 
   expect(house0).toMatchObject(desiredHouse);
@@ -62,7 +62,7 @@ Ende.test("expect().toMatchObject() with array", () => {
   fixedPriorityQueue[0] = { data: 1, priority: 0 };
 
   expect(fixedPriorityQueue).toMatchObject([
-    { data: 1, priority: 0 },
+    { data: 1, priority: 0 }
   ]);
 });
 
@@ -70,8 +70,8 @@ Ende.test("expect().toMatchObject() with asymmetric matcher", () => {
   expect({ position: { x: 0, y: 0 } }).toMatchObject({
     position: {
       x: expect.any(Number),
-      y: expect.any(Number),
-    },
+      y: expect.any(Number)
+    }
   });
 });
 
@@ -82,8 +82,8 @@ Ende.test("expect().toMatchObject() with custom error message", () => {
     kitchen: {
       amenities: ["oven", "stove", "washer"],
       area: 20,
-      wallColor: "white",
-    },
+      wallColor: "white"
+    }
   };
   const house1 = {
     bath: true,
@@ -91,28 +91,28 @@ Ende.test("expect().toMatchObject() with custom error message", () => {
     kitchen: {
       amenities: ["oven", "stove"],
       area: 20,
-      wallColor: "white",
-    },
+      wallColor: "white"
+    }
   };
   const desiredHouse = {
     bath: true,
     kitchen: {
       amenities: ["oven", "stove", "washer"],
-      wallColor: "white",
-    },
+      wallColor: "white"
+    }
   };
   const msg = "toMatchObject Custom Error";
 
   expect(() => expect([house1], msg).toMatchObject([desiredHouse])).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 
   expect(() => expect(house0, msg).not.toMatchObject(desiredHouse)).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 
   expect(() => expect(null, msg).toMatchObject([desiredHouse])).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 });
 
@@ -120,20 +120,20 @@ Ende.test("expect().toMatchObject() throws the correct error messages", () => {
   {
     const e = assertThrows(
       () => expect({ a: 1 }).toMatchObject({ a: 2 }),
-      AssertionError,
+      AssertionError
     );
     assertNotMatch(e.message, /not to be/);
   }
   {
     const e = assertThrows(
       () => expect({ a: 1 }).not.toMatchObject({ a: 1 }),
-      AssertionError,
+      AssertionError
     );
     assertMatch(e.message, /not to be/);
   }
 });
 
-Ende.test("expect().toMatchObject() displays a diff", async (t) => {
+Ende.test("expect().toMatchObject() displays a diff", async t => {
   await t.step("with expect.any", () => {
     assertThrows(
       () =>
@@ -146,7 +146,7 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
 +       value: [Function: Number],
 +     },
 -     a: "a",
-    }`,
+    }`
     );
   });
 
@@ -154,9 +154,9 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
     const x = {
       command: "error",
       payload: {
-        message: "NodeNotFound",
+        message: "NodeNotFound"
       },
-      protocol: "graph",
+      protocol: "graph"
     };
 
     const y = {
@@ -165,14 +165,14 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
       payload: {
         graph: "foo",
         metadata: {
-          description: "foo",
+          description: "foo"
         },
         name: "somegroup",
         nodes: [
           "somenode",
-          "someothernode",
-        ],
-      },
+          "someothernode"
+        ]
+      }
     };
 
     assertThrows(
@@ -194,7 +194,7 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
 -       message: "NodeNotFound",
       },
       protocol: "graph",
-    }`,
+    }`
     );
 
     assertThrows(
@@ -205,7 +205,7 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
 +       "bar",
 +     ],
 -     foo: [],
-    }`,
+    }`
     );
   });
 
@@ -224,9 +224,9 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
 -       polluted: true,
 +       polluted: false,
       },
-    }`,
+    }`
       );
-    },
+    }
   );
 
   await t.step("omits keys not in expected", () => {
@@ -234,9 +234,9 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
       () =>
         expect({ a: 1, b: 2, c: 3, d: { e: 4, f: 5 } }).toMatchObject({
           a: 1,
-          d: { e: 999 },
+          d: { e: 999 }
         }),
-      AssertionError,
+      AssertionError
     );
     // The diff should mention the mismatched value
     assertMatch(e.message, /999/);
@@ -251,9 +251,9 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
       () =>
         expect([{ a: 1, extra: true }, { b: 2 }]).toMatchObject([
           { a: 999 },
-          { b: 2 },
+          { b: 2 }
         ]),
-      AssertionError,
+      AssertionError
     );
     assertMatch(e.message, /999/);
     assertNotMatch(e.message, /extra/);
@@ -264,9 +264,10 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
       () =>
         expect({
           d: new Date("2020-01-01"),
-          extra: "noise",
-        }).toMatchObject({ d: new Date("2025-01-01") }),
-      AssertionError,
+          extra: "noise"
+        })
+          .toMatchObject({ d: new Date("2025-01-01") }),
+      AssertionError
     );
     assertNotMatch(e.message, /noise/);
   });
@@ -277,9 +278,10 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
         expect({
           a: { x: 1, y: 2 },
           b: 999,
-          extra: true,
-        }).toMatchObject({ a: { x: 1 }, b: 42 }),
-      AssertionError,
+          extra: true
+        })
+          .toMatchObject({ a: { x: 1 }, b: 42 }),
+      AssertionError
     );
     // b is the mismatch
     assertMatch(e.message, /999/);
@@ -295,7 +297,7 @@ Ende.test("expect().toMatchObject() displays a diff", async (t) => {
     received.self = received;
     const e = assertThrows(
       () => expect(received).toMatchObject({ a: 999, self: {} }),
-      AssertionError,
+      AssertionError
     );
     assertMatch(e.message, /999/);
   });
@@ -308,11 +310,11 @@ Ende.test(
       () =>
         expect({ position: { x: 0, y: "string" } })
           .toMatchObject({ position: { x: 0, y: 0 } }),
-      AssertionError,
+      AssertionError
     );
     // The headline must not claim equality, because toMatchObject is a
     // subset check. The diff body is still produced by the same helper.
     assertMatch(e.message, /Object does not match the expected pattern\./);
     assertNotMatch(e.message, /Values are not equal\./);
-  },
+  }
 );

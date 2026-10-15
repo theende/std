@@ -40,7 +40,7 @@ const simpleEncodingRegExp = /^\s*([^\s;]+)\s*(?:;(.*))?$/;
 
 function parseEncoding(
   str: string,
-  i: number,
+  i: number
 ): EncodingSpecificity | undefined {
   const match = simpleEncodingRegExp.exec(str);
   if (!match) {
@@ -66,7 +66,7 @@ function parseEncoding(
 function specify(
   encoding: string,
   spec: EncodingSpecificity,
-  i = -1,
+  i = -1
 ): Specificity | undefined {
   if (!spec.encoding) {
     return;
@@ -82,7 +82,7 @@ function specify(
     i,
     o: spec.i,
     q: spec.q,
-    s,
+    s
   };
 }
 
@@ -108,7 +108,7 @@ function parseAcceptEncoding(accept: string): EncodingSpecificity[] {
       o: undefined,
       q: minQuality,
       i: accepts.length - 1,
-      s: undefined,
+      s: undefined
     });
   }
 
@@ -118,7 +118,7 @@ function parseAcceptEncoding(accept: string): EncodingSpecificity[] {
 function getEncodingPriority(
   encoding: string,
   accepted: Specificity[],
-  index: number,
+  index: number
 ): Specificity {
   let priority: Specificity = { o: -1, q: 0, s: 0, i: 0 };
 
@@ -143,7 +143,7 @@ function getEncodingPriority(
  * prioritized array of encodings. */
 export function preferredEncodings(
   accept: string,
-  provided?: string[],
+  provided?: string[]
 ): string[] {
   const accepts = parseAcceptEncoding(accept);
 
@@ -151,15 +151,13 @@ export function preferredEncodings(
     return accepts
       .filter(isQuality)
       .sort(compareSpecs)
-      .map((spec) => spec.encoding!);
+      .map(spec => spec.encoding!);
   }
 
-  const priorities = provided.map((type, index) =>
-    getEncodingPriority(type, accepts, index)
-  );
+  const priorities = provided.map((type, index) => getEncodingPriority(type, accepts, index));
 
   return priorities
     .filter(isQuality)
     .sort(compareSpecs)
-    .map((priority) => provided[priorities.indexOf(priority)]!);
+    .map(priority => provided[priorities.indexOf(priority)]!);
 }

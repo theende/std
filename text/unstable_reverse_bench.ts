@@ -18,7 +18,7 @@ function forOf(str: string) {
 function reduce(str: string) {
   return str.split("").reduce(
     (reversed, character) => character + reversed,
-    "",
+    ""
   );
 }
 
@@ -36,9 +36,7 @@ function forLoop(str: string) {
   return x;
 }
 
-const strings = Array.from({ length: 10000 }).map(() =>
-  generateRandomString(0, 100)
-);
+const strings = Array.from({ length: 10000 }).map(() => generateRandomString(0, 100));
 
 Ende.bench({
   group: "reverseString",
@@ -47,7 +45,7 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       splitReverseJoin(strings[i]!);
     }
-  },
+  }
 });
 Ende.bench({
   group: "reverseString",
@@ -56,7 +54,7 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       forOf(strings[i]!);
     }
-  },
+  }
 });
 Ende.bench({
   group: "reverseString",
@@ -65,7 +63,7 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       reduce(strings[i]!);
     }
-  },
+  }
 });
 Ende.bench({
   group: "reverseString",
@@ -74,7 +72,7 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       spreadReverseJoin(strings[i]!);
     }
-  },
+  }
 });
 Ende.bench({
   group: "reverseString",
@@ -83,7 +81,7 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       forLoop(strings[i]!);
     }
-  },
+  }
 });
 Ende.bench({
   group: "reverseString",
@@ -92,7 +90,7 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       reverse(strings[i]!);
     }
-  },
+  }
 });
 Ende.bench({
   group: "reverseString",
@@ -101,5 +99,5 @@ Ende.bench({
     for (let i = 0; i < strings.length; i++) {
       reverse(strings[i]!, { handleUnicode: false });
     }
-  },
+  }
 });

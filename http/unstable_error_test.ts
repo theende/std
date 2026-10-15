@@ -11,7 +11,7 @@ Ende.test("new HttpError() defaults message to STATUS_TEXT[status]", () => {
   assertEquals(error.message, "Internal Server Error");
   assertEquals(error.cause, undefined);
   assertEquals(error.init, {
-    status: 500,
+    status: 500
   });
 });
 
@@ -19,9 +19,9 @@ Ende.test("new HttpError() forwards properties from options", () => {
   const error = new HttpError(401, "Unauthorized", {
     cause: new Error("Underlying error"),
     init: {
-      headers: { "WWW-Authenticate": 'Basic realm="Secure Area"' },
-      status: 400,
-    },
+      headers: { "WWW-Authenticate": "Basic realm=\"Secure Area\"" },
+      status: 400
+    }
   });
   assertInstanceOf(error, Error);
   assertEquals(error.name, "HttpError");
@@ -31,7 +31,7 @@ Ende.test("new HttpError() forwards properties from options", () => {
   assertEquals(error.cause?.message, "Underlying error");
   assertEquals(
     (error.init.headers as Record<string, string>)["WWW-Authenticate"],
-    'Basic realm="Secure Area"',
+    "Basic realm=\"Secure Area\""
   );
   assertEquals(error.init.status, error.status);
 });

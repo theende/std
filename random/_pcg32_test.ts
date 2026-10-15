@@ -8,8 +8,8 @@ import { nextFloat64 } from "./next_float_64.ts";
 import { mockLittleEndian } from "./_test_utils.ts";
 import { platform } from "./_platform.ts";
 
-Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
-  await t.step("first 10 16-bit seeds are same as rand crate", async (t) => {
+Ende.test("seedBytesFromUint64() generates seeds from bigints", async t => {
+  await t.step("first 10 16-bit seeds are same as rand crate", async t => {
     /**
      * Expected results obtained by copying the Rust code from
      * https://github.com/rust-random/rand/blob/f7bbcca/rand_core/src/lib.rs#L359-L388
@@ -26,13 +26,13 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
       [177, 93, 150, 16, 48, 3, 23, 51, 155, 104, 76, 121, 82, 134, 239, 107],
       [200, 12, 64, 59, 208, 32, 108, 9, 55, 166, 59, 111, 242, 79, 37, 30],
       [222, 11, 88, 159, 202, 89, 63, 215, 36, 57, 0, 156, 63, 131, 114, 90],
-      [21, 119, 90, 241, 241, 191, 180, 229, 150, 199, 126, 251, 25, 141, 7, 4],
+      [21, 119, 90, 241, 241, 191, 180, 229, 150, 199, 126, 251, 25, 141, 7, 4]
     ];
 
     for (const [i, expected] of expectedResults.entries()) {
       await t.step(`With seed ${i}n`, () => {
         const actual = Array.from(
-          seedBytesFromUint64(BigInt(i), new Uint8Array(16)),
+          seedBytesFromUint64(BigInt(i), new Uint8Array(16))
         );
         assertEquals(actual, expected);
       });
@@ -41,7 +41,7 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
 
   await t.step(
     "generates arbitrary-length seed data from a single bigint",
-    async (t) => {
+    async t => {
       // deno-fmt-ignore
       const expectedBytes = [234, 216, 29, 114, 93, 38, 16, 78, 137, 156, 59, 248, 66, 206, 120, 46, 186];
 
@@ -50,23 +50,23 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
 
         await t.step(`With length ${i + 1}`, () => {
           const actual = Array.from(
-            seedBytesFromUint64(1n, new Uint8Array(i + 1)),
+            seedBytesFromUint64(1n, new Uint8Array(i + 1))
           );
           assertEquals(actual, slice);
         });
       }
-    },
+    }
   );
 
   const U64_CEIL = 2n ** 64n;
 
-  await t.step("wraps bigint input to u64", async (t) => {
+  await t.step("wraps bigint input to u64", async t => {
     await t.step("exact multiple of U64_CEIL", () => {
       const expected = Array.from(
-        seedBytesFromUint64(BigInt(0n), new Uint8Array(16)),
+        seedBytesFromUint64(BigInt(0n), new Uint8Array(16))
       );
       const actual = Array.from(
-        seedBytesFromUint64(U64_CEIL * 99n, new Uint8Array(16)),
+        seedBytesFromUint64(U64_CEIL * 99n, new Uint8Array(16))
       );
       assertEquals(actual, expected);
     });
@@ -74,7 +74,7 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
     await t.step("multiple of U64_CEIL + 1", () => {
       const expected = Array.from(seedBytesFromUint64(1n, new Uint8Array(16)));
       const actual = Array.from(
-        seedBytesFromUint64(1n + U64_CEIL * 3n, new Uint8Array(16)),
+        seedBytesFromUint64(1n + U64_CEIL * 3n, new Uint8Array(16))
       );
       assertEquals(actual, expected);
     });
@@ -82,7 +82,7 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
     await t.step("multiple of U64_CEIL - 1", () => {
       const expected = Array.from(seedBytesFromUint64(-1n, new Uint8Array(16)));
       const actual = Array.from(
-        seedBytesFromUint64(U64_CEIL - 1n, new Uint8Array(16)),
+        seedBytesFromUint64(U64_CEIL - 1n, new Uint8Array(16))
       );
       assertEquals(actual, expected);
     });
@@ -90,7 +90,7 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
     await t.step("negative multiple of U64_CEIL", () => {
       const expected = Array.from(seedBytesFromUint64(0n, new Uint8Array(16)));
       const actual = Array.from(
-        seedBytesFromUint64(U64_CEIL * -3n, new Uint8Array(16)),
+        seedBytesFromUint64(U64_CEIL * -3n, new Uint8Array(16))
       );
       assertEquals(actual, expected);
     });
@@ -98,7 +98,7 @@ Ende.test("seedBytesFromUint64() generates seeds from bigints", async (t) => {
     await t.step("negative multiple of U64_CEIL", () => {
       const expected = Array.from(seedBytesFromUint64(0n, new Uint8Array(16)));
       const actual = Array.from(
-        seedBytesFromUint64(U64_CEIL * -3n, new Uint8Array(16)),
+        seedBytesFromUint64(U64_CEIL * -3n, new Uint8Array(16))
       );
       assertEquals(actual, expected);
     });
@@ -127,7 +127,7 @@ Ende.test("nextUint32() generates random 32-bit integers", () => {
     501767310,
     2864049166,
     56572352,
-    2362354238,
+    2362354238
   ];
 
   const pcg = new Pcg32(0n);
@@ -148,7 +148,7 @@ Ende.test("getRandomValues() writes bytes", () => {
   assertEquals(Array.from(a), [0, 0, 0, 3, 217, 205, 17, 215, 0, 0]);
 });
 
-Ende.test("getRandomValues() gives correct results for multi-byte typed arrays in both endiannesses", async (t) => {
+Ende.test("getRandomValues() gives correct results for multi-byte typed arrays in both endiannesses", async t => {
   for (
     const numberType of [
       "Int8",
@@ -158,20 +158,19 @@ Ende.test("getRandomValues() gives correct results for multi-byte typed arrays i
       "Uint8",
       "Uint16",
       "Uint32",
-      "BigUint64",
+      "BigUint64"
     ] as const
   ) {
     await t.step(numberType, () => {
       const platformLittleEndian = platform.littleEndian;
 
       const length = 10;
-      const TypedArray =
-        globalThis[`${numberType}Array`] as BigInt64ArrayConstructor;
+      const TypedArray = globalThis[`${numberType}Array`] as BigInt64ArrayConstructor;
       const { BYTES_PER_ELEMENT } = TypedArray;
 
       const native = new Pcg32(0n).getRandomValues(new TypedArray(length));
       const u8 = new Pcg32(0n).getRandomValues(
-        new Uint8Array(length * BYTES_PER_ELEMENT),
+        new Uint8Array(length * BYTES_PER_ELEMENT)
       );
       const dv = new DataView(u8.buffer);
       const fromDv = TypedArray.from({ length }, (_, i) => {
@@ -182,8 +181,7 @@ Ende.test("getRandomValues() gives correct results for multi-byte typed arrays i
 
       for (const littleEndian of [false, true]) {
         using _ = mockLittleEndian(littleEndian);
-        const TypedArray =
-          globalThis[`${numberType}Array`] as BigInt64ArrayConstructor;
+        const TypedArray = globalThis[`${numberType}Array`] as BigInt64ArrayConstructor;
         const mocked = new Pcg32(0n).getRandomValues(new TypedArray(length));
 
         assertEquals(mocked, native);
@@ -219,7 +217,7 @@ Ende.test("nextFloat64() generates the same random numbers as rust rand crate", 
     0.4610097964014602,
     0.24912787257622104,
     0.10493815385866834,
-    0.4625920669083482,
+    0.4625920669083482
   ];
 
   const pcg = new Pcg32(0n);
@@ -228,7 +226,7 @@ Ende.test("nextFloat64() generates the same random numbers as rust rand crate", 
   }
 });
 
-Ende.test("getRandomValues() can be used to generate the same arbitrary numeric types as rust rand crate", async (t) => {
+Ende.test("getRandomValues() can be used to generate the same arbitrary numeric types as rust rand crate", async t => {
   await t.step("u8", () => {
     /**
      * ```rs
@@ -276,7 +274,7 @@ Ende.test("getRandomValues() can be used to generate the same arbitrary numeric 
       8504129729690683813n,
       4595598107041274030n,
       1935767267798412705n,
-      8533317468786625891n,
+      8533317468786625891n
     ];
 
     const pcg = new Pcg32(0n);

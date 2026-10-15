@@ -12,19 +12,19 @@ Ende.test("CborTextEncoderStream() correctly encoding", async () => {
     "a".repeat(random(0, 24)),
     "a".repeat(random(24, 2 ** 8)),
     "a".repeat(random(2 ** 8, 2 ** 16)),
-    "a".repeat(random(2 ** 16, 2 ** 17)),
+    "a".repeat(random(2 ** 16, 2 ** 17))
   ];
 
   const expectedOutput = concat([
     new Uint8Array([0b011_11111]),
-    ...strings.map((x) => encodeCbor(x)),
-    new Uint8Array([0b111_11111]),
+    ...strings.map(x => encodeCbor(x)),
+    new Uint8Array([0b111_11111])
   ]);
 
   const actualOutput = concat(
     await Array.fromAsync(
-      ReadableStream.from(strings).pipeThrough(new CborTextEncoderStream()),
-    ),
+      ReadableStream.from(strings).pipeThrough(new CborTextEncoderStream())
+    )
   );
 
   assertEquals(actualOutput, expectedOutput);
@@ -35,19 +35,19 @@ Ende.test("CborTextEncoderStream.from() correctly encoding", async () => {
     "a".repeat(random(0, 24)),
     "a".repeat(random(24, 2 ** 8)),
     "a".repeat(random(2 ** 8, 2 ** 16)),
-    "a".repeat(random(2 ** 16, 2 ** 17)),
+    "a".repeat(random(2 ** 16, 2 ** 17))
   ];
 
   const expectedOutput = concat([
     new Uint8Array([0b011_11111]),
-    ...strings.map((x) => encodeCbor(x)),
-    new Uint8Array([0b111_11111]),
+    ...strings.map(x => encodeCbor(x)),
+    new Uint8Array([0b111_11111])
   ]);
 
   const actualOutput = concat(
     await Array.fromAsync(
-      CborTextEncoderStream.from(strings).readable,
-    ),
+      CborTextEncoderStream.from(strings).readable
+    )
   );
 
   assertEquals(actualOutput, expectedOutput);

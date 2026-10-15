@@ -29,9 +29,9 @@ export type { Prng, RandomOptions };
 export function randomIntegerBetween(
   min: number,
   max: number,
-  options?: RandomOptions,
+  options?: RandomOptions
 ): number {
   return Math.floor(
-    randomBetween(Math.ceil(min), Math.floor(max) + 1, options),
+    randomBetween(Math.ceil(min), Math.floor(max) + 1, options)
   );
 }

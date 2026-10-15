@@ -8,10 +8,10 @@ function reduceGroupsTest<T, A>(
   input: [
     record: Record<string, ReadonlyArray<T>>,
     reducer: (accumulator: A, current: T) => A,
-    initialValue: A,
+    initialValue: A
   ],
   expected: Record<string, A>,
-  message?: string,
+  message?: string
 ) {
   const actual = reduceGroups(...input);
   assertEquals(actual, expected, message);
@@ -22,16 +22,16 @@ Ende.test({
   fn() {
     const input = {
       Woody: [2, 3, 1, 4],
-      Buzz: [5, 9],
+      Buzz: [5, 9]
     };
 
     reduceGroups(input, (sum, it) => sum + it, 0);
 
     assertEquals(input, {
       Woody: [2, 3, 1, 4],
-      Buzz: [5, 9],
+      Buzz: [5, 9]
     });
-  },
+  }
 });
 
 Ende.test({
@@ -41,17 +41,17 @@ Ende.test({
       [
         {
           Woody: [2, 3, 1, 4],
-          Buzz: [5, 9],
+          Buzz: [5, 9]
         },
         (sum, it) => sum + it,
-        0,
+        0
       ],
       {
         Woody: 10,
-        Buzz: 14,
-      },
+        Buzz: 14
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -61,17 +61,17 @@ Ende.test({
       [
         {
           Woody: ["foo", "bar"],
-          Buzz: ["foo", "bar", "baz"],
+          Buzz: ["foo", "bar", "baz"]
         },
         (sum, it) => sum + it + " ",
-        "",
+        ""
       ],
       {
         Woody: "foo bar ",
-        Buzz: "foo bar baz ",
-      },
+        Buzz: "foo bar baz "
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -81,17 +81,17 @@ Ende.test({
       [
         {
           Woody: [{ val: 14 }, { val: 24 }],
-          Buzz: [{ val: 1 }, { val: 2 }, { val: 3 }, { val: 4 }],
+          Buzz: [{ val: 1 }, { val: 2 }, { val: 3 }, { val: 4 }]
         },
         (sum, it) => sum + it.val,
-        0,
+        0
       ],
       {
         Woody: 38,
-        Buzz: 10,
-      },
+        Buzz: 10
+      }
     );
-  },
+  }
 });
 
 Ende.test({
@@ -101,22 +101,22 @@ Ende.test({
       [
         {
           Woody: [],
-          Buzz: [],
+          Buzz: []
         },
         (sum, it) => sum + it,
-        24,
+        24
       ],
       {
         Woody: 24,
-        Buzz: 24,
-      },
+        Buzz: 24
+      }
     );
-  },
+  }
 });
 
 Ende.test({
   name: "mapEntries() handles empty input",
   fn() {
     reduceGroupsTest([{}, () => 0, 0], {});
-  },
+  }
 });

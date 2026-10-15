@@ -30,7 +30,7 @@ import { compareIdentifier } from "./_shared.ts";
  */
 export function difference(
   version1: SemVer,
-  version2: SemVer,
+  version2: SemVer
 ): ReleaseType | undefined {
   const hasPrerelease = version1.prerelease?.length ||
     version2.prerelease?.length;

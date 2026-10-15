@@ -9,7 +9,7 @@ import {
   assertNotEquals,
   assertRejects,
   assertStrictEquals,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { FakeTime, TimeError } from "./time.ts";
 import { _internals } from "./_time.ts";
@@ -40,11 +40,11 @@ Ende.test("FakeTime causes date parse and UTC behave the same", () => {
   using _time = new FakeTime();
   assertEquals(
     Date.UTC(96, 1, 2, 3, 4, 5),
-    expectedUTC,
+    expectedUTC
   );
   assertEquals(
     Date.parse("04 Dec 1995 00:12:00 GMT"),
-    expectedParse,
+    expectedParse
   );
 });
 
@@ -75,13 +75,13 @@ Ende.test("FakeTime causes Date instance methods passthrough to real Date instan
 
   const func1 = spy(
     _internals.Date.prototype,
-    "toISOString",
+    "toISOString"
   );
   try {
     now.toISOString();
     assertSpyCall(func1, 0, {
       args: [],
-      returned: "2020-05-25T05:00:00.123Z",
+      returned: "2020-05-25T05:00:00.123Z"
     });
     assertInstanceOf(func1.calls?.[0]?.self, _internals.Date);
   } finally {
@@ -90,13 +90,13 @@ Ende.test("FakeTime causes Date instance methods passthrough to real Date instan
 
   const func2 = spy(
     _internals.Date.prototype,
-    Symbol.toPrimitive,
+    Symbol.toPrimitive
   );
   try {
     Number(now);
     assertSpyCall(func2, 0, {
       args: ["number"],
-      returned: 1590382800123,
+      returned: 1590382800123
     });
   } finally {
     func2.restore();
@@ -135,7 +135,7 @@ Ende.test("FakeTime passes explicit undefined through to Date", () => {
 
 Ende.test("FakeTime constructor captured while faked works after restore", () => {
   let Captured: DateConstructor;
-  let CapturedSub: new () => Date;
+  let CapturedSub: new() => Date;
   {
     using _time = new FakeTime(9001);
     Captured = Date;
@@ -336,14 +336,14 @@ Ende.test("FakeTime.restoreFor() restores real time and re-overridden atomically
     actualSetTimeouts.push(setTimeout);
   };
   const promise = asyncFn();
-  await new Promise((resolve) => {
+  await new Promise(resolve => {
     FakeTime.restoreFor(() => setTimeout(resolve, 0));
   });
   await promise;
   assertEquals(actualSetTimeouts, [
     fakeSetTimeout,
     fakeSetTimeout,
-    fakeSetTimeout,
+    fakeSetTimeout
   ]);
 });
 
@@ -365,7 +365,7 @@ Ende.test("FakeTime.restoreFor() returns promise that rejected to error in callb
         throw new Error("Error in sync callback");
       }),
     Error,
-    "Error in sync callback",
+    "Error in sync callback"
   );
   await assertRejects(
     () =>
@@ -373,7 +373,7 @@ Ende.test("FakeTime.restoreFor() returns promise that rejected to error in callb
         return Promise.reject(new Error("Error in async callback"));
       }),
     Error,
-    "Error in async callback",
+    "Error in async callback"
   );
 });
 
@@ -381,7 +381,7 @@ Ende.test("FakeTime.restoreFor() returns promise that rejected to TimeError if F
   await assertRejects(
     () => FakeTime.restoreFor(() => {}),
     TimeError,
-    "Cannot restore time: time is not faked",
+    "Cannot restore time: time is not faked"
   );
 });
 
@@ -424,7 +424,7 @@ Ende.test("FakeTime.delay() works with abort", async () => {
   await assertRejects(
     () => delayedPromise,
     DOMException,
-    "Delay was aborted",
+    "Delay was aborted"
   );
   seq.push(3);
   assertEquals(seq, [1, 2, 3]);
@@ -532,7 +532,7 @@ Ende.test("FakeTime.next() runs next timer without running microtasks", async ()
   assertEquals(hasNextTimerAfterPartiallyCleared, true);
   const expectedCalls2 = [
     { args: [] as [], returned: 1000 },
-    { args: [] as [], returned: 1000 + 1500 },
+    { args: [] as [], returned: 1000 + 1500 }
   ];
   assertEquals(cb.calls, expectedCalls2);
   assertEquals(Date.now(), start + 1000 + 1500);
@@ -599,7 +599,7 @@ Ende.test("FakeTime.nextAsync() runs all microtasks and next timer", async () =>
   assertEquals(hasNextTimerAfterPartiallyCleared, true);
   const expectedCalls2 = [
     { args: [] as [], returned: 1000 },
-    { args: [] as [], returned: 1000 + 1500 },
+    { args: [] as [], returned: 1000 + 1500 }
   ];
   assertEquals(cb.calls, expectedCalls2);
   assertEquals(Date.now(), start + 1000 + 1500);
@@ -622,7 +622,7 @@ Ende.test("FakeTime.runAll() runs all timers without running microtasks", async 
   seq.push(2);
   const expectedCalls = [
     { args: [] as [], returned: 1000 },
-    { args: [] as [], returned: 1500 },
+    { args: [] as [], returned: 1500 }
   ];
   assertEquals(cb.calls, expectedCalls);
   assertEquals(Date.now(), start + 1500);
@@ -655,7 +655,7 @@ Ende.test("FakeTime.runAllAsync() runs all microtasks and timers", async () => {
   seq.push(4);
   const expectedCalls = [
     { args: [] as [], returned: 1000 },
-    { args: [] as [], returned: 1500 },
+    { args: [] as [], returned: 1500 }
   ];
   assertEquals(cb.calls, expectedCalls);
   assertEquals(Date.now(), start + 1500);
@@ -704,22 +704,22 @@ Ende.test("Faked timer functions throws when called after FakeTime is restored",
   assertThrows(
     () => fakeSetTimeout(() => {}, 0),
     TimeError,
-    "Cannot set timeout: time is not faked",
+    "Cannot set timeout: time is not faked"
   );
   assertThrows(
     () => fakeClearTimeout(0),
     TimeError,
-    "Cannot clear timeout: time is not faked",
+    "Cannot clear timeout: time is not faked"
   );
   assertThrows(
     () => fakeSetInterval(() => {}, 0),
     TimeError,
-    "Cannot set interval: time is not faked",
+    "Cannot set interval: time is not faked"
   );
   assertThrows(
     () => fakeClearInterval(0),
     TimeError,
-    "Cannot clear interval: time is not faked",
+    "Cannot clear interval: time is not faked"
   );
 });
 
@@ -753,7 +753,7 @@ Ende.test("FakeTime throws when NaN is provided", () => {
   assertThrows(
     () => new FakeTime(NaN),
     TypeError,
-    "Cannot construct FakeTime: invalid start time NaN",
+    "Cannot construct FakeTime: invalid start time NaN"
   );
 });
 
@@ -763,7 +763,7 @@ Ende.test("FakeTime.restore() throws when the time is already restored", () => {
   assertThrows(
     () => FakeTime.restore(),
     TimeError,
-    "Cannot restore time: time is already restored",
+    "Cannot restore time: time is already restored"
   );
 });
 
@@ -773,7 +773,7 @@ Ende.test("time.restore() throws when the time is already restored", () => {
   assertThrows(
     () => time.restore(),
     TimeError,
-    "Cannot restore time: time is already restored",
+    "Cannot restore time: time is already restored"
   );
 });
 
@@ -784,7 +784,7 @@ Ende.test("time.now = N throws when N < time.now", () => {
       time.now = 999;
     },
     RangeError,
-    "Cannot set current time in the past, time must be >= 1000: received 999",
+    "Cannot set current time in the past, time must be >= 1000: received 999"
   );
 });
 
@@ -847,11 +847,13 @@ Ende.test("FakeTime regression test for issue #5499", async () => {
   using t = new FakeTime();
   const p = deadline(delay(1_000), 10);
   let state: "pending" | "rejected" | "fulfilled" = "pending";
-  p.then(() => {
-    state = "fulfilled";
-  }).catch(() => {
-    state = "rejected";
-  });
+  p
+    .then(() => {
+      state = "fulfilled";
+    })
+    .catch(() => {
+      state = "rejected";
+    });
   await t.tickAsync(10);
   await t.runMicrotasks();
   assertEquals(state, "rejected");
@@ -861,14 +863,14 @@ Ende.test("FakeTime throws custom error message if first argument to setTimeout/
   using _ = new FakeTime();
   assertThrows(
     // @ts-ignore in environments that don't allow string in TS types
-    () => void setTimeout('console.log("oops");'),
+    () => void setTimeout("console.log(\"oops\");"),
     TimeError,
-    "FakeTime does not support non-function callbacks to setTimeout",
+    "FakeTime does not support non-function callbacks to setTimeout"
   );
   assertThrows(
     // @ts-ignore in environments that don't allow string in TS types
-    () => void setInterval('console.log("oops");'),
+    () => void setInterval("console.log(\"oops\");"),
     TimeError,
-    "FakeTime does not support non-function callbacks to setInterval",
+    "FakeTime does not support non-function callbacks to setInterval"
   );
 });

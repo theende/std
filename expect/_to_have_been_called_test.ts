@@ -14,7 +14,7 @@ Ende.test("expect().toHaveBeenCalled() checks the mock call", () => {
   assertThrows(
     () => expect(mockFn).not.toHaveBeenCalled(),
     Error,
-    "Expected mock function not to be called, but it was called 1 time(s)",
+    "Expected mock function not to be called, but it was called 1 time(s)"
   );
 });
 
@@ -26,7 +26,7 @@ Ende.test("expect().toHaveBeenCalled() handles the case when the mock is not cal
   assertThrows(
     () => expect(mockFn).toHaveBeenCalled(),
     Error,
-    "Expected mock function to be called, but it was not called",
+    "Expected mock function to be called, but it was not called"
   );
 });
 
@@ -36,10 +36,10 @@ Ende.test("expect().toHaveBeenCalled() with custom error message", () => {
   mockFn();
 
   expect(() => expect(mockFn, msg).not.toHaveBeenCalled()).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 
   expect(() => expect(fn(), msg).toHaveBeenCalled()).toThrow(
-    new RegExp(`^${msg}`),
+    new RegExp(`^${msg}`)
   );
 });

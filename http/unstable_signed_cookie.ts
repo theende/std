@@ -7,9 +7,9 @@ const encoder = new TextEncoder();
 
 function splitByLast(value: string, separator: string): [string, string] {
   const index = value.lastIndexOf(separator);
-  return index === -1
-    ? [value, ""]
-    : [value.slice(0, index), value.slice(index + 1)];
+  return index === -1 ?
+    [value, ""] :
+    [value.slice(0, index), value.slice(index + 1)];
 }
 
 /**
@@ -45,7 +45,7 @@ function splitByLast(value: string, separator: string): [string, string] {
  */
 export async function signCookie(
   value: string,
-  key: CryptoKey,
+  key: CryptoKey
 ): Promise<string> {
   const data = encoder.encode(value);
   const signature = await crypto.subtle.sign("HMAC", key, data);
@@ -83,10 +83,11 @@ export async function signCookie(
  */
 export async function verifySignedCookie(
   signedCookie: string,
-  key: CryptoKey,
+  key: CryptoKey
 ): Promise<boolean> {
   const [value, signatureHex] = splitByLast(signedCookie, ".");
-  if (!value || !signatureHex) return false;
+  if (!value || !signatureHex)
+    return false;
 
   const data = encoder.encode(value);
   const signature = decodeHex(signatureHex);

@@ -7,7 +7,7 @@ import {
   assertFalse,
   assertInstanceOf,
   assertRejects,
-  assertThrows,
+  assertThrows
 } from "@ende/assert";
 import { Channel, ChannelClosedError } from "./channel.ts";
 
@@ -75,7 +75,7 @@ Ende.test("Channel.send() blocks until receive on unbuffered channel", async () 
 Ende.test("Channel.receive() blocks until send on unbuffered channel", async () => {
   const ch = new Channel<number>();
   let received = false;
-  const recvPromise = ch.receive().then((v) => {
+  const recvPromise = ch.receive().then(v => {
     received = true;
     return v;
   });
@@ -124,9 +124,9 @@ Ende.test("Channel.receive() unblocks senders in FIFO order", async () => {
 Ende.test("Channel.send() delivers to waiting receivers in FIFO order", async () => {
   const ch = new Channel<number>();
   const order: number[] = [];
-  const p1 = ch.receive().then((v) => order.push(v));
-  const p2 = ch.receive().then((v) => order.push(v));
-  const p3 = ch.receive().then((v) => order.push(v));
+  const p1 = ch.receive().then(v => order.push(v));
+  const p2 = ch.receive().then(v => order.push(v));
+  const p3 = ch.receive().then(v => order.push(v));
 
   await ch.send(10);
   await p1;
@@ -346,7 +346,7 @@ Ende.test("Channel.tryReceive() promotes blocked sender into buffer", async () =
 Ende.test("Channel.send() rejects when signal is already aborted", async () => {
   const ch = new Channel<number>();
   await assertRejects(
-    () => ch.send(42, { signal: AbortSignal.abort("stopped") }),
+    () => ch.send(42, { signal: AbortSignal.abort("stopped") })
   );
   assertFalse(ch.closed);
 });
@@ -378,7 +378,7 @@ Ende.test("Channel.send() delivers to receiver even with signal attached", async
 Ende.test("Channel.receive() rejects when signal is already aborted", async () => {
   const ch = new Channel<number>();
   await assertRejects(
-    () => ch.receive({ signal: AbortSignal.abort("stopped") }),
+    () => ch.receive({ signal: AbortSignal.abort("stopped") })
   );
   assertFalse(ch.closed);
 });
@@ -651,7 +651,8 @@ Ende.test("Channel.toReadableStream() cancel() without reason keeps no-reason cl
 
 Ende.test("Channel.toReadableStream() multiple streams share values FIFO", async () => {
   const ch = new Channel<number>({ capacity: 8 });
-  for (let i = 0; i < 6; i++) await ch.send(i);
+  for (let i = 0; i < 6; i++)
+    await ch.send(i);
   ch.close();
 
   const a = ch.toReadableStream();
@@ -665,10 +666,12 @@ Ende.test("Channel.toReadableStream() multiple streams share values FIFO", async
 
   while (true) {
     const { value, done } = await aReader.read();
-    if (done) break;
+    if (done)
+      break;
     aValues.push(value);
     const next = await bReader.read();
-    if (next.done) break;
+    if (next.done)
+      break;
     bValues.push(next.value);
   }
 
@@ -704,18 +707,18 @@ Ende.test("ChannelClosedError is instanceof Error", () => {
 });
 
 Ende.test("ChannelClosedError.value is present only from send", async () => {
-  const ch = new Channel<{ id: number }>();
+  const ch = new Channel<{ id: number; }>();
   ch.close();
 
   const sendErr = await assertRejects(
     () => ch.send({ id: 1 }),
-    ChannelClosedError,
+    ChannelClosedError
   );
   assertEquals(sendErr.value, { id: 1 });
 
   const recvErr = await assertRejects(
     () => ch.receive(),
-    ChannelClosedError,
+    ChannelClosedError
   );
   assertFalse("value" in recvErr);
 });

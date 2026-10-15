@@ -3,7 +3,7 @@
 import { assertEquals } from "@ende/assert";
 import { trimBy, trimEndBy, trimStartBy } from "./unstable_trim_by.ts";
 
-Ende.test("trim()", async (t) => {
+Ende.test("trim()", async t => {
   await t.step("empty patterns - no-op", () => {
     assertEquals(trimStartBy("abc", ""), "abc");
     assertEquals(trimStartBy("abc", []), "abc");
@@ -23,34 +23,34 @@ Ende.test("trim()", async (t) => {
 
     assertEquals(
       trimBy("¡¿Seguro que no?!", /[^\p{L}\p{M}\p{N}]/u),
-      "Seguro que no",
+      "Seguro que no"
     );
   });
 });
 
-Ende.test("trimStart()", async (t) => {
+Ende.test("trimStart()", async t => {
   await t.step("trims a prefix", () => {
     assertEquals(trimStartBy("/pathname/", "/"), "pathname/");
     assertEquals(trimStartBy("/pathname/", ["/"]), "pathname/");
   });
 
-  await t.step("prefix is based on iterated members of input", async (t) => {
+  await t.step("prefix is based on iterated members of input", async t => {
     await t.step("chars of string", () => {
       assertEquals(
         trimStartBy("https://sth.example.com", new Set("https://")),
-        ".example.com",
+        ".example.com"
       );
     });
     await t.step("scalar string", () => {
       assertEquals(
         trimStartBy("https://sth.example.com", "https://"),
-        "sth.example.com",
+        "sth.example.com"
       );
     });
     await t.step("strings of string[]", () => {
       assertEquals(
         trimStartBy("https://sth.example.com", ["https://"]),
-        "sth.example.com",
+        "sth.example.com"
       );
     });
   });
@@ -61,12 +61,12 @@ Ende.test("trimStart()", async (t) => {
 
     assertEquals(
       trimStartBy("¡¿Seguro que no?!", /[^\p{L}\p{M}\p{N}]/u),
-      "Seguro que no?!",
+      "Seguro que no?!"
     );
   });
 });
 
-Ende.test("trimEnd()", async (t) => {
+Ende.test("trimEnd()", async t => {
   await t.step("trims a suffix", () => {
     assertEquals(trimEndBy("/pathname/", "/"), "/pathname");
     assertEquals(trimEndBy("/pathname/", ["/"]), "/pathname");
@@ -78,7 +78,7 @@ Ende.test("trimEnd()", async (t) => {
 
     assertEquals(
       trimEndBy("¡¿Seguro que no?!", /[^\p{L}\p{M}\p{N}]/u),
-      "¡¿Seguro que no",
+      "¡¿Seguro que no"
     );
   });
 });

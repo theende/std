@@ -111,11 +111,11 @@ export function abortable<T>(p: Promise<T>, signal: AbortSignal): Promise<T>;
 
 export function abortable<T>(
   p: AsyncIterable<T>,
-  signal: AbortSignal,
+  signal: AbortSignal
 ): AsyncGenerator<T>;
 export function abortable<T>(
   p: Promise<T> | AsyncIterable<T>,
-  signal: AbortSignal,
+  signal: AbortSignal
 ): Promise<T> | AsyncIterable<T> {
   if (p instanceof Promise) {
     return abortablePromise(p, signal);
@@ -126,11 +126,12 @@ export function abortable<T>(
 
 function abortablePromise<T>(
   p: Promise<T>,
-  signal: AbortSignal,
+  signal: AbortSignal
 ): Promise<T> {
   const { promise, reject } = Promise.withResolvers<never>();
   const abort = () => reject(signal.reason);
-  if (signal.aborted) abort();
+  if (signal.aborted)
+    abort();
   signal.addEventListener("abort", abort, { once: true });
   return Promise.race([promise, p]).finally(() => {
     signal.removeEventListener("abort", abort);
@@ -139,7 +140,7 @@ function abortablePromise<T>(
 
 async function* abortableAsyncIterable<T>(
   p: AsyncIterable<T>,
-  signal: AbortSignal,
+  signal: AbortSignal
 ): AsyncGenerator<T> {
   signal.throwIfAborted();
   const { promise, reject } = Promise.withResolvers<never>();
@@ -162,6 +163,7 @@ async function* abortableAsyncIterable<T>(
     signal.removeEventListener("abort", abort);
     // Close the source on abort or early consumer exit; the done path has
     // already closed it with the forwarded return value.
-    if (!completed) await it.return?.();
+    if (!completed)
+      await it.return?.();
   }
 }

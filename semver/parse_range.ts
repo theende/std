@@ -7,7 +7,7 @@ import {
   OPERATOR_XRANGE_REGEXP,
   parseBuild,
   parsePrerelease,
-  XRANGE,
+  XRANGE
 } from "./_shared.ts";
 import { ALL, ANY } from "./_constants.ts";
 import type { Comparator, Operator, Range } from "./types.ts";
@@ -25,7 +25,8 @@ function parseComparator(comparator: string): Comparator | null {
   const match = comparator.match(COMPARATOR_REGEXP);
   const groups = match?.groups;
 
-  if (!groups) return null;
+  if (!groups)
+    return null;
 
   const { operator } = groups as ComparatorRegExpGroup;
   return { operator: operator || undefined, ...ANY };
@@ -45,9 +46,10 @@ type RangeRegExpGroups = {
 };
 
 function handleLeftHyphenRangeGroups(
-  leftGroup: RangeRegExpGroups,
+  leftGroup: RangeRegExpGroups
 ): Comparator | undefined {
-  if (isWildcard(leftGroup.major)) return;
+  if (isWildcard(leftGroup.major))
+    return;
   if (isWildcard(leftGroup.minor)) {
     return {
       operator: ">=",
@@ -55,7 +57,7 @@ function handleLeftHyphenRangeGroups(
       minor: 0,
       patch: 0,
       prerelease: [],
-      build: [],
+      build: []
     };
   }
   if (isWildcard(leftGroup.patch)) {
@@ -65,7 +67,7 @@ function handleLeftHyphenRangeGroups(
       minor: +leftGroup.minor,
       patch: 0,
       prerelease: [],
-      build: [],
+      build: []
     };
   }
   return {
@@ -73,14 +75,14 @@ function handleLeftHyphenRangeGroups(
     major: +leftGroup.major,
     minor: +leftGroup.minor,
     patch: +leftGroup.patch,
-    prerelease: leftGroup.prerelease
-      ? parsePrerelease(leftGroup.prerelease)
-      : [],
-    build: [],
+    prerelease: leftGroup.prerelease ?
+      parsePrerelease(leftGroup.prerelease) :
+      [],
+    build: []
   };
 }
 function handleRightHyphenRangeGroups(
-  rightGroups: RangeRegExpGroups,
+  rightGroups: RangeRegExpGroups
 ): Comparator | undefined {
   if (isWildcard(rightGroups.major)) {
     return;
@@ -92,7 +94,7 @@ function handleRightHyphenRangeGroups(
       minor: 0,
       patch: 0,
       prerelease: [],
-      build: [],
+      build: []
     };
   }
   if (isWildcard(rightGroups.patch)) {
@@ -102,7 +104,7 @@ function handleRightHyphenRangeGroups(
       minor: +rightGroups.minor! + 1,
       patch: 0,
       prerelease: [],
-      build: [],
+      build: []
     };
   }
   if (rightGroups.prerelease) {
@@ -112,7 +114,7 @@ function handleRightHyphenRangeGroups(
       minor: +rightGroups.minor,
       patch: +rightGroups.patch,
       prerelease: parsePrerelease(rightGroups.prerelease),
-      build: [],
+      build: []
     };
   }
   return {
@@ -121,21 +123,23 @@ function handleRightHyphenRangeGroups(
     minor: +rightGroups.minor,
     patch: +rightGroups.patch,
     prerelease: [],
-    build: [],
+    build: []
   };
 }
 function parseHyphenRange(range: string): Comparator[] | null {
   const leftMatch = range.match(new RegExp(`^${XRANGE}`));
   const leftGroup = leftMatch?.groups;
-  if (!leftGroup) return null;
+  if (!leftGroup)
+    return null;
   const leftLength = leftMatch[0].length;
 
   const hyphenMatch = range.slice(leftLength).match(/^\s+-\s+/);
-  if (!hyphenMatch) return null;
+  if (!hyphenMatch)
+    return null;
   const hyphenLength = hyphenMatch[0].length;
 
   const rightMatch = range.slice(leftLength + hyphenLength).match(
-    new RegExp(`^${XRANGE}\\s*$`),
+    new RegExp(`^${XRANGE}\\s*$`)
   );
   const rightGroups = rightMatch?.groups;
 
@@ -153,23 +157,24 @@ function handleCaretOperator(groups: RangeRegExpGroups): Comparator[] {
   const minor = +groups.minor;
   const patch = +groups.patch;
 
-  if (majorIsWildcard) return [ALL];
+  if (majorIsWildcard)
+    return [ALL];
   if (minorIsWildcard) {
     return [
       { operator: ">=", major, minor: 0, patch: 0 },
-      { operator: "<", major: major + 1, minor: 0, patch: 0 },
+      { operator: "<", major: major + 1, minor: 0, patch: 0 }
     ];
   }
   if (patchIsWildcard) {
     if (major === 0) {
       return [
         { operator: ">=", major, minor, patch: 0 },
-        { operator: "<", major, minor: minor + 1, patch: 0 },
+        { operator: "<", major, minor: minor + 1, patch: 0 }
       ];
     }
     return [
       { operator: ">=", major, minor, patch: 0 },
-      { operator: "<", major: major + 1, minor: 0, patch: 0 },
+      { operator: "<", major: major + 1, minor: 0, patch: 0 }
     ];
   }
 
@@ -178,17 +183,17 @@ function handleCaretOperator(groups: RangeRegExpGroups): Comparator[] {
     if (minor === 0) {
       return [
         { operator: ">=", major, minor, patch, prerelease },
-        { operator: "<", major, minor, patch: patch + 1 },
+        { operator: "<", major, minor, patch: patch + 1 }
       ];
     }
     return [
       { operator: ">=", major, minor, patch, prerelease },
-      { operator: "<", major, minor: minor + 1, patch: 0 },
+      { operator: "<", major, minor: minor + 1, patch: 0 }
     ];
   }
   return [
     { operator: ">=", major, minor, patch, prerelease },
-    { operator: "<", major: major + 1, minor: 0, patch: 0 },
+    { operator: "<", major: major + 1, minor: 0, patch: 0 }
   ];
 }
 function handleTildeOperator(groups: RangeRegExpGroups): Comparator[] {
@@ -200,23 +205,24 @@ function handleTildeOperator(groups: RangeRegExpGroups): Comparator[] {
   const minor = +groups.minor;
   const patch = +groups.patch;
 
-  if (majorIsWildcard) return [ALL];
+  if (majorIsWildcard)
+    return [ALL];
   if (minorIsWildcard) {
     return [
       { operator: ">=", major, minor: 0, patch: 0 },
-      { operator: "<", major: major + 1, minor: 0, patch: 0 },
+      { operator: "<", major: major + 1, minor: 0, patch: 0 }
     ];
   }
   if (patchIsWildcard) {
     return [
       { operator: ">=", major, minor, patch: 0 },
-      { operator: "<", major, minor: minor + 1, patch: 0 },
+      { operator: "<", major, minor: minor + 1, patch: 0 }
     ];
   }
   const prerelease = parsePrerelease(groups.prerelease ?? "");
   return [
     { operator: ">=", major, minor, patch, prerelease },
-    { operator: "<", major, minor: minor + 1, patch: 0 },
+    { operator: "<", major, minor: minor + 1, patch: 0 }
   ];
 }
 function handleLessThanOperator(groups: RangeRegExpGroups): Comparator[] {
@@ -228,18 +234,21 @@ function handleLessThanOperator(groups: RangeRegExpGroups): Comparator[] {
   const minor = +groups.minor;
   const patch = +groups.patch;
 
-  if (majorIsWildcard) return [{ operator: "<", major: 0, minor: 0, patch: 0 }];
+  if (majorIsWildcard)
+    return [{ operator: "<", major: 0, minor: 0, patch: 0 }];
   if (minorIsWildcard) {
-    if (patchIsWildcard) return [{ operator: "<", major, minor: 0, patch: 0 }];
+    if (patchIsWildcard)
+      return [{ operator: "<", major, minor: 0, patch: 0 }];
     return [{ operator: "<", major, minor: 0, patch: 0 }];
   }
-  if (patchIsWildcard) return [{ operator: "<", major, minor, patch: 0 }];
+  if (patchIsWildcard)
+    return [{ operator: "<", major, minor, patch: 0 }];
   const prerelease = parsePrerelease(groups.prerelease ?? "");
   const build = parseBuild(groups.build ?? "");
   return [{ operator: "<", major, minor, patch, prerelease, build }];
 }
 function handleLessThanOrEqualOperator(
-  groups: RangeRegExpGroups,
+  groups: RangeRegExpGroups
 ): Comparator[] {
   const minorIsWildcard = isWildcard(groups.minor);
   const patchIsWildcard = isWildcard(groups.patch);
@@ -267,7 +276,8 @@ function handleGreaterThanOperator(groups: RangeRegExpGroups): Comparator[] {
   const minor = +groups.minor;
   const patch = +groups.patch;
 
-  if (majorIsWildcard) return [{ operator: "<", major: 0, minor: 0, patch: 0 }];
+  if (majorIsWildcard)
+    return [{ operator: "<", major: 0, minor: 0, patch: 0 }];
 
   if (minorIsWildcard) {
     return [{ operator: ">=", major: major + 1, minor: 0, patch: 0 }];
@@ -288,11 +298,13 @@ function handleGreaterOrEqualOperator(groups: RangeRegExpGroups): Comparator[] {
   const minor = +groups.minor;
   const patch = +groups.patch;
 
-  if (majorIsWildcard) return [ALL];
+  if (majorIsWildcard)
+    return [ALL];
   if (minorIsWildcard) {
     return [{ operator: ">=", major, minor: 0, patch: 0 }];
   }
-  if (patchIsWildcard) return [{ operator: ">=", major, minor, patch: 0 }];
+  if (patchIsWildcard)
+    return [{ operator: ">=", major, minor, patch: 0 }];
   const prerelease = parsePrerelease(groups.prerelease ?? "");
   const build = parseBuild(groups.build ?? "");
   return [{ operator: ">=", major, minor, patch, prerelease, build }];
@@ -306,17 +318,18 @@ function handleEqualOperator(groups: RangeRegExpGroups): Comparator[] {
   const minor = +groups.minor;
   const patch = +groups.patch;
 
-  if (majorIsWildcard) return [ALL];
+  if (majorIsWildcard)
+    return [ALL];
   if (minorIsWildcard) {
     return [
       { operator: ">=", major, minor: 0, patch: 0 },
-      { operator: "<", major: major + 1, minor: 0, patch: 0 },
+      { operator: "<", major: major + 1, minor: 0, patch: 0 }
     ];
   }
   if (patchIsWildcard) {
     return [
       { operator: ">=", major, minor, patch: 0 },
-      { operator: "<", major, minor: minor + 1, patch: 0 },
+      { operator: "<", major, minor: minor + 1, patch: 0 }
     ];
   }
   const prerelease = parsePrerelease(groups.prerelease ?? "");
@@ -328,14 +341,16 @@ function handleEqualOperator(groups: RangeRegExpGroups): Comparator[] {
     minor,
     patch,
     prerelease,
-    build,
+    build
   }];
 }
 
 function parseOperatorRange(string: string): Comparator | Comparator[] | null {
-  const groups = string.match(OPERATOR_XRANGE_REGEXP)
+  const groups = string
+    .match(OPERATOR_XRANGE_REGEXP)
     ?.groups as RangeRegExpGroups;
-  if (!groups) return parseComparator(string);
+  if (!groups)
+    return parseComparator(string);
 
   switch (groups.operator) {
     case "^":
@@ -388,10 +403,10 @@ export function parseRange(value: string): Range {
     // remove spaces between operators and versions
     .replaceAll(/(?<=[<>=~^])(\s+)/g, "")
     .split(/\s*\|\|\s*/)
-    .map((string) => parseHyphenRange(string) || parseOperatorRanges(string));
-  if (result.some((r) => r.includes(null))) {
+    .map(string => parseHyphenRange(string) || parseOperatorRanges(string));
+  if (result.some(r => r.includes(null))) {
     throw new TypeError(
-      `Cannot parse version range: range "${value}" is invalid`,
+      `Cannot parse version range: range "${value}" is invalid`
     );
   }
   return result as Range;

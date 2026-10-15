@@ -25,7 +25,8 @@ export function isAbsolute(path: string): boolean {
   assertPath(path);
 
   const len = path.length;
-  if (len === 0) return false;
+  if (len === 0)
+    return false;
 
   const code = path.charCodeAt(0);
   if (isPathSeparator(code)) {
@@ -34,7 +35,8 @@ export function isAbsolute(path: string): boolean {
     // Possible device root
 
     if (len > 2 && path.charCodeAt(1) === CHAR_COLON) {
-      if (isPathSeparator(path.charCodeAt(2))) return true;
+      if (isPathSeparator(path.charCodeAt(2)))
+        return true;
     }
   }
   return false;

@@ -30,7 +30,7 @@ assert.sameValue(JSON.parse(true), true);
 assert.sameValue(JSON.parse(0), 0);
 assert.sameValue(JSON.parse(3.14), 3.14);
 
-var sym = Symbol('desc');
+var sym = Symbol("desc");
 assert.throws(TypeError, function() {
   JSON.parse(sym);
 });

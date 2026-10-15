@@ -16,7 +16,7 @@ Ende.test({
     vb.setUint8(0, 212);
     vb.setUint8(1, 213);
     assert(timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -31,7 +31,7 @@ Ende.test({
     vb.setUint8(0, 212);
     vb.setUint8(1, 212);
     assert(!timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -40,7 +40,7 @@ Ende.test({
     const a = new Uint8Array([212, 213]);
     const b = new Uint8Array([212, 213]);
     assert(timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -49,7 +49,7 @@ Ende.test({
     const a = new Uint8Array([212, 213]);
     const b = new Uint8Array([212, 212]);
     assert(!timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -59,7 +59,7 @@ Ende.test({
     const a = encoder.encode("hello deno");
     const b = encoder.encode("hello deno");
     assert(timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -69,7 +69,7 @@ Ende.test({
     const a = encoder.encode("hello deno");
     const b = encoder.encode("hello Deno");
     assert(!timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -80,9 +80,9 @@ Ende.test({
     assertThrows(
       () => timingSafeEqual(a, b),
       TypeError,
-      "Cannot compare buffers of different byte lengths (2 vs 1)",
+      "Cannot compare buffers of different byte lengths (2 vs 1)"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -93,14 +93,13 @@ Ende.test({
     assertThrows(
       () => timingSafeEqual(a, b),
       TypeError,
-      "Cannot compare buffers of different byte lengths (1 vs 2)",
+      "Cannot compare buffers of different byte lengths (1 vs 2)"
     );
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "timingSafeEqual() handles Uint8Array with different buffer sizes (a > b)",
+  name: "timingSafeEqual() handles Uint8Array with different buffer sizes (a > b)",
   fn() {
     const a = new SharedArrayBuffer(4);
     const va = new DataView(a);
@@ -120,12 +119,11 @@ Ende.test({
     vb.setUint8(1, 215);
 
     assert(!timingSafeEqual(ua, ub));
-  },
+  }
 });
 
 Ende.test({
-  name:
-    "timingSafeEqual() handles Uint8Array with different buffer sizes (b > a)",
+  name: "timingSafeEqual() handles Uint8Array with different buffer sizes (b > a)",
   fn() {
     const a = new SharedArrayBuffer(2);
     const va = new DataView(a);
@@ -145,7 +143,7 @@ Ende.test({
     vb.setUint8(1, 215);
 
     assert(!timingSafeEqual(ua, ub));
-  },
+  }
 });
 
 Ende.test({
@@ -169,7 +167,7 @@ Ende.test({
     vb.setUint8(2, 215);
 
     assert(!timingSafeEqual(ua, ub));
-  },
+  }
 });
 
 Ende.test({
@@ -184,7 +182,7 @@ Ende.test({
     vb.setUint8(0, 212);
     vb.setUint8(1, 213);
     assert(timingSafeEqual(va, vb));
-  },
+  }
 });
 
 Ende.test({
@@ -199,7 +197,7 @@ Ende.test({
     vb.setUint8(0, 212);
     vb.setUint8(1, 212);
     assert(!timingSafeEqual(va, vb));
-  },
+  }
 });
 
 Ende.test({
@@ -210,7 +208,7 @@ Ende.test({
     const b = new SharedArrayBuffer(2);
     new Uint8Array(b).set([212, 213]);
     assert(timingSafeEqual(a, b));
-  },
+  }
 });
 
 Ende.test({
@@ -221,5 +219,5 @@ Ende.test({
     const b = new SharedArrayBuffer(2);
     new Uint8Array(b).set([212, 212]);
     assert(!timingSafeEqual(a, b));
-  },
+  }
 });

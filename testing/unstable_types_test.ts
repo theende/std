@@ -16,7 +16,7 @@ import type { IsMutuallyAssignable } from "./unstable_types.ts";
   assertType<
     IsMutuallyAssignable<(Date & string) | (string & Date), Date & string>
   >(
-    true,
+    true
   );
   assertType<IsMutuallyAssignable<never, 0 & 1>>(true);
 

@@ -66,9 +66,8 @@ function checkPriority(priority: unknown): void {
  * `ascend` would silently produce nonsense ordering (e.g., lexicographic
  * string comparison of `[number, number]` tuples).
  */
-type IndexedHeapCompareArgs<P> = [P] extends [number | bigint | string]
-  ? [options?: { compare?: (a: P, b: P) => number }]
-  : [options: { compare: (a: P, b: P) => number }];
+type IndexedHeapCompareArgs<P> = [P] extends [number | bigint | string] ? [options?: { compare?: (a: P, b: P) => number; }] :
+  [options: { compare: (a: P, b: P) => number; }];
 
 /**
  * A priority queue that supports looking up, removing, and re-prioritizing
@@ -184,7 +183,7 @@ type IndexedHeapCompareArgs<P> = [P] extends [number | bigint | string]
  * @typeParam P The type of the priority. Defaults to `number`.
  */
 export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
-  #data: { key: K; priority: P }[] = [];
+  #data: { key: K; priority: P; }[] = [];
   #index: Map<K, number> = new Map();
   #compare: (a: P, b: P) => number;
 
@@ -254,22 +253,23 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
   );
   constructor(
     entries?: Iterable<readonly [K, P]> | null,
-    options?: { compare?: (a: P, b: P) => number },
+    options?: { compare?: (a: P, b: P) => number; }
   ) {
     const compare = options?.compare ?? (ascend as (a: P, b: P) => number);
     if (typeof compare !== "function") {
       throw new TypeError(
-        "Cannot construct an IndexedHeap: the 'compare' option is not a function",
+        "Cannot construct an IndexedHeap: the 'compare' option is not a function"
       );
     }
     this.#compare = compare;
-    if (entries === undefined || entries === null) return;
+    if (entries === undefined || entries === null)
+      return;
     if (
       typeof entries !== "object" ||
       !(Symbol.iterator in Object(entries))
     ) {
       throw new TypeError(
-        "Cannot construct an IndexedHeap: the 'entries' parameter is not iterable, did you mean to call IndexedHeap.from?",
+        "Cannot construct an IndexedHeap: the 'entries' parameter is not iterable, did you mean to call IndexedHeap.from?"
       );
     }
     this.#bulkLoad(entries);
@@ -339,7 +339,7 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    */
   static from<K, P = number>(
     collection: IndexedHeap<K, P>,
-    options?: { compare?: (a: P, b: P) => number },
+    options?: { compare?: (a: P, b: P) => number; }
   ): IndexedHeap<K, P>;
   /**
    * Create a new {@linkcode IndexedHeap} from an iterable or array-like
@@ -406,7 +406,7 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
       | IndexedHeap<K, P>
       | Iterable<readonly [K, P]>
       | ArrayLike<readonly [K, P]>,
-    options?: { compare?: (a: P, b: P) => number },
+    options?: { compare?: (a: P, b: P) => number; }
   ): IndexedHeap<K, P> {
     if (
       collection === null || collection === undefined ||
@@ -417,12 +417,12 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
       )
     ) {
       throw new TypeError(
-        "Cannot create an IndexedHeap: the 'collection' parameter is not iterable or array-like",
+        "Cannot create an IndexedHeap: the 'collection' parameter is not iterable or array-like"
       );
     }
     if (collection instanceof IndexedHeap) {
       const heap = IndexedHeap.#createInternal<K, P>({
-        compare: options?.compare ?? collection.#compare,
+        compare: options?.compare ?? collection.#compare
       });
       for (const entry of collection.#data) {
         const pos = heap.#data.length;
@@ -440,9 +440,9 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
     }
     const heap = IndexedHeap.#createInternal<K, P>(options);
     heap.#bulkLoad(
-      Symbol.iterator in Object(collection)
-        ? collection as Iterable<readonly [K, P]>
-        : Array.from(collection as ArrayLike<readonly [K, P]>),
+      Symbol.iterator in Object(collection) ?
+        collection as Iterable<readonly [K, P]> :
+        Array.from(collection as ArrayLike<readonly [K, P]>)
     );
     return heap;
   }
@@ -454,11 +454,11 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    * conditional `IndexedHeapCompareArgs<P>` cannot be resolved.
    */
   static #createInternal<K, P>(
-    options?: { compare?: (a: P, b: P) => number },
+    options?: { compare?: (a: P, b: P) => number; }
   ): IndexedHeap<K, P> {
-    type RelaxedCtor = new <K2, P2>(
+    type RelaxedCtor = new<K2, P2>(
       entries?: Iterable<readonly [K2, P2]> | null,
-      options?: { compare?: (a: P2, b: P2) => number },
+      options?: { compare?: (a: P2, b: P2) => number; }
     ) => IndexedHeap<K2, P2>;
     return new (IndexedHeap as RelaxedCtor)<K, P>(null, options);
   }
@@ -473,7 +473,7 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
       checkPriority(priority);
       if (this.#index.has(key)) {
         throw new TypeError(
-          "Cannot push into IndexedHeap: key already exists",
+          "Cannot push into IndexedHeap: key already exists"
         );
       }
       const pos = this.#data.length;
@@ -518,7 +518,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
     const priority = entry.priority;
     while (true) {
       const left = 2 * pos + 1;
-      if (left >= size) break;
+      if (left >= size)
+        break;
       const right = left + 1;
       let childPos = left;
       let childPri = data[left]!.priority;
@@ -567,7 +568,7 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
     checkPriority(priority);
     if (this.#index.has(key)) {
       throw new TypeError(
-        "Cannot push into IndexedHeap: key already exists",
+        "Cannot push into IndexedHeap: key already exists"
       );
     }
     const pos = this.#data.length;
@@ -600,7 +601,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    */
   pop(): HeapEntry<K, P> | undefined {
     const size = this.#data.length;
-    if (size === 0) return undefined;
+    if (size === 0)
+      return undefined;
 
     const root = this.#data[0]!;
     this.#index.delete(root.key);
@@ -642,7 +644,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    */
   peek(): HeapEntry<K, P> | undefined {
     const entry = this.#data[0];
-    if (entry === undefined) return undefined;
+    if (entry === undefined)
+      return undefined;
     return { key: entry.key, priority: entry.priority };
   }
 
@@ -724,7 +727,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    */
   delete(key: K): boolean {
     const pos = this.#index.get(key);
-    if (pos === undefined) return false;
+    if (pos === undefined)
+      return false;
 
     this.#index.delete(key);
     const lastIndex = this.#data.length - 1;
@@ -801,7 +805,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
     }
     const entry = this.#data[pos]!;
     const oldPriority = entry.priority;
-    if (priority === oldPriority) return;
+    if (priority === oldPriority)
+      return;
     entry.priority = priority;
     if (this.#compare(priority, oldPriority) < 0) {
       this.#siftUp(pos);
@@ -856,7 +861,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    */
   getPriority(key: K): P | undefined {
     const pos = this.#index.get(key);
-    if (pos === undefined) return undefined;
+    if (pos === undefined)
+      return undefined;
     return this.#data[pos]!.priority;
   }
 

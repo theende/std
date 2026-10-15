@@ -46,6 +46,7 @@ export class MuxAsyncIterator<T> extends MuxAsyncIterator_<T> {
    */
   constructor(...iterables: AsyncIterable<T>[]) {
     super();
-    for (const iterable of iterables) this.add(iterable);
+    for (const iterable of iterables)
+      this.add(iterable);
   }
 }

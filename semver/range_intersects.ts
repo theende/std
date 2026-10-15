@@ -8,18 +8,20 @@ import type { Comparator, Range } from "./types.ts";
 
 function comparatorIntersects(
   comparator1: Comparator,
-  comparator2: Comparator,
+  comparator2: Comparator
 ): boolean {
   const op0 = comparator1.operator;
   const op1 = comparator2.operator;
 
   if (op0 === undefined) {
     // if comparator1 is empty comparator, then returns true
-    if (isWildcardComparator(comparator1)) return true;
+    if (isWildcardComparator(comparator1))
+      return true;
     return satisfies(comparator1, [[comparator2]]);
   }
   if (op1 === undefined) {
-    if (isWildcardComparator(comparator2)) return true;
+    if (isWildcardComparator(comparator2))
+      return true;
     return satisfies(comparator2, [[comparator1]]);
   }
 
@@ -47,9 +49,9 @@ function comparatorIntersects(
 }
 
 function rangesSatisfiable(ranges: Range[]): boolean {
-  return ranges.every((r) => {
+  return ranges.every(r => {
     // For each OR at least one AND must be satisfiable
-    return r.some((comparators) => comparatorsSatisfiable(comparators));
+    return r.some(comparators => comparatorsSatisfiable(comparators));
   });
 }
 
@@ -90,12 +92,10 @@ function comparatorsSatisfiable(comparators: Comparator[]): boolean {
  */
 export function rangeIntersects(range1: Range, range2: Range): boolean {
   return rangesSatisfiable([range1, range2]) &&
-    range1.some((range10) => {
-      return range2.some((r11) => {
-        return range10.every((comparator1) => {
-          return r11.every((comparator2) =>
-            comparatorIntersects(comparator1, comparator2)
-          );
+    range1.some(range10 => {
+      return range2.some(r11 => {
+        return range10.every(comparator1 => {
+          return r11.every(comparator2 => comparatorIntersects(comparator1, comparator2));
         });
       });
     });

@@ -14,21 +14,28 @@ function calcBytes(x: bigint): number {
 }
 
 function calcHeaderSize(x: number | bigint): number {
-  if (x < 24) return 1;
-  if (x < 2 ** 8) return 2;
-  if (x < 2 ** 16) return 3;
-  if (x < 2 ** 32) return 5;
+  if (x < 24)
+    return 1;
+  if (x < 2 ** 8)
+    return 2;
+  if (x < 2 ** 16)
+    return 3;
+  if (x < 2 ** 32)
+    return 5;
   return 9;
 }
 
 export function calcEncodingSize(x: CborType): number {
-  if (x == undefined || typeof x === "boolean") return 1;
+  if (x == undefined || typeof x === "boolean")
+    return 1;
   if (typeof x === "number") {
     return x % 1 === 0 ? calcHeaderSize(x < 0 ? -x - 1 : x) : 9;
   }
   if (typeof x === "bigint") {
-    if (x < 0n) x = -x - 1n;
-    if (x < 2n ** 64n) return calcHeaderSize(x);
+    if (x < 0n)
+      x = -x - 1n;
+    if (x < 2n ** 64n)
+      return calcHeaderSize(x);
     const bytes = calcBytes(x);
     return 1 + calcHeaderSize(bytes) + bytes;
   }
@@ -38,18 +45,21 @@ export function calcEncodingSize(x: CborType): number {
   if (x instanceof Uint8Array) {
     return calcHeaderSize(x.length) + x.length;
   }
-  if (x instanceof Date) return 1 + calcEncodingSize(x.getTime() / 1000);
+  if (x instanceof Date)
+    return 1 + calcEncodingSize(x.getTime() / 1000);
   if (x instanceof CborTag) {
     return calcHeaderSize(x.tagNumber) + calcEncodingSize(x.tagContent);
   }
   if (x instanceof Array) {
     let size = calcHeaderSize(x.length);
-    for (const y of x) size += calcEncodingSize(y);
+    for (const y of x)
+      size += calcEncodingSize(y);
     return size;
   }
   if (x instanceof Map) {
     let size = 3 + calcHeaderSize(x.size);
-    for (const y of x) size += calcEncodingSize(y[0]) + calcEncodingSize(y[1]);
+    for (const y of x)
+      size += calcEncodingSize(y[0]) + calcEncodingSize(y[1]);
     return size;
   }
   // Must iterate the same keys as encodeObject().
@@ -68,7 +78,7 @@ export function calcEncodingSize(x: CborType): number {
 export function encode(
   input: CborType,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   switch (typeof input) {
     case "undefined":
@@ -84,17 +94,20 @@ export function encode(
     case "string":
       return encodeString(input, output, offset);
     default:
-      if (input === null) output[offset++] = 0b111_10110;
+      if (input === null)
+        output[offset++] = 0b111_10110;
       else if (input instanceof Uint8Array) {
         return encodeUint8Array(input, output, offset);
       } else if (input instanceof Date) {
         return encodeDate(input, output, offset);
       } else if (input instanceof CborTag) {
         return encodeTag(input, output, offset);
-      } else if (input instanceof Map) return encodeMap(input, output, offset);
+      } else if (input instanceof Map)
+        return encodeMap(input, output, offset);
       else if (input instanceof Array) {
         return encodeArray(input, output, offset);
-      } else return encodeObject(input, output, offset);
+      } else
+        return encodeObject(input, output, offset);
   }
   return offset;
 }
@@ -103,9 +116,10 @@ function encodeHeader(
   majorType: number,
   input: number | bigint,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
-  if (input < 24) output[offset++] = majorType + Number(input);
+  if (input < 24)
+    output[offset++] = majorType + Number(input);
   else if (input < 2 ** 8) {
     output[offset++] = majorType + 0b000_11000;
     output[offset++] = Number(input);
@@ -131,24 +145,24 @@ function encodeHeader(
 function encodeNumber(
   input: number,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   if (input % 1 === 0) {
     const isNegative = input < 0;
     if (isNegative && input <= -(2 ** 64)) {
       throw new RangeError(
-        `Cannot encode number: It (${input}) exceeds -(2 ** 64) - 1`,
+        `Cannot encode number: It (${input}) exceeds -(2 ** 64) - 1`
       );
     } else if (input >= 2 ** 64) {
       throw new RangeError(
-        `Cannot encode number: It (${input}) exceeds 2 ** 64 - 1`,
+        `Cannot encode number: It (${input}) exceeds 2 ** 64 - 1`
       );
     }
     return encodeHeader(
       isNegative ? 0b001_00000 : 0b000_00000,
       isNegative ? -input - 1 : input,
       output,
-      offset,
+      offset
     );
   }
   const view = new DataView(output.buffer);
@@ -160,10 +174,11 @@ function encodeNumber(
 function encodeBigInt(
   input: bigint,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   const isNegative = input < 0n;
-  if (isNegative) input = -input - 1n;
+  if (isNegative)
+    input = -input - 1n;
   if (input >= 2n ** 64n) {
     output[offset++] = isNegative ? 0b110_00011 : 0b110_00010;
     const bytes = calcBytes(input);
@@ -178,14 +193,14 @@ function encodeBigInt(
     isNegative ? 0b001_00000 : 0b000_00000,
     input,
     output,
-    offset,
+    offset
   );
 }
 
 function encodeUint8Array(
   input: Uint8Array,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   offset = encodeHeader(0b010_00000, input.length, output, offset);
   output.set(input, offset);
@@ -195,13 +210,14 @@ function encodeUint8Array(
 function encodeString(
   input: string,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   const length = new TextEncoder()
-    .encodeInto(input, output.subarray(offset)).written;
+    .encodeInto(input, output.subarray(offset))
+    .written;
   output.set(
     output.subarray(offset, offset + length),
-    offset + calcHeaderSize(length),
+    offset + calcHeaderSize(length)
   );
   return encodeHeader(0b011_00000, length, output, offset) + length;
 }
@@ -209,17 +225,18 @@ function encodeString(
 function encodeArray(
   input: CborType[],
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   offset = encodeHeader(0b100_00000, input.length, output, offset);
-  for (const value of input) offset = encode(value, output, offset);
+  for (const value of input)
+    offset = encode(value, output, offset);
   return offset;
 }
 
 function encodeObject(
-  input: { [k: string]: CborType },
+  input: { [k: string]: CborType; },
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   output[offset] = 0b101_00000;
   // Must iterate the same keys as calcEncodingSize().
@@ -240,31 +257,31 @@ function encodeDate(input: Date, output: Uint8Array, offset: number): number {
 function encodeTag(
   input: CborTag<CborType>,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   const tagNumber = BigInt(input.tagNumber);
   if (tagNumber < 0n) {
     throw new RangeError(
-      `Cannot encode Tag Item: Tag Number (${input.tagNumber}) is less than zero`,
+      `Cannot encode Tag Item: Tag Number (${input.tagNumber}) is less than zero`
     );
   }
   if (tagNumber >= 2n ** 64n) {
     throw new RangeError(
-      `Cannot encode Tag Item: Tag Number (${input.tagNumber}) exceeds 2 ** 64 - 1`,
+      `Cannot encode Tag Item: Tag Number (${input.tagNumber}) exceeds 2 ** 64 - 1`
     );
   }
   offset = encodeHeader(0b110_00000, tagNumber, output, offset);
   return encode(
     input.tagContent,
     output,
-    offset,
+    offset
   );
 }
 
 function encodeMap(
   input: Map<CborType, CborType>,
   output: Uint8Array,
-  offset: number,
+  offset: number
 ): number {
   // Tag Number 259 = [217, 1, 3]
   output[offset++] = 217;

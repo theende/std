@@ -35,7 +35,7 @@
  */
 export function associateWith<T>(
   array: Iterable<string>,
-  selector: (key: string) => T,
+  selector: (key: string) => T
 ): Record<string, T> {
   const result: Record<string, T> = {};
 

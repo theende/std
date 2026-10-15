@@ -5,7 +5,7 @@ import {
   deleteCookie,
   getCookies,
   getSetCookies,
-  setCookie,
+  setCookie
 } from "./cookie.ts";
 import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { assertType, type IsExact } from "@ende/testing/types";
@@ -32,13 +32,13 @@ Ende.test({
     assertEquals(getCookies(headers), {
       PREF: "al=en-GB&f1=123",
       wide: "1",
-      SID: "123",
+      SID: "123"
     });
 
     headers = new Headers();
     headers.set("Cookie", "=");
     assertThrows(() => getCookies(headers));
-  },
+  }
 });
 
 Ende.test({
@@ -55,25 +55,25 @@ Ende.test({
     assertEquals(baz, undefined);
     assertEquals(Object.getPrototypeOf(cookies), null);
     assertEquals(cookies.toString, undefined);
-  },
+  }
 });
 
 Ende.test({
   name: "setCookie() validates names",
   fn() {
     const tokens = [
-      '"id"',
+      "\"id\"",
       "id\t",
       "i\td",
       "i d",
       "i;d",
       "{id}",
       "[id]",
-      '"',
-      "id\u0091",
+      "\"",
+      "id\u0091"
     ];
     const headers = new Headers();
-    tokens.forEach((name) => {
+    tokens.forEach(name => {
       assertThrows(
         () => {
           setCookie(headers, {
@@ -81,14 +81,14 @@ Ende.test({
             value: "Cat",
             httpOnly: true,
             secure: true,
-            maxAge: 3,
+            maxAge: 3
           });
         },
         SyntaxError,
-        'Invalid cookie name: "' + name + '"',
+        "Invalid cookie name: \"" + name + "\""
       );
     });
-  },
+  }
 });
 
 Ende.test({
@@ -99,15 +99,15 @@ Ende.test({
       "\t",
       "1f Wa",
       "1f;Wa",
-      '"1fWa',
+      "\"1fWa",
       "1f\\Wa",
-      '1f"Wa',
-      '"',
+      "1f\"Wa",
+      "\"",
       "1fWa\u0005",
-      "1f\u0091Wa",
+      "1f\u0091Wa"
     ];
     const headers = new Headers();
-    tokens.forEach((value) => {
+    tokens.forEach(value => {
       assertThrows(
         () => {
           setCookie(
@@ -117,12 +117,12 @@ Ende.test({
               value,
               httpOnly: true,
               secure: true,
-              maxAge: 3,
-            },
+              maxAge: 3
+            }
           );
         },
         SyntaxError,
-        "RFC2616 cookie 'Space'",
+        "RFC2616 cookie 'Space'"
       );
     });
 
@@ -130,13 +130,13 @@ Ende.test({
       () => {
         setCookie(headers, {
           name: "location",
-          value: "United Kingdom",
+          value: "United Kingdom"
         });
       },
       SyntaxError,
-      "RFC2616 cookie 'location' cannot contain character ' '",
+      "RFC2616 cookie 'location' cannot contain character ' '"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -152,13 +152,13 @@ Ende.test({
           httpOnly: true,
           secure: true,
           path,
-          maxAge: 3,
+          maxAge: 3
         });
       },
       SyntaxError,
-      'Cookie path "/;domain=sub.domain.com" contains invalid character: ";"',
+      "Cookie path \"/;domain=sub.domain.com\" contains invalid character: \";\""
     );
-  },
+  }
 });
 
 Ende.test({
@@ -166,7 +166,7 @@ Ende.test({
   fn() {
     const tokens = ["-domain.com", "domain.org.", "domain.org-"];
     const headers = new Headers();
-    tokens.forEach((domain) => {
+    tokens.forEach(domain => {
       assertThrows(
         () => {
           setCookie(headers, {
@@ -175,14 +175,14 @@ Ende.test({
             httpOnly: true,
             secure: true,
             domain,
-            maxAge: 3,
+            maxAge: 3
           });
         },
         SyntaxError,
-        "Invalid first/last char in cookie domain: " + domain,
+        "Invalid first/last char in cookie domain: " + domain
       );
     });
-  },
+  }
 });
 
 Ende.test({
@@ -192,19 +192,19 @@ Ende.test({
     deleteCookie(headers, "deno");
     assertEquals(
       headers.get("Set-Cookie"),
-      "deno=; Expires=Thu, 01 Jan 1970 00:00:00 GMT",
+      "deno=; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
     );
     headers = new Headers();
     setCookie(headers, {
       name: "Space",
       value: "Cat",
       domain: "deno.land",
-      path: "/",
+      path: "/"
     });
     deleteCookie(headers, "Space", { domain: "", path: "" });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=Cat; Domain=deno.land; Path=/, Space=; Expires=Thu, 01 Jan 1970 00:00:00 GMT",
+      "Space=Cat; Domain=deno.land; Path=/, Space=; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
     );
     headers = new Headers();
     deleteCookie(headers, "Space", {
@@ -212,13 +212,13 @@ Ende.test({
       path: "/",
       secure: true,
       httpOnly: true,
-      partitioned: true,
+      partitioned: true
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=; Secure; HttpOnly; Partitioned; Domain=deno.land; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT",
+      "Space=; Secure; HttpOnly; Partitioned; Domain=deno.land; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
     );
-  },
+  }
 });
 
 Ende.test({
@@ -245,7 +245,7 @@ Ende.test({
       name: "Space",
       value: "Cat",
       httpOnly: true,
-      secure: true,
+      secure: true
     });
     assertEquals(headers.get("Set-Cookie"), "Space=Cat; Secure; HttpOnly");
 
@@ -255,11 +255,11 @@ Ende.test({
       value: "Cat",
       httpOnly: true,
       secure: true,
-      maxAge: 2,
+      maxAge: 2
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=Cat; Secure; HttpOnly; Max-Age=2",
+      "Space=Cat; Secure; HttpOnly; Max-Age=2"
     );
 
     headers = new Headers();
@@ -268,11 +268,11 @@ Ende.test({
       value: "Cat",
       httpOnly: true,
       secure: true,
-      maxAge: 0,
+      maxAge: 0
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=Cat; Secure; HttpOnly; Max-Age=0",
+      "Space=Cat; Secure; HttpOnly; Max-Age=0"
     );
 
     let error = false;
@@ -283,7 +283,7 @@ Ende.test({
         value: "Cat",
         httpOnly: true,
         secure: true,
-        maxAge: -1,
+        maxAge: -1
       });
     } catch {
       error = true;
@@ -297,11 +297,11 @@ Ende.test({
       httpOnly: true,
       secure: true,
       maxAge: 2,
-      domain: "deno.land",
+      domain: "deno.land"
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land",
+      "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land"
     );
 
     headers = new Headers();
@@ -312,12 +312,12 @@ Ende.test({
       secure: true,
       maxAge: 2,
       domain: "deno.land",
-      sameSite: "Strict",
+      sameSite: "Strict"
     });
     assertEquals(
       headers.get("Set-Cookie"),
       "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; " +
-        "SameSite=Strict",
+        "SameSite=Strict"
     );
 
     headers = new Headers();
@@ -328,11 +328,26 @@ Ende.test({
       secure: true,
       maxAge: 2,
       domain: "deno.land",
-      sameSite: "Lax",
+      sameSite: "Lax"
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; SameSite=Lax",
+      "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; SameSite=Lax"
+    );
+
+    headers = new Headers();
+    setCookie(headers, {
+      name: "Space",
+      value: "Cat",
+      httpOnly: true,
+      secure: true,
+      maxAge: 2,
+      domain: "deno.land",
+      path: "/"
+    });
+    assertEquals(
+      headers.get("Set-Cookie"),
+      "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/"
     );
 
     headers = new Headers();
@@ -344,27 +359,12 @@ Ende.test({
       maxAge: 2,
       domain: "deno.land",
       path: "/",
-    });
-    assertEquals(
-      headers.get("Set-Cookie"),
-      "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/",
-    );
-
-    headers = new Headers();
-    setCookie(headers, {
-      name: "Space",
-      value: "Cat",
-      httpOnly: true,
-      secure: true,
-      maxAge: 2,
-      domain: "deno.land",
-      path: "/",
-      unparsed: ["unparsed=keyvalue", "batman=Bruce"],
+      unparsed: ["unparsed=keyvalue", "batman=Bruce"]
     });
     assertEquals(
       headers.get("Set-Cookie"),
       "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/; " +
-        "unparsed=keyvalue; batman=Bruce",
+        "unparsed=keyvalue; batman=Bruce"
     );
 
     headers = new Headers();
@@ -376,23 +376,23 @@ Ende.test({
       maxAge: 2,
       domain: "deno.land",
       path: "/",
-      expires: new Date(Date.UTC(1983, 0, 7, 15, 32)),
+      expires: new Date(Date.UTC(1983, 0, 7, 15, 32))
     });
     assertEquals(
       headers.get("Set-Cookie"),
       "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/; " +
-        "Expires=Fri, 07 Jan 1983 15:32:00 GMT",
+        "Expires=Fri, 07 Jan 1983 15:32:00 GMT"
     );
 
     headers = new Headers();
     setCookie(headers, {
       name: "Space",
       value: "Cat",
-      expires: Date.UTC(1983, 0, 7, 15, 32),
+      expires: Date.UTC(1983, 0, 7, 15, 32)
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "Space=Cat; Expires=Fri, 07 Jan 1983 15:32:00 GMT",
+      "Space=Cat; Expires=Fri, 07 Jan 1983 15:32:00 GMT"
     );
 
     headers = new Headers();
@@ -403,11 +403,11 @@ Ende.test({
     setCookie(headers, {
       name: "__Host-Kitty",
       value: "Meow",
-      domain: "deno.land",
+      domain: "deno.land"
     });
     assertEquals(
       headers.get("Set-Cookie"),
-      "__Host-Kitty=Meow; Secure; Path=/",
+      "__Host-Kitty=Meow; Secure; Path=/"
     );
 
     headers = new Headers();
@@ -415,13 +415,13 @@ Ende.test({
     setCookie(headers, { name: "cookie-2", value: "value-2", maxAge: 3600 });
     assertEquals(
       headers.get("Set-Cookie"),
-      "cookie-1=value-1; Secure, cookie-2=value-2; Max-Age=3600",
+      "cookie-1=value-1; Secure, cookie-2=value-2; Max-Age=3600"
     );
 
     headers = new Headers();
     setCookie(headers, { name: "", value: "" });
     assertEquals(headers.get("Set-Cookie"), null);
-  },
+  }
 });
 
 Ende.test({
@@ -430,47 +430,47 @@ Ende.test({
     let headers = new Headers({ "set-cookie": "Space=Cat" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
-      value: "Cat",
+      value: "Cat"
     }]);
 
     headers = new Headers({ "set-cookie": "Space=Cat=Happiness" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
-      value: "Cat=Happiness",
+      value: "Cat=Happiness"
     }]);
 
     headers = new Headers({ "set-cookie": "Space=Cat= Happiness" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
-      value: "Cat= Happiness",
+      value: "Cat= Happiness"
     }]);
 
     headers = new Headers({ "set-cookie": "Space=Cat = Happiness; Secure" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
       value: "Cat = Happiness",
-      secure: true,
+      secure: true
     }]);
 
     headers = new Headers({ "set-cookie": " Space=Cat = Happiness ; Secure" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
       value: "Cat = Happiness",
-      secure: true,
+      secure: true
     }]);
 
     headers = new Headers({ "set-cookie": "Space=Cat; Secure" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
       value: "Cat",
-      secure: true,
+      secure: true
     }]);
 
     headers = new Headers({ "set-cookie": "Space=Cat; HttpOnly" });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
       value: "Cat",
-      httpOnly: true,
+      httpOnly: true
     }]);
 
     headers = new Headers({ "set-cookie": "Space=Cat; Secure; HttpOnly" });
@@ -478,38 +478,50 @@ Ende.test({
       name: "Space",
       value: "Cat",
       secure: true,
-      httpOnly: true,
+      httpOnly: true
     }]);
 
     headers = new Headers({
-      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
       value: "Cat",
       secure: true,
       httpOnly: true,
-      maxAge: 2,
+      maxAge: 2
     }]);
 
     headers = new Headers({
-      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=0",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=0"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
       value: "Cat",
       secure: true,
       httpOnly: true,
-      maxAge: 0,
+      maxAge: 0
     }]);
 
     headers = new Headers({
-      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=-1",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=-1"
     });
     assertEquals(getSetCookies(headers), []);
 
     headers = new Headers({
-      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land"
+    });
+    assertEquals(getSetCookies(headers), [{
+      name: "Space",
+      value: "Cat",
+      secure: true,
+      httpOnly: true,
+      maxAge: 2,
+      domain: "deno.land"
+    }]);
+
+    headers = new Headers({
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; SameSite=Strict"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
@@ -518,11 +530,11 @@ Ende.test({
       httpOnly: true,
       maxAge: 2,
       domain: "deno.land",
+      sameSite: "Strict"
     }]);
 
     headers = new Headers({
-      "set-cookie":
-        "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; SameSite=Strict",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; SameSite=Lax"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
@@ -531,12 +543,11 @@ Ende.test({
       httpOnly: true,
       maxAge: 2,
       domain: "deno.land",
-      sameSite: "Strict",
+      sameSite: "Lax"
     }]);
 
     headers = new Headers({
-      "set-cookie":
-        "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; SameSite=Lax",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
@@ -545,12 +556,11 @@ Ende.test({
       httpOnly: true,
       maxAge: 2,
       domain: "deno.land",
-      sameSite: "Lax",
+      path: "/"
     }]);
 
     headers = new Headers({
-      "set-cookie":
-        "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/; unparsed=keyvalue; batman=Bruce"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
@@ -560,11 +570,12 @@ Ende.test({
       maxAge: 2,
       domain: "deno.land",
       path: "/",
+      unparsed: ["unparsed=keyvalue", "batman=Bruce"]
     }]);
 
     headers = new Headers({
-      "set-cookie":
-        "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/; unparsed=keyvalue; batman=Bruce",
+      "set-cookie": "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/; " +
+        "Expires=Fri, 07 Jan 1983 15:32:00 GMT"
     });
     assertEquals(getSetCookies(headers), [{
       name: "Space",
@@ -574,70 +585,54 @@ Ende.test({
       maxAge: 2,
       domain: "deno.land",
       path: "/",
-      unparsed: ["unparsed=keyvalue", "batman=Bruce"],
-    }]);
-
-    headers = new Headers({
-      "set-cookie":
-        "Space=Cat; Secure; HttpOnly; Max-Age=2; Domain=deno.land; Path=/; " +
-        "Expires=Fri, 07 Jan 1983 15:32:00 GMT",
-    });
-    assertEquals(getSetCookies(headers), [{
-      name: "Space",
-      value: "Cat",
-      secure: true,
-      httpOnly: true,
-      maxAge: 2,
-      domain: "deno.land",
-      path: "/",
-      expires: new Date(Date.UTC(1983, 0, 7, 15, 32)),
+      expires: new Date(Date.UTC(1983, 0, 7, 15, 32))
     }]);
 
     headers = new Headers({ "set-cookie": "__Secure-Kitty=Meow; Secure" });
     assertEquals(getSetCookies(headers), [{
       name: "__Secure-Kitty",
       value: "Meow",
-      secure: true,
+      secure: true
     }]);
 
     headers = new Headers({ "set-cookie": "__Secure-Kitty=Meow" });
     assertEquals(getSetCookies(headers), []);
 
     headers = new Headers({
-      "set-cookie": "__Host-Kitty=Meow; Secure; Path=/",
+      "set-cookie": "__Host-Kitty=Meow; Secure; Path=/"
     });
     assertEquals(getSetCookies(headers), [{
       name: "__Host-Kitty",
       value: "Meow",
       secure: true,
-      path: "/",
+      path: "/"
     }]);
 
     headers = new Headers({ "set-cookie": "__Host-Kitty=Meow; Path=/" });
     assertEquals(getSetCookies(headers), []);
 
     headers = new Headers({
-      "set-cookie": "__Host-Kitty=Meow; Secure; Domain=deno.land; Path=/",
+      "set-cookie": "__Host-Kitty=Meow; Secure; Domain=deno.land; Path=/"
     });
     assertEquals(getSetCookies(headers), []);
 
     headers = new Headers({
-      "set-cookie": "__Host-Kitty=Meow; Secure; Path=/not-root",
+      "set-cookie": "__Host-Kitty=Meow; Secure; Path=/not-root"
     });
     assertEquals(getSetCookies(headers), []);
 
     headers = new Headers([
       ["set-cookie", "cookie-1=value-1; Secure"],
-      ["set-cookie", "cookie-2=value-2; Max-Age=3600"],
+      ["set-cookie", "cookie-2=value-2; Max-Age=3600"]
     ]);
     assertEquals(getSetCookies(headers), [
       { name: "cookie-1", value: "value-1", secure: true },
-      { name: "cookie-2", value: "value-2", maxAge: 3600 },
+      { name: "cookie-2", value: "value-2", maxAge: 3600 }
     ]);
 
     headers = new Headers();
     assertEquals(getSetCookies(headers), []);
-  },
+  }
 });
 
 Ende.test({
@@ -646,9 +641,9 @@ Ende.test({
     const setCookie = "a=b; EXPIRES=Thu, 19 Sep 2024 07:47:28 GMT";
     const headers = new Headers({ "set-cookie": setCookie });
     const expected = [{
-      "name": "a",
-      "value": "b",
-      "expires": new Date("2024-09-19T07:47:28.000Z"),
+      name: "a",
+      value: "b",
+      expires: new Date("2024-09-19T07:47:28.000Z")
     }];
 
     assertEquals(getSetCookies(headers), expected);
@@ -663,12 +658,12 @@ Ende.test({
       using _ = stub(
         String.prototype,
         "toLocaleLowerCase",
-        function (locale) {
+        function(locale) {
           return toLocaleLowerCase.call(this, locale ?? "tr-TR");
-        },
+        }
       );
 
       assertEquals(getSetCookies(headers), expected);
     }
-  },
+  }
 });

@@ -119,7 +119,7 @@ export interface CircuitBreakerOptions<T> {
   onFailure?: (
     error: unknown,
     failureCount: number,
-    totalRequests: number,
+    totalRequests: number
   ) => void;
 
   /**
@@ -225,7 +225,7 @@ export class CircuitBreakerOpenError extends Error {
    */
   constructor(remainingCooldownMs: number) {
     super(
-      `Circuit breaker is open: retry after ${remainingCooldownMs}ms`,
+      `Circuit breaker is open: retry after ${remainingCooldownMs}ms`
     );
     this.name = "CircuitBreakerOpenError";
     this.remainingCooldownMs = remainingCooldownMs;
@@ -254,12 +254,12 @@ type CircuitBreakerState =
   };
 
 /** Creates initial circuit breaker state. */
-function createInitialState(): CircuitBreakerState & { state: "closed" } {
+function createInitialState(): CircuitBreakerState & { state: "closed"; } {
   return {
     state: "closed",
     consecutiveSuccesses: 0,
     openedAt: null,
-    halfOpenInFlight: 0,
+    halfOpenInFlight: 0
   };
 }
 
@@ -267,7 +267,7 @@ function createInitialState(): CircuitBreakerState & { state: "closed" } {
 function validateNonNegative(name: string, value: number): void {
   if (!Number.isFinite(value) || value < 0) {
     throw new RangeError(
-      `Cannot create circuit breaker: "${name}" must be a finite non-negative number, received ${value}`,
+      `Cannot create circuit breaker: "${name}" must be a finite non-negative number, received ${value}`
     );
   }
 }
@@ -276,7 +276,7 @@ function validateNonNegative(name: string, value: number): void {
 function validatePositiveInteger(name: string, value: number): void {
   if (!Number.isInteger(value) || value < 1) {
     throw new RangeError(
-      `Cannot create circuit breaker: "${name}" must be a positive integer, received ${value}`,
+      `Cannot create circuit breaker: "${name}" must be a positive integer, received ${value}`
     );
   }
 }
@@ -285,7 +285,7 @@ function validatePositiveInteger(name: string, value: number): void {
 function validateRate(name: string, value: number): void {
   if (!Number.isFinite(value) || value <= 0 || value > 1) {
     throw new RangeError(
-      `Cannot create circuit breaker: "${name}" must be a finite number in (0, 1], received ${value}`,
+      `Cannot create circuit breaker: "${name}" must be a finite number in (0, 1], received ${value}`
     );
   }
 }
@@ -296,9 +296,10 @@ function validateRate(name: string, value: number): void {
  * disrupting the circuit breaker's synchronous control flow.
  */
 function safeCallback<A extends unknown[]>(
-  fn: ((...args: A) => void) | undefined,
+  fn: ((...args: A) => void) | undefined
 ): ((...args: A) => void) | undefined {
-  if (!fn) return undefined;
+  if (!fn)
+    return undefined;
   return (...args: A) => {
     try {
       fn(...args);
@@ -472,7 +473,7 @@ export class CircuitBreaker<T = unknown> {
       onFailure,
       onOpen,
       onHalfOpen,
-      onClose,
+      onClose
     } = options;
 
     validateRate("failureRateThreshold", failureRateThreshold);
@@ -563,7 +564,7 @@ export class CircuitBreaker<T = unknown> {
    */
   async execute<R extends T>(
     fn: () => R | Promise<R>,
-    options?: CircuitBreakerExecuteOptions,
+    options?: CircuitBreakerExecuteOptions
   ): Promise<R> {
     options?.signal?.throwIfAborted();
 
@@ -583,7 +584,7 @@ export class CircuitBreaker<T = unknown> {
       }
       this.#state = {
         ...this.#state,
-        halfOpenInFlight: this.#state.halfOpenInFlight + 1,
+        halfOpenInFlight: this.#state.halfOpenInFlight + 1
       };
     }
 
@@ -603,7 +604,7 @@ export class CircuitBreaker<T = unknown> {
       ) {
         this.#state = {
           ...this.#state,
-          halfOpenInFlight: Math.max(0, this.#state.halfOpenInFlight - 1),
+          halfOpenInFlight: Math.max(0, this.#state.halfOpenInFlight - 1)
         };
       }
     }
@@ -644,9 +645,10 @@ export class CircuitBreaker<T = unknown> {
       ...this.#state,
       state: "open",
       openedAt: now,
-      consecutiveSuccesses: 0,
+      consecutiveSuccesses: 0
     };
-    if (previous === "open") return;
+    if (previous === "open")
+      return;
     this.#onStateChange?.(previous, "open");
     this.#onOpen?.(this.#failures.total, this.#requests.total);
   }
@@ -681,7 +683,8 @@ export class CircuitBreaker<T = unknown> {
     const previous = this.#state.state;
     this.#state = createInitialState();
     this.#clearCounters();
-    if (previous === "closed") return;
+    if (previous === "closed")
+      return;
     this.#onStateChange?.(previous, "closed");
     this.#onClose?.();
   }
@@ -757,7 +760,7 @@ export class CircuitBreaker<T = unknown> {
       ...this.#state,
       state: "half_open",
       consecutiveSuccesses: 0,
-      halfOpenInFlight: 0,
+      halfOpenInFlight: 0
     };
     this.#halfOpenGeneration++;
     this.#onStateChange?.("open", "half_open");
@@ -768,7 +771,7 @@ export class CircuitBreaker<T = unknown> {
   /** Records a failure and potentially opens the circuit. */
   #handleFailure(
     error: unknown,
-    previousState: CircuitState,
+    previousState: CircuitState
   ): void {
     this.#failures.increment();
     const totalRequests = this.#requests.total;
@@ -778,28 +781,28 @@ export class CircuitBreaker<T = unknown> {
       (totalRequests >= this.#minimumThroughput &&
         failureCount / totalRequests >= this.#failureRateThreshold);
 
-    const existingOpenedAt = this.#state.state === "open"
-      ? this.#state.openedAt
-      : undefined;
+    const existingOpenedAt = this.#state.state === "open" ?
+      this.#state.openedAt :
+      undefined;
 
     if (shouldOpen) {
       this.#state = {
         ...this.#state,
         state: "open",
         openedAt: existingOpenedAt ?? Date.now(),
-        consecutiveSuccesses: 0,
+        consecutiveSuccesses: 0
       };
     } else {
       this.#state = {
         ...this.#state,
-        consecutiveSuccesses: 0,
+        consecutiveSuccesses: 0
       };
     }
 
     this.#onFailure?.(
       error ?? new Error("Result classified as failure"),
       failureCount,
-      totalRequests,
+      totalRequests
     );
     if (shouldOpen && existingOpenedAt === undefined) {
       this.#onStateChange?.(previousState, "open");
@@ -809,9 +812,12 @@ export class CircuitBreaker<T = unknown> {
 
   /** Records a success and potentially closes the circuit from half-open. */
   #handleSuccess(previousState: CircuitState, generation: number): void {
-    if (previousState === "closed") return;
-    if (this.#state.state !== "half_open") return;
-    if (generation !== this.#halfOpenGeneration) return;
+    if (previousState === "closed")
+      return;
+    if (this.#state.state !== "half_open")
+      return;
+    if (generation !== this.#halfOpenGeneration)
+      return;
 
     const newSuccessCount = this.#state.consecutiveSuccesses + 1;
     if (newSuccessCount >= this.#successThreshold) {

@@ -1,12 +1,12 @@
 {
-  "name": "@ende/yaml",
-  "version": "1.3.0",
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
     "./stringify": "./stringify.ts",
     "./types": "./types.ts",
-    "./unstable-stringify": "./unstable_stringify.ts",
-    "./unstable-parse": "./unstable_parse.ts"
-  }
+    "./unstable-parse": "./unstable_parse.ts",
+    "./unstable-stringify": "./unstable_stringify.ts"
+  },
+  "name": "@ende/yaml",
+  "version": "2026.10.15"
 }

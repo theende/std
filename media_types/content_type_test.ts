@@ -16,12 +16,12 @@ Ende.test({
       ["text/plan; charset", undefined],
       ["foo", undefined],
       ["file.json", undefined],
-      ["application/foo", "application/foo"],
+      ["application/foo", "application/foo"]
     ] as const;
     for (const [fixture, expected] of fixtures) {
       assertEquals(contentType(fixture), expected);
     }
-  },
+  }
 });
 
 Ende.test({
@@ -42,5 +42,5 @@ Ende.test({
     _str = contentType("file.json");
     // @ts-expect-error: string | undefined is not assignable to string
     _str = contentType("application/foo");
-  },
+  }
 });

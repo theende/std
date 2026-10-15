@@ -62,7 +62,7 @@ export class BatchStream<T> extends TransformStream<T, T[]> {
   constructor(size: number) {
     if (!Number.isInteger(size) || size <= 0) {
       throw new RangeError(
-        `Cannot construct BatchStream as size must be a positive integer: current value is ${size}`,
+        `Cannot construct BatchStream as size must be a positive integer: current value is ${size}`
       );
     }
     let buffer: T[] = [];
@@ -78,7 +78,7 @@ export class BatchStream<T> extends TransformStream<T, T[]> {
         if (buffer.length > 0) {
           controller.enqueue(buffer);
         }
-      },
+      }
     });
   }
 }

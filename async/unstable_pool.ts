@@ -3,8 +3,7 @@
 // This module is browser compatible.
 
 /** Error message emitted from the thrown error while mapping. */
-const ERROR_WHILE_MAPPING_MESSAGE =
-  "Cannot complete the mapping as an error was thrown from an item";
+const ERROR_WHILE_MAPPING_MESSAGE = "Cannot complete the mapping as an error was thrown from an item";
 
 /** Options for {@linkcode pooledMap}. */
 export interface PooledMapOptions {
@@ -67,7 +66,7 @@ export interface PooledMapOptions {
 export function pooledMap<T, R>(
   array: Iterable<T> | AsyncIterable<T>,
   iteratorFn: (data: T) => Promise<R>,
-  poolLimit: number,
+  poolLimit: number
 ): AsyncIterableIterator<R>;
 
 /**
@@ -134,21 +133,21 @@ export function pooledMap<T, R>(
 export function pooledMap<T, R>(
   array: Iterable<T> | AsyncIterable<T>,
   iteratorFn: (data: T) => Promise<R>,
-  options: PooledMapOptions,
+  options: PooledMapOptions
 ): AsyncIterableIterator<R>;
 
 export function pooledMap<T, R>(
   array: Iterable<T> | AsyncIterable<T>,
   iteratorFn: (data: T) => Promise<R>,
-  options: number | PooledMapOptions,
+  options: number | PooledMapOptions
 ): AsyncIterableIterator<R> {
-  const { poolLimit, signal } = typeof options === "number"
-    ? { poolLimit: options, signal: undefined }
-    : options;
+  const { poolLimit, signal } = typeof options === "number" ?
+    { poolLimit: options, signal: undefined } :
+    options;
 
   if (!Number.isInteger(poolLimit) || poolLimit < 1) {
     throw new RangeError(
-      `Cannot pool as 'poolLimit' must be a positive integer: received ${poolLimit}`,
+      `Cannot pool as 'poolLimit' must be a positive integer: received ${poolLimit}`
     );
   }
 
@@ -157,7 +156,7 @@ export function pooledMap<T, R>(
   const res = new TransformStream<Promise<R | typeof ABORT_SENTINEL>, R>({
     async transform(
       p: Promise<R | typeof ABORT_SENTINEL>,
-      controller: TransformStreamDefaultController<R>,
+      controller: TransformStreamDefaultController<R>
     ) {
       try {
         const result = await p;
@@ -175,7 +174,7 @@ export function pooledMap<T, R>(
         }
         // Individual item rejections are reported via the AggregateError.
       }
-    },
+    }
   });
 
   (async () => {
@@ -193,7 +192,8 @@ export function pooledMap<T, R>(
     }
 
     function raceWithSignal(): Promise<unknown> {
-      if (!abortDeferred) return Promise.race(executing);
+      if (!abortDeferred)
+        return Promise.race(executing);
       executing.add(abortDeferred.promise);
       return Promise.race(executing).finally(() => {
         executing.delete(abortDeferred!.promise);
@@ -203,19 +203,21 @@ export function pooledMap<T, R>(
     try {
       signal?.throwIfAborted();
 
-      const it = (Symbol.asyncIterator in Object(array))
-        ? (array as AsyncIterable<T>)[Symbol.asyncIterator]()
-        : (array as Iterable<T>)[Symbol.iterator]();
+      const it = (Symbol.asyncIterator in Object(array)) ?
+        (array as AsyncIterable<T>)[Symbol.asyncIterator]() :
+        (array as Iterable<T>)[Symbol.iterator]();
 
       try {
         while (true) {
           const nextPromise = Promise.resolve(it.next());
-          if (abortDeferred) nextPromise.catch(() => {});
-          const next = abortDeferred
-            ? await Promise.race([nextPromise, abortDeferred.promise])
-            : await nextPromise;
+          if (abortDeferred)
+            nextPromise.catch(() => {});
+          const next = abortDeferred ?
+            await Promise.race([nextPromise, abortDeferred.promise]) :
+            await nextPromise;
 
-          if (next.done) break;
+          if (next.done)
+            break;
           signal?.throwIfAborted();
 
           const item = next.value;
@@ -256,9 +258,11 @@ export function pooledMap<T, R>(
       if (errors.length === 0 && signal?.aborted) {
         writer.write(Promise.resolve(ABORT_SENTINEL)).catch(() => {});
       } else {
-        writer.write(Promise.reject(
-          new AggregateError(errors, ERROR_WHILE_MAPPING_MESSAGE),
-        )).catch(() => {});
+        writer
+          .write(Promise.reject(
+            new AggregateError(errors, ERROR_WHILE_MAPPING_MESSAGE)
+          ))
+          .catch(() => {});
       }
     } finally {
       removeAbortListener?.();
@@ -267,14 +271,15 @@ export function pooledMap<T, R>(
 
   // Feature test until browser coverage is adequate
   return Symbol.asyncIterator in res.readable &&
-      typeof res.readable[Symbol.asyncIterator] === "function"
-    ? (res.readable[Symbol.asyncIterator] as () => AsyncIterableIterator<R>)()
-    : (async function* () {
+      typeof res.readable[Symbol.asyncIterator] === "function" ?
+    (res.readable[Symbol.asyncIterator] as () => AsyncIterableIterator<R>)() :
+    (async function*() {
       const reader = res.readable.getReader();
       try {
         while (true) {
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done)
+            break;
           yield value;
         }
       } finally {

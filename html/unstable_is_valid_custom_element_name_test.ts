@@ -11,12 +11,12 @@ const forbiddenCustomElementNames: string[] = [
   "font-face-uri",
   "font-face-format",
   "font-face-name",
-  "missing-glyph",
+  "missing-glyph"
 ] as const;
 
-Ende.test("isValidCustomElementName()", async (t) => {
+Ende.test("isValidCustomElementName()", async t => {
   await t.step("handles forbidden custom names", () => {
-    forbiddenCustomElementNames.map((forbiddenName) => {
+    forbiddenCustomElementNames.map(forbiddenName => {
       assertEquals(isValidCustomElementName(forbiddenName), false);
     });
   });

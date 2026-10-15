@@ -34,6 +34,6 @@ export function format(version: SemVer): string {
   const build = version.build?.join(".") ?? "";
 
   const primary = `${major}.${minor}.${patch}`;
-  const release = [primary, pre].filter((v) => v).join("-");
-  return [release, build].filter((v) => v).join("+");
+  const release = [primary, pre].filter(v => v).join("-");
+  return [release, build].filter(v => v).join("+");
 }

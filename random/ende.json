@@ -1,6 +1,4 @@
 {
-  "name": "@ende/random",
-  "version": "0.1.5",
   "exports": {
     ".": "./mod.ts",
     "./between": "./between.ts",
@@ -10,5 +8,7 @@
     "./sample": "./sample.ts",
     "./seeded": "./seeded.ts",
     "./shuffle": "./shuffle.ts"
-  }
+  },
+  "name": "@ende/random",
+  "version": "2026.10.15"
 }

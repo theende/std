@@ -76,11 +76,11 @@ export function accepts(
   ...types: string[]
 ): string | string[] | undefined {
   const accept = request.headers.get("accept");
-  return types.length
-    ? accept ? preferredMediaTypes(accept, types)[0] : types[0]
-    : accept
-    ? preferredMediaTypes(accept)
-    : ["*/*"];
+  return types.length ?
+    accept ? preferredMediaTypes(accept, types)[0] : types[0] :
+    accept ?
+    preferredMediaTypes(accept) :
+    ["*/*"];
 }
 
 /**
@@ -139,13 +139,13 @@ export function acceptsEncodings(
   ...encodings: string[]
 ): string | string[] | undefined {
   const acceptEncoding = request.headers.get("accept-encoding");
-  return encodings.length
-    ? acceptEncoding
-      ? preferredEncodings(acceptEncoding, encodings)[0]
-      : encodings[0]
-    : acceptEncoding
-    ? preferredEncodings(acceptEncoding)
-    : ["*"];
+  return encodings.length ?
+    acceptEncoding ?
+      preferredEncodings(acceptEncoding, encodings)[0] :
+      encodings[0] :
+    acceptEncoding ?
+    preferredEncodings(acceptEncoding) :
+    ["*"];
 }
 
 /**
@@ -203,9 +203,9 @@ export function acceptsLanguages(
   ...langs: string[]
 ): string | string[] | undefined {
   const acceptLanguage = request.headers.get("accept-language");
-  return langs.length
-    ? acceptLanguage ? preferredLanguages(acceptLanguage, langs)[0] : langs[0]
-    : acceptLanguage
-    ? preferredLanguages(acceptLanguage)
-    : ["*"];
+  return langs.length ?
+    acceptLanguage ? preferredLanguages(acceptLanguage, langs)[0] : langs[0] :
+    acceptLanguage ?
+    preferredLanguages(acceptLanguage) :
+    ["*"];
 }

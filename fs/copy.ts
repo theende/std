@@ -45,7 +45,7 @@ function assertIsDate(date: Date | null, name: string): asserts date is Date {
 async function ensureValidCopy(
   src: string | URL,
   dest: string | URL,
-  options: InternalCopyOptions,
+  options: InternalCopyOptions
 ): Promise<Ende.FileInfo | undefined> {
   let destStat: Ende.FileInfo;
 
@@ -60,7 +60,7 @@ async function ensureValidCopy(
 
   if (options.isFolder && !destStat.isDirectory) {
     throw new Error(
-      `Cannot overwrite non-directory '${dest}' with directory '${src}'`,
+      `Cannot overwrite non-directory '${dest}' with directory '${src}'`
     );
   }
   if (!options.overwrite) {
@@ -73,7 +73,7 @@ async function ensureValidCopy(
 function ensureValidCopySync(
   src: string | URL,
   dest: string | URL,
-  options: InternalCopyOptions,
+  options: InternalCopyOptions
 ): Ende.FileInfo | undefined {
   let destStat: Ende.FileInfo;
   try {
@@ -87,7 +87,7 @@ function ensureValidCopySync(
 
   if (options.isFolder && !destStat.isDirectory) {
     throw new Error(
-      `Cannot overwrite non-directory '${dest}' with directory '${src}'`,
+      `Cannot overwrite non-directory '${dest}' with directory '${src}'`
     );
   }
   if (!options.overwrite) {
@@ -101,7 +101,7 @@ function ensureValidCopySync(
 async function copyFile(
   src: string | URL,
   dest: string | URL,
-  options: InternalCopyOptions,
+  options: InternalCopyOptions
 ) {
   await ensureValidCopy(src, dest, options);
   await Ende.copyFile(src, dest);
@@ -116,7 +116,7 @@ async function copyFile(
 function copyFileSync(
   src: string | URL,
   dest: string | URL,
-  options: InternalCopyOptions,
+  options: InternalCopyOptions
 ) {
   ensureValidCopySync(src, dest, options);
   Ende.copyFileSync(src, dest);
@@ -132,14 +132,14 @@ function copyFileSync(
 async function copySymLink(
   src: string | URL,
   dest: string | URL,
-  options: InternalCopyOptions,
+  options: InternalCopyOptions
 ) {
   await ensureValidCopy(src, dest, options);
   const originSrcFilePath = await Ende.readLink(src);
   const type = getFileInfoType(await Ende.lstat(src));
   if (isWindows) {
     await Ende.symlink(originSrcFilePath, dest, {
-      type: type === "dir" ? "dir" : "file",
+      type: type === "dir" ? "dir" : "file"
     });
   } else {
     await Ende.symlink(originSrcFilePath, dest);
@@ -156,14 +156,14 @@ async function copySymLink(
 function copySymlinkSync(
   src: string | URL,
   dest: string | URL,
-  options: InternalCopyOptions,
+  options: InternalCopyOptions
 ) {
   ensureValidCopySync(src, dest, options);
   const originSrcFilePath = Ende.readLinkSync(src);
   const type = getFileInfoType(Ende.lstatSync(src));
   if (isWindows) {
     Ende.symlinkSync(originSrcFilePath, dest, {
-      type: type === "dir" ? "dir" : "file",
+      type: type === "dir" ? "dir" : "file"
     });
   } else {
     Ende.symlinkSync(originSrcFilePath, dest);
@@ -181,11 +181,11 @@ function copySymlinkSync(
 async function copyDir(
   src: string | URL,
   dest: string | URL,
-  options: CopyOptions,
+  options: CopyOptions
 ) {
   const destStat = await ensureValidCopy(src, dest, {
     ...options,
-    isFolder: true,
+    isFolder: true
   });
 
   if (!destStat) {
@@ -223,11 +223,11 @@ async function copyDir(
 function copyDirSync(
   src: string | URL,
   dest: string | URL,
-  options: CopyOptions,
+  options: CopyOptions
 ) {
   const destStat = ensureValidCopySync(src, dest, {
     ...options,
-    isFolder: true,
+    isFolder: true
   });
 
   if (!destStat) {
@@ -307,7 +307,7 @@ function copyDirSync(
 export async function copy(
   src: string | URL,
   dest: string | URL,
-  options: CopyOptions = {},
+  options: CopyOptions = {}
 ) {
   src = resolve(toPathString(src));
   dest = resolve(toPathString(dest));
@@ -320,7 +320,7 @@ export async function copy(
 
   if (srcStat.isDirectory && isSubdir(src, dest)) {
     throw new Error(
-      `Cannot copy '${src}' to a subdirectory of itself: '${dest}'`,
+      `Cannot copy '${src}' to a subdirectory of itself: '${dest}'`
     );
   }
 
@@ -383,7 +383,7 @@ export async function copy(
 export function copySync(
   src: string | URL,
   dest: string | URL,
-  options: CopyOptions = {},
+  options: CopyOptions = {}
 ) {
   src = resolve(toPathString(src));
   dest = resolve(toPathString(dest));
@@ -396,7 +396,7 @@ export function copySync(
 
   if (srcStat.isDirectory && isSubdir(src, dest)) {
     throw new Error(
-      `Cannot copy '${src}' to a subdirectory of itself: '${dest}'`,
+      `Cannot copy '${src}' to a subdirectory of itself: '${dest}'`
     );
   }
 

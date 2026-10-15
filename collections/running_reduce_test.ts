@@ -11,7 +11,7 @@ Ende.test({
     runningReduce(numbers, (sum, current) => sum + current, 0);
 
     assertEquals(numbers, [1, 2, 3, 4, 5]);
-  },
+  }
 });
 
 Ende.test({
@@ -21,7 +21,7 @@ Ende.test({
     const result = runningReduce(numbers, (sum, current) => sum + current, 0);
 
     assertEquals(result, [1, 3, 6, 10, 15]);
-  },
+  }
 });
 
 Ende.test({
@@ -31,7 +31,7 @@ Ende.test({
     const result = runningReduce(numbers, (sum, current) => sum + current, 5);
 
     assertEquals(result, [6, 8, 11, 15, 20]);
-  },
+  }
 });
 
 Ende.test({
@@ -41,7 +41,7 @@ Ende.test({
     const result = runningReduce(strings, (str, current) => str + current, "");
 
     assertEquals(result, ["a", "ab", "abc", "abcd", "abcde"]);
-  },
+  }
 });
 
 Ende.test({
@@ -51,11 +51,11 @@ Ende.test({
     const result = runningReduce(
       strings,
       (str, current) => str + current,
-      "foo",
+      "foo"
     );
 
     assertEquals(result, ["fooa", "fooab", "fooabc", "fooabcd", "fooabcde"]);
-  },
+  }
 });
 
 Ende.test({
@@ -64,7 +64,7 @@ Ende.test({
     const result = runningReduce([], (sum, current) => sum + current, 0);
 
     assertEquals(result, []);
-  },
+  }
 });
 
 Ende.test({
@@ -73,7 +73,7 @@ Ende.test({
     const result = runningReduce([], (sum, current) => sum + current, 5);
 
     assertEquals(result, []);
-  },
+  }
 });
 
 Ende.test({
@@ -82,16 +82,16 @@ Ende.test({
     const medals = [
       { country: "USA", count: 113 },
       { country: "CHN", count: 88 },
-      { country: "JPN", count: 58 },
+      { country: "JPN", count: 58 }
     ];
     const result = runningReduce(
       medals,
       (sum, current) => sum + current.count,
-      0,
+      0
     );
 
     assertEquals(result, [113, 201, 259]);
-  },
+  }
 });
 
 Ende.test({
@@ -100,16 +100,16 @@ Ende.test({
     const medals = [
       { country: "USA", count: 113 },
       { country: "CHN", count: 88 },
-      { country: "JPN", count: 58 },
+      { country: "JPN", count: 58 }
     ];
     const result = runningReduce(
       medals,
       (sum, current) => sum + current.count,
-      "",
+      ""
     );
 
     assertEquals(result, ["113", "11388", "1138858"]);
-  },
+  }
 });
 
 Ende.test({
@@ -119,11 +119,11 @@ Ende.test({
     const result = runningReduce(
       numbers,
       (sum, current, currentIndex) => sum + current + currentIndex,
-      0,
+      0
     );
 
     assertEquals(result, [1, 4, 9, 16, 25]);
-  },
+  }
 });
 
 Ende.test({
@@ -133,11 +133,11 @@ Ende.test({
     const result = runningReduce(
       strings,
       (sum, current, currentIndex) => sum + current + currentIndex,
-      "",
+      ""
     );
 
     assertEquals(result, ["a0", "a0b1", "a0b1c2", "a0b1c2d3", "a0b1c2d3e4"]);
-  },
+  }
 });
 
 Ende.test({
@@ -146,16 +146,16 @@ Ende.test({
     const medals = [
       { country: "USA", count: 113 },
       { country: "CHN", count: 88 },
-      { country: "JPN", count: 58 },
+      { country: "JPN", count: 58 }
     ];
     const result = runningReduce(
       medals,
       (_, current, currentIndex) => {
         return currentIndex + current.country;
       },
-      "",
+      ""
     );
 
     assertEquals(result, ["0USA", "1CHN", "2JPN"]);
-  },
+  }
 });
