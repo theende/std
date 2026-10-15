@@ -13,8 +13,8 @@
   },
   "unstable": ["webgpu", "fs"],
   "tasks": {
-    "format": "dprint fmt",
-    "format:check": "dprint check",
+    "format": "ende fmt",
+    "format:check": "ende fmt --check",
     "test": "ende test -A --parallel --trace-leaks --coverage --doc --clean --ignore=_tools/,_tmp/",
     "test:with-unsafe-proto": "ende test --unstable-unsafe-proto --no-check -A --parallel --doc --ignore=_tools/,_tmp/",
     "test:tools": "ende test -A --doc _tools/",
@@ -43,6 +43,47 @@
     "fs/testdata",
     "dotenv/testdata"
   ],
+  "fmt": {
+    "typescript": {
+      "deno": false,
+      "arrowFunction.useParentheses": "preferNone",
+      "bracePosition": "sameLine",
+      "enumDeclaration.memberSpacing": "newLine",
+      "exportDeclaration.sortNamedExports": "caseInsensitive",
+      "exportDeclaration.sortTypeOnlyExports": "last",
+      "importDeclaration.sortNamedImports": "caseInsensitive",
+      "importDeclaration.sortTypeOnlyImports": "last",
+      "indentWidth": 2,
+      "lineWidth": 160,
+      "memberExpression.linePerExpression": true,
+      "module.sortExportDeclarations": "maintain",
+      "module.sortImportDeclarations": "maintain",
+      "nextControlFlowPosition": "sameLine",
+      "newLineKind": "lf",
+      "operatorPosition": "sameLine",
+      "preferHanging": false,
+      "preferSingleLine": false,
+      "quoteProps": "asNeeded",
+      "quoteStyle": "alwaysDouble",
+      "semiColons": "always",
+      "singleBodyPosition": "nextLine",
+      "spaceAround": false,
+      "spaceSurroundingProperties": true,
+      "switchCase.bracePosition": "sameLine",
+      "switchStatement.bracePosition": "sameLine",
+      "trailingCommas": "never",
+      "useBraces": "maintain",
+      "useTabs": false
+    },
+    "json": {
+      "deno": false,
+      "lineWidth": 120,
+      "trailingCommas": "never"
+    },
+    "markdown": {
+      "deno": false
+    }
+  },
   "lint": {
     "rules": {
       "tags": ["recommended", "jsr"],
