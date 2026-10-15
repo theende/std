@@ -23,8 +23,8 @@ export type SlugifyOptions = {
  *
  * @example Usage
  * ```ts
- * import { NON_WORD_REGEXP, slugify } from "@std/text/unstable-slugify";
- * import { assertEquals } from "@std/assert";
+ * import { NON_WORD_REGEXP, slugify } from "@ende/text/unstable-slugify";
+ * import { assertEquals } from "@ende/assert";
  * assertEquals(slugify("déjà-vu", { strip: NON_WORD_REGEXP }), "déjà-vu");
  * assertEquals(slugify("Συστημάτων Γραφής", { strip: NON_WORD_REGEXP }), "συστημάτων-γραφής");
  * ```
@@ -35,8 +35,8 @@ export const NON_WORD_REGEXP = /[^\p{L}\p{M}\p{N}\-]+/gu;
  *
  * @example Usage
  * ```ts
- * import { DIACRITICS_REGEXP, slugify } from "@std/text/unstable-slugify";
- * import { assertEquals } from "@std/assert";
+ * import { DIACRITICS_REGEXP, slugify } from "@ende/text/unstable-slugify";
+ * import { assertEquals } from "@ende/assert";
  * assertEquals(slugify("déjà-vu", { strip: DIACRITICS_REGEXP }), "deja-vu");
  * assertEquals(slugify("Συστημάτων Γραφής", { strip: DIACRITICS_REGEXP }), "συστηματων-γραφης");
  * ```
@@ -47,8 +47,8 @@ export const DIACRITICS_REGEXP = /[^\p{L}\p{N}\-]+/gu;
  *
  * @example Usage
  * ```ts
- * import { ASCII_DIACRITICS_REGEXP, slugify } from "@std/text/unstable-slugify";
- * import { assertEquals } from "@std/assert";
+ * import { ASCII_DIACRITICS_REGEXP, slugify } from "@ende/text/unstable-slugify";
+ * import { assertEquals } from "@ende/assert";
  * assertEquals(slugify("déjà-vu", { strip: ASCII_DIACRITICS_REGEXP }), "deja-vu");
  * assertEquals(slugify("Συστημάτων Γραφής", { strip: ASCII_DIACRITICS_REGEXP }), "συστημάτων-γραφής");
  * ```
@@ -60,8 +60,8 @@ export const ASCII_DIACRITICS_REGEXP =
  *
  * @example Usage
  * ```ts
- * import { NON_ASCII_REGEXP, slugify } from "@std/text/unstable-slugify";
- * import { assertEquals } from "@std/assert";
+ * import { NON_ASCII_REGEXP, slugify } from "@ende/text/unstable-slugify";
+ * import { assertEquals } from "@ende/assert";
  * assertEquals(slugify("déjà-vu", { strip: NON_ASCII_REGEXP }), "deja-vu");
  * assertEquals(slugify("Συστημάτων Γραφής", { strip: NON_ASCII_REGEXP }), "-");
  * ```
@@ -79,8 +79,8 @@ export const NON_ASCII_REGEXP = /[^0-9a-zA-Z\-]/g;
  *
  * @example Basic usage
  * ```ts
- * import { slugify } from "@std/text/unstable-slugify";
- * import { assertEquals } from "@std/assert";
+ * import { slugify } from "@ende/text/unstable-slugify";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(slugify("Hello, world!"), "hello-world");
  * assertEquals(slugify("Συστημάτων Γραφής"), "συστημάτων-γραφής");
@@ -88,7 +88,7 @@ export const NON_ASCII_REGEXP = /[^0-9a-zA-Z\-]/g;
  *
  * @example With transliteration using a third-party library
  * ```ts no-assert
- * import { NON_ASCII_REGEXP, slugify } from "@std/text/unstable-slugify";
+ * import { NON_ASCII_REGEXP, slugify } from "@ende/text/unstable-slugify";
  * // example third-party transliteration library
  * import transliterate from "npm:any-ascii";
  *

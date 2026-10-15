@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertStrictEquals } from "@std/assert";
+import { assertStrictEquals } from "@ende/assert";
 import { RedBlackNode } from "./_red_black_node.ts";
 
 Ende.test("RedBlackNode", () => {

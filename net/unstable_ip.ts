@@ -33,8 +33,8 @@ function isDigit(code: number): boolean {
  *
  * @example Parse an IPv4 address
  * ```ts
- * import { parseIPv4 } from "@std/net/unstable-ip"
- * import { assertEquals } from "@std/assert"
+ * import { parseIPv4 } from "@ende/net/unstable-ip"
+ * import { assertEquals } from "@ende/assert"
  *
  * assertEquals(parseIPv4("192.168.0.1"), new Uint8Array([192, 168, 0, 1]))
  * assertEquals(parseIPv4("0x7f.0.0.1"), undefined)
@@ -76,8 +76,8 @@ export function parseIPv4(addr: string): Uint8Array | undefined {
  *
  * @example Check if the address is a IPv4
  * ```ts
- * import { isIPv4 } from "@std/net/unstable-ip"
- * import { assert, assertFalse } from "@std/assert"
+ * import { isIPv4 } from "@ende/net/unstable-ip"
+ * import { assert, assertFalse } from "@ende/assert"
  *
  * const correctIp = "192.168.0.1"
  * const incorrectIp = "192.168.0.256"
@@ -107,8 +107,8 @@ export function isIPv4(addr: string): boolean {
  *
  * @example Parse an IPv6 address
  * ```ts
- * import { parseIPv6 } from "@std/net/unstable-ip"
- * import { assertEquals } from "@std/assert"
+ * import { parseIPv6 } from "@ende/net/unstable-ip"
+ * import { assertEquals } from "@ende/assert"
  *
  * const loopback = new Uint8Array(16)
  * loopback[15] = 1
@@ -224,8 +224,8 @@ export function parseIPv6(addr: string): Uint8Array | undefined {
  *
  * @example Check if the address is a IPv6
  * ```ts
- * import { isIPv6 } from "@std/net/unstable-ip"
- * import { assert, assertFalse } from "@std/assert"
+ * import { isIPv6 } from "@ende/net/unstable-ip"
+ * import { assert, assertFalse } from "@ende/assert"
  *
  * const correctIp = "2001::db8:0:1"
  * const incorrectIp = "2001::db8::1"
@@ -249,8 +249,8 @@ export function isIPv6(addr: string): boolean {
  * @example Check if the address is a IPv6
  *
  * ```ts
- * import { matchSubnets } from "@std/net/unstable-ip"
- * import { assert, assertFalse } from "@std/assert"
+ * import { matchSubnets } from "@ende/net/unstable-ip"
+ * import { assert, assertFalse } from "@ende/assert"
  *
  * assert(matchSubnets("192.168.1.10", ["192.168.1.0/24"]));
  * assertFalse(matchSubnets("192.168.2.10", ["192.168.1.0/24"]));
@@ -346,8 +346,8 @@ function matchPrefix(
  * @example Check if the address is a IPv6
  *
  * ```ts
- * import { matchIPv4Subnet } from "@std/net/unstable-ip"
- * import { assert, assertFalse } from "@std/assert"
+ * import { matchIPv4Subnet } from "@ende/net/unstable-ip"
+ * import { assert, assertFalse } from "@ende/assert"
  *
  * assert(matchIPv4Subnet("192.168.1.10", "192.168.1.0/24"));
  * assertFalse(matchIPv4Subnet("192.168.2.10", "192.168.1.0/24"));
@@ -374,8 +374,8 @@ export function matchIPv4Subnet(addr: string, subnet: string): boolean {
  * @example Check if the address is a IPv6
  *
  * ```ts
- * import { matchIPv6Subnet } from "@std/net/unstable-ip"
- * import { assert, assertFalse } from "@std/assert"
+ * import { matchIPv6Subnet } from "@ende/net/unstable-ip"
+ * import { assert, assertFalse } from "@ende/assert"
  *
  * assert(matchIPv6Subnet("2001:db8::ffff", "2001:db8::/64"));
  * assertFalse(matchIPv6Subnet("2001:db9::1", "2001:db8::/64"));

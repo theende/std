@@ -61,13 +61,13 @@ E.g. If the latest major version of a package is 1, it should be imported as
 follows:
 
 ```ts, ignore
-import { bar } from "jsr:@std/foo@^1";
+import { bar } from "jsr:@ende/foo@^1";
 ```
 
 The same goes if the latest major version of a package is 0:
 
 ```ts, ignore
-import { bar } from "jsr:@std/foo@^0";
+import { bar } from "jsr:@ende/foo@^0";
 ```
 
 This approach allows for bug fixes and new features, while avoiding breaking
@@ -97,11 +97,11 @@ deprecation. This is to minimize breaking changes for users.
 Yes. You can use a package version that contains the deprecated API in question
 by pinning the package version.
 
-E.g. Say `bar()` is deprecated in `@std/foo@0` and removed in `@std/foo@1`. Pin
-the import specifier to `@std/foo@0` to continued use:
+E.g. Say `bar()` is deprecated in `@ende/foo@0` and removed in `@ende/foo@1`.
+Pin the import specifier to `@ende/foo@0` to continued use:
 
 ```ts, ignore
-import { bar } from "jsr:@std/foo@^0/bar";
+import { bar } from "jsr:@ende/foo@^0/bar";
 ```
 
 This is possible thanks to JSR being immutable. For more information, see JSR's

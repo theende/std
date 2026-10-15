@@ -23,16 +23,16 @@ export type EscapeJsOptions = {
  *
  * @example Escaping a string
  * ```ts
- * import { escapeJs } from "@std/html/unstable-escape-js";
- * import { assertEquals } from "@std/assert";
+ * import { escapeJs } from "@ende/html/unstable-escape-js";
+ * import { assertEquals } from "@ende/assert";
  * const input = "\u2028\u2029</script>";
  * assertEquals(escapeJs(input), '"\\u2028\\u2029\\u003c/script>"');
  * ```
  *
  * @example Escaping an object
  * ```ts
- * import { escapeJs } from "@std/html/unstable-escape-js";
- * import { assertEquals } from "@std/assert";
+ * import { escapeJs } from "@ende/html/unstable-escape-js";
+ * import { assertEquals } from "@ende/assert";
  * const input = {
  *   "<SCRIPT>": "</script>",
  *   "<!--": "\u2028\u2029<>",

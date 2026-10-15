@@ -14,7 +14,7 @@
  * @module
  */
 
-import { encodeBase64 as base64Encode } from "@std/encoding/base64";
+import { encodeBase64 as base64Encode } from "@ende/encoding/base64";
 
 /**
  * Just the part of {@linkcode Ende.FileInfo} that is required to calculate an `ETag`,
@@ -100,8 +100,8 @@ async function calcFileInfo(
  *
  * @example Usage
  * ```ts
- * import { eTag } from "@std/http/etag";
- * import { assert } from "@std/assert";
+ * import { eTag } from "@ende/http/etag";
+ * import { assert } from "@ende/assert";
  *
  * const body = "hello deno!";
  *
@@ -127,8 +127,8 @@ export async function eTag(
  *
  * @example Usage
  * ```ts
- * import { eTag } from "@std/http/etag";
- * import { assert } from "@std/assert";
+ * import { eTag } from "@ende/http/etag";
+ * import { assert } from "@ende/assert";
  *
  * const fileInfo = await Ende.stat("README.md");
  *
@@ -180,8 +180,8 @@ const COMMA_REGEXP = /\s*,\s*/;
  * import {
  *   eTag,
  *   ifMatch,
- * } from "@std/http/etag";
- * import { assert } from "@std/assert";
+ * } from "@ende/http/etag";
+ * import { assert } from "@ende/assert";
  *
  * const body = "hello deno!";
  *
@@ -228,8 +228,8 @@ export function ifMatch(
  * import {
  *   eTag,
  *   ifNoneMatch,
- * } from "@std/http/etag";
- * import { assert } from "@std/assert";
+ * } from "@ende/http/etag";
+ * import { assert } from "@ende/assert";
  *
  * const body = "hello deno!";
  *

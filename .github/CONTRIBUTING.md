@@ -40,7 +40,7 @@ subjects. The title alone decides the bump.
 
 A scope with the `/unstable` suffix always releases as a patch, even for `feat`
 (normally a minor bump) and `BREAKING` (normally a major bump). For example,
-`BREAKING(http/unstable): rename an option` releases a patch of `@std/http`.
+`BREAKING(http/unstable): rename an option` releases a patch of `@ende/http`.
 Unstable APIs are not covered by the semver contract, so changes to them never
 raise a version beyond a patch.
 
@@ -107,9 +107,9 @@ and send a pull request.
 
 ### Assertions
 
-Do not use assertions from [`@std/assert`](https://jsr.io/@std/assert) to assert
-values in implementation code. Instead, check values inline. `@std/assert`
-functions should only be used in testing. See #4865 for details.
+Do not use assertions from [`@ende/assert`](https://jsr.io/@ende/assert) to
+assert values in implementation code. Instead, check values inline.
+`@ende/assert` functions should only be used in testing. See #4865 for details.
 
 ## Tests
 
@@ -142,7 +142,7 @@ Where applicable, documentation for public symbols should contain, in order:
    [Example code snippets](#example-code-snippets) below for further guidance.
 
 See the source code within
-[`@std/bytes`](https://github.com/theende/std/tree/main/bytes) for examples.
+[`@ende/bytes`](https://github.com/theende/std/tree/main/bytes) for examples.
 
 The [documentation checker tool](../_tools/check_docs.ts) checks all entry
 points listed in the `exports` field of each package's `ende.json`, so ensure
@@ -163,7 +163,7 @@ Module files, or `mod.ts` files, should have the following:
    documentation.
 
 See the source code for
-[`@std/bytes/mod.ts`](https://github.com/theende/std/blob/main/bytes/mod.ts) as
+[`@ende/bytes/mod.ts`](https://github.com/theende/std/blob/main/bytes/mod.ts) as
 an example.
 
 ### Example code snippets
@@ -173,7 +173,7 @@ Example code snippets must:
 1. Be as simple yet readable as possible. When in doubt, refer to MDN's
    [Guidelines for writing JavaScript code examples](https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide/JavaScript).
 1. Be reproducible as a copied and pasted script.
-1. Use an assertion from [`@std/assert`](https://jsr.io/@std/assert), when
+1. Use an assertion from [`@ende/assert`](https://jsr.io/@ende/assert), when
    possible. Snippets are run using
    [`ende eval`](https://docs.ende.sh/runtime/manual/tools/eval) in the
    [documentation checker tool](../_tools/check_docs.ts) and are flagged when
@@ -205,7 +205,7 @@ So concrete examples are:
  * ```
  *
  * ```ts expect-error
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@ende/assert/assert";
  *
  * // Fails at runtime
  * assert(false);
@@ -249,7 +249,7 @@ When an error carries structured data, subclass the closest built-in class so
 `column`, and `offset` properties.
 
 Define a new class extending `Error` only for a domain condition callers are
-expected to catch, such as `RetryError` in `@std/async`. Plain `Error` and
+expected to catch, such as `RetryError` in `@ende/async`. Plain `Error` and
 `EvalError` still appear in older packages; do not imitate them in new code.
 
 ### Error Messages

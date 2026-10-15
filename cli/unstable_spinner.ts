@@ -90,7 +90,7 @@ export interface SpinnerOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { Spinner } from "@std/cli/unstable-spinner";
+ * import { Spinner } from "@ende/cli/unstable-spinner";
  *
  * const spinner = new Spinner({ message: "Loading...", color: "yellow" });
  * spinner.start();
@@ -119,7 +119,7 @@ export class Spinner {
    *
    * @example Usage
    * ```ts ignore
-   * import { Spinner } from "@std/cli/unstable-spinner";
+   * import { Spinner } from "@ende/cli/unstable-spinner";
    *
    * const spinner = new Spinner({ message: "Working..." });
    * spinner.start();
@@ -171,7 +171,7 @@ export class Spinner {
    *
    * @example Usage
    * ```ts ignore
-   * import { Spinner } from "@std/cli/unstable-spinner";
+   * import { Spinner } from "@ende/cli/unstable-spinner";
    *
    * const spinner = new Spinner({ message: "Loading...", color: "yellow" });
    * spinner.start();
@@ -191,7 +191,7 @@ export class Spinner {
    *
    * @example Usage
    * ```ts no-assert
-   * import { Spinner } from "@std/cli/unstable-spinner";
+   * import { Spinner } from "@ende/cli/unstable-spinner";
    *
    * const spinner = new Spinner({ message: "Loading", color: "blue" });
    *
@@ -208,7 +208,7 @@ export class Spinner {
    *
    * @example Usage
    * ```ts ignore
-   * import { Spinner } from "@std/cli/unstable-spinner";
+   * import { Spinner } from "@ende/cli/unstable-spinner";
    *
    * const spinner = new Spinner({ message: "Loading..." });
    * spinner.start();
@@ -247,7 +247,7 @@ export class Spinner {
    *
    * @example Usage
    * ```ts ignore
-   * import { Spinner } from "@std/cli/unstable-spinner";
+   * import { Spinner } from "@ende/cli/unstable-spinner";
    *
    * const spinner = new Spinner({ message: "Loading..." });
    * spinner.start();

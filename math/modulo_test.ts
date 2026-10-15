@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { modulo } from "./modulo.ts";
-import { assert, assertEquals } from "@std/assert";
+import { assert, assertEquals } from "@ende/assert";
 
 Ende.test("modulo()", async (t) => {
   await t.step("basic functionality", async (t) => {

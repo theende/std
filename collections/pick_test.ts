@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertNotStrictEquals } from "@std/assert";
+import { assertEquals, assertNotStrictEquals } from "@ende/assert";
 import { pick } from "./pick.ts";
-import { assertType, type IsExact } from "@std/testing/types";
+import { assertType, type IsExact } from "@ende/testing/types";
 
 Ende.test({
   name: "pick() returns a new empty object when no keys are provided",

@@ -2,7 +2,7 @@
 
 import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
-import { AssertionError, assertThrows } from "@std/assert";
+import { AssertionError, assertThrows } from "@ende/assert";
 
 Ende.test("expect().toHaveBeenLastCalledWith() checks the last call of mock function", () => {
   const mockFn = fn();

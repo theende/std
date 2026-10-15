@@ -16,8 +16,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { maxBy } from "@std/collections/max-by";
- * import { assertEquals } from "@std/assert";
+ * import { maxBy } from "@ende/collections/max-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = [
  *   { name: "Anna", age: 34 },
@@ -32,8 +32,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { maxBy } from "@std/collections/max-by";
- * import { assertEquals } from "@std/assert";
+ * import { maxBy } from "@ende/collections/max-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [4, 3, 2, 1];
  * const result = maxBy(array, (_, index) => index);
@@ -60,8 +60,8 @@ export function maxBy<T>(
  *
  * @example Basic usage
  * ```ts
- * import { maxBy } from "@std/collections/max-by";
- * import { assertEquals } from "@std/assert";
+ * import { maxBy } from "@ende/collections/max-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = [
  *   { name: "Anna" },
@@ -93,8 +93,8 @@ export function maxBy<T>(
  *
  * @example Basic usage
  * ```ts
- * import { maxBy } from "@std/collections/max-by";
- * import { assertEquals } from "@std/assert";
+ * import { maxBy } from "@ende/collections/max-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = [
  *   { name: "Anna", age: 34n },
@@ -126,8 +126,8 @@ export function maxBy<T>(
  *
  * @example Basic usage
  * ```ts
- * import { maxBy } from "@std/collections/max-by";
- * import { assertEquals } from "@std/assert";
+ * import { maxBy } from "@ende/collections/max-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = [
  *   { name: "Anna", startedAt: new Date("2020-01-01") },

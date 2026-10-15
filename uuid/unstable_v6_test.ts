@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals, assertThrows } from "@std/assert";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { generate, type GenerateOptions, validate } from "./unstable_v6.ts";
 
 Ende.test("validate() checks if a string is a valid v6 UUID", () => {

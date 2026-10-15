@@ -66,7 +66,7 @@ export interface ExistsOptions {
  *
  * @example Basic usage
  * ```ts ignore
- * import { exists } from "@std/fs/exists";
+ * import { exists } from "@ende/fs/exists";
  *
  * await exists("./exists"); // true
  * await exists("./does_not_exist"); // false
@@ -77,7 +77,7 @@ export interface ExistsOptions {
  * Requires `--allow-sys` permissions in some cases.
  *
  * ```ts ignore
- * import { exists } from "@std/fs/exists";
+ * import { exists } from "@ende/fs/exists";
  *
  * await exists("./readable", { isReadable: true }); // true
  * await exists("./not_readable", { isReadable: true }); // false
@@ -85,7 +85,7 @@ export interface ExistsOptions {
  *
  * @example Check if a path is a directory
  * ```ts ignore
- * import { exists } from "@std/fs/exists";
+ * import { exists } from "@ende/fs/exists";
  *
  * await exists("./directory", { isDirectory: true }); // true
  * await exists("./file", { isDirectory: true }); // false
@@ -93,7 +93,7 @@ export interface ExistsOptions {
  *
  * @example Check if a path is a file
  * ```ts ignore
- * import { exists } from "@std/fs/exists";
+ * import { exists } from "@ende/fs/exists";
  *
  * await exists("./file", { isFile: true }); // true
  * await exists("./directory", { isFile: true }); // false
@@ -104,7 +104,7 @@ export interface ExistsOptions {
  * Requires `--allow-sys` permissions in some cases.
  *
  * ```ts ignore
- * import { exists } from "@std/fs/exists";
+ * import { exists } from "@ende/fs/exists";
  *
  * await exists("./readable_directory", { isReadable: true, isDirectory: true }); // true
  * await exists("./not_readable_directory", { isReadable: true, isDirectory: true }); // false
@@ -115,7 +115,7 @@ export interface ExistsOptions {
  * Requires `--allow-sys` permissions in some cases.
  *
  * ```ts ignore
- * import { exists } from "@std/fs/exists";
+ * import { exists } from "@ende/fs/exists";
  *
  * await exists("./readable_file", { isReadable: true, isFile: true }); // true
  * await exists("./not_readable_file", { isReadable: true, isFile: true }); // false
@@ -205,7 +205,7 @@ export async function exists(
  *
  * @example Basic usage
  * ```ts ignore
- * import { existsSync } from "@std/fs/exists";
+ * import { existsSync } from "@ende/fs/exists";
  *
  * existsSync("./exists"); // true
  * existsSync("./does_not_exist"); // false
@@ -216,7 +216,7 @@ export async function exists(
  * Requires `--allow-sys` permissions in some cases.
  *
  * ```ts ignore
- * import { existsSync } from "@std/fs/exists";
+ * import { existsSync } from "@ende/fs/exists";
  *
  * existsSync("./readable", { isReadable: true }); // true
  * existsSync("./not_readable", { isReadable: true }); // false
@@ -224,7 +224,7 @@ export async function exists(
  *
  * @example Check if a path is a directory
  * ```ts ignore
- * import { existsSync } from "@std/fs/exists";
+ * import { existsSync } from "@ende/fs/exists";
  *
  * existsSync("./directory", { isDirectory: true }); // true
  * existsSync("./file", { isDirectory: true }); // false
@@ -232,7 +232,7 @@ export async function exists(
  *
  * @example Check if a path is a file
  * ```ts ignore
- * import { existsSync } from "@std/fs/exists";
+ * import { existsSync } from "@ende/fs/exists";
  *
  * existsSync("./file", { isFile: true }); // true
  * existsSync("./directory", { isFile: true }); // false
@@ -243,7 +243,7 @@ export async function exists(
  * Requires `--allow-sys` permissions in some cases.
  *
  * ```ts ignore
- * import { existsSync } from "@std/fs/exists";
+ * import { existsSync } from "@ende/fs/exists";
  *
  * existsSync("./readable_directory", { isReadable: true, isDirectory: true }); // true
  * existsSync("./not_readable_directory", { isReadable: true, isDirectory: true }); // false
@@ -254,7 +254,7 @@ export async function exists(
  * Requires `--allow-sys` permissions in some cases.
  *
  * ```ts ignore
- * import { existsSync } from "@std/fs/exists";
+ * import { existsSync } from "@ende/fs/exists";
  *
  * existsSync("./readable_file", { isReadable: true, isFile: true }); // true
  * existsSync("./not_readable_file", { isReadable: true, isFile: true }); // false

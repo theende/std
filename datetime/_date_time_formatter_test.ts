@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertThrows } from "@std/assert";
-import { FakeTime } from "@std/testing/time";
+import { assertEquals, assertThrows } from "@ende/assert";
+import { FakeTime } from "@ende/testing/time";
 import { DateTimeFormatter } from "./_date_time_formatter.ts";
 
 Ende.test("dateTimeFormatter.format()", async (t) => {

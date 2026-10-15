@@ -24,8 +24,8 @@ export interface XmlPosition {
  *
  * @example Usage
  * ```ts
- * import { XmlSyntaxError } from "@std/xml/types";
- * import { assertInstanceOf } from "@std/assert";
+ * import { XmlSyntaxError } from "@ende/xml/types";
+ * import { assertInstanceOf } from "@ende/assert";
  *
  * const error = new XmlSyntaxError("Unexpected character", { line: 10, column: 5, offset: 150 });
  * assertInstanceOf(error, SyntaxError);
@@ -38,8 +38,8 @@ export class XmlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { XmlSyntaxError } from "@std/xml/types";
-   * import { assertEquals } from "@std/assert";
+   * import { XmlSyntaxError } from "@ende/xml/types";
+   * import { assertEquals } from "@ende/assert";
    *
    * const error = new XmlSyntaxError("Test", { line: 5, column: 10, offset: 50 });
    * assertEquals(error.line, 5);
@@ -52,8 +52,8 @@ export class XmlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { XmlSyntaxError } from "@std/xml/types";
-   * import { assertEquals } from "@std/assert";
+   * import { XmlSyntaxError } from "@ende/xml/types";
+   * import { assertEquals } from "@ende/assert";
    *
    * const error = new XmlSyntaxError("Test", { line: 5, column: 10, offset: 50 });
    * assertEquals(error.column, 10);
@@ -66,8 +66,8 @@ export class XmlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { XmlSyntaxError } from "@std/xml/types";
-   * import { assertEquals } from "@std/assert";
+   * import { XmlSyntaxError } from "@ende/xml/types";
+   * import { assertEquals } from "@ende/assert";
    *
    * const error = new XmlSyntaxError("Test", { line: 5, column: 10, offset: 50 });
    * assertEquals(error.offset, 50);
@@ -469,8 +469,8 @@ export interface XmlEventCallbacks {
  *
  * @example Usage
  * ```ts
- * import { isElement } from "@std/xml/types";
- * import { assertEquals } from "@std/assert";
+ * import { isElement } from "@ende/xml/types";
+ * import { assertEquals } from "@ende/assert";
  *
  * const node = { type: "element" as const, name: { raw: "item", local: "item" }, attributes: {}, children: [] };
  * assertEquals(isElement(node), true);
@@ -488,8 +488,8 @@ export function isElement(node: XmlNode): node is XmlElement {
  *
  * @example Usage
  * ```ts
- * import { isText } from "@std/xml/types";
- * import { assertEquals } from "@std/assert";
+ * import { isText } from "@ende/xml/types";
+ * import { assertEquals } from "@ende/assert";
  *
  * const node = { type: "text" as const, text: "Hello" };
  * assertEquals(isText(node), true);
@@ -507,8 +507,8 @@ export function isText(node: XmlNode): node is XmlTextNode {
  *
  * @example Usage
  * ```ts
- * import { isCData } from "@std/xml/types";
- * import { assertEquals } from "@std/assert";
+ * import { isCData } from "@ende/xml/types";
+ * import { assertEquals } from "@ende/assert";
  *
  * const node = { type: "cdata" as const, text: "<script>" };
  * assertEquals(isCData(node), true);
@@ -526,8 +526,8 @@ export function isCData(node: XmlNode): node is XmlCDataNode {
  *
  * @example Usage
  * ```ts
- * import { isComment } from "@std/xml/types";
- * import { assertEquals } from "@std/assert";
+ * import { isComment } from "@ende/xml/types";
+ * import { assertEquals } from "@ende/assert";
  *
  * const node = { type: "comment" as const, text: "A comment" };
  * assertEquals(isComment(node), true);

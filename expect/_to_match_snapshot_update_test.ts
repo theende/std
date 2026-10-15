@@ -2,7 +2,7 @@
 
 import { expect } from "./expect.ts";
 import { serialize, SnapshotContext } from "./_snapshot_state.ts";
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 
 Ende.test("toMatchSnapshot() update mode creates and reads snapshot files", () => {
   const dir = Ende.makeTempDirSync();

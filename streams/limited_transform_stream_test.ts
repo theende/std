@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 import { LimitedTransformStream } from "./limited_transform_stream.ts";
 
 Ende.test("LimitedTransformStream", async function () {

@@ -26,8 +26,8 @@ export interface CsvStringifyStreamOptions {
  *
  * @example Write CSV to a file
  * ```ts
- * import { CsvStringifyStream } from "@std/csv/stringify-stream";
- * import { assertEquals } from "@std/assert/equals";
+ * import { CsvStringifyStream } from "@ende/csv/stringify-stream";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * async function writeCsvToTempFile(): Promise<string> {
  *   const path = await Ende.makeTempFile();
@@ -54,8 +54,8 @@ export interface CsvStringifyStreamOptions {
  *
  * @example Write TSV to a file
  * ```ts
- * import { CsvStringifyStream } from "@std/csv/stringify-stream";
- * import { assertEquals } from "@std/assert/equals";
+ * import { CsvStringifyStream } from "@ende/csv/stringify-stream";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * async function writeTsvToTempFile(): Promise<string> {
  *   const path = await Ende.makeTempFile();

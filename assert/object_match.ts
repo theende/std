@@ -9,7 +9,7 @@ import { assertEquals } from "./equals.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { assertObjectMatch } from "@std/assert";
+ * import { assertObjectMatch } from "@ende/assert";
  *
  * assertObjectMatch({ foo: "bar" }, { foo: "bar" }); // Doesn't throw
  * assertObjectMatch({ foo: "bar" }, { foo: "baz" }); // Throws
@@ -19,7 +19,7 @@ import { assertEquals } from "./equals.ts";
  *
  * @example Usage with nested objects
  * ```ts ignore
- * import { assertObjectMatch } from "@std/assert";
+ * import { assertObjectMatch } from "@ende/assert";
  *
  * assertObjectMatch({ foo: { bar: 3, baz: 4 } }, { foo: { bar: 3 } }); // Doesn't throw
  * assertObjectMatch({ foo: { bar: 3 } }, { foo: { bar: 3, baz: 4 } }); // Throws

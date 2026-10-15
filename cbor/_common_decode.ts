@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { concat } from "@std/bytes";
+import { concat } from "@ende/bytes";
 import { CborTag } from "./tag.ts";
 import type { CborType } from "./types.ts";
 

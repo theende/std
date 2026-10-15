@@ -1,5 +1,5 @@
 {
-  "name": "@std/math",
+  "name": "@ende/math",
   "version": "0.0.0",
   "exports": {
     ".": "./mod.ts",

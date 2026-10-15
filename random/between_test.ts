@@ -9,7 +9,7 @@ import {
   assertLessOrEqual,
   assertNotEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 
 Ende.test("randomBetween() generates a random number between the provided minimum and maximum values", () => {
   const prng = randomSeeded(0n);

@@ -10,7 +10,7 @@ import {
   STATUS_CODE,
   STATUS_TEXT,
 } from "./status.ts";
-import { assert, assertEquals } from "@std/assert";
+import { assert, assertEquals } from "@ende/assert";
 
 Ende.test({
   name: "STATUS_CODE",

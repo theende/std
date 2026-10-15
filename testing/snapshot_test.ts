@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { stripAnsiCode } from "@std/fmt/colors";
-import { dirname, fromFileUrl, join, toFileUrl } from "@std/path";
+import { stripAnsiCode } from "@ende/fmt/colors";
+import { dirname, fromFileUrl, join, toFileUrl } from "@ende/path";
 import {
   assert,
   assertInstanceOf,
@@ -8,7 +8,7 @@ import {
   assertRejects,
   assertStringIncludes,
   fail,
-} from "@std/assert";
+} from "@ende/assert";
 import { assertSnapshot, createAssertSnapshot, serialize } from "./snapshot.ts";
 import { ensureDir } from "../fs/ensure_dir.ts";
 

@@ -6,7 +6,7 @@
  *
  * @example Usage
  * ```ts
- * import { AssertionError } from "@std/assert";
+ * import { AssertionError } from "@ende/assert";
  *
  * try {
  *   throw new AssertionError("foo", { cause: "bar" });

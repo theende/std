@@ -15,7 +15,7 @@
  *
  * ```ts ignore
  * // Before
- * import { assertSnapshot } from "@std/testing/snapshot";
+ * import { assertSnapshot } from "@ende/testing/snapshot";
  *
  * Ende.test("snapshot", async (t) => {
  *   await assertSnapshot(t, { hello: "world!" });
@@ -38,7 +38,7 @@
  *
  * ```ts ignore
  * // example_test.ts
- * import { assertSnapshot } from "@std/testing/snapshot";
+ * import { assertSnapshot } from "@ende/testing/snapshot";
  *
  * Ende.test("isSnapshotMatch", async function (t): Promise<void> {
  *   const a = {
@@ -66,7 +66,7 @@
  *
  * ```ts ignore
  * // example_test.ts
- * import { assertInlineSnapshot } from "@std/testing/unstable-snapshot";
+ * import { assertInlineSnapshot } from "@ende/testing/unstable-snapshot";
  *
  * Ende.test("isInlineSnapshotMatch", function (): void {
  *   const a = {
@@ -131,7 +131,7 @@
  *
  * ```ts ignore
  * // example_test.ts ignore
- * import { assertSnapshot } from "@std/testing/snapshot";
+ * import { assertSnapshot } from "@ende/testing/snapshot";
  *
  * Ende.test("isSnapshotMatch", async function (t): Promise<void> {
  *   const a = {
@@ -148,8 +148,8 @@
  *
  * ```ts
  * // example_test.ts
- * import { createAssertSnapshot } from "@std/testing/snapshot";
- * import { createAssertInlineSnapshot } from "@std/testing/unstable-snapshot";
+ * import { createAssertSnapshot } from "@ende/testing/snapshot";
+ * import { createAssertInlineSnapshot } from "@ende/testing/unstable-snapshot";
  *
  * const assertSnapshot = createAssertSnapshot({
  *   // options
@@ -169,8 +169,8 @@
  *
  * ```ts ignore
  * // example_test.ts
- * import { createAssertSnapshot } from "@std/testing/snapshot";
- * import { stripAnsiCode } from "@std/fmt/colors";
+ * import { createAssertSnapshot } from "@ende/testing/snapshot";
+ * import { stripAnsiCode } from "@ende/fmt/colors";
  *
  * const assertSnapshot = createAssertSnapshot({
  *   dir: ".snaps",
@@ -209,14 +209,14 @@
  * @module
  */
 
-import { fromFileUrl } from "@std/path/from-file-url";
-import { parse } from "@std/path/parse";
-import { resolve } from "@std/path/resolve";
-import { toFileUrl } from "@std/path/to-file-url";
-import { ensureFile, ensureFileSync } from "@std/fs/ensure-file";
-import { assert } from "@std/assert/assert";
-import { AssertionError } from "@std/assert/assertion-error";
-import { equal } from "@std/assert/equal";
+import { fromFileUrl } from "@ende/path/from-file-url";
+import { parse } from "@ende/path/parse";
+import { resolve } from "@ende/path/resolve";
+import { toFileUrl } from "@ende/path/to-file-url";
+import { ensureFile, ensureFileSync } from "@ende/fs/ensure-file";
+import { assert } from "@ende/assert/assert";
+import { AssertionError } from "@ende/assert/assertion-error";
+import { equal } from "@ende/assert/equal";
 import {
   escapeStringForJs,
   getErrorMessage,
@@ -554,7 +554,7 @@ class AssertSnapshotContext {
  *
  * @example Usage
  * ```ts ignore
- * import { assertSnapshot } from "@std/testing/snapshot";
+ * import { assertSnapshot } from "@ende/testing/snapshot";
  *
  * Ende.test("snapshot", async (t) => {
  *   await assertSnapshot<number>(t, 2);
@@ -582,7 +582,7 @@ export async function assertSnapshot<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { assertSnapshot } from "@std/testing/snapshot";
+ * import { assertSnapshot } from "@ende/testing/snapshot";
  *
  * Ende.test("snapshot", async (t) => {
  *   await assertSnapshot<number>(t, 2);
@@ -668,7 +668,7 @@ export async function assertSnapshot(
  *
  * @example Usage
  * ```ts ignore
- * import { createAssertSnapshot } from "@std/testing/snapshot";
+ * import { createAssertSnapshot } from "@ende/testing/snapshot";
  *
  * const assertSnapshot = createAssertSnapshot({
  *   // Uses the custom directory for saving snapshot files.

@@ -3,7 +3,7 @@
 import { assertThrows } from "../assert/throws.ts";
 import { extract } from "./json.ts";
 
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 
 Ende.test("json() extracts type error on invalid input", () => {
   assertThrows(() => extract(""));

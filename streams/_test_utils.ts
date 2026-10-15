@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals } from "@std/assert";
+import { assert, assertEquals } from "@ende/assert";
 
 /**
  * Verify that a transform stream produces the expected output data

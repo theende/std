@@ -970,7 +970,7 @@ const matchers: Matchers = {
  *
  * @example Usage
  * ```ts ignore
- * import { UserAgent } from "@std/http/user-agent";
+ * import { UserAgent } from "@ende/http/user-agent";
  *
  * Ende.serve((req) => {
  *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1002,7 +1002,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1028,7 +1028,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1053,7 +1053,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1077,7 +1077,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1101,7 +1101,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1125,7 +1125,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1144,7 +1144,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1171,7 +1171,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1190,7 +1190,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    *
    * Ende.serve((req) => {
    *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -1220,7 +1220,7 @@ export class UserAgent {
    *
    * @example Usage
    * ```ts ignore
-   * import { UserAgent } from "@std/http/user-agent";
+   * import { UserAgent } from "@ende/http/user-agent";
    * import { inspect } from "node:util";
    *
    * Ende.serve((req) => {

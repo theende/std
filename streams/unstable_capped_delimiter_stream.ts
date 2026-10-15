@@ -60,10 +60,10 @@ export interface CappedDelimiterOptions {
  *
  * @example
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   CappedDelimiterStream,
- * } from "@std/streams/unstable-capped-delimiter-stream";
+ * } from "@ende/streams/unstable-capped-delimiter-stream";
  *
  * const encoder = new TextEncoder();
  *
@@ -161,10 +161,10 @@ export class CappedDelimiterStream
    *
    * @example Usage
    * ```ts
-   * import { assertEquals } from "@std/assert";
+   * import { assertEquals } from "@ende/assert";
    * import {
    *   CappedDelimiterStream,
-   * } from "@std/streams/unstable-capped-delimiter-stream";
+   * } from "@ende/streams/unstable-capped-delimiter-stream";
    *
    * const encoder = new TextEncoder();
    *
@@ -201,10 +201,10 @@ export class CappedDelimiterStream
    *
    * @example Usage
    * ```ts
-   * import { assertEquals } from "@std/assert";
+   * import { assertEquals } from "@ende/assert";
    * import {
    *   CappedDelimiterStream,
-   * } from "@std/streams/unstable-capped-delimiter-stream";
+   * } from "@ende/streams/unstable-capped-delimiter-stream";
    *
    * const encoder = new TextEncoder();
    *

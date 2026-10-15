@@ -23,8 +23,8 @@ export const BYTES_PER_PIXEL = 4;
  *
  * @example Usage
  * ```ts
- * import { getRowPadding } from "@std/webgpu/row-padding";
- * import { assertEquals } from "@std/assert";
+ * import { getRowPadding } from "@ende/webgpu/row-padding";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(getRowPadding(1), { unpadded: 4, padded: 256 });
  * ```
@@ -56,8 +56,8 @@ export function getRowPadding(width: number): Padding {
  *
  * @example Usage
  * ```ts
- * import { resliceBufferWithPadding } from "@std/webgpu/row-padding";
- * import { assertEquals } from "@std/assert";
+ * import { resliceBufferWithPadding } from "@ende/webgpu/row-padding";
+ * import { assertEquals } from "@ende/assert";
  *
  * const input = new Uint8Array([0, 255, 0, 255, 120, 120, 120]);
  * const result = resliceBufferWithPadding(input, 1, 1);

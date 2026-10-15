@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { stripAnsiCode } from "@std/fmt/colors";
-import { dirname, fromFileUrl, join, toFileUrl } from "@std/path";
-import { assertEquals } from "@std/assert";
+import { stripAnsiCode } from "@ende/fmt/colors";
+import { dirname, fromFileUrl, join, toFileUrl } from "@ende/path";
+import { assertEquals } from "@ende/assert";
 import {
   assertInlineSnapshot,
   createAssertInlineSnapshot,

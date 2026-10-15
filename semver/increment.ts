@@ -80,8 +80,8 @@ export interface IncrementOptions {
  *
  * @example Usage
  * ```ts
- * import { increment, parse } from "@std/semver";
- * import { assertEquals } from "@std/assert";
+ * import { increment, parse } from "@ende/semver";
+ * import { assertEquals } from "@ende/assert";
  *
  * const version = parse("1.2.3");
  * assertEquals(increment(version, "major"), parse("2.0.0"));

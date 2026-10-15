@@ -5,7 +5,7 @@
  * This module provides Jest compatible expect assertion functionality.
  *
  * ```ts no-assert
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * const x = 6 * 7;
  * expect(x).toEqual(42);

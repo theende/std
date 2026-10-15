@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
-import { escape } from "@std/regexp/escape";
+import { escape } from "@ende/regexp/escape";
 
 /**
  * A pattern that can be used to trim characters from an input string.
@@ -24,8 +24,8 @@ export type TrimPattern =
  *
  * @example Remove slashes from start and end of a path
  * ```ts
- * import { trimBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimBy("/path/to/file/", "/");
  * assertEquals(result, "path/to/file");
@@ -33,8 +33,8 @@ export type TrimPattern =
  *
  * @example Remove leading and trailing line breaks
  * ```ts
- * import { trimBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimBy("\r\nHello, World!\r\n", ["\n", "\r"]);
  * assertEquals(result, "Hello, World!");
@@ -42,8 +42,8 @@ export type TrimPattern =
  *
  * @example Strip non-word characters from start and end of a string
  * ```ts
- * import { trimBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimBy("¡¿Seguro que no?!", /[^\p{L}\p{M}\p{N}]/u);
  * assertEquals(result, "Seguro que no");
@@ -67,8 +67,8 @@ export function trimBy(
  *
  * @example Remove leading byte-order marks
  * ```ts
- * import { trimStartBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimStartBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimStartBy("\ufeffhello world", "\ufeff");
  * assertEquals(result, "hello world");
@@ -76,8 +76,8 @@ export function trimBy(
  *
  * @example Remove leading "http://" or "https://" from a URL
  * ```ts
- * import { trimStartBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimStartBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimStartBy("https://example.com", ["http://", "https://"]);
  * assertEquals(result, "example.com");
@@ -85,8 +85,8 @@ export function trimBy(
  *
  * @example Remove leading numbers from a string
  * ```ts
- * import { trimStartBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimStartBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimStartBy("123abc456", /[0-9]+/);
  * assertEquals(result, "abc456");
@@ -110,8 +110,8 @@ export function trimStartBy(
  *
  * @example Remove trailing period from a string
  * ```ts
- * import { trimEndBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimEndBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimEndBy("Hello, World.", ".");
  * assertEquals(result, "Hello, World");
@@ -119,8 +119,8 @@ export function trimStartBy(
  *
  * @example Remove trailing line endings
  * ```ts
- * import { trimEndBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimEndBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimEndBy("file contents\n", ["\r", "\n"]);
  * assertEquals(result, "file contents");
@@ -128,8 +128,8 @@ export function trimStartBy(
  *
  * @example Remove trailing whitespace characters
  * ```ts
- * import { trimEndBy } from "@std/text/unstable-trim-by";
- * import { assertEquals } from "@std/assert";
+ * import { trimEndBy } from "@ende/text/unstable-trim-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = trimEndBy("  Hello, World!  ", /\s+/);
  * assertEquals(result, "  Hello, World!");

@@ -7,7 +7,7 @@ import {
   assertRejects,
   assertThrows,
   unreachable,
-} from "@std/assert";
+} from "@ende/assert";
 import { isEnde } from "./_utils.ts";
 import {
   writeTextFile,

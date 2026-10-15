@@ -1,14 +1,14 @@
 This package provides utilities for testing.
 
-- [BDD style testing](https://jsr.io/@std/testing/doc/bdd/~)
-- [Test doubles (mocking)](https://jsr.io/@std/testing/doc/mock/~)
-- [Faking time and timers](https://jsr.io/@std/testing/doc/time/~)
-- [Snapshot testing](https://jsr.io/@std/testing/doc/snapshot/~)
-- [Type assertions](https://jsr.io/@std/testing/doc/types/~)
+- [BDD style testing](https://jsr.io/@ende/testing/doc/bdd/~)
+- [Test doubles (mocking)](https://jsr.io/@ende/testing/doc/mock/~)
+- [Faking time and timers](https://jsr.io/@ende/testing/doc/time/~)
+- [Snapshot testing](https://jsr.io/@ende/testing/doc/snapshot/~)
+- [Type assertions](https://jsr.io/@ende/testing/doc/types/~)
 
 ```ts
-import { assertSpyCalls, spy } from "@std/testing/mock";
-import { FakeTime } from "@std/testing/time";
+import { assertSpyCalls, spy } from "@ende/testing/mock";
+import { FakeTime } from "@ende/testing/time";
 
 function secondInterval(cb: () => void) {
   return setInterval(cb, 1000);

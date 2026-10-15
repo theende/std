@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { toByteStream } from "@std/streams/unstable-to-byte-stream";
+import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 import { encodeCbor } from "./encode_cbor.ts";
 import { CborSequenceEncoderStream } from "./sequence_encoder_stream.ts";
 import type { CborMapStreamInput } from "./types.ts";
@@ -12,12 +12,12 @@ import type { CborMapStreamInput } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
+ * import { assert, assertEquals } from "@ende/assert";
  * import {
  *   CborMapDecodedStream,
  *   CborMapEncoderStream,
  *   CborSequenceDecoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage: Record<string, number> = {
  *   a: 0,
@@ -69,12 +69,12 @@ export class CborMapEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborMapDecodedStream,
    *   CborMapEncoderStream,
    *   CborSequenceDecoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage: Record<string, number> = {
    *   a: 0,
@@ -116,12 +116,12 @@ export class CborMapEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborMapDecodedStream,
    *   CborMapEncoderStream,
    *   CborSequenceDecoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage: Record<string, number> = {
    *   a: 0,
@@ -155,12 +155,12 @@ export class CborMapEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborMapDecodedStream,
    *   CborMapEncoderStream,
    *   CborSequenceDecoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage: Record<string, number> = {
    *   a: 0,

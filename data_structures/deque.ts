@@ -65,8 +65,8 @@ function nextPowerOfTwo(n: number): number {
  *
  * @example Usage
  * ```ts
- * import { Deque } from "@std/data-structures/deque";
- * import { assertEquals } from "@std/assert";
+ * import { Deque } from "@ende/data-structures/deque";
+ * import { assertEquals } from "@ende/assert";
  *
  * const deque = new Deque<number>();
  * deque.pushBack(1, 2, 3);
@@ -93,8 +93,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Creating an empty deque
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque<number>();
    * assertEquals(deque.length, 0);
@@ -102,8 +102,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Creating a deque from an iterable
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals([...deque], [1, 2, 3]);
@@ -163,8 +163,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Getting the length
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.length, 3);
@@ -181,8 +181,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Checking if the deque is empty
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque<number>();
    * assertEquals(deque.isEmpty(), true);
@@ -202,8 +202,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Pushing values to the back
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque<number>();
    * deque.pushBack(1, 2, 3);
@@ -233,8 +233,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Pushing values to the front
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([4, 5]);
    * deque.pushFront(1, 2, 3);
@@ -264,8 +264,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Popping from the back
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.popBack(), 3);
@@ -289,8 +289,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Popping from the front
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.popFront(), 1);
@@ -316,8 +316,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Removing the first even number
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3, 4]);
    * assertEquals(deque.removeFirst((v) => v % 2 === 0), 2);
@@ -342,8 +342,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Removing by index
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([10, 20, 30, 40]);
    * assertEquals(deque.removeAt(1), 20);
@@ -352,8 +352,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Removing with a negative index
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([10, 20, 30, 40]);
    * assertEquals(deque.removeAt(-1), 40);
@@ -375,8 +375,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Finding the first even number
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3, 4]);
    * assertEquals(deque.find((v) => v % 2 === 0), 2);
@@ -399,8 +399,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Finding the index of the first even number
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3, 4]);
    * assertEquals(deque.findIndex((v) => v % 2 === 0), 1);
@@ -421,8 +421,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Peeking at the front
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.peekFront(), 1);
@@ -442,8 +442,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Peeking at the back
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.peekBack(), 3);
@@ -464,8 +464,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Accessing elements by index
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([10, 20, 30, 40]);
    * assertEquals(deque.at(0), 10);
@@ -489,8 +489,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Checking for membership
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.includes(2), true);
@@ -499,8 +499,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example NaN is found (SameValueZero semantics)
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, NaN, 3]);
    * assertEquals(deque.includes(NaN), true);
@@ -533,8 +533,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Clearing the deque
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * deque.clear();
@@ -557,8 +557,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Retaining only odd numbers
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3, 4, 5]);
    * deque.retain((v) => v % 2 !== 0);
@@ -591,8 +591,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Converting to an array
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals(deque.toArray(), [1, 2, 3]);
@@ -618,8 +618,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Creating a deque from an array
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = Deque.from([1, 2, 3]);
    * assertEquals([...deque], [1, 2, 3]);
@@ -627,8 +627,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Creating a deque from an existing deque
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const original = new Deque([1, 2, 3]);
    * const copy = Deque.from(original);
@@ -648,8 +648,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Creating a deque with a mapping function
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = Deque.from([1, 2, 3], { map: (v) => v * 10 });
    * assertEquals([...deque], [10, 20, 30]);
@@ -729,8 +729,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Iterating over the deque
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals([...deque], [1, 2, 3]);
@@ -749,8 +749,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Iterating in reverse
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque([1, 2, 3]);
    * assertEquals([...deque.reversed()], [3, 2, 1]);
@@ -769,8 +769,8 @@ export class Deque<T> implements Iterable<T>, ReadonlyDeque<T> {
    *
    * @example Usage
    * ```ts
-   * import { Deque } from "@std/data-structures/deque";
-   * import { assertEquals } from "@std/assert";
+   * import { Deque } from "@ende/data-structures/deque";
+   * import { assertEquals } from "@ende/assert";
    *
    * const deque = new Deque<number>();
    * assertEquals(deque[Symbol.toStringTag], "Deque");

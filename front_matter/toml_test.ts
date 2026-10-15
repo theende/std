@@ -2,7 +2,7 @@
 
 import { assertThrows } from "../assert/throws.ts";
 import { extract } from "./toml.ts";
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 
 Ende.test("toml() extracts type error on invalid input", () => {
   assertThrows(() => extract(""));

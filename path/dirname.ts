@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { dirname as posixDirname } from "./posix/dirname.ts";
 import { dirname as windowsDirname } from "./windows/dirname.ts";
 
@@ -10,8 +10,8 @@ import { dirname as windowsDirname } from "./windows/dirname.ts";
  *
  * @example Usage
  * ```ts
- * import { dirname } from "@std/path/dirname";
- * import { assertEquals } from "@std/assert";
+ * import { dirname } from "@ende/path/dirname";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assertEquals(dirname("C:\\home\\user\\Documents\\image.png"), "C:\\home\\user\\Documents");

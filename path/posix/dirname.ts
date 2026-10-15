@@ -11,8 +11,8 @@ import { fromFileUrl } from "./from_file_url.ts";
  *
  * @example Usage
  * ```ts
- * import { dirname } from "@std/path/posix/dirname";
- * import { assertEquals } from "@std/assert";
+ * import { dirname } from "@ende/path/posix/dirname";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(dirname("/home/user/Documents/"), "/home/user");
  * assertEquals(dirname("/home/user/Documents/image.png"), "/home/user/Documents");
@@ -26,8 +26,8 @@ import { fromFileUrl } from "./from_file_url.ts";
  * non-`file:` URL, pass it as a string or pass its `pathname` property.
  *
  * ```ts
- * import { dirname } from "@std/path/posix/dirname";
- * import { assertEquals } from "@std/assert";
+ * import { dirname } from "@ende/path/posix/dirname";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(dirname("https://ende.sh/std/path/mod.ts"), "https://ende.sh/std/path");
  * assertEquals(dirname("https://ende.sh/std/path/mod.ts?a=b"), "https://ende.sh/std/path");

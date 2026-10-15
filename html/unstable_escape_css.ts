@@ -14,8 +14,8 @@
  *
  * @example Usage
  * ```ts
- * import { escapeCss } from "@std/html/unstable-escape-css";
- * import { assertEquals } from "@std/assert";
+ * import { escapeCss } from "@ende/html/unstable-escape-css";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Invalid in a CSS selector, even though it's a valid HTML ID
  * const elementId = "123";

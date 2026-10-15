@@ -1,10 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { type GlobOptions, globToRegExp } from "@std/path/glob-to-regexp";
-import { joinGlobs } from "@std/path/join-globs";
-import { isGlob } from "@std/path/is-glob";
-import { isAbsolute } from "@std/path/is-absolute";
-import { resolve } from "@std/path/resolve";
-import { SEPARATOR_PATTERN } from "@std/path/constants";
+import { type GlobOptions, globToRegExp } from "@ende/path/glob-to-regexp";
+import { joinGlobs } from "@ende/path/join-globs";
+import { isGlob } from "@ende/path/is-glob";
+import { isAbsolute } from "@ende/path/is-absolute";
+import { resolve } from "@ende/path/resolve";
+import { SEPARATOR_PATTERN } from "@ende/path/constants";
 import { walk, walkSync } from "./walk.ts";
 import { toPathString } from "./_to_path_string.ts";
 import {
@@ -12,7 +12,7 @@ import {
   createWalkEntrySync,
   type WalkEntry,
 } from "./_create_walk_entry.ts";
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 
 export type { GlobOptions, WalkEntry };
 
@@ -118,7 +118,7 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  *
  * ```ts ignore
  * // script.ts
- * import { expandGlob } from "@std/fs/expand-glob";
+ * import { expandGlob } from "@ende/fs/expand-glob";
  *
  * await Array.fromAsync(expandGlob("*.ts"));
  * // [
@@ -155,7 +155,7 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  *
  * ```ts ignore
  * // script.ts
- * import { expandGlob } from "@std/fs/expand-glob";
+ * import { expandGlob } from "@ende/fs/expand-glob";
  *
  * await Array.fromAsync(expandGlob("*.ts", { root: "./subdir" }));
  * // [
@@ -183,7 +183,7 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  *
  * ```ts ignore
  * // script.ts
- * import { expandGlob } from "@std/fs/expand-glob";
+ * import { expandGlob } from "@ende/fs/expand-glob";
  *
  * await Array.fromAsync(expandGlob("*.ts", { exclude: ["foo.ts"] }));
  * // [
@@ -213,7 +213,7 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  *
  * ```ts ignore
  * // script.ts
- * import { expandGlob } from "@std/fs/expand-glob";
+ * import { expandGlob } from "@ende/fs/expand-glob";
  *
  * await Array.fromAsync(expandGlob("*", { includeDirs: false }));
  * // [
@@ -247,7 +247,7 @@ function comparePath(a: WalkEntry, b: WalkEntry): number {
  *
  * ```ts ignore
  * // script.ts
- * import { expandGlob } from "@std/fs/expand-glob";
+ * import { expandGlob } from "@ende/fs/expand-glob";
  *
  * await Array.fromAsync(expandGlob("*.ts", { followSymlinks: true }));
  * // [
@@ -405,7 +405,7 @@ export async function* expandGlob(
  *
  * ```ts ignore
  * // script.ts
- * import { expandGlobSync } from "@std/fs/expand-glob";
+ * import { expandGlobSync } from "@ende/fs/expand-glob";
  *
  * const entries = [];
  * for (const entry of expandGlobSync("*.ts")) {

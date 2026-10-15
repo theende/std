@@ -23,8 +23,8 @@
  *
  * @example Usage
  * ```ts
- * import { binarySearch } from "@std/collections/unstable-binary-search";
- * import { assertEquals } from "@std/assert";
+ * import { binarySearch } from "@ende/collections/unstable-binary-search";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(binarySearch([0, 1], 0), 0);
  * assertEquals(binarySearch([0, 1], 1), 1);

@@ -6,8 +6,8 @@ import {
   assertMatch,
   assertRejects,
   assertThrows,
-} from "@std/assert";
-import * as path from "@std/path";
+} from "@ende/assert";
+import * as path from "@ende/path";
 import { ensureSymlink, ensureSymlinkSync } from "./ensure_symlink.ts";
 
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));

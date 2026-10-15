@@ -5,8 +5,8 @@
  * Utilities for dealing with {@linkcode Date} objects.
  *
  * ```ts
- * import { dayOfYear, isLeap, difference, HOUR, MINUTE, SECOND } from "@std/datetime";
- * import { assertEquals } from "@std/assert";
+ * import { dayOfYear, isLeap, difference, HOUR, MINUTE, SECOND } from "@ende/datetime";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(dayOfYear(new Date("2019-03-11T03:24:00")), 70);
  * assertEquals(isLeap(1970), false);

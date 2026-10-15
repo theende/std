@@ -7,8 +7,8 @@
  * ## Parsing CSV
  *
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const string = "a,b,c\nd,e,f";
  *
@@ -41,8 +41,8 @@
  * ## Parsing CSV from a Stream
  *
  * ```ts
- * import { CsvParseStream } from "@std/csv/parse-stream";
- * import { assertEquals } from "@std/assert";
+ * import { CsvParseStream } from "@ende/csv/parse-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Parse from a stream (useful for large files)
  * const source = ReadableStream.from([
@@ -69,8 +69,8 @@
  * ## Stringifying Data to CSV
  *
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Convert array of arrays to CSV
  * const arrayData = [["name", "age", "city"], ["john", "30", "new york"], ["mary", "25", "los angeles"]];
@@ -91,8 +91,8 @@
  * ## Streaming Stringify Data to CSV
  *
  * ```ts
- * import { CsvStringifyStream } from "@std/csv/stringify-stream";
- * import { assertEquals } from "@std/assert";
+ * import { CsvStringifyStream } from "@ende/csv/stringify-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * async function writeCsvToTempFile(): Promise<string> {
  *   const path = await Ende.makeTempFile();

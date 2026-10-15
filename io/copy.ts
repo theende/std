@@ -12,7 +12,7 @@ import type { Reader, Writer } from "./types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { copy } from "@std/io/copy";
+ * import { copy } from "@ende/io/copy";
  *
  * const source = await Ende.open("my_file.txt");
  * const bytesCopied1 = await copy(source, Ende.stdout);

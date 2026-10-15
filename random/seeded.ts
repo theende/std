@@ -17,8 +17,8 @@ export type { Prng } from "./_types.ts";
  *
  * @example Usage
  * ```ts
- * import { randomSeeded } from "@std/random";
- * import { assertEquals } from "@std/assert";
+ * import { randomSeeded } from "@ende/random";
+ * import { assertEquals } from "@ende/assert";
  *
  * const prng = randomSeeded(1n);
  *

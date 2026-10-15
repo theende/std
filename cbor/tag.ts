@@ -9,9 +9,9 @@ import type { CborStreamInput, CborStreamOutput, CborType } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
- * import { CborTag, decodeCbor, encodeCbor } from "@std/cbor";
- * import { decodeBase64Url, encodeBase64Url } from "@std/encoding";
+ * import { assert, assertEquals } from "@ende/assert";
+ * import { CborTag, decodeCbor, encodeCbor } from "@ende/cbor";
+ * import { decodeBase64Url, encodeBase64Url } from "@ende/encoding";
  *
  * const rawMessage = new TextEncoder().encode("Hello World");
  *
@@ -40,9 +40,9 @@ export class CborTag<T extends CborType | CborStreamInput | CborStreamOutput> {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { CborTag, decodeCbor, encodeCbor } from "@std/cbor";
-   * import { decodeBase64Url, encodeBase64Url } from "@std/encoding";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { CborTag, decodeCbor, encodeCbor } from "@ende/cbor";
+   * import { decodeBase64Url, encodeBase64Url } from "@ende/encoding";
    *
    * const rawMessage = new TextEncoder().encode("Hello World");
    *
@@ -67,9 +67,9 @@ export class CborTag<T extends CborType | CborStreamInput | CborStreamOutput> {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { CborTag, decodeCbor, encodeCbor } from "@std/cbor";
-   * import { decodeBase64Url, encodeBase64Url } from "@std/encoding";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { CborTag, decodeCbor, encodeCbor } from "@ende/cbor";
+   * import { decodeBase64Url, encodeBase64Url } from "@ende/encoding";
    *
    * const rawMessage = new TextEncoder().encode("Hello World");
    *

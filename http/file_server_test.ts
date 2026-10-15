@@ -6,8 +6,8 @@ import {
   assertFalse,
   assertMatch,
   assertStringIncludes,
-} from "@std/assert";
-import { stub } from "@std/testing/mock";
+} from "@ende/assert";
+import { stub } from "@ende/testing/mock";
 import { serveDir, type ServeDirOptions, serveFile } from "./file_server.ts";
 import { eTag } from "./etag.ts";
 import {
@@ -20,12 +20,12 @@ import {
   resolve,
   SEPARATOR,
   toFileUrl,
-} from "@std/path";
+} from "@ende/path";
 import endeConfig from "./ende.json" with { type: "json" };
-import { MINUTE } from "@std/datetime/constants";
-import { getAvailablePort } from "@std/net/get-available-port";
-import { concat } from "@std/bytes/concat";
-import { lessThan, parse as parseSemver } from "@std/semver";
+import { MINUTE } from "@ende/datetime/constants";
+import { getAvailablePort } from "@ende/net/get-available-port";
+import { concat } from "@ende/bytes/concat";
+import { lessThan, parse as parseSemver } from "@ende/semver";
 import { serveDir as unstableServeDir } from "./unstable_file_server.ts";
 import { serveFile as unstableServeFile } from "./unstable_file_server.ts";
 

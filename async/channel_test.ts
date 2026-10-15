@@ -7,7 +7,7 @@ import {
   assertInstanceOf,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { Channel, ChannelClosedError } from "./channel.ts";
 
 // -- Constructor --

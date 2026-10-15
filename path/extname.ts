@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { extname as posixExtname } from "./posix/extname.ts";
 import { extname as windowsExtname } from "./windows/extname.ts";
 /**
@@ -9,8 +9,8 @@ import { extname as windowsExtname } from "./windows/extname.ts";
  *
  * @example Usage
  * ```ts
- * import { extname } from "@std/path/extname";
- * import { assertEquals } from "@std/assert";
+ * import { extname } from "@ende/path/extname";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assertEquals(extname("C:\\home\\user\\Documents\\image.png"), ".png");

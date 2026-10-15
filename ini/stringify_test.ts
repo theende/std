@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { stringify } from "./mod.ts";
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 
 Ende.test({
   name: "stringify()",

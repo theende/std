@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { CappedDelimiterStream } from "./unstable_capped_delimiter_stream.ts";
 
 Ende.test("CappedDelimiterStream matching", async function () {

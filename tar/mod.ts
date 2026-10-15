@@ -6,8 +6,8 @@
  * Files are not compressed, only collected into the archive.
  *
  * ```ts ignore
- * import { UntarStream } from "@std/tar/untar-stream";
- * import { dirname, normalize } from "@std/path";
+ * import { UntarStream } from "@ende/tar/untar-stream";
+ * import { dirname, normalize } from "@ende/path";
  *
  * for await (
  *   const entry of (await Ende.open("./out.tar.gz"))

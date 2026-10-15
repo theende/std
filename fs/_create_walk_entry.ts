@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 
-import { basename } from "@std/path/basename";
-import { normalize } from "@std/path/normalize";
+import { basename } from "@ende/path/basename";
+import { normalize } from "@ende/path/normalize";
 import { toPathString } from "./_to_path_string.ts";
 
 /**

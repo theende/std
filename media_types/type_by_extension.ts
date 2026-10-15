@@ -17,8 +17,8 @@ import { types } from "./_db.ts";
  *
  * @example Usage
  * ```ts
- * import { typeByExtension } from "@std/media-types/type-by-extension";
- * import { assertEquals } from "@std/assert";
+ * import { typeByExtension } from "@ende/media-types/type-by-extension";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(typeByExtension("js"), "text/javascript");
  * assertEquals(typeByExtension(".HTML"), "text/html");

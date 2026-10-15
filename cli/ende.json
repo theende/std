@@ -1,5 +1,5 @@
 {
-  "name": "@std/cli",
+  "name": "@ende/cli",
   "version": "1.0.32",
   "exports": {
     ".": "./mod.ts",

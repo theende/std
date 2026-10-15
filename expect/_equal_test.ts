@@ -2,7 +2,7 @@
 
 // This file is copied from `std/assert`.
 
-import { assert, assertFalse, assertThrows } from "@std/assert";
+import { assert, assertFalse, assertThrows } from "@ende/assert";
 import { equal } from "./_equal.ts";
 
 Ende.test("equal() matches with different zero", () => {

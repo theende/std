@@ -6,7 +6,7 @@ import {
   assertExists,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { link, linkSync } from "./unstable_link.ts";
 import { AlreadyExists, NotFound } from "./unstable_errors.js";
 import { mkdtemp, open, readFile, rm, stat, writeFile } from "node:fs/promises";

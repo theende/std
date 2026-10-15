@@ -2,7 +2,7 @@
 // This module is browser compatible.
 
 import type { GlobOptions } from "./_common/glob_to_reg_exp.ts";
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 
 import { globToRegExp as posixGlobToRegExp } from "./posix/glob_to_regexp.ts";
 import {
@@ -70,8 +70,8 @@ export type { GlobOptions };
  *
  * @example Usage
  * ```ts
- * import { globToRegExp } from "@std/path/glob-to-regexp";
- * import { assertEquals } from "@std/assert";
+ * import { globToRegExp } from "@ende/path/glob-to-regexp";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assertEquals(globToRegExp("*.js"), /^[^\\/]*\.js(?:\\|\/)*$/);

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertThrows } from "@std/assert";
-import { concat } from "@std/bytes";
+import { assertEquals, assertThrows } from "@ende/assert";
+import { concat } from "@ende/bytes";
 import {
   calcSizeBase64,
   decodeBase64,

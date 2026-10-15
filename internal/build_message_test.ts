@@ -1,9 +1,17 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
-import { bgGreen, bgRed, bold, gray, green, red, white } from "@std/fmt/colors";
+import { assertEquals } from "@ende/assert";
+import {
+  bgGreen,
+  bgRed,
+  bold,
+  gray,
+  green,
+  red,
+  white,
+} from "@ende/fmt/colors";
 import { buildMessage, createColor, createSign } from "./build_message.ts";
-import { truncateDiff } from "@std/internal/truncate-build-message";
-import type { DiffResult } from "@std/internal/types";
+import { truncateDiff } from "@ende/internal/truncate-build-message";
+import type { DiffResult } from "@ende/internal/types";
 
 Ende.test("buildMessage()", async (t) => {
   const prelude = [

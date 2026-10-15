@@ -4,7 +4,7 @@
  * Helpers for working with the filesystem.
  *
  * ```ts ignore
- * import { ensureFile, copy, ensureDir, move } from "@std/fs";
+ * import { ensureFile, copy, ensureDir, move } from "@ende/fs";
  *
  * await ensureFile("example.txt");
  *

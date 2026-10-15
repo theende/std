@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertThrows } from "@std/assert";
-import * as path from "@std/path";
+import { assertEquals, assertThrows } from "@ende/assert";
+import * as path from "@ende/path";
 import { decode, encode } from "./mod.ts";
 
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));

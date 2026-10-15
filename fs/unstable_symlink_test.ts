@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertRejects, assertThrows } from "@std/assert";
+import { assert, assertRejects, assertThrows } from "@ende/assert";
 import { symlink, symlinkSync } from "./unstable_symlink.ts";
 import { AlreadyExists } from "./unstable_errors.js";
 import { lstat, mkdir, mkdtemp, open, rm, stat } from "node:fs/promises";

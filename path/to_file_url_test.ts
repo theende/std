@@ -2,7 +2,7 @@
 
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 
 Ende.test("posix.toFileUrl()", function () {
   assertEquals(posix.toFileUrl("/home/foo").href, "file:///home/foo");

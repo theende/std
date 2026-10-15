@@ -75,8 +75,8 @@
  * ```
  *
  * ```ts
- * import { parse, stringify } from "@std/toml";
- * import { assertEquals } from "@std/assert";
+ * import { parse, stringify } from "@ende/toml";
+ * import { assertEquals } from "@ende/assert";
  *
  * const obj = {
  *   bin: [

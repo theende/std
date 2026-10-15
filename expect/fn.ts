@@ -7,7 +7,7 @@
  * This module contains a function to mock functions for testing and assertions.
  *
  * ```ts no-assert
- * import { fn, expect } from "@std/expect";
+ * import { fn, expect } from "@ende/expect";
  *
  * Ende.test("example", () => {
  *   const mockFn = fn((a: number, b: number) => a + b);
@@ -31,7 +31,7 @@ import { MOCK_SYMBOL, type MockCall } from "./_mock_util.ts";
  *
  * @example Usage
  * ```ts no-assert
- * import { fn, expect } from "@std/expect";
+ * import { fn, expect } from "@ende/expect";
  *
  * Ende.test("example", () => {
  *   const mockFn = fn(

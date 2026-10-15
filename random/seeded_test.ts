@@ -2,7 +2,7 @@
 import { getRandomValuesSeeded } from "./get_random_values_seeded.ts";
 import { nextFloat64 } from "./next_float_64.ts";
 import { type Prng, randomSeeded } from "./seeded.ts";
-import { assertAlmostEquals, assertEquals } from "@std/assert";
+import { assertAlmostEquals, assertEquals } from "@ende/assert";
 
 Ende.test("randomSeeded() generates random numbers", () => {
   const prng = randomSeeded(1n);

@@ -12,8 +12,8 @@ import { SEPARATOR } from "./constants.ts";
  *
  * @example Usage
  * ```ts
- * import { common } from "@std/path/common";
- * import { assertEquals } from "@std/assert";
+ * import { common } from "@ende/path/common";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   const path = common([

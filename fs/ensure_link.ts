@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { dirname } from "@std/path/dirname";
+import { dirname } from "@ende/path/dirname";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
 import { toPathString } from "./_to_path_string.ts";
 
@@ -21,7 +21,7 @@ import { toPathString } from "./_to_path_string.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { ensureLink } from "@std/fs/ensure-link";
+ * import { ensureLink } from "@ende/fs/ensure-link";
  *
  * await ensureLink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
@@ -51,7 +51,7 @@ export async function ensureLink(src: string | URL, dest: string | URL) {
  *
  * @example Usage
  * ```ts ignore
- * import { ensureLinkSync } from "@std/fs/ensure-link";
+ * import { ensureLinkSync } from "@ende/fs/ensure-link";
  *
  * ensureLinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```

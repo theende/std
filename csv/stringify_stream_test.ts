@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { CsvStringifyStream } from "./stringify_stream.ts";
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 
 Ende.test({
   name: "CsvStringifyStream handles various inputs",

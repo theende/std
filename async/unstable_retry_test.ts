@@ -6,9 +6,9 @@ import {
   assertInstanceOf,
   assertRejects,
   assertStrictEquals,
-} from "@std/assert";
-import { FakeTime } from "@std/testing/time";
-import { stub } from "@std/testing/mock";
+} from "@ende/assert";
+import { FakeTime } from "@ende/testing/time";
+import { stub } from "@ende/testing/mock";
 
 /** Runs an always-failing function to exhaustion, returning the wait before each retry. */
 async function waitsUntilExhausted(options: RetryOptions): Promise<number[]> {

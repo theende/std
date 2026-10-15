@@ -15,8 +15,8 @@ export type { Format };
  *
  * @example Test for valid YAML front matter
  * ```ts
- * import { test } from "@std/front-matter/test";
- * import { assert } from "@std/assert";
+ * import { test } from "@ende/front-matter/test";
+ * import { assert } from "@ende/assert";
  *
  * const result = test(
  * `---
@@ -28,8 +28,8 @@ export type { Format };
  *
  * @example Test for valid TOML front matter
  * ```ts
- * import { test } from "@std/front-matter/test";
- * import { assert } from "@std/assert";
+ * import { test } from "@ende/front-matter/test";
+ * import { assert } from "@ende/assert";
  *
  * const result = test(
  * `---toml
@@ -41,8 +41,8 @@ export type { Format };
  *
  * @example Test for valid JSON front matter
  * ```ts
- * import { test } from "@std/front-matter/test";
- * import { assert } from "@std/assert";
+ * import { test } from "@ende/front-matter/test";
+ * import { assert } from "@ende/assert";
  *
  * const result = test(
  * `---json
@@ -54,8 +54,8 @@ export type { Format };
  *
  * @example JSON front matter is not valid as YAML
  * ```ts
- * import { test } from "@std/front-matter/test";
- * import { assertFalse } from "@std/assert";
+ * import { test } from "@ende/front-matter/test";
+ * import { assertFalse } from "@ende/assert";
  *
  * const result = test(
  * `---json

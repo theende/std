@@ -11,8 +11,8 @@ import {
   assertEquals,
   assertInstanceOf,
   assertThrows,
-} from "@std/assert";
-import { assertSpyCall, spy } from "@std/testing/mock";
+} from "@ende/assert";
+import { assertSpyCall, spy } from "@ende/testing/mock";
 
 Ende.test({
   name: "parse() handles single document yaml string",

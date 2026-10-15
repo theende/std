@@ -9,8 +9,8 @@ import { SEPARATOR } from "./constants.ts";
  *
  * @example Usage
  * ```ts
- * import { common } from "@std/path/windows/common";
- * import { assertEquals } from "@std/assert";
+ * import { common } from "@ende/path/windows/common";
+ * import { assertEquals } from "@ende/assert";
  *
  * const path = common([
  *   "C:\\foo\\bar",

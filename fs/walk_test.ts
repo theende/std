@@ -5,9 +5,9 @@ import {
   assertEquals,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { copy, copySync } from "./copy.ts";
-import { fromFileUrl, resolve } from "@std/path";
+import { fromFileUrl, resolve } from "@ende/path";
 
 const testdataDir = resolve(fromFileUrl(import.meta.url), "../testdata/walk");
 

@@ -24,7 +24,7 @@
  *   red,
  *   rgb24,
  *   rgb8,
- * } from "@std/fmt/colors";
+ * } from "@ende/fmt/colors";
  *
  * console.log(bgBlue(italic(red(bold("Hello, World!")))));
  *
@@ -79,13 +79,13 @@ let enabled = !noColor;
 /**
  * Enable or disable text color when styling.
  *
- * `@std/fmt/colors` automatically detects NO_COLOR environmental variable
+ * `@ende/fmt/colors` automatically detects NO_COLOR environmental variable
  * and disables text color. Use this API only when the automatic detection
  * doesn't work.
  *
  * @example Usage
  * ```ts no-assert
- * import { setColorEnabled } from "@std/fmt/colors";
+ * import { setColorEnabled } from "@ende/fmt/colors";
  *
  * // Disable text color
  * setColorEnabled(false);
@@ -109,7 +109,7 @@ export function setColorEnabled(value: boolean) {
  *
  * @example Usage
  * ```ts no-assert
- * import { getColorEnabled } from "@std/fmt/colors";
+ * import { getColorEnabled } from "@ende/fmt/colors";
  *
  * console.log(getColorEnabled()); // true if enabled, false if disabled
  * ```
@@ -148,7 +148,7 @@ function run(str: string, code: Code): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { reset } from "@std/fmt/colors";
+ * import { reset } from "@ende/fmt/colors";
  *
  * console.log(reset("Hello, world!"));
  * ```
@@ -165,7 +165,7 @@ export function reset(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bold } from "@std/fmt/colors";
+ * import { bold } from "@ende/fmt/colors";
  *
  * console.log(bold("Hello, world!"));
  * ```
@@ -185,7 +185,7 @@ export function bold(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { dim } from "@std/fmt/colors";
+ * import { dim } from "@ende/fmt/colors";
  *
  * console.log(dim("Hello, world!"));
  * ```
@@ -202,7 +202,7 @@ export function dim(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { italic } from "@std/fmt/colors";
+ * import { italic } from "@ende/fmt/colors";
  *
  * console.log(italic("Hello, world!"));
  * ```
@@ -219,7 +219,7 @@ export function italic(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { underline } from "@std/fmt/colors";
+ * import { underline } from "@ende/fmt/colors";
  *
  * console.log(underline("Hello, world!"));
  * ```
@@ -236,7 +236,7 @@ export function underline(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { inverse } from "@std/fmt/colors";
+ * import { inverse } from "@ende/fmt/colors";
  *
  * console.log(inverse("Hello, world!"));
  * ```
@@ -253,7 +253,7 @@ export function inverse(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { hidden } from "@std/fmt/colors";
+ * import { hidden } from "@ende/fmt/colors";
  *
  * console.log(hidden("Hello, world!"));
  * ```
@@ -270,7 +270,7 @@ export function hidden(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { strikethrough } from "@std/fmt/colors";
+ * import { strikethrough } from "@ende/fmt/colors";
  *
  * console.log(strikethrough("Hello, world!"));
  * ```
@@ -287,7 +287,7 @@ export function strikethrough(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { black } from "@std/fmt/colors";
+ * import { black } from "@ende/fmt/colors";
  *
  * console.log(black("Hello, world!"));
  * ```
@@ -304,7 +304,7 @@ export function black(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { red } from "@std/fmt/colors";
+ * import { red } from "@ende/fmt/colors";
  *
  * console.log(red("Hello, world!"));
  * ```
@@ -321,7 +321,7 @@ export function red(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { green } from "@std/fmt/colors";
+ * import { green } from "@ende/fmt/colors";
  *
  * console.log(green("Hello, world!"));
  * ```
@@ -338,7 +338,7 @@ export function green(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { yellow } from "@std/fmt/colors";
+ * import { yellow } from "@ende/fmt/colors";
  *
  * console.log(yellow("Hello, world!"));
  * ```
@@ -355,7 +355,7 @@ export function yellow(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { blue } from "@std/fmt/colors";
+ * import { blue } from "@ende/fmt/colors";
  *
  * console.log(blue("Hello, world!"));
  * ```
@@ -372,7 +372,7 @@ export function blue(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { magenta } from "@std/fmt/colors";
+ * import { magenta } from "@ende/fmt/colors";
  *
  * console.log(magenta("Hello, world!"));
  * ```
@@ -389,7 +389,7 @@ export function magenta(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { cyan } from "@std/fmt/colors";
+ * import { cyan } from "@ende/fmt/colors";
  *
  * console.log(cyan("Hello, world!"));
  * ```
@@ -406,7 +406,7 @@ export function cyan(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { white } from "@std/fmt/colors";
+ * import { white } from "@ende/fmt/colors";
  *
  * console.log(white("Hello, world!"));
  * ```
@@ -423,7 +423,7 @@ export function white(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { gray } from "@std/fmt/colors";
+ * import { gray } from "@ende/fmt/colors";
  *
  * console.log(gray("Hello, world!"));
  * ```
@@ -440,7 +440,7 @@ export function gray(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightBlack } from "@std/fmt/colors";
+ * import { brightBlack } from "@ende/fmt/colors";
  *
  * console.log(brightBlack("Hello, world!"));
  * ```
@@ -457,7 +457,7 @@ export function brightBlack(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightRed } from "@std/fmt/colors";
+ * import { brightRed } from "@ende/fmt/colors";
  *
  * console.log(brightRed("Hello, world!"));
  * ```
@@ -474,7 +474,7 @@ export function brightRed(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightGreen } from "@std/fmt/colors";
+ * import { brightGreen } from "@ende/fmt/colors";
  *
  * console.log(brightGreen("Hello, world!"));
  * ```
@@ -491,7 +491,7 @@ export function brightGreen(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightYellow } from "@std/fmt/colors";
+ * import { brightYellow } from "@ende/fmt/colors";
  *
  * console.log(brightYellow("Hello, world!"));
  * ```
@@ -508,7 +508,7 @@ export function brightYellow(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightBlue } from "@std/fmt/colors";
+ * import { brightBlue } from "@ende/fmt/colors";
  *
  * console.log(brightBlue("Hello, world!"));
  * ```
@@ -525,7 +525,7 @@ export function brightBlue(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightMagenta } from "@std/fmt/colors";
+ * import { brightMagenta } from "@ende/fmt/colors";
  *
  * console.log(brightMagenta("Hello, world!"));
  * ```
@@ -542,7 +542,7 @@ export function brightMagenta(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightCyan } from "@std/fmt/colors";
+ * import { brightCyan } from "@ende/fmt/colors";
  *
  * console.log(brightCyan("Hello, world!"));
  * ```
@@ -559,7 +559,7 @@ export function brightCyan(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { brightWhite } from "@std/fmt/colors";
+ * import { brightWhite } from "@ende/fmt/colors";
  *
  * console.log(brightWhite("Hello, world!"));
  * ```
@@ -576,7 +576,7 @@ export function brightWhite(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBlack } from "@std/fmt/colors";
+ * import { bgBlack } from "@ende/fmt/colors";
  *
  * console.log(bgBlack("Hello, world!"));
  * ```
@@ -593,7 +593,7 @@ export function bgBlack(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgRed } from "@std/fmt/colors";
+ * import { bgRed } from "@ende/fmt/colors";
  *
  * console.log(bgRed("Hello, world!"));
  * ```
@@ -610,7 +610,7 @@ export function bgRed(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgGreen } from "@std/fmt/colors";
+ * import { bgGreen } from "@ende/fmt/colors";
  *
  * console.log(bgGreen("Hello, world!"));
  * ```
@@ -627,7 +627,7 @@ export function bgGreen(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgYellow } from "@std/fmt/colors";
+ * import { bgYellow } from "@ende/fmt/colors";
  *
  * console.log(bgYellow("Hello, world!"));
  * ```
@@ -644,7 +644,7 @@ export function bgYellow(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBlue } from "@std/fmt/colors";
+ * import { bgBlue } from "@ende/fmt/colors";
  *
  * console.log(bgBlue("Hello, world!"));
  * ```
@@ -661,7 +661,7 @@ export function bgBlue(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgMagenta } from "@std/fmt/colors";
+ * import { bgMagenta } from "@ende/fmt/colors";
  *
  * console.log(bgMagenta("Hello, world!"));
  * ```
@@ -678,7 +678,7 @@ export function bgMagenta(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgCyan } from "@std/fmt/colors";
+ * import { bgCyan } from "@ende/fmt/colors";
  *
  * console.log(bgCyan("Hello, world!"));
  * ```
@@ -695,7 +695,7 @@ export function bgCyan(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgWhite } from "@std/fmt/colors";
+ * import { bgWhite } from "@ende/fmt/colors";
  *
  * console.log(bgWhite("Hello, world!"));
  * ```
@@ -712,7 +712,7 @@ export function bgWhite(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightBlack } from "@std/fmt/colors";
+ * import { bgBrightBlack } from "@ende/fmt/colors";
  *
  * console.log(bgBrightBlack("Hello, world!"));
  * ```
@@ -729,7 +729,7 @@ export function bgBrightBlack(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightRed } from "@std/fmt/colors";
+ * import { bgBrightRed } from "@ende/fmt/colors";
  *
  * console.log(bgBrightRed("Hello, world!"));
  * ```
@@ -746,7 +746,7 @@ export function bgBrightRed(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightGreen } from "@std/fmt/colors";
+ * import { bgBrightGreen } from "@ende/fmt/colors";
  *
  * console.log(bgBrightGreen("Hello, world!"));
  * ```
@@ -763,7 +763,7 @@ export function bgBrightGreen(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightYellow } from "@std/fmt/colors";
+ * import { bgBrightYellow } from "@ende/fmt/colors";
  *
  * console.log(bgBrightYellow("Hello, world!"));
  * ```
@@ -780,7 +780,7 @@ export function bgBrightYellow(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightBlue } from "@std/fmt/colors";
+ * import { bgBrightBlue } from "@ende/fmt/colors";
  *
  * console.log(bgBrightBlue("Hello, world!"));
  * ```
@@ -797,7 +797,7 @@ export function bgBrightBlue(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightMagenta } from "@std/fmt/colors";
+ * import { bgBrightMagenta } from "@ende/fmt/colors";
  *
  * console.log(bgBrightMagenta("Hello, world!"));
  * ```
@@ -814,7 +814,7 @@ export function bgBrightMagenta(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightCyan } from "@std/fmt/colors";
+ * import { bgBrightCyan } from "@ende/fmt/colors";
  *
  * console.log(bgBrightCyan("Hello, world!"));
  * ```
@@ -831,7 +831,7 @@ export function bgBrightCyan(str: string): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgBrightWhite } from "@std/fmt/colors";
+ * import { bgBrightWhite } from "@ende/fmt/colors";
  *
  * console.log(bgBrightWhite("Hello, world!"));
  * ```
@@ -861,7 +861,7 @@ function clampAndTruncate(n: number, max = 255, min = 0): number {
  *
  * @example Usage
  * ```ts no-assert
- * import { rgb8 } from "@std/fmt/colors";
+ * import { rgb8 } from "@ende/fmt/colors";
  *
  * console.log(rgb8("Hello, world!", 42));
  * ```
@@ -880,7 +880,7 @@ export function rgb8(str: string, color: number): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgRgb8 } from "@std/fmt/colors";
+ * import { bgRgb8 } from "@ende/fmt/colors";
  *
  * console.log(bgRgb8("Hello, world!", 42));
  * ```
@@ -900,7 +900,7 @@ export function bgRgb8(str: string, color: number): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { rgb24 } from "@std/fmt/colors";
+ * import { rgb24 } from "@ende/fmt/colors";
  *
  * rgb24("foo", 0xff00ff);
  * rgb24("foo", {r: 255, g: 0, b: 255});
@@ -941,7 +941,7 @@ export function rgb24(str: string, color: number | Rgb): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { bgRgb24 } from "@std/fmt/colors";
+ * import { bgRgb24 } from "@ende/fmt/colors";
  *
  * bgRgb24("foo", 0xff00ff);
  * bgRgb24("foo", {r: 255, g: 0, b: 255});
@@ -989,7 +989,7 @@ const ANSI_REGEXP = new RegExp(
  *
  * @example Usage
  * ```ts no-assert
- * import { stripAnsiCode, red } from "@std/fmt/colors";
+ * import { stripAnsiCode, red } from "@ende/fmt/colors";
  *
  * console.log(stripAnsiCode(red("Hello, world!")));
  * ```

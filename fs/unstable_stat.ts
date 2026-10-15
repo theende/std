@@ -13,8 +13,8 @@ import type { FileInfo } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert } from "@std/assert";
- * import { stat } from "@std/fs/unstable-stat";
+ * import { assert } from "@ende/assert";
+ * import { stat } from "@ende/fs/unstable-stat";
  * const fileInfo = await stat("README.md");
  * assert(fileInfo.isFile);
  * ```
@@ -44,8 +44,8 @@ export async function stat(path: string | URL): Promise<FileInfo> {
  *
  * @example Usage
  * ```ts
- * import { assert } from "@std/assert";
- * import { statSync } from "@std/fs/unstable-stat";
+ * import { assert } from "@ende/assert";
+ * import { statSync } from "@ende/fs/unstable-stat";
  *
  * const fileInfo = statSync("README.md");
  * assert(fileInfo.isFile);

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 
-import { fromFileUrl } from "@std/path/from-file-url";
+import { fromFileUrl } from "@ende/path/from-file-url";
 
 /**
  * Convert a URL or string to a path.

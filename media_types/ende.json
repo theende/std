@@ -1,5 +1,5 @@
 {
-  "name": "@std/media-types",
+  "name": "@ende/media-types",
   "version": "1.1.0",
   "exports": {
     ".": "./mod.ts",

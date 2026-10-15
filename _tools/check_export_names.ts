@@ -2,15 +2,15 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 /**
- * This script adds kebab case checking for export names found in each `@std`
+ * This script adds kebab case checking for export names found in each `@ende`
  * package's `ende.json` `exports` property.
  *
  * Run using: ende run -A _tools/check_export_names.ts
  */
 
 import endeJson from "../ende.json" with { type: "json" };
-import { join, parse } from "@std/path";
-import { toKebabCase } from "@std/text";
+import { join, parse } from "@ende/path";
+import { toKebabCase } from "@ende/text";
 
 const IGNORE_KEBAB_CASE_WORDS = [
   "ascii85",

@@ -5,10 +5,10 @@
  * TransformStream classes to encode and decode to and from hexadecimal data in a streaming manner.
  *
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeHex } from "@std/encoding/unstable-hex";
- * import { HexEncoderStream } from "@std/encoding/unstable-hex-stream";
- * import { toText } from "@std/streams";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeHex } from "@ende/encoding/unstable-hex";
+ * import { HexEncoderStream } from "@ende/encoding/unstable-hex-stream";
+ * import { toText } from "@ende/streams";
  *
  * const readable = (await Ende.open("./ende.lock"))
  *   .readable
@@ -50,10 +50,10 @@ const decoder = new TextDecoder();
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeHex } from "@std/encoding/unstable-hex";
- * import { HexEncoderStream } from "@std/encoding/unstable-hex-stream";
- * import { toText } from "@std/streams";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeHex } from "@ende/encoding/unstable-hex";
+ * import { HexEncoderStream } from "@ende/encoding/unstable-hex-stream";
+ * import { toText } from "@ende/streams";
  *
  * const readable = (await Ende.open("./ende.lock"))
  *   .readable
@@ -99,12 +99,12 @@ export class HexEncoderStream<T extends "string" | "bytes">
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   HexDecoderStream,
  *   HexEncoderStream,
- * } from "@std/encoding/unstable-hex-stream";
- * import { toBytes } from "@std/streams/to-bytes";
+ * } from "@ende/encoding/unstable-hex-stream";
+ * import { toBytes } from "@ende/streams/to-bytes";
  *
  * const readable = (await Ende.open("./ende.lock"))
  *   .readable

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { toByteStream } from "@std/streams/unstable-to-byte-stream";
+import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 import { CborSequenceEncoderStream } from "./sequence_encoder_stream.ts";
 import type { CborStreamInput } from "./types.ts";
 
@@ -11,12 +11,12 @@ import type { CborStreamInput } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
+ * import { assert, assertEquals } from "@ende/assert";
  * import {
  *   CborArrayDecodedStream,
  *   CborArrayEncoderStream,
  *   CborSequenceDecoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage = ["a".repeat(100), "b".repeat(100), "c".repeat(100)];
  *
@@ -69,12 +69,12 @@ export class CborArrayEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborArrayDecodedStream,
    *   CborArrayEncoderStream,
    *   CborSequenceDecoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = ["a".repeat(100), "b".repeat(100), "c".repeat(100)];
    *
@@ -111,12 +111,12 @@ export class CborArrayEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborArrayDecodedStream,
    *   CborArrayEncoderStream,
    *   CborSequenceDecoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = ["a".repeat(100), "b".repeat(100), "c".repeat(100)];
    *
@@ -147,12 +147,12 @@ export class CborArrayEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborArrayDecodedStream,
    *   CborArrayEncoderStream,
    *   CborSequenceDecoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = ["a".repeat(100), "b".repeat(100), "c".repeat(100)];
    *

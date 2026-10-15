@@ -6,8 +6,8 @@
  * Includes buffering and conversion.
  *
  * ```ts
- * import { toText } from "@std/streams";
- * import { assertEquals } from "@std/assert";
+ * import { toText } from "@ende/streams";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["Hello, world!"]);
  * const text = await toText(stream);

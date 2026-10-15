@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert } from "@std/assert";
+import { assert } from "@ende/assert";
 import { validate } from "./v4.ts";
 
 Ende.test("validate() checks if a string is a valid v4 UUID", () => {

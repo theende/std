@@ -17,8 +17,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { maxOf } from "@std/collections/max-of";
- * import { assertEquals } from "@std/assert";
+ * import { maxOf } from "@ende/collections/max-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const inventory = [
  *   { name: "mustard", count: 2 },
@@ -33,8 +33,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { maxOf } from "@std/collections/max-of";
- * import { assertEquals } from "@std/assert";
+ * import { maxOf } from "@ende/collections/max-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [4, 3, 2, 1];
  * const result = maxOf(array, (_, index) => index);
@@ -62,8 +62,8 @@ export function maxOf<T>(
  *
  * @example Basic usage
  * ```ts
- * import { maxOf } from "@std/collections/max-of";
- * import { assertEquals } from "@std/assert";
+ * import { maxOf } from "@ende/collections/max-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const inventory = [
  *   { name: "mustard", count: 2n },

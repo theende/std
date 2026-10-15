@@ -25,7 +25,7 @@ import {
  *
  * @example Usage
  * ```ts no-assert
- * import { makeTempFile } from "@std/fs/unstable-make-temp-file";
+ * import { makeTempFile } from "@ende/fs/unstable-make-temp-file";
  * const tmpFileName0 = await makeTempFile();  // e.g. /tmp/419e0bf2
  * const tmpFileName1 = await makeTempFile({ prefix: 'my_temp' });  // e.g. /tmp/my_temp754d3098
  * ```
@@ -98,7 +98,7 @@ export async function makeTempFile(options?: MakeTempOptions): Promise<string> {
  *
  * @example Usage
  * ```ts no-assert
- * import { makeTempFileSync } from "@std/fs/unstable-make-temp-file";
+ * import { makeTempFileSync } from "@ende/fs/unstable-make-temp-file";
  * const tempFileName0 = makeTempFileSync(); // e.g. /tmp/419e0bf2
  * const tempFileName1 = makeTempFileSync({ prefix: 'my_temp' });  // e.g. /tmp/my_temp754d3098
  * ```

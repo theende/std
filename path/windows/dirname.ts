@@ -16,8 +16,8 @@ import { fromFileUrl } from "./from_file_url.ts";
  *
  * @example Usage
  * ```ts
- * import { dirname } from "@std/path/windows/dirname";
- * import { assertEquals } from "@std/assert";
+ * import { dirname } from "@ende/path/windows/dirname";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(dirname("C:\\foo\\bar\\baz.ext"), "C:\\foo\\bar");
  * assertEquals(dirname(new URL("file:///C:/foo/bar/baz.ext")), "C:\\foo\\bar");

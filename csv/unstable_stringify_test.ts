@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { stringify } from "./unstable_stringify.ts";
 import { assertThrows } from "../assert/throws.ts";
 

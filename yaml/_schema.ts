@@ -140,7 +140,7 @@ export const DEFAULT_SCHEMA = createSchema({
  *
  * @example
  * ```ts
- * import { parse } from "@std/yaml";
+ * import { parse } from "@ende/yaml";
  *
  * const data = parse(
  *   `

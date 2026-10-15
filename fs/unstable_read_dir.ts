@@ -15,7 +15,7 @@ import type { DirEntry } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts no-assert
- * import { readDir } from "@std/fs/unstable-read-dir";
+ * import { readDir } from "@ende/fs/unstable-read-dir";
  *
  * for await (const dirEntry of readDir("/")) {
  *   console.log(dirEntry.name);
@@ -53,7 +53,7 @@ export async function* readDir(path: string | URL): AsyncIterable<DirEntry> {
  *
  * @example Usage
  * ```ts no-assert
- * import { readDirSync } from "@std/fs/unstable-read-dir";
+ * import { readDirSync } from "@ende/fs/unstable-read-dir";
  *
  * for (const dirEntry of readDirSync("/")) {
  *   console.log(dirEntry.name);

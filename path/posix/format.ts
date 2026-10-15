@@ -9,8 +9,8 @@ import type { ParsedPath } from "../types.ts";
  *
  * @example Usage
  * ```ts
- * import { format } from "@std/path/posix/format";
- * import { assertEquals } from "@std/assert";
+ * import { format } from "@ende/path/posix/format";
+ * import { assertEquals } from "@ende/assert";
  *
  * const path = format({
  *   root: "/",

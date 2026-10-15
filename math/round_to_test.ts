@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { roundTo } from "./round_to.ts";
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 
 Ende.test("roundTo()", async (t) => {
   await t.step("basic functionality", () => {

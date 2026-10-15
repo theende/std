@@ -14,8 +14,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { startsWith } from "@std/bytes/starts-with";
- * import { assertEquals } from "@std/assert";
+ * import { startsWith } from "@ende/bytes/starts-with";
+ * import { assertEquals } from "@ende/assert";
  *
  * const source = new Uint8Array([0, 1, 2, 1, 2, 1, 2, 3]);
  * const prefix = new Uint8Array([0, 1, 2]);

@@ -38,7 +38,7 @@ type Dep = {
 const packagesEndeJsons = await getPackagesEndeJsons();
 const ENTRYPOINTS = Object.fromEntries(packagesEndeJsons.map((pkg) => {
   const entrypoints = Object.values(pkg.exports);
-  return [pkg.name.replace("@std/", "").replace("-", "_"), entrypoints];
+  return [pkg.name.replace("@ende/", "").replace("-", "_"), entrypoints];
 })) as Record<string, string[]>;
 
 const root = new URL("../", import.meta.url).href;
@@ -173,10 +173,10 @@ if (Ende.args.includes("--graph")) {
   for (const [mod, entrypoints] of Object.entries(ENTRYPOINTS)) {
     for (const path of entrypoints) {
       if (path === "./mod.ts") {
-        console.log(`import "jsr:@std/${mod.replaceAll("_", "-")}";`);
+        console.log(`import "jsr:@ende/${mod.replaceAll("_", "-")}";`);
       } else {
         console.log(
-          `import "jsr:@std/${mod.replaceAll("_", "-")}/${
+          `import "jsr:@ende/${mod.replaceAll("_", "-")}/${
             path.slice(2).replace(".ts", "").replaceAll("_", "-")
           }";`,
         );

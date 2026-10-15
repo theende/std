@@ -2,7 +2,7 @@
 // This module is browser compatible.
 
 import type { GlobOptions } from "./_common/glob_to_reg_exp.ts";
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { normalizeGlob as posixNormalizeGlob } from "./posix/normalize_glob.ts";
 import {
   normalizeGlob as windowsNormalizeGlob,
@@ -14,13 +14,13 @@ export type { GlobOptions };
  * Normalizes a glob string.
  *
  * Behaves like
- * {@linkcode https://jsr.io/@std/path/doc/~/normalize | normalize()}, but
+ * {@linkcode https://jsr.io/@ende/path/doc/~/normalize | normalize()}, but
  * doesn't collapse "**\/.." when `globstar` is true.
  *
  * @example Usage
  * ```ts
- * import { normalizeGlob } from "@std/path/normalize-glob";
- * import { assertEquals } from "@std/assert";
+ * import { normalizeGlob } from "@ende/path/normalize-glob";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assertEquals(normalizeGlob("foo\\bar\\..\\baz"), "foo\\baz");

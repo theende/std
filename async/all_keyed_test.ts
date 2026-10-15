@@ -5,7 +5,7 @@ import {
   assertFalse,
   assertRejects,
   assertStrictEquals,
-} from "@std/assert";
+} from "@ende/assert";
 
 // allKeyed tests
 

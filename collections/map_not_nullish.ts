@@ -18,8 +18,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { mapNotNullish } from "@std/collections/map-not-nullish";
- * import { assertEquals } from "@std/assert";
+ * import { mapNotNullish } from "@ende/collections/map-not-nullish";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = [
  *   { middleName: null },
@@ -34,8 +34,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { mapNotNullish } from "@std/collections/map-not-nullish";
- * import { assertEquals } from "@std/assert";
+ * import { mapNotNullish } from "@ende/collections/map-not-nullish";
+ * import { assertEquals } from "@ende/assert";
  *
  * const values = [10, 20, 30, 40];
  * const result = mapNotNullish(values, (value, index) => index % 2 === 0 ? value : null);

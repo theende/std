@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { runLengthDecode, runLengthEncode } from "./_run_length.ts";
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 
 const runLengthTestCases: {
   list: number[];

@@ -12,8 +12,8 @@
  *
  * @example Usage
  * ```ts
- * import { assertType } from "@std/testing/types";
- * import type { IsMutuallyAssignable } from "@std/testing/unstable-types";
+ * import { assertType } from "@ende/testing/types";
+ * import type { IsMutuallyAssignable } from "@ende/testing/unstable-types";
  *
  * // false because E is not assignable to A
  * assertType<IsMutuallyAssignable<string & RegExpMatchArray, string>>(false);

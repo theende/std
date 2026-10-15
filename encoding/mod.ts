@@ -7,8 +7,8 @@
  * ## Basic Usage
  *
  * ```ts
- * import { encodeBase64, decodeBase64 } from "@std/encoding";
- * import { assertEquals } from "@std/assert";
+ * import { encodeBase64, decodeBase64 } from "@ende/encoding";
+ * import { assertEquals } from "@ende/assert";
  *
  * const foobar = new TextEncoder().encode("foobar");
  * assertEquals(encodeBase64(foobar), "Zm9vYmFy");
@@ -29,8 +29,8 @@
  *   decodeBase58,
  *   decodeBase64,
  *   decodeAscii85,
- * } from "@std/encoding";
- * import { assertEquals } from "@std/assert";
+ * } from "@ende/encoding";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Many different encodings for different character sets
  * assertEquals(encodeHex("Hello world!"), "48656c6c6f20776f726c6421");
@@ -50,8 +50,8 @@
  * ## URL-Safe Base64
  *
  * ```ts
- * import { encodeBase64, encodeBase64Url } from "@std/encoding";
- * import { assertEquals } from "@std/assert";
+ * import { encodeBase64, encodeBase64Url } from "@ende/encoding";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(encodeBase64("ice creams"), "aWNlIGNyZWFtcw=="); // Not url-safe because of `=`
  * assertEquals(encodeBase64Url("ice creams"), "aWNlIGNyZWFtcw"); // URL-safe!
@@ -64,8 +64,8 @@
  * ## Binary Data Encoding
  *
  * ```ts
- * import { encodeHex, encodeBase64 } from "@std/encoding";
- * import { assertEquals } from "@std/assert";
+ * import { encodeHex, encodeBase64 } from "@ende/encoding";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Working with binary data
  * const binaryData = new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF]);
@@ -78,8 +78,8 @@
  * Learn more from the [protobuf Varint encoding docs](https://protobuf.dev/programming-guides/encoding/#varints).
  *
  * ```ts
- * import { encodeVarint, decodeVarint } from "@std/encoding";
- * import { assertEquals } from "@std/assert";
+ * import { encodeVarint, decodeVarint } from "@ende/encoding";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Varint encoding support
  * assertEquals(encodeVarint(9601n), [new Uint8Array([129, 75]), 2]);

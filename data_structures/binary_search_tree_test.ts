@@ -4,7 +4,7 @@ import {
   assertEquals,
   assertStrictEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { BinarySearchTree } from "./binary_search_tree.ts";
 import { ascend, descend } from "./comparators.ts";
 import { type Container, MyMath } from "./_test_utils.ts";

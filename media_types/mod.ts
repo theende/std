@@ -14,8 +14,8 @@
  * along with its license.
  *
  * ```ts
- * import { contentType, allExtensions, getCharset } from "@std/media-types";
- * import { assertEquals } from "@std/assert";
+ * import { contentType, allExtensions, getCharset } from "@ende/media-types";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(allExtensions("application/json"), ["json", "map"]);
  *

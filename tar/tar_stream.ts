@@ -2,7 +2,7 @@
 
 import type { Uint8Array_ } from "./_types.ts";
 export type { Uint8Array_ };
-import { toByteStream } from "@std/streams/unstable-to-byte-stream";
+import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 
 /**
  * The options that can go along with a file or directory.
@@ -165,7 +165,7 @@ const SLASH_CODE_POINT = "/".charCodeAt(0);
  *
  * @example Usage
  * ```ts ignore
- * import { TarStream, type TarStreamInput } from "@std/tar/tar-stream";
+ * import { TarStream, type TarStreamInput } from "@ende/tar/tar-stream";
  *
  * await ReadableStream.from<TarStreamInput>([
  *   {
@@ -410,7 +410,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
    *
    * @example Usage
    * ```ts ignore
-   * import { TarStream } from "@std/tar/tar-stream";
+   * import { TarStream } from "@ende/tar/tar-stream";
    *
    * await ReadableStream.from([
    *   {
@@ -446,7 +446,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
    *
    * @example Usage
    * ```ts ignore
-   * import { TarStream } from "@std/tar/tar-stream";
+   * import { TarStream } from "@ende/tar/tar-stream";
    *
    * await ReadableStream.from([
    *   {
@@ -485,7 +485,7 @@ export class TarStream implements TransformStream<TarStreamInput, Uint8Array_> {
  *
  * @example Usage
  * ```ts no-assert ignore
- * import { assertValidTarStreamOptions, TarStream, type TarStreamInput } from "@std/tar";
+ * import { assertValidTarStreamOptions, TarStream, type TarStreamInput } from "@ende/tar";
  *
  *  const paths = (await Array.fromAsync(Ende.readDir('./')))
  *   .filter(entry => entry.isFile)
@@ -641,7 +641,7 @@ function parsePath(size: number, buffer: Uint8Array_): void {
  *
  * @example Usage
  * ```ts no-assert ignore
- * import { assertValidPath, TarStream, type TarStreamInput } from "@std/tar";
+ * import { assertValidPath, TarStream, type TarStreamInput } from "@ende/tar";
  *
  * const paths = (await Array.fromAsync(Ende.readDir("./")))
  *   .filter(entry => entry.isFile)
@@ -690,7 +690,7 @@ export function assertValidPath(path: string): void {
  *
  * @example Usage
  * ```ts no-assert ignore
- * import { assertValidLinkname, TarStream, type TarStreamInput } from "@std/tar";
+ * import { assertValidLinkname, TarStream, type TarStreamInput } from "@ende/tar";
  *
  * const linkname = "./target";
  * assertValidLinkname(linkname);

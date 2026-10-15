@@ -14,7 +14,7 @@ import {
  *
  * @example Usage
  * ```ts ignore
- * import { serveDir } from "@std/http/file-server";
+ * import { serveDir } from "@ende/http/file-server";
  *
  * Ende.serve((req) => {
  *   const pathname = new URL(req.url).pathname;
@@ -33,7 +33,7 @@ import {
  * Requests to `/static/path/to/file` will be served from `./public/path/to/file`.
  *
  * ```ts ignore
- * import { serveDir } from "@std/http/file-server";
+ * import { serveDir } from "@ende/http/file-server";
  *
  * Ende.serve((req) => serveDir(req, {
  *   fsRoot: "public",
@@ -96,7 +96,7 @@ export interface ServeFileOptions extends StableServeFileOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { serveFile } from "@std/http/file-server";
+ * import { serveFile } from "@ende/http/file-server";
  *
  * Ende.serve((req) => {
  *   return serveFile(req, "README.md");

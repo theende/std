@@ -68,8 +68,8 @@ const THRESHOLD_32_BIT = 160;
  *
  * @example Basic usage
  * ```ts
- * import { equals } from "@std/bytes/equals";
- * import { assertEquals } from "@std/assert";
+ * import { equals } from "@ende/bytes/equals";
+ * import { assertEquals } from "@ende/assert";
  *
  * const a = new Uint8Array([1, 2, 3]);
  * const b = new Uint8Array([1, 2, 3]);

@@ -5,8 +5,8 @@ import { register } from "node:module";
 
 register(new URL("ende_compat_hooks.mjs", import.meta.url));
 
-// Caches @std/path module before polyfilling globalThis.Ende
-await import("@std/path");
+// Caches @ende/path module before polyfilling globalThis.Ende
+await import("@ende/path");
 
 globalThis.Ende = globalThis.Deno = Deno;
 globalThis.testDefinitions = testDefinitions;

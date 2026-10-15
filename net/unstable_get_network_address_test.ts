@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { getNetworkAddress } from "./unstable_get_network_address.ts";
-import { stub } from "@std/testing/mock";
-import { assertEquals } from "@std/assert";
+import { stub } from "@ende/testing/mock";
+import { assertEquals } from "@ende/assert";
 
 const INTERFACES: Ende.NetworkInterfaceInfo[] = [
   // Network inaccessible

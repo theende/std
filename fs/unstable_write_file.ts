@@ -14,7 +14,7 @@ import type { WriteFileOptions } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { writeFile } from "@std/fs/unstable-write-file";
+ * import { writeFile } from "@ende/fs/unstable-write-file";
  * const encoder = new TextEncoder();
  * const data = encoder.encode("Hello world\n");
  * await Ende.writeFile("hello1.txt", data);  // overwrite "hello1.txt" or create it
@@ -66,7 +66,7 @@ export async function writeFile(
  *
  * @example Usage
  * ```ts ignore
- * import { writeFileSync } from "@std/fs/unstable-write-file";
+ * import { writeFileSync } from "@ende/fs/unstable-write-file";
  * const encoder = new TextEncoder();
  * const data = encoder.encode("Hello world\n");
  * writeFileSync("hello1.txt", data);  // overwrite "hello1.txt" or create it

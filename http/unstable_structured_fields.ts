@@ -11,8 +11,8 @@
  *
  * @example Parsing a Dictionary (e.g., UCP-Agent header)
  * ```ts
- * import { isItem, parseDictionary } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { isItem, parseDictionary } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const header = 'profile="https://example.com/profile.json"';
  * const dict = parseDictionary(header);
@@ -28,8 +28,8 @@
  *
  * @example Serializing a Dictionary
  * ```ts
- * import { item, serializeDictionary, string } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { item, serializeDictionary, string } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const dict = new Map([
  *   ["profile", item(string("https://example.com/profile.json"))],
@@ -46,7 +46,7 @@
  * @module
  */
 
-import { decodeBase64, encodeBase64 } from "@std/encoding/base64";
+import { decodeBase64, encodeBase64 } from "@ende/encoding/base64";
 
 const UTF8_DECODER = new TextDecoder("utf-8", { fatal: true });
 const UTF8_ENCODER = new TextEncoder();
@@ -148,8 +148,8 @@ export type Dictionary = ReadonlyMap<string, Item | InnerList>;
  *
  * @example Usage
  * ```ts
- * import { integer } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { integer } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(integer(42), { type: "integer", value: 42 });
  * ```
@@ -169,8 +169,8 @@ export function integer(value: number): Extract<BareItem, { type: "integer" }> {
  *
  * @example Usage
  * ```ts
- * import { decimal } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { decimal } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(decimal(3.14), { type: "decimal", value: 3.14 });
  * ```
@@ -190,8 +190,8 @@ export function decimal(value: number): Extract<BareItem, { type: "decimal" }> {
  *
  * @example Usage
  * ```ts
- * import { string } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { string } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(string("hello"), { type: "string", value: "hello" });
  * ```
@@ -211,8 +211,8 @@ export function string(value: string): Extract<BareItem, { type: "string" }> {
  *
  * @example Usage
  * ```ts
- * import { token } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { token } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(token("foo"), { type: "token", value: "foo" });
  * ```
@@ -231,8 +231,8 @@ export function token(value: string): Extract<BareItem, { type: "token" }> {
  *
  * @example Usage
  * ```ts
- * import { binary } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { binary } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = binary(new Uint8Array([1, 2, 3]));
  * assertEquals(result.type, "binary");
@@ -254,8 +254,8 @@ export function binary(
  *
  * @example Usage
  * ```ts
- * import { boolean } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { boolean } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(boolean(true), { type: "boolean", value: true });
  * ```
@@ -277,8 +277,8 @@ export function boolean(
  *
  * @example Usage
  * ```ts
- * import { date } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { date } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const d = new Date("2022-08-04T00:00:00Z");
  * assertEquals(date(d), { type: "date", value: d });
@@ -298,8 +298,8 @@ export function date(value: Date): Extract<BareItem, { type: "date" }> {
  *
  * @example Usage
  * ```ts
- * import { displayString } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { displayString } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(displayString("héllo"), { type: "displaystring", value: "héllo" });
  * ```
@@ -321,8 +321,8 @@ export function displayString(
  *
  * @example Usage
  * ```ts
- * import { item, integer, token } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { item, integer, token } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(item(integer(42)), {
  *   value: { type: "integer", value: 42 },
@@ -353,8 +353,8 @@ export function item(
  *
  * @example Usage
  * ```ts
- * import { innerList, item, integer } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { innerList, item, integer } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const list = innerList([item(integer(1)), item(integer(2))]);
  *
@@ -383,8 +383,8 @@ export function innerList(
  *
  * @example Usage
  * ```ts
- * import { parseList, isItem } from "@std/http/unstable-structured-fields";
- * import { assert } from "@std/assert";
+ * import { parseList, isItem } from "@ende/http/unstable-structured-fields";
+ * import { assert } from "@ende/assert";
  *
  * const list = parseList("1, (2 3)");
  * assert(isItem(list[0]!));   // true - integer item
@@ -405,8 +405,8 @@ export function isItem(member: Item | InnerList): member is Item {
  *
  * @example Usage
  * ```ts
- * import { parseList, isInnerList } from "@std/http/unstable-structured-fields";
- * import { assert } from "@std/assert";
+ * import { parseList, isInnerList } from "@ende/http/unstable-structured-fields";
+ * import { assert } from "@ende/assert";
  *
  * const list = parseList("1, (2 3)");
  * assert(!isInnerList(list[0]!)); // false - integer item
@@ -560,8 +560,8 @@ function skipSP(state: ParserState): void {
  *
  * @example Usage
  * ```ts
- * import { parseList } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { parseList } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const list = parseList("1, 42");
  * assertEquals(list.length, 2);
@@ -620,8 +620,8 @@ function parseListInternal(state: ParserState): List {
  *
  * @example Usage
  * ```ts
- * import { parseDictionary } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { parseDictionary } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const dict = parseDictionary('profile="https://example.com"');
  * assertEquals(dict.has("profile"), true);
@@ -694,8 +694,8 @@ function parseDictionaryInternal(state: ParserState): Dictionary {
  *
  * @example Usage
  * ```ts
- * import { parseItem } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { parseItem } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const item = parseItem("42");
  * assertEquals(item.value, { type: "integer", value: 42 });
@@ -1149,8 +1149,8 @@ function parseParameters(state: ParserState): Parameters {
  *
  * @example Usage
  * ```ts
- * import { item, serializeList, integer } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { item, serializeList, integer } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const list = [item(integer(1)), item(integer(42))];
  *
@@ -1184,8 +1184,8 @@ export function serializeList(list: List): string {
  *
  * @example Usage
  * ```ts
- * import { item, serializeDictionary, string } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { item, serializeDictionary, string } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * const dict = new Map([
  *   ["key", item(string("value"))],
@@ -1230,8 +1230,8 @@ export function serializeDictionary(dict: Dictionary): string {
  *
  * @example Usage
  * ```ts
- * import { item, serializeItem, integer } from "@std/http/unstable-structured-fields";
- * import { assertEquals } from "@std/assert";
+ * import { item, serializeItem, integer } from "@ende/http/unstable-structured-fields";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(serializeItem(item(integer(42))), "42");
  * ```

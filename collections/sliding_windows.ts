@@ -39,8 +39,8 @@ export interface SlidingWindowsOptions {
  *
  * @example Usage
  * ```ts
- * import { slidingWindows } from "@std/collections/sliding-windows";
- * import { assertEquals } from "@std/assert";
+ * import { slidingWindows } from "@ende/collections/sliding-windows";
+ * import { assertEquals } from "@ende/assert";
  * const numbers = [1, 2, 3, 4, 5];
  *
  * const windows = slidingWindows(numbers, 3);

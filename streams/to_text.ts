@@ -11,8 +11,8 @@
  *
  * @example Basic usage with a stream of strings
  * ```ts
- * import { toText } from "@std/streams/to-text";
- * import { assertEquals } from "@std/assert";
+ * import { toText } from "@ende/streams/to-text";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["Hello, ", "world!"]);
  * assertEquals(await toText(stream), "Hello, world!");
@@ -20,8 +20,8 @@
  *
  * @example Basic usage with a stream of `Uint8Array`s
  * ```ts
- * import { toText } from "@std/streams/to-text";
- * import { assertEquals } from "@std/assert";
+ * import { toText } from "@ende/streams/to-text";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["Hello, ", "world!"])
  *   .pipeThrough(new TextEncoderStream());

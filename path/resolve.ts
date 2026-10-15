@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { resolve as posixResolve } from "./posix/resolve.ts";
 import { resolve as windowsResolve } from "./windows/resolve.ts";
 
@@ -10,8 +10,8 @@ import { resolve as windowsResolve } from "./windows/resolve.ts";
  *
  * @example Usage
  * ```ts
- * import { resolve } from "@std/path/resolve";
- * import { assertEquals } from "@std/assert";
+ * import { resolve } from "@ende/path/resolve";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assertEquals(resolve("C:\\foo", "bar", "baz"), "C:\\foo\\bar\\baz");

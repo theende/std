@@ -5,9 +5,9 @@ import {
   assertEquals,
   assertStrictEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { load, type LoadOptions, loadSync } from "./mod.ts";
-import * as path from "@std/path";
+import * as path from "@ende/path";
 
 const moduleDir = path.dirname(path.fromFileUrl(import.meta.url));
 const testdataDir = path.resolve(moduleDir, "testdata");

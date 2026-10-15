@@ -43,8 +43,8 @@ export type Base32Alphabet = "base32" | "base32hex" | "base32crockford";
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { calcSizeBase32 } from "@std/encoding/unstable-base32";
+ * import { assertEquals } from "@ende/assert";
+ * import { calcSizeBase32 } from "@ende/encoding/unstable-base32";
  *
  * assertEquals(calcSizeBase32(1), 8);
  * ```

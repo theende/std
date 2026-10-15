@@ -6,7 +6,7 @@
  *
  * @example Usage
  * ```ts
- * import { AssertionState } from "@std/internal";
+ * import { AssertionState } from "@ende/internal";
  *
  * const assertionState = new AssertionState();
  * ```
@@ -66,7 +66,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.assertionCount;
@@ -83,7 +83,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.assertionTriggeredCount;
@@ -100,7 +100,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts ignore
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.setAssertionCheck(true);
@@ -117,7 +117,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.setAssertionTriggered(true);
@@ -135,7 +135,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts ignore
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.setAssertionCount(2);
@@ -150,7 +150,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.updateAssertionTriggerCount();
@@ -171,7 +171,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * if (assertionState.checkAssertionErrorState()) {
@@ -188,7 +188,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * assertionState.resetAssertionState();
@@ -212,7 +212,7 @@ export class AssertionState {
    *
    * @example Usage
    * ```ts no-assert
-   * import { AssertionState } from "@std/internal";
+   * import { AssertionState } from "@ende/internal";
    *
    * const assertionState = new AssertionState();
    * if (assertionState.checkAssertionCountSatisfied()) {
@@ -235,7 +235,7 @@ const assertionState = new AssertionState();
  *
  * @example Usage
  * ```ts no-assert
- * import { getAssertionState } from "@std/internal";
+ * import { getAssertionState } from "@ende/internal";
  *
  * const assertionState = getAssertionState();
  * assertionState.setAssertionTriggered(true);

@@ -9,7 +9,7 @@ import { exponentialBackoffWithJitter } from "./_util.ts";
  *
  * @example Usage
  * ```ts no-assert ignore
- * import { RetryError } from "@std/async/retry";
+ * import { RetryError } from "@ende/async/retry";
  *
  * throw new RetryError({ foo: "bar" }, 3);
  * ```
@@ -99,7 +99,7 @@ export interface RetryOptions {
  *
  * @example Example configuration 1
  * ```ts no-assert
- * import { retry } from "@std/async/retry";
+ * import { retry } from "@ende/async/retry";
  * const req = async () => {
  *  // some function that throws sometimes
  * };
@@ -116,7 +116,7 @@ export interface RetryOptions {
  *
  * @example Example configuration 2
  * ```ts no-assert
- * import { retry } from "@std/async/retry";
+ * import { retry } from "@ende/async/retry";
  * const req = async () => {
  *  // some function that throws sometimes
  * };
@@ -133,7 +133,7 @@ export interface RetryOptions {
  *
  * @example Only retry on specific error types
  * ```ts no-assert
- * import { retry } from "@std/async/retry";
+ * import { retry } from "@ende/async/retry";
  *
  * class HttpError extends Error {
  *   status: number;

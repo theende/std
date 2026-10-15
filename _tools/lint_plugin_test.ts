@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Ende.lint namespace does not pass type checking in Deno 1.x
 
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import lintPlugin, { COPYRIGHT_NOTICE } from "./lint_plugin.ts";
 
 function assertLintPluginDiagnostics(
@@ -103,7 +103,7 @@ Ende.test("ende-style-guide/no-external-code", {
   ignore: !Ende.version.ende.startsWith("2"),
 }, () => {
   // Good
-  assertLintPluginDiagnostics('import { walk } from "@std/fs/walk";', []);
+  assertLintPluginDiagnostics('import { walk } from "@ende/fs/walk";', []);
 
   // Bad
   assertLintPluginDiagnostics(
@@ -117,14 +117,14 @@ import { bad } from "jsr:@malicious-muffin/bad";
       range: [1, 65],
       message: "External imports are not allowed outside of tools",
       hint:
-        'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
+        'Use code from within `@ende` instead of external code. E.g. Use `import { foo } from "@ende/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
     }, {
       id: "ende-style-guide/no-external-code",
       fix: [],
       range: [66, 114],
       message: "External imports are not allowed outside of tools",
       hint:
-        'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
+        'Use code from within `@ende` instead of external code. E.g. Use `import { foo } from "@ende/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
     }],
   );
 });

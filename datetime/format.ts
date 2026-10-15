@@ -47,8 +47,8 @@ export interface FormatOptions {
  *
  * @example Basic usage
  * ```ts
- * import { format } from "@std/datetime/format";
- * import { assertEquals } from "@std/assert";
+ * import { format } from "@ende/datetime/format";
+ * import { assertEquals } from "@ende/assert";
  *
  * const date = new Date(2019, 0, 20, 16, 34, 23, 123);
  *
@@ -64,8 +64,8 @@ export interface FormatOptions {
  * Enable UTC formatting by setting the `timeZone` option to `"UTC"`.
  *
  * ```ts ignore
- * import { format } from "@std/datetime/format";
- * import { assertEquals } from "@std/assert";
+ * import { format } from "@ende/datetime/format";
+ * import { assertEquals } from "@ende/assert";
  *
  * const date = new Date(2019, 0, 20, 16, 34, 23, 123);
  *

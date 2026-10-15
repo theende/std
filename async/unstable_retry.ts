@@ -76,7 +76,7 @@ function selectDelay(
  *
  * @experimental **UNSTABLE**: New API, yet to be vetted.
  *
- * Unlike the stable `retry` from `@std/async/retry`, the wait before each
+ * Unlike the stable `retry` from `@ende/async/retry`, the wait before each
  * retry can be selected by the `getDelay` option, which is how a caller
  * honors a server's `Retry-After` without owning the retry loop.
  *
@@ -92,7 +92,7 @@ function selectDelay(
  *
  * @example Example configuration 1
  * ```ts no-assert
- * import { retry } from "@std/async/unstable-retry";
+ * import { retry } from "@ende/async/unstable-retry";
  * const req = async () => {
  *  // some function that throws sometimes
  * };
@@ -109,7 +109,7 @@ function selectDelay(
  *
  * @example Example configuration 2
  * ```ts no-assert
- * import { retry } from "@std/async/unstable-retry";
+ * import { retry } from "@ende/async/unstable-retry";
  * const req = async () => {
  *  // some function that throws sometimes
  * };
@@ -126,7 +126,7 @@ function selectDelay(
  *
  * @example Only retry on specific error types
  * ```ts no-assert
- * import { retry } from "@std/async/unstable-retry";
+ * import { retry } from "@ende/async/unstable-retry";
  *
  * class HttpError extends Error {
  *   status: number;
@@ -154,8 +154,8 @@ function selectDelay(
  * grows when the server gives no instruction.
  *
  * ```ts
- * import { retry } from "@std/async/unstable-retry";
- * import { assertEquals } from "@std/assert";
+ * import { retry } from "@ende/async/unstable-retry";
+ * import { assertEquals } from "@ende/assert";
  *
  * class RateLimited extends Error {
  *   retryAfterMs: number;

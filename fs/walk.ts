@@ -2,7 +2,7 @@
 // Documentation and interface for walk were adapted from Go
 // https://golang.org/pkg/path/filepath/#Walk
 // Copyright 2009 The Go Authors. All rights reserved. BSD license.
-import { join } from "@std/path/join";
+import { join } from "@ende/path/join";
 import { toPathString } from "./_to_path_string.ts";
 import {
   createWalkEntry,
@@ -119,7 +119,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk("."));
  * // [
@@ -161,7 +161,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { maxDepth: 1 }));
  * // [
@@ -201,7 +201,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { includeFiles: false }));
  * // [
@@ -234,7 +234,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { includeDirs: false }));
  * // [
@@ -261,7 +261,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { includeSymlinks: false }));
  * // [
@@ -295,7 +295,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { followSymlinks: true }));
  * // [
@@ -337,7 +337,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { followSymlinks: true, canonicalize: true }));
  * // [
@@ -378,7 +378,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { exts: [".ts"] }));
  * // [
@@ -405,7 +405,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { match: [/s/] }));
  * // [
@@ -432,7 +432,7 @@ export type { WalkEntry };
  * ```
  *
  * ```ts ignore
- * import { walk } from "@std/fs/walk";
+ * import { walk } from "@ende/fs/walk";
  *
  * await Array.fromAsync(walk(".", { skip: [/s/] }));
  * // [
@@ -548,7 +548,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync("."));
  * // [
@@ -590,7 +590,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { maxDepth: 1 }));
  * // [
@@ -630,7 +630,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { includeFiles: false }));
  * // [
@@ -663,7 +663,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { includeDirs: false }));
  * // [
@@ -690,7 +690,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { includeSymlinks: false }));
  * // [
@@ -724,7 +724,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { followSymlinks: true }));
  * // [
@@ -766,7 +766,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { followSymlinks: true, canonicalize: true }));
  * // [
@@ -807,7 +807,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { exts: [".ts"] }));
  * // [
@@ -834,7 +834,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { match: [/s/] }));
  * // [
@@ -861,7 +861,7 @@ export async function* walk(
  * ```
  *
  * ```ts ignore
- * import { walkSync } from "@std/fs/walk";
+ * import { walkSync } from "@ende/fs/walk";
  *
  * Array.from(walkSync(".", { skip: [/s/] }));
  * // [

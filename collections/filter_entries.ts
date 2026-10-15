@@ -14,8 +14,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { filterEntries } from "@std/collections/filter-entries";
- * import { assertEquals } from "@std/assert";
+ * import { filterEntries } from "@ende/collections/filter-entries";
+ * import { assertEquals } from "@ende/assert";
  *
  * const menu = {
  *   Salad: 11,

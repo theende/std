@@ -17,8 +17,8 @@ const ERROR_WHILE_MAPPING_MESSAGE =
  *
  * @example Usage
  * ```ts
- * import { pooledMap } from "@std/async/pool";
- * import { assertEquals } from "@std/assert";
+ * import { pooledMap } from "@ende/async/pool";
+ * import { assertEquals } from "@ende/assert";
  *
  * const results = pooledMap(
  *   2,

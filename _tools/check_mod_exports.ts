@@ -7,7 +7,7 @@ import { dirname } from "../path/dirname.ts";
 import * as colors from "../fmt/colors.ts";
 import ts from "typescript";
 import { getEntrypoints } from "./utils.ts";
-import { fromFileUrl } from "@std/path/from-file-url";
+import { fromFileUrl } from "@ende/path/from-file-url";
 
 const FAIL_FAST = Ende.args.includes("--fail-fast");
 

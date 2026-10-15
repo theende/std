@@ -7,8 +7,8 @@
  * byte slices.
  *
  * ```ts
- * import { concat, indexOfNeedle, endsWith } from "@std/bytes";
- * import { assertEquals } from "@std/assert";
+ * import { concat, indexOfNeedle, endsWith } from "@ende/bytes";
+ * import { assertEquals } from "@ende/assert";
  *
  * const a = new Uint8Array([0, 1, 2]);
  * const b = new Uint8Array([3, 4, 5]);

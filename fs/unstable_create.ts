@@ -13,7 +13,7 @@ import type { FsFile } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { create } from "@std/fs/unstable-create";
+ * import { create } from "@ende/fs/unstable-create";
  * const file = await create("/foo/bar.txt");
  * ```
  *
@@ -42,7 +42,7 @@ export async function create(path: string | URL): Promise<FsFile> {
  *
  * @example Usage
  * ```ts ignore
- * import { createSync } from "@std/fs/unstable-create";
+ * import { createSync } from "@ende/fs/unstable-create";
  * const file = createSync("/foo/bar.txt");
  * ```
  *

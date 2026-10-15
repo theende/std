@@ -5,8 +5,8 @@ import {
   assertMatch,
   assertRejects,
   assertThrows,
-} from "@std/assert";
-import { fromFileUrl, join, joinGlobs, normalize, relative } from "@std/path";
+} from "@ende/assert";
+import { fromFileUrl, join, joinGlobs, normalize, relative } from "@ende/path";
 import {
   expandGlob,
   type ExpandGlobOptions,

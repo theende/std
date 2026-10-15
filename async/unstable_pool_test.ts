@@ -7,9 +7,9 @@ import {
   assertRejects,
   assertStringIncludes,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { delay } from "./delay.ts";
-import { FakeTime } from "@std/testing/time";
+import { FakeTime } from "@ende/testing/time";
 
 Ende.test("pooledMap() throws for invalid poolLimit", () => {
   const noop = (i: number) => Promise.resolve(i);

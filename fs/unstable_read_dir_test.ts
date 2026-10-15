@@ -1,7 +1,12 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertRejects, assertThrows } from "@std/assert";
-import { fromFileUrl, join, resolve } from "@std/path";
+import {
+  assert,
+  assertEquals,
+  assertRejects,
+  assertThrows,
+} from "@ende/assert";
+import { fromFileUrl, join, resolve } from "@ende/path";
 import { readDir, readDirSync } from "./unstable_read_dir.ts";
 import { NotFound } from "./unstable_errors.js";
 

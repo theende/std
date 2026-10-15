@@ -77,7 +77,7 @@ function stringify(message: ServerSentEventMessage): Uint8Array {
  * import {
  *   type ServerSentEventMessage,
  *   ServerSentEventStream,
- * } from "@std/http/server-sent-event-stream";
+ * } from "@ende/http/server-sent-event-stream";
  *
  * const stream = ReadableStream.from<ServerSentEventMessage>([
  *   { data: "hello there" }

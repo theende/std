@@ -21,7 +21,7 @@ export interface Cookie {
    * @example <caption>Explicit date:</caption>
    *
    * ```ts
-   * import { Cookie } from "@std/http/cookie";
+   * import { Cookie } from "@ende/http/cookie";
    * const cookie: Cookie = {
    *   name: 'name',
    *   value: 'value',
@@ -33,7 +33,7 @@ export interface Cookie {
    * @example <caption>UTC milliseconds</caption>
    *
    * ```ts
-   * import { Cookie } from "@std/http/cookie";
+   * import { Cookie } from "@ende/http/cookie";
    * const cookie: Cookie = {
    *   name: 'name',
    *   value: 'value',
@@ -241,8 +241,8 @@ function validateDomain(domain: string) {
  *
  * @example Usage
  * ```ts
- * import { getCookies } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert";
+ * import { getCookies } from "@ende/http/cookie";
+ * import { assertEquals } from "@ende/assert";
  *
  * const headers = new Headers();
  * headers.set("Cookie", "full=of; tasty=chocolate");
@@ -282,8 +282,8 @@ export function getCookies(
  *
  * @example Usage
  * ```ts
- * import { Cookie, setCookie } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert";
+ * import { Cookie, setCookie } from "@ende/http/cookie";
+ * import { assertEquals } from "@ende/assert";
  *
  * const headers = new Headers();
  * const cookie: Cookie = { name: "Space", value: "Cat" };
@@ -317,8 +317,8 @@ export function setCookie(headers: Headers, cookie: Cookie) {
  *
  * @example Usage
  * ```ts
- * import { deleteCookie } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert";
+ * import { deleteCookie } from "@ende/http/cookie";
+ * import { assertEquals } from "@ende/assert";
  *
  * const headers = new Headers();
  * deleteCookie(headers, "deno");
@@ -439,8 +439,8 @@ function parseSetCookie(value: string): Cookie | null {
  *
  * @example Usage
  * ```ts
- * import { getSetCookies } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert";
+ * import { getSetCookies } from "@ende/http/cookie";
+ * import { assertEquals } from "@ende/assert";
  *
  * const headers = new Headers([
  *   ["Set-Cookie", "lulu=meow; Secure; Max-Age=3600"],

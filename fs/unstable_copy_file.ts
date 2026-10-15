@@ -13,7 +13,7 @@ import { getNodeFs, isEnde } from "./_utils.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { copyFile } from "@std/fs/unstable-copy-file";
+ * import { copyFile } from "@ende/fs/unstable-copy-file";
  * copyFile("README.md", "README-Copy.md");
  * ```
  *
@@ -48,7 +48,7 @@ export async function copyFile(
  *
  * @example Usage
  * ```ts ignore
- * import { copyFileSync } from "@std/fs/unstable-copy-file";
+ * import { copyFileSync } from "@ende/fs/unstable-copy-file";
  * copyFileSync("README.md", "README-Copy.md");
  * ```
  *

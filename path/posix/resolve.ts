@@ -11,8 +11,8 @@ import { isPosixPathSeparator } from "./_util.ts";
  *
  * @example Usage
  * ```ts
- * import { resolve } from "@std/path/posix/resolve";
- * import { assertEquals } from "@std/assert";
+ * import { resolve } from "@ende/path/posix/resolve";
+ * import { assertEquals } from "@ende/assert";
  *
  * const path = resolve("/foo", "bar", "baz/asdf", "quux", "..");
  * assertEquals(path, "/foo/bar/baz/asdf");

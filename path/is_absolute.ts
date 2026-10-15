@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { isAbsolute as posixIsAbsolute } from "./posix/is_absolute.ts";
 import { isAbsolute as windowsIsAbsolute } from "./windows/is_absolute.ts";
 
@@ -10,8 +10,8 @@ import { isAbsolute as windowsIsAbsolute } from "./windows/is_absolute.ts";
  *
  * @example Usage
  * ```ts
- * import { isAbsolute } from "@std/path/is-absolute";
- * import { assert, assertFalse } from "@std/assert";
+ * import { isAbsolute } from "@ende/path/is-absolute";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assert(isAbsolute("C:\\home\\foo"));

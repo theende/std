@@ -1,7 +1,14 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { bold, gray, green, red, stripAnsiCode, yellow } from "@std/fmt/colors";
-import { AssertionError, assertThrows } from "@std/assert";
+import {
+  bold,
+  gray,
+  green,
+  red,
+  stripAnsiCode,
+  yellow,
+} from "@ende/fmt/colors";
+import { AssertionError, assertThrows } from "@ende/assert";
 import { expect } from "./expect.ts";
 
 function createHeader(): string[] {

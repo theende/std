@@ -10,8 +10,8 @@ import { normalize } from "./normalize.ts";
  *
  * @example Usage
  * ```ts
- * import { join } from "@std/path/posix/join";
- * import { assertEquals } from "@std/assert";
+ * import { join } from "@ende/path/posix/join";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(join("/foo", "bar", "baz/asdf", "quux", ".."), "/foo/bar/baz/asdf");
  * assertEquals(join(new URL("file:///foo"), "bar", "baz/asdf", "quux", ".."), "/foo/bar/baz/asdf");
@@ -19,8 +19,8 @@ import { normalize } from "./normalize.ts";
  *
  * @example Working with URLs
  * ```ts
- * import { join } from "@std/path/posix/join";
- * import { assertEquals } from "@std/assert";
+ * import { join } from "@ende/path/posix/join";
+ * import { assertEquals } from "@ende/assert";
  *
  * const url = new URL("https://ende.sh");
  * url.pathname = join("std", "path", "mod.ts");

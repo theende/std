@@ -1,10 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { CsvParseStream } from "./parse_stream.ts";
 import type { CsvParseStreamOptions } from "./parse_stream.ts";
-import { assert, assertEquals, assertRejects } from "@std/assert";
-import type { AssertTrue, IsExact } from "@std/testing/types";
-import { fromFileUrl, join } from "@std/path";
-import { delay } from "@std/async/delay";
+import { assert, assertEquals, assertRejects } from "@ende/assert";
+import type { AssertTrue, IsExact } from "@ende/testing/types";
+import { fromFileUrl, join } from "@ende/path";
+import { delay } from "@ende/async/delay";
 
 const testdataDir = join(fromFileUrl(import.meta.url), "../testdata");
 const encoder = new TextEncoder();

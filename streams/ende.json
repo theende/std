@@ -1,5 +1,5 @@
 {
-  "name": "@std/streams",
+  "name": "@ende/streams",
   "version": "1.2.0",
   "exports": {
     ".": "./mod.ts",

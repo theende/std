@@ -15,8 +15,8 @@ export type { Uint8Array_ };
  *
  * @example Basic usage
  * ```ts
- * import { repeat } from "@std/bytes/repeat";
- * import { assertEquals } from "@std/assert";
+ * import { repeat } from "@ende/bytes/repeat";
+ * import { assertEquals } from "@ende/assert";
  *
  * const source = new Uint8Array([0, 1, 2]);
  *
@@ -25,8 +25,8 @@ export type { Uint8Array_ };
  *
  * @example Zero count
  * ```ts
- * import { repeat } from "@std/bytes/repeat";
- * import { assertEquals } from "@std/assert";
+ * import { repeat } from "@ende/bytes/repeat";
+ * import { assertEquals } from "@ende/assert";
  *
  * const source = new Uint8Array([0, 1, 2]);
  *

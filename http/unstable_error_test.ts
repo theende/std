@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertInstanceOf } from "@std/assert";
+import { assertEquals, assertInstanceOf } from "@ende/assert";
 import { HttpError } from "./unstable_error.ts";
 
 Ende.test("new HttpError() defaults message to STATUS_TEXT[status]", () => {

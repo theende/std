@@ -1,10 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
-import { buildMessage } from "@std/internal/build-message";
-import { diff } from "@std/internal/diff";
-import { diffStr } from "@std/internal/diff-str";
-import { format } from "@std/internal/format";
-import { red } from "@std/internal/styles";
+import { buildMessage } from "@ende/internal/build-message";
+import { diff } from "@ende/internal/diff";
+import { diffStr } from "@ende/internal/diff-str";
+import { format } from "@ende/internal/format";
+import { red } from "@ende/internal/styles";
 import { AssertionError } from "./assertion_error.ts";
 
 /**
@@ -13,7 +13,7 @@ import { AssertionError } from "./assertion_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { assertStrictEquals } from "@std/assert";
+ * import { assertStrictEquals } from "@ende/assert";
  *
  * const a = {};
  * const b = a;

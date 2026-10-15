@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { html } from "./unstable_html.ts";
 
 Ende.test("html()", () => {

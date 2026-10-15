@@ -15,7 +15,7 @@ export type { Prng, RandomOptions };
  *
  * @example Usage
  * ```ts no-assert
- * import { shuffle } from "@std/random";
+ * import { shuffle } from "@ende/random";
  *
  * const items = [1, 2, 3, 4, 5];
  *

@@ -7,8 +7,8 @@
  *
  * @example Comparing numbers
  * ```ts
- * import { ascend } from "@std/data-structures";
- * import { assertEquals } from "@std/assert";
+ * import { ascend } from "@ende/data-structures";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(ascend(1, 2), -1);
  * assertEquals(ascend(2, 1), 1);
@@ -30,8 +30,8 @@ export function ascend<T>(a: T, b: T): -1 | 0 | 1 {
  *
  * @example Comparing numbers
  * ```ts
- * import { descend } from "@std/data-structures";
- * import { assertEquals } from "@std/assert";
+ * import { descend } from "@ende/data-structures";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(descend(1, 2), 1);
  * assertEquals(descend(2, 1), -1);

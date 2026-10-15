@@ -9,8 +9,8 @@ import { testComparatorSet } from "./_test_comparator_set.ts";
  *
  * @example Usage
  * ```ts
- * import { parse, parseRange, satisfies } from "@std/semver";
- * import { assert } from "@std/assert";
+ * import { parse, parseRange, satisfies } from "@ende/semver";
+ * import { assert } from "@ende/assert";
  *
  * const version = parse("1.2.3");
  * const range0 = parseRange(">=1.0.0 <2.0.0");

@@ -23,7 +23,7 @@ import {
   type Location,
   type TsTypeDef,
 } from "@deno/doc";
-import { distinctBy } from "@std/collections/distinct-by";
+import { distinctBy } from "@ende/collections/distinct-by";
 import { getEntrypoints, resolve } from "./utils.ts";
 
 type DocNodeWithJsDoc<T = DocNodeBase> = T & {
@@ -32,7 +32,7 @@ type DocNodeWithJsDoc<T = DocNodeBase> = T & {
 
 const TS_SNIPPET_REGEXP = /```ts[\s\S]*?```/g;
 const ASSERTION_IMPORT_REGEXP =
-  /from "@std\/(assert(\/[a-z-]+)?|expect(\/[a-z-]+)?|testing\/(mock|snapshot|types))"/g;
+  /from "@ende\/(assert(\/[a-z-]+)?|expect(\/[a-z-]+)?|testing\/(mock|snapshot|types))"/g;
 const NEWLINE = "\n";
 const diagnostics: DocumentError[] = [];
 
@@ -156,7 +156,7 @@ function assertHasSnippets(
     if (!(delim?.includes("no-assert") || delim?.includes("ignore"))) {
       assert(
         snippet.match(ASSERTION_IMPORT_REGEXP) !== null,
-        "Snippet must contain assertion from `@std/assert`, `@std/expect` or `@std/testing`",
+        "Snippet must contain assertion from `@ende/assert`, `@ende/expect` or `@ende/testing`",
         document,
       );
     }

@@ -27,8 +27,8 @@ const rawRe = new RegExp(`[${[...rawToEntity.keys()].join("")}]`, "g");
  *
  * @example Usage
  * ```ts
- * import { escape } from "@std/html/entities";
- * import { assertEquals } from "@std/assert";
+ * import { escape } from "@ende/html/entities";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(escape("<>'&AA"), "&lt;&gt;&#39;&amp;AA");
  *
@@ -65,8 +65,8 @@ const entityListRegexCache = new WeakMap<EntityList, RegExp>();
  *
  * @example Basic usage
  * ```ts
- * import { unescape } from "@std/html/entities";
- * import { assertEquals } from "@std/assert";
+ * import { unescape } from "@ende/html/entities";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(unescape("&lt;&gt;&#39;&amp;AA"), "<>'&AA");
  * assertEquals(unescape("&thorn;&eth;"), "&thorn;&eth;");
@@ -77,9 +77,9 @@ const entityListRegexCache = new WeakMap<EntityList, RegExp>();
  * This uses the full named entity list from the HTML spec (~47K un-minified)
  *
  * ```ts
- * import { unescape } from "@std/html/entities";
- * import entityList from "@std/html/named-entity-list.json" with { type: "json" };
- * import { assertEquals } from "@std/assert";
+ * import { unescape } from "@ende/html/entities";
+ * import entityList from "@ende/html/named-entity-list.json" with { type: "json" };
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(unescape("&lt;&gt;&#39;&amp;AA", { entityList }), "<>'&AA");
  * ```

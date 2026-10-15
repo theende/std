@@ -5,7 +5,7 @@
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API | WebGPU API}.
  *
  * ```ts ignore
- * import { createTextureWithData } from "@std/webgpu";
+ * import { createTextureWithData } from "@ende/webgpu";
  *
  * const adapter = await navigator.gpu.requestAdapter();
  * const device = await adapter?.requestDevice()!;

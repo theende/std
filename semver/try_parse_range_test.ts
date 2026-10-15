@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { tryParseRange } from "./try_parse_range.ts";
 import type { Range } from "./types.ts";
 

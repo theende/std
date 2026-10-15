@@ -20,8 +20,8 @@ import { mapValues } from "./map_values.ts";
  *
  * @example Basic usage
  * ```ts
- * import { reduceGroups } from "@std/collections/reduce-groups";
- * import { assertEquals } from "@std/assert";
+ * import { reduceGroups } from "@ende/collections/reduce-groups";
+ * import { assertEquals } from "@ende/assert";
  *
  * const votes = {
  *   Woody: [2, 3, 1, 4],

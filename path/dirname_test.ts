@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 // Ported from https://github.com/browserify/path-browserify/
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 import { dirname } from "./dirname.ts";
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";

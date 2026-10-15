@@ -15,7 +15,7 @@
  *
  * ```ts ignore
  * // Before
- * import { describe, it, beforeEach } from "@std/testing/bdd";
+ * import { describe, it, beforeEach } from "@ende/testing/bdd";
  *
  * // After
  * import { describe, it, beforeEach } from "node:test";
@@ -27,7 +27,7 @@
  * `permissions`; tests that rely on per-suite options can migrate to the flat
  * `Ende.test()` style instead, which accepts them per test.
  *
- * With `@std/testing/bdd` module you can write your tests in a familiar format for
+ * With `@ende/testing/bdd` module you can write your tests in a familiar format for
  * grouping tests and adding setup/teardown hooks used by other JavaScript testing
  * frameworks like Jasmine, Jest, and Mocha.
  *
@@ -115,7 +115,7 @@
  *   assertEquals,
  *   assertStrictEquals,
  *   assertThrows,
- * } from "@std/assert";
+ * } from "@ende/assert";
  *
  * class User {
  *   static users: Map<string, User> = new Map();
@@ -183,13 +183,13 @@
  *   assertEquals,
  *   assertStrictEquals,
  *   assertThrows,
- * } from "@std/assert";
+ * } from "@ende/assert";
  * import {
  *   afterEach,
  *   beforeEach,
  *   describe,
  *   it,
- * } from "@std/testing/bdd";
+ * } from "@ende/testing/bdd";
  *
  * class User {
  *   static users: Map<string, User> = new Map();
@@ -268,11 +268,11 @@
  *   assertEquals,
  *   assertStrictEquals,
  *   assertThrows,
- * } from "@std/assert";
+ * } from "@ende/assert";
  * import {
  *   describe,
  *   it,
- * } from "@std/testing/bdd";
+ * } from "@ende/testing/bdd";
  *
  * class User {
  *   static users: Map<string, User> = new Map();
@@ -351,11 +351,11 @@
  *   assertEquals,
  *   assertStrictEquals,
  *   assertThrows,
- * } from "@std/assert";
+ * } from "@ende/assert";
  * import {
  *   describe,
  *   it,
- * } from "@std/testing/bdd";
+ * } from "@ende/testing/bdd";
  *
  * class User {
  *   static users: Map<string, User> = new Map();
@@ -428,8 +428,8 @@
  * @module
  */
 
-import { getAssertionState } from "@std/internal/assertion-state";
-import { AssertionError } from "@std/assert/assertion-error";
+import { getAssertionState } from "@ende/internal/assertion-state";
+import { AssertionError } from "@ende/assert/assertion-error";
 import {
   type DescribeDefinition,
   globalSanitizersState,
@@ -585,8 +585,8 @@ export interface it {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -686,8 +686,8 @@ export function it<T>(...args: ItArgs<T>) {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -715,8 +715,8 @@ it.only = function itOnly<T>(...args: ItArgs<T>): void {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -743,8 +743,8 @@ it.ignore = function itIgnore<T>(...args: ItArgs<T>): void {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -770,8 +770,8 @@ it.skip = function itSkip<T>(...args: ItArgs<T>): void {
  *
  * @example Usage
  * ```ts ignore
- * import { test } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { test } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * test("a test case", () => {
  *   // test case
@@ -794,8 +794,8 @@ export function test<T>(...args: ItArgs<T>) {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, test } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, test } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   test("should pass", () => {
@@ -819,8 +819,8 @@ test.only = function itOnly<T>(...args: ItArgs<T>): void {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, test } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, test } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   test("should pass", () => {
@@ -843,8 +843,8 @@ test.ignore = function itIgnore<T>(...args: ItArgs<T>): void {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, test } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, test } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   test("should pass", () => {
@@ -889,8 +889,8 @@ function addHook<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, beforeAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, beforeAll } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * beforeAll(() => {
  *  console.log("beforeAll");
@@ -923,8 +923,8 @@ export function beforeAll<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, before } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, before } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * before(() => {
  *  console.log("before");
@@ -955,8 +955,8 @@ export function before<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, afterAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, afterAll } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * afterAll(() => {
  *  console.log("afterAll");
@@ -989,8 +989,8 @@ export function afterAll<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, after } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, after } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * after(() => {
  *  console.log("after");
@@ -1021,8 +1021,8 @@ export function after<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, beforeEach } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, beforeEach } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * beforeEach(() => {
  *  console.log("beforeEach");
@@ -1053,8 +1053,8 @@ export function beforeEach<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, afterEach } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, afterEach } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * afterEach(() => {
  *  console.log("afterEach");
@@ -1236,8 +1236,8 @@ export interface describe {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -1273,8 +1273,8 @@ export function describe<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, beforeAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, beforeAll } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -1307,8 +1307,8 @@ describe.only = function describeOnly<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, beforeAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, beforeAll } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -1340,8 +1340,8 @@ describe.ignore = function describeIgnore<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it, beforeAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it, beforeAll } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {

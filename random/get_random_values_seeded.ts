@@ -17,8 +17,8 @@ export type { IntegerTypedArray, RandomValueGenerator } from "./_types.ts";
  *
  * @example Usage
  * ```ts
- * import { getRandomValuesSeeded } from "@std/random";
- * import { assertEquals } from "@std/assert";
+ * import { getRandomValuesSeeded } from "@ende/random";
+ * import { assertEquals } from "@ende/assert";
  *
  * const getRandomValues = getRandomValuesSeeded(1n);
  * assertEquals(getRandomValues(new Uint8Array(5)), new Uint8Array([230, 11, 167, 51, 238]));

@@ -13,8 +13,8 @@
  * ### JSON
  *
  * ```ts
- * import { test, extractJson } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
+ * import { test, extractJson } from "@ende/front-matter";
+ * import { assertEquals } from "@ende/assert";
  *
  * const str = "---json\n{\"and\": \"this\"}\n---\ndeno is awesome";
  *
@@ -46,8 +46,8 @@
  * ### TOML
  *
  * ```ts
- * import { test, extractToml } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
+ * import { test, extractToml } from "@ende/front-matter";
+ * import { assertEquals } from "@ende/assert";
  *
  * const str = "---toml\nmodule = 'front_matter'\n---\ndeno is awesome";
  *
@@ -85,8 +85,8 @@
  * ### YAML
  *
  * ```ts
- * import { test, extractYaml } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
+ * import { test, extractYaml } from "@ende/front-matter";
+ * import { assertEquals } from "@ende/assert";
  *
  * const str = "---yaml\nmodule: front_matter\n---\ndeno is awesome";
  *

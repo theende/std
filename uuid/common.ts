@@ -13,8 +13,8 @@ import { NIL_UUID } from "./constants.ts";
  *
  * @example Usage
  * ```ts
- * import { isNil } from "@std/uuid";
- * import { assert, assertFalse } from "@std/assert";
+ * import { isNil } from "@ende/uuid";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * assert(isNil("00000000-0000-0000-0000-000000000000"));
  * assertFalse(isNil(crypto.randomUUID()));
@@ -33,8 +33,8 @@ export function isNil(id: string): boolean {
  *
  * @example Usage
  * ```ts
- * import { validate } from "@std/uuid";
- * import { assert, assertFalse } from "@std/assert";
+ * import { validate } from "@ende/uuid";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * assert(validate("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"));
  * assertFalse(validate("not a UUID"));
@@ -56,8 +56,8 @@ export function validate(uuid: string): boolean {
  *
  * @example Usage
  * ```ts
- * import { version } from "@std/uuid";
- * import { assertEquals } from "@std/assert";
+ * import { version } from "@ende/uuid";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(version("d9428888-122b-11e1-b85c-61cd3cbb3210"), 1);
  * assertEquals(version("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"), 4);

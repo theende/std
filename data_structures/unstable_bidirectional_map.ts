@@ -14,8 +14,8 @@
  *
  * @example Usage
  * ```ts
- * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
- * import { assertEquals } from "@std/assert";
+ * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+ * import { assertEquals } from "@ende/assert";
  *
  * const map = new BidirectionalMap([["one", 1]]);
  *
@@ -25,8 +25,8 @@
  *
  * @example Inserting a value that already exists
  * ```ts
- * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
- * import { assertEquals } from "@std/assert";
+ * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+ * import { assertEquals } from "@ende/assert";
  *
  * const map = new BidirectionalMap();
  * map.set(1, "one");
@@ -60,8 +60,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap([["one", 1]]);
    * map.clear();
@@ -84,8 +84,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap();
    * map.set("one", 1);
@@ -116,8 +116,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap([["one", 1]]);
    *
@@ -139,8 +139,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap([["one", 1]]);
    * map.delete("one");
@@ -164,8 +164,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap([["one", 1]]);
    *
@@ -192,8 +192,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap([["one", 1]]);
    *
@@ -210,8 +210,8 @@ export class BidirectionalMap<K, V> extends Map<K, V> {
    *
    * @example Usage
    * ```ts
-   * import { BidirectionalMap } from "@std/data-structures/unstable-bidirectional-map";
-   * import { assertEquals } from "@std/assert";
+   * import { BidirectionalMap } from "@ende/data-structures/unstable-bidirectional-map";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new BidirectionalMap();
    * assertEquals(map.toString(), "[object BidirectionalMap]");

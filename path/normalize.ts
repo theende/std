@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { normalize as posixNormalize } from "./posix/normalize.ts";
 import { normalize as windowsNormalize } from "./windows/normalize.ts";
 /**
@@ -13,8 +13,8 @@ import { normalize as windowsNormalize } from "./windows/normalize.ts";
  *
  * @example Usage
  * ```ts
- * import { normalize } from "@std/path/normalize";
- * import { assertEquals } from "@std/assert";
+ * import { normalize } from "@ende/path/normalize";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   assertEquals(normalize("C:\\foo\\bar\\..\\baz\\quux"), "C:\\foo\\baz\\quux");

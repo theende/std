@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertRejects, assertThrows } from "@std/assert";
-import { lessOrEqual, parse as parseSemver } from "@std/semver";
+import { assert, assertRejects, assertThrows } from "@ende/assert";
+import { lessOrEqual, parse as parseSemver } from "@ende/semver";
 import { rename, renameSync } from "./unstable_rename.ts";
 import { NotFound } from "./unstable_errors.js";
 import { mkdir, mkdtemp, open, rm, stat, symlink } from "node:fs/promises";

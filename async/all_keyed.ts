@@ -55,8 +55,8 @@ export type SettledRecord<T extends Record<PropertyKey, unknown>> = {
  *
  * @example Basic usage
  * ```ts
- * import { allKeyed } from "@std/async/all-keyed";
- * import { assertEquals } from "@std/assert";
+ * import { allKeyed } from "@ende/async/all-keyed";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = await allKeyed({
  *   foo: Promise.resolve(1),
@@ -68,7 +68,7 @@ export type SettledRecord<T extends Record<PropertyKey, unknown>> = {
  *
  * @example Parallel HTTP requests
  * ```ts no-assert ignore
- * import { allKeyed } from "@std/async/all-keyed";
+ * import { allKeyed } from "@ende/async/all-keyed";
  *
  * const { user, posts } = await allKeyed({
  *   user: fetch("/api/user").then((r) => r.json()),
@@ -78,8 +78,8 @@ export type SettledRecord<T extends Record<PropertyKey, unknown>> = {
  *
  * @example Mixed promises and plain values
  * ```ts
- * import { allKeyed } from "@std/async/all-keyed";
- * import { assertEquals } from "@std/assert";
+ * import { allKeyed } from "@ende/async/all-keyed";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = await allKeyed({
  *   promised: Promise.resolve(42),
@@ -130,8 +130,8 @@ export function allKeyed<T extends Record<PropertyKey, unknown>>(
  *
  * @example Basic usage
  * ```ts
- * import { allSettledKeyed } from "@std/async/all-keyed";
- * import { assertEquals } from "@std/assert";
+ * import { allSettledKeyed } from "@ende/async/all-keyed";
+ * import { assertEquals } from "@ende/assert";
  *
  * const settled = await allSettledKeyed({
  *   success: Promise.resolve(1),
@@ -144,8 +144,8 @@ export function allKeyed<T extends Record<PropertyKey, unknown>>(
  *
  * @example Error handling
  * ```ts
- * import { allSettledKeyed } from "@std/async/all-keyed";
- * import { assertEquals, assertExists } from "@std/assert";
+ * import { allSettledKeyed } from "@ende/async/all-keyed";
+ * import { assertEquals, assertExists } from "@ende/assert";
  *
  * const settled = await allSettledKeyed({
  *   a: Promise.resolve("ok"),

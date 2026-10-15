@@ -10,8 +10,8 @@ import { isPathSeparator, isWindowsDeviceRoot } from "./_util.ts";
  *
  * @example Usage
  * ```ts
- * import { isAbsolute } from "@std/path/windows/is-absolute";
- * import { assert, assertFalse } from "@std/assert";
+ * import { isAbsolute } from "@ende/path/windows/is-absolute";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * assert(isAbsolute("C:\\foo\\bar"));
  * assertFalse(isAbsolute("..\\baz"));

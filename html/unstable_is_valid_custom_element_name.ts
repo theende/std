@@ -37,8 +37,8 @@ const CUSTOM_ELEMENT_NAME_CHARS_REGEXP =
  * Using a valid custom element name
  *
  * ```ts
- * import { isValidCustomElementName } from "@std/html/unstable-is-valid-custom-element-name";
- * import { assertEquals } from "@std/assert";
+ * import { isValidCustomElementName } from "@ende/html/unstable-is-valid-custom-element-name";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(isValidCustomElementName("custom-element"), true);
  * assertEquals(isValidCustomElementName("font-face"), false);

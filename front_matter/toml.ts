@@ -2,7 +2,7 @@
 // This module is browser compatible.
 
 import { extractFrontMatter } from "./_shared.ts";
-import { parse } from "@std/toml/parse";
+import { parse } from "@ende/toml/parse";
 import type { Extract } from "./types.ts";
 import { EXTRACT_TOML_REGEXP } from "./_formats.ts";
 
@@ -14,8 +14,8 @@ export type { Extract };
  *
  * @example Extract TOML front matter
  * ```ts
- * import { extract } from "@std/front-matter/toml";
- * import { assertEquals } from "@std/assert";
+ * import { extract } from "@ende/front-matter/toml";
+ * import { assertEquals } from "@ende/assert";
  *
  * const output = `---toml
  * title = "Three dashes marks the spot"

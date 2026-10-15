@@ -5,8 +5,8 @@
  * stdout.
  *
  * ```ts
- * import { sprintf } from "@std/fmt/printf";
- * import { assertEquals } from "@std/assert";
+ * import { sprintf } from "@ende/fmt/printf";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(sprintf("%d", 9), "9");
  * assertEquals(sprintf("%o", 9), "11");
@@ -962,8 +962,8 @@ class Printf {
  *
  * @example Usage
  * ```ts
- * import { sprintf } from "@std/fmt/printf";
- * import { assertEquals } from "@std/assert";
+ * import { sprintf } from "@ende/fmt/printf";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(sprintf("%d", 9), "9");
  *
@@ -994,7 +994,7 @@ export function sprintf(format: string, ...args: unknown[]): string {
  *
  * @example Usage
  * ```ts no-assert
- * import { printf } from "@std/fmt/printf";
+ * import { printf } from "@ende/fmt/printf";
  *
  * printf("%d", 9); // Prints "9"
  *

@@ -1,5 +1,5 @@
 {
-  "name": "@std/msgpack",
+  "name": "@ende/msgpack",
   "version": "1.0.3",
   "exports": {
     ".": "./mod.ts",

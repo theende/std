@@ -1,5 +1,5 @@
 {
-  "name": "@std/webgpu",
+  "name": "@ende/webgpu",
   "version": "0.224.9",
   "exports": {
     ".": "./mod.ts",

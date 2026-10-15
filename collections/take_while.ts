@@ -16,8 +16,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { takeWhile } from "@std/collections/take-while";
- * import { assertEquals } from "@std/assert";
+ * import { takeWhile } from "@ende/collections/take-while";
+ * import { assertEquals } from "@ende/assert";
  *
  * const numbers = [1, 2, 3, 4, 5, 6];
  *
@@ -28,8 +28,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { takeWhile } from "@std/collections/take-while";
- * import { assertEquals } from "@std/assert";
+ * import { takeWhile } from "@ende/collections/take-while";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [20, 30, 20];
  * const result = takeWhile(array, (_, index) => index < 2);

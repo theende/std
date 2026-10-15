@@ -21,8 +21,8 @@ export type InvertResult<T extends Record<PropertyKey, PropertyKey>> = {
  *
  * @example Basic usage
  * ```ts
- * import { invert } from "@std/collections/invert";
- * import { assertEquals } from "@std/assert";
+ * import { invert } from "@ende/collections/invert";
+ * import { assertEquals } from "@ende/assert";
  *
  * const record = { a: "x", b: "y", c: "z" };
  *

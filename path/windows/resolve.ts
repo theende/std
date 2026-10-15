@@ -12,8 +12,8 @@ import { isPathSeparator, isWindowsDeviceRoot } from "./_util.ts";
  *
  * @example Usage
  * ```ts
- * import { resolve } from "@std/path/windows/resolve";
- * import { assertEquals } from "@std/assert";
+ * import { resolve } from "@ende/path/windows/resolve";
+ * import { assertEquals } from "@ende/assert";
  *
  * const resolved = resolve("C:\\foo\\bar", "..\\baz");
  * assertEquals(resolved, "C:\\foo\\baz");

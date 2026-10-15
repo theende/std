@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 import { abortable } from "./unstable_abortable.ts";
 
 Ende.test("abortable() handles promise", async () => {

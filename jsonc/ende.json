@@ -1,5 +1,5 @@
 {
-  "name": "@std/jsonc",
+  "name": "@ende/jsonc",
   "version": "1.0.3",
   "exports": {
     ".": "./mod.ts",

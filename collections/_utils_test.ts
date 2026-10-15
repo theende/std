@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { filterInPlace } from "./_utils.ts";
-import { assert, assertEquals } from "@std/assert";
+import { assert, assertEquals } from "@ende/assert";
 
 Ende.test("filterInPlace() filters out elements not matching predicate", () => {
   const array = [1, 2, 3, 4, 5];

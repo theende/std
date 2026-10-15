@@ -221,8 +221,8 @@ function getValuesFromItem(
  *
  * @example Default options
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   ["Rick", 70],
@@ -234,8 +234,8 @@ function getValuesFromItem(
  *
  * @example Give an array of objects and specify columns
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -249,8 +249,8 @@ function getValuesFromItem(
  *
  * @example Give an array of objects without specifying columns
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertThrows } from "@std/assert/throws";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertThrows } from "@ende/assert/throws";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -266,8 +266,8 @@ function getValuesFromItem(
  *
  * @example Give an array of objects and specify columns with `headers: false`
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -284,8 +284,8 @@ function getValuesFromItem(
  *
  * @example Give an array of objects and specify columns with renaming
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -308,8 +308,8 @@ function getValuesFromItem(
  * import {
  *   Column,
  *   stringify,
- * } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   {
@@ -345,8 +345,8 @@ function getValuesFromItem(
  * import {
  *   Column,
  *   stringify,
- * } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   {
@@ -378,8 +378,8 @@ function getValuesFromItem(
  *
  * @example Give an array of string arrays and specify columns with renaming
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   ["Rick", 70],
@@ -399,8 +399,8 @@ function getValuesFromItem(
  *
  * @example Emit TSV (tab-separated values) with `separator: "\t"`
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   ["Rick", 70],
@@ -412,8 +412,8 @@ function getValuesFromItem(
  *
  * @example Prepend a byte-order mark with `bom: true`
  * ```ts
- * import { stringify } from "@std/csv/stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [["Rick", 70]];
  *

@@ -1,10 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { deepMerge } from "@std/collections/deep-merge";
+import { deepMerge } from "@ende/collections/deep-merge";
 
 /**
- * Copy of `import { isLeap } from "@std/datetime";` because it cannot be impoted as long as it is unstable.
+ * Copy of `import { isLeap } from "@ende/datetime";` because it cannot be impoted as long as it is unstable.
  */
 function isLeap(yearNumber: number): boolean {
   return (

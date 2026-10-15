@@ -27,7 +27,7 @@ export interface WaitForOptions {
  *
  * @example Basic usage
  * ```ts ignore
- * import { waitFor } from "@std/async/unstable-wait-for";
+ * import { waitFor } from "@ende/async/unstable-wait-for";
  *
  * // Ende server to acknowledge reception of request/webhook
  * let requestReceived = false;

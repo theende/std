@@ -6,7 +6,7 @@ import {
   assertArrayIncludes,
   assertEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { randomSeeded } from "./seeded.ts";
 
 Ende.test({

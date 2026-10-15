@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { ProgressBar } from "./unstable_progress_bar.ts";
-import { FakeTime } from "@std/testing/time";
+import { FakeTime } from "@ende/testing/time";
 
 const decoder = new TextDecoder();
 

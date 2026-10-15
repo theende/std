@@ -10,7 +10,7 @@ export type { Writer, WriterSync } from "./types.ts";
  *
  * @example Writing to stdout
  * ```ts no-assert
- * import { writeAll } from "@std/io/write-all";
+ * import { writeAll } from "@ende/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
  * await writeAll(Ende.stdout, contentBytes);
@@ -18,7 +18,7 @@ export type { Writer, WriterSync } from "./types.ts";
  *
  * @example Writing to file
  * ```ts ignore no-assert
- * import { writeAll } from "@std/io/write-all";
+ * import { writeAll } from "@ende/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
  * using file = await Ende.open('test.file', { write: true });
@@ -41,7 +41,7 @@ export async function writeAll(writer: Writer, data: Uint8Array) {
  *
  * @example "riting to stdout
  * ```ts no-assert
- * import { writeAllSync } from "@std/io/write-all";
+ * import { writeAllSync } from "@ende/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
  * writeAllSync(Ende.stdout, contentBytes);
@@ -49,7 +49,7 @@ export async function writeAll(writer: Writer, data: Uint8Array) {
  *
  * @example Writing to file
  * ```ts ignore no-assert
- * import { writeAllSync } from "@std/io/write-all";
+ * import { writeAllSync } from "@ende/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
  * using file = Ende.openSync("test.file", { write: true });

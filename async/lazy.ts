@@ -29,8 +29,8 @@ export interface LazyGetOptions {
  * @example Concurrent deduplication
  *
  * ```ts
- * import { Lazy } from "@std/async/lazy";
- * import { assertEquals } from "@std/assert";
+ * import { Lazy } from "@ende/async/lazy";
+ * import { assertEquals } from "@ende/assert";
  *
  * let initCount = 0;
  * const config = new Lazy<number>(async () => {
@@ -47,8 +47,8 @@ export interface LazyGetOptions {
  * @example Composing with retry
  *
  * ```ts ignore
- * import { Lazy } from "@std/async/lazy";
- * import { retry } from "@std/async/retry";
+ * import { Lazy } from "@ende/async/lazy";
+ * import { retry } from "@ende/async/retry";
  *
  * const db = new Lazy(() =>
  *   retry(() => connectDb(), { minTimeout: 100, maxAttempts: 3 })
@@ -82,7 +82,7 @@ export class Lazy<T> {
    *
    * @example Usage
    * ```ts no-assert
-   * import { Lazy } from "@std/async/lazy";
+   * import { Lazy } from "@ende/async/lazy";
    *
    * const config = new Lazy(async () => ({ loaded: true }));
    * const value = await config.get();
@@ -90,8 +90,8 @@ export class Lazy<T> {
    *
    * @example Abort a slow initialization
    * ```ts
-   * import { Lazy } from "@std/async/lazy";
-   * import { assertRejects } from "@std/assert";
+   * import { Lazy } from "@ende/async/lazy";
+   * import { assertRejects } from "@ende/assert";
    *
    * const slow = new Lazy(() => new Promise<string>(() => {}));
    * const controller = new AbortController();
@@ -155,8 +155,8 @@ export class Lazy<T> {
    *
    * @example Check initialization state
    * ```ts
-   * import { Lazy } from "@std/async/lazy";
-   * import { assertEquals } from "@std/assert";
+   * import { Lazy } from "@ende/async/lazy";
+   * import { assertEquals } from "@ende/assert";
    *
    * const lazy = new Lazy(() => 42);
    * assertEquals(lazy.initialized, false);
@@ -177,8 +177,8 @@ export class Lazy<T> {
    *
    * @example Fast-path when already initialized
    * ```ts
-   * import { Lazy } from "@std/async/lazy";
-   * import { assertEquals } from "@std/assert";
+   * import { Lazy } from "@ende/async/lazy";
+   * import { assertEquals } from "@ende/assert";
    *
    * const config = new Lazy(async () => ({ port: 8080 }));
    * await config.get();
@@ -189,8 +189,8 @@ export class Lazy<T> {
    *
    * @example Not yet initialized
    * ```ts
-   * import { Lazy } from "@std/async/lazy";
-   * import { assertEquals } from "@std/assert";
+   * import { Lazy } from "@ende/async/lazy";
+   * import { assertEquals } from "@ende/assert";
    *
    * const lazy = new Lazy(() => 42);
    * assertEquals(lazy.peek(), { ok: false });
@@ -212,7 +212,7 @@ export class Lazy<T> {
    *
    * @example Force reload
    * ```ts ignore
-   * import { Lazy } from "@std/async/lazy";
+   * import { Lazy } from "@ende/async/lazy";
    *
    * const config = new Lazy(async () => loadConfig());
    * await config.get();

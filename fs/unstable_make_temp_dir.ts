@@ -20,7 +20,7 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { makeTempDir } from "@std/unstable-make-temp-dir";
+ * import { makeTempDir } from "@ende/unstable-make-temp-dir";
  * const tempDirName0 = await makeTempDir();  // e.g. /tmp/2894ea76
  * const tempDirName1 = await makeTempDir({ prefix: 'my_temp' }); // e.g. /tmp/my_temp339c944d
  * ```
@@ -93,7 +93,7 @@ export async function makeTempDir(options?: MakeTempOptions): Promise<string> {
  *
  * @example Usage
  * ```ts no-assert
- * import { makeTempDirSync } from "@std/fs/unstable-make-temp-dir";
+ * import { makeTempDirSync } from "@ende/fs/unstable-make-temp-dir";
  * const tempDirName0 = makeTempDirSync();  // e.g. /tmp/2894ea76
  * const tempDirName1 = makeTempDirSync({ prefix: 'my_temp' });  // e.g. /tmp/my_temp339c944d
  * ```

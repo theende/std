@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects, assertThrows } from "@std/assert";
+import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
 import { readLink, readLinkSync } from "./unstable_read_link.ts";
 import { NotFound } from "./unstable_errors.js";
 import {

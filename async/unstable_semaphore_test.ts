@@ -6,7 +6,7 @@ import {
   assertExists,
   assertFalse,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { Semaphore } from "./unstable_semaphore.ts";
 
 /** Helper to assert that a promise is blocked until released */

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { clamp } from "./clamp.ts";
-import { assert, assertEquals, assertThrows } from "@std/assert";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
 
 Ende.test("clamp()", async (t) => {
   await t.step("basic functionality", () => {

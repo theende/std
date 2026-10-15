@@ -6,8 +6,8 @@ import {
   assertInstanceOf,
   assertRejects,
   assertThrows,
-} from "@std/assert";
-import { FakeTime } from "@std/testing/time";
+} from "@ende/assert";
+import { FakeTime } from "@ende/testing/time";
 import {
   CircuitBreaker,
   CircuitBreakerOpenError,

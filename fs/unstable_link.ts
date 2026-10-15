@@ -10,7 +10,7 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { link } from "@std/fs/unstable-link";
+ * import { link } from "@ende/fs/unstable-link";
  * await link("old/name", "new/name");
  * ```
  *
@@ -38,7 +38,7 @@ export async function link(oldpath: string, newpath: string): Promise<void> {
  *
  * @example Usage
  * ```ts ignore
- * import { linkSync } from "@std/fs/unstable-link";
+ * import { linkSync } from "@ende/fs/unstable-link";
  * linkSync("old/name", "new/name");
  * ```
  *

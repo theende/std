@@ -13,7 +13,7 @@
  *
  * @example Basic 404 response
  * ```ts
- * import { createProblemDetailsResponse } from "@std/http/unstable-problem-details";
+ * import { createProblemDetailsResponse } from "@ende/http/unstable-problem-details";
  *
  * const response = createProblemDetailsResponse({
  *   status: 404,
@@ -26,7 +26,7 @@
  * import {
  *   isProblemDetailsResponse,
  *   parseProblemDetailsResponse,
- * } from "@std/http/unstable-problem-details";
+ * } from "@ende/http/unstable-problem-details";
  *
  * const response = await fetch("https://api.example.com/resource");
  * if (isProblemDetailsResponse(response)) {
@@ -137,7 +137,7 @@ export interface ProblemDetailsResponseOptions {
  * - Sets `Content-Type` to `application/problem+json`, overwriting any
  *   `Content-Type` provided in `options.headers`.
  * - Defaults `type` to `"about:blank"` if not provided.
- * - Defaults `title` to the standard HTTP status text (from `@std/http/status`)
+ * - Defaults `title` to the standard HTTP status text (from `@ende/http/status`)
  *   when `type` is `"about:blank"` and `title` is not provided.
  * - Defaults `status` to `500` if not provided.
  * - Serializes directly to JSON — the flat intersection type already matches
@@ -162,8 +162,8 @@ export interface ProblemDetailsResponseOptions {
  *
  * @example Basic 404 response
  * ```ts
- * import { createProblemDetailsResponse } from "@std/http/unstable-problem-details";
- * import { assertEquals } from "@std/assert";
+ * import { createProblemDetailsResponse } from "@ende/http/unstable-problem-details";
+ * import { assertEquals } from "@ende/assert";
  *
  * const response = createProblemDetailsResponse({
  *   status: 404,
@@ -183,8 +183,8 @@ export interface ProblemDetailsResponseOptions {
  *
  * @example Custom problem type with extensions
  * ```ts
- * import { createProblemDetailsResponse } from "@std/http/unstable-problem-details";
- * import { assertEquals } from "@std/assert";
+ * import { createProblemDetailsResponse } from "@ende/http/unstable-problem-details";
+ * import { assertEquals } from "@ende/assert";
  *
  * const response = createProblemDetailsResponse({
  *   type: "https://example.com/problems/insufficient-credit",
@@ -311,8 +311,8 @@ function normalizeParsedProblemDetails(
  *
  * @example Parse from a plain object
  * ```ts
- * import { parseProblemDetails } from "@std/http/unstable-problem-details";
- * import { assertEquals } from "@std/assert";
+ * import { parseProblemDetails } from "@ende/http/unstable-problem-details";
+ * import { assertEquals } from "@ende/assert";
  *
  * const problem = parseProblemDetails({
  *   type: "about:blank",
@@ -364,8 +364,8 @@ export function parseProblemDetails<
  *
  * @example Parse from a Response
  * ```ts
- * import { parseProblemDetailsResponse } from "@std/http/unstable-problem-details";
- * import { assertEquals } from "@std/assert";
+ * import { parseProblemDetailsResponse } from "@ende/http/unstable-problem-details";
+ * import { assertEquals } from "@ende/assert";
  *
  * const response = new Response(
  *   JSON.stringify({ type: "about:blank", status: 404, title: "Not Found" }),
@@ -403,7 +403,7 @@ export async function parseProblemDetailsResponse<
  * import {
  *   isProblemDetailsResponse,
  *   parseProblemDetailsResponse,
- * } from "@std/http/unstable-problem-details";
+ * } from "@ende/http/unstable-problem-details";
  *
  * const response = await fetch("https://api.example.com/resource");
  * if (isProblemDetailsResponse(response)) {

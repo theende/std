@@ -12,7 +12,7 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts no-assert
- * import { readFile } from "@std/fs/unstable-read-file";
+ * import { readFile } from "@ende/fs/unstable-read-file";
  * const decoder = new TextDecoder("utf-8");
  * const data = await readFile("README.md");
  * console.log(decoder.decode(data));
@@ -50,7 +50,7 @@ export async function readFile(
  *
  * @example Usage
  * ```ts no-assert
- * import { readFileSync } from "@std/fs/unstable-read-file";
+ * import { readFileSync } from "@ende/fs/unstable-read-file";
  * const decoder = new TextDecoder("utf-8");
  * const data = readFileSync("README.md");
  * console.log(decoder.decode(data));

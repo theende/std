@@ -11,8 +11,8 @@
  *
  * @example Usage
  * ```ts
- * import { clamp } from "@std/math/clamp";
- * import { assertEquals } from "@std/assert";
+ * import { clamp } from "@ende/math/clamp";
+ * import { assertEquals } from "@ende/assert";
  * assertEquals(clamp(5, 1, 10), 5);
  * assertEquals(clamp(-5, 1, 10), 1);
  * assertEquals(clamp(15, 1, 10), 10);

@@ -64,8 +64,8 @@ const {
  *
  * @example Usage
  * ```ts
- * import { RedBlackTree } from "@std/data-structures/red-black-tree";
- * import { assertEquals } from "@std/assert";
+ * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+ * import { assertEquals } from "@ende/assert";
  *
  * const tree = RedBlackTree.from([3, 10, 13, 4, 6, 7, 1, 14]);
  * assertEquals([...tree], [1, 3, 4, 6, 7, 10, 13, 14]);
@@ -79,9 +79,9 @@ const {
  *
  * @example Ordering with a custom comparison function
  * ```ts
- * import { RedBlackTree } from "@std/data-structures/red-black-tree";
- * import { ascend } from "@std/data-structures/comparators";
- * import { assertEquals } from "@std/assert";
+ * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+ * import { ascend } from "@ende/data-structures/comparators";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Shortest first, alphabetically within a length
  * const words = new RedBlackTree<string>((a, b) =>
@@ -128,8 +128,8 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Creating a red-black tree from an array like
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = RedBlackTree.from<number>([3, 10, 13, 4, 6, 7, 1, 14]);
    * assertEquals([...tree], [1, 3, 4, 6, 7, 10, 13, 14]);
@@ -137,8 +137,8 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Creating a red-black tree from an iterable object
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = RedBlackTree.from<number>((function*() {
    *   yield 3;
@@ -150,8 +150,8 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Creating a red-black tree from an existing red-black tree
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = RedBlackTree.from<number>([3, 10, 13, 4, 6, 7, 1, 14]);
    * const copy = RedBlackTree.from(tree);
@@ -164,9 +164,9 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Creating a red-black tree from an array like with a custom comparison function
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { descend } from "@std/data-structures/comparators";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { descend } from "@ende/data-structures/comparators";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = RedBlackTree.from<number>([3, 10, 13, 4, 6, 7, 1, 14], {
    *   compare: descend,
@@ -204,8 +204,8 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Creating a red-black tree from an array like with a custom mapping function
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = RedBlackTree.from<number, string>([3, 10, 13, 4, 6, 7, 1, 14], {
    *   map: (value) => value.toString(),
@@ -354,8 +354,8 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Inserting a value into the tree
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = new RedBlackTree<number>();
    *
@@ -419,8 +419,8 @@ export class RedBlackTree<T> extends BinarySearchTree<T> {
    *
    * @example Removing values from the tree
    * ```ts
-   * import { RedBlackTree } from "@std/data-structures/red-black-tree";
-   * import { assertEquals } from "@std/assert";
+   * import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tree = RedBlackTree.from<number>([42]);
    *

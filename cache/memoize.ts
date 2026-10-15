@@ -49,7 +49,7 @@ export type MemoizeOptions<
    * limit on the number of results to be cached.
    *
    * Alternatively, you can supply an
-   * {@link https://jsr.io/@std/cache/doc/lru-cache/~/LruCache | LruCache}
+   * {@link https://jsr.io/@ende/cache/doc/lru-cache/~/LruCache | LruCache}
    * with a specified max size to limit memory usage.
    */
   cache?: Cache;
@@ -60,8 +60,8 @@ export type MemoizeOptions<
    *
    * @example
    * ```ts
-   * import { memoize } from "@std/cache";
-   * import { assertEquals } from "@std/assert";
+   * import { memoize } from "@ende/cache";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fn = memoize(({ value }: { cacheKey: number; value: number }) => {
    *   return value;
@@ -100,8 +100,8 @@ export type MemoizeOptions<
  *
  * @example Basic usage
  * ```ts
- * import { memoize } from "@std/cache";
- * import { assertEquals } from "@std/assert";
+ * import { memoize } from "@ende/cache";
+ * import { assertEquals } from "@ende/assert";
  *
  * // fibonacci function, which is very slow for n > ~30 if not memoized
  * const fib = memoize((n: bigint): bigint => {

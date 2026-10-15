@@ -14,8 +14,8 @@ const UUID_REGEXP =
  *
  * @example Usage
  * ```ts
- * import { validate } from "@std/uuid/v4";
- * import { assert, assertFalse } from "@std/assert";
+ * import { validate } from "@ende/uuid/v4";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * assert(validate(crypto.randomUUID()));
  * assertFalse(validate("this-is-not-a-uuid"));

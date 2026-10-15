@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { copy } from "@std/bytes/copy";
+import { copy } from "@ende/bytes/copy";
 
 const MAX_SIZE = 2 ** 32 - 2;
 const DEFAULT_CHUNK_SIZE = 16_640;
@@ -37,10 +37,10 @@ export interface BufferBytesOptions {
  *
  * @example Buffer input bytes and convert it to a string
  * ```ts
- * import { Buffer } from "@std/streams/buffer";
- * import { toText } from "@std/streams/to-text";
- * import { assert } from "@std/assert";
- * import { assertEquals } from "@std/assert";
+ * import { Buffer } from "@ende/streams/buffer";
+ * import { toText } from "@ende/streams/to-text";
+ * import { assert } from "@ende/assert";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Create a new buffer
  * const buf = new Buffer();
@@ -93,7 +93,7 @@ export class Buffer {
    *
    * @example Read the content out of the buffer to stdout
    * ```ts ignore
-   * import { Buffer } from "@std/streams/buffer";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const buf = new Buffer();
    * await buf.readable.pipeTo(Ende.stdout.writable);
@@ -117,7 +117,7 @@ export class Buffer {
    *
    * @example Write the data from stdin to the buffer
    * ```ts ignore
-   * import { Buffer } from "@std/streams/buffer";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const buf = new Buffer();
    * await Ende.stdin.readable.pipeTo(buf.writable);
@@ -157,9 +157,9 @@ export class Buffer {
    *
    * @example Copy the buffer
    * ```ts
-   * import { assertEquals } from "@std/assert";
-   * import { assertNotEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assertEquals } from "@ende/assert";
+   * import { assertNotEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([0, 1, 2]);
    * const buf = new Buffer(array.buffer);
@@ -176,8 +176,8 @@ export class Buffer {
    *
    * @example Get a slice to the buffer
    * ```ts
-   * import { assertEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assertEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([0, 1, 2]);
    * const buf = new Buffer(array.buffer);
@@ -204,8 +204,8 @@ export class Buffer {
    *
    * @example Empty buffer
    * ```ts
-   * import { assert } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assert } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const buf = new Buffer();
    * assert(buf.empty());
@@ -213,8 +213,8 @@ export class Buffer {
    *
    * @example Non-empty buffer
    * ```ts
-   * import { assert } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assert } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([42]);
    * const buf = new Buffer(array.buffer);
@@ -223,8 +223,8 @@ export class Buffer {
    *
    * @example Non-empty, but the content was already read
    * ```ts ignore
-   * import { assert } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assert } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([42]);
    * const buf = new Buffer(array.buffer);
@@ -246,8 +246,8 @@ export class Buffer {
    *
    * @example Basic usage
    * ```ts
-   * import { assertEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assertEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([0, 1, 2]);
    * const buf = new Buffer(array.buffer);
@@ -256,8 +256,8 @@ export class Buffer {
    *
    * @example Length becomes 0 after the content is read
    * ```ts ignore
-   * import { assertEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assertEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([42]);
    * const buf = new Buffer(array.buffer);
@@ -280,8 +280,8 @@ export class Buffer {
    *
    * @example Basic usage
    * ```ts
-   * import { assertEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assertEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const arrayBuffer = new ArrayBuffer(256);
    * const buf = new Buffer(arrayBuffer);
@@ -301,8 +301,8 @@ export class Buffer {
    *
    * @example Basic usage
    * ```ts
-   * import { assertEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assertEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([0, 1, 2]);
    * const buf = new Buffer(array.buffer);
@@ -331,8 +331,8 @@ export class Buffer {
    *
    * @example Basic usage
    * ```ts
-   * import { assert } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assert } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const array = new Uint8Array([0, 1, 2]);
    * const buf = new Buffer(array.buffer);
@@ -408,9 +408,9 @@ export class Buffer {
    *
    * @example Basic usage
    * ```ts
-   * import { assert } from "@std/assert";
-   * import { assertEquals } from "@std/assert";
-   * import { Buffer } from "@std/streams/buffer";
+   * import { assert } from "@ende/assert";
+   * import { assertEquals } from "@ende/assert";
+   * import { Buffer } from "@ende/streams/buffer";
    *
    * const buf = new Buffer();
    * assertEquals(buf.capacity, 0);

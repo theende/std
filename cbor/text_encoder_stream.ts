@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { toByteStream } from "@std/streams/unstable-to-byte-stream";
+import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 import { numberToArray } from "./_common.ts";
 
 /**
@@ -14,12 +14,12 @@ import { numberToArray } from "./_common.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
+ * import { assert, assertEquals } from "@ende/assert";
  * import {
  *   CborSequenceDecoderStream,
  *   CborTextDecodedStream,
  *   CborTextEncoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage = "a".repeat(100);
  *
@@ -71,12 +71,12 @@ export class CborTextEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborSequenceDecoderStream,
    *   CborTextDecodedStream,
    *   CborTextEncoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = "a".repeat(100);
    *
@@ -110,12 +110,12 @@ export class CborTextEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborSequenceDecoderStream,
    *   CborTextDecodedStream,
    *   CborTextEncoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = "a".repeat(100);
    *
@@ -143,12 +143,12 @@ export class CborTextEncoderStream
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
+   * import { assert, assertEquals } from "@ende/assert";
    * import {
    *   CborSequenceDecoderStream,
    *   CborTextDecodedStream,
    *   CborTextEncoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = "a".repeat(100);
    *

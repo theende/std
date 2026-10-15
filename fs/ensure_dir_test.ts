@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertRejects, assertThrows } from "@std/assert";
-import * as path from "@std/path";
+import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
+import * as path from "@ende/path";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
 import { ensureFile, ensureFileSync } from "./ensure_file.ts";
 

@@ -11,8 +11,8 @@ function formatNumber(value: number) {
  *
  * @example Usage
  * ```ts
- * import { format } from "@std/semver/format";
- * import { assertEquals } from "@std/assert";
+ * import { format } from "@ende/semver/format";
+ * import { assertEquals } from "@ende/assert";
  *
  * const semver = {
  *   major: 1,

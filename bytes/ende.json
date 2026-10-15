@@ -1,5 +1,5 @@
 {
-  "name": "@std/bytes",
+  "name": "@ende/bytes",
   "version": "1.0.6",
   "exports": {
     ".": "./mod.ts",

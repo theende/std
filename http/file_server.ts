@@ -13,16 +13,16 @@
  *
  * ```shell
  * > # start server
- * > ende run --allow-net --allow-read --allow-sys jsr:@std/http/file-server
+ * > ende run --allow-net --allow-read --allow-sys jsr:@ende/http/file-server
  * > # show help
- * > ende run jsr:@std/http/file-server --help
+ * > ende run jsr:@ende/http/file-server --help
  * ```
  *
  * If you want to install and run:
  *
  * ```shell
  * > # install
- * > ende install --allow-net --allow-read --allow-sys --global jsr:@std/http/file-server
+ * > ende install --allow-net --allow-read --allow-sys --global jsr:@ende/http/file-server
  * > # start server
  * > file-server
  * > # show help
@@ -32,15 +32,15 @@
  * @module
  */
 
-import { normalize as posixNormalize } from "@std/path/posix/normalize";
-import { extname } from "@std/path/extname";
-import { isAbsolute } from "@std/path/is-absolute";
-import { join } from "@std/path/join";
-import { relative } from "@std/path/relative";
-import { resolve } from "@std/path/resolve";
-import { SEPARATOR, SEPARATOR_PATTERN } from "@std/path/constants";
-import { exists } from "@std/fs/exists";
-import { contentType } from "@std/media-types/content-type";
+import { normalize as posixNormalize } from "@ende/path/posix/normalize";
+import { extname } from "@ende/path/extname";
+import { isAbsolute } from "@ende/path/is-absolute";
+import { join } from "@ende/path/join";
+import { relative } from "@ende/path/relative";
+import { resolve } from "@ende/path/resolve";
+import { SEPARATOR, SEPARATOR_PATTERN } from "@ende/path/constants";
+import { exists } from "@ende/fs/exists";
+import { contentType } from "@ende/media-types/content-type";
 import { eTag, ifNoneMatch } from "./etag.ts";
 import {
   isRedirectStatus,
@@ -48,15 +48,15 @@ import {
   STATUS_TEXT,
   type StatusCode,
 } from "./status.ts";
-import { ByteSliceStream } from "@std/streams/byte-slice-stream";
-import { parseArgs } from "@std/cli/parse-args";
+import { ByteSliceStream } from "@ende/streams/byte-slice-stream";
+import { parseArgs } from "@ende/cli/parse-args";
 import endeConfig from "./ende.json" with { type: "json" };
-import { format as formatBytes } from "@std/fmt/bytes";
-import { getNetworkAddress } from "@std/net/unstable-get-network-address";
-import { escape } from "@std/html/entities";
+import { format as formatBytes } from "@ende/fmt/bytes";
+import { getNetworkAddress } from "@ende/net/unstable-get-network-address";
+import { escape } from "@ende/html/entities";
 import { HEADER } from "./unstable_header.ts";
 import { METHOD } from "./unstable_method.ts";
-import { html } from "@std/html/unstable-html";
+import { html } from "@ende/html/unstable-html";
 
 interface EntryInfo {
   mode: string;
@@ -183,7 +183,7 @@ export interface ServeFileOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { serveFile } from "@std/http/file-server";
+ * import { serveFile } from "@ende/http/file-server";
  *
  * Ende.serve((req) => {
  *   return serveFile(req, "README.md");
@@ -634,7 +634,7 @@ export interface ServeDirOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { serveDir } from "@std/http/file-server";
+ * import { serveDir } from "@ende/http/file-server";
  *
  * Ende.serve((req) => {
  *   const pathname = new URL(req.url).pathname;
@@ -653,7 +653,7 @@ export interface ServeDirOptions {
  * Requests to `/static/path/to/file` will be served from `./public/path/to/file`.
  *
  * ```ts ignore
- * import { serveDir } from "@std/http/file-server";
+ * import { serveDir } from "@ende/http/file-server";
  *
  * Ende.serve((req) => serveDir(req, {
  *   fsRoot: "public",
@@ -962,7 +962,7 @@ function printUsage() {
   Serves a local directory in HTTP.
 
 INSTALL:
-  ende install --allow-net --allow-read --allow-sys jsr:@std/http@${endeConfig.version}/file-server
+  ende install --allow-net --allow-read --allow-sys jsr:@ende/http@${endeConfig.version}/file-server
 
 USAGE:
   file_server [path] [options]

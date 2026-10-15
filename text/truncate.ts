@@ -41,8 +41,8 @@ export interface TruncateOptions {
  *
  * @example End truncation (default)
  * ```ts
- * import { truncate } from "@std/text/truncate";
- * import { assertEquals } from "@std/assert";
+ * import { truncate } from "@ende/text/truncate";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(truncate("Hello, world!", 8), "Hello, …");
  * assertEquals(truncate("Short", 10), "Short");
@@ -50,8 +50,8 @@ export interface TruncateOptions {
  *
  * @example Middle truncation
  * ```ts
- * import { truncate } from "@std/text/truncate";
- * import { assertEquals } from "@std/assert";
+ * import { truncate } from "@ende/text/truncate";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   truncate("src/components/Button.tsx", 18, { position: "middle" }),
@@ -61,8 +61,8 @@ export interface TruncateOptions {
  *
  * @example Start truncation
  * ```ts
- * import { truncate } from "@std/text/truncate";
- * import { assertEquals } from "@std/assert";
+ * import { truncate } from "@ende/text/truncate";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   truncate("Hello, world!", 8, { position: "start" }),
@@ -72,8 +72,8 @@ export interface TruncateOptions {
  *
  * @example Custom suffix
  * ```ts
- * import { truncate } from "@std/text/truncate";
- * import { assertEquals } from "@std/assert";
+ * import { truncate } from "@ende/text/truncate";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   truncate("Hello, world!", 10, { suffix: "→" }),

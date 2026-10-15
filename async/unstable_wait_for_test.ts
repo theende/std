@@ -5,10 +5,10 @@ import {
   assertGreater,
   assertLess,
   assertRejects,
-} from "@std/assert";
+} from "@ende/assert";
 import { waitFor } from "./unstable_wait_for.ts";
 import { delay } from "./delay.ts";
-import { FakeTime } from "@std/testing/time";
+import { FakeTime } from "@ende/testing/time";
 
 // NOT detecting leaks means that the internal interval was correctly cleared
 

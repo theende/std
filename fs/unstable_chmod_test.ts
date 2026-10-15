@@ -5,7 +5,7 @@ import {
   assertExists,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { chmod, chmodSync } from "./unstable_chmod.ts";
 import { NotFound } from "./unstable_errors.js";
 import { platform, tmpdir } from "node:os";

@@ -7,7 +7,7 @@ import { AssertionError } from "./assertion_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { unreachable } from "@std/assert";
+ * import { unreachable } from "@ende/assert";
  *
  * unreachable(); // Throws
  * ```

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // These tests were copied from `semver/parse_test.ts` and modified to use
 // `tryParse` instead of `parse`.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { tryParse } from "./try_parse.ts";
 
 Ende.test("tryParse() handles major", async (t) => {

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 import { equal } from "./equal.ts";
-import { format } from "@std/internal/format";
+import { format } from "@ende/internal/format";
 import { AssertionError } from "./assertion_error.ts";
 
 /** An array-like object (`Array`, `Uint8Array`, `NodeList`, etc.) that is not a string */
@@ -18,7 +18,7 @@ function isPrimitive(value: unknown): boolean {
  *
  * @example Usage with primitives
  * ```ts ignore
- * import { assertArrayIncludes } from "@std/assert";
+ * import { assertArrayIncludes } from "@ende/assert";
  *
  * assertArrayIncludes([1, 2, 3], [2, 3]); // Passes
  * assertArrayIncludes([1, 2, 3], [4]); // Throws
@@ -26,7 +26,7 @@ function isPrimitive(value: unknown): boolean {
  *
  * @example Usage with objects (deep equality)
  * ```ts
- * import { assertArrayIncludes } from "@std/assert";
+ * import { assertArrayIncludes } from "@ende/assert";
  *
  * assertArrayIncludes([{ a: 1 }, { b: 2 }], [{ a: 1 }]); // Passes
  * ```

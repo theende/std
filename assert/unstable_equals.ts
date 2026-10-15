@@ -1,9 +1,9 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 import { assertEquals as _assertEquals } from "./equals.ts";
-import { truncateDiff } from "@std/internal/truncate-build-message";
+import { truncateDiff } from "@ende/internal/truncate-build-message";
 // deno-lint-ignore no-unused-vars
-import type { DIFF_CONTEXT_LENGTH } from "@std/internal/truncate-build-message";
+import type { DIFF_CONTEXT_LENGTH } from "@ende/internal/truncate-build-message";
 
 /**
  * Make an assertion that `actual` and `expected` are equal, deeply. If not
@@ -25,14 +25,14 @@ import type { DIFF_CONTEXT_LENGTH } from "@std/internal/truncate-build-message";
  *
  * @example Usage
  * ```ts ignore
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals("world", "world"); // Doesn't throw
  * assertEquals("hello", "world"); // Throws
  * ```
  * @example Compare `Blob` objects
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  *
  * const bytes1 = await new Blob(["foo"]).bytes();
  * const bytes2 = await new Blob(["foo"]).bytes();

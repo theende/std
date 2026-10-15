@@ -15,7 +15,7 @@ import { encodeRandom, encodeTime } from "./_util.ts";
  *
  * @example Generate a ULID
  * ```ts no-assert
- * import { ulid } from "@std/ulid";
+ * import { ulid } from "@ende/ulid";
  *
  * ulid(); // 01HYFKMDF3HVJ4J3JZW8KXPVTY
  * ulid(); // 01HYFKMDF3D2P7G502B9Z2VKV0
@@ -24,7 +24,7 @@ import { encodeRandom, encodeTime } from "./_util.ts";
  *
  * @example Generate a ULID with a seed time
  * ```ts no-assert
- * import { ulid } from "@std/ulid";
+ * import { ulid } from "@ende/ulid";
  *
  * ulid(150000); // 0000004JFG3EKDRE04TVVDJW7K
  * ulid(150000); // 0000004JFGN0KHBH0447AK895X

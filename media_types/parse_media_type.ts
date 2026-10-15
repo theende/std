@@ -26,8 +26,8 @@ const SEMICOLON_REGEXP = /^\s*;\s*$/;
  *
  * @example Usage
  * ```ts
- * import { parseMediaType } from "@std/media-types/parse-media-type";
- * import { assertEquals } from "@std/assert";
+ * import { parseMediaType } from "@ende/media-types/parse-media-type";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(parseMediaType("application/JSON"), ["application/json", undefined]);
  * assertEquals(parseMediaType("text/html; charset=UTF-8"), ["text/html", { charset: "UTF-8" }]);

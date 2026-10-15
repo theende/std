@@ -1,5 +1,5 @@
 {
-  "name": "@std/random",
+  "name": "@ende/random",
   "version": "0.1.5",
   "exports": {
     ".": "./mod.ts",

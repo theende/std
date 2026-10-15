@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { toSentenceCase } from "./unstable_to_sentence_case.ts";
 import { toTitleCase } from "./unstable_to_title_case.ts";
 import { stubIntlFunctions } from "./_test_util.ts";

@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { promptMultipleSelect } from "./unstable_prompt_multiple_select.ts";
-import { restore, stub } from "@std/testing/mock";
+import { restore, stub } from "@ende/testing/mock";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();

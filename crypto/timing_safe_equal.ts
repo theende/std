@@ -30,8 +30,8 @@ function toUint8Array(
  *
  * @example Usage
  * ```ts
- * import { timingSafeEqual } from "@std/crypto/timing-safe-equal";
- * import { assert } from "@std/assert";
+ * import { timingSafeEqual } from "@ende/crypto/timing-safe-equal";
+ * import { assert } from "@ende/assert";
  *
  * const a = await crypto.subtle.digest(
  *   "SHA-384",

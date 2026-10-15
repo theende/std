@@ -1,7 +1,12 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertRejects, assertThrows } from "@std/assert";
-import { FormDataDecoderStream } from "@std/http/unstable-formdata-decoder-stream";
+import {
+  assert,
+  assertEquals,
+  assertRejects,
+  assertThrows,
+} from "@ende/assert";
+import { FormDataDecoderStream } from "@ende/http/unstable-formdata-decoder-stream";
 
 type Uint8Array_ = ReturnType<Uint8Array["slice"]>;
 

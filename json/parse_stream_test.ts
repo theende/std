@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
-import { TextDelimiterStream } from "@std/streams/text-delimiter-stream";
-import { TextLineStream } from "@std/streams/text-line-stream";
+import { assertEquals } from "@ende/assert";
+import { TextDelimiterStream } from "@ende/streams/text-delimiter-stream";
+import { TextLineStream } from "@ende/streams/text-line-stream";
 import { JsonParseStream } from "./parse_stream.ts";
 import { assertInvalidParse, assertValidParse } from "./_test_utils.ts";
 

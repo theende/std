@@ -23,8 +23,8 @@ export type { StringifyOptions } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { stringify } from "@std/xml/stringify";
- * import { assertEquals } from "@std/assert";
+ * import { stringify } from "@ende/xml/stringify";
+ * import { assertEquals } from "@ende/assert";
  *
  * const element = {
  *   type: "element" as const,

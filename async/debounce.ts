@@ -34,7 +34,7 @@ export interface DebounceOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { debounce } from "@std/async/debounce";
+ * import { debounce } from "@ende/async/debounce";
  *
  * const log = debounce(
  *   (event: Ende.FsEvent) =>
@@ -51,7 +51,7 @@ export interface DebounceOptions {
  *
  * @example With AbortSignal
  * ```ts ignore
- * import { debounce } from "@std/async/debounce";
+ * import { debounce } from "@ende/async/debounce";
  *
  * const controller = new AbortController();
  * const log = debounce(

@@ -12,8 +12,8 @@ import type { FileInfo } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert } from "@std/assert";
- * import { lstat } from "@std/fs/unstable-lstat";
+ * import { assert } from "@ende/assert";
+ * import { lstat } from "@ende/fs/unstable-lstat";
  * const fileInfo = await lstat("README.md");
  * assert(fileInfo.isFile);
  * ```
@@ -45,8 +45,8 @@ export async function lstat(path: string | URL): Promise<FileInfo> {
  * @example Usage
  *
  * ```ts
- * import { assert } from "@std/assert";
- * import { lstatSync } from "@std/fs/unstable-lstat";
+ * import { assert } from "@ende/assert";
+ * import { lstatSync } from "@ende/fs/unstable-lstat";
  *
  * const fileInfo = lstatSync("README.md");
  * assert(fileInfo.isFile);

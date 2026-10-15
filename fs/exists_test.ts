@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals, assertStringIncludes } from "@std/assert";
-import * as path from "@std/path";
+import { assert, assertEquals, assertStringIncludes } from "@ende/assert";
+import * as path from "@ende/path";
 import { exists, existsSync } from "./exists.ts";
 
 Ende.test("exists() returns false for a non-existent path", async function () {

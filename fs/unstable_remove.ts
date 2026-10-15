@@ -14,10 +14,10 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts
- * import { assertFalse } from "@std/assert";
- * import { exists } from "@std/fs/exists";
- * import { remove } from "@std/fs/unstable-remove";
- * import { makeTempDir } from "@std/fs/unstable-make-temp-dir";
+ * import { assertFalse } from "@ende/assert";
+ * import { exists } from "@ende/fs/exists";
+ * import { remove } from "@ende/fs/unstable-remove";
+ * import { makeTempDir } from "@ende/fs/unstable-make-temp-dir";
  *
  * const tempDir = await makeTempDir();
  * await remove(tempDir);
@@ -63,10 +63,10 @@ export async function remove(
  *
  * @example Usage
  * ```ts
- * import { assertFalse } from "@std/assert";
- * import { existsSync } from "@std/fs/exists";
- * import { removeSync } from "@std/fs/unstable-remove";
- * import { makeTempDirSync } from "@std/fs/unstable-make-temp-dir";
+ * import { assertFalse } from "@ende/assert";
+ * import { existsSync } from "@ende/fs/exists";
+ * import { removeSync } from "@ende/fs/unstable-remove";
+ * import { makeTempDirSync } from "@ende/fs/unstable-make-temp-dir";
  *
  * const tempDir = makeTempDirSync();
  * removeSync(tempDir);

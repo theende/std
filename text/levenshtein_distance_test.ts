@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { levenshteinDistance } from "./levenshtein_distance.ts";
 
 function assertLevenshteinBidi(a: string, b: string, distance: number) {

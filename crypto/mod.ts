@@ -8,7 +8,7 @@
  * APIs when possible.
  *
  * ```ts no-assert
- * import { crypto } from "@std/crypto/crypto";
+ * import { crypto } from "@ende/crypto/crypto";
  *
  * const message = "Hello, Deno!";
  * const encoder = new TextEncoder();

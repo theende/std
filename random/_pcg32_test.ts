@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertNotEquals } from "@std/assert";
+import { assert, assertEquals, assertNotEquals } from "@ende/assert";
 import { Pcg32 } from "./_pcg32.ts";
 import { seedBytesFromUint64 } from "./_seed_bytes_from_uint64.ts";
 import { nextFloat64 } from "./next_float_64.ts";

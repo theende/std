@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { ALL } from "./_constants.ts";
 import { isRange } from "./is_range.ts";
 import type { Range } from "./types.ts";

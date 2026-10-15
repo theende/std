@@ -9,11 +9,11 @@ import {
   assertRejects,
   assertStrictEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { FakeTime, TimeError } from "./time.ts";
 import { _internals } from "./_time.ts";
 import { assertSpyCall, spy, type SpyCall } from "./mock.ts";
-import { deadline, delay } from "@std/async";
+import { deadline, delay } from "@ende/async";
 
 function fromNow(): (..._args: unknown[]) => number {
   const start: number = Date.now();

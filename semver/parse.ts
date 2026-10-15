@@ -9,8 +9,8 @@ import { FULL_REGEXP, MAX_LENGTH } from "./_shared.ts";
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/semver/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/semver/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const version = parse("1.2.3");
  * assertEquals(version, {

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { concat } from "@std/bytes/concat";
+import { concat } from "@ende/bytes/concat";
 import type { Uint8Array_ } from "./_types.ts";
 export type { Uint8Array_ };
 
@@ -44,8 +44,8 @@ const encoder = new TextEncoder();
  *
  * @example Usage
  * ```ts
- * import { encode } from "@std/msgpack/encode";
- * import { assertEquals } from "@std/assert";
+ * import { encode } from "@ende/msgpack/encode";
+ * import { assertEquals } from "@ende/assert";
  *
  * const obj = {
  *   str: "deno",

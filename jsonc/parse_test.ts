@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertStrictEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 
 import "./testdata/JSONTestSuite/test.ts";
 import "./testdata/test262/test.ts";

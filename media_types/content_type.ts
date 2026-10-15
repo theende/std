@@ -45,8 +45,8 @@ export type KnownExtensionOrType =
  *
  * @example Usage
  * ```ts
- * import { contentType } from "@std/media-types/content-type";
- * import { assertEquals } from "@std/assert";
+ * import { contentType } from "@ende/media-types/content-type";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(contentType(".json"), "application/json; charset=UTF-8");
  * assertEquals(contentType("text/html"), "text/html; charset=UTF-8");

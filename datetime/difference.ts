@@ -49,8 +49,8 @@ function calculateMonthsDifference(from: Date, to: Date): number {
  *
  * @example Basic usage
  * ```ts
- * import { difference } from "@std/datetime/difference";
- * import { assertEquals } from "@std/assert";
+ * import { difference } from "@ende/datetime/difference";
+ * import { assertEquals } from "@ende/assert";
  *
  * const date0 = new Date("2018-05-14");
  * const date1 = new Date("2020-05-13");
@@ -73,8 +73,8 @@ function calculateMonthsDifference(from: Date, to: Date): number {
  * The `units` option defines which units to calculate the difference in.
  *
  * ```ts
- * import { difference } from "@std/datetime/difference";
- * import { assertEquals } from "@std/assert";
+ * import { difference } from "@ende/datetime/difference";
+ * import { assertEquals } from "@ende/assert";
  *
  * const date0 = new Date("2018-05-14");
  * const date1 = new Date("2020-05-13");

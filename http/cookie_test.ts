@@ -1,13 +1,13 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { stub } from "@std/testing/mock";
+import { stub } from "@ende/testing/mock";
 import {
   deleteCookie,
   getCookies,
   getSetCookies,
   setCookie,
 } from "./cookie.ts";
-import { assert, assertEquals, assertThrows } from "@std/assert";
-import { assertType, type IsExact } from "@std/testing/types";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
+import { assertType, type IsExact } from "@ende/testing/types";
 
 Ende.test({
   name: "getCookies() parses cookie",

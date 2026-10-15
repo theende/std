@@ -13,8 +13,8 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { realPath } from "@std/fs/unstable-real-path";
- * import { symlink } from "@std/fs/unstable-symlink";
+ * import { realPath } from "@ende/fs/unstable-real-path";
+ * import { symlink } from "@ende/fs/unstable-symlink";
  * // e.g. given /home/alice/file.txt and current directory /home/alice
  * await symlink("file.txt", "symlink_file.txt");
  * const fileRealPath = await realPath("./file.txt");
@@ -51,8 +51,8 @@ export async function realPath(path: string | URL): Promise<string> {
  *
  * @example Usage
  * ```ts ignore
- * import { realPathSync } from "@std/fs/unstable-real-path";
- * import { symlinkSync } from "@std/fs/unstable-symlink";
+ * import { realPathSync } from "@ende/fs/unstable-real-path";
+ * import { symlinkSync } from "@ende/fs/unstable-symlink";
  * // e.g. given /home/alice/file.txt and current directory /home/alice
  * symlinkSync("file.txt", "symlink_file.txt");
  * const realPath = realPathSync("./file.txt");

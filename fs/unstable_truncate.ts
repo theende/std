@@ -11,17 +11,17 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Truncate file to 0 bytes
  * ```ts ignore
- * import { truncate } from "@std/fs/unstable-truncate";
+ * import { truncate } from "@ende/fs/unstable-truncate";
  * await truncate("my_file.txt");
  * ```
  *
  * @example Truncate part of a file
  * ```ts
- * import { makeTempFile } from "@std/fs/unstable-make-temp-file";
- * import { readFile } from "@std/fs/unstable-read-file";
- * import { truncate } from "@std/fs/unstable-truncate";
- * import { writeTextFile } from "@std/fs/unstable-write-text-file";
- * import { assertEquals } from "@std/assert";
+ * import { makeTempFile } from "@ende/fs/unstable-make-temp-file";
+ * import { readFile } from "@ende/fs/unstable-read-file";
+ * import { truncate } from "@ende/fs/unstable-truncate";
+ * import { writeTextFile } from "@ende/fs/unstable-write-text-file";
+ * import { assertEquals } from "@ende/assert";
  *
  * const file = await makeTempFile();
  * await writeTextFile(file, "Hello World");
@@ -56,17 +56,17 @@ export async function truncate(name: string, len?: number): Promise<void> {
  *
  * @example Truncate file to 0 bytes
  * ```ts ignore
- * import { truncateSync } from "@std/fs/unstable-truncate";
+ * import { truncateSync } from "@ende/fs/unstable-truncate";
  * truncateSync("my_file.txt");
  * ```
  *
  * @example Truncate part of a file
  * ```ts
- * import { makeTempFileSync } from "@std/fs/unstable-make-temp-file";
- * import { readFileSync } from "@std/fs/unstable-read-file";
- * import { truncateSync } from "@std/fs/unstable-truncate";
- * import { writeFileSync } from "@std/fs/unstable-write-file";
- * import { assertEquals } from "@std/assert";
+ * import { makeTempFileSync } from "@ende/fs/unstable-make-temp-file";
+ * import { readFileSync } from "@ende/fs/unstable-read-file";
+ * import { truncateSync } from "@ende/fs/unstable-truncate";
+ * import { writeFileSync } from "@ende/fs/unstable-write-file";
+ * import { assertEquals } from "@ende/assert";
  *
  * const file = makeTempFileSync();
  * writeFileSync(file, new TextEncoder().encode("Hello World"));

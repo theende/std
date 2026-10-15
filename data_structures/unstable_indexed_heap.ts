@@ -125,8 +125,8 @@ type IndexedHeapCompareArgs<P> = [P] extends [number | bigint | string]
  *
  * @example Usage
  * ```ts
- * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
- * import { assertEquals } from "@std/assert";
+ * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+ * import { assertEquals } from "@ende/assert";
  *
  * const heap = new IndexedHeap<string>();
  * heap.push("a", 3);
@@ -145,9 +145,9 @@ type IndexedHeapCompareArgs<P> = [P] extends [number | bigint | string]
  *
  * @example Max-heap via `descend`
  * ```ts
- * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
- * import { descend } from "@std/data-structures";
- * import { assertEquals } from "@std/assert";
+ * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+ * import { descend } from "@ende/data-structures";
+ * import { assertEquals } from "@ende/assert";
  *
  * const heap = new IndexedHeap<string>(null, { compare: descend });
  * heap.push("a", 1);
@@ -159,8 +159,8 @@ type IndexedHeapCompareArgs<P> = [P] extends [number | bigint | string]
  *
  * @example Tuple priority for stable tie-breaking
  * ```ts
- * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
- * import { assertEquals } from "@std/assert";
+ * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Order primarily by score, then by insertion order for ties.
  * const heap = new IndexedHeap<string, [number, number]>(null, {
@@ -209,8 +209,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Empty heap
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * assertEquals(heap.size, 0);
@@ -218,8 +218,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example With initial entries
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>([["a", 3], ["b", 1], ["c", 2]]);
    * assertEquals(heap.peek(), { key: "b", priority: 1 });
@@ -227,8 +227,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example From a Map
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const tasks = new Map([["task-a", 3], ["task-b", 1]]);
    * const heap = new IndexedHeap(tasks);
@@ -237,9 +237,9 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Max-heap via `descend`
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { descend } from "@std/data-structures";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { descend } from "@ende/data-structures";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>([["a", 1], ["b", 5], ["c", 3]], {
    *   compare: descend,
@@ -281,8 +281,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * assertEquals(heap[Symbol.toStringTag], "IndexedHeap");
@@ -302,8 +302,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Creating from another IndexedHeap (shallow copy)
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const original = new IndexedHeap<string>();
    * original.push("x", 10);
@@ -317,9 +317,9 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Re-ordering an existing heap with a different comparator
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { descend } from "@std/data-structures";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { descend } from "@ende/data-structures";
+   * import { assertEquals } from "@ende/assert";
    *
    * const minHeap = new IndexedHeap<string>([["a", 1], ["b", 5], ["c", 3]]);
    * const maxHeap = IndexedHeap.from(minHeap, { compare: descend });
@@ -358,8 +358,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Creating from an array of pairs
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = IndexedHeap.from([["a", 3], ["b", 1], ["c", 2]]);
    * assertEquals(heap.peek(), { key: "b", priority: 1 });
@@ -368,8 +368,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Creating from a Map (iterable of [key, value] pairs)
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new Map([["task-a", 3], ["task-b", 1]]);
    * const heap = IndexedHeap.from(map);
@@ -378,8 +378,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Tuple priority requires an explicit comparator
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = IndexedHeap.from<string, [number, number]>(
    *   [["a", [5, 0]], ["b", [3, 1]]],
@@ -550,8 +550,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("task-1", 10);
@@ -583,8 +583,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 2);
@@ -626,8 +626,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("x", 5);
@@ -655,8 +655,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("x", 5);
@@ -682,8 +682,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("x", 5);
@@ -706,8 +706,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 1);
@@ -762,8 +762,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Inserting and updating
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.set("a", 10);
@@ -775,8 +775,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Decrease-key reorders the heap
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 10);
@@ -816,8 +816,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 1);
@@ -840,8 +840,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 42);
@@ -866,8 +866,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * assertEquals(heap.size, 0);
@@ -888,8 +888,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 1);
@@ -912,8 +912,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * assertEquals(heap.isEmpty(), true);
@@ -938,8 +938,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 3);
@@ -978,8 +978,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 3);
@@ -1016,8 +1016,8 @@ export class IndexedHeap<K, P = number> implements Iterable<HeapEntry<K, P>> {
    *
    * @example Usage
    * ```ts
-   * import { IndexedHeap } from "@std/data-structures/unstable-indexed-heap";
-   * import { assertEquals } from "@std/assert";
+   * import { IndexedHeap } from "@ende/data-structures/unstable-indexed-heap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const heap = new IndexedHeap<string>();
    * heap.push("a", 3);

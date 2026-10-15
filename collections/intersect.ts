@@ -14,8 +14,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { intersect } from "@std/collections/intersect";
- * import { assertEquals } from "@std/assert";
+ * import { intersect } from "@ende/collections/intersect";
+ * import { assertEquals } from "@ende/assert";
  *
  * const lisaInterests = ["Cooking", "Music", "Hiking"];
  * const kimInterests = ["Music", "Tennis", "Cooking"];

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { encodeBase64 } from "@std/encoding/unstable-base64";
-import { toByteStream } from "@std/streams/unstable-to-byte-stream";
+import { encodeBase64 } from "@ende/encoding/unstable-base64";
+import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 
 /**
  * The input that can be passed to a {@linkcode FormDataEncoderStream}.
@@ -57,8 +57,8 @@ export interface FormDataInput {
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
- * import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
+ * import { assert, assertEquals } from "@ende/assert";
+ * import { FormDataEncoderStream } from "@ende/http/unstable-formdata-encoder-stream";
  *
  * const response = FormDataEncoderStream.from(ReadableStream.from([
  *   {
@@ -215,8 +215,8 @@ export class FormDataEncoderStream {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { FormDataEncoderStream } from "@ende/http/unstable-formdata-encoder-stream";
    *
    * const response = FormDataEncoderStream.from(ReadableStream.from([
    *   {
@@ -248,8 +248,8 @@ export class FormDataEncoderStream {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { FormDataEncoderStream } from "@ende/http/unstable-formdata-encoder-stream";
    *
    * const request = FormDataEncoderStream.from(ReadableStream.from([
    *   {
@@ -283,8 +283,8 @@ export class FormDataEncoderStream {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { FormDataEncoderStream } from "@ende/http/unstable-formdata-encoder-stream";
    *
    * const response = FormDataEncoderStream.from(ReadableStream.from([
    *   {
@@ -313,8 +313,8 @@ export class FormDataEncoderStream {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { FormDataEncoderStream } from "@ende/http/unstable-formdata-encoder-stream";
    *
    * const encoder = FormDataEncoderStream.from(ReadableStream.from([
    *   {
@@ -345,8 +345,8 @@ export class FormDataEncoderStream {
    *
    * @example Usage
    * ```ts
-   * import { assert, assertEquals } from "@std/assert";
-   * import { FormDataEncoderStream } from "@std/http/unstable-formdata-encoder-stream";
+   * import { assert, assertEquals } from "@ende/assert";
+   * import { FormDataEncoderStream } from "@ende/http/unstable-formdata-encoder-stream";
    *
    * const encoder = FormDataEncoderStream.from(ReadableStream.from([
    *   {

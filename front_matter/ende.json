@@ -1,5 +1,5 @@
 {
-  "name": "@std/front-matter",
+  "name": "@ende/front-matter",
   "version": "1.0.9",
   "exports": {
     ".": "./mod.ts",

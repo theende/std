@@ -4,7 +4,7 @@
  * Network utilities.
  *
  * ```ts no-assert ignore
- * import { getAvailablePort } from "@std/net";
+ * import { getAvailablePort } from "@ende/net";
  *
  * const command = new Ende.Command(Ende.execPath(), {
  *  args: ["test.ts", "--port", getAvailablePort().toString()],

@@ -25,8 +25,8 @@ const WHITE_SPACE_ONLY_LINE_REGEXP = new RegExp(
  *
  * @example Usage
  * ```ts
- * import { dedent } from "@std/text/unstable-dedent";
- * import { assertEquals } from "@std/assert";
+ * import { dedent } from "@ende/text/unstable-dedent";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   dedent(`
@@ -54,8 +54,8 @@ export function dedent(input: string): string;
  *
  * @example Usage
  * ```ts
- * import { dedent } from "@std/text/unstable-dedent";
- * import { assertEquals } from "@std/assert";
+ * import { dedent } from "@ende/text/unstable-dedent";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   dedent`line 1

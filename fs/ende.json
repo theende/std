@@ -1,5 +1,5 @@
 {
-  "name": "@std/fs",
+  "name": "@ende/fs",
   "version": "1.0.24",
   "exports": {
     ".": "./mod.ts",

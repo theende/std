@@ -19,8 +19,8 @@ const FLOAT_64_MULTIPLIER = 2 ** -53;
  *
  * @example With a seeded value generator
  * ```ts
- * import { nextFloat64, getRandomValuesSeeded } from "@std/random";
- * import { assertEquals } from "@std/assert";
+ * import { nextFloat64, getRandomValuesSeeded } from "@ende/random";
+ * import { assertEquals } from "@ende/assert";
  *
  * const getRandomValues = getRandomValuesSeeded(1n);
  * assertEquals(nextFloat64(getRandomValues), 0.49116444173310125);
@@ -30,8 +30,8 @@ const FLOAT_64_MULTIPLIER = 2 ** -53;
  *
  * @example With an arbitrary value generator
  * ```ts
- * import { nextFloat64 } from "@std/random";
- * import { assertLess, assertGreaterOrEqual } from "@std/assert";
+ * import { nextFloat64 } from "@ende/random";
+ * import { assertLess, assertGreaterOrEqual } from "@ende/assert";
  *
  * const val = nextFloat64(crypto.getRandomValues.bind(crypto)); // example: 0.8928746327842533
  * assertGreaterOrEqual(val, 0);

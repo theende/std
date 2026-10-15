@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert } from "@std/assert";
+import { assert } from "@ende/assert";
 import { isLeap, isUtcLeap } from "./is_leap.ts";
 
 Ende.test({

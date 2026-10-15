@@ -1,5 +1,5 @@
 {
-  "name": "@std/net",
+  "name": "@ende/net",
   "version": "1.0.7",
   "exports": {
     ".": "./mod.ts",

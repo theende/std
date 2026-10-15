@@ -30,8 +30,8 @@ export interface HttpErrorOptions extends ErrorOptions {
  *
  * @example Usage without custom message or options
  * ```ts
- * import { HttpError } from "@std/http/unstable-error";
- * import { assertEquals, assertInstanceOf } from "@std/assert";
+ * import { HttpError } from "@ende/http/unstable-error";
+ * import { assertEquals, assertInstanceOf } from "@ende/assert";
  *
  * try {
  *   throw new HttpError(404);
@@ -44,8 +44,8 @@ export interface HttpErrorOptions extends ErrorOptions {
  *
  * @example Usage with custom message
  * ```ts
- * import { HttpError } from "@std/http/unstable-error";
- * import { assertEquals, assertInstanceOf } from "@std/assert";
+ * import { HttpError } from "@ende/http/unstable-error";
+ * import { assertEquals, assertInstanceOf } from "@ende/assert";
  *
  * try {
  *   throw new HttpError(500, "Something went wrong");
@@ -58,8 +58,8 @@ export interface HttpErrorOptions extends ErrorOptions {
  *
  * @example Usage with response init options
  * ```ts
- * import { HttpError } from "@std/http/unstable-error";
- * import { assertEquals, assertInstanceOf } from "@std/assert";
+ * import { HttpError } from "@ende/http/unstable-error";
+ * import { assertEquals, assertInstanceOf } from "@ende/assert";
  *
  * try {
  *   throw new HttpError(403, "Forbidden", {
@@ -78,8 +78,8 @@ export interface HttpErrorOptions extends ErrorOptions {
  *
  * @example Usage with cause
  * ```ts
- * import { HttpError } from "@std/http/unstable-error";
- * import { assertEquals, assertInstanceOf } from "@std/assert";
+ * import { HttpError } from "@ende/http/unstable-error";
+ * import { assertEquals, assertInstanceOf } from "@ende/assert";
  *
  * try {
  *   throw new HttpError(500, "Internal Server Error", {
@@ -100,8 +100,8 @@ export class HttpError extends Error {
    *
    * @example Usage
    * ```ts
-   * import { HttpError } from "@std/http/unstable-error";
-   * import { assertEquals, assertInstanceOf } from "@std/assert";
+   * import { HttpError } from "@ende/http/unstable-error";
+   * import { assertEquals, assertInstanceOf } from "@ende/assert";
    *
    * try {
    *   throw new HttpError(404);
@@ -122,8 +122,8 @@ export class HttpError extends Error {
    *
    * @example Usage
    * ```ts
-   * import { HttpError } from "@std/http/unstable-error";
-   * import { assertEquals, assertInstanceOf } from "@std/assert";
+   * import { HttpError } from "@ende/http/unstable-error";
+   * import { assertEquals, assertInstanceOf } from "@ende/assert";
    *
    * try {
    *   throw new HttpError(403, "Forbidden", {

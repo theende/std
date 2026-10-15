@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals, assertThrows } from "@std/assert";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { LruCache, type LruCacheEjectionReason } from "./lru_cache.ts";
 
 Ende.test("LruCache deletes least-recently-used", () => {

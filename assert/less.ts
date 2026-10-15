@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
-import { format } from "@std/internal/format";
+import { format } from "@ende/internal/format";
 import { AssertionError } from "./assertion_error.ts";
 
 /**
@@ -9,7 +9,7 @@ import { AssertionError } from "./assertion_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { assertLess } from "@std/assert";
+ * import { assertLess } from "@ende/assert";
  *
  * assertLess(1, 2); // Doesn't throw
  * assertLess(2, 1); // Throws

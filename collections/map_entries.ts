@@ -15,8 +15,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { mapEntries } from "@std/collections/map-entries";
- * import { assertEquals } from "@std/assert";
+ * import { mapEntries } from "@ende/collections/map-entries";
+ * import { assertEquals } from "@ende/assert";
  *
  * const usersById = {
  *   "a2e": { name: "Kim", age: 22 },

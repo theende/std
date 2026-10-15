@@ -19,7 +19,7 @@ import { getFileInfoType } from "./_get_file_info_type.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { ensureDir } from "@std/fs/ensure-dir";
+ * import { ensureDir } from "@ende/fs/ensure-dir";
  *
  * await ensureDir("./bar");
  * ```
@@ -67,7 +67,7 @@ export async function ensureDir(dir: string | URL) {
  *
  * @example Usage
  * ```ts ignore
- * import { ensureDirSync } from "@std/fs/ensure-dir";
+ * import { ensureDirSync } from "@ende/fs/ensure-dir";
  *
  * ensureDirSync("./bar");
  * ```

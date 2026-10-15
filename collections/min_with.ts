@@ -15,8 +15,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { minWith } from "@std/collections/min-with";
- * import { assertEquals } from "@std/assert";
+ * import { minWith } from "@ende/collections/min-with";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = ["Kim", "Anna", "John"];
  * const smallestName = minWith(people, (a, b) => a.length - b.length);

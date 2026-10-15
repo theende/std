@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import type { MatcherContext, MatchResult } from "./_types.ts";
-import { AssertionError } from "@std/assert/assertion-error";
-import { equal } from "@std/assert/equal";
+import { AssertionError } from "@ende/assert/assertion-error";
+import { equal } from "@ende/assert/equal";
 import { getMockCalls } from "./_mock_util.ts";
 import { inspectArg } from "./_inspect_args.ts";
 

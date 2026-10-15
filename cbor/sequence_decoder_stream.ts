@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { toByteStream } from "@std/streams/unstable-to-byte-stream";
+import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 import { arrayToNumber, type ReleaseLock } from "./_common.ts";
 import { CborArrayDecodedStream } from "./_array_decoded_stream.ts";
 import { CborByteDecodedStream } from "./_byte_decoded_stream.ts";
@@ -47,7 +47,7 @@ export {
  *
  * @example Usage
  * ```ts no-assert
- * import { encodeBase64Url } from "@std/encoding";
+ * import { encodeBase64Url } from "@ende/encoding";
  * import {
  *   CborArrayDecodedStream,
  *   CborArrayEncoderStream,
@@ -61,7 +61,7 @@ export {
  *   CborTag,
  *   CborTextDecodedStream,
  *   CborTextEncoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage = [
  *   undefined,
@@ -523,7 +523,7 @@ export class CborSequenceDecoderStream
    *
    * @example Usage
    * ```ts no-assert
-   * import { encodeBase64Url } from "@std/encoding";
+   * import { encodeBase64Url } from "@ende/encoding";
    * import {
    *   CborArrayDecodedStream,
    *   CborArrayEncoderStream,
@@ -537,7 +537,7 @@ export class CborSequenceDecoderStream
    *   CborTag,
    *   CborTextDecodedStream,
    *   CborTextEncoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = [
    *   undefined,
@@ -605,7 +605,7 @@ export class CborSequenceDecoderStream
    *
    * @example Usage
    * ```ts no-assert
-   * import { encodeBase64Url } from "@std/encoding";
+   * import { encodeBase64Url } from "@ende/encoding";
    * import {
    *   CborArrayDecodedStream,
    *   CborArrayEncoderStream,
@@ -619,7 +619,7 @@ export class CborSequenceDecoderStream
    *   CborTag,
    *   CborTextDecodedStream,
    *   CborTextEncoderStream,
-   * } from "@std/cbor";
+   * } from "@ende/cbor";
    *
    * const rawMessage = [
    *   undefined,

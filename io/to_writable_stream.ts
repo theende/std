@@ -22,7 +22,7 @@ export interface toWritableStreamOptions {
  *
  * @example Usage
  * ```ts no-assert
- * import { toWritableStream } from "@std/io/to-writable-stream";
+ * import { toWritableStream } from "@ende/io/to-writable-stream";
  *
  * const a = toWritableStream(Ende.stdout); // Same as `Ende.stdout.writable`
  * ```

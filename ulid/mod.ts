@@ -11,7 +11,7 @@
  * ULID based on the current time.
  *
  * ```ts no-assert
- * import { ulid } from "@std/ulid";
+ * import { ulid } from "@ende/ulid";
  *
  * ulid(); // 01HYFKMDF3HVJ4J3JZW8KXPVTY
  * ```
@@ -22,7 +22,7 @@
  * {@linkcode monotonicUlid} function.
  *
  * ```ts no-assert
- * import { monotonicUlid } from "@std/ulid";
+ * import { monotonicUlid } from "@ende/ulid";
  *
  * monotonicUlid(); // 01HYFKHG5F8RHM2PM3D7NSTDAS
  * monotonicUlid(); // 01HYFKHG5F8RHM2PM3D7NSTDAT
@@ -32,8 +32,8 @@
  * timestamp from a ULID using the {@linkcode decodeTime} function.
  *
  * ```ts
- * import { decodeTime, ulid } from "@std/ulid";
- * import { assertEquals } from "@std/assert";
+ * import { decodeTime, ulid } from "@ende/ulid";
+ * import { assertEquals } from "@ende/assert";
  *
  * const timestamp = 150_000;
  * const ulidString = ulid(timestamp);

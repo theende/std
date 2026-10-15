@@ -48,8 +48,8 @@ export type ReverseOptions = {
  *
  * @example Standard usage
  * ```ts
- * import { reverse } from "@std/text/unstable-reverse";
- * import { assertEquals } from "@std/assert";
+ * import { reverse } from "@ende/text/unstable-reverse";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(reverse("Hello, world!"), "!dlrow ,olleH");
  * assertEquals(reverse("🦕Deno♥"), "♥oneD🦕");
@@ -57,8 +57,8 @@ export type ReverseOptions = {
  *
  * @example Performance optimization with disabled Unicode handling
  * ```ts
- * import { reverse } from "@std/text/unstable-reverse";
- * import { assertEquals } from "@std/assert";
+ * import { reverse } from "@ende/text/unstable-reverse";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(reverse("Hello, world!", { handleUnicode: false }), "!dlrow ,olleH");
  * ```

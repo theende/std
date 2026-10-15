@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 
 /**
  * The character used to separate entries in the PATH environment variable.

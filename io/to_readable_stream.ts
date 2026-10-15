@@ -35,7 +35,7 @@ export interface ToReadableStreamOptions {
  *
  * @example Usage
  * ```ts no-assert
- * import { toReadableStream } from "@std/io/to-readable-stream";
+ * import { toReadableStream } from "@ende/io/to-readable-stream";
  *
  * using file = await Ende.open("./README.md", { read: true });
  * const fileStream = toReadableStream(file);

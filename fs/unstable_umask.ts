@@ -8,8 +8,8 @@ import { getNodeProcess, isEnde } from "./_utils.ts";
  * @example Usage
  *
  * ```ts ignore
- * import { assert } from "@std/assert";
- * import { umask } from "@std/fs/unstable-umask";
+ * import { assert } from "@ende/assert";
+ * import { umask } from "@ende/fs/unstable-umask";
  *
  * const prevUmaskValue = Ende.umask(0o077);
  * const currentUmaskValue = Ende.umask();

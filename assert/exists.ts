@@ -8,7 +8,7 @@ import { AssertionError } from "./assertion_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { assertExists } from "@std/assert";
+ * import { assertExists } from "@ende/assert";
  *
  * assertExists("something"); // Doesn't throw
  * assertExists(undefined); // Throws

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
-import { assert } from "@std/assert";
+import { assert } from "@ende/assert";
 
 /**
  * A 2d array. Unlike a normal array, it does not grow dynamically,
@@ -9,8 +9,8 @@ import { assert } from "@std/assert";
  *
  * @example Usage
  * ```ts
- * import { D2Array } from "@std/data-structures/unstable-2d-array";
- * import { assertEquals } from "@std/assert";
+ * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+ * import { assertEquals } from "@ende/assert";
  *
  * const arr = new D2Array<boolean>(3, 3, false);
  * arr.raw[0]![0] = true; // set the top left to true
@@ -33,8 +33,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 3, false);
    * assertEquals(arr.initialValue, false);
@@ -45,8 +45,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 3, false);
    * assertEquals(arr.raw, [
@@ -63,8 +63,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 3, false);
    * assertEquals(arr.raw, [
@@ -84,8 +84,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>([
    *   [false, false, false],
@@ -148,8 +148,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 3, false);
    * arr.raw[0]![0] = true; // set the top left to true
@@ -193,8 +193,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 3, false);
    * arr.raw[0]![0] = true; // set the top left to true
@@ -256,8 +256,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(5, 5, false);
    * arr.insert(2, 2, new D2Array<boolean>(3, 3, true));
@@ -294,8 +294,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 4, false);
    * assertEquals(arr.width, 3);
@@ -312,8 +312,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    *
    * const arr = new D2Array<boolean>(3, 4, false);
    * assertEquals(arr.height, 4);
@@ -330,8 +330,8 @@ export class D2Array<T> implements Iterable<T[]> {
    *
    * @example Usage
    * ```ts
-   * import { D2Array } from "@std/data-structures/unstable-2d-array";
-   * import { assertEquals } from "@std/assert";
+   * import { D2Array } from "@ende/data-structures/unstable-2d-array";
+   * import { assertEquals } from "@ende/assert";
    * const arr = new D2Array<boolean>(3, 3, false);
    *
    * for (const row of arr) {

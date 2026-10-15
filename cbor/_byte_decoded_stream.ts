@@ -12,13 +12,13 @@ import type { ReleaseLock } from "./_common.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
- * import { concat } from "@std/bytes";
+ * import { assert, assertEquals } from "@ende/assert";
+ * import { concat } from "@ende/bytes";
  * import {
  *   CborByteDecodedStream,
  *   CborByteEncoderStream,
  *   CborSequenceDecoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage = new Uint8Array(100);
  *

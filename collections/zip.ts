@@ -21,8 +21,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { zip } from "@std/collections/zip";
- * import { assertEquals } from "@std/assert";
+ * import { zip } from "@ende/collections/zip";
+ * import { assertEquals } from "@ende/assert";
  *
  * const numbers = [1, 2, 3, 4];
  * const letters = ["a", "b", "c", "d"];
@@ -41,8 +41,8 @@
  *
  * @example With iterables
  * ```ts
- * import { zip } from "@std/collections/zip";
- * import { assertEquals } from "@std/assert";
+ * import { zip } from "@ende/collections/zip";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   zip(new Set([1, 2, 3]), ["a", "b", "c"]),
@@ -52,8 +52,8 @@
  *
  * @example Strings are iterables
  * ```ts
- * import { zip } from "@std/collections/zip";
- * import { assertEquals } from "@std/assert";
+ * import { zip } from "@ende/collections/zip";
+ * import { assertEquals } from "@ende/assert";
  *
  * // A string is zipped character-by-character, not as a single value.
  * assertEquals(

@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { canParse } from "./can_parse.ts";
 
 Ende.test("canParse()", async (t) => {

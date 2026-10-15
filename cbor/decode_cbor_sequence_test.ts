@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { decodeCborSequence } from "./decode_cbor_sequence.ts";
 
 Ende.test("decodeCborSequence() correctly decoding", () => {

@@ -6,8 +6,8 @@
  * Note: this module is for internal use only and should not be used directly.
  *
  * ```ts
- * import { diff, diffStr, buildMessage } from "@std/internal";
- * import { assertEquals } from "@std/assert";
+ * import { diff, diffStr, buildMessage } from "@ende/internal";
+ * import { assertEquals } from "@ende/assert";
  *
  * const a = [1, 2, 3];
  * const b = [1, 2, 4];

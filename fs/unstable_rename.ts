@@ -19,7 +19,7 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { rename } from "@std/fs/unstable-rename";
+ * import { rename } from "@ende/fs/unstable-rename";
  * await rename("old/path", "new/path");
  * ```
  *
@@ -58,7 +58,7 @@ export async function rename(
  *
  * @example Usage
  * ```ts ignore
- * import { renameSync } from "@std/fs/unstable-rename";
+ * import { renameSync } from "@ende/fs/unstable-rename";
  * renameSync("old/path", "new/path");
  * ```
  *

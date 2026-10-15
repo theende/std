@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { join } from "@std/path/join";
+import { join } from "@ende/path/join";
 import { toPathString } from "./_to_path_string.ts";
 
 /**
@@ -19,7 +19,7 @@ import { toPathString } from "./_to_path_string.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { emptyDir } from "@std/fs/empty-dir";
+ * import { emptyDir } from "@ende/fs/empty-dir";
  *
  * await emptyDir("./foo");
  * ```
@@ -62,7 +62,7 @@ export async function emptyDir(dir: string | URL) {
  *
  * @example Usage
  * ```ts ignore
- * import { emptyDirSync } from "@std/fs/empty-dir";
+ * import { emptyDirSync } from "@ende/fs/empty-dir";
  *
  * emptyDirSync("./foo");
  * ```

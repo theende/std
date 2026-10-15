@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     "paths": {
-      "@std/assert": ["./assert/mod.ts"],
-      "@std/assert/greater-or-equal": ["./assert/greater_or_equal.ts"],
-      "@std/internal/build-message": ["./internal/build_message.ts"],
-      "@std/internal/diff": ["./internal/diff.ts"],
-      "@std/internal/diff-str": ["./internal/diff_str.ts"],
-      "@std/internal/format": ["./internal/format.ts"],
-      "@std/internal/os": ["./internal/os.ts"],
-      "@std/internal/styles": ["./internal/styles.ts"],
-      "@std/path": ["./path/mod.ts"],
-      "@std/semver": ["./semver/mod.ts"],
-      "@std/testing/types": ["./testing/types.ts"]
+      "@ende/assert": ["./assert/mod.ts"],
+      "@ende/assert/greater-or-equal": ["./assert/greater_or_equal.ts"],
+      "@ende/internal/build-message": ["./internal/build_message.ts"],
+      "@ende/internal/diff": ["./internal/diff.ts"],
+      "@ende/internal/diff-str": ["./internal/diff_str.ts"],
+      "@ende/internal/format": ["./internal/format.ts"],
+      "@ende/internal/os": ["./internal/os.ts"],
+      "@ende/internal/styles": ["./internal/styles.ts"],
+      "@ende/path": ["./path/mod.ts"],
+      "@ende/semver": ["./semver/mod.ts"],
+      "@ende/testing/types": ["./testing/types.ts"]
     }
   }
 }

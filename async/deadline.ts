@@ -31,8 +31,8 @@ export interface DeadlineOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { deadline } from "@std/async/deadline";
- * import { delay } from "@std/async/delay";
+ * import { deadline } from "@ende/async/deadline";
+ * import { delay } from "@ende/async/delay";
  *
  * const delayedPromise = delay(1_000);
  * // Below throws `DOMException` after 10 ms

@@ -1,5 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals, assertRejects, assertThrows } from "@std/assert";
+import {
+  assert,
+  assertEquals,
+  assertRejects,
+  assertThrows,
+} from "@ende/assert";
 import { type MemoizationCacheResult, memoize } from "./memoize.ts";
 import { LruCache } from "./lru_cache.ts";
 

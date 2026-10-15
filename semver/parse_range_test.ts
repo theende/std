@@ -1,6 +1,6 @@
 // Copyright Isaac Z. Schlueter and Contributors. All rights reserved. ISC license.
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 import { parseRange } from "./parse_range.ts";
 import type { Range } from "./types.ts";
 

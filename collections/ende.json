@@ -1,5 +1,5 @@
 {
-  "name": "@std/collections",
+  "name": "@ende/collections",
   "version": "1.4.0",
   "exports": {
     ".": "./mod.ts",

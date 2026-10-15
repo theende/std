@@ -15,8 +15,8 @@ import { TextLineStream } from "./text_line_stream.ts";
  *
  * @example Usage
  * ```ts
- * import { toLines } from "@std/streams/unstable-to-lines";
- * import { assertEquals } from "@std/assert/equals";
+ * import { toLines } from "@ende/streams/unstable-to-lines";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const readable = ReadableStream.from([
  *   "qwertzu",

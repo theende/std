@@ -39,7 +39,7 @@ export interface MkdirOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { mkdir } from "@std/fs/unstable-mkdir";
+ * import { mkdir } from "@ende/fs/unstable-mkdir";
  * await mkdir("new_dir");
  * await mkdir("nested/directories", { recursive: true });
  * await mkdir("restricted_access_dir", { mode: 0o700 });
@@ -74,7 +74,7 @@ export async function mkdir(
  *
  * @example Usage
  * ```ts ignore
- * import { mkdirSync } from "@std/fs/unstable-mkdir";
+ * import { mkdirSync } from "@ende/fs/unstable-mkdir";
  * mkdirSync("new_dir");
  * mkdirSync("nested/directories", { recursive: true });
  * mkdirSync("restricted_access_dir", { mode: 0o700 });

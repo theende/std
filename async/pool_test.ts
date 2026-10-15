@@ -8,8 +8,8 @@ import {
   assertRejects,
   assertStringIncludes,
   assertThrows,
-} from "@std/assert";
-import { FakeTime } from "@std/testing/time";
+} from "@ende/assert";
+import { FakeTime } from "@ende/testing/time";
 
 Ende.test("pooledMap() throws for invalid poolLimit", () => {
   const noop = (i: number) => Promise.resolve(i);

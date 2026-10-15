@@ -16,8 +16,8 @@
  * ## Basic Path Operations
  *
  * ```ts
- * import * as path from "@std/path";
- * import { assertEquals } from "@std/assert";
+ * import * as path from "@ende/path";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Get components of a path
  * if (Ende.build.os === "windows") {
@@ -68,8 +68,8 @@
  * ## Path Parsing and Formatting
  *
  * ```ts
- * import * as path from "@std/path";
- * import { assertEquals } from "@std/assert";
+ * import * as path from "@ende/path";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   const parsedWindows = path.parse("C:\\Users\\user\\file.txt");
@@ -103,8 +103,8 @@
  * ## URL Conversion
  *
  * ```ts
- * import * as path from "@std/path";
- * import { assertEquals } from "@std/assert";
+ * import * as path from "@ende/path";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Convert between file URLs and paths
  * if (Ende.build.os === "windows") {
@@ -119,8 +119,8 @@
  * ## Path Properties
  *
  * ```ts
- * import * as path from "@std/path";
- * import { assertEquals } from "@std/assert";
+ * import * as path from "@ende/path";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Check if path is absolute
  * if (Ende.build.os === "windows") {
@@ -147,8 +147,8 @@
  * ## Glob Pattern Utilities
  *
  * ```ts
- * import * as path from "@std/path";
- * import { assertEquals } from "@std/assert";
+ * import * as path from "@ende/path";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Check if a string is a glob pattern
  * assertEquals(path.isGlob("*.txt"), true);
@@ -175,8 +175,8 @@
  * For POSIX-specific functions:
  *
  * ```ts
- * import { fromFileUrl } from "@std/path/posix/from-file-url";
- * import { assertEquals } from "@std/assert";
+ * import { fromFileUrl } from "@ende/path/posix/from-file-url";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(fromFileUrl("file:///home/foo"), "/home/foo");
  * ```
@@ -184,14 +184,14 @@
  * For Windows-specific functions:
  *
  * ```ts
- * import { fromFileUrl } from "@std/path/windows/from-file-url";
- * import { assertEquals } from "@std/assert";
+ * import { fromFileUrl } from "@ende/path/windows/from-file-url";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(fromFileUrl("file:///home/foo"), "\\home\\foo");
  * ```
  *
  * Functions for working with URLs can be found in
- * {@link ./doc/posix/~ | @std/path/posix}.
+ * {@link ./doc/posix/~ | @ende/path/posix}.
  *
  * @module
  */

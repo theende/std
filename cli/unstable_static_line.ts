@@ -27,8 +27,8 @@ const write = "Ende" in globalThis
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import { StaticLine } from "@std/cli/unstable-static-line";
+ * import { delay } from "@ende/async/delay";
+ * import { StaticLine } from "@ende/cli/unstable-static-line";
  *
  * const id = setInterval(() => console.log(Math.random()), 1000);
  *
@@ -73,8 +73,8 @@ export class StaticLine {
    *
    * @example Usage
    * ```ts ignore
-   * import { delay } from "@std/async/delay";
-   * import { StaticLine } from "@std/cli/unstable-static-line";
+   * import { delay } from "@ende/async/delay";
+   * import { StaticLine } from "@ende/cli/unstable-static-line";
    *
    * const id = setInterval(() => console.log(Math.random()), 1000);
    *
@@ -112,8 +112,8 @@ export class StaticLine {
    *
    * @example Usage
    * ```ts ignore
-   * import { delay } from "@std/async/delay";
-   * import { StaticLine } from "@std/cli/unstable-static-line";
+   * import { delay } from "@ende/async/delay";
+   * import { StaticLine } from "@ende/cli/unstable-static-line";
    *
    * const id = setInterval(() => console.log(Math.random()), 1000);
    *

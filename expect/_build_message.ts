@@ -1,9 +1,9 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { buildMessage } from "@std/internal/build-message";
-import { diff } from "@std/internal/diff";
-import { diffStr } from "@std/internal/diff-str";
-import { format } from "@std/internal/format";
+import { buildMessage } from "@ende/internal/build-message";
+import { diff } from "@ende/internal/diff";
+import { diffStr } from "@ende/internal/diff-str";
+import { format } from "@ende/internal/format";
 import type { EqualOptions } from "./_types.ts";
 
 type EqualErrorMessageOptions =

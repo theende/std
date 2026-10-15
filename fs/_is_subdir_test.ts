@@ -1,9 +1,9 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 
-import { assertEquals } from "@std/assert";
-import { SEPARATOR as SEP_POSIX } from "@std/path/posix/constants";
-import { SEPARATOR as SEP_WIN32 } from "@std/path/windows/constants";
+import { assertEquals } from "@ende/assert";
+import { SEPARATOR as SEP_POSIX } from "@ende/path/posix/constants";
+import { SEPARATOR as SEP_WIN32 } from "@ende/path/windows/constants";
 import { isSubdir } from "./_is_subdir.ts";
 
 Ende.test("isSubdir() returns a boolean indicating if dir is a subdir", function () {

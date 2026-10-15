@@ -30,8 +30,8 @@ alphabet.forEach((byte, i) => rAlphabet[byte] = i);
  *
  * @example Usage
  * ```ts
- * import { encodeBase64Url } from "@std/encoding/base64url";
- * import { assertEquals } from "@std/assert";
+ * import { encodeBase64Url } from "@ende/encoding/base64url";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(encodeBase64Url("foobar"), "Zm9vYmFy");
  * ```
@@ -65,8 +65,8 @@ export function encodeBase64Url(
  *
  * @example Usage
  * ```ts
- * import { decodeBase64Url } from "@std/encoding/base64url";
- * import { assertEquals } from "@std/assert";
+ * import { decodeBase64Url } from "@ende/encoding/base64url";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   decodeBase64Url("Zm9vYmFy"),

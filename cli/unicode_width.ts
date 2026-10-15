@@ -50,8 +50,8 @@ function charWidth(char: string) {
  *
  * @example Calculating the unicode width of a string
  * ```ts
- * import { unicodeWidth } from "@std/cli/unicode-width";
- * import { assertEquals } from "@std/assert";
+ * import { unicodeWidth } from "@ende/cli/unicode-width";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(unicodeWidth("hello world"), 11);
  * assertEquals(unicodeWidth("天地玄黃宇宙洪荒"), 16);
@@ -60,9 +60,9 @@ function charWidth(char: string) {
  *
  * @example Calculating the unicode width of a color-encoded string
  * ```ts
- * import { unicodeWidth } from "@std/cli/unicode-width";
- * import { stripAnsiCode } from "@std/fmt/colors";
- * import { assertEquals } from "@std/assert";
+ * import { unicodeWidth } from "@ende/cli/unicode-width";
+ * import { stripAnsiCode } from "@ende/fmt/colors";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(unicodeWidth(stripAnsiCode("\x1b[36mголубой\x1b[39m")), 7);
  * assertEquals(unicodeWidth(stripAnsiCode("\x1b[31m紅色\x1b[39m")), 4);
@@ -70,7 +70,7 @@ function charWidth(char: string) {
  * ```
  *
  * Use
- * {@linkcode https://jsr.io/@std/fmt/doc/colors/~/stripAnsiCode | stripAnsiCode}
+ * {@linkcode https://jsr.io/@ende/fmt/doc/colors/~/stripAnsiCode | stripAnsiCode}
  * to remove ANSI escape codes from a string before passing it to
  * {@linkcode unicodeWidth}.
  */

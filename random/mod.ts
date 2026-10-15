@@ -7,9 +7,9 @@
  * Example of generating a random integer with fixed seed number:
  *
  * ```ts
- * import { randomIntegerBetween } from "@std/random";
- * import { randomSeeded } from "@std/random";
- * import { assertEquals } from "@std/assert";
+ * import { randomIntegerBetween } from "@ende/random";
+ * import { randomSeeded } from "@ende/random";
+ * import { assertEquals } from "@ende/assert";
  *
  * const prng = randomSeeded(1n);
  *
@@ -19,8 +19,8 @@
  * Example of generating a random integer between two values:
  *
  * ```ts no-assert
- * import { randomIntegerBetween } from "@std/random";
- * import { randomSeeded } from "@std/random";
+ * import { randomIntegerBetween } from "@ende/random";
+ * import { randomSeeded } from "@ende/random";
  *
  * const prng = randomSeeded(BigInt(crypto.getRandomValues(new Uint32Array(1))[0]!));
  *

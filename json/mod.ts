@@ -4,8 +4,8 @@
  * Utilities for parsing streaming JSON data.
  *
  * ```ts
- * import { JsonStringifyStream } from "@std/json";
- * import { assertEquals } from "@std/assert";
+ * import { JsonStringifyStream } from "@ende/json";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
  *   .pipeThrough(new JsonStringifyStream());

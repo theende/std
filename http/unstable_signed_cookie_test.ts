@@ -4,7 +4,7 @@ import {
   signCookie,
   verifySignedCookie,
 } from "./unstable_signed_cookie.ts";
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 
 Ende.test("signCookie() and verifySignedCookie() work circularly", async () => {
   const key = await crypto.subtle.generateKey(

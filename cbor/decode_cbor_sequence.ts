@@ -19,8 +19,8 @@ import type { CborType } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { type CborType, decodeCborSequence, encodeCborSequence } from "@std/cbor";
+ * import { assertEquals } from "@ende/assert";
+ * import { type CborType, decodeCborSequence, encodeCborSequence } from "@ende/cbor";
  *
  * const rawMessage = [
  *   "Hello World",

@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { accepts, acceptsEncodings, acceptsLanguages } from "./negotiation.ts";
-import { stub } from "@std/testing/mock";
+import { stub } from "@ende/testing/mock";
 
 Ende.test({
   name: "accepts() handles no args",

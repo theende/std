@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { concat } from "@std/bytes/concat";
+import { concat } from "@ende/bytes/concat";
 
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to an
@@ -12,8 +12,8 @@ import { concat } from "@std/bytes/concat";
  *
  * @example Basic usage
  * ```ts
- * import { toArrayBuffer } from "@std/streams/to-array-buffer";
- * import { assertEquals } from "@std/assert";
+ * import { toArrayBuffer } from "@ende/streams/to-array-buffer";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([
  *   new Uint8Array([1, 2]),

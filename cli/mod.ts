@@ -4,8 +4,8 @@
  * Tools for creating interactive command line tools.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Same as running `ende run example.ts --foo --bar=baz ./quux.txt`
  * const args = parseArgs(["--foo", "--bar=baz", "./quux.txt"]);

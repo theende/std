@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertStrictEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertStrictEquals, assertThrows } from "@ende/assert";
 import { Deque, type ReadonlyDeque } from "./deque.ts";
 import { MyMath } from "./_test_utils.ts";
 

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { _serializeArgList } from "./_serialize_arg_list.ts";
-import { delay } from "@std/async";
+import { delay } from "@ende/async";
 
 Ende.test("_serializeArgList() serializes simple numbers", () => {
   const getKey = _serializeArgList(new Map());

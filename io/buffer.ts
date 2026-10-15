@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { copy } from "@std/bytes/copy";
+import { copy } from "@ende/bytes/copy";
 import type { Reader, ReaderSync, Writer, WriterSync } from "./types.ts";
 
 // MIN_READ is the minimum ArrayBuffer size passed to a read call by
@@ -29,8 +29,8 @@ const MAX_SIZE = 2 ** 32 - 2;
  *
  * @example Usage
  * ```ts
- * import { Buffer } from "@std/io/buffer";
- * import { assertEquals } from "@std/assert/equals";
+ * import { Buffer } from "@ende/io/buffer";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const buf = new Buffer();
  * await buf.write(new TextEncoder().encode("Hello, "));
@@ -74,8 +74,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * await buf.write(new TextEncoder().encode("Hello, world!"));
@@ -97,8 +97,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * assertEquals(buf.empty(), true);
@@ -118,8 +118,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * await buf.write(new TextEncoder().encode("Hello, world!"));
@@ -139,8 +139,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * assertEquals(buf.capacity, 0);
@@ -161,8 +161,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * await buf.write(new TextEncoder().encode("Hello, world!"));
@@ -188,8 +188,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * await buf.write(new TextEncoder().encode("Hello, world!"));
@@ -225,8 +225,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * await buf.write(new TextEncoder().encode("Hello, world!"));
@@ -266,8 +266,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * await buf.write(new TextEncoder().encode("Hello, world!"));
@@ -292,8 +292,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * const data = new TextEncoder().encode("Hello, world!");
@@ -321,8 +321,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * const data = new TextEncoder().encode("Hello, world!");
@@ -384,8 +384,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * buf.grow(10);
@@ -412,8 +412,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * const r = new Buffer(new TextEncoder().encode("Hello, world!"));
@@ -458,8 +458,8 @@ export class Buffer implements Writer, WriterSync, Reader, ReaderSync {
    *
    * @example Usage
    * ```ts
-   * import { Buffer } from "@std/io/buffer";
-   * import { assertEquals } from "@std/assert/equals";
+   * import { Buffer } from "@ende/io/buffer";
+   * import { assertEquals } from "@ende/assert/equals";
    *
    * const buf = new Buffer();
    * const r = new Buffer(new TextEncoder().encode("Hello, world!"));

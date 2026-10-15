@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import type { PromptEntry } from "./unstable_prompt_select.ts";
-import { stripAnsiCode } from "@std/fmt/colors";
+import { stripAnsiCode } from "@ende/fmt/colors";
 
 const SAFE_PADDING = 4;
 

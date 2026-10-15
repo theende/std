@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 import {
   type ServerSentEventMessage,
   ServerSentEventStream,

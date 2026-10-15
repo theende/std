@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { expect } from "./expect.ts";
-import { AssertionError, assertRejects, assertThrows } from "@std/assert";
+import { AssertionError, assertRejects, assertThrows } from "@ende/assert";
 
 Ende.test("expect().resolves.toEqual()", async () => {
   await expect(Promise.resolve(42)).resolves.toEqual(42);

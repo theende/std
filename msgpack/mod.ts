@@ -9,8 +9,8 @@
  * {@link https://msgpack.org/ | Learn more about MessagePack}.
  *
  * ```ts
- * import { decode, encode } from "@std/msgpack";
- * import { assertEquals } from "@std/assert";
+ * import { decode, encode } from "@ende/msgpack";
+ * import { assertEquals } from "@ende/assert";
  *
  * const obj = {
  *   str: "deno",

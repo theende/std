@@ -12,7 +12,7 @@ import type {
   MatcherKey,
   Matchers,
 } from "./_types.ts";
-import { AssertionError } from "@std/assert/assertion-error";
+import { AssertionError } from "@ende/assert/assertion-error";
 import {
   assertions,
   emitAssertionTrigger,
@@ -128,7 +128,7 @@ const matchers: Record<MatcherKey, Matcher> = {
  *
  * @example Usage
  * ```ts no-assert
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * function bestLaCroixFlavor(): string {
  *  return "grapefruit";
@@ -257,7 +257,7 @@ export function expect<T extends Expected = Expected>(
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * class Volume {
  *   amount: number;
@@ -368,7 +368,7 @@ expect.extend = setExtendMatchers as (newExtendMatchers: Matchers) => void;
  *
  * @example
  * ```ts
- * import { expect, fn } from "@std/expect";
+ * import { expect, fn } from "@ende/expect";
  *
  * Ende.test("map calls its argument with a non-null argument", () => {
  *   const mock = fn();
@@ -387,7 +387,7 @@ expect.anything = asymmetricMatchers.anything as () => ReturnType<
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * class Cat {}
  * Ende.test("expect.any()", () => {
@@ -417,7 +417,7 @@ expect.any = asymmetricMatchers.any as (
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("expect.arrayContaining() with array of numbers", () => {
  *   const arr = [1, 2, 3];
@@ -442,7 +442,7 @@ expect.arrayContaining = asymmetricMatchers.arrayContaining as (
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("compare float in object properties", () => {
  *   expect({
@@ -465,7 +465,7 @@ expect.closeTo = asymmetricMatchers.closeTo as (
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("expect.stringContaining() with strings", () => {
  *   expect("https://ende.sh/").toEqual(expect.stringContaining("ende"));
@@ -491,7 +491,7 @@ expect.stringContaining = asymmetricMatchers.stringContaining as (
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("example", () => {
  *   expect("deno_std").toEqual(expect.stringMatching(/std/));
@@ -513,8 +513,8 @@ expect.stringMatching = asymmetricMatchers.stringMatching as (
  * @example
  * ```ts ignore
  *
- * import { test } from "@std/testing/bdd";
- * import { expect } from "@std/expect";
+ * import { test } from "@ende/testing/bdd";
+ * import { expect } from "@ende/expect";
  *
  * test("it works", () => {
  *   expect.hasAssertions();
@@ -532,8 +532,8 @@ expect.hasAssertions = hasAssertions as () => void;
  * @example
  * ```ts ignore
  *
- * import { test } from "@std/testing/bdd";
- * import { expect } from "@std/expect";
+ * import { test } from "@ende/testing/bdd";
+ * import { expect } from "@ende/expect";
  *
  * test("it works", () => {
  *   expect.assertions(1);
@@ -550,7 +550,7 @@ expect.assertions = assertions as (num: number) => void;
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("example", () => {
  *   expect({ bar: 'baz' }).toEqual(expect.objectContaining({ bar: 'baz'}));
@@ -579,7 +579,7 @@ expect.objectContaining = asymmetricMatchers.objectContaining as (
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("expect.not.arrayContaining", () => {
  *   const expected = ["Samantha"];
@@ -617,7 +617,7 @@ expect.not = {
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  * import serializerAnsi from "npm:jest-snapshot-serializer-ansi";
  *
  * expect.addSnapshotSerializer(serializerAnsi);
@@ -635,7 +635,7 @@ expect.addSnapshotSerializer = addSerializer as (
  *
  * @example
  * ```ts ignore
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * Ende.test("my test", () => {
  *   expect.setState({
@@ -656,7 +656,7 @@ expect.setState = setSnapshotState as (
  *
  * @example
  * ```ts
- * import { expect } from "@std/expect";
+ * import { expect } from "@ende/expect";
  *
  * expect.setState({ currentTestName: "my test" });
  * const state = expect.getState();

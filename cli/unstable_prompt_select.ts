@@ -62,7 +62,7 @@ const DELETE = "\u007F";
  *
  * @example Basic usage
  * ```ts ignore
- * import { promptSelect } from "@std/cli/unstable-prompt-select";
+ * import { promptSelect } from "@ende/cli/unstable-prompt-select";
  *
  * const browser = promptSelect("Please select browser", [
  *   "Chrome",
@@ -73,7 +73,7 @@ const DELETE = "\u007F";
  *
  * @example With title and value
  * ```ts ignore
- * import { promptSelect } from "@std/cli/unstable-prompt-select";
+ * import { promptSelect } from "@ende/cli/unstable-prompt-select";
  *
  * const browsers = promptSelect(
  *   "Please select browsers:",
@@ -93,7 +93,7 @@ const DELETE = "\u007F";
  *
  * @example With multiple options
  * ```ts ignore
- * import { promptSelect } from "@std/cli/unstable-prompt-select";
+ * import { promptSelect } from "@ende/cli/unstable-prompt-select";
  *
  * const browser = promptSelect("What country are you from?", [
  *   "Brazil",

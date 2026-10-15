@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects, assertThrows } from "@std/assert";
+import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
 import { toTransformStream } from "./to_transform_stream.ts";
 
 Ende.test({

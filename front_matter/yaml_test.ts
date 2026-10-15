@@ -2,7 +2,7 @@
 
 import { extract } from "./yaml.ts";
 import { extract as unstableExtract } from "./unstable_yaml.ts";
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { assertThrows } from "../assert/throws.ts";
 
 Ende.test("yaml() extracts type error on invalid input", () => {

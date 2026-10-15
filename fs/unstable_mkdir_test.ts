@@ -6,7 +6,7 @@ import {
   assertExists,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { AlreadyExists } from "./unstable_errors.js";
 import { mkdir, mkdirSync } from "./unstable_mkdir.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";

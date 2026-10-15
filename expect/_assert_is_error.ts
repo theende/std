@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
-import { AssertionError } from "@std/assert/assertion-error";
-import { stripAnsiCode } from "@std/internal/styles";
+import { AssertionError } from "@ende/assert/assertion-error";
+import { stripAnsiCode } from "@ende/internal/styles";
 
 /**
  * Make an assertion that `error` is an `Error`.

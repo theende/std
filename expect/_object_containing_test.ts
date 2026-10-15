@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { Buffer } from "node:buffer";
-import { Buffer as EndeBuffer } from "@std/io/buffer";
+import { Buffer as EndeBuffer } from "@ende/io/buffer";
 import { expect } from "./expect.ts";
 
 Ende.test("expect.objectContaining()", () => {

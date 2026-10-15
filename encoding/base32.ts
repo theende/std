@@ -10,8 +10,8 @@
  * Modified from {@link https://github.com/beatgammit/base64-js}.
  *
  * ```ts
- * import { encodeBase32, decodeBase32 } from "@std/encoding/base32";
- * import { assertEquals } from "@std/assert";
+ * import { encodeBase32, decodeBase32 } from "@ende/encoding/base32";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(encodeBase32("foobar"), "MZXW6YTBOI======");
  *
@@ -45,8 +45,8 @@ alphabet.forEach((byte, i) => rAlphabet[byte] = i);
  *
  * @example Usage
  * ```ts
- * import { encodeBase32 } from "@std/encoding/base32";
- * import { assertEquals } from "@std/assert";
+ * import { encodeBase32 } from "@ende/encoding/base32";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(encodeBase32("6c60c0"), "GZRTMMDDGA======");
  * ```
@@ -74,8 +74,8 @@ export function encodeBase32(data: ArrayBuffer | Uint8Array | string): string {
  *
  * @example Usage
  * ```ts
- * import { decodeBase32 } from "@std/encoding/base32";
- * import { assertEquals } from "@std/assert";
+ * import { decodeBase32 } from "@ende/encoding/base32";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(
  *   decodeBase32("GZRTMMDDGA======"),

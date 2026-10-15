@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import * as windows from "./windows/mod.ts";
 import * as posix from "./posix/mod.ts";
 

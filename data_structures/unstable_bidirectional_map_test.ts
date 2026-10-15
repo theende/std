@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals } from "@std/assert";
+import { assert, assertEquals } from "@ende/assert";
 import { BidirectionalMap } from "./unstable_bidirectional_map.ts";
 
 Ende.test("BidirectionalMap is an instance of Map", () => {

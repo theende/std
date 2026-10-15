@@ -22,8 +22,8 @@ export type RoundingOptions = {
  *
  * @example Usage
  * ```ts
- * import { roundTo } from "@std/math/round-to";
- * import { assertEquals } from "@std/assert";
+ * import { roundTo } from "@ende/math/round-to";
+ * import { assertEquals } from "@ende/assert";
  * assertEquals(roundTo(Math.PI, 2), 3.14);
  * assertEquals(roundTo(Math.PI, 2, { strategy: "ceil" }), 3.15);
  * assertEquals(roundTo(Math.PI, 3), 3.142);

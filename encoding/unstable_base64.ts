@@ -5,8 +5,8 @@
  * Functions to encode and decode to and from base64 strings.
  *
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeBase64, type Uint8Array_ } from "@std/encoding/unstable-base64";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeBase64, type Uint8Array_ } from "@ende/encoding/unstable-base64";
  *
  * assertEquals(encodeBase64("Hello World", { alphabet: "base64" }), "SGVsbG8gV29ybGQ=");
  * assertEquals(
@@ -54,11 +54,11 @@ import { detach } from "./_common_detach.ts";
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   encodeBase64,
  *   type Uint8Array_
- * } from "@std/encoding/unstable-base64";
+ * } from "@ende/encoding/unstable-base64";
  *
  * assertEquals(encodeBase64("Hello World"), "SGVsbG8gV29ybGQ=");
  * assertEquals(
@@ -114,12 +114,12 @@ export function encodeBase64(
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   calcSizeBase64,
  *   encodeBase64,
  *   encodeIntoBase64,
- * } from "@std/encoding/unstable-base64";
+ * } from "@ende/encoding/unstable-base64";
  *
  * const prefix = "data:url/fake,";
  * const input = await Ende.readFile("./ende.lock");
@@ -175,8 +175,8 @@ export function encodeIntoBase64(
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { decodeBase64 } from "@std/encoding/unstable-base64";
+ * import { assertEquals } from "@ende/assert";
+ * import { decodeBase64 } from "@ende/encoding/unstable-base64";
  *
  * assertEquals(
  *   decodeBase64("SGVsbG8gV29ybGQ=", { alphabet: "base64" }),

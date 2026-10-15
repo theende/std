@@ -14,7 +14,7 @@ import type { SymlinkOptions } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { symlink } from "@std/fs/unstable-symlink";
+ * import { symlink } from "@ende/fs/unstable-symlink";
  * await symlink("README.md", "README.md.link");
  * ```
  *
@@ -54,7 +54,7 @@ export async function symlink(
  *
  * @example Usage
  * ```ts ignore
- * import { symlinkSync } from "@std/fs/unstable-symlink";
+ * import { symlinkSync } from "@ende/fs/unstable-symlink";
  * symlinkSync("README.md", "README.md.link");
  * ```
  *

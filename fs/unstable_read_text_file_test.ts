@@ -1,6 +1,11 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertRejects, assertThrows } from "@std/assert";
+import {
+  assert,
+  assertEquals,
+  assertRejects,
+  assertThrows,
+} from "@ende/assert";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isEnde } from "./_utils.ts";

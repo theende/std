@@ -13,7 +13,7 @@ import { AssertionError } from "./assertion_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { assertAlmostEquals } from "@std/assert";
+ * import { assertAlmostEquals } from "@ende/assert";
  *
  * assertAlmostEquals(0.01, 0.02); // Throws
  * assertAlmostEquals(1e-8, 1e-9); // Throws

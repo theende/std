@@ -13,8 +13,8 @@ import { MuxAsyncIterator as MuxAsyncIterator_ } from "./mux_async_iterator.ts";
  *
  * @example Usage
  * ```ts
- * import { MuxAsyncIterator } from "@std/async/unstable-mux-async-iterator";
- * import { assertEquals } from "@std/assert";
+ * import { MuxAsyncIterator } from "@ende/async/unstable-mux-async-iterator";
+ * import { assertEquals } from "@ende/assert";
  *
  * async function* gen123(): AsyncIterableIterator<number> {
  *   yield 1;

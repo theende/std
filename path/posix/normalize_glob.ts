@@ -12,8 +12,8 @@ export type { GlobOptions };
  *
  * @example Usage
  * ```ts
- * import { normalizeGlob } from "@std/path/posix/normalize-glob";
- * import { assertEquals } from "@std/assert";
+ * import { normalizeGlob } from "@ende/path/posix/normalize-glob";
+ * import { assertEquals } from "@ende/assert";
  *
  * const path = normalizeGlob("foo/bar/../*", { globstar: true });
  * assertEquals(path, "foo/*");

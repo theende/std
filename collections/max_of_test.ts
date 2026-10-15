@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { maxOf } from "./max_of.ts";
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 
 Ende.test("maxOf() handles regular max", () => {
   const array = [5, 18, 35, 120];

@@ -9,7 +9,7 @@
  * values for AssertionError messages in browsers.
  *
  * ```ts ignore
- * import { assert } from "@std/assert";
+ * import { assert } from "@ende/assert";
  *
  * assert("I am truthy"); // Doesn't throw
  * assert(false); // Throws `AssertionError`

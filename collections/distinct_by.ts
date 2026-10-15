@@ -18,8 +18,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { distinctBy } from "@std/collections/distinct-by";
- * import { assertEquals } from "@std/assert";
+ * import { distinctBy } from "@ende/collections/distinct-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const users = [{ id: 1, name: "Anna" }, { id: 2, name: "Kim" }, { id: 1, name: "Anna again" }];
  * const uniqueUsers = distinctBy(users, (user) => user.id);
@@ -29,8 +29,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { distinctBy } from "@std/collections/distinct-by";
- * import { assertEquals } from "@std/assert";
+ * import { distinctBy } from "@ende/collections/distinct-by";
+ * import { assertEquals } from "@ende/assert";
  *
  * const items = [25, "asdf", true];
  * const result = distinctBy(items, (_, index) => index > 1);

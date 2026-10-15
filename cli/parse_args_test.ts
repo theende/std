@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 import { type Args, parseArgs, type ParseOptions } from "./parse_args.ts";
-import { assertType, type IsExact } from "@std/testing/types";
+import { assertType, type IsExact } from "@ende/testing/types";
 
 // flag boolean true (default all --args to boolean)
 Ende.test("parseArgs() handles true boolean flag", function () {

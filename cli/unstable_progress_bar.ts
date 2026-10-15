@@ -119,8 +119,8 @@ function clamp(value: number, min: number, max: number) {
  *
  * @example Basic Usage
  * ```ts ignore
- * import { delay } from "@std/async";
- * import { ProgressBar } from "@std/cli/unstable-progress-bar";
+ * import { delay } from "@ende/async";
+ * import { ProgressBar } from "@ende/cli/unstable-progress-bar";
  *
  * const gen = async function* () {
  *   for (let i = 0; i < 100; ++i) {
@@ -143,8 +143,8 @@ function clamp(value: number, min: number, max: number) {
  *
  * @example Custom Formatting
  * ```ts ignore
- * import { delay } from "@std/async";
- * import { ProgressBar } from "@std/cli/unstable-progress-bar";
+ * import { delay } from "@ende/async";
+ * import { ProgressBar } from "@ende/cli/unstable-progress-bar";
  *
  * const bar = new ProgressBar({
  *   max: 100,
@@ -165,7 +165,7 @@ export class ProgressBar {
    * The current progress that has been completed.
    * @example Usage
    * ```ts no-assert
-   * import { ProgressBar } from "@std/cli/unstable-progress-bar";
+   * import { ProgressBar } from "@ende/cli/unstable-progress-bar";
    *
    * const progressBar = new ProgressBar({ max : 10 });
    * progressBar.value += 1;
@@ -180,7 +180,7 @@ export class ProgressBar {
    * The maximum progress that is expected.
    * @example Usage
    * ```ts no-assert
-   * import { ProgressBar } from "@std/cli/unstable-progress-bar";
+   * import { ProgressBar } from "@ende/cli/unstable-progress-bar";
    *
    * const progressBar = new ProgressBar({ max : 1 });
    * progressBar.max = 100;
@@ -287,7 +287,7 @@ export class ProgressBar {
    *
    * @example Usage
    * ```ts ignore
-   * import { ProgressBar } from "@std/cli/unstable-progress-bar";
+   * import { ProgressBar } from "@ende/cli/unstable-progress-bar";
    *
    * const progressBar = new ProgressBar({ max: 100 });
    * await progressBar.stop()

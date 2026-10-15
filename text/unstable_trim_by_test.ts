@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { trimBy, trimEndBy, trimStartBy } from "./unstable_trim_by.ts";
 
 Ende.test("trim()", async (t) => {

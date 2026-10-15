@@ -5,8 +5,8 @@
  * Functions to encode and decode to and from hexadecimal strings.
  *
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeHex, type Uint8Array_ } from "@std/encoding/unstable-hex";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeHex, type Uint8Array_ } from "@ende/encoding/unstable-hex";
  *
  * assertEquals(encodeHex("Hello World"), "48656c6c6f20576f726c64");
  * assertEquals(
@@ -47,8 +47,8 @@ import { detach } from "./_common_detach.ts";
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeHex, type Uint8Array_ } from "@std/encoding/unstable-hex";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeHex, type Uint8Array_ } from "@ende/encoding/unstable-hex";
  *
  * assertEquals(encodeHex("Hello World"), "48656c6c6f20576f726c64");
  * assertEquals(
@@ -85,12 +85,12 @@ export function encodeHex(
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   calcSizeHex,
  *   encodeHex,
  *   encodeIntoHex,
- * } from "@std/encoding/unstable-hex";
+ * } from "@ende/encoding/unstable-hex";
  *
  * const prefix = "data:url/fake,";
  * const input = await Ende.readFile("./ende.lock");
@@ -135,8 +135,8 @@ export function encodeIntoHex(
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { decodeHex } from "@std/encoding/unstable-hex";
+ * import { assertEquals } from "@ende/assert";
+ * import { decodeHex } from "@ende/encoding/unstable-hex";
  *
  * assertEquals(
  *   decodeHex("48656c6c6f20576f726c64"),

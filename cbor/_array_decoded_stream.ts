@@ -13,12 +13,12 @@ import type { CborStreamOutput } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
+ * import { assert, assertEquals } from "@ende/assert";
  * import {
  *   CborArrayDecodedStream,
  *   CborArrayEncoderStream,
  *   CborSequenceDecoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage = ["a".repeat(100), "b".repeat(100), "c".repeat(100)];
  *

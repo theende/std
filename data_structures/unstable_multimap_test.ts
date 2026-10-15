@@ -1,5 +1,9 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertNotStrictEquals, assertThrows } from "@std/assert";
+import {
+  assertEquals,
+  assertNotStrictEquals,
+  assertThrows,
+} from "@ende/assert";
 import { MultiMap } from "./unstable_multimap.ts";
 
 Ende.test("MultiMap.add() adds a value under a new key", () => {

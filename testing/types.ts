@@ -5,7 +5,7 @@
  * Testing utilities for types.
  *
  * ```ts expect-error ignore
- * import { assertType, IsExact, IsNullable } from "@std/testing/types";
+ * import { assertType, IsExact, IsNullable } from "@ende/testing/types";
  *
  * const result = "some result" as string | number;
  *
@@ -24,7 +24,7 @@
  *
  * @example Usage
  * ```ts expect-error ignore
- * import { assertType, IsExact, IsNullable } from "@std/testing/types";
+ * import { assertType, IsExact, IsNullable } from "@ende/testing/types";
  *
  * const result = "some result" as string | number;
  *
@@ -48,7 +48,7 @@ export function assertType<T extends boolean>(
  *
  * @example Usage
  * ```ts
- * import { AssertTrue, Has, IsNullable } from "@std/testing/types";
+ * import { AssertTrue, Has, IsNullable } from "@ende/testing/types";
  *
  * const result = 1 as string | number | null;
  *
@@ -64,7 +64,7 @@ export type AssertTrue<T extends true> = never;
  *
  * @example Usage
  * ```ts
- * import { AssertFalse, IsNever } from "@std/testing/types";
+ * import { AssertFalse, IsNever } from "@ende/testing/types";
  *
  * const result = 1 as string | number | null;
  *
@@ -80,7 +80,7 @@ export type AssertFalse<T extends false> = never;
  *
  * @example Usage
  * ```ts
- * import { Assert, Has } from "@std/testing/types";
+ * import { Assert, Has } from "@ende/testing/types";
  *
  * const result = 1 as string | number | null;
  *
@@ -97,7 +97,7 @@ export type Assert<T extends boolean, Expected extends T> = never;
  *
  * @example Usage
  * ```ts
- * import { assertType, Has } from "@std/testing/types";
+ * import { assertType, Has } from "@ende/testing/types";
  *
  * assertType<Has<string | number, string>>(true);
  * assertType<Has<any, number>>(true);
@@ -120,7 +120,7 @@ export type Has<T, U> = IsAny<T> extends true ? true
  *
  * @example Usage
  * ```ts
- * import { assertType, NotHas } from "@std/testing/types";
+ * import { assertType, NotHas } from "@ende/testing/types";
  *
  * assertType<NotHas<string | number, Date>>(true);
  * assertType<NotHas<string, number>>(true);
@@ -140,7 +140,7 @@ export type NotHas<T, U> = Has<T, U> extends false ? true : false;
  *
  * @example Usage
  * ```ts
- * import { assertType, IsNullable } from "@std/testing/types";
+ * import { assertType, IsNullable } from "@ende/testing/types";
  *
  * assertType<IsNullable<string | null>>(true);
  * assertType<IsNullable<string | undefined>>(true);
@@ -161,7 +161,7 @@ export type IsNullable<T> = Extract<T, null | undefined> extends never ? false
  *
  * @example Usage
  * ```ts
- * import { assertType, IsExact } from "@std/testing/types";
+ * import { assertType, IsExact } from "@ende/testing/types";
  *
  * assertType<IsExact<string | number, string | number>>(true);
  * assertType<IsExact<any, any>>(true); // ok to have any for both
@@ -207,7 +207,7 @@ export type DeepPrepareIsExactProp<Prop, Parent, VisitedTypes> = Prop extends
  *
  * @example Usage
  * ```ts
- * import { assertType, IsAny } from "@std/testing/types";
+ * import { assertType, IsAny } from "@ende/testing/types";
  *
  * assertType<IsAny<any>>(true);
  * assertType<IsAny<unknown>>(false);
@@ -223,7 +223,7 @@ export type IsAny<T> = 0 extends (1 & T) ? true : false;
  *
  * @example Usage
  * ```ts
- * import { assertType, IsNever } from "@std/testing/types";
+ * import { assertType, IsNever } from "@ende/testing/types";
  *
  * assertType<IsNever<never>>(true);
  * assertType<IsNever<unknown>>(false);
@@ -238,7 +238,7 @@ export type IsNever<T> = [T] extends [never] ? true : false;
  *
  * @example Usage
  * ```ts
- * import { assertType, IsUnknown } from "@std/testing/types";
+ * import { assertType, IsUnknown } from "@ende/testing/types";
  *
  * assertType<IsUnknown<unknown>>(true);
  * assertType<IsUnknown<never>>(false);

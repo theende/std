@@ -103,8 +103,8 @@ function serializeValue(value: JsonValue, ancestors: object[] = []): string {
  *
  * @example Basic usage (RFC 8785 Appendix E inspired)
  * ```ts
- * import { canonicalize } from "@std/json/canonicalize";
- * import { assertEquals } from "@std/assert";
+ * import { canonicalize } from "@ende/json/canonicalize";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Keys are sorted lexicographically, no whitespace between tokens
  * const data = {
@@ -117,8 +117,8 @@ function serializeValue(value: JsonValue, ancestors: object[] = []): string {
  *
  * @example Number serialization (RFC 8785 Section 3.2.2.3)
  * ```ts
- * import { canonicalize } from "@std/json/canonicalize";
- * import { assertEquals } from "@std/assert";
+ * import { canonicalize } from "@ende/json/canonicalize";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Numbers follow ECMAScript serialization rules
  * assertEquals(canonicalize(10.0), "10");           // No unnecessary decimals
@@ -129,8 +129,8 @@ function serializeValue(value: JsonValue, ancestors: object[] = []): string {
  *
  * @example Key sorting by UTF-16 code units (RFC 8785 Section 3.2.3)
  * ```ts
- * import { canonicalize } from "@std/json/canonicalize";
- * import { assertEquals } from "@std/assert";
+ * import { canonicalize } from "@ende/json/canonicalize";
+ * import { assertEquals } from "@ende/assert";
  *
  * // Keys sorted by UTF-16 code units: digits < uppercase < lowercase
  * const data = { a: 1, A: 2, "1": 3 };
@@ -160,9 +160,9 @@ export function canonicalize(value: JsonValue): string {
  *
  * @example Creating a verifiable hash
  * ```ts
- * import { canonicalizeToBytes } from "@std/json/canonicalize";
- * import { encodeHex } from "@std/encoding/hex";
- * import { assertEquals } from "@std/assert";
+ * import { canonicalizeToBytes } from "@ende/json/canonicalize";
+ * import { encodeHex } from "@ende/encoding/hex";
+ * import { assertEquals } from "@ende/assert";
  *
  * async function sha256Hex(data: Uint8Array): Promise<string> {
  *   const hash = await crypto.subtle.digest("SHA-256", data.buffer as ArrayBuffer);

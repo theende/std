@@ -7,7 +7,7 @@
  * {@linkcode pooledMap}.
  *
  * ```ts no-assert
- * import { delay } from "@std/async/delay";
+ * import { delay } from "@ende/async/delay";
  *
  * await delay(100); // waits for 100 milliseconds
  * ```

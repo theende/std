@@ -1,5 +1,5 @@
 {
-  "name": "@std/fmt",
+  "name": "@ende/fmt",
   "version": "1.0.10",
   "exports": {
     "./bytes": "./bytes.ts",

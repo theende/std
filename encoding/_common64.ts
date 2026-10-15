@@ -41,8 +41,8 @@ export type Base64Alphabet = "base64" | "base64url";
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { calcSizeBase64 } from "@std/encoding/unstable-base64";
+ * import { assertEquals } from "@ende/assert";
+ * import { calcSizeBase64 } from "@ende/encoding/unstable-base64";
  *
  * assertEquals(calcSizeBase64(1), 4);
  * ```

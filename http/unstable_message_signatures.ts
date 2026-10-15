@@ -12,7 +12,7 @@
  *
  * @example Signing a request
  * ```ts ignore
- * import { signMessage } from "@std/http/unstable-message-signatures";
+ * import { signMessage } from "@ende/http/unstable-message-signatures";
  *
  * const key = await crypto.subtle.generateKey("Ed25519", true, ["sign", "verify"]);
  * const request = new Request("https://example.com/api", {
@@ -34,7 +34,7 @@
  *
  * @example Verifying a signed request
  * ```ts ignore
- * import { verifyMessage } from "@std/http/unstable-message-signatures";
+ * import { verifyMessage } from "@ende/http/unstable-message-signatures";
  *
  * const results = await verifyMessage(
  *   signedRequest,
@@ -680,8 +680,8 @@ export interface CreateSignatureBaseOptions {
  *
  * @example Usage
  * ```ts
- * import { createSignatureBase } from "@std/http/unstable-message-signatures";
- * import { assert } from "@std/assert";
+ * import { createSignatureBase } from "@ende/http/unstable-message-signatures";
+ * import { assert } from "@ende/assert";
  *
  * const request = new Request("https://example.com/path", {
  *   method: "GET",
@@ -794,8 +794,8 @@ function validateSignParams(params: SignatureParams): void {
  *
  * @example Usage
  * ```ts
- * import { signMessage } from "@std/http/unstable-message-signatures";
- * import { assert } from "@std/assert";
+ * import { signMessage } from "@ende/http/unstable-message-signatures";
+ * import { assert } from "@ende/assert";
  *
  * const key = await crypto.subtle.generateKey("Ed25519", true, ["sign", "verify"]) as CryptoKeyPair;
  * const request = new Request("https://example.com/", { method: "POST" });
@@ -902,7 +902,7 @@ function assertUniqueLabel(headers: Headers, label: string): void {
  *
  * @example Usage
  * ```ts ignore
- * import { verifyMessage } from "@std/http/unstable-message-signatures";
+ * import { verifyMessage } from "@ende/http/unstable-message-signatures";
  *
  * const results = await verifyMessage(
  *   signedRequest,

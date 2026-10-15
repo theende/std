@@ -4,8 +4,8 @@ import {
   assertRejects,
   assertStringIncludes,
   assertThrows,
-} from "@std/assert";
-import * as path from "@std/path";
+} from "@ende/assert";
+import * as path from "@ende/path";
 import { emptyDir, emptyDirSync } from "./empty_dir.ts";
 
 Ende.test("emptyDir() creates a new dir if it does not exist", async function () {

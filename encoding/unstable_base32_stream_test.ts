@@ -1,9 +1,9 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
-import { toText } from "@std/streams";
-import { toBytes } from "@std/streams/to-bytes";
-import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
+import { assertEquals } from "@ende/assert";
+import { toText } from "@ende/streams";
+import { toBytes } from "@ende/streams/to-bytes";
+import { FixedChunkStream } from "@ende/streams/unstable-fixed-chunk-stream";
 import { encodeBase32 } from "./unstable_base32.ts";
 import {
   Base32DecoderStream,

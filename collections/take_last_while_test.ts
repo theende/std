@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { takeLastWhile } from "./take_last_while.ts";
 
 Ende.test("takeLastWhile() handles num array", () => {

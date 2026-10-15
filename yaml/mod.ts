@@ -25,8 +25,8 @@
  * - Sexagesimal numbers (e.g. `3:25:45`)
  *
  * ```ts
- * import { parse, stringify } from "@std/yaml";
- * import { assertEquals } from "@std/assert";
+ * import { parse, stringify } from "@ende/yaml";
+ * import { assertEquals } from "@ende/assert";
  *
  * const data = parse(`
  * foo: bar

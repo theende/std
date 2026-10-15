@@ -16,8 +16,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { takeLastWhile } from "@std/collections/take-last-while";
- * import { assertEquals } from "@std/assert";
+ * import { takeLastWhile } from "@ende/collections/take-last-while";
+ * import { assertEquals } from "@ende/assert";
  *
  * const numbers = [1, 2, 3, 4, 5, 6];
  * const result = takeLastWhile(numbers, (number) => number > 4);
@@ -26,8 +26,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { takeLastWhile } from "@std/collections/take-last-while";
- * import { assertEquals } from "@std/assert";
+ * import { takeLastWhile } from "@ende/collections/take-last-while";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [20, 30, 20];
  * const result = takeLastWhile(array, (_, index) => index > 0);

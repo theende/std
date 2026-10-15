@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 import { toBytes } from "./to_bytes.ts";
 
 Ende.test("toBytes() concatenates multiple chunks", async () => {

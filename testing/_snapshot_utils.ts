@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import type { SnapshotMode, SnapshotOptions } from "./snapshot.ts";
-import { diff } from "@std/internal/diff";
-import { diffStr } from "@std/internal/diff-str";
-import { buildMessage } from "@std/internal/build-message";
+import { diff } from "@ende/internal/diff";
+import { diffStr } from "@ende/internal/diff-str";
+import { buildMessage } from "@ende/internal/build-message";
 
 export function getErrorMessage(message: string, options: SnapshotOptions) {
   return typeof options.msg === "string" ? options.msg : message;
@@ -13,8 +13,8 @@ export function getErrorMessage(message: string, options: SnapshotOptions) {
  *
  * @example Usage
  * ```ts
- * import { serialize } from "@std/testing/snapshot";
- * import { assertEquals } from "@std/assert";
+ * import { serialize } from "@ende/testing/snapshot";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(serialize({ foo: 42 }), "{\n  foo: 42,\n}")
  * ```

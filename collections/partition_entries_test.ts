@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { partitionEntries } from "./partition_entries.ts";
 
 function partitionEntriesTest<T>(

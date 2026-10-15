@@ -11,7 +11,7 @@ export type { Reader, ReaderSync };
  *
  * @example Usage
  * ```ts no-assert
- * import { iterateReader } from "@std/io/iterate-reader";
+ * import { iterateReader } from "@ende/io/iterate-reader";
  *
  * using file = await Ende.open("README.md");
  * for await (const chunk of iterateReader(file)) {
@@ -21,7 +21,7 @@ export type { Reader, ReaderSync };
  *
  * @example Usage with buffer size
  * ```ts no-assert
- * import { iterateReader } from "@std/io/iterate-reader";
+ * import { iterateReader } from "@ende/io/iterate-reader";
  *
  * using file = await Ende.open("README.md");
  * const iter = iterateReader(file, {
@@ -60,8 +60,8 @@ export async function* iterateReader(
  *
  * @example Usage
  * ```ts
- * import { iterateReaderSync } from "@std/io/iterate-reader";
- * import { assert } from "@std/assert/assert"
+ * import { iterateReaderSync } from "@ende/io/iterate-reader";
+ * import { assert } from "@ende/assert/assert"
  *
  * using file = Ende.openSync("README.md");
  * for (const chunk of iterateReaderSync(file)) {
@@ -74,8 +74,8 @@ export async function* iterateReader(
  *
  * @example Usage with buffer size
  * ```ts
- * import { iterateReaderSync } from "@std/io/iterate-reader";
- * import { assert } from "@std/assert/assert"
+ * import { iterateReaderSync } from "@ende/io/iterate-reader";
+ * import { assert } from "@ende/assert/assert"
  *
  * using file = await Ende.open("README.md");
  * const iter = iterateReaderSync(file, {

@@ -17,8 +17,8 @@ import {
  *
  * @example Usage
  * ```ts
- * import { parse, compare } from "@std/semver";
- * import { assertEquals } from "@std/assert";
+ * import { parse, compare } from "@ende/semver";
+ * import { assertEquals } from "@ende/assert";
  *
  * const version1 = parse("1.2.3");
  * const version2 = parse("1.2.4");

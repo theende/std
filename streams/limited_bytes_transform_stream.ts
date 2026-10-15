@@ -21,8 +21,8 @@ export interface LimitedBytesTransformStreamOptions {
  *
  * @example `size` is equal to the total byte length of the chunks
  * ```ts
- * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertEquals } from "@std/assert";
+ * import { LimitedBytesTransformStream } from "@ende/streams/limited-bytes-transform-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(
@@ -38,8 +38,8 @@ export interface LimitedBytesTransformStreamOptions {
  * @example `size` is less than the total byte length of the chunks, and at the
  * boundary of the chunks
  * ```ts
- * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertEquals } from "@std/assert";
+ * import { LimitedBytesTransformStream } from "@ende/streams/limited-bytes-transform-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(
@@ -57,8 +57,8 @@ export interface LimitedBytesTransformStreamOptions {
  * @example `size` is less than the total byte length of the chunks, and not at
  * the boundary of the chunks
  * ```ts
- * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertEquals } from "@std/assert";
+ * import { LimitedBytesTransformStream } from "@ende/streams/limited-bytes-transform-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(
@@ -79,8 +79,8 @@ export interface LimitedBytesTransformStreamOptions {
  * To do so, set `options.error` to `true`.
  *
  * ```ts
- * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertRejects } from "@std/assert";
+ * import { LimitedBytesTransformStream } from "@ende/streams/limited-bytes-transform-stream";
+ * import { assertRejects } from "@ende/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(

@@ -92,8 +92,8 @@ function parseValue(_key: string, value: string) {
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/ini/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/ini/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const parsed = parse(`
  * key = value
@@ -108,8 +108,8 @@ function parseValue(_key: string, value: string) {
  *
  * @example Using custom reviver
  * ```ts
- * import { parse } from "@std/ini/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/ini/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const parsed = parse(`
  * [section Foo]

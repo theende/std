@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 import { poll } from "./poll.ts";
-import { FakeTime } from "@std/testing/time";
+import { FakeTime } from "@ende/testing/time";
 
 Ende.test("poll() returns result when isDone returns true", async () => {
   let callCount = 0;

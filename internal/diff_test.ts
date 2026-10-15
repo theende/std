@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { assertFp, backTrace, createCommon, createFp, diff } from "./diff.ts";
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 
 Ende.test({
   name: "diff() with empty values",

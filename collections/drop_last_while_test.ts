@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { dropLastWhile } from "./drop_last_while.ts";
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 
 Ende.test("dropLastWhile() handles num array", () => {
   const values = [20, 33, 44];

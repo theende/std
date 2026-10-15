@@ -21,8 +21,8 @@ export interface CreateCapture {
  *
  * @example Usage
  * ```ts ignore
- * import { createCapture } from "@std/webgpu/create-capture";
- * import { getRowPadding } from "@std/webgpu/row-padding";
+ * import { createCapture } from "@ende/webgpu/create-capture";
+ * import { getRowPadding } from "@ende/webgpu/row-padding";
  *
  * const adapter = await navigator.gpu.requestAdapter();
  * const device = await adapter?.requestDevice()!;

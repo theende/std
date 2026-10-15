@@ -1,12 +1,12 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { delay } from "@std/async/delay";
+import { delay } from "@ende/async/delay";
 import {
   assertEquals,
   AssertionError,
   assertNotEquals,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import {
   assertSpyCall,
   assertSpyCallArg,

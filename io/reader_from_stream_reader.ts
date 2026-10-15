@@ -10,8 +10,8 @@ import type { Reader } from "./types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { copy } from "@std/io/copy";
- * import { readerFromStreamReader } from "@std/io/reader-from-stream-reader";
+ * import { copy } from "@ende/io/copy";
+ * import { readerFromStreamReader } from "@ende/io/reader-from-stream-reader";
  *
  * const res = await fetch("https://ende.sh");
  *

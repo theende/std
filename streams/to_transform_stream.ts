@@ -23,8 +23,8 @@
  *
  * @example Build a transform stream that multiplies each value by 100
  * ```ts
- * import { toTransformStream } from "@std/streams/to-transform-stream";
- * import { assertEquals } from "@std/assert";
+ * import { toTransformStream } from "@ende/streams/to-transform-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([0, 1, 2])
  *   .pipeThrough(toTransformStream(async function* (src) {
@@ -41,9 +41,9 @@
  *
  * @example JSON Lines
  * ```ts
- * import { TextLineStream } from "@std/streams/text-line-stream";
- * import { toTransformStream } from "@std/streams/to-transform-stream";
- * import { assertEquals } from "@std/assert";
+ * import { TextLineStream } from "@ende/streams/text-line-stream";
+ * import { toTransformStream } from "@ende/streams/to-transform-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([
  *   '{"name": "Alice", "age": ',

@@ -8,7 +8,7 @@ import { AssertionError } from "./assertion_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { assertNotMatch } from "@std/assert";
+ * import { assertNotMatch } from "@ende/assert";
  *
  * assertNotMatch("Denosaurus", /Raptor/); // Doesn't throw
  * assertNotMatch("Raptor", /Raptor/); // Throws

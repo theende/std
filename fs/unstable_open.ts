@@ -81,14 +81,14 @@ export interface OpenOptions {
  *
  * @example Automatic closing a file with `using` **TypeScript Only**
  * ```ts ignore
- * import { open } from "@std/fs/unstable-open";
+ * import { open } from "@ende/fs/unstable-open";
  * using file = await open("/foo/bar.txt", { read: true, write: true });
  * // Do work with file.
  * ```
  *
  * @example Manually closing a file
  * ```ts ignore
- * import { open } from "@std/fs/unstable-open";
+ * import { open } from "@ende/fs/unstable-open";
  * const file = await open("/foo/bar.txt", { read: true, write: true });
  * // Do work with file.
  * file.close();
@@ -150,14 +150,14 @@ export async function open(
  *
  * @example Automatic closing a file with `using` **TypeScript Only**
  * ```ts ignore
- * import { openSync } from "@std/fs/unstable-open";
+ * import { openSync } from "@ende/fs/unstable-open";
  * using file = openSync("/foo/bar.txt", { read: true, write: true });
  * // Do work with file.
  * ```
  *
  * @example Manually closing an opened file
  * ```ts ignore
- * import { openSync } from "@std/fs/unstable-open";
+ * import { openSync } from "@ende/fs/unstable-open";
  * const file = openSync("/foo/bar.txt", { read: true, write: true });
  * // Do work with file.
  * file.close();

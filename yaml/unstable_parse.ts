@@ -41,8 +41,8 @@ function sanitizeInput(input: string) {
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/yaml/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/yaml/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const data = parse(`
  * id: 1
@@ -79,8 +79,8 @@ export function parse(
  *
  * @example Usage
  * ```ts
- * import { parseAll } from "@std/yaml/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parseAll } from "@ende/yaml/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const data = parseAll(`
  * ---

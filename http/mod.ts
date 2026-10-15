@@ -8,7 +8,7 @@
  * A small program for serving local files over HTTP.
  *
  * ```sh
- * ende run --allow-net --allow-read jsr:@std/http/file-server
+ * ende run --allow-net --allow-read jsr:@ende/http/file-server
  * Listening on:
  * - Local: http://localhost:8000
  * ```
@@ -49,7 +49,7 @@
  * in an http request would look like this:
  *
  * ```ts ignore
- * import { UserAgent } from "@std/http/user-agent";
+ * import { UserAgent } from "@ende/http/user-agent";
  *
  * Ende.serve((req) => {
  *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
@@ -64,8 +64,8 @@
  * handlers based on the request path and method.
  *
  * ```ts ignore
- * import { route, type Route } from "@std/http/unstable-route";
- * import { serveDir } from "@std/http/file-server";
+ * import { route, type Route } from "@ende/http/unstable-route";
+ * import { serveDir } from "@ende/http/file-server";
  *
  * const routes: Route[] = [
  *   {

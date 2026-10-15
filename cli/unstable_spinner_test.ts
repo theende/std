@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { Spinner } from "./unstable_spinner.ts";
-import { restore, stub } from "@std/testing/mock";
-import { FakeTime } from "@std/testing/time";
+import { restore, stub } from "@ende/testing/mock";
+import { FakeTime } from "@ende/testing/time";
 
 const decoder = new TextDecoder();
 

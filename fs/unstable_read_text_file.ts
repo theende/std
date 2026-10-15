@@ -13,8 +13,8 @@ import { getNodeFs, isEnde } from "./_utils.ts";
  *
  * @example Usage
  * ```ts
- * import { assert } from "@std/assert";
- * import { readTextFile } from "@std/fs/unstable-read-text-file";
+ * import { assert } from "@ende/assert";
+ * import { readTextFile } from "@ende/fs/unstable-read-text-file";
  *
  * const content = await readTextFile("README.md"); // full content of README.md
  *
@@ -55,8 +55,8 @@ export async function readTextFile(
  *
  * @example Usage
  * ```ts
- * import { assert } from "@std/assert";
- * import { readTextFileSync } from "@std/fs/unstable-read-text-file";
+ * import { assert } from "@ende/assert";
+ * import { readTextFileSync } from "@ende/fs/unstable-read-text-file";
  *
  * const content = readTextFileSync("README.md"); // full content of README.md
  *

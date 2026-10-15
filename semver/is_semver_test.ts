@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert } from "@std/assert";
+import { assert } from "@ende/assert";
 import { ANY } from "./_constants.ts";
 import { isSemVer } from "./is_semver.ts";
 

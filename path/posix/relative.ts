@@ -12,8 +12,8 @@ import { assertArgs } from "../_common/relative.ts";
  *
  * @example Usage
  * ```ts
- * import { relative } from "@std/path/posix/relative";
- * import { assertEquals } from "@std/assert";
+ * import { relative } from "@ende/path/posix/relative";
+ * import { assertEquals } from "@ende/assert";
  *
  * const path = relative("/data/orandea/test/aaa", "/data/orandea/impl/bbb");
  * assertEquals(path, "../../impl/bbb");

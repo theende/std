@@ -13,8 +13,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { chunk } from "@std/collections/chunk";
- * import { assertEquals } from "@std/assert";
+ * import { chunk } from "@ende/collections/chunk";
+ * import { assertEquals } from "@ende/assert";
  *
  * const words = [
  *   "lorem",

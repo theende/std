@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals } from "@std/assert";
+import { assert, assertEquals } from "@ende/assert";
 import { isGlob } from "./is_glob.ts";
 import { disposableStack } from "../internal/_testing.ts";
 import { Worker } from "node:worker_threads";

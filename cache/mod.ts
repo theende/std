@@ -6,8 +6,8 @@
  * expiration policies.
  *
  * ```ts
- * import { memoize, LruCache, type MemoizationCacheResult } from "@std/cache";
- * import { assertEquals } from "@std/assert";
+ * import { memoize, LruCache, type MemoizationCacheResult } from "@ende/cache";
+ * import { assertEquals } from "@ende/assert";
  *
  * const cache = new LruCache<string, MemoizationCacheResult<bigint>>(1000);
  *

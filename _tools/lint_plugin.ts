@@ -6,9 +6,9 @@
  * {@link https://docs.ende.sh/runtime/contributing/style_guide/ | Ende Style Guide}
  */
 
-import { toCamelCase, toPascalCase } from "@std/text";
-import { toFileUrl } from "@std/path/to-file-url";
-import { resolve } from "@std/path/resolve";
+import { toCamelCase, toPascalCase } from "@ende/text";
+import { toFileUrl } from "@ende/path/to-file-url";
+import { resolve } from "@ende/path/resolve";
 
 const PASCAL_CASE_REGEXP = /^_?(?:[A-Z][a-z0-9]*)*_?$/;
 const UPPER_CASE_ONLY_REGEXP = /^_?[A-Z]{2,}$/;
@@ -101,8 +101,8 @@ export default {
             const resolvedSpecifier = import.meta.resolve(node.source.value);
             if (
               resolvedSpecifier.startsWith("file:") ||
-              resolvedSpecifier.startsWith("jsr:@std") ||
-              resolvedSpecifier.startsWith("jsr:/@std") ||
+              resolvedSpecifier.startsWith("jsr:@ende") ||
+              resolvedSpecifier.startsWith("jsr:/@ende") ||
               resolvedSpecifier.startsWith("node:")
             ) {
               return;
@@ -112,7 +112,7 @@ export default {
               range: node.source.range,
               message: "External imports are not allowed outside of tools",
               hint:
-                'Use code from within `@std` instead of external code. E.g. Use `import { foo } from "@std/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
+                'Use code from within `@ende` instead of external code. E.g. Use `import { foo } from "@ende/foo"` instead of `import { foo } from "https://ende.sh/x/foo/mod.ts"`.',
             });
           },
         };

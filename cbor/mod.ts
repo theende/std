@@ -19,8 +19,8 @@
  * Functions and classes may have more specific limitations listed.
  *
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
- * import { decodeCbor, encodeCbor } from "@std/cbor";
+ * import { assert, assertEquals } from "@ende/assert";
+ * import { decodeCbor, encodeCbor } from "@ende/cbor";
  *
  * const rawMessage = "I am a raw Message!";
  *

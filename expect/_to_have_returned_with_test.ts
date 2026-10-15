@@ -2,7 +2,7 @@
 
 import { expect } from "./expect.ts";
 import { fn } from "./fn.ts";
-import { AssertionError, assertThrows } from "@std/assert";
+import { AssertionError, assertThrows } from "@ende/assert";
 
 Ende.test("expect().toHaveReturnedWith()", () => {
   const mockFn = fn((x: number) => ({ foo: x + 1 }));

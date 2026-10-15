@@ -16,8 +16,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { findSingle } from "@std/collections/find-single";
- * import { assertEquals } from "@std/assert";
+ * import { findSingle } from "@ende/collections/find-single";
+ * import { assertEquals } from "@ende/assert";
  *
  * const bookings = [
  *   { month: "January", active: false },
@@ -33,8 +33,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { findSingle } from "@std/collections/find-single";
- * import { assertEquals } from "@std/assert";
+ * import { findSingle } from "@ende/collections/find-single";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [9, 12, 13];
  * const result = findSingle(array, (_, index) => index === 1);

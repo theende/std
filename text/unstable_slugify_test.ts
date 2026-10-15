@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertMatch } from "@std/assert";
+import { assertEquals, assertMatch } from "@ende/assert";
 import {
   ASCII_DIACRITICS_REGEXP,
   DIACRITICS_REGEXP,

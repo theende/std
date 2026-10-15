@@ -1,13 +1,13 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { basename } from "@std/path/basename";
-import { join } from "@std/path/join";
-import { resolve } from "@std/path/resolve";
+import { basename } from "@ende/path/basename";
+import { join } from "@ende/path/join";
+import { resolve } from "@ende/path/resolve";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
 import { getFileInfoType } from "./_get_file_info_type.ts";
 import { toPathString } from "./_to_path_string.ts";
 import { isSubdir } from "./_is_subdir.ts";
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 
 /** Options for {@linkcode copy} and {@linkcode copySync}. */
 export interface CopyOptions {
@@ -275,7 +275,7 @@ function copyDirSync(
  *
  * @example Basic usage
  * ```ts ignore
- * import { copy } from "@std/fs/copy";
+ * import { copy } from "@ende/fs/copy";
  *
  * await copy("./foo", "./bar");
  * ```
@@ -285,7 +285,7 @@ function copyDirSync(
  *
  * @example Overwriting files/directories
  * ```ts ignore
- * import { copy } from "@std/fs/copy";
+ * import { copy } from "@ende/fs/copy";
  *
  * await copy("./foo", "./bar", { overwrite: true });
  * ```
@@ -295,7 +295,7 @@ function copyDirSync(
  *
  * @example Preserving timestamps
  * ```ts ignore
- * import { copy } from "@std/fs/copy";
+ * import { copy } from "@ende/fs/copy";
  *
  * await copy("./foo", "./bar", { preserveTimestamps: true });
  * ```
@@ -351,7 +351,7 @@ export async function copy(
  *
  * @example Basic usage
  * ```ts ignore
- * import { copySync } from "@std/fs/copy";
+ * import { copySync } from "@ende/fs/copy";
  *
  * copySync("./foo", "./bar");
  * ```
@@ -361,7 +361,7 @@ export async function copy(
  *
  * @example Overwriting files/directories
  * ```ts ignore
- * import { copySync } from "@std/fs/copy";
+ * import { copySync } from "@ende/fs/copy";
  *
  * copySync("./foo", "./bar", { overwrite: true });
  * ```
@@ -371,7 +371,7 @@ export async function copy(
  *
  * @example Preserving timestamps
  * ```ts ignore
- * import { copySync } from "@std/fs/copy";
+ * import { copySync } from "@ende/fs/copy";
  *
  * copySync("./foo", "./bar", { preserveTimestamps: true });
  * ```

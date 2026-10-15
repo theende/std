@@ -14,8 +14,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { permutations } from "@std/collections/permutations";
- * import { assertEquals } from "@std/assert";
+ * import { permutations } from "@ende/collections/permutations";
+ * import { assertEquals } from "@ende/assert";
  *
  * const numbers = [ 1, 2 ];
  * const windows = permutations(numbers);

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const LF = "\n".charCodeAt(0); // ^J - Enter on Linux
@@ -32,7 +32,7 @@ export type PromptSecretOptions = {
  *
  * @example Usage
  * ```ts ignore
- * import { promptSecret } from "@std/cli/prompt-secret";
+ * import { promptSecret } from "@ende/cli/prompt-secret";
  *
  * const password = promptSecret("Please provide the password:");
  * if (password !== "some-password") {

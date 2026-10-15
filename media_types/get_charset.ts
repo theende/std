@@ -16,8 +16,8 @@ import { db, type KeyOfDb } from "./_db.ts";
  *
  * @example Usage
  * ```ts
- * import { getCharset } from "@std/media-types/get-charset";
- * import { assertEquals } from "@std/assert";
+ * import { getCharset } from "@ende/media-types/get-charset";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(getCharset("text/plain"), "UTF-8");
  * assertEquals(getCharset("application/foo"), undefined);

@@ -109,8 +109,8 @@ function myersX(t: string[], p: string[]): number {
  *
  * @example Usage
  * ```ts
- * import { levenshteinDistance } from "@std/text/levenshtein-distance";
- * import { assertEquals } from "@std/assert";
+ * import { levenshteinDistance } from "@ende/text/levenshtein-distance";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(levenshteinDistance("aa", "bb"), 2);
  * ```

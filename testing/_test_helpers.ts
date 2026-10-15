@@ -4,7 +4,7 @@ import {
   assertEquals,
   assertObjectMatch,
   assertStrictEquals,
-} from "@std/assert";
+} from "@ende/assert";
 import { assertSpyCall, assertSpyCalls, type Spy, spy, stub } from "./mock.ts";
 import { TestSuiteInternal } from "./_test_suite.ts";
 

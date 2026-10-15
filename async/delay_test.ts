@@ -6,9 +6,9 @@ import {
   assertInstanceOf,
   assertRejects,
   assertStrictEquals,
-} from "@std/assert";
-import { assertSpyCalls, stub } from "@std/testing/mock";
-import { FakeTime } from "@std/testing/time";
+} from "@ende/assert";
+import { assertSpyCalls, stub } from "@ende/testing/mock";
+import { FakeTime } from "@ende/testing/time";
 
 // https://dom.spec.whatwg.org/#interface-AbortSignal
 function assertIsDefaultAbortReason(reason: unknown) {

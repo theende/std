@@ -14,7 +14,7 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { chown } from "@std/fs/unstable-chown";
+ * import { chown } from "@ende/fs/unstable-chown";
  * await chown("README.md", 1000, 1002);
  * ```
  *
@@ -52,7 +52,7 @@ export async function chown(
  *
  * @example Usage
  * ```ts ignore
- * import { chownSync } from "@std/fs/unstable-chown";
+ * import { chownSync } from "@ende/fs/unstable-chown";
  * chownSync("README.md", 1000, 1002);
  * ```
  *

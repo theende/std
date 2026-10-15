@@ -6,7 +6,7 @@ import {
   assertRejects,
   assertStrictEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import {
   after,
   afterAll,

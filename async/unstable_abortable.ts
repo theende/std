@@ -31,9 +31,9 @@ export interface AbortableOptions {
  *
  * @example Error-handling a timeout
  * ```ts
- * import { abortable } from "@std/async/unstable-abortable";
- * import { delay } from "@std/async/delay";
- * import { assertRejects, assertEquals } from "@std/assert";
+ * import { abortable } from "@ende/async/unstable-abortable";
+ * import { delay } from "@ende/async/delay";
+ * import { assertRejects, assertEquals } from "@ende/assert";
  *
  * const promise = delay(1_000);
  *
@@ -47,9 +47,9 @@ export interface AbortableOptions {
  *
  * @example Error-handling an abort
  * ```ts
- * import { abortable } from "@std/async/unstable-abortable";
- * import { delay } from "@std/async/delay";
- * import { assertRejects, assertEquals } from "@std/assert";
+ * import { abortable } from "@ende/async/unstable-abortable";
+ * import { delay } from "@ende/async/delay";
+ * import { assertRejects, assertEquals } from "@ende/assert";
  *
  * const promise = delay(1_000);
  * const controller = new AbortController();
@@ -65,8 +65,8 @@ export interface AbortableOptions {
  *
  * @example Passing an optional signal through options
  * ```ts
- * import { abortable } from "@std/async/unstable-abortable";
- * import { assertEquals } from "@std/assert";
+ * import { abortable } from "@ende/async/unstable-abortable";
+ * import { assertEquals } from "@ende/assert";
  *
  * async function process(options: { signal?: AbortSignal } = {}) {
  *   return await abortable(Promise.resolve("Hello"), options);
@@ -99,9 +99,9 @@ export function abortable<T>(
  *
  * @example Error-handling a timeout
  * ```ts
- * import { abortable } from "@std/async/unstable-abortable";
- * import { delay } from "@std/async/delay";
- * import { assertRejects, assertEquals } from "@std/assert";
+ * import { abortable } from "@ende/async/unstable-abortable";
+ * import { delay } from "@ende/async/delay";
+ * import { assertRejects, assertEquals } from "@ende/assert";
  *
  * const asyncIter = async function* () {
  *   yield "Hello";
@@ -126,9 +126,9 @@ export function abortable<T>(
  *
  * @example Error-handling an abort
  * ```ts
- * import { abortable } from "@std/async/unstable-abortable";
- * import { delay } from "@std/async/delay";
- * import { assertRejects, assertEquals } from "@std/assert";
+ * import { abortable } from "@ende/async/unstable-abortable";
+ * import { delay } from "@ende/async/delay";
+ * import { assertRejects, assertEquals } from "@ende/assert";
  *
  * const asyncIter = async function* () {
  *   yield "Hello";
@@ -154,8 +154,8 @@ export function abortable<T>(
  *
  * @example Passing an optional signal through options
  * ```ts
- * import { abortable } from "@std/async/unstable-abortable";
- * import { assertEquals } from "@std/assert";
+ * import { abortable } from "@ende/async/unstable-abortable";
+ * import { assertEquals } from "@ende/assert";
  *
  * const asyncIter = async function* () {
  *   yield "Hello";

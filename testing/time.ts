@@ -7,8 +7,8 @@
  * import {
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
- * import { FakeTime } from "@std/testing/time";
+ * } from "@ende/testing/mock";
+ * import { FakeTime } from "@ende/testing/time";
  *
  * function secondInterval(cb: () => void) {
  *   return setInterval(cb, 1000);
@@ -36,9 +36,9 @@
  * @module
  */
 
-import { RedBlackTree } from "@std/data-structures/red-black-tree";
-import { ascend } from "@std/data-structures/comparators";
-import type { DelayOptions } from "@std/async/delay";
+import { RedBlackTree } from "@ende/data-structures/red-black-tree";
+import { ascend } from "@ende/data-structures/comparators";
+import type { DelayOptions } from "@ende/async/delay";
 import { _internals } from "./_time.ts";
 
 export type { DelayOptions };
@@ -49,8 +49,8 @@ export type { DelayOptions };
  *
  * @example Usage
  * ```ts
- * import { FakeTime, TimeError } from "@std/testing/time";
- * import { assertThrows } from "@std/assert";
+ * import { FakeTime, TimeError } from "@ende/testing/time";
+ * import { assertThrows } from "@ende/assert";
  *
  * assertThrows(() => {
  *   const time = new FakeTime();
@@ -263,8 +263,8 @@ let dueTree: RedBlackTree<DueNode>;
  * import {
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
- * import { FakeTime } from "@std/testing/time";
+ * } from "@ende/testing/mock";
+ * import { FakeTime } from "@ende/testing/time";
  *
  * function secondInterval(cb: () => void) {
  *   return setInterval(cb, 1000);
@@ -351,8 +351,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals, assertNotEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals, assertNotEquals } from "@ende/assert";
    *
    * const setTimeout = globalThis.setTimeout;
    *
@@ -382,8 +382,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals, assertNotEquals } from "@std/assert"
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals, assertNotEquals } from "@ende/assert"
    *
    * const setTimeout = globalThis.setTimeout;
    *
@@ -410,8 +410,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals, assertNotEquals } from "@std/assert"
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals, assertNotEquals } from "@ende/assert"
    *
    * const setTimeout = globalThis.setTimeout;
    *
@@ -460,8 +460,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -485,8 +485,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -536,8 +536,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -555,8 +555,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -600,8 +600,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assert } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assert } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -627,8 +627,8 @@ export class FakeTime {
    * import {
    *   assertSpyCalls,
    *   spy,
-   * } from "@std/testing/mock";
-   * import { FakeTime } from "@std/testing/time";
+   * } from "@ende/testing/mock";
+   * import { FakeTime } from "@ende/testing/time";
    *
    * function secondInterval(cb: () => void) {
    *   return setInterval(cb, 1000);
@@ -665,8 +665,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assert, assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assert, assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -693,8 +693,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assert, assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assert, assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -722,8 +722,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assert, assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assert, assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -754,8 +754,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -785,8 +785,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals } from "@ende/assert";
    *
    * const fakeTime = new FakeTime(15_000);
    *
@@ -814,8 +814,8 @@ export class FakeTime {
    *
    * @example Usage
    * ```ts
-   * import { FakeTime } from "@std/testing/time";
-   * import { assertEquals, assertNotEquals } from "@std/assert";
+   * import { FakeTime } from "@ende/testing/time";
+   * import { assertEquals, assertNotEquals } from "@ende/assert";
    *
    * const setTimeout = globalThis.setTimeout;
    *

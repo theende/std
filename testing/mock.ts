@@ -25,8 +25,8 @@
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * function multiply(a: number, b: number): number {
  *   return a * b;
@@ -71,8 +71,8 @@
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * function multiply(a: number, b: number): number {
  *   return a * b;
@@ -124,8 +124,8 @@
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * function multiply(a: number, b: number): number {
  *   return a * b;
@@ -186,8 +186,8 @@
  *   assertSpyCalls,
  *   returnsNext,
  *   stub,
- * } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * function randomInt(lowerBound: number, upperBound: number): number {
  *   return lowerBound + Math.floor(Math.random() * (upperBound - lowerBound));
@@ -237,8 +237,8 @@
  *   assertSpyCalls,
  *   returnsNext,
  *   stub,
- * } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * function randomInt(lowerBound: number, upperBound: number): number {
  *   return lowerBound + Math.floor(Math.random() * (upperBound - lowerBound));
@@ -290,8 +290,8 @@
  * import {
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
- * import { FakeTime } from "@std/testing/time";
+ * } from "@ende/testing/mock";
+ * import { FakeTime } from "@ende/testing/time";
  *
  * function secondInterval(cb: () => void) {
  *   return setInterval(cb, 1000);
@@ -319,10 +319,10 @@
  * @module
  */
 
-import { assertEquals } from "@std/assert/equals";
-import { assertIsError } from "@std/assert/is-error";
-import { assertRejects } from "@std/assert/rejects";
-import { AssertionError } from "@std/assert/assertion-error";
+import { assertEquals } from "@ende/assert/equals";
+import { assertIsError } from "@ende/assert/is-error";
+import { assertRejects } from "@ende/assert/rejects";
+import { AssertionError } from "@ende/assert/assertion-error";
 import {
   isSpy,
   registerMock,
@@ -335,8 +335,8 @@ import {
  *
  * @example Usage
  * ```ts
- * import { MockError, spy } from "@std/testing/mock";
- * import { assertThrows } from "@std/assert";
+ * import { MockError, spy } from "@ende/testing/mock";
+ * import { assertThrows } from "@ende/assert";
  *
  * assertThrows(() => {
  *   spy({} as any, "no-such-method");
@@ -456,8 +456,8 @@ function functionSpy<
  *
  * @example Usage
  * ```ts
- * import { mockSession, restore, stub } from "@std/testing/mock";
- * import { assertEquals, assertNotEquals } from "@std/assert";
+ * import { mockSession, restore, stub } from "@ende/testing/mock";
+ * import { assertEquals, assertNotEquals } from "@ende/assert";
  *
  * const setTimeout = globalThis.setTimeout;
  * const id = mockSession();
@@ -480,8 +480,8 @@ export function mockSession(): number;
  *
  * @example Usage
  * ```ts
- * import { mockSession, restore, stub } from "@std/testing/mock";
- * import { assertEquals, assertNotEquals } from "@std/assert";
+ * import { mockSession, restore, stub } from "@ende/testing/mock";
+ * import { assertEquals, assertNotEquals } from "@ende/assert";
  *
  * const setTimeout = globalThis.setTimeout;
  * const session = mockSession(() => {
@@ -535,8 +535,8 @@ export function mockSession<
  *
  * @example Usage
  * ```ts
- * import { mockSessionAsync, restore, stub } from "@std/testing/mock";
- * import { assertEquals, assertNotEquals } from "@std/assert";
+ * import { mockSessionAsync, restore, stub } from "@ende/testing/mock";
+ * import { assertEquals, assertNotEquals } from "@ende/assert";
  *
  * const setTimeout = globalThis.setTimeout;
  * const session = mockSessionAsync(async () => {
@@ -578,8 +578,8 @@ export function mockSessionAsync<
  *
  * @example Usage
  * ```ts
- * import { mockSession, restore, stub } from "@std/testing/mock";
- * import { assertEquals, assertNotEquals } from "@std/assert";
+ * import { mockSession, restore, stub } from "@ende/testing/mock";
+ * import { assertEquals, assertNotEquals } from "@ende/assert";
  *
  * const setTimeout = globalThis.setTimeout;
  *
@@ -794,7 +794,7 @@ export type SpyLike<
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
+ * } from "@ende/testing/mock";
  *
  * const func = spy();
  *
@@ -831,7 +831,7 @@ export function spy<
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
+ * } from "@ende/testing/mock";
  *
  * const func = spy((a: number, b: number) => a + b);
  *
@@ -865,7 +865,7 @@ export function spy<
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
+ * } from "@ende/testing/mock";
  *
  * class Foo {
  *   constructor(value: string) {}
@@ -903,7 +903,7 @@ export function spy<
  *   assertSpyCall,
  *   assertSpyCalls,
  *   spy,
- * } from "@std/testing/mock";
+ * } from "@ende/testing/mock";
  *
  * const obj = {
  *   method(a: number, b: number): number {
@@ -984,7 +984,7 @@ export interface Stub<
  *
  * @example Usage
  * ```ts
- * import { stub, assertSpyCalls } from "@std/testing/mock";
+ * import { stub, assertSpyCalls } from "@ende/testing/mock";
  *
  * const obj = {
  *   method() {
@@ -1020,8 +1020,8 @@ export function stub<
  *
  * @example Usage
  * ```ts
- * import { stub } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * import { stub } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * const obj = {
  *   method(): number {
@@ -1155,7 +1155,7 @@ export function stub<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCalls, spy } from "@std/testing/mock";
+ * import { assertSpyCalls, spy } from "@ende/testing/mock";
  *
  * const func = spy();
  *
@@ -1237,7 +1237,7 @@ function getSpyCall<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCall, spy } from "@std/testing/mock";
+ * import { assertSpyCall, spy } from "@ende/testing/mock";
  *
  * const func = spy((a: number, b: number) => a + b);
  *
@@ -1334,7 +1334,7 @@ export function assertSpyCall<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCallAsync, spy } from "@std/testing/mock";
+ * import { assertSpyCallAsync, spy } from "@ende/testing/mock";
  *
  * const func = spy((a: number, b: number) => new Promise((resolve) => {
  *   setTimeout(() => resolve(a + b), 100)
@@ -1432,7 +1432,7 @@ export async function assertSpyCallAsync<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCallArg, spy } from "@std/testing/mock";
+ * import { assertSpyCallArg, spy } from "@ende/testing/mock";
  *
  * const func = spy((a: number, b: number) => a + b);
  *
@@ -1481,7 +1481,7 @@ export function assertSpyCallArg<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCallArgs, spy } from "@std/testing/mock";
+ * import { assertSpyCallArgs, spy } from "@ende/testing/mock";
  *
  * const func = spy((a: number, b: number) => a + b);
  *
@@ -1520,7 +1520,7 @@ export function assertSpyCallArgs<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCallArgs, spy } from "@std/testing/mock";
+ * import { assertSpyCallArgs, spy } from "@ende/testing/mock";
  *
  * const func = spy((...args) => {});
  *
@@ -1558,7 +1558,7 @@ export function assertSpyCallArgs<
  *
  * @example Usage
  * ```ts
- * import { assertSpyCallArgs, spy } from "@std/testing/mock";
+ * import { assertSpyCallArgs, spy } from "@ende/testing/mock";
  *
  * const func = spy((...args) => {});
  *
@@ -1625,8 +1625,8 @@ export function assertSpyCallArgs<
  *
  * @example Usage
  * ```ts
- * import { returnsThis } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * import { returnsThis } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * const func = returnsThis();
  * const obj = { func };
@@ -1653,8 +1653,8 @@ export function returnsThis<
  *
  * @example Usage
  * ```ts
- * import { returnsArg } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * import { returnsArg } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * const func = returnsArg(1);
  * assertEquals(func(1, 2, 3), 2);
@@ -1682,8 +1682,8 @@ export function returnsArg<
  *
  * @example Usage
  * ```ts
- * import { returnsArgs } from "@std/testing/mock";
- * import { assertEquals } from "@std/assert";
+ * import { returnsArgs } from "@ende/testing/mock";
+ * import { assertEquals } from "@ende/assert";
  *
  * const func = returnsArgs();
  * assertEquals(func(1, 2, 3), [1, 2, 3]);
@@ -1713,8 +1713,8 @@ export function returnsArgs<
  *
  * @example Usage
  * ```ts
- * import { returnsNext } from "@std/testing/mock";
- * import { assertEquals, assertThrows } from "@std/assert";
+ * import { returnsNext } from "@ende/testing/mock";
+ * import { assertEquals, assertThrows } from "@ende/assert";
  *
  * const func = returnsNext([1, 2, new Error("foo"), 3]);
  * assertEquals(func(), 1);
@@ -1761,8 +1761,8 @@ export function returnsNext<
  *
  * @example Usage
  * ```ts
- * import { resolvesNext } from "@std/testing/mock";
- * import { assertEquals, assertRejects } from "@std/assert";
+ * import { resolvesNext } from "@ende/testing/mock";
+ * import { assertEquals, assertRejects } from "@ende/assert";
  *
  * const func = resolvesNext([1, 2, new Error("foo"), 3]);
  * assertEquals(await func(), 1);

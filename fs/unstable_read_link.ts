@@ -12,8 +12,8 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { readLink } from "@std/fs/unstable-read-link";
- * import { symlink } from "@std/fs/unstable-symlink";
+ * import { readLink } from "@ende/fs/unstable-read-link";
+ * import { symlink } from "@ende/fs/unstable-symlink";
  * await symlink("./test.txt", "./test_link.txt");
  * const target = await readLink("./test_link.txt"); // full path of ./test.txt
  * ```
@@ -45,8 +45,8 @@ export async function readLink(path: string | URL): Promise<string> {
  *
  * @example Usage
  * ```ts ignore
- * import { readLinkSync } from "@std/fs/unstable-read-link";
- * import { symlinkSync } from "@std/fs/unstable-symlink";
+ * import { readLinkSync } from "@ende/fs/unstable-read-link";
+ * import { symlinkSync } from "@ende/fs/unstable-symlink";
  * symlinkSync("./test.txt", "./test_link.txt");
  * const target = readLinkSync("./test_link.txt"); // full path of ./test.txt
  * ```

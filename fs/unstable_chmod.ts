@@ -31,7 +31,7 @@ import { mapError } from "./_map_error.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { chmod } from "@std/fs/unstable-chmod";
+ * import { chmod } from "@ende/fs/unstable-chmod";
  *
  * await chmod("README.md", 0o444);
  * ```
@@ -65,7 +65,7 @@ export async function chmod(path: string | URL, mode: number) {
  *
  * @example Usage
  * ```ts ignore
- * import { chmodSync } from "@std/fs/unstable-chmod";
+ * import { chmodSync } from "@ende/fs/unstable-chmod";
  *
  * chmodSync("README.md", 0o666);
  * ```

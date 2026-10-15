@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { escapeJs } from "./unstable_escape_js.ts";
-import { dedent } from "@std/text/unstable-dedent";
+import { dedent } from "@ende/text/unstable-dedent";
 
 Ende.test("escapeJs() escapes strings for <script> context", async (t) => {
   const testCases = [

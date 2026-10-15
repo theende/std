@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals, assertGreater } from "@std/assert";
+import { assertEquals, assertGreater } from "@ende/assert";
 import { toTitleCase } from "./unstable_to_title_case.ts";
 import type {
   ExcludeWordConfig,

@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { getAvailablePort } from "./get_available_port.ts";
-import { assertEquals, assertNotEquals, assertThrows } from "@std/assert";
-import { stub } from "@std/testing/mock";
+import { assertEquals, assertNotEquals, assertThrows } from "@ende/assert";
+import { stub } from "@ende/testing/mock";
 
 /** Helper function to see if a port is indeed available for listening (race-y) */
 async function testWithPort(port: number) {

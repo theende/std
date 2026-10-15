@@ -38,13 +38,13 @@ export interface PooledMapOptions {
  * yielded on success. After that, the rejections among them are gathered and
  * thrown by the iterator in an `AggregateError`.
  *
- * Unlike the stable `pooledMap` from `@std/async/pool`, the pool limit is
+ * Unlike the stable `pooledMap` from `@ende/async/pool`, the pool limit is
  * passed last, consistent with `pooledMapSettled`.
  *
  * @example Usage
  * ```ts
- * import { pooledMap } from "@std/async/unstable-pool";
- * import { assertEquals } from "@std/assert";
+ * import { pooledMap } from "@ende/async/unstable-pool";
+ * import { assertEquals } from "@ende/assert";
  *
  * const results = pooledMap(
  *   [1, 2, 3],
@@ -83,8 +83,8 @@ export function pooledMap<T, R>(
  *
  * @example Usage with options
  * ```ts
- * import { pooledMap } from "@std/async/unstable-pool";
- * import { assertEquals } from "@std/assert";
+ * import { pooledMap } from "@ende/async/unstable-pool";
+ * import { assertEquals } from "@ende/assert";
  *
  * const results = pooledMap(
  *   [1, 2, 3],
@@ -97,8 +97,8 @@ export function pooledMap<T, R>(
  *
  * @example Cancellation with AbortSignal
  * ```ts
- * import { pooledMap } from "@std/async/unstable-pool";
- * import { assertRejects } from "@std/assert";
+ * import { pooledMap } from "@ende/async/unstable-pool";
+ * import { assertRejects } from "@ende/assert";
  *
  * const controller = new AbortController();
  * const results = pooledMap(

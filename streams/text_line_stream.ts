@@ -19,9 +19,9 @@ export interface TextLineStreamOptions {
  *
  * @example JSON Lines
  * ```ts
- * import { TextLineStream } from "@std/streams/text-line-stream";
- * import { toTransformStream } from "@std/streams/to-transform-stream";
- * import { assertEquals } from "@std/assert";
+ * import { TextLineStream } from "@ende/streams/text-line-stream";
+ * import { toTransformStream } from "@ende/streams/to-transform-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([
  *   '{"name": "Alice", "age": ',
@@ -51,8 +51,8 @@ export interface TextLineStreamOptions {
  * @example Allow splitting by `\r`
  *
  * ```ts
- * import { TextLineStream } from "@std/streams/text-line-stream";
- * import { assertEquals } from "@std/assert";
+ * import { TextLineStream } from "@ende/streams/text-line-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([
  *  "CR\rLF",

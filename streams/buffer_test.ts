@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertThrows } from "@std/assert";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { Buffer } from "./buffer.ts";
 
 Ende.test("Buffer handles write and read", async () => {

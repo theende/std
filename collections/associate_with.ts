@@ -18,8 +18,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { associateWith } from "@std/collections/associate-with";
- * import { assertEquals } from "@std/assert";
+ * import { associateWith } from "@ende/collections/associate-with";
+ * import { assertEquals } from "@ende/assert";
  *
  * const names = ["Kim", "Lara", "Jonathan"];
  *

@@ -15,8 +15,8 @@ import { diff } from "./diff.ts";
  *
  * @example Usage
  * ```ts
- * import { unescape } from "@std/internal/diff-str";
- * import { assertEquals } from "@std/assert";
+ * import { unescape } from "@ende/internal/diff-str";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(unescape("Hello\nWorld"), "Hello\\n\nWorld");
  * ```
@@ -48,8 +48,8 @@ const WHITESPACE_SYMBOLS_REGEXP =
  *
  * @example Usage
  * ```ts
- * import { tokenize } from "@std/internal/diff-str";
- * import { assertEquals } from "@std/assert";
+ * import { tokenize } from "@ende/internal/diff-str";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(tokenize("Hello\nWorld"), ["Hello\n", "World"]);
  * ```
@@ -84,8 +84,8 @@ export function tokenize(string: string, wordDiff = false): string[] {
  *
  * @example Usage
  * ```ts
- * import { createDetails } from "@std/internal/diff-str";
- * import { assertEquals } from "@std/assert";
+ * import { createDetails } from "@ende/internal/diff-str";
+ * import { assertEquals } from "@ende/assert";
  *
  * const tokens = [
  *   { type: "added", value: "a" },
@@ -131,8 +131,8 @@ const NON_WHITESPACE_REGEXP = /\S/;
  *
  * @example Usage
  * ```ts
- * import { diffStr } from "@std/internal/diff-str";
- * import { assertEquals } from "@std/assert";
+ * import { diffStr } from "@ende/internal/diff-str";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(diffStr("Hello!", "Hello"), [
  *   {

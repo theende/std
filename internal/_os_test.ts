@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { checkWindows } from "./_os.ts";
 import { disposableStack } from "./_testing.ts";
-import { stubProperty } from "@std/testing/unstable-stub-property";
+import { stubProperty } from "@ende/testing/unstable-stub-property";
 
 // deno-lint-ignore no-explicit-any
 const global = globalThis as any;

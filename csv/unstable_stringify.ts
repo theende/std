@@ -129,8 +129,8 @@ export type StringifyOptions = {
  *
  * @example Default options
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   ["Rick", 70],
@@ -142,8 +142,8 @@ export type StringifyOptions = {
  *
  * @example Give an array of objects and specify columns
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -157,8 +157,8 @@ export type StringifyOptions = {
  *
  * @example Give an array of objects without specifying columns
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -170,8 +170,8 @@ export type StringifyOptions = {
  *
  * @example Give an array of objects and specify columns with `headers: false`
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -188,8 +188,8 @@ export type StringifyOptions = {
  *
  * @example Give an array of objects and specify columns with renaming
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   { name: "Rick", age: 70 },
@@ -212,8 +212,8 @@ export type StringifyOptions = {
  * import {
  *   Column,
  *   stringify,
- * } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   {
@@ -249,8 +249,8 @@ export type StringifyOptions = {
  * import {
  *   Column,
  *   stringify,
- * } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   {
@@ -282,8 +282,8 @@ export type StringifyOptions = {
  *
  * @example Give an array of string arrays and specify columns with renaming
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   ["Rick", 70],
@@ -303,8 +303,8 @@ export type StringifyOptions = {
  *
  * @example Emit TSV (tab-separated values) with `separator: "\t"`
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [
  *   ["Rick", 70],
@@ -316,8 +316,8 @@ export type StringifyOptions = {
  *
  * @example Prepend a byte-order mark with `bom: true`
  * ```ts
- * import { stringify } from "@std/csv/unstable-stringify";
- * import { assertEquals } from "@std/assert/equals";
+ * import { stringify } from "@ende/csv/unstable-stringify";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const data = [["Rick", 70]];
  *

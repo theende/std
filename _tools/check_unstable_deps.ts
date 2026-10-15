@@ -9,14 +9,14 @@
  * @module
  */
 import { getEntrypoints, getPackagesEndeJsons, resolve } from "./utils.ts";
-import { partition } from "@std/collections/partition";
+import { partition } from "@ende/collections/partition";
 import { createGraph } from "@deno/graph";
 
 // These 2 paths are known to include unstable module (net/unstable_get_network_address.ts)
 // and should be ignored.
 const EXCEPTIONS = [
-  "@std/http/file-server",
-  "@std/http",
+  "@ende/http/file-server",
+  "@ende/http",
 ];
 
 const entrypoints = await getEntrypoints();

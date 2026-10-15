@@ -24,8 +24,8 @@ export interface PollOptions {
  *
  * @example Polling a payment status with {@linkcode deadline}
  * ```ts ignore
- * import { poll } from "@std/async/poll";
- * import { deadline } from "@std/async/deadline";
+ * import { poll } from "@ende/async/poll";
+ * import { deadline } from "@ende/async/deadline";
  *
  * async function getPaymentStatus(id: string): Promise<{ status: string }> {
  *   // Fetch payment status from API
@@ -44,7 +44,7 @@ export interface PollOptions {
  *
  * @example Using AbortSignal for timeout
  * ```ts ignore
- * import { poll } from "@std/async/poll";
+ * import { poll } from "@ende/async/poll";
  *
  * const result = await poll(
  *   () => fetch("https://api.example.com/status").then((r) => r.json()),

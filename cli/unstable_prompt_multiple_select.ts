@@ -66,7 +66,7 @@ const UNCHECKED = "◯";
  *
  * @example Usage
  * ```ts ignore
- * import { promptMultipleSelect } from "@std/cli/unstable-prompt-multiple-select";
+ * import { promptMultipleSelect } from "@ende/cli/unstable-prompt-multiple-select";
  *
  * const browsers = promptMultipleSelect(
  *   "Please select browsers:",
@@ -77,7 +77,7 @@ const UNCHECKED = "◯";
  *
  * @example With title and value
  * ```ts ignore
- * import { promptMultipleSelect } from "@std/cli/unstable-prompt-multiple-select";
+ * import { promptMultipleSelect } from "@ende/cli/unstable-prompt-multiple-select";
  *
  * const browsers = promptMultipleSelect(
  *   "Please select browsers:",
@@ -97,7 +97,7 @@ const UNCHECKED = "◯";
  *
  * @example With multiple options
  * ```ts ignore
- * import { promptMultipleSelect } from "@std/cli/unstable-prompt-multiple-select";
+ * import { promptMultipleSelect } from "@ende/cli/unstable-prompt-multiple-select";
  *
  * const browsers = promptMultipleSelect(
  *   "Select your favorite numbers below 100:",

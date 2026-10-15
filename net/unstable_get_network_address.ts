@@ -17,7 +17,7 @@
  *
  * @example Get the IPv4 network address (default)
  * ```ts no-assert ignore
- * import { getNetworkAddress } from "@std/net/unstable-get-network-address";
+ * import { getNetworkAddress } from "@ende/net/unstable-get-network-address";
  *
  * const hostname = getNetworkAddress()!;
  *
@@ -26,7 +26,7 @@
  *
  * @example Get the IPv6 network address
  * ```ts no-assert ignore
- * import { getNetworkAddress } from "@std/net/unstable-get-network-address";
+ * import { getNetworkAddress } from "@ende/net/unstable-get-network-address";
  *
  * const hostname = getNetworkAddress("IPv6")!;
  *

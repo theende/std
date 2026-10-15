@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { CHAR_FORWARD_SLASH } from "./constants.ts";
 import { normalizeString } from "./normalize_string.ts";
 

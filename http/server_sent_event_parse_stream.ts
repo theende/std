@@ -113,7 +113,7 @@ function parseLine(
  *
  * @example Basic usage with fetch
  * ```ts ignore
- * import { ServerSentEventParseStream } from "@std/http/server-sent-event-parse-stream";
+ * import { ServerSentEventParseStream } from "@ende/http/server-sent-event-parse-stream";
  *
  * const response = await fetch("https://example.com/sse", {
  *   headers: { "Authorization": "Bearer token" },
@@ -129,9 +129,9 @@ function parseLine(
  *
  * @example Roundtrip with ServerSentEventStream
  * ```ts
- * import { ServerSentEventParseStream } from "@std/http/server-sent-event-parse-stream";
- * import { ServerSentEventStream } from "@std/http/server-sent-event-stream";
- * import { assertEquals } from "@std/assert";
+ * import { ServerSentEventParseStream } from "@ende/http/server-sent-event-parse-stream";
+ * import { ServerSentEventStream } from "@ende/http/server-sent-event-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const original = [
  *   { data: "hello" },
@@ -150,8 +150,8 @@ function parseLine(
  *
  * @example Ignoring comments
  * ```ts
- * import { ServerSentEventParseStream } from "@std/http/server-sent-event-parse-stream";
- * import { assertEquals } from "@std/assert";
+ * import { ServerSentEventParseStream } from "@ende/http/server-sent-event-parse-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([
  *   new TextEncoder().encode(":keepalive\ndata: hello\n\n"),

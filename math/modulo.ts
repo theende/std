@@ -10,8 +10,8 @@
  *
  * @example Usage
  * ```ts
- * import { modulo } from "@std/math/modulo";
- * import { assertEquals } from "@std/assert";
+ * import { modulo } from "@ende/math/modulo";
+ * import { assertEquals } from "@ende/assert";
  *
  * for (let n = -3; n <= 3; ++n) {
  *  const val = n * 12 + 5;

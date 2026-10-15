@@ -51,8 +51,8 @@ function defaultReplacer(_key: string, value: unknown, _section?: string) {
  *
  * @example Usage
  * ```ts
- * import { stringify } from "@std/ini/stringify";
- * import { assertEquals } from "@std/assert";
+ * import { stringify } from "@ende/ini/stringify";
+ * import { assertEquals } from "@ende/assert";
  *
  * const str = stringify({
  *   key1: "value1",
@@ -75,8 +75,8 @@ function defaultReplacer(_key: string, value: unknown, _section?: string) {
  *
  * @example Using replacer option
  * ```ts
- * import { stringify } from "@std/ini/stringify";
- * import { assertEquals } from "@std/assert";
+ * import { stringify } from "@ende/ini/stringify";
+ * import { assertEquals } from "@ende/assert";
  *
  * const str = stringify({
  *   "section X": {

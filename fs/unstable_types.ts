@@ -210,7 +210,7 @@ export interface WriteFileOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { open } from "@std/fs/unstable-open";
+ * import { open } from "@ende/fs/unstable-open";
  * using file = await open("/foo/bar.txt", { read: true });
  * const fileInfo = await file.stat();
  * if (fileInfo.isFile) {
@@ -228,7 +228,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("my_file.txt", { read: true });
    * const decoder = new TextDecoder();
    * for await (const chunk of file.readable) {
@@ -244,7 +244,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * const items = ["hello", "world"];
    * using file = await open("my_file.txt", { write: true });
    * const encoder = new TextEncoder();
@@ -261,7 +261,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("my_file.txt");
    * // do work with "file" object
    * ```
@@ -275,7 +275,7 @@ export interface FsFile extends Disposable {
    * @example Usage
    * ```ts ignore
    * // This example is system and context specific
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("/dev/tty6");
    * file.isTerminal(); // true
    * ```
@@ -308,7 +308,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * // if "/foo/bar.txt" contains the text "hello world":
    * using file = await open("/foo/bar.txt");
    * const buf = new Uint8Array(100);
@@ -331,7 +331,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
+   * import { openSync } from "@ende/fs/unstable-open";
    * // if "/foo/bar.txt" contains the text "hello world":
    * using file = openSync("/foo/bar.txt");
    * const buf = new Uint8Array(100);
@@ -349,7 +349,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("/dev/tty6");
    * file.setRaw(true, { cbreak: true });
    * ```
@@ -360,8 +360,8 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { assert } from "@std/assert";
-   * import { open } from "@std/fs/unstable-open";
+   * import { assert } from "@ende/assert";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("hello.txt");
    * const fileInfo = await file.stat();
    * assert(fileInfo.isFile);
@@ -373,8 +373,8 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { assert } from "@std/assert";
-   * import { openSync } from "@std/fs/unstable-open";
+   * import { assert } from "@ende/assert";
+   * import { openSync } from "@ende/fs/unstable-open";
    * using file = openSync("hello.txt");
    * const fileInfo = file.statSync();
    * assert(fileInfo.isFile);
@@ -387,8 +387,8 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
-   * import { readTextFile } from "@std/fs/unstable-read-text-file";
+   * import { open } from "@ende/fs/unstable-open";
+   * import { readTextFile } from "@ende/fs/unstable-read-text-file";
    * const file = await open(
    *   "my_file.txt",
    *   { read: true, write: true, create: true },
@@ -406,8 +406,8 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
-   * import { readTextFileSync } from "@std/fs/unstable-read-text-file";
+   * import { openSync } from "@ende/fs/unstable-open";
+   * import { readTextFileSync } from "@ende/fs/unstable-read-text-file";
    * const file = openSync(
    *   "my_file.txt",
    *   { read: true, write: true, create: true },
@@ -424,8 +424,8 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
-   * import { readTextFile } from "@std/fs/unstable-read-text-file";
+   * import { open } from "@ende/fs/unstable-open";
+   * import { readTextFile } from "@ende/fs/unstable-read-text-file";
    * using file = await open(
    *   "my_file.txt",
    *   { read: true, write: true, create: true },
@@ -442,8 +442,8 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
-   * import { readTextFileSync } from "@std/fs/unstable-read-text-file";
+   * import { openSync } from "@ende/fs/unstable-open";
+   * import { readTextFileSync } from "@ende/fs/unstable-read-text-file";
    * using file = openSync(
    *   "my_file.txt",
    *   { read: true, write: true, create: true },
@@ -460,14 +460,14 @@ export interface FsFile extends Disposable {
    *
    * @example Truncate the entire file
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("my_file.txt", { write: true });
    * await file.truncate();
    * ```
    *
    * @example Truncate part of the file
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * // if "my_file.txt" contains the text "hello world":
    * using file = await open("my_file.txt", { write: true });
    * await file.truncate(7);
@@ -483,14 +483,14 @@ export interface FsFile extends Disposable {
    *
    * @example Truncate the entire file
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
+   * import { openSync } from "@ende/fs/unstable-open";
    * using file = openSync("my_file.txt", { write: true });
    * file.truncateSync();
    * ```
    *
    * @example Truncate part of the file
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
+   * import { openSync } from "@ende/fs/unstable-open";
    * // if "my_file.txt" contains the text "hello world":
    * using file = openSync("my_file.txt", { write: true });
    * file.truncateSync(7);
@@ -511,7 +511,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * using file = await open("file.txt", { create: true, write: true });
    * await file.utime(1556495550, new Date());
    * ```
@@ -524,7 +524,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
+   * import { openSync } from "@ende/fs/unstable-open";
    * using file = openSync("file.txt", { create: true, write: true });
    * file.utime(1556495550, new Date());
    * ```
@@ -540,7 +540,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { open } from "@std/fs/unstable-open";
+   * import { open } from "@ende/fs/unstable-open";
    * const encoder = new TextEncoder();
    * const data = encoder.encode("Hello world");
    * using file = await open("/foo/bar.txt", { write: true });
@@ -558,7 +558,7 @@ export interface FsFile extends Disposable {
    *
    * @example Usage
    * ```ts ignore
-   * import { openSync } from "@std/fs/unstable-open";
+   * import { openSync } from "@ende/fs/unstable-open";
    * const encoder = new TextEncoder();
    * const data = encoder.encode("Hello world");
    * using file = openSync("/foo/bar.txt", { write: true });

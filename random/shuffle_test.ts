@@ -5,7 +5,7 @@ import {
   assertAlmostEquals,
   assertEquals,
   assertNotStrictEquals,
-} from "@std/assert";
+} from "@ende/assert";
 
 Ende.test("shuffle() handles empty arrays", () => {
   const array: number[] = [];

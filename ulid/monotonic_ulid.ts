@@ -20,7 +20,7 @@ const defaultMonotonicUlid = monotonicFactory();
  *
  * @example Generate a monotonic ULID
  * ```ts no-assert
- * import { monotonicUlid } from "@std/ulid";
+ * import { monotonicUlid } from "@ende/ulid";
  *
  * monotonicUlid(); // 01HYFKHG5F8RHM2PM3D7NSTDAS
  * monotonicUlid(); // 01HYFKHG5F8RHM2PM3D7NSTDAT
@@ -29,7 +29,7 @@ const defaultMonotonicUlid = monotonicFactory();
  *
  * @example Generate a monotonic ULID with a seed time
  * ```ts no-assert
- * import { monotonicUlid } from "@std/ulid";
+ * import { monotonicUlid } from "@ende/ulid";
  *
  * // Strict ordering for the same timestamp, by incrementing the least-significant random bit by 1
  * monotonicUlid(150000); // 0000004JFHJJ2Z7X64FN2B4F1Q

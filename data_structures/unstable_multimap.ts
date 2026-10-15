@@ -36,8 +36,8 @@
  *
  * @example Usage
  * ```ts
- * import { MultiMap } from "@std/data-structures/unstable-multimap";
- * import { assertEquals } from "@std/assert";
+ * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+ * import { assertEquals } from "@ende/assert";
  *
  * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
  *
@@ -47,8 +47,8 @@
  *
  * @example Preserves insertion order and duplicates
  * ```ts
- * import { MultiMap } from "@std/data-structures/unstable-multimap";
- * import { assertEquals } from "@std/assert";
+ * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+ * import { assertEquals } from "@ende/assert";
  *
  * const map = new MultiMap<string, number>();
  * map.add("a", 2).add("a", 1).add("a", 2);
@@ -71,8 +71,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Creating an empty map
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap<string, number>();
    * assertEquals(map.size, 0);
@@ -80,8 +80,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Creating a map from an iterable
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * assertEquals(map.get("a"), [1, 2]);
@@ -104,8 +104,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * assertEquals(map.size, 2);
@@ -129,8 +129,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * assertEquals(map.size, 2);
@@ -159,8 +159,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap<string, number>();
    * map.add("a", 1).add("a", 2);
@@ -195,8 +195,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2]]);
    *
@@ -219,8 +219,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1]]);
    *
@@ -244,8 +244,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2]]);
    *
@@ -271,8 +271,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * assertEquals(map.delete("a"), true);
@@ -302,8 +302,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["a", 1]]);
    *
@@ -342,8 +342,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["b", 2]]);
    * map.clear();
@@ -374,8 +374,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * const result: [string, number][] = [];
@@ -386,8 +386,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example With `thisArg`
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * const counter = { total: 0 };
@@ -432,8 +432,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    *
@@ -495,8 +495,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    *
@@ -505,8 +505,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Filter by bucket size
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * const collisions: string[] = [];
@@ -549,8 +549,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    *
@@ -577,8 +577,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    *
@@ -630,8 +630,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    *
@@ -660,8 +660,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    *
@@ -679,8 +679,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const map = new MultiMap();
    * assertEquals(map[Symbol.toStringTag], "MultiMap");
@@ -702,7 +702,7 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts no-assert
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
    *
    * const map = new MultiMap([["a", 1], ["a", 2], ["b", 3]]);
    * console.log(map);
@@ -740,8 +740,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example Usage
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const users = [
    *   { name: "Ada", role: "admin" },
@@ -760,8 +760,8 @@ export class MultiMap<K, V> implements Iterable<[K, V]> {
    *
    * @example The key function receives the item index
    * ```ts
-   * import { MultiMap } from "@std/data-structures/unstable-multimap";
-   * import { assertEquals } from "@std/assert";
+   * import { MultiMap } from "@ende/data-structures/unstable-multimap";
+   * import { assertEquals } from "@ende/assert";
    *
    * const grouped = MultiMap.groupBy(
    *   ["a", "b", "c", "d"],

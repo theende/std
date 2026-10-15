@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
+import { FixedChunkStream } from "@ende/streams/unstable-fixed-chunk-stream";
 import type { Uint8Array_ } from "./_types.ts";
 
 /**
@@ -160,8 +160,8 @@ export interface TarStreamEntry {
  *
  * @example Usage
  * ```ts ignore
- * import { UntarStream } from "@std/tar/untar-stream";
- * import { dirname, normalize } from "@std/path";
+ * import { UntarStream } from "@ende/tar/untar-stream";
+ * import { dirname, normalize } from "@ende/path";
  *
  * for await (
  *   const entry of (await Ende.open("./out.tar.gz"))
@@ -352,8 +352,8 @@ export class UntarStream
    *
    * @example Usage
    * ```ts ignore
-   * import { UntarStream } from "@std/tar/untar-stream";
-   * import { dirname, normalize } from "@std/path";
+   * import { UntarStream } from "@ende/tar/untar-stream";
+   * import { dirname, normalize } from "@ende/path";
    *
    * for await (
    *   const entry of (await Ende.open("./out.tar.gz"))
@@ -378,8 +378,8 @@ export class UntarStream
    *
    * @example Usage
    * ```ts ignore
-   * import { UntarStream } from "@std/tar/untar-stream";
-   * import { dirname, normalize } from "@std/path";
+   * import { UntarStream } from "@ende/tar/untar-stream";
+   * import { dirname, normalize } from "@ende/path";
    *
    * for await (
    *   const entry of (await Ende.open("./out.tar.gz"))

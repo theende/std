@@ -8,7 +8,7 @@ const decoder = new TextDecoder();
 const encoder = new TextEncoder();
 
 export async function resolve(specifier, context, nextResolve) {
-  const match = specifier.match(/^@std\/([^\/]+)(\/[^\/]+)?$/);
+  const match = specifier.match(/^@ende\/([^\/]+)(\/[^\/]+)?$/);
   if (match) {
     const dir = match[1].replaceAll("-", "_");
     const exportName = match[2] ? "." + match[2] : ".";

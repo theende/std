@@ -14,8 +14,8 @@
  * platform specific path like:
  *
  * ```ts
- * import { fromFileUrl } from "@std/path/posix/from-file-url";
- * import { assertEquals } from "@std/assert";
+ * import { fromFileUrl } from "@ende/path/posix/from-file-url";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(fromFileUrl("file:///home/foo"), "/home/foo");
  * ```

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 
-import { resolve } from "@std/path/resolve";
+import { resolve } from "@ende/path/resolve";
 import { toPathString } from "./_to_path_string.ts";
 
 /**

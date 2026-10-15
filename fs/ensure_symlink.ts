@@ -1,10 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { dirname } from "@std/path/dirname";
-import { resolve } from "@std/path/resolve";
+import { dirname } from "@ende/path/dirname";
+import { resolve } from "@ende/path/resolve";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
 import { getFileInfoType, type PathType } from "./_get_file_info_type.ts";
 import { toPathString } from "./_to_path_string.ts";
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 
 function resolveSymlinkTarget(target: string | URL, linkName: string | URL) {
   if (typeof target !== "string") return target; // URL is always absolute path
@@ -41,7 +41,7 @@ function getSymlinkOption(
  *
  * @example Basic usage
  * ```ts ignore
- * import { ensureSymlink } from "@std/fs/ensure-symlink";
+ * import { ensureSymlink } from "@ende/fs/ensure-symlink";
  *
  * // Ensures the link `./targetFile.link.dat` exists and points to `./targetFile.dat`
  * await ensureSymlink("./targetFile.dat", "./targetFile.link.dat");
@@ -49,7 +49,7 @@ function getSymlinkOption(
  *
  * @example Ensuring a link in a folder
  * ```ts ignore
- * import { ensureSymlink } from "@std/fs/ensure-symlink";
+ * import { ensureSymlink } from "@ende/fs/ensure-symlink";
  *
  * // Ensures the link `./folder/targetFile.link.dat` exists and points to `./folder/targetFile.dat`
  * await ensureSymlink("./targetFile.dat", "./folder/targetFile.link.dat");
@@ -119,7 +119,7 @@ export async function ensureSymlink(
  *
  * @example Basic usage
  * ```ts ignore
- * import { ensureSymlinkSync } from "@std/fs/ensure-symlink";
+ * import { ensureSymlinkSync } from "@ende/fs/ensure-symlink";
  *
  * // Ensures the link `./targetFile.link.dat` exists and points to `./targetFile.dat`
  * ensureSymlinkSync("./targetFile.dat", "./targetFile.link.dat");
@@ -127,7 +127,7 @@ export async function ensureSymlink(
  *
  * @example Ensuring a link in a folder
  * ```ts ignore
- * import { ensureSymlinkSync } from "@std/fs/ensure-symlink";
+ * import { ensureSymlinkSync } from "@ende/fs/ensure-symlink";
  *
  * // Ensures the link `./folder/targetFile.link.dat` exists and points to `./folder/targetFile.dat`
  * ensureSymlinkSync("./targetFile.dat", "./folder/targetFile.link.dat");

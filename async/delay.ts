@@ -27,7 +27,7 @@ declare const Ende: { unrefTimer(id: number): void };
  *
  * @example Basic usage
  * ```ts no-assert
- * import { delay } from "@std/async/delay";
+ * import { delay } from "@ende/async/delay";
  *
  * // ...
  * const delayedPromise = delay(100);
@@ -41,7 +41,7 @@ declare const Ende: { unrefTimer(id: number): void };
  * long as the timer exists.
  *
  * ```ts no-assert ignore
- * import { delay } from "@std/async/delay";
+ * import { delay } from "@ende/async/delay";
  *
  * // ...
  * await delay(100, { persistent: false });

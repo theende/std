@@ -2,8 +2,8 @@
 // @ts-nocheck Ende.lint namespace does not pass type checking in Deno 1.x
 
 import type { SnapshotOptions } from "./snapshot.ts";
-import { AssertionError } from "@std/assert/assertion-error";
-import { equal } from "@std/assert/equal";
+import { AssertionError } from "@ende/assert/assertion-error";
+import { equal } from "@ende/assert/equal";
 import {
   escapeStringForJs,
   getIsUpdate,
@@ -173,7 +173,7 @@ globalThis.addEventListener("unload", () => {
  *
  * @example Usage
  * ```ts no-assert
- * import { assertInlineSnapshot } from "@std/testing/unstable-snapshot";
+ * import { assertInlineSnapshot } from "@ende/testing/unstable-snapshot";
  *
  * Ende.test("snapshot", () => {
  *   assertInlineSnapshot<number>(2, `2`);
@@ -199,7 +199,7 @@ export function assertInlineSnapshot<T>(
  *
  * @example Usage
  * ```ts no-assert
- * import { assertInlineSnapshot } from "@std/testing/unstable-snapshot";
+ * import { assertInlineSnapshot } from "@ende/testing/unstable-snapshot";
  *
  * Ende.test("snapshot", () => {
  *   assertInlineSnapshot<number>(2, `2`);
@@ -280,7 +280,7 @@ export function assertInlineSnapshot(
  *
  * @example Usage
  * ```ts no-assert
- * import { createAssertInlineSnapshot } from "@std/testing/unstable-snapshot";
+ * import { createAssertInlineSnapshot } from "@ende/testing/unstable-snapshot";
  *
  * const assertInlineSnapshot = createAssertInlineSnapshot({
  *   serializer: JSON.stringify,

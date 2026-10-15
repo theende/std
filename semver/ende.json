@@ -1,5 +1,5 @@
 {
-  "name": "@std/semver",
+  "name": "@ende/semver",
   "version": "1.0.8",
   "exports": {
     ".": "./mod.ts",

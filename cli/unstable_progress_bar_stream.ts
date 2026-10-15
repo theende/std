@@ -17,7 +17,7 @@ export type { Uint8Array_ };
  *
  * @example Basic Usage
  * ```ts ignore no-assert
- * import { ProgressBarStream } from "@std/cli/unstable-progress-bar-stream";
+ * import { ProgressBarStream } from "@ende/cli/unstable-progress-bar-stream";
  *
  * const response = await fetch("https://example.com/");
  * const max = Number(response.headers.get("content-length"));
@@ -36,7 +36,7 @@ export class ProgressBarStream
    *
    * @example Basic Usage
    * ```ts ignore no-assert
-   * import { ProgressBarStream } from "@std/cli/unstable-progress-bar-stream";
+   * import { ProgressBarStream } from "@ende/cli/unstable-progress-bar-stream";
    *
    * const response = await fetch("https://example.com/");
    * const max = Number(response.headers.get("content-length"));

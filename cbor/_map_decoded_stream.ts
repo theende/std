@@ -13,12 +13,12 @@ import type { CborMapStreamOutput } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { assert, assertEquals } from "@std/assert";
+ * import { assert, assertEquals } from "@ende/assert";
  * import {
  *   CborMapDecodedStream,
  *   CborMapEncoderStream,
  *   CborSequenceDecoderStream,
- * } from "@std/cbor";
+ * } from "@ende/cbor";
  *
  * const rawMessage: Record<string, number> = {
  *   a: 0,

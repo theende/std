@@ -20,16 +20,16 @@ import { isIterator, isToken, needsEncoding } from "./_util.ts";
  *
  * @example Basic usage
  * ```ts
- * import { formatMediaType } from "@std/media-types/format-media-type";
- * import { assertEquals } from "@std/assert";
+ * import { formatMediaType } from "@ende/media-types/format-media-type";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(formatMediaType("text/plain"), "text/plain");
  * ```
  *
  * @example With parameters
  * ```ts
- * import { formatMediaType } from "@std/media-types/format-media-type";
- * import { assertEquals } from "@std/assert";
+ * import { formatMediaType } from "@ende/media-types/format-media-type";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(formatMediaType("text/plain", { charset: "UTF-8" }), "text/plain; charset=UTF-8");
  * ```

@@ -270,8 +270,8 @@ class Dumper {
  *
  * @example Usage
  * ```ts
- * import { stringify } from "@std/toml/stringify";
- * import { assertEquals } from "@std/assert";
+ * import { stringify } from "@ende/toml/stringify";
+ * import { assertEquals } from "@ende/assert";
  *
  * const obj = {
  *   title: "TOML Example",

@@ -31,7 +31,7 @@ export interface GetAvailablePortOptions {
  *
  * Bad:
  * ```ts ignore no-assert
- * import { getAvailablePort } from "@std/net/get-available-port";
+ * import { getAvailablePort } from "@ende/net/get-available-port";
  *
  * const port = getAvailablePort();
  * Ende.serve({ port }, () => new Response("Hello, world!"));
@@ -44,7 +44,7 @@ export interface GetAvailablePortOptions {
  *
  * Good:
  * ```ts no-assert
- * import { getAvailablePort } from "@std/net/get-available-port";
+ * import { getAvailablePort } from "@ende/net/get-available-port";
  *
  * const command = new Ende.Command(Ende.execPath(), {
  *   args: ["test.ts", "--port", getAvailablePort().toString()],

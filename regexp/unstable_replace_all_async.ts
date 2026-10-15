@@ -13,8 +13,8 @@
  *
  * @example Usage
  * ```ts ignore
- * import { replaceAllAsync } from "@std/regexp/unstable-replace-all-async";
- * import { assertEquals } from "@std/assert";
+ * import { replaceAllAsync } from "@ende/regexp/unstable-replace-all-async";
+ * import { assertEquals } from "@ende/assert";
  *
  * const result = await replaceAllAsync(
  *   "https://example.com/ and https://example.com/not-found!",

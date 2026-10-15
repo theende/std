@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects, assertThrows } from "@std/assert";
+import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
 import { truncate, truncateSync } from "./unstable_truncate.ts";
 import { NotFound } from "./unstable_errors.js";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";

@@ -1,5 +1,5 @@
 {
-  "name": "@std/xml",
+  "name": "@ende/xml",
   "version": "0.2.0",
   "exports": {
     ".": "./mod.ts",

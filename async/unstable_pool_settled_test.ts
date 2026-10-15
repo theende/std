@@ -6,7 +6,7 @@ import {
   assertLess,
   assertRejects,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 import { delay } from "./delay.ts";
 
 Ende.test("pooledMapSettled() throws for invalid poolLimit", () => {

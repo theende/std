@@ -16,7 +16,7 @@
  * > interpolating user-provided data, you must manually escape it to prevent
  * > XSS (Cross-Site Scripting) attacks. Only use this function with trusted
  * > data or data that has been properly sanitized. Use
- * > {@linkcode https://jsr.io/@std/html/doc/~/escape | escape()} for escaping.
+ * > {@linkcode https://jsr.io/@ende/html/doc/~/escape | escape()} for escaping.
  *
  * @param strings The template string array containing the static parts of the template
  * @param values The values to be interpolated into the template
@@ -24,8 +24,8 @@
  *
  * @example Usage with trusted content
  * ```ts
- * import { html } from "@std/html/unstable-html";
- * import { assertEquals } from "@std/assert/equals";
+ * import { html } from "@ende/html/unstable-html";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const name = "Alice";
  * const color = "blue";
@@ -46,9 +46,9 @@
  *
  * @example Usage with untrusted content that needs to be escaped
  * ```ts
- * import { html } from "@std/html/unstable-html";
- * import { assertEquals } from "@std/assert/equals";
- * import { escape } from "@std/html/entities";
+ * import { html } from "@ende/html/unstable-html";
+ * import { assertEquals } from "@ende/assert/equals";
+ * import { escape } from "@ende/html/entities";
  *
  * // WARNING: This is vulnerable to XSS attacks!
  * const userInput = '<script>alert("XSS")</script>';

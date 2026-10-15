@@ -62,8 +62,8 @@ export type ReadonlyRollingCounter = Pick<
  *
  * @example Usage
  * ```ts
- * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
- * import { assertEquals } from "@std/assert";
+ * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+ * import { assertEquals } from "@ende/assert";
  *
  * // 3 segments, all starting at zero
  * const counter = new RollingCounter(3);
@@ -132,8 +132,8 @@ export class RollingCounter
    *
    * @example Round-trip serialization
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const original = new RollingCounter(3);
    * original.increment(5);
@@ -150,8 +150,8 @@ export class RollingCounter
    *
    * @example Cloning from a counter
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const original = new RollingCounter(3);
    * original.increment(5);
@@ -217,8 +217,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * const total = counter.increment(5);
@@ -248,8 +248,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(2);
    * counter.increment(10);
@@ -260,8 +260,8 @@ export class RollingCounter
    *
    * @example Bulk rotation
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -306,8 +306,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -333,8 +333,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -356,8 +356,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(5);
    * assertEquals(counter.segmentCount, 5);
@@ -382,8 +382,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -411,8 +411,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(10);
@@ -437,8 +437,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -474,8 +474,8 @@ export class RollingCounter
    *
    * @example JSON round-trip
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -498,8 +498,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * counter.increment(5);
@@ -522,8 +522,8 @@ export class RollingCounter
    *
    * @example Usage
    * ```ts
-   * import { RollingCounter } from "@std/data-structures/unstable-rolling-counter";
-   * import { assertEquals } from "@std/assert";
+   * import { RollingCounter } from "@ende/data-structures/unstable-rolling-counter";
+   * import { assertEquals } from "@ende/assert";
    *
    * const counter = new RollingCounter(3);
    * assertEquals(

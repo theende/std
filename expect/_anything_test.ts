@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { expect } from "./expect.ts";
-import { AssertionError, assertThrows } from "@std/assert";
+import { AssertionError, assertThrows } from "@ende/assert";
 import { fn } from "./fn.ts";
 
 Ende.test("expect.anything() as a parameter of toEqual()", () => {

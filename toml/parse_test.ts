@@ -1,5 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assert, assertEquals, assertThrows } from "@std/assert";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { parse } from "./mod.ts";
 
 Ende.test({
@@ -876,7 +876,7 @@ Ende.test({
   async fn() {
     const testCode = `
       import { parse } from "${import.meta.resolve("./parse.ts")}";
-      import { assertEquals } from "@std/assert";
+      import { assertEquals } from "@ende/assert";
       parse('[__proto__.isAdmin]');
       assertEquals({}.isAdmin, undefined, "Prototype pollution detected");
       parse('[[__proto__.arrayTable]]\\npolluted = true');

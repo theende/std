@@ -11,8 +11,8 @@ import { compare } from "./compare.ts";
  *
  * @example Usage
  * ```ts
- * import { parse, parseRange, lessThanRange } from "@std/semver";
- * import { assert } from "@std/assert";
+ * import { parse, parseRange, lessThanRange } from "@ende/semver";
+ * import { assert } from "@ende/assert";
  *
  * const version1 = parse("1.2.3");
  * const version2 = parse("1.0.0");

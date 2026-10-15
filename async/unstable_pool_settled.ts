@@ -39,8 +39,8 @@ export interface PooledMapSettledOptions {
  *
  * @example Usage
  * ```ts
- * import { pooledMapSettled } from "@std/async/unstable-pool-settled";
- * import { assertEquals } from "@std/assert";
+ * import { pooledMapSettled } from "@ende/async/unstable-pool-settled";
+ * import { assertEquals } from "@ende/assert";
  *
  * const results = pooledMapSettled(
  *   [1, 2, 3],
@@ -60,7 +60,7 @@ export interface PooledMapSettledOptions {
  *
  * @example With AbortSignal
  * ```ts no-assert ignore
- * import { pooledMapSettled } from "@std/async/unstable-pool-settled";
+ * import { pooledMapSettled } from "@ende/async/unstable-pool-settled";
  *
  * const results = pooledMapSettled([1, 2, 3], async (i) => {
  *   await new Promise((r) => setTimeout(r, 1000));

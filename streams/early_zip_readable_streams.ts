@@ -17,8 +17,8 @@
  *
  * @example Zip 2 streams with the same length
  * ```ts
- * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert";
+ * import { earlyZipReadableStreams } from "@ende/streams/early-zip-readable-streams";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2", "3"]);
  * const stream2 = ReadableStream.from(["a", "b", "c"]);
@@ -32,8 +32,8 @@
  *
  * @example Zip 2 streams with different length (first one is shorter)
  * ```ts
- * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert";
+ * import { earlyZipReadableStreams } from "@ende/streams/early-zip-readable-streams";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2"]);
  * const stream2 = ReadableStream.from(["a", "b", "c", "d"]);
@@ -50,8 +50,8 @@
  *
  * @example Zip 2 streams with different length (first one is longer)
  * ```ts
- * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert";
+ * import { earlyZipReadableStreams } from "@ende/streams/early-zip-readable-streams";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2", "3", "4"]);
  * const stream2 = ReadableStream.from(["a", "b"]);
@@ -68,8 +68,8 @@
  *
  * @example Zip 3 streams
  * ```ts
- * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert";
+ * import { earlyZipReadableStreams } from "@ende/streams/early-zip-readable-streams";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream1 = ReadableStream.from(["1"]);
  * const stream2 = ReadableStream.from(["a", "b"]);

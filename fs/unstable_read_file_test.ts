@@ -6,7 +6,7 @@ import {
   assertRejects,
   assertThrows,
   unreachable,
-} from "@std/assert";
+} from "@ende/assert";
 import { readFile, readFileSync } from "./unstable_read_file.ts";
 import { NotFound } from "./unstable_errors.js";
 import { isEnde } from "./_utils.ts";

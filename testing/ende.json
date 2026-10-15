@@ -1,5 +1,5 @@
 {
-  "name": "@std/testing",
+  "name": "@ende/testing",
   "version": "1.0.21",
   "exports": {
     "./bdd": "./bdd.ts",

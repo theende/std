@@ -6,7 +6,7 @@ import {
   assertEquals,
   assertStrictEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 
 Ende.test({
   name: "parse()",

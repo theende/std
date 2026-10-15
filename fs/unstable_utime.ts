@@ -12,9 +12,9 @@ import { mapError } from "./_map_error.ts";
  * @example Usage
  *
  * ```ts
- * import { assert } from "@std/assert"
- * import { utime } from "@std/fs/unstable-utime";
- * import { stat } from "@std/fs/unstable-stat"
+ * import { assert } from "@ende/assert"
+ * import { utime } from "@ende/fs/unstable-utime";
+ * import { stat } from "@ende/fs/unstable-stat"
  *
  * const newAccessDate = new Date()
  * const newModifiedDate = new Date()
@@ -59,9 +59,9 @@ export async function utime(
  * @example Usage
  *
  * ```ts
- * import { assert } from "@std/assert"
- * import { utimeSync } from "@std/fs/unstable-utime";
- * import { stat } from "@std/fs/unstable-stat"
+ * import { assert } from "@ende/assert"
+ * import { utimeSync } from "@ende/fs/unstable-utime";
+ * import { stat } from "@ende/fs/unstable-stat"
  *
  * const newAccessDate = new Date()
  * const newModifiedDate = new Date()

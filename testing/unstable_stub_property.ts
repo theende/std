@@ -15,8 +15,8 @@
  *
  * @example Usage
  * ```ts
- * import { stubProperty } from "@std/testing/unstable-stub-property";
- * import { assertEquals } from "@std/assert";
+ * import { stubProperty } from "@ende/testing/unstable-stub-property";
+ * import { assertEquals } from "@ende/assert";
  *
  * const obj = { foo: "bar" };
  * {

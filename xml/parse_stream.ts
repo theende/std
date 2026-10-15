@@ -23,8 +23,8 @@ export type { ParseStreamOptions, XmlEventCallbacks } from "./types.ts";
  *
  * @example Collecting data from elements
  * ```ts
- * import { parseXmlStream } from "@std/xml/parse-stream";
- * import { assertEquals } from "@std/assert";
+ * import { parseXmlStream } from "@ende/xml/parse-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const xml = `<root><item id="1">First</item><item id="2">Second</item></root>`;
  * const stream = ReadableStream.from([xml]);
@@ -81,8 +81,8 @@ export async function parseXmlStream(
  *
  * @example Basic usage
  * ```ts
- * import { parseXmlStreamFromBytes } from "@std/xml/parse-stream";
- * import { assertEquals } from "@std/assert";
+ * import { parseXmlStreamFromBytes } from "@ende/xml/parse-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const xml = new TextEncoder().encode("<root>Hello</root>");
  * const stream = ReadableStream.from([xml]);

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertThrows } from "@std/assert";
-import { assertType, type IsExact } from "@std/testing/types";
+import { assertEquals, assertThrows } from "@ende/assert";
+import { assertType, type IsExact } from "@ende/testing/types";
 import {
   type CacheControl,
   formatCacheControl,

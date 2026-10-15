@@ -13,8 +13,8 @@ import { fromFileUrl } from "./from_file_url.ts";
  *
  * @example Usage
  * ```ts
- * import { normalize } from "@std/path/posix/normalize";
- * import { assertEquals } from "@std/assert";
+ * import { normalize } from "@ende/path/posix/normalize";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(normalize("/foo/bar//baz/asdf/quux/.."), "/foo/bar/baz/asdf");
  * assertEquals(normalize(new URL("file:///foo/bar//baz/asdf/quux/..")), "/foo/bar/baz/asdf/");
@@ -27,8 +27,8 @@ import { fromFileUrl } from "./from_file_url.ts";
  * the URL.
  *
  * ```ts
- * import { normalize } from "@std/path/posix/normalize";
- * import { assertEquals } from "@std/assert";
+ * import { normalize } from "@ende/path/posix/normalize";
+ * import { assertEquals } from "@ende/assert";
  *
  * const url = new URL("https://ende.sh");
  * url.pathname = normalize("//std//assert//.//mod.ts");

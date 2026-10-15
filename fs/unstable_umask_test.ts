@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertNotEquals } from "@std/assert";
+import { assertEquals, assertNotEquals } from "@ende/assert";
 import { umask } from "./unstable_umask.ts";
 import { platform } from "node:os";
 

@@ -24,8 +24,8 @@
  * ### DOM-style parsing
  *
  * ```ts
- * import { parse } from "@std/xml";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/xml";
+ * import { assertEquals } from "@ende/assert";
  *
  * const doc = parse("<root><item>Hello</item></root>");
  * assertEquals(doc.root.name.local, "root");
@@ -36,7 +36,7 @@
  * For maximum throughput when processing large files:
  *
  * ```ts ignore
- * import { parseXmlStream } from "@std/xml";
+ * import { parseXmlStream } from "@ende/xml";
  *
  * const response = await fetch("https://example.com/feed.xml");
  * const textStream = response.body!.pipeThrough(new TextDecoderStream());
@@ -55,7 +55,7 @@
  * For convenience with fetch responses:
  *
  * ```ts ignore
- * import { parseXmlStreamFromBytes } from "@std/xml";
+ * import { parseXmlStreamFromBytes } from "@ende/xml";
  *
  * const response = await fetch("https://example.com/feed.xml");
  *
@@ -72,8 +72,8 @@
  * independent of the document's `<?xml version="..."?>` declaration.
  *
  * ```ts
- * import { parse } from "@std/xml";
- * import { assertEquals, assertThrows } from "@std/assert";
+ * import { parse } from "@ende/xml";
+ * import { assertEquals, assertThrows } from "@ende/assert";
  *
  * // Accepted in XML 1.1, rejected in XML 1.0:
  * const xml = "<root>&#x1;</root>";

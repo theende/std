@@ -7,8 +7,8 @@
  * {@link https://specifications.freedesktop.org/desktop-entry-spec/latest/ar01s03.html | Desktop Entry specification}.
  *
  * ```ts
- * import { parse, stringify } from "@std/ini";
- * import { assertEquals } from "@std/assert";
+ * import { parse, stringify } from "@ende/ini";
+ * import { assertEquals } from "@ende/assert";
  *
  * const text = `Global Key=Some data here
  * [Section #1]

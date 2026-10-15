@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 
-import { resolve } from "@std/path/resolve";
-import { SEPARATOR } from "@std/path/constants";
+import { resolve } from "@ende/path/resolve";
+import { SEPARATOR } from "@ende/path/constants";
 import { toPathString } from "./_to_path_string.ts";
 
 /**

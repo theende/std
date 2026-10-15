@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { encodeWhitespace } from "./to_file_url.ts";
 
 Ende.test("encodeWhitespace()", () => {

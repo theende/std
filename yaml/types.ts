@@ -31,8 +31,8 @@ export interface YamlPosition {
  *
  * @example Usage
  * ```ts
- * import { parse, YamlSyntaxError } from "@std/yaml";
- * import { assertInstanceOf } from "@std/assert";
+ * import { parse, YamlSyntaxError } from "@ende/yaml";
+ * import { assertInstanceOf } from "@ende/assert";
  *
  * try {
  *   parse(`"`);
@@ -48,8 +48,8 @@ export class YamlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { YamlSyntaxError } from "@std/yaml";
-   * import { assertEquals } from "@std/assert";
+   * import { YamlSyntaxError } from "@ende/yaml";
+   * import { assertEquals } from "@ende/assert";
    *
    * const error = new YamlSyntaxError("Test", { line: 5, column: 10, offset: 50 });
    * assertEquals(error.line, 5);
@@ -61,8 +61,8 @@ export class YamlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { YamlSyntaxError } from "@std/yaml";
-   * import { assertEquals } from "@std/assert";
+   * import { YamlSyntaxError } from "@ende/yaml";
+   * import { assertEquals } from "@ende/assert";
    *
    * const error = new YamlSyntaxError("Test", { line: 5, column: 10, offset: 50 });
    * assertEquals(error.column, 10);
@@ -74,8 +74,8 @@ export class YamlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { YamlSyntaxError } from "@std/yaml";
-   * import { assertEquals } from "@std/assert";
+   * import { YamlSyntaxError } from "@ende/yaml";
+   * import { assertEquals } from "@ende/assert";
    *
    * const error = new YamlSyntaxError("Test", { line: 5, column: 10, offset: 50 });
    * assertEquals(error.offset, 50);
@@ -88,8 +88,8 @@ export class YamlSyntaxError extends SyntaxError {
    *
    * @example Usage
    * ```ts
-   * import { YamlSyntaxError } from "@std/yaml";
-   * import { assertEquals } from "@std/assert";
+   * import { YamlSyntaxError } from "@ende/yaml";
+   * import { assertEquals } from "@ende/assert";
    *
    * const snippet = "    foo: bar\n         ^";
    * const error = new YamlSyntaxError(

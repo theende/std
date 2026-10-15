@@ -1,10 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 import { toReadableStream } from "./to_readable_stream.ts";
 import { Buffer } from "./buffer.ts";
-import { concat } from "@std/bytes/concat";
-import { copy } from "@std/bytes/copy";
+import { concat } from "@ende/bytes/concat";
+import { copy } from "@ende/bytes/copy";
 import type { Closer, Reader } from "./types.ts";
 
 class MockReaderCloser implements Reader, Closer {

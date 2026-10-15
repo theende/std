@@ -18,8 +18,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { firstNotNullishOf } from "@std/collections/first-not-nullish-of";
- * import { assertEquals } from "@std/assert";
+ * import { firstNotNullishOf } from "@ende/collections/first-not-nullish-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const tables = [
  *   { number: 11, order: null },
@@ -34,8 +34,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { firstNotNullishOf } from "@std/collections/first-not-nullish-of";
- * import { assertEquals } from "@std/assert";
+ * import { firstNotNullishOf } from "@ende/collections/first-not-nullish-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [null, "a", "b"];
  * const result = firstNotNullishOf(array, (value, index) => index === 2 ? value : null);

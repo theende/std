@@ -5,10 +5,10 @@
  * TransformStream classes to encode and decode to and from base64 data in a streaming manner.
  *
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeBase64 } from "@std/encoding/unstable-base64";
- * import { Base64EncoderStream } from "@std/encoding/unstable-base64-stream";
- * import { toText } from "@std/streams";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeBase64 } from "@ende/encoding/unstable-base64";
+ * import { Base64EncoderStream } from "@ende/encoding/unstable-base64-stream";
+ * import { toText } from "@ende/streams";
  *
  * const readable = (await Ende.open("./ende.lock"))
  *   .readable
@@ -52,10 +52,10 @@ const decoder = new TextDecoder();
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { encodeBase64 } from "@std/encoding/unstable-base64";
- * import { Base64EncoderStream } from "@std/encoding/unstable-base64-stream";
- * import { toText } from "@std/streams";
+ * import { assertEquals } from "@ende/assert";
+ * import { encodeBase64 } from "@ende/encoding/unstable-base64";
+ * import { Base64EncoderStream } from "@ende/encoding/unstable-base64-stream";
+ * import { toText } from "@ende/streams";
  *
  * const readable = (await Ende.open("./ende.lock"))
  *   .readable
@@ -133,12 +133,12 @@ export class Base64EncoderStream<T extends "string" | "bytes">
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   Base64DecoderStream,
  *   Base64EncoderStream,
- * } from "@std/encoding/unstable-base64-stream";
- * import { toBytes } from "@std/streams/to-bytes";
+ * } from "@ende/encoding/unstable-base64-stream";
+ * import { toBytes } from "@ende/streams/to-bytes";
  *
  * const readable = (await Ende.open("./ende.lock"))
  *   .readable

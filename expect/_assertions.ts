@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getAssertionState } from "@std/internal/assertion-state";
+import { getAssertionState } from "@ende/internal/assertion-state";
 
 const assertionState = getAssertionState();
 

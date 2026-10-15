@@ -5,11 +5,11 @@
  * Functions to encode and decode to and from base32 strings.
  *
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   encodeBase32,
  *   type Uint8Array_
- * } from "@std/encoding/unstable-base32";
+ * } from "@ende/encoding/unstable-base32";
  *
  * assertEquals(
  *   encodeBase32("Hello World", { alphabet: "base32" }),
@@ -60,11 +60,11 @@ import { detach } from "./_common_detach.ts";
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   encodeBase32,
  *   type Uint8Array_,
- * } from "@std/encoding/unstable-base32";
+ * } from "@ende/encoding/unstable-base32";
  *
  * assertEquals(
  *   encodeBase32("Hello World", { alphabet: "base32" }),
@@ -134,12 +134,12 @@ export function encodeBase32(
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
+ * import { assertEquals } from "@ende/assert";
  * import {
  *   calcSizeBase32,
  *   encodeBase32,
  *   encodeIntoBase32,
- * } from "@std/encoding/unstable-base32";
+ * } from "@ende/encoding/unstable-base32";
  *
  * const prefix = "data:url/fake,";
  * const input = await Ende.readFile("./ende.lock");
@@ -189,8 +189,8 @@ export function encodeIntoBase32(
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { decodeBase32 } from "@std/encoding/unstable-base32";
+ * import { assertEquals } from "@ende/assert";
+ * import { decodeBase32 } from "@ende/encoding/unstable-base32";
  *
  * assertEquals(
  *   decodeBase32("JBSWY3DPEBLW64TMMQ======", { alphabet: "base32"}),

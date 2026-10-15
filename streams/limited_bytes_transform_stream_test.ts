@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects } from "@std/assert";
+import { assertEquals, assertRejects } from "@ende/assert";
 import { LimitedBytesTransformStream } from "./limited_bytes_transform_stream.ts";
 
 Ende.test("LimitedBytesTransformStream - specified size is the boundary of the chunks", async function () {

@@ -6,8 +6,8 @@
  * Note: The key needs to match the pattern /^[a-zA-Z_][a-zA-Z0-9_]*$/.
  *
  * ```ts
- * import { parse, stringify } from "@std/dotenv";
- * import { assertEquals } from "@std/assert";
+ * import { parse, stringify } from "@ende/dotenv";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(parse("GREETING=hello world"), { GREETING: "hello world" });
  * assertEquals(stringify({ GREETING: "hello world" }), "GREETING='hello world'");
@@ -15,7 +15,7 @@
  *
  * ## Migrating from `load()`
  *
- * {@linkcode load}, {@linkcode loadSync} and the `@std/dotenv/load` side-effect
+ * {@linkcode load}, {@linkcode loadSync} and the `@ende/dotenv/load` side-effect
  * module are deprecated in favor of the runtime's
  * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag, which Node.js and Bun also support:
@@ -27,7 +27,7 @@
  *
  * | Deprecated API | Replacement |
  * | -------------- | ----------- |
- * | `import "@std/dotenv/load"` | `ende run --env-file app.ts` |
+ * | `import "@ende/dotenv/load"` | `ende run --env-file app.ts` |
  * | `load({ export: true })` / `loadSync({ export: true })` | `--env-file` |
  * | `load({ envPath: "./.env_prod" })` | `--env-file=.env_prod` |
  * | `load()` (read into an object, no export) | `parse(await Ende.readTextFile(".env"))` |
@@ -39,7 +39,7 @@
  *   optional:
  *
  * ```ts ignore
- * import { parse } from "@std/dotenv";
+ * import { parse } from "@ende/dotenv";
  *
  * let env: Record<string, string> = {};
  * try {
@@ -72,7 +72,7 @@ export * from "./parse.ts";
  * @deprecated This will be removed in 0.227.0. Use the
  * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag or {@linkcode parse} instead. See the
- * {@link https://jsr.io/@std/dotenv | module documentation} for migration
+ * {@link https://jsr.io/@ende/dotenv | module documentation} for migration
  * notes.
  */
 export interface LoadOptions {
@@ -98,7 +98,7 @@ export interface LoadOptions {
  *
  * @example Usage
  * ```ts ignore
- * import { loadSync } from "@std/dotenv";
+ * import { loadSync } from "@ende/dotenv";
  *
  * const conf = loadSync();
  * ```
@@ -109,7 +109,7 @@ export interface LoadOptions {
  * @deprecated This will be removed in 0.227.0. Use the
  * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag or {@linkcode parse} instead. See the
- * {@link https://jsr.io/@std/dotenv | module documentation} for migration
+ * {@link https://jsr.io/@ende/dotenv | module documentation} for migration
  * notes.
  */
 export function loadSync(
@@ -152,7 +152,7 @@ export function loadSync(
  * @example Basic usage
  * ```ts ignore
  * // app.ts
- * import { load } from "@std/dotenv";
+ * import { load } from "@ende/dotenv";
  *
  * console.log(await load({ export: true })); // { GREETING: "hello world" }
  * console.log(Ende.env.get("GREETING")); // hello world
@@ -170,7 +170,7 @@ export function loadSync(
  * @example Auto-loading
  * ```ts ignore
  * // app.ts
- * import "@std/dotenv/load";
+ * import "@ende/dotenv/load";
  *
  * console.log(Ende.env.get("GREETING")); // hello world
  * ```
@@ -199,7 +199,7 @@ export function loadSync(
  *
  * @example Using with options
  * ```ts ignore
- * import { load } from "@std/dotenv";
+ * import { load } from "@ende/dotenv";
  *
  * const conf = await load({
  *   envPath: "./.env_prod", // Uses .env_prod instead of .env
@@ -263,7 +263,7 @@ export function loadSync(
  * @deprecated This will be removed in 0.227.0. Use the
  * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
  * flag or {@linkcode parse} instead. See the
- * {@link https://jsr.io/@std/dotenv | module documentation} for migration
+ * {@link https://jsr.io/@ende/dotenv | module documentation} for migration
  * notes.
  */
 export async function load(

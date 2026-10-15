@@ -46,9 +46,9 @@ export interface ThrottledFunction<T extends Array<unknown>> {
  *
  * @example Usage
  * ```ts
- * import { throttle } from "@std/async/unstable-throttle";
- * import { retry } from "@std/async/retry";
- * import { assert } from "@std/assert";
+ * import { throttle } from "@ende/async/unstable-throttle";
+ * import { retry } from "@ende/async/retry";
+ * import { assert } from "@ende/assert";
  *
  * let called = 0;
  * const requestReceived = Promise.withResolvers<void>();
@@ -73,7 +73,7 @@ export interface ThrottledFunction<T extends Array<unknown>> {
  * @example With dynamic timeframe
  *
  * ```ts no-assert
- * import { throttle } from "@std/async/unstable-throttle";
+ * import { throttle } from "@ende/async/unstable-throttle";
  *
  * function processUserInput(input: string) {
  *   // Do some expensive computation with user input that changes on each

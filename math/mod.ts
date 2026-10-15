@@ -5,8 +5,8 @@
  * Math functions such as modulo and clamp.
  *
  * ```ts
- * import { clamp, modulo } from "@std/math";
- * import { assertEquals } from "@std/assert";
+ * import { clamp, modulo } from "@ende/math";
+ * import { assertEquals } from "@ende/assert";
  *
  * for (let n = -3; n <= 3; ++n) {
  *  const val = n * 12 + 5;

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 import { XmlEventParser } from "./_parser.ts";
 import { XmlTokenizer } from "./_tokenizer.ts";
 import type {

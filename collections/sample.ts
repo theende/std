@@ -12,8 +12,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { sample } from "@std/collections/sample";
- * import { assertArrayIncludes } from "@std/assert";
+ * import { sample } from "@ende/collections/sample";
+ * import { assertArrayIncludes } from "@ende/assert";
  *
  * const numbers = [1, 2, 3, 4];
  * const random = sample(numbers);

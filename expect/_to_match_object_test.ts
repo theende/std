@@ -6,7 +6,7 @@ import {
   assertMatch,
   assertNotMatch,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 
 Ende.test("expect().toMatchObject()", () => {
   const house0 = {

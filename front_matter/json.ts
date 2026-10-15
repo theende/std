@@ -13,8 +13,8 @@ export type { Extract };
  *
  * @example Extract JSON front matter
  * ```ts
- * import { extract } from "@std/front-matter/json";
- * import { assertEquals } from "@std/assert";
+ * import { extract } from "@ende/front-matter/json";
+ * import { assertEquals } from "@ende/assert";
  *
  * const output = `---json
  * { "title": "Three dashes marks the spot" }

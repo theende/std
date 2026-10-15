@@ -17,8 +17,8 @@ export type { ParseOptions } from "./types.ts";
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/xml/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/xml/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const doc = parse(`<root id="1"><child/></root>`);
  * assertEquals(doc.root.name.local, "root");

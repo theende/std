@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals } from "@std/assert";
-import { concat } from "@std/bytes";
+import { assert, assertEquals } from "@ende/assert";
+import { concat } from "@ende/bytes";
 import {
   assertValidLinkname,
   assertValidPath,
@@ -11,8 +11,8 @@ import {
   type Uint8Array_,
 } from "./tar_stream.ts";
 import { UntarStream } from "./untar_stream.ts";
-import { assertThrows } from "@std/assert/throws";
-import { assertRejects } from "@std/assert/rejects";
+import { assertThrows } from "@ende/assert/throws";
+import { assertRejects } from "@ende/assert/rejects";
 
 Ende.test("TarStream() outputs corrects length", async () => {
   const buffer = await new Response(

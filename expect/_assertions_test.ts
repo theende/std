@@ -1,8 +1,8 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import * as path from "@std/path";
-import { assertStringIncludes } from "@std/assert";
-import { stripAnsiCode } from "@std/internal/styles";
+import * as path from "@ende/path";
+import { assertStringIncludes } from "@ende/assert";
+import { stripAnsiCode } from "@ende/internal/styles";
 
 Ende.test("expect.hasAssertions() API", async () => {
   const tempDirPath = await Ende.makeTempDir({
@@ -12,8 +12,8 @@ Ende.test("expect.hasAssertions() API", async () => {
     const tempFilePath = path.join(tempDirPath, "has_assertions_test.ts");
     await Ende.writeTextFile(
       tempFilePath,
-      `import { describe, it, test } from "@std/testing/bdd";
-import { expect } from "@std/expect";
+      `import { describe, it, test } from "@ende/testing/bdd";
+import { expect } from "@ende/expect";
 
 describe("describe suite", () => {
   it("describe should throw an error", () => {
@@ -85,8 +85,8 @@ Ende.test("expect.assertions() API", async () => {
     const tempFilePath = path.join(tempDirPath, "has_assertions_test.ts");
     await Ende.writeTextFile(
       tempFilePath,
-      `import { describe, it, test } from "@std/testing/bdd";
-import { expect } from "@std/expect";
+      `import { describe, it, test } from "@ende/testing/bdd";
+import { expect } from "@ende/expect";
 
 test("should pass", () => {
   expect.assertions(2);
@@ -153,8 +153,8 @@ Ende.test("expect assertions reset after errored tests", async () => {
     const tempFilePath = path.join(tempDirPath, "assertion_reset_test.ts");
     await Ende.writeTextFile(
       tempFilePath,
-      `import { it } from "@std/testing/bdd";
-import { expect } from "@std/expect";
+      `import { it } from "@ende/testing/bdd";
+import { expect } from "@ende/expect";
 it("should fail", () => {
   expect.assertions(2);
   expect(1).toBe(1);

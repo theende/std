@@ -12,8 +12,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { union } from "@std/collections/union";
- * import { assertEquals } from "@std/assert";
+ * import { union } from "@ende/collections/union";
+ * import { assertEquals } from "@ende/assert";
  *
  * const soupIngredients = ["Pepper", "Carrots", "Leek"];
  * const saladIngredients = ["Carrots", "Radicchio", "Pepper"];

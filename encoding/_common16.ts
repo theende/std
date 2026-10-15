@@ -19,8 +19,8 @@ new TextEncoder()
  *
  * @example Basic Usage
  * ```ts
- * import { assertEquals } from "@std/assert";
- * import { calcSizeHex } from "@std/encoding/unstable-hex";
+ * import { assertEquals } from "@ende/assert";
+ * import { calcSizeHex } from "@ende/encoding/unstable-hex";
  *
  * assertEquals(calcSizeHex(1), 2);
  * ```

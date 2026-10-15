@@ -30,8 +30,8 @@ export interface StringifyStreamOptions {
  * @example Basic usage
  *
  * ```ts
- * import { JsonStringifyStream } from "@std/json/stringify-stream";
- * import { assertEquals } from "@std/assert";
+ * import { JsonStringifyStream } from "@ende/json/stringify-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
  *   .pipeThrough(new JsonStringifyStream());
@@ -48,8 +48,8 @@ export interface StringifyStreamOptions {
  * {@linkcode https://www.rfc-editor.org/rfc/rfc7464.html | JSON Text Sequences}.
  *
  * ```ts
- * import { JsonStringifyStream } from "@std/json/stringify-stream";
- * import { assertEquals } from "@std/assert";
+ * import { JsonStringifyStream } from "@ende/json/stringify-stream";
+ * import { assertEquals } from "@ende/assert";
  *
  * const stream = ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
  *   .pipeThrough(new JsonStringifyStream({ prefix: "\x1E", suffix: "\n" }));
@@ -63,7 +63,7 @@ export interface StringifyStreamOptions {
  * @example Stringify JSON lines from a server
  *
  * ```ts ignore no-assert
- * import { JsonStringifyStream } from "@std/json/stringify-stream";
+ * import { JsonStringifyStream } from "@ende/json/stringify-stream";
  *
  * // A server that streams one line of JSON every second
  * Ende.serve(() => {

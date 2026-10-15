@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertRejects } from "@std/assert";
-import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
+import { assertRejects } from "@ende/assert";
+import { FixedChunkStream } from "@ende/streams/unstable-fixed-chunk-stream";
 import { AbortStream } from "./unstable_abort_stream.ts";
 
 Ende.test("AbortStream", async () => {

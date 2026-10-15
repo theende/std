@@ -11,8 +11,8 @@
  * each other, see {@linkcode generate} for details.
  *
  * ```ts
- * import { generate, validate, extractTimestamp } from "@std/uuid/v7";
- * import { assert, assertEquals } from "@std/assert";
+ * import { generate, validate, extractTimestamp } from "@ende/uuid/v7";
+ * import { assert, assertEquals } from "@ende/assert";
  *
  * const uuid = generate();
  * assert(validate(uuid));
@@ -36,8 +36,8 @@ const UUID_REGEXP =
  *
  * @example Usage
  * ```ts
- * import { validate } from "@std/uuid/v7";
- * import { assert, assertFalse } from "@std/assert";
+ * import { validate } from "@ende/uuid/v7";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * assert(validate("017f22e2-79b0-7cc3-98c4-dc0c0c07398f"));
  * assertFalse(validate("fac8c1e0-ad1a-4204-a0d0-8126ae84495d"));
@@ -64,8 +64,8 @@ export function validate(id: string): boolean {
  *
  * @example Usage
  * ```ts
- * import { generate, validate } from "@std/uuid/v7";
- * import { assert } from "@std/assert";
+ * import { generate, validate } from "@ende/uuid/v7";
+ * import { assert } from "@ende/assert";
  *
  * const uuid = generate();
  * assert(validate(uuid));
@@ -101,8 +101,8 @@ export function generate(timestamp: number = Date.now()): string {
  *
  * @example Usage
  * ```ts
- * import { extractTimestamp } from "@std/uuid/v7";
- * import { assertEquals } from "@std/assert";
+ * import { extractTimestamp } from "@ende/uuid/v7";
+ * import { assertEquals } from "@ende/assert";
  *
  * const uuid = "017f22e2-79b0-7cc3-98c4-dc0c0c07398f";
  * const timestamp = extractTimestamp(uuid);

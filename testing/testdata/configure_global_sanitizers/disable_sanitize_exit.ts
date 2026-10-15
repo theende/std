@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { describe, it } from "@std/testing/bdd";
-import { configureGlobalSanitizers } from "@std/testing/unstable-bdd";
+import { describe, it } from "@ende/testing/bdd";
+import { configureGlobalSanitizers } from "@ende/testing/unstable-bdd";
 
 configureGlobalSanitizers({
   sanitizeExit: false,

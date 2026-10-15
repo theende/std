@@ -103,7 +103,7 @@ function sameValueZero(a: unknown, b: unknown) {
  *
  * @example Usage
  * ```ts
- * import { equal } from "@std/assert/equal";
+ * import { equal } from "@ende/assert/equal";
  *
  * equal({ foo: "bar" }, { foo: "bar" }); // Returns `true`
  * equal({ foo: "bar" }, { foo: "baz" }); // Returns `false`

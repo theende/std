@@ -4,9 +4,9 @@
 // https://github.com/golang/go/blob/master/LICENSE
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertThrows } from "@std/assert";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { parse, type ParseOptions } from "./parse.ts";
-import type { AssertTrue, IsExact } from "@std/testing/types";
+import type { AssertTrue, IsExact } from "@ende/testing/types";
 
 const BYTE_ORDER_MARK = "\ufeff";
 

@@ -9,8 +9,8 @@
  *
  * @example Usage
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * // For proper use, one should use `parseArgs(Ende.args)`
  * assertEquals(parseArgs(["--foo", "--bar=baz", "./quux.txt"]), {
@@ -25,8 +25,8 @@
  * Use `string` and `boolean` options to specify the type of the argument.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const args = parseArgs(["--foo", "--bar", "baz"], {
  *   boolean: ["foo"],
@@ -43,8 +43,8 @@
  * multiple times, the last value is used.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const args = parseArgs(["--foo", "bar", "--foo", "baz"], {
  *  collect: ["foo"],
@@ -59,8 +59,8 @@
  * prefixing them with `--no-`, like `--no-config`.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const args = parseArgs(["--no-foo"], {
  *   boolean: ["foo"],
@@ -339,14 +339,14 @@ export interface ParseOptions<
    * @example Double dash option is false
    * ```ts
    * // $ ende run example.ts -- a arg1
-   * import { parseArgs } from "@std/cli/parse-args";
+   * import { parseArgs } from "@ende/cli/parse-args";
    * const args = parseArgs(Ende.args, { "--": false }); // args equals { _: [ "a", "arg1" ] }
    * ```
    *
    * @example Double dash option is true
    * ```ts
    * // $ ende run example.ts -- a arg1
-   * import { parseArgs } from "@std/cli/parse-args";
+   * import { parseArgs } from "@ende/cli/parse-args";
    * const args = parseArgs(Ende.args, { "--": true }); // args equals { _: [], --: [ "a", "arg1" ] }
    * ```
    */
@@ -543,8 +543,8 @@ function parseBooleanString(value: unknown) {
  *
  * @example Usage
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * // For proper use, one should use `parseArgs(Ende.args)`
  * assertEquals(parseArgs(["--foo", "--bar=baz", "./quux.txt"]), {
@@ -559,8 +559,8 @@ function parseBooleanString(value: unknown) {
  * Use `string` and `boolean` options to specify the type of the argument.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const args = parseArgs(["--foo", "--bar", "baz"], {
  *   boolean: ["foo"],
@@ -577,8 +577,8 @@ function parseBooleanString(value: unknown) {
  * multiple times, the last value is used.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const args = parseArgs(["--foo", "bar", "--foo", "baz"], {
  *  collect: ["foo"],
@@ -593,8 +593,8 @@ function parseBooleanString(value: unknown) {
  * prefixing them with `--no-`, like `--no-config`.
  *
  * ```ts
- * import { parseArgs } from "@std/cli/parse-args";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parseArgs } from "@ende/cli/parse-args";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const args = parseArgs(["--no-foo"], {
  *   boolean: ["foo"],

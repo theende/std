@@ -7,7 +7,7 @@ import {
   red,
   stripAnsiCode,
   yellow,
-} from "@std/internal/styles";
+} from "@ende/internal/styles";
 
 function createHeader(): string[] {
   return [

@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import type { JsonValue } from "@std/json/types";
+import type { JsonValue } from "@ende/json/types";
 export type { JsonValue };
 
 /**
@@ -9,8 +9,8 @@ export type { JsonValue };
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/jsonc";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/jsonc";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(parse('{"foo": "bar"}'), { foo: "bar" });
  * assertEquals(parse('{"foo": "bar", }'), { foo: "bar" });

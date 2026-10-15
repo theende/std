@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 // This module is browser compatible.
 
-import { isWindows } from "@std/internal/os";
+import { isWindows } from "@ende/internal/os";
 import { relative as posixRelative } from "./posix/relative.ts";
 import { relative as windowsRelative } from "./windows/relative.ts";
 
@@ -11,8 +11,8 @@ import { relative as windowsRelative } from "./windows/relative.ts";
  *
  * @example Usage
  * ```ts
- * import { relative } from "@std/path/relative";
- * import { assertEquals } from "@std/assert";
+ * import { relative } from "@ende/path/relative";
+ * import { assertEquals } from "@ende/assert";
  *
  * if (Ende.build.os === "windows") {
  *   const path = relative("C:\\foobar\\test\\aaa", "C:\\foobar\\impl\\bbb");

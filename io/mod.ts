@@ -8,7 +8,7 @@
  * utilities are also deprecated. Consider using web streams instead.
  *
  * ```ts ignore
- * import { toReadableStream, toWritableStream } from "@std/io";
+ * import { toReadableStream, toWritableStream } from "@ende/io";
  *
  * await toReadableStream(Ende.stdin)
  *   .pipeTo(toWritableStream(Ende.stdout));

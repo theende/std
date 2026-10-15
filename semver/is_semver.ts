@@ -19,8 +19,8 @@ import { isValidNumber, isValidString } from "./_shared.ts";
  *
  * @example Usage
  * ```ts
- * import { isSemVer } from "@std/semver/is-semver";
- * import { assert } from "@std/assert";
+ * import { isSemVer } from "@ende/semver/is-semver";
+ * import { assert } from "@ende/assert";
  *
  * const value = {
  *   major: 1,

@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { longestCommonPrefix } from "./unstable_longest_common_prefix.ts";
-import { assertEquals, assertGreater } from "@std/assert";
+import { assertEquals, assertGreater } from "@ende/assert";
 
 Ende.test(longestCommonPrefix.name, async (t) => {
   await t.step("0 strings", () => {

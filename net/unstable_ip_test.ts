@@ -9,7 +9,7 @@ import {
   parseIPv4,
   parseIPv6,
 } from "./unstable_ip.ts";
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "@ende/assert";
 
 /** Builds the 16 bytes of an IPv6 address from its eight hextets. */
 function bytes(...hextets: number[]): Uint8Array {

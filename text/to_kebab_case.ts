@@ -8,8 +8,8 @@ import { splitToWords } from "./_util.ts";
  *
  * @example Usage
  * ```ts
- * import { toKebabCase } from "@std/text/to-kebab-case";
- * import { assertEquals } from "@std/assert";
+ * import { toKebabCase } from "@ende/text/to-kebab-case";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(toKebabCase("deno is awesome"), "deno-is-awesome");
  * ```

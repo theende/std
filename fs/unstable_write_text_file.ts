@@ -14,7 +14,7 @@ import type { WriteFileOptions } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { writeTextFile } from "@std/fs/unstable-write-text-file";
+ * import { writeTextFile } from "@ende/fs/unstable-write-text-file";
  * await writeTextFile("hello1.txt", "Hello world\n");  // overwrite "hello1.txt" or create it
  * ```
  *
@@ -65,7 +65,7 @@ export async function writeTextFile(
  *
  * @example Usage
  * ```ts ignore
- * import { writeTextFileSync } from "@std/fs/unstable-write-text-file";
+ * import { writeTextFileSync } from "@ende/fs/unstable-write-text-file";
  * writeTextFileSync("hello1.txt", "Hello world\n");  // overwrite "hello1.txt" or create it
  * ```
  *

@@ -6,7 +6,7 @@ import {
   assertAlmostEquals,
   assertEquals,
   assertThrows,
-} from "@std/assert";
+} from "@ende/assert";
 
 Ende.test("randomIntegerBetween() generates a random integer between the provided minimum and maximum values", () => {
   const prng = randomSeeded(0n);

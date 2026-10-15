@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assert, assertEquals, assertThrows } from "@std/assert";
-import { concat } from "@std/bytes";
+import { assert, assertEquals, assertThrows } from "@ende/assert";
+import { concat } from "@ende/bytes";
 import { random } from "./_common_test.ts";
 import { encodeCbor } from "./encode_cbor.ts";
 import { CborTag } from "./tag.ts";

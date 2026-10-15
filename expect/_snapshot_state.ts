@@ -1,9 +1,9 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { basename } from "@std/path/basename";
-import { dirname } from "@std/path/dirname";
-import { fromFileUrl } from "@std/path/from-file-url";
-import { join } from "@std/path/join";
+import { basename } from "@ende/path/basename";
+import { dirname } from "@ende/path/dirname";
+import { fromFileUrl } from "@ende/path/from-file-url";
+import { join } from "@ende/path/join";
 
 const SNAPSHOT_DIR = "__snapshots__";
 const SNAPSHOT_EXT = "snap";

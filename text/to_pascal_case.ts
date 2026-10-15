@@ -8,8 +8,8 @@ import { capitalizeWord, splitToWords } from "./_util.ts";
  *
  * @example Usage
  * ```ts
- * import { toPascalCase } from "@std/text/to-pascal-case";
- * import { assertEquals } from "@std/assert";
+ * import { toPascalCase } from "@ende/text/to-pascal-case";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(toPascalCase("deno is awesome"), "DenoIsAwesome");
  * ```

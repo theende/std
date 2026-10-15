@@ -1,5 +1,5 @@
 {
-  "name": "@std/ini",
+  "name": "@ende/ini",
   "version": "1.0.0-rc.9",
   "exports": {
     ".": "./mod.ts",

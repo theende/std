@@ -333,8 +333,8 @@ export interface ParseOptions {
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const string = "a,b,c\n#d,e,f";
  *
@@ -343,8 +343,8 @@ export interface ParseOptions {
  *
  * @example Quoted fields
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const string = `"a ""word""","comma,","newline\n"\nfoo,bar,baz`;
  * const result = parse(string);
@@ -367,9 +367,9 @@ export function parse(input: string): string[][];
  *
  * @example Don't skip first row with `skipFirstRow: false`
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
- * import { assertType, IsExact } from "@std/testing/types"
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
+ * import { assertType, IsExact } from "@ende/testing/types"
  *
  * const string = "a,b,c\nd,e,f";
  * const result = parse(string, { skipFirstRow: false });
@@ -380,9 +380,9 @@ export function parse(input: string): string[][];
  *
  * @example Skip first row with `skipFirstRow: true`
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
- * import { assertType, IsExact } from "@std/testing/types"
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
+ * import { assertType, IsExact } from "@ende/testing/types"
  *
  * const string = "a,b,c\nd,e,f";
  * const result = parse(string, { skipFirstRow: true });
@@ -393,9 +393,9 @@ export function parse(input: string): string[][];
  *
  * @example Specify columns with `columns` option
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
- * import { assertType, IsExact } from "@std/testing/types"
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
+ * import { assertType, IsExact } from "@ende/testing/types"
  *
  * const string = "a,b,c\nd,e,f";
  * const result = parse(string, { columns: ["x", "y", "z"] });
@@ -407,9 +407,9 @@ export function parse(input: string): string[][];
  * @example Specify columns with `columns` option and skip first row with
  * `skipFirstRow: true`
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
- * import { assertType, IsExact } from "@std/testing/types"
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
+ * import { assertType, IsExact } from "@ende/testing/types"
  *
  * const string = "a,b,c\nd,e,f";
  * const result = parse(string, { columns: ["x", "y", "z"], skipFirstRow: true });
@@ -420,8 +420,8 @@ export function parse(input: string): string[][];
  *
  * @example TSV (tab-separated values) with `separator: "\t"`
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const string = "a\tb\tc\nd\te\tf";
  * const result = parse(string, { separator: "\t" });
@@ -431,8 +431,8 @@ export function parse(input: string): string[][];
  *
  * @example Trim leading space with `trimLeadingSpace: true`
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const string = " a,  b,    c\n";
  * const result = parse(string, { trimLeadingSpace: true });
@@ -442,8 +442,8 @@ export function parse(input: string): string[][];
  *
  * @example Lazy quotes with `lazyQuotes: true`
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const string = `a "word","1"2",a","b`;
  * const result = parse(string, { lazyQuotes: true });
@@ -453,8 +453,8 @@ export function parse(input: string): string[][];
  *
  * @example Set comment prefix with `comment` option
  * ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertEquals } from "@std/assert/equals";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertEquals } from "@ende/assert/equals";
  *
  * const string = "a,b,c\n# THIS IS A COMMENT LINE\nd,e,f";
  * const result = parse(string, { comment: "#" });
@@ -464,8 +464,8 @@ export function parse(input: string): string[][];
  *
  * @example Infer the number of fields from the first row with `fieldsPerRecord: 0`
  *  ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertThrows } from "@std/assert/throws";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertThrows } from "@ende/assert/throws";
  *
  * // Note that the second row has more fields than the first row
  * const string = "a,b\nc,d,e";
@@ -478,8 +478,8 @@ export function parse(input: string): string[][];
  *
  * @example Enforce the number of fields for each row with `fieldsPerRecord: 2`
  *  ```ts
- * import { parse } from "@std/csv/parse";
- * import { assertThrows } from "@std/assert/throws";
+ * import { parse } from "@ende/csv/parse";
+ * import { assertThrows } from "@ende/assert/throws";
  *
  * const string = "a,b\nc,d,e";
  * assertThrows(

@@ -34,8 +34,8 @@ export type SampleOptions = RandomOptions & {
  *
  * @example Basic usage
  * ```ts
- * import { sample } from "@std/random/sample";
- * import { assertArrayIncludes } from "@std/assert";
+ * import { sample } from "@ende/random/sample";
+ * import { assertArrayIncludes } from "@ende/assert";
  *
  * const numbers = [1, 2, 3, 4];
  * const sampled = sample(numbers);
@@ -45,7 +45,7 @@ export type SampleOptions = RandomOptions & {
  *
  * @example Using `weights` option
  * ```ts no-assert
- * import { sample } from "@std/random/sample";
+ * import { sample } from "@ende/random/sample";
  *
  * const values = ["a", "b", "c"];
  * const weights = [5, 3, 2];

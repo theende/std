@@ -16,7 +16,7 @@
  *
  * @example Basic Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.DOUBLE_HEIGHT_TOP + "Hello World!");
  * console.log(Ansi.DOUBLE_HEIGHT_BOTTOM + "Hello World!");
@@ -35,7 +35,7 @@
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.DOUBLE_HEIGHT_TOP + "Hello World!");
  * console.log(Ansi.DOUBLE_HEIGHT_BOTTOM + "Hello World!");
@@ -53,7 +53,7 @@ export const DOUBLE_HEIGHT_TOP = "\x1b#3";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.DOUBLE_HEIGHT_TOP + "Hello World!");
  * console.log(Ansi.DOUBLE_HEIGHT_BOTTOM + "Hello World!");
@@ -70,8 +70,8 @@ export const DOUBLE_HEIGHT_BOTTOM = "\x1b#4";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.DOUBLE_HEIGHT_TOP + "Hello World!");
  * console.log(Ansi.DOUBLE_HEIGHT_BOTTOM + "Hello World!");
@@ -93,7 +93,7 @@ export const SINGLE_WIDTH = "\x1b#5";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.DOUBLE_WIDTH + "Hello World!");
  * ```
@@ -115,7 +115,7 @@ export const DOUBLE_WIDTH = "\x1b#6";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.SAVE_CURSOR +
@@ -143,7 +143,7 @@ export const SAVE_CURSOR = "\x1b7";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.SAVE_CURSOR +
@@ -167,8 +167,8 @@ export const RESTORE_CURSOR = "\x1b8";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.HIDE_CURSOR);
  * await delay(5000);
@@ -187,8 +187,8 @@ export const HARD_RESET = "\x1bc";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.HIDE_CURSOR);
  * await delay(5000);
@@ -207,8 +207,8 @@ export const SOFT_RESET = "\x1b[!p";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -232,8 +232,8 @@ export function insertSpace(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -256,8 +256,8 @@ export function deleteCharacters(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -283,8 +283,8 @@ export function eraseCharacters(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello\nWorld!");
  * await delay(1000);
@@ -307,8 +307,8 @@ export function insertLines(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello\nWorld!");
  * await delay(1000);
@@ -329,8 +329,8 @@ export function deleteLines(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello\nWorld!");
  * await delay(1000);
@@ -351,8 +351,8 @@ export function moveCursorUp(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello\nWorld!");
  * await delay(1000);
@@ -371,8 +371,8 @@ export function moveCursorUpStart(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello\nWorld!");
  * await delay(1000);
@@ -400,8 +400,8 @@ export function moveCursorDown(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello\nWorld!");
  * await delay(1000);
@@ -426,7 +426,7 @@ export function moveCursorDownStart(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.moveCursorRight(2) + "Hello World!");
  * ```
@@ -444,7 +444,7 @@ export function moveCursorRight(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.moveCursorRightTab() + "Hello World!");
  * ```
@@ -461,7 +461,7 @@ export function moveCursorRightTab(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.moveCursorRight(4) +
@@ -483,7 +483,7 @@ export function moveCursorLeft(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.moveCursorRightTab(2) +
@@ -505,8 +505,8 @@ export function moveCursorLeftTab(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -530,7 +530,7 @@ export function setCursorColumn(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.setCursorLine() + Ansi.ERASE_LINE + "Hello World!");
  * ```
@@ -549,7 +549,7 @@ export function setCursorLine(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.setCursorPosition(5, 2) +
@@ -570,8 +570,8 @@ export function setCursorPosition(x = 1, y = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -592,8 +592,8 @@ export const ERASE_LINE_AFTER_CURSOR = "\x1b[0K";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -613,8 +613,8 @@ export const ERASE_LINE_BEFORE_CURSOR = "\x1b[1K";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -632,8 +632,8 @@ export const ERASE_LINE = "\x1b[2K";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -655,8 +655,8 @@ export const ERASE_DISPLAY_AFTER_CURSOR = "\x1b[0J";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -676,8 +676,8 @@ export const ERASE_DISPLAY_BEFORE_CURSOR = "\x1b[1J";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -695,7 +695,7 @@ export const ERASE_DISPLAY = "\x1b[2J";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.shiftUpAndInsert());
  * ```
@@ -713,7 +713,7 @@ export function shiftUpAndInsert(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.shiftDownAndInsert(3));
  * ```
@@ -731,7 +731,7 @@ export function shiftDownAndInsert(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!" + Ansi.repeatLastCharacter(4));
  * ```
@@ -749,8 +749,8 @@ export function repeatLastCharacter(x = 1): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -773,8 +773,8 @@ export const INSERT_MODE = "\x1b[4h";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log("Hello World!");
  * await delay(1000);
@@ -798,8 +798,8 @@ export const REPLACE_MODE = "\x1b[4l";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.ERASE_DISPLAY +
@@ -822,8 +822,8 @@ export const ENABLE_ORIGIN_MODE = "\x1b[?6h";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.ERASE_DISPLAY +
@@ -854,7 +854,7 @@ export const DISABLE_ORIGIN_MODE = "\x1b[?6l";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.ENABLE_AUTO_WRAP + "A" + "h".repeat(500));
  * ```
@@ -869,7 +869,7 @@ export const ENABLE_AUTO_WRAP = "\x1b[?7h";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.DISABLE_AUTO_WRAP + "A" + "h".repeat(500));
  * ```
@@ -884,7 +884,7 @@ export const DISABLE_AUTO_WRAP = "\x1b[?7l";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.setCursorStyle(Ansi.CursorStyle.BlinkingUnderline));
  * ```
@@ -901,8 +901,8 @@ export function setCursorStyle(x: CursorStyle): string {
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.HIDE_CURSOR);
  * await delay(5000);
@@ -919,8 +919,8 @@ export const SHOW_CURSOR = "\x1b[?25h";
  *
  * @example Usage
  * ```ts ignore
- * import { delay } from "@std/async/delay";
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import { delay } from "@ende/async/delay";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.HIDE_CURSOR);
  * await delay(5000);
@@ -941,7 +941,7 @@ export const HIDE_CURSOR = "\x1b[?25l";
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(
  *   Ansi.ERASE_DISPLAY +
@@ -960,7 +960,7 @@ export function setScrollableRegion(x = 1, y?: number): string {
  *
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
  *
  * console.log(Ansi.setCursorStyle(Ansi.CursorStyle.BlinkingUnderline));
  * ```

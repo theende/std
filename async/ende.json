@@ -1,5 +1,5 @@
 {
-  "name": "@std/async",
+  "name": "@ende/async",
   "version": "1.5.1",
   "exports": {
     ".": "./mod.ts",

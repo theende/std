@@ -15,8 +15,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { sumOf } from "@std/collections/sum-of";
- * import { assertEquals } from "@std/assert";
+ * import { sumOf } from "@ende/collections/sum-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = [
  *   { name: "Anna", age: 34 },
@@ -31,8 +31,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { sumOf } from "@std/collections/sum-of";
- * import { assertEquals } from "@std/assert";
+ * import { sumOf } from "@ende/collections/sum-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [1, 2, 3];
  * const result = sumOf(array, (_, index) => index);

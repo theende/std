@@ -17,8 +17,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { withoutAll } from "@std/collections/without-all";
- * import { assertEquals } from "@std/assert";
+ * import { withoutAll } from "@ende/collections/without-all";
+ * import { assertEquals } from "@ende/assert";
  *
  * const withoutList = withoutAll([2, 1, 2, 3], [1, 2]);
  *

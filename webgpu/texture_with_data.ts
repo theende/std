@@ -101,7 +101,7 @@ function textureMipLevelSize(
  *
  * @example Usage
  * ```ts ignore
- * import { createTextureWithData } from "@std/webgpu/texture-with-data";
+ * import { createTextureWithData } from "@ende/webgpu/texture-with-data";
  *
  * const adapter = await navigator.gpu.requestAdapter();
  * const device = await adapter?.requestDevice()!;

@@ -15,8 +15,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { filterValues } from "@std/collections/filter-values";
- * import { assertEquals } from "@std/assert";
+ * import { filterValues } from "@ende/collections/filter-values";
+ * import { assertEquals } from "@ende/assert";
  *
  * const people = {
  *   Arnold: 37,

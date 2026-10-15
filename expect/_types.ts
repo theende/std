@@ -44,7 +44,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock("foo", 42);
@@ -63,7 +63,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn((str: string, num: number) => [str, num]);
    * mock("foo", 42);
@@ -81,7 +81,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock("foo", 42);
@@ -102,7 +102,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn((str: string, num: number) => [str, num]);
    * mock("foo", 42);
@@ -124,7 +124,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * const mock2 = fn();
@@ -141,7 +141,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock();
@@ -161,7 +161,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock("foo", 42);
@@ -184,7 +184,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(0.2 + 0.1).toBeCloseTo(0.3);
    * expect(0.2 + 0.1).toBeCloseTo(0.3, 15);
@@ -202,7 +202,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(null).toBeDefined();
    * expect(undefined).not.toBeDefined();
@@ -215,7 +215,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(null).toBeFalsy();
    * expect(undefined).toBeFalsy();
@@ -236,7 +236,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(2).toBeGreaterThan(1);
    * expect(2).not.toBeGreaterThan(2);
@@ -252,7 +252,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(2).toBeGreaterThanOrEqual(1);
    * expect(2).toBeGreaterThanOrEqual(2);
@@ -268,7 +268,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(new Error()).toBeInstanceOf(Error);
    * expect(new Error()).not.toBeInstanceOf(TypeError);
@@ -283,7 +283,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(1).toBeLessThan(2);
    * expect(1).not.toBeLessThan(1);
@@ -299,7 +299,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(1).toBeLessThanOrEqual(2);
    * expect(1).toBeLessThanOrEqual(1);
@@ -315,7 +315,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(NaN).toBeNaN();
    * expect(1).not.toBeNaN();
@@ -330,7 +330,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(null).toBeNull();
    * expect(undefined).not.toBeNull();
@@ -343,7 +343,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(1).toBeTruthy();
    * expect("foo").toBeTruthy();
@@ -366,7 +366,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(undefined).toBeUndefined();
    * expect(null).not.toBeUndefined();
@@ -380,7 +380,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(42).toBe(42);
    * expect("foo").toBe("foo");
@@ -397,7 +397,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect([1, 2, 3]).toContainEqual(2);
    * expect([1, 2, 3]).not.toContainEqual(4);
@@ -415,7 +415,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect([1, 2, 3]).toContain(2);
    * expect([1, 2, 3]).not.toContain(4);
@@ -436,7 +436,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(42).toEqual(42);
    * expect({ foo: 42 }).toEqual({ foo: 42 });
@@ -452,7 +452,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock();
@@ -471,7 +471,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock("foo", 42);
@@ -490,7 +490,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * const mock2 = fn();
@@ -508,7 +508,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock("foo", 42);
@@ -527,7 +527,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock("foo", 42);
@@ -549,7 +549,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect([1, 2, 3]).toHaveLength(3);
    * expect("foo").toHaveLength(3);
@@ -565,7 +565,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn((str: string, num: number) => [str, num]);
    * mock("foo", 42);
@@ -584,7 +584,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn((str: string, num: number) => [str, num]);
    * mock("foo", 42);
@@ -606,7 +606,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect({ foo: 42 }).toHaveProperty("foo");
    * expect({ foo: 42 }).toHaveProperty("foo", 42);
@@ -623,7 +623,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock();
@@ -642,7 +642,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mockFn = fn((x: number) => ({ foo: x + 1 }));
    *
@@ -662,7 +662,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    *
@@ -680,7 +680,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect("foo").toMatch(/^foo$/);
    * expect("bar").not.toMatch(/^foo$/);
@@ -695,7 +695,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect({ foo: 42 }).toMatchObject({ foo: 42 });
    * expect({ foo: 42 }).not.toMatchObject({ foo: 43 });
@@ -716,7 +716,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts ignore
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * Ende.test("snapshot test", () => {
    *   expect.setState({ currentTestName: "snapshot test", testPath: import.meta.url });
@@ -733,7 +733,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts ignore
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * Ende.test("snapshot with matchers", () => {
    *   expect.setState({ currentTestName: "snapshot with matchers", testPath: import.meta.url });
@@ -758,7 +758,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * Ende.test("inline snapshot", () => {
    *   expect({ foo: 42 }).toMatchInlineSnapshot(`
@@ -778,7 +778,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts ignore
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * Ende.test("inline snapshot with matchers", () => {
    *   expect({ id: 1, name: "Alice" }).toMatchInlineSnapshot({
@@ -805,7 +805,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    *
@@ -822,7 +822,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn();
    * mock();
@@ -843,7 +843,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect, fn } from "@std/expect";
+   * import { expect, fn } from "@ende/expect";
    *
    * const mock = fn(() => 42);
    *
@@ -860,7 +860,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * expect(42).toStrictEqual(42);
    * expect("foo").toStrictEqual("foo");
@@ -887,7 +887,7 @@ export interface Expected<IsAsync = false> {
    *
    * @example Usage
    * ```ts
-   * import { expect } from "@std/expect";
+   * import { expect } from "@ende/expect";
    *
    * const fn = () => { throw new TypeError("foo") };
    * const fn2 = () => {};

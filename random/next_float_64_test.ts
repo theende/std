@@ -4,7 +4,7 @@ import {
   type RandomValueGenerator,
 } from "./get_random_values_seeded.ts";
 import { nextFloat64 } from "./next_float_64.ts";
-import { assertEquals, assertGreaterOrEqual, assertLess } from "@std/assert";
+import { assertEquals, assertGreaterOrEqual, assertLess } from "@ende/assert";
 
 Ende.test("nextFloat64() gets floats from a seeded value generator", () => {
   const getRandomValues = getRandomValuesSeeded(1n);

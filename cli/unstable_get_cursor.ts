@@ -12,8 +12,8 @@
  * @returns The cursor position or null if the terminal is not a TTY.
  * @example Usage
  * ```ts ignore
- * import * as Ansi from "@std/cli/unstable-ansi";
- * import { askForCursorPositionSync } from "@std/cli/unstable-get-cursor";
+ * import * as Ansi from "@ende/cli/unstable-ansi";
+ * import { askForCursorPositionSync } from "@ende/cli/unstable-get-cursor";
  *
  * const { column, row } = askForCursorPositionSync()!;
  * await Ende.stderr.write(new TextEncoder().encode(

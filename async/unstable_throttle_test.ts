@@ -5,10 +5,10 @@ import {
   assertLess,
   assertNotEquals,
   assertStrictEquals,
-} from "@std/assert";
+} from "@ende/assert";
 import { throttle, type ThrottledFunction } from "./unstable_throttle.ts";
 import { delay } from "./delay.ts";
-import { FakeTime } from "@std/testing/time";
+import { FakeTime } from "@ende/testing/time";
 
 Ende.test("throttle() handles called", async () => {
   let called = 0;

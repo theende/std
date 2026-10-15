@@ -5,8 +5,8 @@
  * Utility functions for working with text.
  *
  * ```ts
- * import { toCamelCase, compareSimilarity } from "@std/text";
- * import { assertEquals } from "@std/assert";
+ * import { toCamelCase, compareSimilarity } from "@ende/text";
+ * import { assertEquals } from "@ende/assert";
  *
  * assertEquals(toCamelCase("snake_case"), "snakeCase");
  *

@@ -2,7 +2,7 @@
 
 import { expect } from "./expect.ts";
 import type { Async, Expected, MatcherContext, Tester } from "./_types.ts";
-import { AssertionError, assertThrows } from "@std/assert";
+import { AssertionError, assertThrows } from "@ende/assert";
 
 declare module "./_types.ts" {
   interface Expected {

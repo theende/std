@@ -31,7 +31,7 @@ export interface MoveOptions {
  *
  * @example Basic usage
  * ```ts ignore
- * import { move } from "@std/fs/move";
+ * import { move } from "@ende/fs/move";
  *
  * await move("./foo", "./bar");
  * ```
@@ -41,7 +41,7 @@ export interface MoveOptions {
  *
  * @example Overwriting
  * ```ts ignore
- * import { move } from "@std/fs/move";
+ * import { move } from "@ende/fs/move";
  *
  * await move("./foo", "./bar", { overwrite: true });
  * ```
@@ -108,7 +108,7 @@ export async function move(
  *
  * @example Basic usage
  * ```ts ignore
- * import { moveSync } from "@std/fs/move";
+ * import { moveSync } from "@ende/fs/move";
  *
  * moveSync("./foo", "./bar");
  * ```
@@ -118,7 +118,7 @@ export async function move(
  *
  * @example Overwriting
  * ```ts ignore
- * import { moveSync } from "@std/fs/move";
+ * import { moveSync } from "@ende/fs/move";
  *
  * moveSync("./foo", "./bar", { overwrite: true });
  * ```

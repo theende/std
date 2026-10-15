@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects, assertThrows } from "@std/assert";
+import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
 import { chown, chownSync } from "./unstable_chown.ts";
 import { NotFound } from "./unstable_errors.js";
 import { makeTempFile, makeTempFileSync } from "./unstable_make_temp_file.ts";

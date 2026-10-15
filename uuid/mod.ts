@@ -13,8 +13,8 @@
  * Based on {@linkcode https://www.npmjs.com/package/uuid | npm:uuid}.
  *
  * ```ts
- * import { v5, NAMESPACE_DNS, NIL_UUID } from "@std/uuid";
- * import { assert, assertFalse } from "@std/assert";
+ * import { v5, NAMESPACE_DNS, NIL_UUID } from "@ende/uuid";
+ * import { assert, assertFalse } from "@ende/assert";
  *
  * const data = new TextEncoder().encode("ende.sh");
  * const uuid = await v5.generate(NAMESPACE_DNS, data);
@@ -45,8 +45,8 @@ import {
  *
  * @example Usage
  * ```ts
- * import { v1 } from "@std/uuid";
- * import { assert } from "@std/assert";
+ * import { v1 } from "@ende/uuid";
+ * import { assert } from "@ende/assert";
  *
  * const uuid = v1.generate();
  * assert(v1.validate(uuid));
@@ -63,8 +63,8 @@ export const v1 = {
  *
  * @example Usage
  * ```ts
- * import { v3, NAMESPACE_DNS } from "@std/uuid";
- * import { assert } from "@std/assert";
+ * import { v3, NAMESPACE_DNS } from "@ende/uuid";
+ * import { assert } from "@ende/assert";
  *
  * const data = new TextEncoder().encode("ende.sh");
  * const uuid = await v3.generate(NAMESPACE_DNS, data);
@@ -82,8 +82,8 @@ export const v3 = {
  *
  * @example Usage
  * ```ts
- * import { v4 } from "@std/uuid";
- * import { assert } from "@std/assert";
+ * import { v4 } from "@ende/uuid";
+ * import { assert } from "@ende/assert";
  *
  * const uuid = crypto.randomUUID();
  * assert(v4.validate(uuid));
@@ -99,8 +99,8 @@ export const v4 = {
  *
  * @example Usage
  * ```ts
- * import { v5, NAMESPACE_DNS } from "@std/uuid";
- * import { assert } from "@std/assert";
+ * import { v5, NAMESPACE_DNS } from "@ende/uuid";
+ * import { assert } from "@ende/assert";
  *
  * const data = new TextEncoder().encode("ende.sh");
  * const uuid = await v5.generate(NAMESPACE_DNS, data);
@@ -118,8 +118,8 @@ export const v5 = {
  *
  * @example Usage
  * ```ts
- * import { v7 } from "@std/uuid";
- * import { assert, assertEquals } from "@std/assert";
+ * import { v7 } from "@ende/uuid";
+ * import { assert, assertEquals } from "@ende/assert";
  *
  * const TIMESTAMP = 1527897600000;
  * const uuid = v7.generate(TIMESTAMP); // optional timestamp, otherwise defaults to Date.now();

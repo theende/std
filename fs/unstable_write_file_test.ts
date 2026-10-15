@@ -7,7 +7,7 @@ import {
   assertRejects,
   assertThrows,
   unreachable,
-} from "@std/assert";
+} from "@ende/assert";
 import { isEnde } from "./_utils.ts";
 import { writeFile, writeFileSync } from "./unstable_write_file.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";

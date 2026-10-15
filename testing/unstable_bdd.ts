@@ -9,8 +9,8 @@ import { describe as describe_, it as it_, test as test_ } from "./bdd.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -34,8 +34,8 @@ const describe = describe_ as typeof describe_ & describe;
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it("should pass", () => {
@@ -60,8 +60,8 @@ const it = it_ as typeof it_ & it;
  *
  * @example Usage
  * ```ts ignore
- * import { test } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert";
+ * import { test } from "@ende/testing/bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * test("a test case", () => {
  *   // test case
@@ -121,7 +121,7 @@ export type ConfigureGlobalSanitizersOptions = {
  * @param options The options
  * @example Usage
  * ```ts no-assert
- * import { configureGlobalSanitizers } from "@std/testing/unstable-bdd";
+ * import { configureGlobalSanitizers } from "@ende/testing/unstable-bdd";
  * configureGlobalSanitizers({ sanitizeResources: false })
  * ```
  *
@@ -142,8 +142,8 @@ export function configureGlobalSanitizers(
  *
  * @example Usage
  * ```ts ignore
- * import { describe } from "@std/testing/unstable-bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe } from "@ende/testing/unstable-bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe.todo("example");
  * ```
@@ -161,8 +161,8 @@ describe.todo = function describeTodo<T>(
  *
  * @example Usage
  * ```ts ignore
- * import { describe, it } from "@std/testing/unstable-bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, it } from "@ende/testing/unstable-bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   it.todo("should pass", () => {});
@@ -180,8 +180,8 @@ it.todo = function itTodo<T>(...args: ItArgs<T>): void {
  *
  * @example Usage
  * ```ts ignore
- * import { describe, test } from "@std/testing/unstable-bdd";
- * import { assertEquals } from "@std/assert";
+ * import { describe, test } from "@ende/testing/unstable-bdd";
+ * import { assertEquals } from "@ende/assert";
  *
  * describe("example", () => {
  *   test.todo("should pass", () => {});

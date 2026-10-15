@@ -1,7 +1,7 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@ende/assert/equals";
 import { consolidateCommon, truncateDiff } from "./truncate_build_message.ts";
-import type { CommonDiffResult } from "@std/internal/types";
+import type { CommonDiffResult } from "@ende/internal/types";
 
 Ende.test("consolidateDiff()", () => {
   assertEquals(

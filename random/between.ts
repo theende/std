@@ -17,7 +17,7 @@ export type { Prng, RandomOptions };
  *
  * @example Usage
  * ```ts no-assert
- * import { randomBetween } from "@std/random";
+ * import { randomBetween } from "@ende/random";
  *
  * randomBetween(1, 10); // 6.688009464410508
  * randomBetween(1, 10); // 3.6267118101712006

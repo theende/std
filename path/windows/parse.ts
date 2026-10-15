@@ -13,8 +13,8 @@ export type { ParsedPath } from "../types.ts";
  *
  * @example Usage
  * ```ts
- * import { parse } from "@std/path/windows/parse";
- * import { assertEquals } from "@std/assert";
+ * import { parse } from "@ende/path/windows/parse";
+ * import { assertEquals } from "@ende/assert";
  *
  * const parsed = parse("C:\\foo\\bar\\baz.ext");
  * assertEquals(parsed, {

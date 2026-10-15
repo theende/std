@@ -1,6 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@ende/assert";
 import { parseSync } from "./_parse_sync.ts";
 import { XmlSyntaxError } from "./types.ts";
 

@@ -17,8 +17,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { minOf } from "@std/collections/min-of";
- * import { assertEquals } from "@std/assert";
+ * import { minOf } from "@ende/collections/min-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const inventory = [
  *   { name: "mustard", count: 2 },
@@ -33,8 +33,8 @@
  *
  * @example Using the index parameter
  * ```ts
- * import { minOf } from "@std/collections/min-of";
- * import { assertEquals } from "@std/assert";
+ * import { minOf } from "@ende/collections/min-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const array = [4, 3, 2, 1];
  * const result = minOf(array, (_, index) => index);
@@ -62,8 +62,8 @@ export function minOf<T>(
  *
  * @example Basic usage
  * ```ts
- * import { minOf } from "@std/collections/min-of";
- * import { assertEquals } from "@std/assert";
+ * import { minOf } from "@ende/collections/min-of";
+ * import { assertEquals } from "@ende/assert";
  *
  * const inventory = [
  *   { name: "mustard", count: 2n },

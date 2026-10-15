@@ -45,8 +45,8 @@ import { decodeAsyncIterable } from "./_decode.ts";
  *
  * @example Parse items from an XML feed into typed records
  * ```ts
- * import { parseXmlRecords } from "@std/xml/parse-records";
- * import { assertEquals } from "@std/assert";
+ * import { parseXmlRecords } from "@ende/xml/parse-records";
+ * import { assertEquals } from "@ende/assert";
  *
  * type Item = { id: string; title: string };
  *
@@ -126,8 +126,8 @@ export async function* parseXmlRecords<T>(
  *
  * @example Parse items from a byte stream
  * ```ts
- * import { parseXmlRecordsFromBytes } from "@std/xml/parse-records";
- * import { assertEquals } from "@std/assert";
+ * import { parseXmlRecordsFromBytes } from "@ende/xml/parse-records";
+ * import { assertEquals } from "@ende/assert";
  *
  * const xml = new TextEncoder().encode(
  *   `<feed><item>First</item><item>Second</item></feed>`,

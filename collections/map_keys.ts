@@ -17,8 +17,8 @@
  *
  * @example Basic usage
  * ```ts
- * import { mapKeys } from "@std/collections/map-keys";
- * import { assertEquals } from "@std/assert";
+ * import { mapKeys } from "@ende/collections/map-keys";
+ * import { assertEquals } from "@ende/assert";
  *
  * const counts = { a: 5, b: 3, c: 8 };
  *
