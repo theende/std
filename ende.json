@@ -1,52 +1,33 @@
 {
   "compilerOptions": {
-    "strict": true,
     "exactOptionalPropertyTypes": true,
-    "useUnknownInCatchVariables": true,
     "noImplicitOverride": true,
-    "noUncheckedIndexedAccess": true
-  },
-  "imports": {
-    "@deno/graph": "jsr:@deno/graph@^0.89.2",
-    "@deno/doc": "jsr:@deno/doc@^0.169.1",
-    "automation/": "https://raw.githubusercontent.com/denoland/automation/0.10.0/"
-  },
-  "unstable": ["webgpu", "fs"],
-  "tasks": {
-    "format": "ende fmt",
-    "format:check": "ende fmt --check",
-    "test": "ende test -A --parallel --trace-leaks --coverage --doc --clean --ignore=_tools/,_tmp/",
-    "test:with-unsafe-proto": "ende test --unstable-unsafe-proto --no-check -A --parallel --doc --ignore=_tools/,_tmp/",
-    "test:tools": "ende test -A --doc _tools/",
-    "test:browser": "git grep --name-only \"This module is browser compatible.\" | grep -v ende.json | grep -v .github/workflows | grep -v _tools | grep -v encoding/README.md | grep -v media_types/vendor/update.ts | xargs ende check --config browser-compat.tsconfig.json",
-    "lint:circular": "ende run --allow-env --allow-read --allow-write --allow-net=deno.land,jsr.io ./_tools/check_circular_package_dependencies.ts",
-    "lint:mod-exports": "ende run --allow-env --allow-read ./_tools/check_mod_exports.ts",
-    "lint:tools-types": "ende check _tools/*.ts",
-    "lint:docs": "ende run -A _tools/check_docs.ts",
-    "lint:export-names": "ende run -A _tools/check_export_names.ts",
-    "lint": "ende lint && ende task lint:circular && ende task lint:tools-types && ende task lint:mod-exports && ende task lint:export-names && ende task lint:docs",
-    "typos": "typos -c ./.github/typos.toml",
-    "build:crypto": "ende task --cwd crypto/_wasm wasmbuild",
-    "wasmbuild": "ende run -A jsr:@deno/wasmbuild@0.19.2 --js-ext mjs --inline",
-    "cov:mac": "ende task test && open coverage/html/index.html",
-    "cov:lin": "ende task test && xdg-open coverage/html/index.html",
-    "cov:win": "ende task test && start coverage/html/index.html",
-    "ok": "ende task lint && ende fmt --check && ende task test:browser && ende task test"
+    "noUncheckedIndexedAccess": true,
+    "strict": true,
+    "useUnknownInCatchVariables": true
   },
   "exclude": [
     ".git",
     "_tmp",
-    "jsonc/testdata",
-    "toml/testdata",
-    "http/testdata",
+    "dotenv/testdata",
     "fs/testdata",
-    "dotenv/testdata"
+    "http/testdata",
+    "jsonc/testdata",
+    "toml/testdata"
   ],
   "fmt": {
-    "typescript": {
+    "json": {
       "deno": false,
+      "lineWidth": 120,
+      "trailingCommas": "never"
+    },
+    "markdown": {
+      "deno": false
+    },
+    "typescript": {
       "arrowFunction.useParentheses": "preferNone",
       "bracePosition": "sameLine",
+      "deno": false,
       "enumDeclaration.memberSpacing": "newLine",
       "exportDeclaration.sortNamedExports": "caseInsensitive",
       "exportDeclaration.sortTypeOnlyExports": "last",
@@ -57,8 +38,8 @@
       "memberExpression.linePerExpression": true,
       "module.sortExportDeclarations": "maintain",
       "module.sortImportDeclarations": "maintain",
-      "nextControlFlowPosition": "sameLine",
       "newLineKind": "lf",
+      "nextControlFlowPosition": "sameLine",
       "operatorPosition": "sameLine",
       "preferHanging": false,
       "preferSingleLine": false,
@@ -73,32 +54,51 @@
       "trailingCommas": "never",
       "useBraces": "maintain",
       "useTabs": false
-    },
-    "json": {
-      "deno": false,
-      "lineWidth": 120,
-      "trailingCommas": "never"
-    },
-    "markdown": {
-      "deno": false
     }
   },
+  "imports": {
+    "@deno/graph": "jsr:@deno/graph@^0.89.2",
+    "@deno/doc": "jsr:@deno/doc@^0.169.1",
+    "automation/": "https://raw.githubusercontent.com/denoland/automation/0.10.0/"
+  },
   "lint": {
+    "plugins": ["./_tools/lint_plugin.ts"],
     "rules": {
-      "tags": ["recommended", "jsr"],
       "include": [
         "ban-untagged-todo",
         "camelcase",
+        "no-console",
         "no-import-prefix",
         "no-node-globals",
         "no-process-global",
         "no-sync-fn-in-async-fn",
-        "single-var-declarator",
-        "no-console"
-      ]
-    },
-    "plugins": ["./_tools/lint_plugin.ts"]
+        "single-var-declarator"
+      ],
+      "tags": ["recommended", "jsr"]
+    }
   },
+  "tasks": {
+    "build:crypto": "ende task --cwd crypto/_wasm wasmbuild",
+    "cov:lin": "ende task test && xdg-open coverage/html/index.html",
+    "cov:mac": "ende task test && open coverage/html/index.html",
+    "cov:win": "ende task test && start coverage/html/index.html",
+    "format": "ende fmt",
+    "format:check": "ende fmt --check",
+    "lint": "ende lint && ende task lint:circular && ende task lint:tools-types && ende task lint:mod-exports && ende task lint:export-names && ende task lint:docs",
+    "lint:circular": "ende run --allow-env --allow-read --allow-write --allow-net=deno.land,jsr.io ./_tools/check_circular_package_dependencies.ts",
+    "lint:docs": "ende run -A _tools/check_docs.ts",
+    "lint:export-names": "ende run -A _tools/check_export_names.ts",
+    "lint:mod-exports": "ende run --allow-env --allow-read ./_tools/check_mod_exports.ts",
+    "lint:tools-types": "ende check _tools/*.ts",
+    "ok": "ende task lint && ende fmt --check && ende task test:browser && ende task test",
+    "test": "ende test -A --parallel --trace-leaks --coverage --doc --clean --ignore=_tools/,_tmp/",
+    "test:browser": "git grep --name-only \"This module is browser compatible.\" | grep -v ende.json | grep -v .github/workflows | grep -v _tools | grep -v encoding/README.md | grep -v media_types/vendor/update.ts | xargs ende check --config browser-compat.tsconfig.json",
+    "test:tools": "ende test -A --doc _tools/",
+    "test:with-unsafe-proto": "ende test --unstable-unsafe-proto --no-check -A --parallel --doc --ignore=_tools/,_tmp/",
+    "typos": "typos -c ./.github/typos.toml",
+    "wasmbuild": "ende run -A jsr:@deno/wasmbuild@0.19.2 --js-ext mjs --inline"
+  },
+  "unstable": ["webgpu", "fs"],
   "workspace": [
     "./assert",
     "./async",
