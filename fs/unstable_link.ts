@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /**
  * Creates `newpath` as a hard link to `oldpath`.
  *
@@ -20,15 +17,7 @@ import { mapError } from "./_map_error.ts";
  * @param newpath The path of the hard link.
  */
 export async function link(oldpath: string, newpath: string): Promise<void> {
-  if (isEnde) {
-    await Ende.link(oldpath, newpath);
-  } else {
-    try {
-      await getNodeFs().promises.link(oldpath, newpath);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.link(oldpath, newpath);
 }
 
 /**
@@ -48,13 +37,5 @@ export async function link(oldpath: string, newpath: string): Promise<void> {
  * @param newpath The path of the hard link.
  */
 export function linkSync(oldpath: string, newpath: string): void {
-  if (isEnde) {
-    Ende.linkSync(oldpath, newpath);
-  } else {
-    try {
-      getNodeFs().linkSync(oldpath, newpath);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.linkSync(oldpath, newpath);
 }

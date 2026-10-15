@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { mapError } from "./_map_error.ts";
-import { getNodeProcess, isEnde } from "./_utils.ts";
-
 /** Retrieve the process umask.  If `mask` is provided, sets the process umask.
  * This call always returns what the umask was before the call.
  * @example Usage
@@ -26,13 +23,5 @@ import { getNodeProcess, isEnde } from "./_utils.ts";
  * @returns The previous mask
  */
 export function umask(mask?: number): number {
-  if (isEnde) {
-    return Ende.umask(mask);
-  } else {
-    try {
-      return getNodeProcess().umask(mask);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.umask(mask);
 }

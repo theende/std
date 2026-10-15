@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-import { toFileInfo } from "./_to_file_info.ts";
 import type { FileInfo } from "./unstable_types.ts";
 
 /**
@@ -24,15 +21,7 @@ import type { FileInfo } from "./unstable_types.ts";
  * @returns A promise that resolves to a {@linkcode FileInfo} for the specified `path`.
  */
 export async function lstat(path: string | URL): Promise<FileInfo> {
-  if (isEnde) {
-    return Ende.lstat(path);
-  } else {
-    try {
-      return toFileInfo(await getNodeFs().promises.lstat(path));
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return await Ende.lstat(path);
 }
 
 /**
@@ -58,13 +47,5 @@ export async function lstat(path: string | URL): Promise<FileInfo> {
  * @returns A {@linkcode FileInfo} for the specified `path`.
  */
 export function lstatSync(path: string | URL): FileInfo {
-  if (isEnde) {
-    return Ende.lstatSync(path);
-  } else {
-    try {
-      return toFileInfo(getNodeFs().lstatSync(path));
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.lstatSync(path);
 }

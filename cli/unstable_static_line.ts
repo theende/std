@@ -6,20 +6,13 @@ let nextID = 0;
 const linesAtTop: number[] = [];
 const linesAtBottom: number[] = [];
 
-const getRows = "Ende" in globalThis
-  // deno-lint-ignore no-explicit-any
-  ? (): number => (globalThis as any).Ende.consoleSize().rows
-  // deno-lint-ignore no-explicit-any
-  : (): number => (globalThis as any).process.stderr.rows;
-const write = "Ende" in globalThis
-  ? (() => {
-    const encoder = new TextEncoder();
-    return (x: string) =>
-      // deno-lint-ignore no-explicit-any
-      (globalThis as any).Ende.stderr.write(encoder.encode(x));
-  })()
-  // deno-lint-ignore no-explicit-any
-  : (x: string) => (globalThis as any).process.stderr.write(x);
+function getRows(): number {
+  return Ende.consoleSize().rows;
+}
+const write = (() => {
+  const encoder = new TextEncoder();
+  return (x: string) => Ende.stderr.write(encoder.encode(x));
+})();
 
 /**
  * StaticLine is a class that assigns a line in the terminal for you to write

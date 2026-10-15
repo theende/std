@@ -10,18 +10,14 @@ import {
 import { AlreadyExists } from "./unstable_errors.js";
 import { mkdir, mkdirSync } from "./unstable_mkdir.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
-import { lstatSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
-import { rm, symlink, writeFile } from "node:fs/promises";
-import { platform } from "node:os";
-import { join } from "node:path";
-import { umask } from "node:process";
+import { join } from "@ende/path";
 
 function assertDirectory(path: string, expectMode?: number) {
-  const dirStat = lstatSync(path);
-  assert(dirStat.isDirectory());
-  if (platform() !== "win32" && expectMode !== undefined) {
+  const dirStat = Ende.lstatSync(path);
+  assert(dirStat.isDirectory);
+  if (Ende.build.os !== "windows" && expectMode !== undefined) {
     assertExists(dirStat.mode);
-    assertEquals(dirStat.mode & 0o777, expectMode & ~umask(0o022));
+    assertEquals(dirStat.mode & 0o777, expectMode & ~Ende.umask(0o022));
   }
 }
 
@@ -32,7 +28,7 @@ Ende.test("mkdir() creates a directory with the default mode", async () => {
   await mkdir(testDir);
   assertDirectory(testDir, 0o755);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdir() creates a directory with a user-defined mode", async () => {
@@ -42,7 +38,7 @@ Ende.test("mkdir() creates a directory with a user-defined mode", async () => {
   await mkdir(testDir, { mode: 0o700 });
   assertDirectory(testDir, 0o700);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdir() recursively creates directories with the default mode", async () => {
@@ -54,7 +50,7 @@ Ende.test("mkdir() recursively creates directories with the default mode", async
   assertDirectory(recurPath, 0o755);
   assertDirectory(nestedDir, 0o755);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdir() allows creating the same directory with the recursive flag", async () => {
@@ -68,7 +64,7 @@ Ende.test("mkdir() allows creating the same directory with the recursive flag", 
   // The directory retains the same mode when initially created.
   assertDirectory(testDir, 0o755);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdir() rejects with AlreadyExists when creating an existing directory", async () => {
@@ -80,7 +76,7 @@ Ende.test("mkdir() rejects with AlreadyExists when creating an existing director
 Ende.test("mkdir() rejects with AlreadyExists when creating a directory that is the same name as a regular file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "mkdir_" });
   const testFile = join(tempDirPath, "a-file.txt");
-  await writeFile(testFile, "Hello, Standard Library");
+  await Ende.writeTextFile(testFile, "Hello, Standard Library");
 
   await assertRejects(async () => {
     await mkdir(testFile, { recursive: false });
@@ -90,13 +86,13 @@ Ende.test("mkdir() rejects with AlreadyExists when creating a directory that is 
     await mkdir(testFile, { recursive: true });
   }, AlreadyExists);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test({
   name:
     "mkdir() rejects with AlreadyExists when creating a directory on symlinks",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await makeTempDir({ prefix: "mkdir_" });
     const testDir = join(tempDirPath, "dir");
@@ -105,8 +101,8 @@ Ende.test({
     const noFileLink = join(tempDirPath, "noFileSymlink");
 
     await mkdir(testDir);
-    await symlink(testDir, testDirLink);
-    await symlink(noFile, noFileLink);
+    await Ende.symlink(testDir, testDirLink);
+    await Ende.symlink(noFile, noFileLink);
 
     await assertRejects(async () => {
       await mkdir(noFileLink);
@@ -116,7 +112,7 @@ Ende.test({
       await mkdir(testDirLink);
     }, AlreadyExists);
 
-    await rm(tempDirPath, { recursive: true, force: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   },
 });
 
@@ -127,7 +123,7 @@ Ende.test("mkdirSync() creates a directory with the default mode", () => {
   mkdirSync(testDir);
   assertDirectory(testDir, 0o755);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdirSync() creates a directory with a user-defined mode", () => {
@@ -137,7 +133,7 @@ Ende.test("mkdirSync() creates a directory with a user-defined mode", () => {
   mkdirSync(testDir, { mode: 0o700 });
   assertDirectory(testDir, 0o700);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdirSync() recursively creates directories with the default mode", () => {
@@ -149,7 +145,7 @@ Ende.test("mkdirSync() recursively creates directories with the default mode", (
   assertDirectory(recurPath, 0o755);
   assertDirectory(nestedDir, 0o755);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdirSync() allows creating the same directory with the recursive flag", () => {
@@ -163,7 +159,7 @@ Ende.test("mkdirSync() allows creating the same directory with the recursive fla
   // The directory retains the same mode when initially created.
   assertDirectory(testDir, 0o755);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("mkdirSync() throws with AlreadyExists when creating an existing directory", () => {
@@ -175,7 +171,7 @@ Ende.test("mkdirSync() throws with AlreadyExists when creating an existing direc
 Ende.test("mkdirSync() throws with AlreadyExists when creating a directory that is the same name as a regular file", () => {
   const tempDirPath = makeTempDirSync({ prefix: "mkdirSync_" });
   const testFile = join(tempDirPath, "a-file.txt");
-  writeFileSync(testFile, "Hello, Standard Library");
+  Ende.writeTextFileSync(testFile, "Hello, Standard Library");
 
   assertThrows(() => {
     mkdirSync(testFile, { recursive: false });
@@ -185,13 +181,13 @@ Ende.test("mkdirSync() throws with AlreadyExists when creating a directory that 
     mkdirSync(testFile, { recursive: true });
   }, AlreadyExists);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test({
   name:
     "mkdir() throws with AlreadyExists when creating a directory on symlinks",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = makeTempDirSync({ prefix: "mkdirSync_" });
     const testDir = join(tempDirPath, "dir");
@@ -200,8 +196,8 @@ Ende.test({
     const noFileLink = join(tempDirPath, "noFileSymlink");
 
     mkdirSync(testDir);
-    symlinkSync(testDir, testDirLink);
-    symlinkSync(noFile, noFileLink);
+    Ende.symlinkSync(testDir, testDirLink);
+    Ende.symlinkSync(noFile, noFileLink);
 
     assertThrows(() => {
       mkdirSync(noFileLink);
@@ -211,6 +207,6 @@ Ende.test({
       mkdirSync(testDirLink);
     }, AlreadyExists);
 
-    rmSync(tempDirPath, { recursive: true, force: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   },
 });

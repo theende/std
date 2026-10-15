@@ -3,12 +3,11 @@
 import { assert, assertMatch, assertRejects, assertThrows } from "@ende/assert";
 import { realPath, realPathSync } from "./unstable_real_path.ts";
 import { NotFound } from "./unstable_errors.js";
-import { platform } from "node:os";
 
 Ende.test("realPath() returns the absolute path from a relative file path", async () => {
   const testFileRelative = "fs/testdata/0.ts";
   const testFileReal = await realPath(testFileRelative);
-  if (platform() === "win32") {
+  if (Ende.build.os === "windows") {
     assertMatch(testFileReal, /^[A-Z]:\\/);
     assert(testFileReal.endsWith(testFileRelative.replace(/\//g, "\\")));
   } else {
@@ -21,7 +20,7 @@ Ende.test("realPath() returns the absolute path of the linked file via symlink",
   // `fs/testdata/0-link` is symlinked to file `fs/testdata/0.ts`.
   const testFileSymlink = "fs/testdata/0-link";
   const testFileReal = await realPath(testFileSymlink);
-  if (platform() === "win32") {
+  if (Ende.build.os === "windows") {
     assertMatch(testFileReal, /^[A-Z]:\\/);
     assert(testFileReal.endsWith("/testdata/0.ts".replace(/\//g, "\\")));
   } else {
@@ -39,7 +38,7 @@ Ende.test("realPath() rejects with NotFound for a non-existent file", async () =
 Ende.test("realPathSync() returns the absolute path of a relative file", () => {
   const testFileRelative = "fs/testdata/0.ts";
   const testFileReal = realPathSync(testFileRelative);
-  if (platform() === "win32") {
+  if (Ende.build.os === "windows") {
     assertMatch(testFileReal, /^[A-Z]:\\/);
     assert(testFileReal.endsWith(testFileRelative.replace(/\//g, "\\")));
   } else {
@@ -52,7 +51,7 @@ Ende.test("realPathSync() returns the absolute path of the linked file via symli
   // `fs/testdata/0-link` is symlinked to file `fs/testdata/0.ts`.
   const testFileSymlink = "fs/testdata/0-link";
   const testFileReal = realPathSync(testFileSymlink);
-  if (platform() === "win32") {
+  if (Ende.build.os === "windows") {
     assertMatch(testFileReal, /^[A-Z]:\\/);
     assert(testFileReal.endsWith("/testdata/0.ts".replace(/\//g, "\\")));
   } else {

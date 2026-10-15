@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /** Changes the access (`atime`) and modification (`mtime`) times of a file
  * system object referenced by `path`. Given times are either in seconds
  * (UNIX epoch time) or as `Date` objects.
@@ -38,16 +35,7 @@ export async function utime(
   atime: number | Date,
   mtime: number | Date,
 ): Promise<void> {
-  if (isEnde) {
-    await Ende.utime(path, atime, mtime);
-  } else {
-    try {
-      await getNodeFs().promises.utimes(path, atime, mtime);
-      return;
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.utime(path, atime, mtime);
 }
 
 /** Synchronously changes the access (`atime`) and modification (`mtime`)
@@ -85,13 +73,5 @@ export function utimeSync(
   atime: number | Date,
   mtime: number | Date,
 ): void {
-  if (isEnde) {
-    return Ende.utimeSync(path, atime, mtime);
-  } else {
-    try {
-      getNodeFs().utimesSync(path, atime, mtime);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.utimeSync(path, atime, mtime);
 }

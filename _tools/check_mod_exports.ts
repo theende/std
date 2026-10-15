@@ -5,7 +5,6 @@ import { walk } from "../fs/walk.ts";
 import { relative } from "../path/relative.ts";
 import { dirname } from "../path/dirname.ts";
 import * as colors from "../fmt/colors.ts";
-import ts from "typescript";
 import { getEntrypoints } from "./utils.ts";
 import { fromFileUrl } from "@ende/path/from-file-url";
 
@@ -13,27 +12,20 @@ const FAIL_FAST = Ende.args.includes("--fail-fast");
 
 let shouldFail = false;
 
+// Matches top-level `export * from "..."`, `export type * from "..."` and
+// `export { ... } from "..."` declarations, capturing the module specifier.
+const EXPORT_FROM_REGEXP =
+  /^export\s+(?:type\s+)?(?:\*(?:\s+as\s+\w+)?|\{[^}]*\})\s+from\s+["']([^"']+)["']/gm;
+
 const MOD_FILE_PATHS = (await getEntrypoints())
   .filter((entrypoint) => entrypoint.split("/").length === 2)
   .map((entrypoint) => fromFileUrl(import.meta.resolve(entrypoint)));
 
 for (const modFilePath of MOD_FILE_PATHS) {
   const modSource = await Ende.readTextFile(modFilePath);
-  const modSourceFile = ts.createSourceFile(
-    modFilePath,
-    modSource,
-    ts.ScriptTarget.Latest,
+  const modExportSpecifiers = new Set(
+    modSource.matchAll(EXPORT_FROM_REGEXP).map((match) => match[1]),
   );
-  const modExportSpecifiers = new Set();
-  modSourceFile.forEachChild((node) => {
-    if (
-      ts.isExportDeclaration(node) &&
-      node.moduleSpecifier &&
-      ts.isStringLiteral(node.moduleSpecifier)
-    ) {
-      modExportSpecifiers.add(node.moduleSpecifier.text);
-    }
-  });
 
   for await (
     const { path: filePath } of walk(dirname(modFilePath), {

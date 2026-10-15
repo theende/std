@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /**
  * Renames (moves) `oldpath` to `newpath`. Paths may be files or directories.
  * If `newpath` already exists and is not a directory, `rename()` replaces it.
@@ -32,15 +29,7 @@ export async function rename(
   oldpath: string | URL,
   newpath: string | URL,
 ): Promise<void> {
-  if (isEnde) {
-    await Ende.rename(oldpath, newpath);
-  } else {
-    try {
-      await getNodeFs().promises.rename(oldpath, newpath);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.rename(oldpath, newpath);
 }
 
 /**
@@ -68,13 +57,5 @@ export async function rename(
  * @param newpath The updated name/path of the file/directory.
  */
 export function renameSync(oldpath: string | URL, newpath: string | URL): void {
-  if (isEnde) {
-    Ende.renameSync(oldpath, newpath);
-  } else {
-    try {
-      getNodeFs().renameSync(oldpath, newpath);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.renameSync(oldpath, newpath);
 }

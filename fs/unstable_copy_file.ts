@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { mapError } from "./_map_error.ts";
-import { getNodeFs, isEnde } from "./_utils.ts";
-
 /**
  * Copies the contents and permissions of one file to another specified path, by default creating a
  * new file if needed, else overwriting. Fails if target path is a directory or is unwritable.
@@ -26,15 +23,7 @@ export async function copyFile(
   from: string | URL,
   to: string | URL,
 ): Promise<void> {
-  if (isEnde) {
-    await Ende.copyFile(from, to);
-  } else {
-    try {
-      await getNodeFs().promises.copyFile(from, to);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.copyFile(from, to);
 }
 
 /**
@@ -61,13 +50,5 @@ export function copyFileSync(
   from: string | URL,
   to: string | URL,
 ) {
-  if (isEnde) {
-    Ende.copyFileSync(from, to);
-  } else {
-    try {
-      getNodeFs().copyFileSync(from, to);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.copyFileSync(from, to);
 }

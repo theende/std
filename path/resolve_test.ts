@@ -5,7 +5,6 @@ import { assertEquals } from "@ende/assert";
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { resolve } from "./resolve.ts";
-import process from "node:process";
 
 const windowsTests =
   // arguments                               result
@@ -30,8 +29,8 @@ const posixTests =
   [
     [["/var/lib", "../", "file/"], "/var/file"],
     [["/var/lib", "/../", "file/"], "/file"],
-    [["a/b/c/", "../../.."], process.cwd()],
-    [["."], process.cwd()],
+    [["a/b/c/", "../../.."], Ende.cwd()],
+    [["."], Ende.cwd()],
     [["/some/dir", ".", "/absolute/"], "/absolute"],
     [["/foo/tmp.3/", "../tmp.3/cycles/root.js"], "/foo/tmp.3/cycles/root.js"],
   ];
@@ -53,7 +52,7 @@ Ende.test("windows.resolve()", function () {
 });
 
 Ende.test("resolve() returns current working directory if input is empty", function () {
-  const pwd = process.cwd();
+  const pwd = Ende.cwd();
   assertEquals(resolve(""), pwd);
   assertEquals(resolve("", ""), pwd);
 });

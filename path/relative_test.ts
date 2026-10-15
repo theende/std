@@ -5,7 +5,6 @@ import { assertEquals } from "@ende/assert";
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { relative } from "./relative.ts";
-import process from "node:process";
 
 const relativeTests = {
   // arguments                     result
@@ -69,7 +68,7 @@ Ende.test("windows.relative()", function () {
 });
 
 Ende.test("relative() returns current working directory if input is empty", function () {
-  const pwd = process.cwd();
+  const pwd = Ende.cwd();
   assertEquals(relative("", pwd), "");
   assertEquals(relative(pwd, ""), "");
   assertEquals(relative(pwd, pwd), "");

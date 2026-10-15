@@ -1,10 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, getNodeUtil, isEnde } from "./_utils.ts";
-import { getOpenFsFlag } from "./_get_fs_flag.ts";
-import { mapError } from "./_map_error.ts";
 import type { FsFile } from "./unstable_types.ts";
-import { NodeFsFile } from "./_node_fs_file.ts";
 
 /**
  * Options which can be set when using {@linkcode open} and
@@ -104,38 +100,7 @@ export async function open(
   path: string | URL,
   options?: OpenOptions,
 ): Promise<FsFile> {
-  if (isEnde) {
-    return Ende.open(path, options);
-  } else {
-    const {
-      read = true,
-      write = false,
-      append = false,
-      truncate = false,
-      create = false,
-      createNew = false,
-      mode = 0o666,
-    } = options ?? {};
-
-    try {
-      const flag = getOpenFsFlag({
-        read,
-        write,
-        append,
-        truncate,
-        create,
-        createNew,
-      });
-      const { open } = getNodeFs();
-      const { promisify } = getNodeUtil();
-      const nodeOpenFd = promisify(open);
-
-      const fd = await nodeOpenFd(path, flag, mode);
-      return new NodeFsFile(fd) as FsFile;
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return await Ende.open(path, options);
 }
 
 /**
@@ -170,33 +135,5 @@ export async function open(
  * @returns A {@linkcode FsFile} instance.
  */
 export function openSync(path: string | URL, options?: OpenOptions): FsFile {
-  if (isEnde) {
-    return Ende.openSync(path, options);
-  } else {
-    const {
-      read = true,
-      write = false,
-      append = false,
-      truncate = false,
-      create = false,
-      createNew = false,
-      mode = 0o666,
-    } = options ?? {};
-
-    try {
-      const flag = getOpenFsFlag({
-        read,
-        write,
-        append,
-        truncate,
-        create,
-        createNew,
-      });
-
-      const fd = getNodeFs().openSync(path, flag, mode);
-      return new NodeFsFile(fd) as FsFile;
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.openSync(path, options);
 }

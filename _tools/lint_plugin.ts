@@ -102,8 +102,7 @@ export default {
             if (
               resolvedSpecifier.startsWith("file:") ||
               resolvedSpecifier.startsWith("jsr:@ende") ||
-              resolvedSpecifier.startsWith("jsr:/@ende") ||
-              resolvedSpecifier.startsWith("node:")
+              resolvedSpecifier.startsWith("jsr:/@ende")
             ) {
               return;
             }

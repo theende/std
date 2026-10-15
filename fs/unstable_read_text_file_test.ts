@@ -6,15 +6,11 @@ import {
   assertRejects,
   assertThrows,
 } from "@ende/assert";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { isEnde } from "./_utils.ts";
 import { NotFound } from "./unstable_errors.js";
 import { readTextFile, readTextFileSync } from "./unstable_read_text_file.ts";
+import { dirname, fromFileUrl, join, resolve } from "@ende/path";
 
-const isBun = navigator.userAgent.includes("Bun/");
-
-const moduleDir = dirname(fileURLToPath(import.meta.url));
+const moduleDir = dirname(fromFileUrl(import.meta.url));
 const testDir = resolve(moduleDir, "testdata");
 const testFile = join(testDir, "copy_file.txt");
 const testFile2 = join(testDir, "copy_file_bom.txt");
@@ -51,7 +47,6 @@ Ende.test("readTextFile() handles an AbortSignal", async () => {
 
 Ende.test(
   "readTextFile() handles an AbortSignal with a reason",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = new Error();
@@ -61,11 +56,7 @@ Ende.test(
       await readTextFile(testFile, { signal: ac.signal });
     }, Error);
 
-    if (isEnde) {
-      assertEquals(error, ac.signal.reason);
-    } else {
-      assertEquals(error.cause, ac.signal.reason);
-    }
+    assertEquals(error, ac.signal.reason);
   },
 );
 

@@ -1213,48 +1213,4 @@ export class UserAgent {
       inspect({ browser, cpu, device, engine, os, ua }, options)
     }`;
   }
-
-  /**
-   * Custom output for Node's
-   * {@linkcode https://nodejs.org/api/util.html#utilinspectobject-options | util.inspect}.
-   *
-   * @example Usage
-   * ```ts ignore
-   * import { UserAgent } from "@ende/http/user-agent";
-   * import { inspect } from "node:util";
-   *
-   * Ende.serve((req) => {
-   *   const userAgent = new UserAgent(req.headers.get("user-agent") ?? "");
-   *   inspect(userAgent);
-   *   return new Response(`Hello, ${userAgent.ua}!`);
-   * });
-   * ```
-   *
-   * @param depth internal inspect depth.
-   * @param options internal inspect option.
-   * @param inspect internal inspect function.
-   *
-   * @returns The custom value to inspect.
-   */
-  [Symbol.for("nodejs.util.inspect.custom")](
-    depth: number,
-    // deno-lint-ignore no-explicit-any
-    options: any,
-    inspect: (value: unknown, options?: unknown) => string,
-  ): string {
-    if (depth < 0) {
-      return options.stylize(`[${this.constructor.name}]`, "special");
-    }
-
-    const newOptions = Object.assign({}, options, {
-      depth: options.depth === null ? null : options.depth - 1,
-    });
-    const { browser, cpu, device, engine, os, ua } = this;
-    return `${options.stylize(this.constructor.name, "special")} ${
-      inspect(
-        { browser, cpu, device, engine, os, ua },
-        newOptions,
-      )
-    }`;
-  }
 }

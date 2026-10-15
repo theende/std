@@ -2,8 +2,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 import { crypto as stdCrypto, type DIGEST_ALGORITHM_NAMES } from "../mod.ts";
 
-import nodeCrypto from "node:crypto";
-
 const webCrypto = globalThis.crypto;
 
 const BENCHMARKED_DIGEST_ALGORITHM_NAMES = [
@@ -16,17 +14,6 @@ const BENCHMARKED_DIGEST_ALGORITHM_NAMES = [
 
 const WEB_CRYPTO_DIGEST_ALGORITHM_NAMES = [
   "SHA-1",
-  "SHA-256",
-  "SHA-384",
-  "SHA-512",
-] satisfies (typeof DIGEST_ALGORITHM_NAMES[number])[];
-
-const NODE_CRYPTO_DIGEST_ALGORITHM_NAMES = [
-  "MD4",
-  "MD5",
-  "RIPEMD-160",
-  "SHA-1",
-  "SHA-224",
   "SHA-256",
   "SHA-384",
   "SHA-512",
@@ -63,20 +50,6 @@ for (
         name: `${name} from runtime WebCrypto digesting ${humanLength}`,
         async fn() {
           await webCrypto.subtle.digest(name, buffer);
-        },
-      });
-    }
-
-    if (
-      (NODE_CRYPTO_DIGEST_ALGORITHM_NAMES as readonly string[]).includes(name)
-    ) {
-      const nodeName = name.replace("-", "").toLowerCase();
-
-      Ende.bench({
-        group: `digesting ${humanLength}`,
-        name: `${name} from runtime node:crypto digesting ${humanLength}`,
-        fn() {
-          nodeCrypto.createHash(nodeName).update(buffer).digest();
         },
       });
     }

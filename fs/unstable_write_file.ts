@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { getWriteFsFlag } from "./_get_fs_flag.ts";
-import { mapError } from "./_map_error.ts";
 import type { WriteFileOptions } from "./unstable_types.ts";
 
 /**
@@ -34,27 +31,7 @@ export async function writeFile(
   data: Uint8Array | ReadableStream<Uint8Array>,
   options?: WriteFileOptions,
 ): Promise<void> {
-  if (isEnde) {
-    await Ende.writeFile(path, data, { ...options });
-  } else {
-    const {
-      append = false,
-      create = true,
-      createNew = false,
-      mode,
-      signal,
-    } = options ?? {};
-
-    const flag = getWriteFsFlag({ append, create, createNew });
-    try {
-      await getNodeFs().promises.writeFile(path, data, { flag, signal });
-      if (mode != null) {
-        await getNodeFs().promises.chmod(path, mode);
-      }
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.writeFile(path, data, { ...options });
 }
 
 /**
@@ -86,25 +63,5 @@ export function writeFileSync(
   data: Uint8Array,
   options?: WriteFileOptions,
 ): void {
-  if (isEnde) {
-    Ende.writeFileSync(path, data, { ...options });
-  } else {
-    const {
-      append = false,
-      create = true,
-      createNew = false,
-      mode,
-      signal,
-    } = options ?? {};
-
-    const flag = getWriteFsFlag({ append, create, createNew });
-    try {
-      getNodeFs().writeFileSync(path, data, { flag, signal });
-      if (mode != null) {
-        getNodeFs().chmodSync(path, mode);
-      }
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.writeFileSync(path, data, { ...options });
 }

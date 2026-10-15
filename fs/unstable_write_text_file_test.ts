@@ -8,7 +8,6 @@ import {
   assertThrows,
   unreachable,
 } from "@ende/assert";
-import { isEnde } from "./_utils.ts";
 import {
   writeTextFile,
   writeTextFileSync,
@@ -18,10 +17,7 @@ import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { readTextFile, readTextFileSync } from "./unstable_read_text_file.ts";
 import { stat, statSync } from "./unstable_stat.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
-import { join } from "node:path";
-import { platform } from "node:os";
-
-const isBun = navigator.userAgent.includes("Bun/");
+import { join } from "@ende/path";
 
 function assertMissing(path: string | URL) {
   if (pathExists(path)) {
@@ -121,7 +117,7 @@ Ende.test("writeTextFile() handles 'createNew' for a file", async () => {
 
 Ende.test({
   name: "writeTextFile() can change the mode of a file",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await makeTempDir({ prefix: "writeTextFile_" });
     const testFile = join(tempDirPath, "testFile.txt");
@@ -156,7 +152,6 @@ Ende.test("writeTextFile() handles an AbortSignal", async () => {
 
 Ende.test(
   "writeTextFile() handles an AbortSignal with a reason",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = new Error();
@@ -169,11 +164,7 @@ Ende.test(
       await writeTextFile(testFile, "Hello", { signal: ac.signal });
     }, Error);
 
-    if (isEnde) {
-      assertEquals(error, ac.signal.reason);
-    } else {
-      assertEquals(error.cause, ac.signal.reason);
-    }
+    assertEquals(error, ac.signal.reason);
 
     await remove(tempDirPath, { recursive: true });
   },
@@ -181,7 +172,6 @@ Ende.test(
 
 Ende.test(
   "writeTextFile() handles an AbortSignal with a primitive reason",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = "This is a primitive string.";
@@ -193,12 +183,7 @@ Ende.test(
     try {
       await writeTextFile(testFile, "Hello", { signal: ac.signal });
     } catch (error) {
-      if (isEnde) {
-        assertEquals(error, ac.signal.reason);
-      } else {
-        const errorValue = error as Error;
-        assertEquals(errorValue.cause, ac.signal.reason);
-      }
+      assertEquals(error, ac.signal.reason);
     }
 
     await remove(tempDirPath, { recursive: true });
@@ -257,7 +242,7 @@ Ende.test("writeTextFileSync() succeeds in writing to a file", () => {
 
 Ende.test({
   name: "writeTextFileSync() can change the mode of a file",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = makeTempDirSync({ prefix: "writeTextFileSync_" });
     const testFile = join(tempDirPath, "testFile.txt");

@@ -1,15 +1,29 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { assert, assertRejects, assertThrows } from "@ende/assert";
-import { rmSync, writeFileSync } from "node:fs";
-import { rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { NotFound } from "./unstable_errors.js";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
 import { stat, statSync } from "./unstable_stat.ts";
+import { join } from "@ende/path";
 
-const isBun = navigator.userAgent.includes("Bun/");
+// Cleans up like `rm -rf`: the directory may already have been removed by the
+// test itself.
+async function forceRemove(path: string) {
+  try {
+    await Ende.remove(path, { recursive: true });
+  } catch (e) {
+    if (!(e instanceof NotFound)) throw e;
+  }
+}
+
+function forceRemoveSync(path: string) {
+  try {
+    Ende.removeSync(path, { recursive: true });
+  } catch (e) {
+    if (!(e instanceof NotFound)) throw e;
+  }
+}
 
 async function checkExists(path: string | URL) {
   try {
@@ -37,7 +51,6 @@ function checkExistsSync(path: string | URL) {
 
 Ende.test(
   "remove() removes an existing and empty directory",
-  { ignore: isBun },
   async () => {
     const tempDir = await makeTempDir({ prefix: "remove_async_" });
     const existedCheck = await stat(tempDir);
@@ -48,7 +61,7 @@ Ende.test(
       const existed = await checkExists(tempDir);
       assert(existed === false);
     } finally {
-      await rm(tempDir, { recursive: true, force: true });
+      await forceRemove(tempDir);
     }
   },
 );
@@ -64,8 +77,8 @@ Ende.test("remove() remove a non empty directory", async () => {
 
   const encoder = new TextEncoder();
   const data = encoder.encode("This is a test content");
-  await writeFile(testFile1, data, { mode: 0o777 });
-  await writeFile(testFile2, data, { mode: 0o777 });
+  await Ende.writeFile(testFile1, data, { mode: 0o777 });
+  await Ende.writeFile(testFile2, data, { mode: 0o777 });
 
   try {
     await assertRejects(async () => {
@@ -76,13 +89,12 @@ Ende.test("remove() remove a non empty directory", async () => {
     const existed = await checkExists(tempDir1);
     assert(existed === false);
   } finally {
-    await rm(tempDir1, { recursive: true, force: true });
+    await forceRemove(tempDir1);
   }
 });
 
 Ende.test(
   "remove() remove a non existed directory",
-  { ignore: isBun },
   async () => {
     const tempDir = await makeTempDir({ prefix: "remove_async_" });
     const nonExistedDir = join(tempDir, "non", "existed", "dir");
@@ -95,14 +107,13 @@ Ende.test(
       const existed = await checkExists(tempDir);
       assert(existed === false);
     } finally {
-      await rm(tempDir, { recursive: true, force: true });
+      await forceRemove(tempDir);
     }
   },
 );
 
 Ende.test(
   "remove() remove a non existed directory with option",
-  { ignore: isBun },
   async () => {
     const tempDir = await makeTempDir({ prefix: "remove_async_" });
     const nonExistedDir = join(tempDir, "non", "existed", "dir");
@@ -115,14 +126,13 @@ Ende.test(
       const existed = await checkExists(tempDir);
       assert(existed === false);
     } finally {
-      await rm(tempDir, { recursive: true, force: true });
+      await forceRemove(tempDir);
     }
   },
 );
 
 Ende.test(
   "removeSync() remove an existed and empty directory",
-  { ignore: isBun },
   () => {
     const tempDir = makeTempDirSync({ prefix: "remove_sync_" });
     assert(statSync(tempDir).isDirectory === true);
@@ -131,7 +141,7 @@ Ende.test(
       removeSync(tempDir);
       assert(checkExistsSync(tempDir) === false);
     } finally {
-      rmSync(tempDir, { recursive: true, force: true });
+      forceRemoveSync(tempDir);
     }
   },
 );
@@ -147,8 +157,8 @@ Ende.test("removeSync() remove a non empty directory", () => {
 
   const encoder = new TextEncoder();
   const data = encoder.encode("This is a test content");
-  writeFileSync(testFile1, data, { mode: 0o777 });
-  writeFileSync(testFile2, data, { mode: 0o777 });
+  Ende.writeFileSync(testFile1, data, { mode: 0o777 });
+  Ende.writeFileSync(testFile2, data, { mode: 0o777 });
 
   try {
     assertThrows(() => {
@@ -158,7 +168,7 @@ Ende.test("removeSync() remove a non empty directory", () => {
     removeSync(tempDir1, { recursive: true });
     assert(checkExistsSync(tempDir1) === false);
   } finally {
-    rmSync(tempDir1, { recursive: true, force: true });
+    forceRemoveSync(tempDir1);
   }
 });
 
@@ -174,7 +184,7 @@ Ende.test("removeSync() remove a non existed directory", () => {
     removeSync(tempDir, { recursive: true });
     assert(checkExistsSync(tempDir) === false);
   } finally {
-    rmSync(tempDir, { recursive: true, force: true });
+    forceRemoveSync(tempDir);
   }
 });
 
@@ -190,6 +200,6 @@ Ende.test("removeSync() remove a non existed directory with option", () => {
     removeSync(tempDir, { recursive: true });
     assert(checkExistsSync(tempDir) === false);
   } finally {
-    rmSync(tempDir, { recursive: true, force: true });
+    forceRemoveSync(tempDir);
   }
 });

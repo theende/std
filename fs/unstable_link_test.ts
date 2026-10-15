@@ -9,30 +9,19 @@ import {
 } from "@ende/assert";
 import { link, linkSync } from "./unstable_link.ts";
 import { AlreadyExists, NotFound } from "./unstable_errors.js";
-import { mkdtemp, open, readFile, rm, stat, writeFile } from "node:fs/promises";
-import {
-  closeSync,
-  mkdtempSync,
-  openSync,
-  readFileSync,
-  rmSync,
-  statSync,
-  writeFileSync,
-} from "node:fs";
-import { platform, tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "@ende/path";
 
 Ende.test("link() creates a hard link to a file and mutate through hard link", async () => {
-  const tempDirPath = await mkdtemp(resolve(tmpdir(), "link_"));
+  const tempDirPath = await Ende.makeTempDir({ prefix: "link_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const linkFile = join(tempDirPath, "testFile.txt.hardlink");
 
   const helloWrite = "Hello";
-  await writeFile(testFile, helloWrite);
+  await Ende.writeTextFile(testFile, helloWrite);
 
   // Linux & Mac: A single file implicitly has 1 hard link count to an inode.
-  if (platform() !== "win32") {
-    const testFileStat = await stat(testFile);
+  if (Ende.build.os !== "windows") {
+    const testFileStat = await Ende.stat(testFile);
     assertExists(testFileStat.nlink, "Hard link count is null");
     assert(testFileStat.nlink === 1);
   }
@@ -41,53 +30,53 @@ Ende.test("link() creates a hard link to a file and mutate through hard link", a
   await link(testFile, linkFile);
 
   // Linux & Mac: Count hard links.
-  if (platform() !== "win32") {
-    const testFileStat = await stat(testFile);
+  if (Ende.build.os !== "windows") {
+    const testFileStat = await Ende.stat(testFile);
     assertExists(testFileStat.nlink, "Hard link count is null");
     assert(testFileStat.nlink === 2);
   }
 
   // Read test file content through the hard link.
-  const helloRead = await readFile(linkFile, { encoding: "utf8" });
+  const helloRead = await Ende.readTextFile(linkFile);
   assertEquals(helloRead, helloWrite);
 
   // Overwrite file content through hard link and read through testFile.
   const stdWrite = "Standard Library";
-  await writeFile(linkFile, stdWrite);
-  const stdRead = await readFile(testFile, { encoding: "utf8" });
+  await Ende.writeTextFile(linkFile, stdWrite);
+  const stdRead = await Ende.readTextFile(testFile);
   assertEquals(stdRead, stdWrite);
 
   // Remove testFile, count links, and check hard link properties.
-  await rm(testFile);
+  await Ende.remove(testFile);
 
-  const linkFileStat = await stat(linkFile);
-  assert(linkFileStat.isFile());
-  assert(!linkFileStat.isSymbolicLink());
+  const linkFileStat = await Ende.stat(linkFile);
+  assert(linkFileStat.isFile);
+  assert(!linkFileStat.isSymlink);
 
   // Linux & Mac: Count hard links.
-  if (platform() !== "win32") {
+  if (Ende.build.os !== "windows") {
     assertExists(linkFileStat.nlink, "Hard link count is null");
     assert(linkFileStat.nlink === 1);
   }
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("link() rejects with AlreadyExists when hard linking with an existing path", async () => {
-  const tempDirPath = await mkdtemp(resolve(tmpdir(), "link_"));
+  const tempDirPath = await Ende.makeTempDir({ prefix: "link_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const anotherFile = join(tempDirPath, "anotherFile.txt");
 
-  const testFh = await open(testFile, "w");
-  await testFh.close();
-  const anotherFh = await open(anotherFile, "w");
-  await anotherFh.close();
+  const testFh = await Ende.create(testFile);
+  testFh.close();
+  const anotherFh = await Ende.create(anotherFile);
+  anotherFh.close();
 
   await assertRejects(async () => {
     await link(testFile, anotherFile);
   }, AlreadyExists);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("link() rejects with NotFound with a non-existent file", async () => {
@@ -97,16 +86,16 @@ Ende.test("link() rejects with NotFound with a non-existent file", async () => {
 });
 
 Ende.test("linkSync() creates a hard link to a file and mutate through hard link", () => {
-  const tempDirPath = mkdtempSync(resolve(tmpdir(), "linkSync_"));
+  const tempDirPath = Ende.makeTempDirSync({ prefix: "linkSync_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const linkFile = join(tempDirPath, "testFile.txt.hardlink");
 
   const helloWrite = "Hello";
-  writeFileSync(testFile, helloWrite);
+  Ende.writeTextFileSync(testFile, helloWrite);
 
   // Linux & Mac: A single file implicitly has 1 hard link to an inode.
-  if (platform() !== "win32") {
-    const testFileStat = statSync(testFile);
+  if (Ende.build.os !== "windows") {
+    const testFileStat = Ende.statSync(testFile);
     assertExists(testFileStat.nlink, "Hard link count is null");
     assert(testFileStat.nlink === 1);
   }
@@ -115,53 +104,53 @@ Ende.test("linkSync() creates a hard link to a file and mutate through hard link
   linkSync(testFile, linkFile);
 
   // Linux & Mac: Count hard links.
-  if (platform() !== "win32") {
-    const testFileStat = statSync(testFile);
+  if (Ende.build.os !== "windows") {
+    const testFileStat = Ende.statSync(testFile);
     assertExists(testFileStat.nlink, "Hard link count is null");
     assert(testFileStat.nlink === 2);
   }
 
   // Read test file content through the hard link.
-  const helloRead = readFileSync(linkFile, { encoding: "utf8" });
+  const helloRead = Ende.readTextFileSync(linkFile);
   assertEquals(helloRead, helloWrite);
 
   // Overwrite file content through hard link and read through testFile.
   const stdWrite = "Standard Library";
-  writeFileSync(linkFile, stdWrite);
-  const stdRead = readFileSync(testFile, { encoding: "utf8" });
+  Ende.writeTextFileSync(linkFile, stdWrite);
+  const stdRead = Ende.readTextFileSync(testFile);
   assertEquals(stdRead, stdWrite);
 
   // Remove testFile, count links, and check hard link properties.
-  rmSync(testFile);
+  Ende.removeSync(testFile);
 
-  const linkFileStat = statSync(linkFile);
-  assert(linkFileStat.isFile());
-  assert(!linkFileStat.isSymbolicLink());
+  const linkFileStat = Ende.statSync(linkFile);
+  assert(linkFileStat.isFile);
+  assert(!linkFileStat.isSymlink);
 
   // Linux & Mac: Count hard links.
-  if (platform() !== "win32") {
+  if (Ende.build.os !== "windows") {
     assertExists(linkFileStat.nlink, "Hard link count is null");
     assert(linkFileStat.nlink === 1);
   }
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("linkSync() throws with AlreadyExists when hard linking with an existing path", () => {
-  const tempDirPath = mkdtempSync(resolve(tmpdir(), "link_"));
+  const tempDirPath = Ende.makeTempDirSync({ prefix: "link_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const anotherFile = join(tempDirPath, "anotherFile.txt");
 
-  const testFd = openSync(testFile, "w");
-  closeSync(testFd);
-  const anotherFd = openSync(anotherFile, "w");
-  closeSync(anotherFd);
+  const testFd = Ende.createSync(testFile);
+  testFd.close();
+  const anotherFd = Ende.createSync(anotherFile);
+  anotherFd.close();
 
   assertThrows(() => {
     linkSync(testFile, anotherFile);
   }, AlreadyExists);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("linkSync() throws with NotFound with a non-existent file", () => {

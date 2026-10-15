@@ -1,7 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
 import type { SymlinkOptions } from "./unstable_types.ts";
 
 /**
@@ -29,19 +27,7 @@ export async function symlink(
   newpath: string | URL,
   options?: SymlinkOptions,
 ): Promise<void> {
-  if (isEnde) {
-    return Ende.symlink(oldpath, newpath, options);
-  } else {
-    try {
-      return await getNodeFs().promises.symlink(
-        oldpath,
-        newpath,
-        options?.type,
-      );
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return await Ende.symlink(oldpath, newpath, options);
 }
 
 /**
@@ -69,13 +55,5 @@ export function symlinkSync(
   newpath: string | URL,
   options?: SymlinkOptions,
 ): void {
-  if (isEnde) {
-    return Ende.symlinkSync(oldpath, newpath, options);
-  } else {
-    try {
-      return getNodeFs().symlinkSync(oldpath, newpath, options?.type);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.symlinkSync(oldpath, newpath, options);
 }

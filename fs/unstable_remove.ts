@@ -1,8 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import type { RemoveOptions } from "./unstable_types.ts";
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
 
 /**
  * Removes the named file or directory.
@@ -33,24 +31,7 @@ export async function remove(
   path: string | URL,
   options?: RemoveOptions,
 ) {
-  if (isEnde) {
-    await Ende.remove(path, options);
-  } else {
-    const { recursive = false } = options ?? {};
-    try {
-      await getNodeFs().promises.rm(path, { recursive: recursive });
-    } catch (error) {
-      if ((error as Error & { code: string }).code === "ERR_FS_EISDIR") {
-        try {
-          await getNodeFs().promises.rmdir(path);
-        } catch (error) {
-          throw mapError(error);
-        }
-        return;
-      }
-      throw mapError(error);
-    }
-  }
+  await Ende.remove(path, options);
 }
 
 /**
@@ -82,22 +63,5 @@ export function removeSync(
   path: string | URL,
   options?: RemoveOptions,
 ) {
-  if (isEnde) {
-    Ende.removeSync(path, options);
-  } else {
-    const { recursive = false } = options ?? {};
-    try {
-      getNodeFs().rmSync(path, { recursive: recursive });
-    } catch (error) {
-      if ((error as Error & { code: string }).code === "ERR_FS_EISDIR") {
-        try {
-          getNodeFs().rmdirSync(path);
-        } catch (error) {
-          throw mapError(error);
-        }
-        return;
-      }
-      throw mapError(error);
-    }
-  }
+  Ende.removeSync(path, options);
 }

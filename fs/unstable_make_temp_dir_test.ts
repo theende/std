@@ -3,8 +3,6 @@
 import { assert, assertRejects, assertThrows } from "@ende/assert";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { NotFound } from "./unstable_errors.js";
-import { rmSync } from "node:fs";
-import { rm } from "node:fs/promises";
 
 Ende.test("makeTempDir() creates temporary directories in the default temp directory path", async () => {
   const dir1 = await makeTempDir({ prefix: "standard", suffix: "library" });
@@ -19,8 +17,8 @@ Ende.test("makeTempDir() creates temporary directories in the default temp direc
       assert(tempDirName.endsWith("library"));
     }
   } finally {
-    await rm(dir1, { recursive: true, force: true });
-    await rm(dir2, { recursive: true, force: true });
+    await Ende.remove(dir1, { recursive: true });
+    await Ende.remove(dir2, { recursive: true });
   }
 });
 
@@ -32,7 +30,7 @@ Ende.test("makeTempDir() creates temporary directories with the 'dir' option", a
     assert(dir.startsWith(tempParent));
     assert(/^[\\\/]/.test(dir.slice(tempParent.length)));
   } finally {
-    await rm(tempParent, { recursive: true, force: true });
+    await Ende.remove(tempParent, { recursive: true });
   }
 });
 
@@ -55,8 +53,8 @@ Ende.test("makeTempDirSync() creates temporary directories in the default temp d
       assert(tempDirName.endsWith("library"));
     }
   } finally {
-    rmSync(dir1, { recursive: true, force: true });
-    rmSync(dir2, { recursive: true, force: true });
+    Ende.removeSync(dir1, { recursive: true });
+    Ende.removeSync(dir2, { recursive: true });
   }
 });
 
@@ -68,7 +66,7 @@ Ende.test("makeTempDirSync() creates temporary directories with the 'dir' option
     assert(dir.startsWith(tempParent));
     assert(/^[\\\/]/.test(dir.slice(tempParent.length)));
   } finally {
-    rmSync(tempParent, { recursive: true, force: true });
+    Ende.removeSync(tempParent, { recursive: true });
   }
 });
 

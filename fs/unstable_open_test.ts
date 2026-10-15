@@ -6,9 +6,7 @@ import { open, openSync } from "./unstable_open.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { makeTempFile, makeTempFileSync } from "./unstable_make_temp_file.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
-import { platform } from "node:os";
-import { join } from "node:path";
-import { umask } from "node:process";
+import { join } from "@ende/path";
 
 Ende.test("open() handles 'createNew' when opening a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "open_" });
@@ -144,7 +142,7 @@ Ende.test("open() handles 'truncate' when opening a file", async () => {
 
 Ende.test({
   name: "open() opens files with a user-defined mode prior to applying umask",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = makeTempDirSync({ prefix: "open_" });
     const testFile = join(tempDirPath, "testFile.txt");
@@ -156,14 +154,14 @@ Ende.test({
     });
     let fhStats = await fh.stat();
     fh.close();
-    assertEquals(fhStats.mode! & 0o777, 0o624 & ~umask(0o022));
+    assertEquals(fhStats.mode! & 0o777, 0o624 & ~Ende.umask(0o022));
 
     // Opening the same file under a different mode should not change the
     // current file mode.
     fh = await open(testFile, { mode: 0o777, write: true });
     fhStats = await fh.stat();
     fh.close();
-    assertEquals(fhStats.mode! & 0o777, 0o624 & ~umask(0o022));
+    assertEquals(fhStats.mode! & 0o777, 0o624 & ~Ende.umask(0o022));
 
     await remove(tempDirPath, { recursive: true });
   },
@@ -346,7 +344,7 @@ Ende.test("openSync() handles 'truncate' when opening a file", () => {
 Ende.test({
   name:
     "openSync() opens files with a user-defined mode prior to applying umask",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = makeTempDirSync({ prefix: "openSync_" });
     const testFile = join(tempDirPath, "testFile.txt");
@@ -354,14 +352,14 @@ Ende.test({
     let fh = openSync(testFile, { mode: 0o624, createNew: true, write: true });
     let fhStats = fh.statSync();
     fh.close();
-    assertEquals(fhStats.mode! & 0o777, 0o624 & ~umask(0o022));
+    assertEquals(fhStats.mode! & 0o777, 0o624 & ~Ende.umask(0o022));
 
     // Opening the same file under a different mode should not change the
     // current file mode.
     fh = openSync(testFile, { mode: 0o777, write: true });
     fhStats = fh.statSync();
     fh.close();
-    assertEquals(fhStats.mode! & 0o777, 0o624 & ~umask(0o022));
+    assertEquals(fhStats.mode! & 0o777, 0o624 & ~Ende.umask(0o022));
 
     removeSync(tempDirPath, { recursive: true });
   },

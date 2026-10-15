@@ -3,7 +3,6 @@ import { assertEquals } from "@ende/assert";
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";
 import { join } from "./join.ts";
-import process from "node:process";
 
 const backslashRE = /\\/g;
 
@@ -173,7 +172,7 @@ Ende.test(`join() returns "." if input is empty`, function () {
   assertEquals(join(""), ".");
   assertEquals(join("", ""), ".");
 
-  const pwd = process.cwd();
+  const pwd = Ende.cwd();
   assertEquals(join(pwd), pwd);
   assertEquals(join(pwd, ""), pwd);
 });

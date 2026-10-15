@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-import { toDirEntry } from "./_to_dir_entry.ts";
 import type { DirEntry } from "./unstable_types.ts";
 
 /**
@@ -29,18 +26,7 @@ import type { DirEntry } from "./unstable_types.ts";
  * @returns An async iterable of {@linkcode DirEntry}.
  */
 export async function* readDir(path: string | URL): AsyncIterable<DirEntry> {
-  if (isEnde) {
-    yield* Ende.readDir(path);
-  } else {
-    try {
-      const dir = await getNodeFs().promises.opendir(path);
-      for await (const entry of dir) {
-        yield toDirEntry(entry);
-      }
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  yield* Ende.readDir(path);
 }
 
 /**
@@ -67,16 +53,5 @@ export async function* readDir(path: string | URL): AsyncIterable<DirEntry> {
  * @returns An iterable of {@linkcode DirEntry}.
  */
 export function* readDirSync(path: string | URL): Iterable<DirEntry> {
-  if (isEnde) {
-    return yield* Ende.readDirSync(path);
-  } else {
-    try {
-      const dir = getNodeFs().readdirSync(path, { withFileTypes: true });
-      for (const entry of dir) {
-        yield toDirEntry(entry);
-      }
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return yield* Ende.readDirSync(path);
 }

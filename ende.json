@@ -9,10 +9,7 @@
   "imports": {
     "@deno/graph": "jsr:@deno/graph@^0.89.2",
     "@deno/doc": "jsr:@deno/doc@^0.169.1",
-    "automation/": "https://raw.githubusercontent.com/denoland/automation/0.10.0/",
-    "fast-check": "npm:fast-check@3.8.0",
-    "graphviz": "npm:node-graphviz@^0.1.1",
-    "typescript": "npm:typescript@5.8.3"
+    "automation/": "https://raw.githubusercontent.com/denoland/automation/0.10.0/"
   },
   "unstable": ["webgpu", "fs"],
   "tasks": {
@@ -20,8 +17,6 @@
     "test:with-unsafe-proto": "ende test --unstable-unsafe-proto --no-check -A --parallel --doc --ignore=_tools/,_tmp/",
     "test:tools": "ende test -A --doc _tools/",
     "test:browser": "git grep --name-only \"This module is browser compatible.\" | grep -v ende.json | grep -v .github/workflows | grep -v _tools | grep -v encoding/README.md | grep -v media_types/vendor/update.ts | xargs ende check --config browser-compat.tsconfig.json",
-    "test:node": "(cd _tools/node_test_runner && npm install) && node --import ./_tools/node_test_runner/register_ende_shim.mjs ./_tools/node_test_runner/run_test.mjs",
-    "test:bun": "(cd _tools/node_test_runner && bun install) && cp _tools/node_test_runner/tsconfig_for_bun.json ./tsconfig.json && bun test --require ./_tools/node_test_runner/register_ende_shim.mjs _tools/node_test_runner/run_test.mjs && rm tsconfig.json",
     "lint:circular": "ende run --allow-env --allow-read --allow-write --allow-net=deno.land,jsr.io ./_tools/check_circular_package_dependencies.ts",
     "lint:mod-exports": "ende run --allow-env --allow-read ./_tools/check_mod_exports.ts",
     "lint:tools-types": "ende check _tools/*.ts",
@@ -42,7 +37,6 @@
     "_tmp",
     "jsonc/testdata",
     "toml/testdata",
-    "_tools/node_test_runner",
     "http/testdata",
     "fs/testdata",
     "dotenv/testdata"

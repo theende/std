@@ -1,8 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
 import type { ReadFileOptions } from "./unstable_types.ts";
-import { mapError } from "./_map_error.ts";
 
 /**
  * Reads and resolves to the entire contents of a file as an array of bytes.
@@ -28,17 +26,7 @@ export async function readFile(
   path: string | URL,
   options?: ReadFileOptions,
 ): Promise<Uint8Array> {
-  if (isEnde) {
-    return Ende.readFile(path, { ...options });
-  } else {
-    const { signal } = options ?? {};
-    try {
-      const buf = await getNodeFs().promises.readFile(path, { signal });
-      return new Uint8Array(buf.buffer, buf.byteOffset, buf.length);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return await Ende.readFile(path, { ...options });
 }
 
 /**
@@ -62,14 +50,5 @@ export async function readFile(
  * @returns A `Uint8Array` of bytes representing the file contents.
  */
 export function readFileSync(path: string | URL): Uint8Array {
-  if (isEnde) {
-    return Ende.readFileSync(path);
-  } else {
-    try {
-      const buf = getNodeFs().readFileSync(path);
-      return new Uint8Array(buf.buffer, buf.byteOffset, buf.length);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.readFileSync(path);
 }

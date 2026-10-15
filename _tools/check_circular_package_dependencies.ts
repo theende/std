@@ -6,7 +6,6 @@ import {
   type ModuleJson,
 } from "@deno/graph";
 import { getPackagesEndeJsons, resolve } from "./utils.ts";
-import graphviz from "graphviz";
 import { parse } from "../semver/parse.ts";
 
 /**
@@ -16,8 +15,9 @@ import { parse } from "../semver/parse.ts";
  *
  * `--graph` option outputs graphviz diagram. You can convert the output to
  * a visual graph using tools like https://dreampuf.github.io/GraphvizOnline/
+ * or the `dot` CLI:
  *
- * $ ende run -A _tools/check_circular_package_dependencies.ts --graph
+ * $ ende run -A _tools/check_circular_package_dependencies.ts --graph | dot -Tsvg > .github/dependency_graph.svg
  *
  * `--table` option outputs a table of packages and their status.
  *
@@ -164,11 +164,7 @@ if (Ende.args.includes("--graph")) {
     }
   }
   lines.push("}");
-  const graph = lines.join("\n");
-  // Compile the graph to SVG using the `dot` layout algorithm
-  const svg = await graphviz.graphviz.dot(graph, "svg");
-  console.log("Writing dependency graph image to .github/dependency_graph.svg");
-  await Ende.writeTextFile(".github/dependency_graph.svg", svg);
+  console.log(lines.join("\n"));
 } else if (Ende.args.includes("--all-imports")) {
   for (const [mod, entrypoints] of Object.entries(ENTRYPOINTS)) {
     for (const path of entrypoints) {

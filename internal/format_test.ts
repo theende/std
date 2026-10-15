@@ -109,29 +109,9 @@ Ende.test("format() has fallback if Ende.inspect is not available", async (t) =>
   // deno-lint-ignore no-explicit-any
   const global = globalThis as any;
 
-  await t.step({
-    name: "`Ende` unavailable, fallback to node:util",
-    ignore: parseInt(globalThis.Ende?.version.ende) < 2,
-    fn() {
-      using _ = stubProperty(global, "Ende", undefined);
-
-      assertEquals(format([..."abcd"]), "[\n  'a',\n  'b',\n  'c',\n  'd',\n]");
-      assertEquals(format({ a: 1, b: 2 }), "{\n  a: 1,\n  b: 2,\n}");
-      assertEquals(format(false), "false");
-
-      assertThrows(
-        // @ts-expect-error different types
-        () => assertEquals(1, "1"),
-        Error,
-        `${red("-   1")}\n${green("+   '1'")}`,
-      );
-    },
-  });
-
-  await t.step("`Ende` and `process` both unavailable", () => {
+  await t.step("`Ende` unavailable", () => {
     using stack = disposableStack();
     stack.use(stubProperty(global, "Ende", undefined));
-    stack.use(stubProperty(global, "process", undefined));
 
     assertEquals(format([..."abcd"]), '[\n  "a",\n  "b",\n  "c",\n  "d"\n]');
     assertEquals(format({ a: 1, b: 2 }), '{\n  "a": 1,\n  "b": 2\n}');

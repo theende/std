@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /**
  * Truncates (or extends) the specified file, to reach the specified `len`. If
  * `len` is not specified then the entire file contents are truncated.
@@ -36,15 +33,7 @@ import { mapError } from "./_map_error.ts";
  * @param len An optional value that sets the new size of the file. Omitting this argument sets the file size to 0 bytes.
  */
 export async function truncate(name: string, len?: number): Promise<void> {
-  if (isEnde) {
-    await Ende.truncate(name, len);
-  } else {
-    try {
-      await getNodeFs().promises.truncate(name, len);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.truncate(name, len);
 }
 
 /**
@@ -81,13 +70,5 @@ export async function truncate(name: string, len?: number): Promise<void> {
  * @param len An optional value that sets the new size of the file. Omitting this argument sets the file size to 0 bytes.
  */
 export function truncateSync(name: string, len?: number): void {
-  if (isEnde) {
-    Ende.truncateSync(name, len);
-  } else {
-    try {
-      getNodeFs().truncateSync(name, len);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.truncateSync(name, len);
 }

@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /**
  * Options which can be set when using {@linkcode mkdir} and
  * {@linkcode mkdirSync}.
@@ -54,15 +51,7 @@ export async function mkdir(
   path: string | URL,
   options?: MkdirOptions,
 ): Promise<void> {
-  if (isEnde) {
-    await Ende.mkdir(path, { ...options });
-  } else {
-    try {
-      await getNodeFs().promises.mkdir(path, { ...options });
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.mkdir(path, { ...options });
 }
 
 /**
@@ -86,13 +75,5 @@ export async function mkdir(
  * @param options Options for creating directories.
  */
 export function mkdirSync(path: string | URL, options?: MkdirOptions) {
-  if (isEnde) {
-    Ende.mkdirSync(path, { ...options });
-  } else {
-    try {
-      getNodeFs().mkdirSync(path, { ...options });
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.mkdirSync(path, { ...options });
 }

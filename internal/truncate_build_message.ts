@@ -28,7 +28,7 @@ export function getTruncationContextLengthFromEnv(): number | null {
 
 function getTruncationEnvVar() {
   // deno-lint-ignore no-explicit-any
-  const { Ende, process } = globalThis as any;
+  const { Ende } = globalThis as any;
 
   if (typeof Ende === "object") {
     const permissionStatus = Ende.permissions.querySync({
@@ -40,12 +40,7 @@ function getTruncationEnvVar() {
       ? Ende.env.get(DIFF_CONTEXT_LENGTH) ?? null
       : null;
   }
-  const nodeEnv = process?.getBuiltinModule?.("node:process")?.env as
-    | Partial<Record<string, string>>
-    | undefined;
-  return typeof nodeEnv === "object"
-    ? nodeEnv[DIFF_CONTEXT_LENGTH] ?? null
-    : null;
+  return null;
 }
 
 /**

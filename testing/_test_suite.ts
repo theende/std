@@ -14,7 +14,7 @@ const assertionState = getAssertionState();
  * The options for creating a test suite with the describe function.
  *
  * @deprecated This will be removed in 2.0.0 together with `describe` from
- * `@ende/testing/bdd`. Use `node:test`'s `describe()` instead.
+ * `@ende/testing/bdd`. Use `Ende.test()` instead.
  */
 export interface DescribeDefinition<T> extends Omit<Ende.TestDefinition, "fn"> {
   /** The body of the test suite */
@@ -47,7 +47,7 @@ export interface DescribeDefinition<T> extends Omit<Ende.TestDefinition, "fn"> {
  * The options for creating an individual test case with the it function.
  *
  * @deprecated This will be removed in 2.0.0 together with `it` from
- * `@ende/testing/bdd`. Use `node:test`'s `it()` instead.
+ * `@ende/testing/bdd`. Use `Ende.test()` instead.
  */
 export interface ItDefinition<T> extends Omit<Ende.TestDefinition, "fn"> {
   /** The body of the test case */
@@ -67,7 +67,7 @@ export type HookNames = "beforeAll" | "afterAll" | "beforeEach" | "afterEach";
  * A group of tests.
  *
  * @deprecated This will be removed in 2.0.0 together with `describe` from
- * `@ende/testing/bdd`. Use `node:test`'s `describe()` instead.
+ * `@ende/testing/bdd`. Use `Ende.test()` instead.
  */
 export interface TestSuite<T> {
   /** The symbol to use for grouping the test suite */

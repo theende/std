@@ -4,10 +4,9 @@
  *
  * > [!WARNING]
  * > **Deprecated**: Snapshot testing is built into the Ende test runner as of
- * > Ende 2.9 and into the `node:test` module. Use the built-in
- * > [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/) or
- * > `node:test`'s `t.assert.snapshot()` instead. This module will be removed
- * > in 2.0.0.
+ * > Ende 2.9. Use the built-in
+ * > [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
+ * > instead. This module will be removed in 2.0.0.
  *
  * The built-in `t.assertSnapshot()` uses the same snapshot file format and
  * default serialization as this module, so existing `__snapshots__/*.snap`
@@ -204,7 +203,7 @@
  *
  * @deprecated This will be removed in 2.0.0. Use the built-in
  * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
- * (Ende 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
+ * (Ende 2.9+) instead.
  *
  * @module
  */
@@ -567,7 +566,7 @@ class AssertSnapshotContext {
  *
  * @deprecated This will be removed in 2.0.0. Use the built-in
  * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
- * (Ende 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
+ * (Ende 2.9+) instead.
  */
 export async function assertSnapshot<T>(
   context: Ende.TestContext,
@@ -596,7 +595,7 @@ export async function assertSnapshot<T>(
  *
  * @deprecated This will be removed in 2.0.0. Use the built-in
  * [`t.assertSnapshot()`](https://docs.ende.sh/runtime/test/snapshots/)
- * (Ende 2.9+) or `node:test`'s `t.assert.snapshot()` instead.
+ * (Ende 2.9+) instead.
  */
 export async function assertSnapshot<T>(
   context: Ende.TestContext,

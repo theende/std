@@ -5,27 +5,13 @@
  * to `Ende.test()` API.
  *
  * > [!WARNING]
- * > **Deprecated**: A BDD interface is available through the `node:test`
- * > module, which is supported first-class by `ende test`. Use `node:test`'s
- * > `describe()` and `it()`, or the flat `Ende.test()` style with the
+ * > **Deprecated**: Use the flat `Ende.test()` style with the
  * > `Ende.test.beforeAll()`/`beforeEach()`/`afterEach()`/`afterAll()` hooks
- * > (Ende 2.5+), instead. This module will be removed in 2.0.0.
+ * > (Ende 2.5+) instead. This module will be removed in 2.0.0.
  *
- * Migration is mostly a matter of changing the import:
- *
- * ```ts ignore
- * // Before
- * import { describe, it, beforeEach } from "@ende/testing/bdd";
- *
- * // After
- * import { describe, it, beforeEach } from "node:test";
- * ```
- *
- * `it.only`, `it.skip` and `it.todo` (and the `describe` equivalents) are
- * available in `node:test` as well. Note that `node:test` suites don't accept
- * `Ende.test` options such as `sanitizeOps`, `sanitizeResources` or
- * `permissions`; tests that rely on per-suite options can migrate to the flat
- * `Ende.test()` style instead, which accepts them per test.
+ * Nested `describe()` blocks can be expressed with test steps
+ * (`t.step()`), and `it.only`/`it.ignore` with `Ende.test.only()` and
+ * `Ende.test.ignore()`.
  *
  * With `@ende/testing/bdd` module you can write your tests in a familiar format for
  * grouping tests and adding setup/teardown hooks used by other JavaScript testing
@@ -422,8 +408,8 @@
  * });
  * ```
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s BDD interface
- * or the flat `Ende.test()` style instead.
+ * @deprecated This will be removed in 2.0.0. Use the flat `Ende.test()` style
+ * instead.
  *
  * @module
  */
@@ -444,7 +430,7 @@ export type { DescribeDefinition, ItDefinition, TestSuite };
  * The arguments for an ItFunction.
  *
  * @deprecated This will be removed in 2.0.0 together with {@linkcode it}.
- * Use `node:test`'s `it()` instead.
+ * Use `Ende.test()` instead.
  */
 export type ItArgs<T> =
   | [options: ItDefinition<T>]
@@ -560,8 +546,7 @@ function itDefinition<T>(...args: ItArgs<T>): ItDefinition<T> {
 /**
  * Registers an individual test case.
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `it()` or
- * `Ende.test()` instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()` instead.
  */
 // deno-lint-ignore ende-style-guide/naming-convention
 export interface it {
@@ -599,8 +584,7 @@ export interface it {
  * @typeParam T The self type of the function to implement the test case
  * @param args The test case
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `it()` or
- * `Ende.test()` instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()` instead.
  */
 export function it<T>(...args: ItArgs<T>) {
   if (TestSuiteInternal.runningCount > 0) {
@@ -782,8 +766,7 @@ it.skip = function itSkip<T>(...args: ItArgs<T>): void {
  * @typeParam T The self type of the function to implement the test case
  * @param args The test case
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `test()` or
- * `Ende.test()` instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()` instead.
  */
 export function test<T>(...args: ItArgs<T>) {
   it(...args);
@@ -907,8 +890,8 @@ function addHook<T>(
  * @typeParam T The self type of the function
  * @param fn The function to implement the setup behavior.
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `before()` or
- * `Ende.test.beforeAll()` (Ende 2.5+) instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test.beforeAll()`
+ * (Ende 2.5+) instead.
  */
 export function beforeAll<T>(
   fn: (this: T) => void | Promise<void>,
@@ -941,8 +924,8 @@ export function beforeAll<T>(
  * @typeParam T The self type of the function
  * @param fn The function to implement the setup behavior.
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `before()` or
- * `Ende.test.beforeAll()` (Ende 2.5+) instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test.beforeAll()`
+ * (Ende 2.5+) instead.
  */
 export function before<T>(
   fn: (this: T) => void | Promise<void>,
@@ -973,8 +956,8 @@ export function before<T>(
  * @typeParam T The self type of the function
  * @param fn The function to implement the teardown behavior.
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `after()` or
- * `Ende.test.afterAll()` (Ende 2.5+) instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test.afterAll()`
+ * (Ende 2.5+) instead.
  */
 export function afterAll<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1007,8 +990,8 @@ export function afterAll<T>(
  * @typeParam T The self type of the function
  * @param fn The function to implement the teardown behavior.
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `after()` or
- * `Ende.test.afterAll()` (Ende 2.5+) instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test.afterAll()`
+ * (Ende 2.5+) instead.
  */
 export function after<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1039,8 +1022,8 @@ export function after<T>(
  * @typeParam T The self type of the function
  * @param fn The function to implement the shared setup behavior
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `beforeEach()`
- * or `Ende.test.beforeEach()` (Ende 2.5+) instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test.beforeEach()`
+ * (Ende 2.5+) instead.
  */
 export function beforeEach<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1071,8 +1054,8 @@ export function beforeEach<T>(
  * @typeParam T The self type of the function
  * @param fn The function to implement the shared teardown behavior
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `afterEach()`
- * or `Ende.test.afterEach()` (Ende 2.5+) instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test.afterEach()`
+ * (Ende 2.5+) instead.
  */
 export function afterEach<T>(
   fn: (this: T) => void | Promise<void>,
@@ -1084,7 +1067,7 @@ export function afterEach<T>(
  * The arguments for a DescribeFunction.
  *
  * @deprecated This will be removed in 2.0.0 together with {@linkcode describe}.
- * Use `node:test`'s `describe()` instead.
+ * Use `Ende.test()` instead.
  */
 export type DescribeArgs<T> =
   | [options: DescribeDefinition<T>]
@@ -1214,7 +1197,7 @@ function describeDefinition<T>(
 /**
  * Registers a test suite.
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `describe()`
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()`
  * instead.
  */
 // deno-lint-ignore ende-style-guide/naming-convention
@@ -1251,7 +1234,7 @@ export interface describe {
  * @param args The test suite body.
  * @returns The test suite
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `describe()`
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()`
  * instead.
  */
 export function describe<T>(

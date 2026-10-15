@@ -8,94 +8,83 @@ import {
 } from "@ende/assert";
 import { chmod, chmodSync } from "./unstable_chmod.ts";
 import { NotFound } from "./unstable_errors.js";
-import { platform, tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { mkdir, mkdtemp, open, rm, stat, symlink } from "node:fs/promises";
-import {
-  closeSync,
-  mkdirSync,
-  mkdtempSync,
-  openSync,
-  rmSync,
-  statSync,
-  symlinkSync,
-} from "node:fs";
+import { join, resolve } from "@ende/path";
 
 Ende.test({
   name: "chmod() sets read only permission bits on regular files",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
-    const tempDirPath = await mkdtemp(resolve(tmpdir(), "chmod_"));
+    const tempDirPath = await Ende.makeTempDir({ prefix: "chmod_" });
     const testFile = join(tempDirPath, "chmod_file.txt");
-    const tempFh = await open(testFile, "w");
+    const tempFh = await Ende.create(testFile);
 
     // Check initial testFile permissions are 0o644 (-rw-r--r--).
-    const fileStatBefore = await stat(testFile);
+    const fileStatBefore = await Ende.stat(testFile);
     assertExists(fileStatBefore.mode, "mode property is null");
     assertEquals(fileStatBefore.mode & 0o644, 0o644);
 
     // Set testFile permission bits to read only, 0o444 (-r--r--r--).
     await chmod(testFile, 0o444);
-    const fileStatAfter = await stat(testFile);
+    const fileStatAfter = await Ende.stat(testFile);
     assertExists(fileStatAfter.mode, "mode property is null");
     assertEquals(fileStatAfter.mode & 0o444, 0o444);
 
-    await tempFh.close();
-    await rm(tempDirPath, { recursive: true, force: true });
+    tempFh.close();
+    await Ende.remove(tempDirPath, { recursive: true });
   },
 });
 
 Ende.test({
   name: "chmod() sets read only permission bits on a directory",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
-    const tempDirPath = await mkdtemp(resolve(tmpdir(), "chmod_"));
+    const tempDirPath = await Ende.makeTempDir({ prefix: "chmod_" });
     const testDir = resolve(tempDirPath, "testDir");
-    await mkdir(testDir);
+    await Ende.mkdir(testDir);
 
     // Check initial testDir permissions are 0o755 (drwxr-xr-x).
-    const dirStatBefore = await stat(testDir);
+    const dirStatBefore = await Ende.stat(testDir);
     assertExists(dirStatBefore.mode, "mode property is null");
     assertEquals(dirStatBefore.mode & 0o755, 0o755);
 
     // Set testDir permission bits to read only to 0o444 (dr--r--r--).
     await chmod(testDir, 0o444);
-    const dirStatAfter = await stat(testDir);
+    const dirStatAfter = await Ende.stat(testDir);
     assertExists(dirStatAfter.mode, "mode property is null");
     assertEquals(dirStatAfter.mode & 0o444, 0o444);
 
-    await rm(tempDirPath, { recursive: true, force: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   },
 });
 
 Ende.test({
   name: "chmod() sets write only permission bits of regular file via symlink",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
-    const tempDirPath = await mkdtemp(resolve(tmpdir(), "chmod_"));
+    const tempDirPath = await Ende.makeTempDir({ prefix: "chmod_" });
     const testFile = resolve(tempDirPath, "chmod_file.txt");
     const testSymlink = resolve(tempDirPath, "chmod_file.txt.link");
 
-    const tempFh = await open(testFile, "w");
-    await symlink(testFile, testSymlink);
+    const tempFh = await Ende.create(testFile);
+    await Ende.symlink(testFile, testSymlink);
 
     // Check initial testFile permission bits are 0o644 (-rw-r-xr-x) reading through testSymlink.
-    const symlinkStatBefore = await stat(testSymlink);
+    const symlinkStatBefore = await Ende.stat(testSymlink);
     assertExists(symlinkStatBefore.mode, "mode property via symlink is null");
     assertEquals(symlinkStatBefore.mode & 0o644, 0o644);
 
     // Set write only permission bits of testFile through testSymlink to 0o222 (--w--w--w-).
     await chmod(testSymlink, 0o222);
-    const symlinkStatAfter = await stat(testSymlink);
+    const symlinkStatAfter = await Ende.stat(testSymlink);
     assertExists(symlinkStatAfter.mode, "mode property via symlink is null");
-    const fileStatAfter = await stat(testFile);
+    const fileStatAfter = await Ende.stat(testFile);
     assertExists(fileStatAfter.mode, "mode property via file is null");
 
     // Check if both regular file mode and the mode read through symlink are both write only.
     assertEquals(symlinkStatAfter.mode, fileStatAfter.mode);
 
-    await tempFh.close();
-    await rm(tempDirPath, { recursive: true, force: true });
+    tempFh.close();
+    await Ende.remove(tempDirPath, { recursive: true });
   },
 });
 
@@ -107,79 +96,79 @@ Ende.test("chmod() rejects with NotFound for a non-existent file", async () => {
 
 Ende.test({
   name: "chmodSync() sets read-only permission bits on regular files",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
-    const tempDirPath = mkdtempSync(resolve(tmpdir(), "chmodSync_"));
+    const tempDirPath = Ende.makeTempDirSync({ prefix: "chmodSync_" });
     const testFile = resolve(tempDirPath, "chmod_file.txt");
-    const tempFd = openSync(testFile, "w");
+    const tempFd = Ende.createSync(testFile);
 
     // Check initial testFile permissions are 0o644 (-rw-r--r--).
-    const fileStatBefore = statSync(testFile);
+    const fileStatBefore = Ende.statSync(testFile);
     assertExists(fileStatBefore.mode, "mode property is null");
     assertEquals(fileStatBefore.mode & 0o644, 0o644);
 
     // Set testFile permission bits to read only, 0o444 (-r--r--r--).
     chmodSync(testFile, 0o444);
-    const fileStatAfter = statSync(testFile);
+    const fileStatAfter = Ende.statSync(testFile);
     assertExists(fileStatAfter.mode, "mode property is null");
     assertEquals(fileStatAfter.mode & 0o444, 0o444);
 
-    closeSync(tempFd);
-    rmSync(tempDirPath, { recursive: true, force: true });
+    tempFd.close();
+    Ende.removeSync(tempDirPath, { recursive: true });
   },
 });
 
 Ende.test({
   name: "chmodSync() sets read-only permissions bits on directories",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
-    const tempDirPath = mkdtempSync(resolve(tmpdir(), "chmodSync_"));
+    const tempDirPath = Ende.makeTempDirSync({ prefix: "chmodSync_" });
     const testDir = resolve(tempDirPath, "testDir");
-    mkdirSync(testDir);
+    Ende.mkdirSync(testDir);
 
     // Check initial testDir permissions are 0o755 (drwxr-xr-x).
-    const dirStatBefore = statSync(testDir);
+    const dirStatBefore = Ende.statSync(testDir);
     assertExists(dirStatBefore.mode, "mode property is null");
     assertEquals(dirStatBefore.mode & 0o755, 0o755);
 
     // Set testDir permission bits to read only to 0o444 (dr--r--r--).
     chmodSync(testDir, 0o444);
-    const dirStatAfter = statSync(testDir);
+    const dirStatAfter = Ende.statSync(testDir);
     assertExists(dirStatAfter.mode, "mode property is null");
     assertEquals(dirStatAfter.mode & 0o444, 0o444);
 
-    rmSync(tempDirPath, { recursive: true, force: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   },
 });
 
 Ende.test({
   name: "chmodSync() sets write only permission on a regular file via symlink",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
-    const tempDirPath = mkdtempSync(resolve(tmpdir(), "chmodSync_"));
+    const tempDirPath = Ende.makeTempDirSync({ prefix: "chmodSync_" });
     const testFile = resolve(tempDirPath, "chmod_file.txt");
     const testSymlink = resolve(tempDirPath, "chmod_file.txt.link");
 
-    const tempFd = openSync(testFile, "w");
-    symlinkSync(testFile, testSymlink);
+    const tempFd = Ende.createSync(testFile);
+    Ende.symlinkSync(testFile, testSymlink);
 
     // Check initial testFile permission bits are 0o644 (-rw-r-xr-x) reading through testSymlink.
-    const symlinkStatBefore = statSync(testSymlink);
+    const symlinkStatBefore = Ende.statSync(testSymlink);
     assertExists(symlinkStatBefore.mode, "mode property via symlink is null");
     assertEquals(symlinkStatBefore.mode & 0o644, 0o644);
 
     // Set write only permission bits of testFile through testSymlink to 0o222 (--w--w--w-).
     chmodSync(testSymlink, 0o222);
-    const symlinkStatAfter = statSync(testSymlink);
+    const symlinkStatAfter = Ende.statSync(testSymlink);
     assertExists(symlinkStatAfter.mode, "mode property via symlink is null");
-    const fileStatAfter = statSync(testFile);
+    const fileStatAfter = Ende.statSync(testFile);
     assertExists(fileStatAfter.mode, "mode property via file is null");
 
     // Check if both regular file mode and the mode read through symlink are both write only.
     assertEquals(symlinkStatAfter.mode, fileStatAfter.mode);
 
-    closeSync(tempFd);
-    rmSync(tempDirPath, { recursive: true, force: true });
+    tempFd.close();
+    Ende.removeSync(tempDirPath, { recursive: true });
   },
 });
 

@@ -1,74 +1,20 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
+import { assertRejects, assertThrows } from "@ende/assert";
 import { chown, chownSync } from "./unstable_chown.ts";
 import { NotFound } from "./unstable_errors.js";
 import { makeTempFile, makeTempFileSync } from "./unstable_make_temp_file.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
-import { platform } from "node:os";
-import { spawn } from "node:child_process";
 
-const isBun = navigator.userAgent.includes("Bun/");
-
-type IdResult = {
-  id: string;
-  code: number;
-};
-
-function runId(
-  option?: "group" | "user",
-): Promise<IdResult> {
-  return new Promise((resolve, reject) => {
-    let id;
-    if (option === "user") {
-      id = spawn("id", ["-u"]);
-    } else if (option === "group") {
-      id = spawn("id", ["-g"]);
-    } else {
-      return reject(new Error("Invalid option."));
-    }
-
-    id.stderr.on("error", (err: Error) => {
-      return reject(err);
-    });
-
-    let data = "";
-    const result: Partial<IdResult> = {};
-    id.stdout.on("data", (chunk) => {
-      data += chunk;
-    });
-
-    id.stdout.on("end", () => {
-      result.id = data;
-    });
-
-    id.on("close", (code: number) => {
-      result.code = code;
-      resolve(result as IdResult);
-    });
-  });
-}
-
-async function getUidAndGid(): Promise<{ uid: number; gid: number }> {
-  try {
-    const uidProc = await runId("user");
-    const gidProc = await runId("group");
-    assertEquals(uidProc.code, 0);
-    assertEquals(gidProc.code, 0);
-    return {
-      uid: parseInt(uidProc.id),
-      gid: parseInt(gidProc.id),
-    };
-  } catch (error) {
-    throw error;
-  }
+function getUidAndGid(): { uid: number; gid: number } {
+  return { uid: Ende.uid()!, gid: Ende.gid()! };
 }
 
 Ende.test({
   name: "chown() changes user and group ids",
-  ignore: platform() === "win32" || isBun,
+  ignore: Ende.build.os === "windows",
   fn: async () => {
-    const { uid, gid } = await getUidAndGid();
+    const { uid, gid } = getUidAndGid();
     const tempFile = await makeTempFile({ prefix: "chown_" });
 
     // `chown` needs elevated privileges to change to different UIDs and GIDs.
@@ -80,9 +26,9 @@ Ende.test({
 
 Ende.test({
   name: "chown() handles `null` id arguments",
-  ignore: platform() === "win32" || isBun,
+  ignore: Ende.build.os === "windows",
   fn: async () => {
-    const { uid, gid } = await getUidAndGid();
+    const { uid, gid } = getUidAndGid();
     const tempFile = await makeTempFile({ prefix: "chown_" });
 
     await chown(tempFile, uid, null);
@@ -93,7 +39,7 @@ Ende.test({
 
 Ende.test({
   name: "chown() rejects with NotFound for a non-existent file",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
     await assertRejects(async () => {
       await chown("non-existent-file.txt", null, null);
@@ -103,7 +49,7 @@ Ende.test({
 
 Ende.test({
   name: "chown() rejects with Error when called without elevated privileges",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempFile = await makeTempFile({ prefix: "chown_" });
 
@@ -117,9 +63,9 @@ Ende.test({
 
 Ende.test({
   name: "chownSync() changes user and group ids",
-  ignore: platform() === "win32" || isBun,
-  fn: async () => {
-    const { uid, gid } = await getUidAndGid();
+  ignore: Ende.build.os === "windows",
+  fn: () => {
+    const { uid, gid } = getUidAndGid();
     const tempFile = makeTempFileSync({ prefix: "chownSync_ " });
 
     // `chownSync` needs elevated privileges to change to different UIDs and
@@ -132,9 +78,9 @@ Ende.test({
 
 Ende.test({
   name: "chownSync() handles `null` id arguments",
-  ignore: platform() === "win32" || isBun,
-  fn: async () => {
-    const { uid, gid } = await getUidAndGid();
+  ignore: Ende.build.os === "windows",
+  fn: () => {
+    const { uid, gid } = getUidAndGid();
     const tempFile = makeTempFileSync({ prefix: "chownSync_" });
 
     chownSync(tempFile, uid, null);
@@ -145,7 +91,7 @@ Ende.test({
 
 Ende.test({
   name: "chownSync() throws with NotFound for a non-existent file",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
     assertThrows(() => {
       chownSync("non-existent-file.txt", null, null);
@@ -155,7 +101,7 @@ Ende.test({
 
 Ende.test({
   name: "chownSync() throws with Error when called without elevated privileges",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
     const tempFile = makeTempFileSync({ prefix: "chownSync_" });
 

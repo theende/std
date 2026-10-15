@@ -31,14 +31,6 @@ export class AssertionState {
       globalThis.addEventListener("unload", () => {
         this.#ensureCleanedUp();
       });
-    } else if (
-      // deno-lint-ignore no-explicit-any
-      typeof (globalThis as any)?.process?.on === "function"
-    ) {
-      // deno-lint-ignore no-explicit-any
-      (globalThis as any).process.on("exit", () => {
-        this.#ensureCleanedUp();
-      });
     } else {
       // deno-lint-ignore no-console
       console.warn("AssertionCounter cleanup step was not registered");

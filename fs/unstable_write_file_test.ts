@@ -8,18 +8,12 @@ import {
   assertThrows,
   unreachable,
 } from "@ende/assert";
-import { isEnde } from "./_utils.ts";
 import { writeFile, writeFileSync } from "./unstable_write_file.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { readFile, readFileSync } from "./unstable_read_file.ts";
 import { stat, statSync } from "./unstable_stat.ts";
 import { AlreadyExists, NotFound } from "./unstable_errors.js";
-import { rmSync } from "node:fs";
-import { rm } from "node:fs/promises";
-import { platform } from "node:os";
-import { join } from "node:path";
-
-const isBun = navigator.userAgent.includes("Bun/");
+import { join } from "@ende/path";
 
 function assertMissing(path: string | URL) {
   if (pathExists(path)) {
@@ -49,7 +43,7 @@ Ende.test("writeFile() writes to a file", async () => {
   const actualData = decoder.decode(dataRead);
   assertEquals(actualData, "Hello");
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFile() handles 'append' to a file", async () => {
@@ -72,7 +66,7 @@ Ende.test("writeFile() handles 'append' to a file", async () => {
   const afterAppendData = decoder.decode(appendRead);
   assertEquals(afterAppendData, "Hello, Standard Library");
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFile() handles 'create' when writing to a file", async () => {
@@ -101,7 +95,7 @@ Ende.test("writeFile() handles 'create' when writing to a file", async () => {
   const readDataAgain = decoder.decode(dataReadAgain);
   assertEquals(readDataAgain, "Hello, Standard Library");
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFile() handles 'createNew' when writing to a file", async () => {
@@ -116,12 +110,12 @@ Ende.test("writeFile() handles 'createNew' when writing to a file", async () => 
     await writeFile(testFile, data, { createNew: true });
   }, AlreadyExists);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test({
   name: "writeFile() can change the mode of a file",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: async () => {
     const tempDirPath = await makeTempDir({ prefix: "writeFile_" });
     const testFile = join(tempDirPath, "testFile.txt");
@@ -139,7 +133,7 @@ Ende.test({
     assertExists(testFileStatAfter.mode, "mode is null");
     assertEquals(testFileStatAfter.mode & 0o777, 0o222);
 
-    await rm(tempDirPath, { recursive: true, force: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   },
 });
 
@@ -158,7 +152,7 @@ Ende.test("writeFile() writes to a file with a ReadableStream instance", async (
   await writeFile(testFile, readStream);
   assertEquals(await readFile(testFile), new Uint8Array([1, 2]));
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFile() handles an AbortSignal", async () => {
@@ -176,12 +170,11 @@ Ende.test("writeFile() handles an AbortSignal", async () => {
   }, Error);
   assertEquals(error.name, "AbortError");
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test(
   "writeFile() handles an AbortSignal with a reason",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = new Error();
@@ -197,19 +190,14 @@ Ende.test(
       await writeFile(testFile, data, { signal: ac.signal });
     }, Error);
 
-    if (isEnde) {
-      assertEquals(error, ac.signal.reason);
-    } else {
-      assertEquals(error.cause, ac.signal.reason);
-    }
+    assertEquals(error, ac.signal.reason);
 
-    await rm(tempDirPath, { recursive: true, force: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   },
 );
 
 Ende.test(
   "writeFile() handles an AbortSignal with a primitive value",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = "This is a primitive string";
@@ -224,13 +212,8 @@ Ende.test(
     try {
       await writeFile(testFile, data, { signal: ac.signal });
     } catch (error) {
-      if (isEnde) {
-        assertEquals(error, ac.signal.reason);
-      } else {
-        const errorValue = error as Error;
-        assertEquals(errorValue.cause, ac.signal.reason);
-      }
-      await rm(tempDirPath, { recursive: true, force: true });
+      assertEquals(error, ac.signal.reason);
+      await Ende.remove(tempDirPath, { recursive: true });
     }
   },
 );
@@ -246,7 +229,7 @@ Ende.test("writeFile() writes to a file successfully with an attached AbortSigna
 
   await writeFile(testFile, data, { signal: ac.signal });
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFile() handles an AbortSignal invoked prior to writing the file", async () => {
@@ -267,7 +250,7 @@ Ende.test("writeFile() handles an AbortSignal invoked prior to writing the file"
     assert(error.name === "AbortError");
   }
   assertMissing(testFile);
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFile() rejects with NotFound when writing data to a non-existent path", async () => {
@@ -282,7 +265,7 @@ Ende.test("writeFile() rejects with NotFound when writing data to a non-existent
     await writeFile(notFoundPath, data);
   }, NotFound);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFileSync() writes to a file", () => {
@@ -298,7 +281,7 @@ Ende.test("writeFileSync() writes to a file", () => {
   const actualData = decoder.decode(dataRead);
   assertEquals(actualData, "Hello");
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFileSync() handles 'append' to a file", () => {
@@ -321,7 +304,7 @@ Ende.test("writeFileSync() handles 'append' to a file", () => {
   const afterAppendData = decoder.decode(appendRead);
   assertEquals(afterAppendData, "Hello, Standard Library");
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFileSync() handles 'create' when writing to a file", () => {
@@ -350,7 +333,7 @@ Ende.test("writeFileSync() handles 'create' when writing to a file", () => {
   const readDataAgain = decoder.decode(dataReadAgain);
   assertEquals(readDataAgain, "Hello, Standard Library");
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("writeFileSync() handles 'createNew' when writing to a file", () => {
@@ -365,12 +348,12 @@ Ende.test("writeFileSync() handles 'createNew' when writing to a file", () => {
     writeFileSync(testFile, data, { createNew: true });
   }, AlreadyExists);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test({
   name: "writeFileSync() can change the mode of a file",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
   fn: () => {
     const tempDirPath = makeTempDirSync({ prefix: "writeFileSync_" });
     const testFile = join(tempDirPath, "testFile.txt");
@@ -388,7 +371,7 @@ Ende.test({
     assertExists(testFileStatAfter.mode, "mode is null");
     assertEquals(testFileStatAfter.mode & 0o777, 0o222);
 
-    rmSync(tempDirPath, { recursive: true, force: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   },
 });
 
@@ -404,5 +387,5 @@ Ende.test("writeFileSync() throws NotFound when writing data to a non-existent p
     writeFileSync(notFoundPath, data);
   }, NotFound);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });

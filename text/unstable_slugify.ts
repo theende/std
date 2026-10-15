@@ -86,14 +86,18 @@ export const NON_ASCII_REGEXP = /[^0-9a-zA-Z\-]/g;
  * assertEquals(slugify("Συστημάτων Γραφής"), "συστημάτων-γραφής");
  * ```
  *
- * @example With transliteration using a third-party library
- * ```ts no-assert
+ * @example With transliteration
+ * ```ts
  * import { NON_ASCII_REGEXP, slugify } from "@ende/text/unstable-slugify";
- * // example third-party transliteration library
- * import transliterate from "npm:any-ascii";
+ * import { assertEquals } from "@ende/assert";
  *
- * slugify("Συστημάτων Γραφής", { transliterate, strip: NON_ASCII_REGEXP });
- * // => "sistimaton-grafis"
+ * // a custom transliteration function
+ * const transliterate = (s: string) => s.replaceAll("ß", "ss");
+ *
+ * assertEquals(
+ *   slugify("Straße", { transliterate, strip: NON_ASCII_REGEXP }),
+ *   "strasse",
+ * );
  * ```
  */
 export function slugify(

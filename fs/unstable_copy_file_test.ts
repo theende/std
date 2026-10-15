@@ -1,13 +1,10 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
 import { assert, assertRejects, assertThrows } from "@ende/assert";
-import { rm, stat, writeFile } from "node:fs/promises";
-import { existsSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
 import { copyFile, copyFileSync } from "./unstable_copy_file.ts";
 import { makeTempDir, makeTempDirSync } from "./unstable_make_temp_dir.ts";
 import { readTextFile, readTextFileSync } from "./unstable_read_text_file.ts";
+import { join } from "@ende/path";
 
 Ende.test("copyFile() copies content to an existed file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "copy_file_async_" });
@@ -16,15 +13,15 @@ Ende.test("copyFile() copies content to an existed file", async () => {
 
   const content = "This is written by `copyFile` API";
 
-  await writeFile(source, content);
-  await writeFile(target, "");
+  await Ende.writeTextFile(source, content);
+  await Ende.writeTextFile(target, "");
   await copyFile(source, target);
 
   try {
     const targetContent = await readTextFile(target);
     assert(content === targetContent);
   } finally {
-    await rm(tempDirPath, { recursive: true, force: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
@@ -34,14 +31,14 @@ Ende.test("copyFile() copies content to a directory, which will throw an error",
 
   const content = "This is written by `copyFile` API";
 
-  await writeFile(source, content);
+  await Ende.writeTextFile(source, content);
 
   try {
     await assertRejects(async () => {
-      await copyFile(source, tmpdir());
+      await copyFile(source, tempDirPath);
     });
   } finally {
-    await rm(tempDirPath, { recursive: true, force: true });
+    await Ende.remove(tempDirPath, { recursive: true });
   }
 });
 
@@ -54,17 +51,17 @@ Ende.test(
 
     const content = "This is written by `copyFile` API";
 
-    await writeFile(source, content);
+    await Ende.writeTextFile(source, content);
     await copyFile(source, target);
 
-    const fileInfo = await stat(target);
+    const fileInfo = await Ende.stat(target);
     const targetContent = await readTextFile(target);
 
     try {
-      assert(fileInfo.isFile());
+      assert(fileInfo.isFile);
       assert(content === targetContent);
     } finally {
-      await rm(tempDirPath, { recursive: true, force: true });
+      await Ende.remove(tempDirPath, { recursive: true });
     }
   },
 );
@@ -76,14 +73,14 @@ Ende.test("copyFileSync() copies content to an existed file", () => {
 
   const content = "This is written by `copyFileSync` API";
 
-  writeFileSync(source, content);
-  writeFileSync(target, "");
+  Ende.writeTextFileSync(source, content);
+  Ende.writeTextFileSync(target, "");
   copyFileSync(source, target);
 
   const targetContent = readTextFileSync(target);
   assert(content === targetContent);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test("copyFileSync() copies content to a directory, which will throw an error", () => {
@@ -92,14 +89,14 @@ Ende.test("copyFileSync() copies content to a directory, which will throw an err
 
   const content = "This is written by `copyFile` API";
 
-  writeFileSync(source, content);
+  Ende.writeTextFileSync(source, content);
 
   try {
     assertThrows(() => {
-      copyFileSync(source, tmpdir());
+      copyFileSync(source, tempDirPath);
     });
   } finally {
-    rmSync(tempDirPath, { recursive: true, force: true });
+    Ende.removeSync(tempDirPath, { recursive: true });
   }
 });
 
@@ -110,14 +107,14 @@ Ende.test("copyFileSync() copies content to a non existed file", () => {
 
   const content = "This is written by `copyFileSync` API";
 
-  writeFileSync(source, content);
+  Ende.writeTextFileSync(source, content);
   copyFileSync(source, target);
 
-  const targetIsExists = existsSync(target);
+  const targetIsExists = Ende.statSync(target).isFile;
   const targetContent = readTextFileSync(target);
 
   assert(targetIsExists);
   assert(content === targetContent);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });

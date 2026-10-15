@@ -6,7 +6,6 @@ docs/
 
 # rust build output
 crypto/_wasm/target
-cli/testdata/unicode_width_crate/target
 
 # coverage
 coverage/
@@ -19,6 +18,3 @@ _tmp/
 !_tmp/.keep
 *.sublime-project
 *.sublime-workspace
-
-# tsconfig for bun
-/tsconfig.json

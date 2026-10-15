@@ -3,56 +3,44 @@
 import { assert, assertRejects, assertThrows } from "@ende/assert";
 import { symlink, symlinkSync } from "./unstable_symlink.ts";
 import { AlreadyExists } from "./unstable_errors.js";
-import { lstat, mkdir, mkdtemp, open, rm, stat } from "node:fs/promises";
-import {
-  closeSync,
-  lstatSync,
-  mkdirSync,
-  mkdtempSync,
-  openSync,
-  rmSync,
-  statSync,
-} from "node:fs";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { dirname, fromFileUrl, join, resolve } from "@ende/path";
 
-const moduleDir = dirname(fileURLToPath(import.meta.url));
+const moduleDir = dirname(fromFileUrl(import.meta.url));
 const testdataDir = resolve(moduleDir, "testdata");
 
 Ende.test("symlink() creates a link to a regular file", async () => {
-  const tempDirPath = await mkdtemp(resolve(tmpdir(), "symlink_"));
+  const tempDirPath = await Ende.makeTempDir({ prefix: "symlink_" });
   const testFile = join(tempDirPath, "testFile.txt");
   const symlinkPath = join(tempDirPath, "testFile.txt.link");
 
-  const tempFh = await open(testFile, "w");
+  const tempFh = await Ende.create(testFile);
   await symlink(testFile, symlinkPath);
 
-  const symlinkLstat = await lstat(symlinkPath);
-  const fileStat = await stat(testFile);
+  const symlinkLstat = await Ende.lstat(symlinkPath);
+  const fileStat = await Ende.stat(testFile);
 
-  assert(symlinkLstat.isSymbolicLink);
+  assert(symlinkLstat.isSymlink);
   assert(fileStat.isFile);
 
-  await tempFh.close();
-  await rm(tempDirPath, { recursive: true, force: true });
+  tempFh.close();
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test("symlink() creates a link to a directory", async () => {
-  const tempDirPath = await mkdtemp(resolve(tmpdir(), "symlink_"));
+  const tempDirPath = await Ende.makeTempDir({ prefix: "symlink_" });
   const testDir = join(tempDirPath, "testDir");
   const symlinkPath = join(tempDirPath, "testDir.link");
 
-  await mkdir(testDir);
+  await Ende.mkdir(testDir);
   await symlink(testDir, symlinkPath);
 
-  const symlinkLstat = await lstat(symlinkPath);
-  const dirStat = await stat(testDir);
+  const symlinkLstat = await Ende.lstat(symlinkPath);
+  const dirStat = await Ende.stat(testDir);
 
-  assert(symlinkLstat.isSymbolicLink);
+  assert(symlinkLstat.isSymlink);
   assert(dirStat.isDirectory);
 
-  await rm(tempDirPath, { recursive: true, force: true });
+  await Ende.remove(tempDirPath, { recursive: true });
 });
 
 Ende.test(
@@ -70,39 +58,39 @@ Ende.test(
 Ende.test(
   "symlinkSync() creates a link to a regular file",
   () => {
-    const tempDirPath = mkdtempSync(resolve(tmpdir(), "symlinkSync_"));
+    const tempDirPath = Ende.makeTempDirSync({ prefix: "symlinkSync_" });
     const filePath = join(tempDirPath, "testFile.txt");
     const symlinkPath = join(tempDirPath, "testFile.txt.link");
 
-    const tempFd = openSync(filePath, "w");
+    const tempFd = Ende.createSync(filePath);
     symlinkSync(filePath, symlinkPath);
 
-    const symlinkLstat = lstatSync(symlinkPath);
-    const fileStat = statSync(filePath);
+    const symlinkLstat = Ende.lstatSync(symlinkPath);
+    const fileStat = Ende.statSync(filePath);
 
-    assert(symlinkLstat.isSymbolicLink);
+    assert(symlinkLstat.isSymlink);
     assert(fileStat.isFile);
 
-    closeSync(tempFd);
-    rmSync(tempDirPath, { recursive: true, force: true });
+    tempFd.close();
+    Ende.removeSync(tempDirPath, { recursive: true });
   },
 );
 
 Ende.test("symlinkSync() creates a link to a directory", () => {
-  const tempDirPath = mkdtempSync(resolve(tmpdir(), "symlinkSync_"));
+  const tempDirPath = Ende.makeTempDirSync({ prefix: "symlinkSync_" });
   const testDir = join(tempDirPath, "testDir");
   const symlinkPath = join(tempDirPath, "testDir.link");
 
-  mkdirSync(testDir);
+  Ende.mkdirSync(testDir);
   symlinkSync(testDir, symlinkPath);
 
-  const symlinkLstat = lstatSync(symlinkPath);
-  const dirStat = statSync(testDir);
+  const symlinkLstat = Ende.lstatSync(symlinkPath);
+  const dirStat = Ende.statSync(testDir);
 
-  assert(symlinkLstat.isSymbolicLink);
+  assert(symlinkLstat.isSymlink);
   assert(dirStat.isDirectory);
 
-  rmSync(tempDirPath, { recursive: true, force: true });
+  Ende.removeSync(tempDirPath, { recursive: true });
 });
 
 Ende.test(

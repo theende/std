@@ -9,13 +9,9 @@ import {
 } from "@ende/assert";
 import { readFile, readFileSync } from "./unstable_read_file.ts";
 import { NotFound } from "./unstable_errors.js";
-import { isEnde } from "./_utils.ts";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { dirname, fromFileUrl, join, resolve } from "@ende/path";
 
-const isBun = navigator.userAgent.includes("Bun/");
-
-const moduleDir = dirname(fileURLToPath(import.meta.url));
+const moduleDir = dirname(fromFileUrl(import.meta.url));
 const testdataDir = resolve(moduleDir, "testdata");
 const testFile = join(testdataDir, "copy_file.txt");
 
@@ -51,7 +47,6 @@ Ende.test("readFile() handles an AbortSignal", async () => {
 
 Ende.test(
   "readFile() handles an AbortSignal with a reason",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = new Error();
@@ -61,17 +56,12 @@ Ende.test(
       await readFile(testFile, { signal: ac.signal });
     }, Error);
 
-    if (isEnde) {
-      assertEquals(error, ac.signal.reason);
-    } else {
-      assertEquals(error.cause, ac.signal.reason);
-    }
+    assertEquals(error, ac.signal.reason);
   },
 );
 
 Ende.test(
   "readFile() handles an AbortSignal with a primitive reason value",
-  { ignore: isBun },
   async () => {
     const ac = new AbortController();
     const reasonErr = "Some string";
@@ -81,12 +71,7 @@ Ende.test(
       await readFile(testFile, { signal: ac.signal });
       unreachable();
     } catch (error) {
-      if (isEnde) {
-        assertEquals(error, ac.signal.reason);
-      } else {
-        const errorValue = error as Error;
-        assertEquals(errorValue.cause, ac.signal.reason);
-      }
+      assertEquals(error, ac.signal.reason);
     }
   },
 );

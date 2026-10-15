@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /**
  * Resolves to the absolute normalized path, with symbolic links resolved.
  *
@@ -29,15 +26,7 @@ import { mapError } from "./_map_error.ts";
  * @returns A promise fulfilling with the absolute `path` of the file.
  */
 export async function realPath(path: string | URL): Promise<string> {
-  if (isEnde) {
-    return Ende.realPath(path);
-  } else {
-    try {
-      return await getNodeFs().promises.realpath(path);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return await Ende.realPath(path);
 }
 
 /**
@@ -67,13 +56,5 @@ export async function realPath(path: string | URL): Promise<string> {
  * @returns The absolute `path` of the file.
  */
 export function realPathSync(path: string | URL): string {
-  if (isEnde) {
-    return Ende.realPathSync(path);
-  } else {
-    try {
-      return getNodeFs().realpathSync(path);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.realPathSync(path);
 }

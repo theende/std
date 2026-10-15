@@ -18,7 +18,7 @@
  * {@linkcode load}, {@linkcode loadSync} and the `@ende/dotenv/load` side-effect
  * module are deprecated in favor of the runtime's
  * {@link https://docs.ende.sh/runtime/reference/env_variables/ | --env-file}
- * flag, which Node.js and Bun also support:
+ * flag:
  *
  * ```sh
  * ende run --env-file app.ts
@@ -54,7 +54,6 @@
  *   literal `$`.
  * - `${KEY:-default}` and nested defaults are not supported by `--env-file`.
  *   Use {@linkcode parse}, which keeps the full expansion behavior.
- * - Node's `--env-file` performs no variable expansion at all.
  * - On platforms without a CLI, e.g. Deno Deploy, set environment variables
  *   through the platform's configuration instead.
  *

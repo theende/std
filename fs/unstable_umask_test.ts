@@ -2,11 +2,10 @@
 
 import { assertEquals, assertNotEquals } from "@ende/assert";
 import { umask } from "./unstable_umask.ts";
-import { platform } from "node:os";
 
 Ende.test({
   name: "umask() changes current mask",
-  ignore: platform() === "win32",
+  ignore: Ende.build.os === "windows",
 }, () => {
   const initialMask = umask(0o77);
   const updatedMask0 = umask(0o22);

@@ -86,10 +86,7 @@ function resolveLocaleOption(
 
 // https://tc39.es/ecma402/#sec-defaultlocale
 function defaultLocale() {
-  return (globalThis.navigator?.language ??
-    // Bun [currently doesn't support `navigator.language`](https://github.com/oven-sh/bun/issues/3168),
-    // so we read from `NumberFormat#resolvedOptions` as a backup.
-    new Intl.NumberFormat().resolvedOptions().locale)
+  return globalThis.navigator.language
     // Per spec, can't contain a `-u-` extension sequence (Ende's default `navigator.language` is `en-US-u-va-posix`).
     .replace(/-u-.+/, "");
 }

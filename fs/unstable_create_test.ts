@@ -15,7 +15,7 @@ import {
   writeTextFileSync,
 } from "./unstable_write_text_file.ts";
 import { remove, removeSync } from "./unstable_remove.ts";
-import { join } from "node:path";
+import { join } from "@ende/path";
 
 Ende.test("create() creates a file", async () => {
   const tempDirPath = await makeTempDir({ prefix: "create_" });

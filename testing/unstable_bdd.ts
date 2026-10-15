@@ -24,8 +24,8 @@ import { describe as describe_, it as it_, test as test_ } from "./bdd.ts";
  * @param args The test suite body.
  * @returns The test suite
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `describe()`,
- * which also supports `describe.todo()`, instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()`
+ * instead.
  */
 const describe = describe_ as typeof describe_ & describe;
 
@@ -48,8 +48,7 @@ const describe = describe_ as typeof describe_ & describe;
  * @typeParam T The self type of the function to implement the test case
  * @param args The test case
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `it()`, which
- * also supports `it.todo()`, instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()` instead.
  */
 const it = it_ as typeof it_ & it;
 
@@ -72,8 +71,7 @@ const it = it_ as typeof it_ & it;
  * @typeParam T The self type of the function to implement the test case
  * @param args The test case
  *
- * @deprecated This will be removed in 2.0.0. Use `node:test`'s `test()`, which
- * also supports `test.todo()`, instead.
+ * @deprecated This will be removed in 2.0.0. Use `Ende.test()` instead.
  */
 const test = test_ as typeof test_ & test;
 

@@ -1,8 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { getNodeFs, isEnde } from "./_utils.ts";
-import { mapError } from "./_map_error.ts";
-
 /**
  * Change owner of a regular file or directory.
  *
@@ -30,15 +27,7 @@ export async function chown(
   uid: number | null,
   gid: number | null,
 ): Promise<void> {
-  if (isEnde) {
-    await Ende.chown(path, uid, gid);
-  } else {
-    try {
-      await getNodeFs().promises.chown(path, uid ?? -1, gid ?? -1);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  await Ende.chown(path, uid, gid);
 }
 
 /**
@@ -68,13 +57,5 @@ export function chownSync(
   uid: number | null,
   gid: number | null,
 ): void {
-  if (isEnde) {
-    Ende.chownSync(path, uid, gid);
-  } else {
-    try {
-      getNodeFs().chownSync(path, uid ?? -1, gid ?? -1);
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  Ende.chownSync(path, uid, gid);
 }

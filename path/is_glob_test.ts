@@ -2,7 +2,6 @@
 import { assert, assertEquals } from "@ende/assert";
 import { isGlob } from "./is_glob.ts";
 import { disposableStack } from "../internal/_testing.ts";
-import { Worker } from "node:worker_threads";
 
 Ende.test({
   name: "isGlob()",
@@ -114,15 +113,10 @@ Ende.test({
   },
 });
 
-const isBun = navigator.userAgent.includes("Bun/");
-
 // ref https://github.com/denoland/std/pull/6764
 Ende.test({
   name:
     "isGlob works with the input that includes large number of open brackets",
-  // Bun 1.4.2 crashes when constructing a node:worker_threads Worker
-  // (TypeError: undefined is not an object (evaluating 'this._events'))
-  ignore: isBun,
   async fn() {
     const { promise, resolve, reject } = Promise.withResolvers<void>();
     const timer = setTimeout(() => {
@@ -131,26 +125,26 @@ Ende.test({
     const worker = new Worker(
       new URL(
         `data:text/javascript,
-        import { parentPort, workerData } from "node:worker_threads";
-        const { isGlob } = await import(workerData.isGlobUrl);
-        parentPort.postMessage([
-          isGlob("[".repeat(1_000_000) + "x"),
-          isGlob("{".repeat(1_000_000) + "x"),
-          isGlob("(".repeat(1_000_000) + "x"),
-        ]);`,
+        self.onmessage = async (e) => {
+          const { isGlob } = await import(e.data.isGlobUrl);
+          self.postMessage([
+            isGlob("[".repeat(1_000_000) + "x"),
+            isGlob("{".repeat(1_000_000) + "x"),
+            isGlob("(".repeat(1_000_000) + "x"),
+          ]);
+        };`,
       ),
-      {
-        workerData: {
-          isGlobUrl: new URL("./is_glob.ts", import.meta.url).href,
-        },
-      },
+      { type: "module" },
     );
     using disposable = disposableStack();
     disposable.defer(() => worker.terminate());
-    worker.on("message", (results: boolean[]) => {
+    worker.onmessage = (e: MessageEvent<boolean[]>) => {
       clearTimeout(timer);
-      assertEquals(results, [false, false, false]);
+      assertEquals(e.data, [false, false, false]);
       resolve();
+    };
+    worker.postMessage({
+      isGlobUrl: new URL("./is_glob.ts", import.meta.url).href,
     });
 
     await promise;

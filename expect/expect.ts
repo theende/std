@@ -618,9 +618,15 @@ expect.not = {
  * @example
  * ```ts
  * import { expect } from "@ende/expect";
- * import serializerAnsi from "npm:jest-snapshot-serializer-ansi";
  *
- * expect.addSnapshotSerializer(serializerAnsi);
+ * class Point {
+ *   constructor(public x: number, public y: number) {}
+ * }
+ *
+ * expect.addSnapshotSerializer({
+ *   test: (val) => val instanceof Point,
+ *   serialize: (val) => `Point(${val.x}, ${val.y})`,
+ * });
  * ```
  */
 expect.addSnapshotSerializer = addSerializer as (

@@ -1,8 +1,6 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
 
-import { mapError } from "./_map_error.ts";
 import type { ReadFileOptions } from "./unstable_types.ts";
-import { getNodeFs, isEnde } from "./_utils.ts";
 
 /**
  * Asynchronously reads and returns the entire contents of a file as an UTF-8 decoded string.
@@ -31,19 +29,7 @@ export async function readTextFile(
   path: string | URL,
   options?: ReadFileOptions,
 ): Promise<string> {
-  if (isEnde) {
-    return Ende.readTextFile(path, { ...options });
-  } else {
-    const { signal } = options ?? {};
-    try {
-      return await getNodeFs().promises.readFile(path, {
-        encoding: "utf-8",
-        signal,
-      });
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return await Ende.readTextFile(path, { ...options });
 }
 
 /**
@@ -71,13 +57,5 @@ export async function readTextFile(
 export function readTextFileSync(
   path: string | URL,
 ): string {
-  if (isEnde) {
-    return Ende.readTextFileSync(path);
-  } else {
-    try {
-      return getNodeFs().readFileSync(path, "utf-8");
-    } catch (error) {
-      throw mapError(error);
-    }
-  }
+  return Ende.readTextFileSync(path);
 }
