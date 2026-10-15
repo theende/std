@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals } from "@ende/assert/equals";
 import { consolidateCommon, truncateDiff } from "./truncate_build_message.ts";
 import type { CommonDiffResult } from "@ende/internal/types";

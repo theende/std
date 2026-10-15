@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-console
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 /**
  * This script adds kebab case checking for export names found in each `@ende`

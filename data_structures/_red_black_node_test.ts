@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertStrictEquals } from "@ende/assert";
 import { RedBlackNode } from "./_red_black_node.ts";
 

@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assert, assertMatch, assertRejects, assertThrows } from "@ende/assert";
 import { realPath, realPathSync } from "./unstable_real_path.ts";

@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { dirname } from "@ende/path/dirname";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
 import { getFileInfoType } from "./_get_file_info_type.ts";

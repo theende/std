@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 export { digest, DigestContext } from "./lib/deno_std_wasm_crypto.mjs";
 
 /**

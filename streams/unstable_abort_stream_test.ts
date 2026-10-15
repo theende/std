@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assertRejects } from "@ende/assert";
 import { FixedChunkStream } from "@ende/streams/unstable-fixed-chunk-stream";

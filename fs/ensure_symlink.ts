@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { dirname } from "@ende/path/dirname";
 import { resolve } from "@ende/path/resolve";
 import { ensureDir, ensureDirSync } from "./ensure_dir.ts";

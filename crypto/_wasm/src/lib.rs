@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 use derive_more::{From, Into};
 use js_sys::Uint8Array;
 use wasm_bindgen::prelude::*;

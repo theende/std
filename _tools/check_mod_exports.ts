@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-console
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { walk } from "../fs/walk.ts";
 import { relative } from "../path/relative.ts";

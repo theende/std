@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assertEquals, assertRejects, assertStrictEquals } from "@ende/assert";
 import { Lazy } from "./lazy.ts";

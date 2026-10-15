@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // deno-lint-ignore-file ende-style-guide/naming-convention
 import { assertEquals } from "@ende/assert/equals";
 import { stubProperty } from "./unstable_stub_property.ts";

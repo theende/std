@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 const BASIS_32: u32 = 2166136261;
 const PRIME_32: u32 = 16777619;
 

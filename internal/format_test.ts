@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { green, red, stripAnsiCode } from "./styles.ts";
 import { assertEquals, assertThrows } from "@ende/assert";
 import { format, type InspectFn } from "./format.ts";

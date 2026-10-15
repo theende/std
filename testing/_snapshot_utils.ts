@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import type { SnapshotMode, SnapshotOptions } from "./snapshot.ts";
 import { diff } from "@ende/internal/diff";
 import { diffStr } from "@ende/internal/diff-str";

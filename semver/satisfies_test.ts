@@ -1,5 +1,6 @@
 // Copyright Isaac Z. Schlueter and Contributors. All rights reserved. ISC license.
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assert } from "@ende/assert";
 import { parse } from "./parse.ts";
 import { parseRange } from "./parse_range.ts";

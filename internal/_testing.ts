@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 // partial `DisposableStack` polyfill
 // https://github.com/tc39/proposal-explicit-resource-management

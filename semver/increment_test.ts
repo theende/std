@@ -1,5 +1,6 @@
 // Copyright Isaac Z. Schlueter and Contributors. All rights reserved. ISC license.
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals, assertThrows } from "@ende/assert";
 import type { ReleaseType } from "./types.ts";
 import { increment } from "./increment.ts";

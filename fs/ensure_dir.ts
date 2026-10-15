@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { getFileInfoType } from "./_get_file_info_type.ts";
 
 /**

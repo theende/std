@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Copyright 2019 Allain Lalonde. All rights reserved. ISC License.
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 // The documentation is extracted from https://github.com/jestjs/jest/blob/main/website/versioned_docs/version-29.7/ExpectAPI.md

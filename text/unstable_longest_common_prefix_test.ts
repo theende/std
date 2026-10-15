@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { longestCommonPrefix } from "./unstable_longest_common_prefix.ts";
 import { assertEquals, assertGreater } from "@ende/assert";
 

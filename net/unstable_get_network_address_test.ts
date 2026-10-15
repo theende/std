@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { getNetworkAddress } from "./unstable_get_network_address.ts";
 import { stub } from "@ende/testing/mock";
 import { assertEquals } from "@ende/assert";

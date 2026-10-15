@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assert, assertEquals, assertThrows } from "@ende/assert";
 import { BinaryHeap } from "./binary_heap.ts";
 import { ascend, descend } from "./comparators.ts";

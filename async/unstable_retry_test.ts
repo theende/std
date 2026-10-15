@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { retry, RetryError, type RetryOptions } from "./unstable_retry.ts";
 import { RetryError as StableRetryError } from "./retry.ts";
 import {

@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertFalse, AssertionError, assertThrows } from "./mod.ts";
 
 Ende.test("assertFalse() throws if expr is truthy", () => {

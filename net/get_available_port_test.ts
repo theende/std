@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { getAvailablePort } from "./get_available_port.ts";
 import { assertEquals, assertNotEquals, assertThrows } from "@ende/assert";

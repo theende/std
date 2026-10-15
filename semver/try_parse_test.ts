@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // These tests were copied from `semver/parse_test.ts` and modified to use
 // `tryParse` instead of `parse`.
 import { assertEquals } from "@ende/assert";

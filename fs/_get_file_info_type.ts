@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Copyright the Browserify authors. MIT License.
 
 export type PathType = "file" | "dir" | "symlink";

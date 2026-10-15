@@ -1,5 +1,6 @@
 #!/usr/bin/env -S ende run --allow-net --allow-read
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 // This program serves files in the current directory over HTTP.
 // TODO(bartlomieju): Add tests like these:

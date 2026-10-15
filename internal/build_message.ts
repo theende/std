@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
 
 import { bgGreen, bgRed, bold, gray, green, red, white } from "./styles.ts";

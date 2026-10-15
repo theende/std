@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Copyright (C) 2019 Alexey Shvayka. All rights reserved.
 // This code is governed by the BSD license found in the LICENSE file.
 /*---

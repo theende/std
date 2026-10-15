@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 /**
  * Copies the contents and permissions of one file to another specified path, by default creating a

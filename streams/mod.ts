@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 /**
  * Utilities for working with the
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Streams API}.

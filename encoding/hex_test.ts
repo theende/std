@@ -4,6 +4,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals, assertThrows } from "@ende/assert";
 
 import { decodeHex, encodeHex } from "./hex.ts";

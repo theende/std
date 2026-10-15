@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Structured similarly to Go's cookie.go
 // https://github.com/golang/go/blob/master/src/net/http/cookie.go
 // This module is browser compatible.

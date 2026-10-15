@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import * as posix from "./posix/mod.ts";
 import * as windows from "./windows/mod.ts";

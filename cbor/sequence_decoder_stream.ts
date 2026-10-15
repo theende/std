@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { toByteStream } from "@ende/streams/unstable-to-byte-stream";
 import { arrayToNumber, type ReleaseLock } from "./_common.ts";

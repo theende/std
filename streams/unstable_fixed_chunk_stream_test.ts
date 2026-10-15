@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assert, assertLessOrEqual } from "@ende/assert";
 import { FixedChunkStream } from "./unstable_fixed_chunk_stream.ts";

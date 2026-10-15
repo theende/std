@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 /**
  * Gets the IPv4 or IPv6 network address of the machine.
  *

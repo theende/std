@@ -1,5 +1,6 @@
 #!/usr/bin/env -S ende run --allow-net --allow-read
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import {
   serveDir as stableServeDir,
   type ServeDirOptions as StableServeDirOptions,

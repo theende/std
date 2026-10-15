@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import type { PromptEntry } from "./unstable_prompt_select.ts";
 import { stripAnsiCode } from "@ende/fmt/colors";

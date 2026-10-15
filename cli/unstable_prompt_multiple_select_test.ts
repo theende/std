@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assertEquals } from "@ende/assert/equals";
 import { promptMultipleSelect } from "./unstable_prompt_multiple_select.ts";

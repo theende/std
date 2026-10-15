@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assert, assertRejects, assertThrows } from "@ende/assert";
 import { copyFile, copyFileSync } from "./unstable_copy_file.ts";

@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { stub } from "@ende/testing/mock";
 import { stubProperty } from "@ende/testing/unstable-stub-property";
 

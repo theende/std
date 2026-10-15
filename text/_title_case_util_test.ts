@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals, assertLess } from "@ende/assert";
 import {
   CACHE_MAX_SEGMENT_LENGTH,

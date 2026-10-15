@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assertRejects, assertThrows } from "@ende/assert";
 import { chown, chownSync } from "./unstable_chown.ts";

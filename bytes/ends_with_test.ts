@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assert } from "@ende/assert";
 import { endsWith } from "./ends_with.ts";
 

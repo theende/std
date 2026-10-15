@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Copyright Isaac Z. Schlueter and npm contributors. All rights reserved. ISC license.
 
 import { assert, assertEquals, assertFalse } from "@ende/assert";

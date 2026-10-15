@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { extract } from "./yaml.ts";
 import { extract as unstableExtract } from "./unstable_yaml.ts";

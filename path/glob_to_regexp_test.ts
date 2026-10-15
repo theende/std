@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assert, assertEquals } from "@ende/assert";
 import { type GlobOptions, globToRegExp } from "./glob_to_regexp.ts";
 import { globToRegExp as posixGlobToRegExp } from "./posix/glob_to_regexp.ts";

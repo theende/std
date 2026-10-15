@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { type GlobOptions, globToRegExp } from "@ende/path/glob-to-regexp";
 import { joinGlobs } from "@ende/path/join-globs";
 import { isGlob } from "@ende/path/is-glob";

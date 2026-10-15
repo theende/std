@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { Buffer as EndeBuffer } from "@ende/io/buffer";
 import { expect } from "./expect.ts";

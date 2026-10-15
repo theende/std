@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals, assertStrictEquals, assertThrows } from "@ende/assert";
 import { RedBlackTree } from "./red_black_tree.ts";
 import { ascend, descend } from "./comparators.ts";

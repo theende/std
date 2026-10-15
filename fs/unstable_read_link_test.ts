@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assertEquals, assertRejects, assertThrows } from "@ende/assert";
 import { readLink, readLinkSync } from "./unstable_read_link.ts";

@@ -1,8 +1,12 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Ende.lint namespace does not pass type checking in Deno 1.x
 
 import { assertEquals } from "@ende/assert/equals";
-import lintPlugin, { COPYRIGHT_NOTICE } from "./lint_plugin.ts";
+import lintPlugin, {
+  COPYRIGHT_NOTICE,
+  ENDE_COPYRIGHT_NOTICE,
+} from "./lint_plugin.ts";
 
 function assertLintPluginDiagnostics(
   source: string,
@@ -384,8 +388,27 @@ Ende.test("ende-style-guide/copyright-notice", {
   assertLintPluginDiagnostics(
     `
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
     `,
     [],
+    false,
+  );
+
+  // Bad: missing the Ende notice
+  assertLintPluginDiagnostics(
+    `
+// Copyright 2018-2026 the Deno authors. MIT license.
+    `,
+    [
+      {
+        fix: [],
+        hint:
+          `Add a copyright notice at the top of the file: // ${ENDE_COPYRIGHT_NOTICE}`,
+        id: "ende-style-guide/copyright",
+        message: "Missing copyright notice.",
+        range: [0, 0],
+      },
+    ],
     false,
   );
 
@@ -399,6 +422,14 @@ Ende.test("ende-style-guide/copyright-notice", {
         fix: [],
         hint:
           `Add a copyright notice at the top of the file: // ${COPYRIGHT_NOTICE}`,
+        id: "ende-style-guide/copyright",
+        message: "Missing copyright notice.",
+        range: [0, 0],
+      },
+      {
+        fix: [],
+        hint:
+          `Add a copyright notice at the top of the file: // ${ENDE_COPYRIGHT_NOTICE}`,
         id: "ende-style-guide/copyright",
         message: "Missing copyright notice.",
         range: [0, 0],

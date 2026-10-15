@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals } from "@ende/assert";
 import { toSentenceCase } from "./unstable_to_sentence_case.ts";
 import { toTitleCase } from "./unstable_to_title_case.ts";

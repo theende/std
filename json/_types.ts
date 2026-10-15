@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 /**
  * Proxy type of {@code Uint8Array<ArrayBuffer>} or {@code Uint8Array} in TypeScript 5.1 or below respectively.

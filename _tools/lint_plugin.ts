@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // Ende.lint namespace does not pass type checking in Deno 1.x
 
 /**
@@ -32,6 +33,12 @@ const CONTRACTION_REGEXP = /\S'\S/;
 export const COPYRIGHT_NOTICE = `Copyright 2018-${
   new Date().getFullYear()
 } the Deno authors. MIT license.`;
+
+const endeYears = new Date().getFullYear() === 2026
+  ? "2026"
+  : `2026-${new Date().getFullYear()}`;
+export const ENDE_COPYRIGHT_NOTICE =
+  `Copyright ${endeYears} the Ende authors. MIT license.`;
 
 export default {
   name: "ende-style-guide",
@@ -424,18 +431,20 @@ export default {
         // Skip checking this rule in the ignore_comments.ts file to avoid
         // testing of other rules being affected.
         if (context.filename === "ignore_comments.ts") return {};
-        const comments = context.sourceCode.getAllComments();
-        // Only check the first 6 comments, for performance
-        const node = comments.slice(0, 6).find((comment) =>
-          comment.value.includes(COPYRIGHT_NOTICE) && comment.type === "Line"
-        );
-        if (!node) {
-          context.report({
-            range: [0, 0],
-            message: "Missing copyright notice.",
-            hint:
-              `Add a copyright notice at the top of the file: // ${COPYRIGHT_NOTICE}`,
-          });
+        // Only check the first 8 comments, for performance
+        const comments = context.sourceCode.getAllComments().slice(0, 8);
+        for (const notice of [COPYRIGHT_NOTICE, ENDE_COPYRIGHT_NOTICE]) {
+          const node = comments.find((comment) =>
+            comment.value.includes(notice) && comment.type === "Line"
+          );
+          if (!node) {
+            context.report({
+              range: [0, 0],
+              message: "Missing copyright notice.",
+              hint:
+                `Add a copyright notice at the top of the file: // ${notice}`,
+            });
+          }
         }
         return {};
       },

@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assert, assertEquals } from "@ende/assert";
 import { CborArrayDecodedStream } from "./_array_decoded_stream.ts";

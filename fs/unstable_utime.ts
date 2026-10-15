@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 /** Changes the access (`atime`) and modification (`mtime`) times of a file
  * system object referenced by `path`. Given times are either in seconds

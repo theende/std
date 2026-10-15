@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { AssertionError, assertThrows } from "./mod.ts";
 import { assertEquals } from "./unstable_equals.ts";
 import { DIFF_CONTEXT_LENGTH } from "@ende/internal/truncate-build-message";

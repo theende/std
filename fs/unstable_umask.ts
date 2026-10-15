@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 /** Retrieve the process umask.  If `mask` is provided, sets the process umask.
  * This call always returns what the umask was before the call.

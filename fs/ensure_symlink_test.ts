@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // TODO(axetroy): Add test for Windows once symlink is implemented for Windows.
 import {
   assert,

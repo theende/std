@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { describeTextureFormat } from "./describe_texture_format.ts";
 import type { Uint8Array_ } from "./_types.ts";

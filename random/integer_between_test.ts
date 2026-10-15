@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { randomIntegerBetween } from "./integer_between.ts";
 import { randomSeeded } from "./seeded.ts";
 import {

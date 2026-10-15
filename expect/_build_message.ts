@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { buildMessage } from "@ende/internal/build-message";
 import { diff } from "@ende/internal/diff";

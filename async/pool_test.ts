@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { delay } from "./delay.ts";
 import { pooledMap } from "./pool.ts";
 import {

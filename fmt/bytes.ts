@@ -2,6 +2,7 @@
 // Copyright 2021 Yoshiya Hinosawa. All rights reserved. MIT license.
 // Copyright 2021 Giuseppe Eletto. All rights reserved. MIT license.
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
 
 /**

@@ -3,6 +3,7 @@
 // Copyright 2011 The Go Authors. All rights reserved. BSD license.
 // https://github.com/golang/go/blob/master/LICENSE
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { codePointLength } from "./_shared.ts";
 

@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { toTransformStream } from "@ende/streams/to-transform-stream";
 import type { JsonValue } from "./types.ts";
 import { parse } from "./_common.ts";

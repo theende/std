@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertEquals } from "../assert/equals.ts";
 import { BinarySearchTree } from "./unstable_binary_search_tree.ts";
 

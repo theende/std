@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // deno-lint-ignore-file no-explicit-any
 import { platform } from "./_platform.ts";
 import { disposableStack } from "../internal/_testing.ts";

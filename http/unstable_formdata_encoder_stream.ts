@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { encodeBase64 } from "@ende/encoding/unstable-base64";
 import { toByteStream } from "@ende/streams/unstable-to-byte-stream";

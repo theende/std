@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { assertEquals } from "@ende/assert";
 import { decodeBase64, encodeBase64 } from "./base64.ts";

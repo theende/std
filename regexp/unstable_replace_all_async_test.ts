@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 
 import { replaceAllAsync } from "./unstable_replace_all_async.ts";
 import { assertEquals } from "@ende/assert";

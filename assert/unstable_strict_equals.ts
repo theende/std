@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 // This module is browser compatible.
 import { assertStrictEquals as _assertStrictEquals } from "./strict_equals.ts";
 import { truncateDiff } from "@ende/internal/truncate-build-message";

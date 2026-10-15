@@ -1,4 +1,5 @@
 // Copyright 2018-2026 the Deno authors. MIT license.
+// Copyright 2026 the Ende authors. MIT license.
 import { assertGreaterOrEqual, assertThrows } from "./mod.ts";
 
 Ende.test("assertGreaterOrEqual() matches when actual value is greater or equal than expected value", () => {
