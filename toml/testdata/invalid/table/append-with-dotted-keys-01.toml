@@ -6,12 +6,12 @@
 #
 # While this makes sense, logically, it was decided this is not valid TOML as
 # it's too confusing/convoluted.
-#
+# 
 # See: https://github.com/toml-lang/toml/issues/846
 #      https://github.com/toml-lang/toml/pull/859
 
 [a.b.c]
-z = 9
+  z = 9
 
 [a]
-b.c.t = "Using dotted keys to add to [a.b.c] after explicitly defining it above is not allowed"
+  b.c.t = "Using dotted keys to add to [a.b.c] after explicitly defining it above is not allowed"

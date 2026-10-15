@@ -21,9 +21,9 @@ info: |
 includes: [propertyHelper.js]
 ---*/
 
-verifyProperty(JSON.parse, "name", {
-  value: "parse",
+verifyProperty(JSON.parse, 'name', {
+  value: 'parse',
   writable: false,
   enumerable: false,
-  configurable: true
+  configurable: true,
 });

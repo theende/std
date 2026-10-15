@@ -1,5 +1,5 @@
 {
-  "01": {
-    "23": { "type": "bool", "value": "true" }
-  }
+    "01": {
+        "23": {"type": "bool", "value": "true"}
+    }
 }

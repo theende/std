@@ -1,5 +1,5 @@
 [a]
-foo = "bar"
+foo="bar"
 [a.b]
-foo = "bar"
+foo="bar"
 [a]

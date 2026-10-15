@@ -1,5 +1,5 @@
 # Top comment.
-# Top comment.
+  # Top comment.
 # Top comment.
 
 # [no-extraneous-groups-please]
@@ -12,23 +12,22 @@ more = [ # Comment
   # What about multiple # comments?
   # Can you handle it?
   #
-  # Evil.
-  # Evil.
-  42,
-  42, # Comments within arrays are fun.
+          # Evil.
+# Evil.
+  42, 42, # Comments within arrays are fun.
   # What about multiple # comments?
   # Can you handle it?
   #
-  # Evil.
-  # Evil.
-  # ] Did I fool you?
+          # Evil.
+# Evil.
+# ] Did I fool you?
 ] # Hopefully not.
 
 # Make sure the space between the datetime and "#" isn't lexed.
-dt = 1979-05-27T07:32:12-07:00 # c
+dt = 1979-05-27T07:32:12-07:00  # c
 d = 1979-05-27 # Comment
 
 [[aot]] # Comment
 k = 98 # Comment
-[[aot]] # Comment
-k = 99 # Comment
+[[aot]]# Comment
+k = 99# Comment

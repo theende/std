@@ -15,9 +15,9 @@ info: |
   a valid JSON text as defined in that specification.
 ---*/
 
-assert.sameValue(JSON.parse("-0"), -0);
-assert.sameValue(JSON.parse(" \n-0"), -0);
-assert.sameValue(JSON.parse("-0  \t"), -0);
-assert.sameValue(JSON.parse("\n\t -0\n   "), -0);
+assert.sameValue(JSON.parse('-0'), -0);
+assert.sameValue(JSON.parse(' \n-0'), -0);
+assert.sameValue(JSON.parse('-0  \t'), -0);
+assert.sameValue(JSON.parse('\n\t -0\n   '), -0);
 
 assert.sameValue(JSON.parse(-0), 0);

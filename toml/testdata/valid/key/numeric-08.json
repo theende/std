@@ -1,4 +1,4 @@
 {
-  "01": { "type": "string", "value": "zero one" },
-  "1": { "type": "string", "value": "one" }
+    "01": {"type": "string", "value": "zero one"},
+    "1":  {"type": "string", "value": "one"}
 }

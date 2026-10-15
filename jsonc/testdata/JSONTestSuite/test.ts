@@ -7,7 +7,7 @@ import { walk } from "../../../fs/mod.ts";
 import { fromFileUrl } from "../../../path/mod.ts";
 
 function getError<T>(
-  fn: () => T
+  fn: () => T,
 ): [hasError: boolean, error: unknown, result?: T] {
   try {
     const res = fn();
@@ -20,7 +20,7 @@ function getError<T>(
 // Make sure that the JSON.parse and JSONC.parse results match.
 for await (
   const dirEntry of walk(fromFileUrl(new URL("./", import.meta.url)), {
-    exts: [".json"]
+    exts: [".json"],
   })
 ) {
   if (!dirEntry.isFile) {
@@ -33,17 +33,21 @@ for await (
     async fn() {
       const text = await Deno.readTextFile(dirEntry.path);
 
-      const [hasJsonError, jsonError, jsonResult] = getError(() => JSON.parse(text));
-      const [hasJsoncError, jsoncError, jsoncResult] = getError(() => JSONC.parse(text));
+      const [hasJsonError, jsonError, jsonResult] = getError(() =>
+        JSON.parse(text)
+      );
+      const [hasJsoncError, jsoncError, jsoncResult] = getError(() =>
+        JSONC.parse(text)
+      );
 
       // If an error occurs in JSON.parse() but no error occurs in JSONC.parse(), or vice versa, an error is thrown.
       if (hasJsonError !== hasJsoncError) {
         throw new AggregateError(
           [jsonError, jsoncError],
-          `failed to parse: '${text}'`
+          `failed to parse: '${text}'`,
         );
       }
       assertEquals(jsonResult, jsoncResult);
-    }
+    },
   });
 }

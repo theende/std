@@ -1,6 +1,6 @@
 {
-  "basic": { "type": "string", "value": "ɑ € 𐫱 ɑ€𐫱" },
-  "ml-basic": { "type": "string", "value": "ɑ € 𐫱 ɑ€𐫱" },
-  "ml-raw": { "type": "string", "value": "ɑ € 𐫱 ɑ€𐫱" },
-  "raw": { "type": "string", "value": "ɑ € 𐫱 ɑ€𐫱" }
+    "basic":    {"type": "string", "value": "ɑ € 𐫱 ɑ€𐫱"},
+    "ml-basic": {"type": "string", "value": "ɑ € 𐫱 ɑ€𐫱"},
+    "ml-raw":   {"type": "string", "value": "ɑ € 𐫱 ɑ€𐫱"},
+    "raw":      {"type": "string", "value": "ɑ € 𐫱 ɑ€𐫱"}
 }

@@ -12,15 +12,16 @@ description: |
 defines: [Test262Error, $ERROR, $DONOTEVALUATE]
 ---*/
 
+
 function Test262Error(message) {
   this.message = message || "";
 }
 
-Test262Error.prototype.toString = function() {
+Test262Error.prototype.toString = function () {
   return "Test262Error: " + this.message;
 };
 
-Test262Error.thrower = message => {
+Test262Error.thrower = (message) => {
   throw new Test262Error(message);
 };
 // TODO: Remove when $ERROR migration is completed

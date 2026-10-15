@@ -1,7 +1,7 @@
 {
-  "\u0000": { "type": "string", "value": "null" },
-  "\b \f A   ÿ ퟿  ￿ 𐀀 􏿿": { "type": "string", "value": "escaped key" },
-  "\\u0000": { "type": "string", "value": "different key" },
-  "l ~  ÿ ퟿  ￿ 𐀀 􏿿": { "type": "string", "value": "literal key" },
-  "~  ÿ ퟿  ￿ 𐀀 􏿿": { "type": "string", "value": "basic key" }
+    "\u0000":               {"type": "string", "value": "null"},
+    "\b \f A   ÿ ퟿  ￿ 𐀀 􏿿": {"type": "string", "value": "escaped key"},
+    "\\u0000":              {"type": "string", "value": "different key"},
+    "l ~  ÿ ퟿  ￿ 𐀀 􏿿":      {"type": "string", "value": "literal key"},
+    "~  ÿ ퟿  ￿ 𐀀 􏿿":        {"type": "string", "value": "basic key"}
 }
