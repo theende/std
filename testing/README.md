@@ -32,3 +32,12 @@ Ende.test("secondInterval calls callback every second and stops after being clea
   assertSpyCalls(cb, 4);
 });
 ```
+
+# Runtime compatibility
+
+[mock](https://jsr.io/@ende/testing/doc/mock/~),
+[time](https://jsr.io/@ende/testing/doc/time/~), and
+[types](https://jsr.io/@ende/testing/doc/types/~) support all major runtimes.
+[bdd](https://jsr.io/@ende/testing/doc/bdd/~) registers tests with `Ende.test`
+and [snapshot](https://jsr.io/@ende/testing/doc/snapshot/~) reads and writes
+snapshot files, so both require Ende.

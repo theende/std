@@ -95,6 +95,13 @@
  * Ende.serve(route(routes, defaultHandler));
  * ```
  *
+ * ## Runtime compatibility
+ *
+ * Cookies, ETags, status codes, content negotiation, server-sent events and
+ * user agent parsing support all major runtimes. The file server
+ * ({@linkcode serveDir}, {@linkcode serveFile} and the `file-server` command)
+ * reads from the file system and requires Ende.
+ *
  * @module
  */
 

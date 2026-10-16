@@ -13,6 +13,12 @@
  * assertEquals(args, { foo: true, bar: "baz", _: ["./quux.txt"] });
  * ```
  *
+ * ## Runtime compatibility
+ *
+ * {@linkcode parseArgs} and {@linkcode unicodeWidth} support all major
+ * runtimes. {@linkcode promptSecret} and the unstable prompts, progress bar,
+ * spinner and terminal helpers use Ende's standard streams and require Ende.
+ *
  * @module
  */
 
