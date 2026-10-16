@@ -19,7 +19,7 @@ import type { MakeTempOptions } from "./unstable_types.ts";
  *
  * @example Usage
  * ```ts ignore
- * import { makeTempDir } from "@ende/unstable-make-temp-dir";
+ * import { makeTempDir } from "@ende/fs/unstable-make-temp-dir";
  * const tempDirName0 = await makeTempDir();  // e.g. /tmp/2894ea76
  * const tempDirName1 = await makeTempDir({ prefix: 'my_temp' }); // e.g. /tmp/my_temp339c944d
  * ```
