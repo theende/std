@@ -105,6 +105,7 @@
     "./bytes",
     "./cache",
     "./cbor",
+    "./chronver",
     "./cli",
     "./collections",
     "./crypto",

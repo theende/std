@@ -1,0 +1,22 @@
+{
+  "exports": {
+    ".": "./mod.ts",
+    "./can-parse": "./can_parse.ts",
+    "./compare": "./compare.ts",
+    "./equals": "./equals.ts",
+    "./format": "./format.ts",
+    "./from-date": "./from_date.ts",
+    "./greater-or-equal": "./greater_or_equal.ts",
+    "./greater-than": "./greater_than.ts",
+    "./increment": "./increment.ts",
+    "./is-chronver": "./is_chronver.ts",
+    "./less-or-equal": "./less_or_equal.ts",
+    "./less-than": "./less_than.ts",
+    "./parse": "./parse.ts",
+    "./sort": "./sort.ts",
+    "./try-parse": "./try_parse.ts",
+    "./types": "./types.ts"
+  },
+  "name": "@ende/chronver",
+  "version": "2026.10.17"
+}
