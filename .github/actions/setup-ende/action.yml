@@ -1,0 +1,44 @@
+name: Set up Ende
+description: Downloads an Ende release from GitHub and adds it to PATH.
+
+inputs:
+  version:
+    description: Release tag such as `v2026.10.14`, or `latest` for the version in dl.ende.sh/release-latest.txt
+    default: latest
+
+runs:
+  using: composite
+  steps:
+    - name: Install Ende
+      shell: bash
+      env:
+        INPUT_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        case "$RUNNER_OS-$RUNNER_ARCH" in
+          Linux-X64) target=x86_64-unknown-linux-gnu ;;
+          Linux-ARM64) target=aarch64-unknown-linux-gnu ;;
+          macOS-ARM64) target=aarch64-apple-darwin ;;
+          Windows-X64) target=x86_64-pc-windows-msvc ;;
+          *) echo "::error::No Ende release for $RUNNER_OS $RUNNER_ARCH"; exit 1 ;;
+        esac
+        version="$INPUT_VERSION"
+        if [ "$version" = latest ]; then
+          version="$(curl -fsSL https://dl.ende.sh/release-latest.txt | tr -d '[:space:]')"
+        fi
+        dir="$RUNNER_TEMP/ende-$version"
+        mkdir -p "$dir"
+        cd "$dir"
+        zip="ende-$target.zip"
+        url="https://github.com/theende/ende/releases/download/$version/$zip"
+        curl -fsSLO "$url"
+        curl -fsSLO "$url.sha256sum"
+        if command -v sha256sum > /dev/null; then
+          sha256sum -c "$zip.sha256sum"
+        else
+          shasum -a 256 -c "$zip.sha256sum"
+        fi
+        unzip -q -o "$zip"
+        rm "$zip" "$zip.sha256sum"
+        echo "$dir" >> "$GITHUB_PATH"
+        ./ende --version

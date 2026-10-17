@@ -1,8 +1,8 @@
 name: nightly
 
-# Runs the test suite on a schedule so breakages caused by new Deno releases
+# Runs the test suite on a schedule so breakages caused by new Ende releases
 # are caught even when there is no push or pull request activity. On failure it
-# pings @bartlomieju via a tracking issue.
+# opens or updates a tracking issue.
 
 permissions:
   contents: read
@@ -16,15 +16,12 @@ on:
 jobs:
   test:
     # Only run on the upstream repository, not on forks.
-    if: github.repository == 'denoland/std'
+    if: github.repository == 'theende/std'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        deno:
-          - v2.x
-          - canary
         os:
           - ubuntu-latest
 
@@ -34,22 +31,19 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: ${{ matrix.deno }}
-          cache: true
+      - name: Set up Ende
+        uses: ./.github/actions/setup-ende
 
       - name: Run tests
         run: |
-          deno task test
-          deno task test:with-unsafe-proto
+          ende task test
+          ende task test:with-unsafe-proto
 
       - name: Lint
-        run: deno task lint
+        run: ende task lint
 
       - name: Format
-        run: deno fmt --check
+        run: ende fmt --check
 
   notify:
     needs: test
@@ -66,9 +60,7 @@ jobs:
             const title = "Nightly CI failed";
             const body = [
               "The [nightly CI run](" + runUrl + ") failed. This usually means a",
-              "recent Deno release broke `@std`.",
-              "",
-              "cc @bartlomieju",
+              "recent Ende release broke `@ende/*`.",
             ].join("\n");
 
             const { data: issues } = await github.rest.search.issuesAndPullRequests({
@@ -81,7 +73,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue.number,
-                body: `Nightly CI failed again: ${runUrl}\n\ncc @bartlomieju`,
+                body: `Nightly CI failed again: ${runUrl}`,
               });
             } else {
               await github.rest.issues.create({

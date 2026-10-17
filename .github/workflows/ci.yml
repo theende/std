@@ -5,9 +5,9 @@ permissions:
 
 on:
   push:
-    branches: [main]
+    branches: [primary]
   pull_request:
-    branches: [main]
+    branches: [primary]
 
 jobs:
   test:
@@ -16,9 +16,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        deno:
-          - v1.x
-          - v2.x
         os:
           - ubuntu-latest
           - windows-latest
@@ -28,35 +25,31 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v7
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: ${{ matrix.deno }}
-          cache: true
+      - name: Set up Ende
+        uses: ./.github/actions/setup-ende
 
       - name: Run tests
         run: |
-          deno task test
-          deno task test:with-unsafe-proto
+          ende task test
+          ende task test:with-unsafe-proto
 
       - name: Run tools tests
-        run: deno task test:tools
-        if: matrix.deno == 'v2.x'
+        run: ende task test:tools
 
       - name: Run timezone-dependent tests
         run: |
-          TZ=Australia/Sydney deno test datetime
-          TZ=Europe/London deno test datetime
-          TZ=America/Toronto deno test datetime
+          TZ=Australia/Sydney ende test datetime
+          TZ=Europe/London ende test datetime
+          TZ=America/Toronto ende test datetime
         if: matrix.os == 'ubuntu-latest'
 
       - name: Type check browser compatible modules
-        run: deno task test:browser
-        if: matrix.deno == 'v2.x' && matrix.os == 'ubuntu-latest'
+        run: ende task test:browser
+        if: matrix.os == 'ubuntu-latest'
 
       - name: Publish dry run
-        run: deno publish --dry-run
-        if: matrix.deno == 'v2.x' && matrix.os == 'ubuntu-latest'
+        run: ende publish --dry-run
+        if: matrix.os == 'ubuntu-latest'
 
       - name: Upload coverage
         uses: codecov/codecov-action@v7
@@ -64,64 +57,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           files: ./coverage/lcov.info
-          name: ${{ matrix.os }}-${{ matrix.deno }}
-
-  test-node:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - lts/*
-          - latest
-        os:
-          - ubuntu-latest
-
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v7
-
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          cache: true
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Run tests
-        run: deno task test:node
-
-  test-bun:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        bun:
-          - latest
-        os:
-          - ubuntu-latest
-
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v7
-
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          cache: true
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: ${{ matrix.bun }}
-
-      - name: Run tests
-        run: deno task test:bun
+          name: ${{ matrix.os }}
 
   lint:
     runs-on: ${{ matrix.os }}
@@ -138,17 +74,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-          cache: true
+      - name: Set up Ende
+        uses: ./.github/actions/setup-ende
 
       - name: Format
-        run: deno fmt --check
+        run: ende fmt --check
 
       - name: Lint
-        run: deno task lint
+        run: ende task lint
 
       - name: Spell-check
         uses: crate-ci/typos@master
@@ -181,11 +114,9 @@ jobs:
           echo "${{ matrix.module }} Wasm source modified in this commit? $modified"
           echo "$modifications"
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
+      - name: Set up Ende
+        uses: ./.github/actions/setup-ende
         if: success() && steps.source.outputs.modified == 'true'
-        with:
-          cache: true
 
       - name: Set up Rust
         uses: hecrj/setup-rust-action@v2
@@ -198,4 +129,4 @@ jobs:
 
       - name: Rebuild Wasm and verify it hasn't changed
         if: success() && steps.source.outputs.modified == 'true'
-        run: deno task --cwd ${{ matrix.module }} --config deno.json wasmbuild --check
+        run: ende task --cwd ${{ matrix.module }} wasmbuild --check

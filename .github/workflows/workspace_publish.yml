@@ -18,17 +18,14 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v7
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-          cache: true
+      - name: Set up Ende
+        uses: ./.github/actions/setup-ende
 
       - name: Format
-        run: deno fmt --check
+        run: ende fmt --check
 
       - name: Test
-        run: deno task test
+        run: ende task test
 
       - name: Publish to JSR
-        run: deno publish
+        run: ende publish
