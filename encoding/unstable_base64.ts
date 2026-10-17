@@ -124,7 +124,7 @@ export function encodeBase64(
  * } from "@ende/encoding/unstable-base64";
  *
  * const prefix = "data:url/fake,";
- * const input = await Ende.readFile("./ende.lock");
+ * const input = await Ende.readFile("./ende.json");
  * const output = new Uint8Array(prefix.length + calcSizeBase64(input.length));
  *
  * let o = new TextEncoder().encodeInto(prefix, output).written;
@@ -133,7 +133,7 @@ export function encodeBase64(
  *   new TextDecoder().decode(output.subarray(0, o)),
  *   "data:url/fake," +
  *     encodeBase64(
- *       await Ende.readFile("./ende.lock"),
+ *       await Ende.readFile("./ende.json"),
  *       { alphabet: "base64url" },
  *     ),
  * );

@@ -9,31 +9,31 @@ import { encodeHex } from "./unstable_hex.ts";
 import { HexDecoderStream, HexEncoderStream } from "./unstable_hex_stream.ts";
 
 Ende.test("HexEncoderStream() with normal format", async () => {
-  const readable = (await Ende.open("./ende.lock"))
+  const readable = (await Ende.open("./ende.json"))
     .readable
     .pipeThrough(new FixedChunkStream(1021))
     .pipeThrough(new HexEncoderStream({ output: "string" }));
 
   assertEquals(
     await toText(readable),
-    encodeHex(await Ende.readFile("./ende.lock"))
+    encodeHex(await Ende.readFile("./ende.json"))
   );
 });
 
 Ende.test("HexEncoderStream() with raw format", async () => {
-  const readable = (await Ende.open("./ende.lock"))
+  const readable = (await Ende.open("./ende.json"))
     .readable
     .pipeThrough(new FixedChunkStream(1021))
     .pipeThrough(new HexEncoderStream({ output: "bytes" }));
 
   assertEquals(
     await toBytes(readable),
-    new TextEncoder().encode(encodeHex(await Ende.readFile("./ende.lock")))
+    new TextEncoder().encode(encodeHex(await Ende.readFile("./ende.json")))
   );
 });
 
 Ende.test("HexDecoderStream() with normal format", async () => {
-  const readable = (await Ende.open("./ende.lock"))
+  const readable = (await Ende.open("./ende.json"))
     .readable
     .pipeThrough(new HexEncoderStream({ output: "string" }))
     .pipeThrough(new TextEncoderStream())
@@ -43,12 +43,12 @@ Ende.test("HexDecoderStream() with normal format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    await Ende.readFile("./ende.lock")
+    await Ende.readFile("./ende.json")
   );
 });
 
 Ende.test("HexDecoderStream() with raw format", async () => {
-  const readable = (await Ende.open("./ende.lock"))
+  const readable = (await Ende.open("./ende.json"))
     .readable
     .pipeThrough(new HexEncoderStream({ output: "bytes" }))
     .pipeThrough(new FixedChunkStream(1021))
@@ -56,6 +56,6 @@ Ende.test("HexDecoderStream() with raw format", async () => {
 
   assertEquals(
     await toBytes(readable),
-    await Ende.readFile("./ende.lock")
+    await Ende.readFile("./ende.json")
   );
 });

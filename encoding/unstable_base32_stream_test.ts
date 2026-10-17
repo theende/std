@@ -13,14 +13,14 @@ import {
 
 Ende.test("Base32EncoderStream() with normal format", async () => {
   for (const alphabet of ["base32", "base32hex", "base32crockford"] as const) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "string" }));
 
     assertEquals(
       await toText(readable),
-      encodeBase32(await Ende.readFile("./ende.lock"), { alphabet }),
+      encodeBase32(await Ende.readFile("./ende.json"), { alphabet }),
       alphabet
     );
   }
@@ -34,7 +34,7 @@ Ende.test("Base32EncoderStream() with raw format", async () => {
       "base32crockford"
     ] as const
   ) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "bytes" }));
@@ -43,7 +43,7 @@ Ende.test("Base32EncoderStream() with raw format", async () => {
       await toBytes(readable),
       new TextEncoder().encode(
         encodeBase32(
-          await Ende.readFile("./ende.lock"),
+          await Ende.readFile("./ende.json"),
           { alphabet }
         )
       ),
@@ -54,7 +54,7 @@ Ende.test("Base32EncoderStream() with raw format", async () => {
 
 Ende.test("Base32DecoderStream() with normal format", async () => {
   for (const alphabet of ["base32", "base32hex", "base32crockford"] as const) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "string" }))
       .pipeThrough(new TextEncoderStream())
@@ -64,7 +64,7 @@ Ende.test("Base32DecoderStream() with normal format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock")
+      await Ende.readFile("./ende.json")
     );
   }
 });
@@ -77,7 +77,7 @@ Ende.test("Base32DecoderStream() with raw format", async () => {
       "base32crockford"
     ] as const
   ) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new Base32EncoderStream({ alphabet, output: "bytes" }))
       .pipeThrough(new FixedChunkStream(1021))
@@ -85,7 +85,7 @@ Ende.test("Base32DecoderStream() with raw format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock")
+      await Ende.readFile("./ende.json")
     );
   }
 });

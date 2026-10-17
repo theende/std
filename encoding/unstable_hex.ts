@@ -94,7 +94,7 @@ export function encodeHex(
  * } from "@ende/encoding/unstable-hex";
  *
  * const prefix = "data:url/fake,";
- * const input = await Ende.readFile("./ende.lock");
+ * const input = await Ende.readFile("./ende.json");
  * const output = new Uint8Array(prefix.length + calcSizeHex(input.length));
  *
  * const o = new TextEncoder().encodeInto(prefix, output).written;
@@ -102,7 +102,7 @@ export function encodeHex(
  * assertEquals(
  *   new TextDecoder().decode(output),
  *   "data:url/fake," +
- *     encodeHex(await Ende.readFile("./ende.lock")),
+ *     encodeHex(await Ende.readFile("./ende.json")),
  * );
  * ```
  */

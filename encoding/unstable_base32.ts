@@ -143,7 +143,7 @@ export function encodeBase32(
  * } from "@ende/encoding/unstable-base32";
  *
  * const prefix = "data:url/fake,";
- * const input = await Ende.readFile("./ende.lock");
+ * const input = await Ende.readFile("./ende.json");
  * const output = new Uint8Array(prefix.length + calcSizeBase32(input.length));
  *
  * const o = new TextEncoder().encodeInto(prefix, output).written;
@@ -151,7 +151,7 @@ export function encodeBase32(
  * assertEquals(
  *   new TextDecoder().decode(output),
  *   "data:url/fake," +
- *     encodeBase32(await Ende.readFile("./ende.lock"), { alphabet: "base32" }),
+ *     encodeBase32(await Ende.readFile("./ende.json"), { alphabet: "base32" }),
  * );
  * ```
  */

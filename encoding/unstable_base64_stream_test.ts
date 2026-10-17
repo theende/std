@@ -13,14 +13,14 @@ import {
 
 Ende.test("Base64EncoderStream() with normal format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "string" }));
 
     assertEquals(
       await toText(readable),
-      encodeBase64(await Ende.readFile("./ende.lock"), { alphabet }),
+      encodeBase64(await Ende.readFile("./ende.json"), { alphabet }),
       alphabet
     );
   }
@@ -28,7 +28,7 @@ Ende.test("Base64EncoderStream() with normal format", async () => {
 
 Ende.test("Base64EncoderStream() with raw format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new FixedChunkStream(1021))
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "bytes" }));
@@ -37,7 +37,7 @@ Ende.test("Base64EncoderStream() with raw format", async () => {
       await toBytes(readable),
       new TextEncoder().encode(
         encodeBase64(
-          await Ende.readFile("./ende.lock"),
+          await Ende.readFile("./ende.json"),
           { alphabet }
         )
       ),
@@ -48,7 +48,7 @@ Ende.test("Base64EncoderStream() with raw format", async () => {
 
 Ende.test("Base64DecoderStream() with normal format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "string" }))
       .pipeThrough(new TextEncoderStream())
@@ -58,14 +58,14 @@ Ende.test("Base64DecoderStream() with normal format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock")
+      await Ende.readFile("./ende.json")
     );
   }
 });
 
 Ende.test("Base64DecoderStream() with raw format", async () => {
   for (const alphabet of ["base64", "base64url"] as const) {
-    const readable = (await Ende.open("./ende.lock"))
+    const readable = (await Ende.open("./ende.json"))
       .readable
       .pipeThrough(new Base64EncoderStream({ alphabet, output: "bytes" }))
       .pipeThrough(new FixedChunkStream(1021))
@@ -73,7 +73,7 @@ Ende.test("Base64DecoderStream() with raw format", async () => {
 
     assertEquals(
       await toBytes(readable),
-      await Ende.readFile("./ende.lock")
+      await Ende.readFile("./ende.json")
     );
   }
 });

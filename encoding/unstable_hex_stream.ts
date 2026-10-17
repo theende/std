@@ -11,13 +11,13 @@
  * import { HexEncoderStream } from "@ende/encoding/unstable-hex-stream";
  * import { toText } from "@ende/streams";
  *
- * const readable = (await Ende.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.json"))
  *   .readable
  *   .pipeThrough(new HexEncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeHex(await Ende.readFile("./ende.lock")),
+ *   encodeHex(await Ende.readFile("./ende.json")),
  * );
  * ```
  *
@@ -56,13 +56,13 @@ const decoder = new TextDecoder();
  * import { HexEncoderStream } from "@ende/encoding/unstable-hex-stream";
  * import { toText } from "@ende/streams";
  *
- * const readable = (await Ende.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.json"))
  *   .readable
  *   .pipeThrough(new HexEncoderStream({ output: "string" }));
  *
  * assertEquals(
  *   await toText(readable),
- *   encodeHex(await Ende.readFile("./ende.lock")),
+ *   encodeHex(await Ende.readFile("./ende.json")),
  * );
  * ```
  */
@@ -107,14 +107,14 @@ export class HexEncoderStream<T extends "string" | "bytes"> extends TransformStr
  * } from "@ende/encoding/unstable-hex-stream";
  * import { toBytes } from "@ende/streams/to-bytes";
  *
- * const readable = (await Ende.open("./ende.lock"))
+ * const readable = (await Ende.open("./ende.json"))
  *   .readable
  *   .pipeThrough(new HexEncoderStream({ output: "bytes" }))
  *   .pipeThrough(new HexDecoderStream({ input: "bytes" }));
  *
  * assertEquals(
  *   await toBytes(readable),
- *   await Ende.readFile("./ende.lock"),
+ *   await Ende.readFile("./ende.json"),
  * );
  * ```
  */
