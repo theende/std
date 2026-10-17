@@ -84,7 +84,7 @@ jobs:
         run: ende task lint
 
       - name: Spell-check
-        uses: crate-ci/typos@master
+        uses: crate-ci/typos@v1.51.1
         if: matrix.os == 'ubuntu-latest'
         with:
           config: ./.github/typos.toml
