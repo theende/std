@@ -1,0 +1,13 @@
+{
+  "exports": {
+    ".": "./mod.ts",
+    "./parse": "./parse.ts",
+    "./render": "./render.ts",
+    "./slug": "./slug.ts",
+    "./toc": "./toc.ts",
+    "./types": "./types.ts",
+    "./visit": "./visit.ts"
+  },
+  "name": "@ende/markdown",
+  "version": "2026.10.17"
+}
