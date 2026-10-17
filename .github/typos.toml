@@ -6,6 +6,7 @@ check-filename = false
 _fpr = "_fpr"
 
 [default.extend-words]
+ende = "ende"
 ws = "ws"
 
 [files]
