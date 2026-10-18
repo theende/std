@@ -9,5 +9,5 @@
     "./visit": "./visit.ts"
   },
   "name": "@ende/markdown",
-  "version": "2026.10.17"
+  "version": "2026.10.18"
 }

@@ -1,3 +1,10 @@
+### 2026.10.18
+
+#### @ende/markdown 2026.10.18
+
+- feat(markdown): take an alert's title from the rest of its marker line
+  (`> [!TIP] Want to type-check only?`)
+
 ### 2026.09.24
 
 #### @std/async 1.5.1 (patch)
