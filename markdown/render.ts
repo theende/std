@@ -60,7 +60,8 @@ import type {
  *
  * An `admonition` renders as GitHub renders an alert, without the icon: a
  * `<div class="markdown-alert markdown-alert-note">` holding a
- * `<p class="markdown-alert-title">Note</p>` and the content.
+ * `<p class="markdown-alert-title">Note</p>` and the content. An admonition with
+ * a `title` has that title in place of the kind's name.
  *
  * Footnotes render as on GitHub: each `footnoteReference` becomes a numbered
  * `<sup>` link, and the definitions that are referenced move into a
@@ -359,7 +360,13 @@ class HtmlRenderer {
         this.cr();
         this.tag("div", [["class", `markdown-alert markdown-alert-${node.kind}`]]);
         this.cr();
-        this.lit(`<p class="markdown-alert-title">${ADMONITION_TITLES[node.kind]}</p>`);
+        if (node.title) {
+          this.lit(`<p class="markdown-alert-title">`);
+          this.inlines(node.title);
+          this.lit("</p>");
+        } else {
+          this.lit(`<p class="markdown-alert-title">${ADMONITION_TITLES[node.kind]}</p>`);
+        }
         this.cr();
         this.blocks(node.children, false);
         this.cr();

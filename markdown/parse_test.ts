@@ -476,8 +476,10 @@ Ende.test("parse() with gfm keeps the blocks after the alert marker", () => {
 
 Ende.test("parse() with gfm leaves a blockquote alone when it isn't an alert", () => {
   const types = (markdown: string) => parse(markdown, gfm).children.map(node => node.type);
-  // Text after the marker on the same line.
-  assertEquals(types("> [!NOTE] Text\n> more"), ["blockquote"]);
+  // No space between the marker and a title.
+  assertEquals(types("> [!NOTE]Text\n> more"), ["blockquote"]);
+  // A title with nothing after it.
+  assertEquals(types("> [!NOTE] Title"), ["blockquote"]);
   // An unknown kind.
   assertEquals(types("> [!INFO]\n> text"), ["blockquote"]);
   // A marker with nothing after it.
@@ -489,6 +491,15 @@ Ende.test("parse() with gfm leaves a blockquote alone when it isn't an alert", (
   assertEquals(types("> text\n> [!NOTE]\n> more"), ["blockquote"]);
   // The marker isn't the first block.
   assertEquals(types("> # Title\n> [!NOTE]\n> more"), ["blockquote"]);
+});
+
+Ende.test("parse() with gfm takes an admonition's title from the rest of the marker line", () => {
+  assertEquals(parse("> [!TIP] Want to *type-check* only?  \n> Use `ende check`.", gfm).children, [{
+    type: "admonition",
+    kind: "tip",
+    title: [{ type: "text", value: "Want to " }, { type: "emphasis", children: [{ type: "text", value: "type-check" }] }, { type: "text", value: " only?" }],
+    children: [{ type: "paragraph", children: [{ type: "text", value: "Use " }, { type: "inlineCode", value: "ende check" }, { type: "text", value: "." }] }]
+  }]);
 });
 
 Ende.test("parse() with gfm keeps the text of a marker-only blockquote", () => {

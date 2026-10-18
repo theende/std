@@ -51,9 +51,12 @@ function convertBlock(node: Node, gfm: boolean): BlockContent | DefinitionConten
     case "thematicBreak":
       return { type: "thematicBreak" };
     case "blockquote":
-      return node.alert === null ?
-        { type: "blockquote", children: blockChildren(node, gfm) } :
-        { type: "admonition", kind: node.alert, children: blockChildren(node, gfm) };
+      if (node.alert === null) {
+        return { type: "blockquote", children: blockChildren(node, gfm) };
+      }
+      return node.alertTitle === null ?
+        { type: "admonition", kind: node.alert, children: blockChildren(node, gfm) } :
+        { type: "admonition", kind: node.alert, title: phrasingChildren(node.alertTitle, gfm), children: blockChildren(node, gfm) };
     case "list": {
       const listData = node.listData!;
       const children: ListItem[] = [];

@@ -243,15 +243,17 @@ function removeLinkReferenceDefinitions(parser: BlockParser, tree: Node) {
   }
 }
 
-// The first line of a GitHub alert (gfm): the marker, alone on the line.
-const reAlertMarker = /^\[!(note|tip|important|warning|caution)\][ \t]*(?:\n|$)/i;
+// The first line of a GitHub alert (gfm): the marker, then optionally a space
+// and a title (an extension; GitHub wants the marker alone on the line).
+const reAlertMarker = /^\[!(note|tip|important|warning|caution)\](?:[ \t]+([^\n]*))?(?:\n|$)/i;
 
 // Marks the block quotes that are GitHub alerts, removing the marker line.
 // As on GitHub, only a block quote at the top level of the document is an
 // alert, and only when its first block is a paragraph whose first line is the
-// marker, and something follows the marker. This runs on the raw text of the
-// paragraph, before inline parsing, so an escaped marker (`\[!NOTE]`) isn't
-// one.
+// marker, and something follows the marker line. The rest of the marker line,
+// if any, is the alert's title, parsed as inline content with the paragraphs.
+// This runs on the raw text of the paragraph, before inline parsing, so an
+// escaped marker (`\[!NOTE]`) isn't one.
 function markAlerts(doc: Node) {
   for (let block = doc.firstChild; block; block = block.next) {
     const paragraph = block.firstChild;
@@ -267,6 +269,11 @@ function markAlerts(doc: Node) {
       continue;
     }
     block.alert = match[1]!.toLowerCase() as Node["alert"];
+    const title = match[2]?.trim() ?? "";
+    if (title !== "") {
+      block.alertTitle = new Node("paragraph");
+      block.alertTitle.stringContent = title;
+    }
     if (isBlank(rest)) {
       paragraph.unlink();
     } else {
@@ -994,6 +1001,9 @@ export class BlockParser {
   processInlines(block: Node) {
     for (let child = block.firstChild; child; child = child.next) {
       this.processInlines(child);
+    }
+    if (block.alertTitle) {
+      this.inlineParser.parse(block.alertTitle);
     }
     if (block.type === "paragraph" || block.type === "heading" || block.type === "tableCell") {
       this.inlineParser.parse(block);

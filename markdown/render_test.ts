@@ -335,6 +335,13 @@ Ende.test("render() renders an admonition like GitHub, without the icon", () => 
   );
 });
 
+Ende.test("render() renders an admonition's own title in place of the kind's", () => {
+  assertEquals(
+    gfm("> [!NOTE] `text` imports\n> Need a flag."),
+    "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\"><code>text</code> imports</p>\n<p>Need a flag.</p>\n</div>\n"
+  );
+});
+
 Ende.test("render() titles each kind of admonition", () => {
   const titles = ["note", "tip", "important", "warning", "caution"].map(kind => {
     const html = gfm(`> [!${kind}]\n> x`);

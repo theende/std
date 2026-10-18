@@ -112,6 +112,11 @@ export class Node {
   tableVisited = false;
   /** For a block quote that's a GitHub alert (gfm): the alert's kind. */
   alert: Admonition["kind"] | null = null;
+  /**
+   * For a block quote that's a GitHub alert with a title: a paragraph, not
+   * linked into the tree, that holds the title.
+   */
+  alertTitle: Node | null = null;
   /** For a footnote definition or reference: the label as written. */
   label = "";
   info = "";

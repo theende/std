@@ -163,7 +163,10 @@
  * GitHub's alerts are recognized as GitHub recognizes them: a block quote at
  * the top level of the document (not inside a list, another block quote or a
  * footnote) whose first line is just `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`,
- * `[!WARNING]` or `[!CAUTION]`, in any case, with content after it.
+ * `[!WARNING]` or `[!CAUTION]`, in any case, with content after it. One
+ * extension: text after the marker on its line, such as
+ * `> [!TIP] Want to type-check only?`, is the alert's title, rendered in place
+ * of "Tip". GitHub shows such a block quote as a plain block quote.
  *
  * The GFM Disallowed Raw HTML extension (tagfilter), which escapes tags such
  * as `<script>` and `<iframe>`, isn't included: by default raw HTML renders as

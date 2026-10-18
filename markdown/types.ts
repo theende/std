@@ -326,6 +326,10 @@ export interface Blockquote {
  * `[!CAUTION]`, in any case) and that has content after it. The marker line
  * isn't part of the children.
  *
+ * Text after the marker on its line, separated by a space, is the
+ * admonition's {@linkcode Admonition.title}: `> [!TIP] Want to type-check only?`.
+ * That's an extension: GitHub only recognizes the marker alone on its line.
+ *
  * @example Usage
  * ```ts
  * import type { Admonition } from "@ende/markdown/types";
@@ -346,6 +350,12 @@ export interface Admonition {
   type: "admonition";
   /** The kind of alert, from the marker, lowercased. */
   kind: "note" | "tip" | "important" | "warning" | "caution";
+  /**
+   * The title written after the marker, if any. It replaces the kind's name
+   * (such as "Note") when rendering. It isn't one of the `children`, so
+   * `visit()` doesn't walk it.
+   */
+  title?: PhrasingContent[];
   /** The blocks after the marker line. */
   children: (BlockContent | DefinitionContent)[];
 }
